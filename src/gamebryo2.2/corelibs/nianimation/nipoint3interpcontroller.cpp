@@ -1,0 +1,133 @@
+
+// gamebryo2.2/corelibs/nianimation/nipoint3interpcontroller.cpp: free functions (6 functions)
+#include "nipoint3interpcontroller_decls.h"
+
+struct BSFadeNode
+{
+    static void* operator new(unsigned int);
+};
+struct NiPoint3
+{
+    float x, y, z;
+};
+struct NiPoint3InterpolatorStandIn
+{
+    NiPoint3InterpolatorStandIn* FUN_00a49650(NiPoint3 v);
+};
+typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
+
+// @fnv 0x00a57c20
+void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
+{
+    NiPoint3 kValue;
+    (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
+    void* pMemory = BSFadeNode::operator new(0x20);
+    NiPoint3InterpolatorStandIn* pInterpolator = (NiPoint3InterpolatorStandIn*)pMemory;
+    if (pInterpolator)
+        return pInterpolator->FUN_00a49650(kValue);
+    return 0;
+}
+
+extern const char* const g_011f3f88_arg1;
+// @fnv 0x00a57ca0
+const char* const* FUN_00a57ca0()
+{
+    return &g_011f3f88_arg1;
+}
+
+namespace fnv_00a57cb0 {
+class NiRTTI;
+struct GlobalObjectO2_00a7b610;
+extern GlobalObjectO2_00a7b610 g_011f3f70;
+struct NiPoint3
+{
+    float x, y, z;
+};
+class NiObject
+{
+  public:
+    NiObject* DynamicCast(const NiRTTI*) const;
+};
+struct NiPoint3InterpolatorStandIn
+{
+    void FUN_00a494b0(NiPoint3 v);
+};
+typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
+
+// Casts pkInterp to a NiPoint3 interpolator, reads a NiPoint3 from self via a virtual call, and passes it to the interpolator.
+// @fnv 0x00a57cb0
+void __fastcall FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
+{
+    NiPoint3InterpolatorStandIn* pkPoint3Interp =
+        !pkInterp ? 0 : (NiPoint3InterpolatorStandIn*)pkInterp->DynamicCast((const NiRTTI*)&g_011f3f70);
+    NiPoint3 kValue;
+    (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
+    pkPoint3Interp->FUN_00a494b0(kValue);
+}
+}  // namespace fnv_00a57cb0
+
+struct ActorCombatGroup;
+template <class T> struct NiTMallocInterface
+{
+};
+template <class T, class A> struct NiTArray
+{
+    void SetSize(unsigned int);
+    void SetAt(unsigned int, T&);
+};
+typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CombatGroupArray;
+extern const char* const g_011f3f88_arg1;
+void __stdcall FUN_00a390a0(CombatGroupArray* a);
+ActorCombatGroup* __cdecl FUN_00a7d330(const char* s);
+
+// @fnv 0x00a57d10
+void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
+{
+    FUN_00a390a0(pCombatGroups);
+    ActorCombatGroup* pGroup = FUN_00a7d330(g_011f3f88_arg1);
+    unsigned int uiIndex = *(unsigned short*)((char*)pCombatGroups + 0xa);
+    if (uiIndex >= *(unsigned short*)((char*)pCombatGroups + 8))
+        pCombatGroups->SetSize(*(unsigned short*)((char*)pCombatGroups + 0xe) + uiIndex);
+    pCombatGroups->SetAt(uiIndex, pGroup);
+}
+
+extern unsigned int DAT_011f404c;
+
+// @fnv 0x00a532c0
+unsigned int* __cdecl FUN_00a532c0()
+{
+    return &DAT_011f404c;
+}
+
+struct S_00a53280_Foo
+{
+    void* unk00;
+    int unk04;
+    int unk08;
+    unsigned char unk0c;
+    void* unk10;
+    int unk14;
+
+    void FUN_00a3ca10();
+    void* FUN_00a53280(void* arg);
+};
+
+extern void(__stdcall* FUN_00fdf1c0)(void*);
+
+// @fnv 0x00a53280
+void* S_00a53280_Foo::FUN_00a53280(void* arg)
+{
+    FUN_00a3ca10();
+
+    unk00 = (void*)&DAT_0109a0b4;
+    unk0c = DAT_0109a914;
+    unk10 = arg;
+
+    if (arg)
+    {
+        FUN_00fdf1c0((void*)((unsigned char*)arg + 4));
+    }
+
+    unk14 = 0;
+    return this;
+}

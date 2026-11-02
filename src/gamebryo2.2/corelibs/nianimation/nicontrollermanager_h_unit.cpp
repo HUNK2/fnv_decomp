@@ -1,0 +1,2 @@
+
+#include "nicontrollermanager.inl"

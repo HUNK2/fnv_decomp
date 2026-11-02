@@ -1,0 +1,2 @@
+
+#include "nifixedstring.inl"

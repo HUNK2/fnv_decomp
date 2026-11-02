@@ -1,0 +1,3231 @@
+
+// src/fallout_shared/speedtree/bstreemodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreemodel.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct BSTreeModel
+{
+    virtual ~BSTreeModel();
+    void* DestroyAndFree(unsigned int flags);
+    static void operator delete(void* p, unsigned int flags);
+};
+
+// Runs the destructor and, when bit 0 of flags is set, frees the object with operator delete, then returns this.
+// @fnv 0x006667d0
+void* BSTreeModel::DestroyAndFree(unsigned int flags)
+{
+    BSTreeModel::~BSTreeModel();
+    if (flags & 1)
+        BSTreeModel::operator delete(this, 0x50);
+    return this;
+}
+
+struct FUN_00666f00_shell
+{
+    int m_04;
+    int m_08;
+    bool FUN_00666f00();
+};
+
+// @fnv 0x00666f00
+bool FUN_00666f00_shell::FUN_00666f00()
+{
+    return *(int*)(this + 1) == 2;
+}
+
+struct GlobalObject_0044f440
+{
+    struct
+    {
+        float f;
+    }* Float();
+};
+extern GlobalObject_0044f440 g_011d5d14;
+
+// @fnv 0x00666f20
+float FUN_00666f20()
+{
+    return g_011d5d14.Float()->f;
+}
+
+namespace fnv_00666f40 {
+struct GlobalObject_0044f440
+{
+    float* Float();
+};
+extern GlobalObject_0044f440 g_011d5db8;
+
+// @fnv 0x00666f40
+float FUN_00666f40()
+{
+    return *g_011d5db8.Float();
+}
+}  // namespace fnv_00666f40
+
+namespace fnv_00666f60 {
+struct Setting_S
+{
+    float f;
+};
+
+struct GlobalObject_0044f440
+{
+    Setting_S* Float();
+};
+
+extern GlobalObject_0044f440 g_011d5d24;
+
+// @fnv 0x00666f60
+float FUN_00666f60()
+{
+    return g_011d5d24.Float()->f;
+}
+}  // namespace fnv_00666f60
+
+namespace fnv_00666f80 {
+struct GlobalObject_0044f440
+{
+    float* Float();
+};
+
+GlobalObject_0044f440 g_011d5c9c;
+
+// @fnv 0x00666f80
+float FUN_00666f80()
+{
+    return g_011d5c9c.Float()[0];
+}
+}  // namespace fnv_00666f80
+
+struct FUN_006684d0_shell
+{
+    void FUN_006684d0(int param1, unsigned short param2);
+};
+
+// Stores param1 at offset 8 and param2 at offset 0xC of this object.
+// @fnv 0x006684d0
+void FUN_006684d0_shell::FUN_006684d0(int param1, unsigned short param2)
+{
+    *(int*)((char*)this + 8) = param1;
+    *(unsigned short*)((char*)this + 0xC) = param2;
+}
+
+struct FUN_006694c0_shell
+{
+    float fPad0;
+    float fPad1;
+    float fPad2;
+    float fPad3;
+    float fPad4;
+    float fPad5;
+    void SetPad5(float value);
+};
+
+// @fnv 0x006694c0
+void FUN_006694c0_shell::SetPad5(float value)
+{
+    fPad5 = value;
+}
+
+namespace fnv_00669990 {
+struct CSpeedTreeRT
+{
+    unsigned short __thiscall GetLowWordAtOffset0x78();
+};
+
+struct BSTreeModel
+{
+    unsigned char m_auiShapeKeys[0x0c];
+    CSpeedTreeRT* m_pTreeRuntime;
+    unsigned short __thiscall FUN_00669990();
+};
+
+// @fnv 0x00669990
+unsigned short BSTreeModel::FUN_00669990()
+{
+    return m_pTreeRuntime ? m_pTreeRuntime->GetLowWordAtOffset0x78() : 0;
+}
+}  // namespace fnv_00669990
+
+struct CSpeedTreeRT
+{
+    unsigned short GetUnsignedShortValue();
+};
+
+struct FUN_006699d0_shell
+{
+    void* m_NiRefObject;
+    void* m_auiShapeKeys;
+    void* m_pAuxiliaryObject;
+    CSpeedTreeRT* m_pTreeRuntime;
+    unsigned short GetUnsignedShort();
+};
+
+// @fnv 0x006699d0
+unsigned short FUN_006699d0_shell::GetUnsignedShort()
+{
+    return m_pTreeRuntime ? m_pTreeRuntime->GetUnsignedShortValue() : 0;
+}
+
+extern "C" void* __cdecl FUN_00664840(bool);
+
+extern "C" unsigned char __cdecl GetByteAtOffset1B();
+
+// @fnv 0x00669fb0
+unsigned char __cdecl GetByteAtOffset1B()
+{
+    return ((unsigned char*)FUN_00664840(true))[0x1B];
+}
+
+struct Flt
+{
+    operator unsigned int() const;
+};
+
+struct FUN_0066a630_shell
+{
+    char m_auiShapeKeys[0x38];
+    Flt m_flt;
+    void ConvertFloatToUInt();
+};
+
+// @fnv 0x0066a630
+void FUN_0066a630_shell::ConvertFloatToUInt()
+{
+    m_flt.operator unsigned int();
+}
+
+GlobalObject_0044f440 g_011d5c80;
+
+// @fnv 0x00666fa0
+float FUN_00666fa0()
+{
+    return g_011d5c80.Float()->f;
+}
+
+struct S_00666910
+{
+    void FUN_00b03b30();
+    void* FUN_00666910(unsigned int);
+};
+void _Deallocate(void*);
+// Calls FUN_00b03b30, then deallocates this when flags has bit 1 set, and returns this.
+// @fnv 0x00666910
+void* S_00666910::FUN_00666910(unsigned int flags)
+{
+    FUN_00b03b30();
+    if (flags & 1)
+        _Deallocate(this);
+    return this;
+}
+
+struct NiAlphaProperty
+{
+    char m_auiShapeKeys[0x1c];
+    NiAlphaProperty();
+    ~NiAlphaProperty();
+    void FUN_0049ed90(bool);
+    void SetFlag512(bool);
+    void SetFlags(unsigned short);
+    void FUN_0094db80(unsigned char);
+    static void* operator new(unsigned int);
+    static void operator delete(void*, unsigned int);
+};
+// @fnv 0x006698f0
+NiAlphaProperty* FUN_006698f0()
+{
+    NiAlphaProperty* pAlphaProperty = new NiAlphaProperty;
+    pAlphaProperty->FUN_0049ed90(false);
+    pAlphaProperty->SetFlag512(true);
+    pAlphaProperty->SetFlags(4);
+    pAlphaProperty->FUN_0094db80(0x54);
+    return pAlphaProperty;
+}
+
+struct RefBase
+{
+    virtual ~RefBase();
+    unsigned int m_uiRefCount;
+};
+struct NiPtr
+{
+    void* m_pObject;
+    ~NiPtr();
+};
+struct TreeData
+{
+    ~TreeData();
+};
+struct FUN_00666800 : RefBase
+{
+    int unk08;
+    TreeData* pData;
+    NiPtr spNode10;
+    int unk14;
+    int unk18;
+    NiPtr spNode1C;
+    NiPtr spNode20;
+    int unk24;
+    int unk28;
+    NiPtr spNode2C;
+    NiPtr spNode30;
+    NiPtr spNode34;
+    NiPtr spNode38;
+    virtual ~FUN_00666800();
+    void ReleaseData();
+};
+// Releases the object's data and deletes pData, clearing the pointer.
+// @fnv 0x00666800
+FUN_00666800::~FUN_00666800()
+{
+    ReleaseData();
+    if (pData)
+    {
+        delete pData;
+        pData = 0;
+    }
+}
+
+struct Point3X
+{
+    float x, y, z;
+    Point3X();
+    Point3X(float afX, float afY, float afZ);
+};
+struct Point2X
+{
+    float x, y;
+    Point2X();
+    Point2X(float afX, float afY);
+};
+struct ColorAX
+{
+    float r, g, b, a;
+    ColorAX();
+    ColorAX(float afR, float afG, float afB, float afA);
+};
+
+struct MemObjX
+{
+    static void* operator new(unsigned int auiSize);
+    static void operator delete(void* apMem, unsigned int);
+};
+struct LeafDataX : public MemObjX
+{
+    char _pad[0x10];
+    LeafDataX();
+    void FUN_006684d0(ColorAX* apColors, unsigned short ausCount);
+};
+struct StripsDataX : public MemObjX
+{
+    char _pad[0x50];
+    StripsDataX(unsigned int a1, Point3X* a2, Point3X* a3, unsigned int a4, Point2X* a5, unsigned int a6,
+                unsigned int a7, unsigned int a8, unsigned int a9, unsigned short* a10, unsigned short* a11);
+    void FUN_00a67050(unsigned int auiFlags);
+    void SetByteAtOffset38(unsigned char aucFlags);
+    void SetCompressFlags(unsigned char aucFlags);
+};
+struct LeafShapeX : public MemObjX
+{
+    char _pad[0x108];
+    LeafShapeX(LeafDataX* apData);
+};
+
+template <class T> struct PtrX
+{
+    T* m_pObject;
+    PtrX();
+    PtrX(T* apObject);
+    ~PtrX();
+    PtrX& operator=(T* apObject);
+    operator T*() const;
+};
+
+struct GeometryX
+{
+    int _pad00[2];
+    unsigned short* pStripCount;
+    unsigned short** ppStrips;
+    unsigned short usVertexCount;
+    unsigned short _pad12;
+    unsigned int* pColors;
+    float* pNormals;
+    float* pBinormals;
+    float* pTangents;
+    float* pCoords;
+    float* pTexCoords;
+    int _pad2c;
+    float* pLodFade;
+    unsigned char* pWindIndices;
+    int _pad38[(0x130 - 0x38) / 4];
+    GeometryX();
+    ~GeometryX();
+};
+
+struct SpeedTreeX
+{
+    void FUN_00b0ab20(GeometryX& arGeometry, int a2, int a3, int a4, int a5);
+    void FUN_00b08750();
+    void FUN_00b08780();
+};
+
+struct UIntArrayX
+{
+    void* pBase;
+    unsigned short usMax;
+    unsigned short usSize;
+    unsigned short usESize;
+    unsigned short usGrow;
+    int iActionIndex;
+    UIntArrayX(unsigned int auiMax, unsigned int auiGrow);
+    ~UIntArrayX();
+    unsigned int AddFirstEmpty(const unsigned int& arValue);
+    unsigned int GetSize();
+    unsigned int* GetAt(unsigned int auiIndex);
+};
+
+extern const Point3X xDAT_011a9484;
+extern "C" int xIsNaN(double adValue);
+extern "C" void* xNiMalloc(unsigned int auiSize);
+extern "C" void* xmemcpy(void* apDst, const void* apSrc, unsigned int auiSize);
+extern "C" void* xmemset(void* apDst, int aiValue, unsigned int auiSize);
+
+struct TreeModelX
+{
+    char _pad00[0xc];
+    SpeedTreeX* m_pTreeRuntime;
+    char _pad10[4];
+    PtrX<StripsDataX>* pLeafGeometry;
+    char _pad18[0xc];
+    PtrX<LeafShapeX>* pLeafShapes;
+
+    bool FUN_00666f00();
+    unsigned short FUN_00669990();
+    void FUN_00667470();
+};
+
+// Rebuilds per-LOD leaf geometry and shapes from the SpeedTree geometry, remapping strip indices and copying vertex, normal, tangent, texcoord and color data.
+// @fnv 0x00667470
+void TreeModelX::FUN_00667470()
+{
+    unsigned int qfTOqo;
+    unsigned short qsSDDgz;
+    unsigned short qrEZrs;
+    GeometryX qpqRa;
+    unsigned short qSVM;
+    unsigned short qdqWL;
+    if (!m_pTreeRuntime || FUN_00666f00())
+    {
+        return;
+    }
+    if (pLeafGeometry)
+    {
+        delete[] pLeafGeometry;
+        pLeafGeometry = 0;
+    }
+    if (pLeafShapes)
+    {
+        delete[] pLeafShapes;
+        pLeafShapes = 0;
+    }
+    qdqWL = FUN_00669990();
+    if (qdqWL <= 0)
+    {
+        return;
+    }
+    m_pTreeRuntime->FUN_00b0ab20(qpqRa, 1, -1, -1, -1);
+    if (!qpqRa.pCoords || !qpqRa.pNormals || !qpqRa.pTexCoords || !qpqRa.pColors || !qpqRa.pLodFade ||
+        !qpqRa.pWindIndices)
+    {
+        return;
+    }
+    qSVM = qpqRa.usVertexCount;
+    if (qSVM <= 0)
+    {
+        return;
+    }
+    pLeafGeometry = new PtrX<StripsDataX>[qdqWL];
+    pLeafShapes = new PtrX<LeafShapeX>[qdqWL];
+    for (qsSDDgz = 0; qsSDDgz < qdqWL; qsSDDgz++)
+    {
+        pLeafGeometry[qsSDDgz] = 0;
+        pLeafShapes[qsSDDgz] = 0;
+    }
+    if (qpqRa.pTangents && qpqRa.pBinormals)
+    {
+        Point3X* qxQHW = (Point3X*)qpqRa.pNormals;
+        for (int qJDuOZ = 0; qJDuOZ < qSVM; qJDuOZ++)
+        {
+            Point3X qpia = qxQHW[qJDuOZ];
+            if (xIsNaN(qpia.x) || xIsNaN(qpia.y) || xIsNaN(qpia.z))
+            {
+                qxQHW[qJDuOZ] = xDAT_011a9484;
+            }
+        }
+    }
+    for (qsSDDgz = 0; qsSDDgz < qdqWL; qsSDDgz++)
+    {
+        m_pTreeRuntime->FUN_00b0ab20(qpqRa, 1, qsSDDgz, -1, -1);
+        qSVM = qpqRa.usVertexCount;
+        if (qSVM <= 0 || !qpqRa.pStripCount || !qpqRa.ppStrips)
+        {
+            continue;
+        }
+        unsigned short* qCihG = (unsigned short*)xNiMalloc(2);
+        *qCihG = *qpqRa.pStripCount;
+        unsigned short* qDpUK = (unsigned short*)xNiMalloc(*qCihG * 2);
+        xmemcpy(qDpUK, *qpqRa.ppStrips, *qCihG * 2);
+        unsigned char* qpDOY = new unsigned char[qpqRa.usVertexCount];
+        xmemset(qpDOY, 0, qpqRa.usVertexCount);
+        for (qfTOqo = 0; qfTOqo < *qCihG; qfTOqo++)
+        {
+            qpDOY[qDpUK[qfTOqo]] = 1;
+        }
+        UIntArrayX qEMUOs(0, 1);
+        for (qrEZrs = 0; qrEZrs < qpqRa.usVertexCount; qrEZrs++)
+        {
+            if (qpDOY[qrEZrs])
+            {
+                qEMUOs.AddFirstEmpty(qrEZrs);
+            }
+        }
+        delete[] qpDOY;
+        for (qrEZrs = 0; qrEZrs < qEMUOs.GetSize(); qrEZrs++)
+        {
+            unsigned int qbfQdhM = *qEMUOs.GetAt(qrEZrs);
+            for (qfTOqo = 0; qfTOqo < *qCihG; qfTOqo++)
+            {
+                if ((*qpqRa.ppStrips)[qfTOqo] == qbfQdhM)
+                {
+                    qDpUK[qfTOqo] = qrEZrs;
+                }
+            }
+        }
+        Point3X* qArJcY = new Point3X[qEMUOs.GetSize()];
+        Point2X* qYTC = new Point2X[qEMUOs.GetSize()];
+        Point3X* qIpA = 0;
+        Point3X* qMBds = 0;
+        Point3X* qqtISP = 0;
+        bool qdKdHaf;
+        if (qpqRa.pTangents && qpqRa.pBinormals)
+        {
+            qIpA = new Point3X[qEMUOs.GetSize() * 3];
+            qqtISP = qIpA + qEMUOs.GetSize();
+            qMBds = qIpA + qEMUOs.GetSize() * 2;
+            qdKdHaf = true;
+        }
+        else
+        {
+            qIpA = new Point3X[qEMUOs.GetSize()];
+            qdKdHaf = false;
+        }
+        for (qrEZrs = 0; qrEZrs < qEMUOs.GetSize(); qrEZrs++)
+        {
+            unsigned int qxDeKK = *qEMUOs.GetAt(qrEZrs);
+            int qYePyBl = qxDeKK * 3;
+            int qAvPUtC = qxDeKK * 3 + 1;
+            int qUfv = qxDeKK * 3 + 2;
+            int qOqnE = qxDeKK * 2;
+            int qAXSCg = qxDeKK * 2 + 1;
+            qArJcY[qrEZrs] = Point3X(qpqRa.pCoords[qYePyBl], qpqRa.pCoords[qAvPUtC], qpqRa.pCoords[qUfv]);
+            qIpA[qrEZrs] = Point3X(qpqRa.pNormals[qYePyBl], qpqRa.pNormals[qAvPUtC], qpqRa.pNormals[qUfv]);
+            qYTC[qrEZrs] = Point2X(qpqRa.pTexCoords[qOqnE], qpqRa.pTexCoords[qAXSCg]);
+            if (qdKdHaf)
+            {
+                qMBds[qrEZrs] = Point3X(qpqRa.pTangents[qYePyBl], qpqRa.pTangents[qAvPUtC], qpqRa.pTangents[qUfv]);
+                qqtISP[qrEZrs] = Point3X(qpqRa.pBinormals[qYePyBl], qpqRa.pBinormals[qAvPUtC], qpqRa.pBinormals[qUfv]);
+            }
+        }
+        ColorAX* qXMUYT = new ColorAX[qEMUOs.GetSize()];
+        for (qrEZrs = 0; qrEZrs < qEMUOs.GetSize(); qrEZrs++)
+        {
+            unsigned int qBLsiu = *qEMUOs.GetAt(qrEZrs);
+            float qYdAnhh = ((qpqRa.pColors[qBLsiu] & 0xff00) >> 8) / 255.0;
+            qXMUYT[qrEZrs] = ColorAX(qpqRa.pLodFade[qBLsiu], (float)(qpqRa.pWindIndices[qBLsiu] * 4), qYdAnhh, 0.0f);
+        }
+        PtrX<LeafDataX> qCFhl(new LeafDataX);
+        ((LeafDataX*)qCFhl)->FUN_006684d0(qXMUYT, qEMUOs.GetSize());
+        pLeafGeometry[qsSDDgz] = new StripsDataX(qEMUOs.GetSize(), qArJcY, qIpA, 0, qYTC, 1, qdKdHaf ? 0x1000 : 0,
+                                                 *qpqRa.pStripCount - 2, 1, qCihG, qDpUK);
+        ((StripsDataX*)pLeafGeometry[qsSDDgz])->FUN_00a67050(0x4000);
+        ((StripsDataX*)pLeafGeometry[qsSDDgz])->SetByteAtOffset38(0x11);
+        ((StripsDataX*)pLeafGeometry[qsSDDgz])->SetCompressFlags(1);
+        pLeafShapes[qsSDDgz] = new LeafShapeX(qCFhl);
+    }
+    m_pTreeRuntime->FUN_00b08750();
+    qpqRa.pColors = 0;
+    m_pTreeRuntime->FUN_00b08780();
+    qpqRa.pLodFade = 0;
+    qpqRa.pWindIndices = 0;
+}
+
+struct ModelHolder_b5531
+{
+    void FUN_00633c90(unsigned int flags);
+    void FUN_006694e0();
+};
+
+// @fnv 0x006694e0
+void ModelHolder_b5531::FUN_006694e0()
+{
+    FUN_00633c90(0);
+}
+
+namespace fnv_00669500 {
+struct NiPoint3
+{
+    float x;
+    float y;
+    float z;
+};
+
+struct SavedState
+{
+    int unk00;
+    int unk04;
+    int unk08;
+};
+
+void __cdecl SaveState(SavedState* a, SavedState* b);
+void __cdecl RestoreState(SavedState* a, SavedState* b);
+
+struct LocalCamera
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    LocalCamera();
+    ~LocalCamera();
+};
+
+struct TreeData
+{
+    void SetAlpha(float value);
+};
+
+struct BSStr
+{
+    operator const char*() const;
+};
+
+struct NiTexture
+{
+    void SetFlag4000(unsigned int flags);
+    void SetApply(unsigned int value);
+    void SetFilter(unsigned int value);
+};
+
+template <class T> struct NiPtr
+{
+    T* m_pObject;
+    NiPtr(T* p);
+    ~NiPtr();
+    operator T*() const;
+    NiPtr& operator=(T* p);
+};
+
+struct NiProp
+{
+    int unk00;
+};
+
+struct NiAlphaProp
+{
+    int unk00;
+};
+
+struct TreeGeom
+{
+    int GetType();
+    void* GetSkin();
+};
+
+struct NiNodeX
+{
+    void AttachProperty(void* prop);
+    TreeGeom* GetFirstGeom();
+};
+
+struct TexturingProp
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    TexturingProp(NiTexture* tex);
+    static void* operator new(unsigned int size);
+    static void operator delete(void* p, unsigned int);
+};
+
+struct ShaderProp
+{
+    ShaderProp();
+    virtual void v00();
+    void SetName(const char* prefix, const char* name);
+    void SetFlag(unsigned int flag, bool on);
+    static void* operator new(unsigned int size);
+    static void operator delete(void* p, unsigned int);
+};
+
+struct ShaderPropV
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void SetE4(int a);
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+    virtual void Set100(int a, void* b);
+    ShaderPropV();
+    static void* operator new(unsigned int size);
+    static void operator delete(void* p, unsigned int);
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    void SetName(const char* prefix, const char* name);
+    void SetFlag(unsigned int flag, bool on);
+};
+
+struct Renderer
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void PrecacheGeometry(NiNodeX* node, int a, int b, void* skin);
+    void PerformPrecache();
+};
+
+Renderer* GetRenderer();
+NiAlphaProp* CreateAlphaProp();
+void* GetShaderDefault();
+void __cdecl UpdateNode(NiNodeX* node, int a, int b);
+
+struct LoaderX
+{
+    void LoadTexture(int a, NiPtr<NiTexture>* out);
+};
+
+struct TreeModelX
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    TreeData* unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    NiPtr<NiNodeX> m_pController;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    BSStr name;
+    bool FUN_00666f00();
+    void FUN_00669500(LoaderX* loader);
+};
+
+// Loads a texture, builds a TexturingProp node with alpha and shader properties, updates it, and precaches its geometry if a valid TreeGeom is found.
+// @fnv 0x00669500
+void TreeModelX::FUN_00669500(LoaderX* loader)
+{
+    LocalCamera camera;
+    NiPoint3 origin_2;
+    origin_2.x = 0.0f;
+    origin_2.y = 0.0f;
+    origin_2.z = 0.0f;
+    NiPoint3 dir5;
+    dir5.x = 0.0f;
+    dir5.y = -1.0f;
+    dir5.z = 0.0f;
+    if (!unk0c || FUN_00666f00() || !loader)
+        return;
+    SavedState saveA2;
+    SavedState saveB;
+    SaveState(&saveA2, &saveB);
+    RestoreState((SavedState*)&origin_2, (SavedState*)&dir5);
+    unk0c->SetAlpha(0.0f);
+    NiPtr<NiTexture> spTexA(0);
+    loader->LoadTexture(0, &spTexA);
+    ((NiTexture*)spTexA)->SetFlag4000(0x4000);
+    ((NiTexture*)spTexA)->SetApply(0x11);
+    ((NiTexture*)spTexA)->SetFilter(1);
+    m_pController = (NiNodeX*)new TexturingProp(spTexA);
+    NiPtr<NiAlphaProp> spAlpha_2(CreateAlphaProp());
+    if (spAlpha_2)
+        ((NiNodeX*)m_pController)->AttachProperty(spAlpha_2);
+    ShaderPropV* shader = new ShaderPropV();
+    ((NiNodeX*)m_pController)->AttachProperty(shader);
+    shader->SetName("STBB", name);
+    shader->Set100(0, GetShaderDefault());
+    shader->SetE4(0);
+    shader->SetFlag(0xd, true);
+    shader->SetFlag(0x16, true);
+    UpdateNode(m_pController, 0, 0);
+    TreeGeom* first2 = ((NiNodeX*)m_pController)->GetFirstGeom();
+    TreeGeom* geom = !first2 ? 0 : ((first2->GetType() >= 1 && first2->GetType() <= 5) ? first2 : 0);
+    if (geom)
+    {
+        GetRenderer()->PrecacheGeometry(m_pController, 0, 0, geom->GetSkin());
+        GetRenderer()->PerformPrecache();
+    }
+    RestoreState(&saveA2, &saveB);
+}
+}  // namespace fnv_00669500
+
+struct GlobalObject_0044fae0
+{
+    void FUN_004538a0(int);
+    void WaitForTasksDuringRendering();
+};
+extern GlobalObject_0044fae0 g_011d5df8;
+extern unsigned char treeCloneActive;
+struct AutoMemContext
+{
+    int previous;
+    AutoMemContext(int, bool, const char*, int);
+    ~AutoMemContext();
+};
+struct TreeCloneProcess
+{
+    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
+    TreeCloneProcess(float);
+    ~TreeCloneProcess();
+};
+struct NiNode
+{
+    NiNode* Clone();
+    NiNode* CloneWithProcess(TreeCloneProcess*);
+};
+template <class T> struct NiPointer
+{
+    T* object;
+    NiPointer();
+    ~NiPointer();
+    NiPointer& operator=(const NiPointer&);
+    NiPointer& operator=(T*);
+    operator T*();
+    static void* operator new[](unsigned int);
+    static void operator delete[](void*);
+};
+struct TreeRuntimeCopy
+{
+    TreeRuntimeCopy* FUN_00b05210();
+};
+struct TreeCloneView
+{
+    unsigned int unk00, unk04;
+    int initialized;
+    TreeRuntimeCopy* runtime;
+    NiPointer<TreeCloneView> source;
+    NiPointer<NiNode>* branchGeometry;
+    NiPointer<NiNode>* leafGeometry;
+    NiPointer<NiNode> billboard;
+    NiPointer<NiNode> unk20;
+    NiPointer<NiNode>* branchNodes;
+    NiPointer<NiNode>* leafNodes;
+    NiPointer<NiNode> unk2c, unk30, unk34;
+    NiPointer<NiNode> collision;
+    float unk3c;
+    unsigned int unk40, unk44;
+    float unk48, unk4c;
+    bool FUN_00666f00();
+    unsigned short FUN_00669990();
+    unsigned short FUN_006699d0();
+    bool CloneFromModel(TreeCloneView*);
+};
+// @fnv 0x0066a650
+bool TreeCloneView::CloneFromModel(TreeCloneView* model)
+{
+    g_011d5df8.FUN_004538a0(0);
+    AutoMemContext context_2(
+        31, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeModel.cpp", 1041);
+    if (!model || !model->runtime || model->FUN_00666f00() || initialized)
+    {
+        g_011d5df8.WaitForTasksDuringRendering();
+        return false;
+    }
+    runtime = model->runtime->FUN_00b05210();
+    if (!runtime)
+    {
+        g_011d5df8.WaitForTasksDuringRendering();
+        return false;
+    }
+    source = model;
+    initialized = 2;
+    unk2c = model->unk2c;
+    unk30 = model->unk30;
+    unk34 = model->unk34;
+    unk20 = model->unk20;
+    unk3c = model->unk3c;
+    unk40 = model->unk40;
+    unk48 = model->unk48;
+    unk4c = model->unk4c;
+    if (model->collision)
+    {
+        TreeCloneProcess process(1.0f);
+        collision = static_cast<NiNode*>(model->collision)->CloneWithProcess(&process);
+    }
+    else
+        collision = 0;
+    unsigned short index;
+    unsigned short count4 = FUN_00669990();
+    if (count4 > 0 && model->branchGeometry && model->branchNodes)
+    {
+        branchGeometry = new NiPointer<NiNode>[count4];
+        branchNodes = new NiPointer<NiNode>[count4];
+        for (index = 0; index < count4; ++index)
+        {
+            branchGeometry[index] = model->branchGeometry[index];
+            if (model->branchNodes[index])
+                branchNodes[index] = static_cast<NiNode*>(model->branchNodes[index])->Clone();
+            else
+                branchNodes[index] = 0;
+        }
+    }
+    count4 = FUN_006699d0();
+    if (count4 > 0 && model->leafGeometry && model->leafNodes)
+    {
+        leafGeometry = new NiPointer<NiNode>[count4];
+        leafNodes = new NiPointer<NiNode>[count4];
+        for (index = 0; index < count4; ++index)
+        {
+            leafGeometry[index] = model->leafGeometry[index];
+            if (model->leafNodes[index])
+                leafNodes[index] = static_cast<NiNode*>(model->leafNodes[index])->Clone();
+            else
+                leafNodes[index] = 0;
+        }
+    }
+    if (model->billboard)
+    {
+        treeCloneActive = 1;
+        billboard = static_cast<NiNode*>(model->billboard)->Clone();
+        treeCloneActive = 0;
+    }
+    g_011d5df8.WaitForTasksDuringRendering();
+    return true;
+}
+
+namespace fnv_0066ac40 {
+extern const char treePrefix[];
+struct AutoMemContext
+{
+    int previous;
+    AutoMemContext(int, bool, const char*, int);
+    ~AutoMemContext();
+};
+int strcpy_s(char*, unsigned int, const char*);
+int strcat_s(char*, unsigned int, const char*);
+void FUN_005b5e40(const char*, ...);
+float FUN_0066b0b0();
+float FUN_006655c0();
+float FUN_00665570();
+struct FUN_00b02e20
+{
+    unsigned int unk00;
+    unsigned int leafMaps;
+    unsigned int unk08, unk0c, unk10, unk14, unk18;
+    FUN_00b02e20();
+    ~FUN_00b02e20();
+};
+struct CSpeedTreeRT_Load
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    CSpeedTreeRT_Load();
+    static void* operator new(unsigned int);
+    ~CSpeedTreeRT_Load();
+    bool FUN_00b05420(const char*);
+    void FUN_00b0d040(FUN_00b02e20*);
+    void FUN_00b071f0(int);
+    void SetField14(bool);
+    void FUN_00b06260(float*, float*);
+    void FUN_00b06280(float, float);
+    float FUN_00b07b00(float, float, float);
+    void FUN_00b08050(int, int);
+    void FUN_00984f60(bool);
+    void FUN_00b076e0(int);
+    void FUN_00b07900(int);
+    void FUN_00b07510(int);
+    void FUN_00b06660(int);
+    void FUN_00b069c0(int);
+    void FUN_00b06810(int);
+    void FUN_00b08500(float, float);
+    bool FUN_00b044a0(int, int, bool);
+    void FUN_00b087d0();
+    unsigned int FUN_00b06440();
+    float FUN_00b07440();
+    float FUN_00b073f0();
+    void FUN_00b053e0();
+    void FUN_00b088d0();
+    void FUN_00b0a7a0();
+};
+struct TreeName
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual const char* Name();
+};
+struct TreeModelInput
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    TreeName name;
+};
+struct TreeModelLoader
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void Setup(TreeModelInput*);
+    virtual void slot5();
+    virtual void Finish(TreeModelInput*);
+    int unk04;
+    int initialized;
+    CSpeedTreeRT_Load* tree;
+    unsigned int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    float unk48, unk4c;
+    bool FUN_0066ac40(TreeModelInput*, int);
+};
+// @fnv 0x0066ac40
+bool TreeModelLoader::FUN_0066ac40(TreeModelInput* model, int seed)
+{
+    if (model && model->name.Name() && *model->name.Name() && !initialized)
+    {
+        AutoMemContext context4(
+            31, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeModel.cpp", 1139);
+        char szPath[260];
+        strcpy_s(szPath, 260, treePrefix);
+        strcat_s(szPath, 260, model->name.Name());
+        CSpeedTreeRT_Load* pTree = new CSpeedTreeRT_Load;
+        if (pTree->FUN_00b05420(szPath))
+        {
+            FUN_00b02e20 treeInfo;
+            pTree->FUN_00b0d040(&treeInfo);
+            if (treeInfo.leafMaps <= 3)
+                pTree->FUN_00b071f0(2);
+            else
+            {
+                pTree->FUN_00b071f0(1);
+                if (treeInfo.leafMaps > 6)
+                    FUN_005b5e40(
+                        "MODELS: Tree %s has too many leaf maps (greater than six).  Leaves may not display properly.",
+                        model->name.Name());
+            }
+            pTree->SetField14(true);
+            float sizeB, variance;
+            pTree->FUN_00b06260(&sizeB, &variance);
+            pTree->FUN_00b06280(sizeB * FUN_0066b0b0(), variance * FUN_0066b0b0());
+            pTree->FUN_00b07b00(0.0f, -1.0f, -1.0f);
+            pTree->FUN_00b08050(0, 4);
+            pTree->FUN_00984f60(true);
+            pTree->FUN_00b076e0(0);
+            pTree->FUN_00b07900(0);
+            pTree->FUN_00b07510(0);
+            pTree->FUN_00b06660(0);
+            pTree->FUN_00b069c0(0);
+            pTree->FUN_00b06810(0);
+            pTree->FUN_00b08500(FUN_00665570(), FUN_006655c0());
+        }
+        else
+        {
+            delete pTree;
+            return false;
+        }
+        initialized = 1;
+        tree = pTree;
+        Setup(model);
+        if (!pTree->FUN_00b044a0(0, seed, true))
+            return false;
+        pTree->FUN_00b087d0();
+        unk40 = pTree->FUN_00b06440();
+        unk48 = pTree->FUN_00b07440();
+        unk4c = pTree->FUN_00b073f0();
+        Finish(model);
+        pTree->FUN_00b053e0();
+        pTree->FUN_00b088d0();
+        pTree->FUN_00b0a7a0();
+    }
+    return true;
+}
+}  // namespace fnv_0066ac40
+
+struct PathingSolutionBase
+{
+    virtual ~PathingSolutionBase();
+    unsigned int refs;
+    PathingSolutionBase();
+};
+struct GlobalObject_00633c90
+{
+    void* p;
+    GlobalObject_00633c90(int);
+    ~GlobalObject_00633c90();
+    GlobalObject_00633c90& operator=(void*);
+};
+struct FUN_00666650 : PathingSolutionBase
+{
+    unsigned int unk08, unk0c;
+    GlobalObject_00633c90 a;
+    unsigned int unk14, unk18;
+    GlobalObject_00633c90 b, c;
+    unsigned int unk24, unk28;
+    GlobalObject_00633c90 d, e, f, g;
+    float unk3c;
+    unsigned int unk40;
+    bool unk44;
+    float unk48, unk4c;
+    FUN_00666650();
+    virtual ~FUN_00666650();
+};
+// Initializes the pathing solution object: zeroes counters, handles and floats, sets unk40 to 1 and unk44 to false.
+// @fnv 0x00666650
+FUN_00666650::FUN_00666650() : a(0), b(0), c(0), d(0), e(0), f(0), g(0)
+{
+    unk0c = 0;
+    unk08 = 0;
+    unk14 = 0;
+    unk18 = 0;
+    b = 0;
+    c = 0;
+    unk24 = 0;
+    unk28 = 0;
+    d = 0;
+    e = 0;
+    f = 0;
+    unk3c = 0.0f;
+    unk40 = 1;
+    unk44 = false;
+    unk48 = 0.0f;
+    unk4c = 0.0f;
+}
+
+int strcpy_s(char* apDst, unsigned int auiSize, const char* apSrc);
+int strcat_s(char* apDst, unsigned int auiSize, const char* apSrc);
+template <class T> unsigned int BSStringLength(const T* apString);
+
+class FileFinder
+{
+  public:
+    enum FILE_LOCATION
+    {
+        FILE_NOT_FOUND
+    };
+    static FILE_LOCATION Exist(const char* apPath, char* apOut, unsigned int auiArg, unsigned int auiArgCur);
+};
+
+struct NiRTTI;
+extern const NiRTTI DAT_011f4280;
+
+class NiAVObject;
+NiAVObject* NiDynamicCast(const NiRTTI* apRTTI, NiAVObject* apObject);
+
+struct bhkWorldObject;
+struct bhkCollisionObject
+{
+    bhkWorldObject* FUN_006fa820();
+};
+bhkCollisionObject* FUN_004a8b00(NiNode* apNode);
+
+class NiStream
+{
+  public:
+    int m_kNextStreamField[0x5cc / 4];
+    virtual ~NiStream();
+    bool FUN_00c3a8a0(const char* apPath, bool abFlag);
+    int GetRefAt21C();
+    NiAVObject* GetStringAt(unsigned int auiIndex);
+};
+
+class BSStream : public NiStream
+{
+  public:
+    BSStream();
+    virtual ~BSStream();
+};
+
+class TESModel
+{
+  public:
+    virtual ~TESModel();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual const char* GetModelFileName();
+};
+
+class TESObjectTREE
+{
+  public:
+    char pad[0x30];
+    TESModel kModel;
+    bool FUN_0051d250();
+};
+
+NiNode* __cdecl FUN_00c81380(float afArg, float afArgCur);
+
+struct ModelName
+{
+    char acName[0x104];
+};
+
+struct FUN_00667190_shell : public TreeCloneView
+{
+    void FUN_00667470();
+    void FUN_00668500(TESObjectTREE* apTree);
+    void FUN_00669500(TESObjectTREE* apTree);
+    void LoadTreeCollision(TESObjectTREE* apTree);
+};
+
+// Loads the tree's collision NIF from Data\Meshes\Trees, stores its collision object, and falls back to a generated collision node when none is found.
+// @fnv 0x00667190
+void FUN_00667190_shell::LoadTreeCollision(TESObjectTREE* apTree)
+{
+    if (!runtime || FUN_00666f00())
+        return;
+
+    FUN_00667470();
+    FUN_00668500(apTree);
+    if (apTree->FUN_0051d250())
+        FUN_00669500(apTree);
+
+    collision = 0;
+
+    ModelName kModelName;
+    strcpy_s(kModelName.acName, 0x104, apTree->kModel.GetModelFileName());
+    int iLengthValue = BSStringLength(kModelName.acName);
+    if (iLengthValue > 4)
+        kModelName.acName[iLengthValue - 4] = 0;
+
+    BSStream kStream;
+    char acPath[0x104];
+    strcpy_s(acPath, 0x104, "Data\\Meshes\\Trees");
+    strcat_s(acPath, 0x104, kModelName.acName);
+    strcat_s(acPath, 0x104, ".NIF");
+    if (FileFinder::Exist(acPath, 0, 6, 1) && kStream.FUN_00c3a8a0(acPath, false) && kStream.GetRefAt21C() == 1)
+    {
+        NiAVObject* pObject = kStream.GetStringAt(0);
+        NiNode* kNode = (NiNode*)NiDynamicCast(&DAT_011f4280, pObject);
+        bhkCollisionObject* pCollisionObjectCur = FUN_004a8b00(kNode);
+        bhkWorldObject* pWorldObject = pCollisionObjectCur ? pCollisionObjectCur->FUN_006fa820() : 0;
+        NiNode* pCollisionNode = (NiNode*)pWorldObject;
+        if (pCollisionNode)
+            collision = pCollisionNode;
+    }
+
+    if (!(NiNode*)collision && unk48 > 64.0)
+        collision = FUN_00c81380(unk48, unk4c / 2.0);
+}
+
+namespace TreeBuild {
+struct Model;
+struct Geometry;
+struct GeometryData;
+struct Object;
+struct Property;
+struct Shader;
+template <class T> struct Handle
+{
+    T* object;
+    Handle(T*);
+    ~Handle();
+    T* FUN_00559450();
+    void FUN_0066b0d0(T*);
+};
+struct Scope
+{
+    int value;
+    Scope(int, int, const char*, int);
+    ~Scope();
+};
+extern const char DAT_010667b8[], DAT_01066830[];
+extern const double DAT_010240c0, DAT_01012070, DAT_01011590;
+struct UpdateData
+{
+    float time;
+    int flags, unk08;
+    UpdateData(float, int, int);
+};
+struct ShaderState
+{
+    int FUN_004a8a90();
+    int FUN_005f36f0();
+};
+struct Property
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual Shader* CreateShader(Geometry*);
+    void FUN_004393c0(int);
+    void FUN_00baa000();
+    void FUN_00b66ad0(const char*, Object*);
+};
+Property* FUN_006698f0();
+void* FUN_00b55560(int);
+struct Geometry
+{
+    virtual void v0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    static void* operator new(unsigned int);
+    static void operator delete(void*, unsigned int);
+    Geometry(GeometryData*);
+    void FUN_00439410(Property*);
+    ShaderState* FUN_005495f0();
+    void FUN_00539ef0(Shader*);
+    void FUN_00874460(void*);
+};
+struct Leaves : Geometry
+{
+    Leaves(GeometryData*);
+};
+struct Renderer
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void Prepare(Geometry*, int, int, int);
+};
+Renderer* FUN_0043c4b0();
+void FUN_00b57e30(Geometry*, int, int);
+struct Tree
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void* GetBranches();
+    virtual void v66();
+    virtual void* GetLeaves();
+    virtual Geometry* GetBranch(unsigned int);
+    virtual void v69();
+    virtual void v70();
+    virtual void SetBranch(unsigned int, Geometry*);
+    virtual void SetLeaf(unsigned int, Geometry*);
+    virtual void SetBillboardObject(Object*);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    static void* operator new(unsigned int);
+    static void operator delete(void*, unsigned int);
+    Tree(Model*, Object*);
+    void FUN_00a5a040();
+    void FUN_00a59c90(UpdateData*);
+    void FUN_0066cb40(void*, float);
+};
+Object* FUN_00c81380(float, float);
+struct Model
+{
+    int unk00, unk04, unk08;
+    void* model;
+    int unk10;
+    Handle<GeometryData>* branches;
+    Handle<GeometryData>* leaves;
+    Handle<Object> billboard;
+    int unk20;
+    Handle<Property>* branchProperties;
+    Handle<Property>* leafProperties;
+    Handle<Object> extra;
+    int unk30, unk34, unk38, unk3c, unk40, unk44;
+    float radius, height;
+    Object* ConvertFloatToUInt();
+    unsigned short FUN_00669990();
+    unsigned short FUN_006699d0();
+    bool FUN_00666f00();
+    Tree* CreateTree(float);
+};
+// Builds a Tree from the model's branches and leaves, creating geometry and shaders for each, then applies the billboard, updates and returns it.
+// @fnv 0x00669fd0
+Tree* Model::CreateTree(float scale)
+{
+    Scope scope(30, 1, DAT_010667b8, 901);
+    Tree* tree5 = 0;
+    void* unusedB = 0;
+    Handle<Object> shape(0);
+    if (!model)
+        return 0;
+    if (radius > DAT_010240c0)
+    {
+        if (scale == DAT_01012070)
+            shape.FUN_0066b0d0(ConvertFloatToUInt());
+        else
+            shape.FUN_0066b0d0(FUN_00c81380(scale * radius, scale * height / DAT_01011590));
+    }
+    else
+        shape.FUN_0066b0d0(0);
+    tree5 = new Tree(this, shape.FUN_00559450());
+    unsigned short count3;
+    unsigned short i;
+    void* shader;
+    Geometry* geometryX;
+    Property* alpha;
+    if (branches && branchProperties)
+    {
+        count3 = FUN_00669990();
+        shader = FUN_00b55560(4);
+        unusedB = tree5->GetBranches();
+        for (i = 0; i < count3; i++)
+        {
+            if (!branches[i].FUN_00559450())
+                continue;
+            geometryX = new Geometry(branches[i].FUN_00559450());
+            alpha = FUN_006698f0();
+            if (alpha)
+            {
+                alpha->FUN_004393c0(0);
+                geometryX->FUN_00439410(alpha);
+            }
+            if (branchProperties[i].FUN_00559450())
+            {
+                branchProperties[i].FUN_00559450()->FUN_00baa000();
+                geometryX->FUN_00439410(branchProperties[i].FUN_00559450());
+                if (!geometryX->FUN_005495f0()->FUN_004a8a90())
+                {
+                    Shader* created = branchProperties[i].FUN_00559450()->CreateShader(geometryX);
+                    geometryX->FUN_00539ef0(created);
+                }
+            }
+            if (FUN_00666f00())
+                geometryX->FUN_00874460(shader);
+            tree5->SetBranch(i, geometryX);
+        }
+        if (!FUN_00666f00())
+        {
+            for (i = 0; i < count3; i++)
+            {
+                geometryX = tree5->GetBranch(i);
+                if (!geometryX)
+                    continue;
+                branchProperties[i].FUN_00559450()->FUN_00b66ad0(DAT_01066830, extra.FUN_00559450());
+                FUN_00b57e30(geometryX, 0, 0);
+                geometryX->FUN_00539ef0(branchProperties[i].FUN_00559450()->CreateShader(geometryX));
+                if (!geometryX->FUN_005495f0()->FUN_005f36f0())
+                    FUN_0043c4b0()->Prepare(geometryX, 0, 0, 0);
+            }
+        }
+    }
+    if (leaves && leafProperties)
+    {
+        count3 = FUN_006699d0();
+        shader = FUN_00b55560(6);
+        for (i = 0; i < count3; i++)
+        {
+            if (!leaves[i].FUN_00559450())
+                continue;
+            geometryX = new Leaves(leaves[i].FUN_00559450());
+            alpha = FUN_006698f0();
+            if (alpha)
+                geometryX->FUN_00439410(alpha);
+            if (leafProperties[i].FUN_00559450())
+            {
+                leafProperties[i].FUN_00559450()->FUN_00baa000();
+                geometryX->FUN_00439410(leafProperties[i].FUN_00559450());
+            }
+            tree5->SetLeaf(i, geometryX);
+            geometryX->FUN_00874460(shader);
+            FUN_0043c4b0()->Prepare(geometryX, 0, 0, 0);
+        }
+    }
+    unusedB = tree5->GetLeaves();
+    if (billboard.FUN_00559450())
+        tree5->SetBillboardObject(billboard.FUN_00559450());
+    tree5->FUN_00a5a040();
+    UpdateData update(0.0f, 0, 0);
+    tree5->FUN_00a59c90(&update);
+    tree5->FUN_0066cb40(model, scale);
+    return tree5;
+}
+}
+
+struct NP
+{
+    void* object;
+    NP(int);
+    ~NP();
+};
+struct FUN_00b02e20
+{
+    const char* branchMaps[2];
+    const char** leafMaps;
+    unsigned int leafCount;
+    const char** billboardMaps;
+    const char* compositeMap;
+    const char* shadowMap;
+    FUN_00b02e20();
+    ~FUN_00b02e20();
+};
+struct NiMemObject
+{
+    static void* operator new(unsigned int);
+    static void operator delete(void*, unsigned int);
+};
+struct BSShaderTextureSet : NiMemObject
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot0a();
+    virtual void slot0b();
+    virtual void slot0c();
+    virtual void slot0d();
+    virtual void slot0e();
+    virtual void slot0f();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot1a();
+    virtual void slot1b();
+    virtual void slot1c();
+    virtual void slot1d();
+    virtual void slot1e();
+    virtual void slot1f();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void SetTexture(unsigned int, const char*);
+    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
+    BSShaderTextureSet();
+};
+struct TexturePtr
+{
+    BSShaderTextureSet* object;
+    BSShaderTextureSet* FUN_00559450();
+    void FUN_0066b0d0(BSShaderTextureSet*);
+};
+struct SourcePtr
+{
+    void* object;
+    void* FUN_00559450();
+};
+struct FullNameComponent
+{
+    unsigned int FUN_0048cee0();
+    const char* FUN_00408da0();
+};
+struct TreeInput
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot0a();
+    virtual void slot0b();
+    virtual void slot0c();
+    virtual void slot0d();
+    virtual void slot0e();
+    virtual void slot0f();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot1a();
+    virtual void slot1b();
+    virtual void slot1c();
+    virtual void slot1d();
+    virtual void slot1e();
+    virtual void slot1f();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot2a();
+    virtual void slot2b();
+    virtual void slot2c();
+    virtual void slot2d();
+    virtual void slot2e();
+    virtual void slot2f();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual void slot37();
+    virtual void slot38();
+    virtual void slot39();
+    virtual void slot3a();
+    virtual void slot3b();
+    virtual void slot3c();
+    virtual void slot3d();
+    virtual void slot3e();
+    virtual void slot3f();
+    virtual void slot40();
+    virtual void slot41();
+    virtual void slot42();
+    virtual void slot43();
+    virtual void slot44();
+    virtual void slot45();
+    virtual void slot46();
+    virtual void slot47();
+    virtual void slot48();
+    virtual void slot49();
+    virtual void slot4a();
+    virtual void slot4b();
+    virtual void slot4c();
+    virtual void slot4d();
+    virtual void slot4e();
+    virtual void slot4f();
+    virtual void slot50();
+    virtual void slot51();
+    virtual void slot52();
+    virtual void slot53();
+    virtual void slot54();
+    virtual void slot55();
+    virtual void slot56();
+    virtual void slot57();
+    virtual void slot58();
+    virtual void slot59();
+    virtual void slot5a();
+    virtual void slot5b();
+    virtual void slot5c();
+    virtual void slot5d();
+    virtual void slot5e();
+    virtual void slot5f();
+    virtual void slot60();
+    virtual void slot61();
+    virtual void slot62();
+    virtual void slot63();
+    virtual void slot64();
+    virtual float Get194();
+    virtual void slot66();
+    virtual float Get19c();
+    virtual void slot68();
+    virtual float Get1a4();
+    virtual void slot6a();
+    virtual float Get1ac();
+    virtual void slot6c();
+    virtual float Get1b4();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    FullNameComponent leafName;
+    void BuildBillboardTexturePath(char*);
+};
+struct TreeRuntime
+{
+    void SetField9C(float);
+    void SetField98(float);
+    void FUN_00b07490(float);
+    void SetFieldD0(float);
+    void FUN_00b0d040(FUN_00b02e20*);
+};
+struct TreeTarget
+{
+    int unk00, unk04, initialized;
+    TreeRuntime* runtime;
+    int unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
+    TexturePtr branches;
+    SourcePtr leaves;
+    TexturePtr billboards;
+    int unk38;
+    float scale;
+    bool FUN_00666f00();
+    void ApplyInput(TreeInput*);
+};
+struct TES
+{
+    void FUN_004568c0(const char*, SourcePtr*, bool, bool);
+};
+extern TES* g_TES;
+float FUN_00666f40();
+float FUN_00666f60();
+float FUN_00666f80();
+int strcpy_s(char*, unsigned int, const char*);
+int strcat_s(char*, unsigned int, const char*);
+unsigned int FUN_0044a670(const char*);
+void FUN_00b4f5e0(char*, const char*, const char*, bool);
+// @fnv 0x00666940
+void TreeTarget::ApplyInput(TreeInput* input)
+{
+    NP a(0);
+    if (!input || !runtime || FUN_00666f00())
+        return;
+    float valueHolder = FUN_00666f40();
+    if (valueHolder < 0.0 || valueHolder > 1.0)
+        valueHolder = input->Get1ac();
+    if (valueHolder >= 0.0 && valueHolder <= 1.0)
+        runtime->SetField9C(valueHolder);
+    valueHolder = FUN_00666f60();
+    if (valueHolder < 0.0 || valueHolder > 1.0)
+        valueHolder = input->Get1b4();
+    if (valueHolder >= 0.0 && valueHolder <= 1.0)
+        runtime->SetField98(valueHolder);
+    valueHolder = FUN_00666f20();
+    if (valueHolder < 0.0)
+        valueHolder = input->Get194();
+    if (valueHolder >= 0.0)
+        scale = valueHolder;
+    float b = FUN_00666f80();
+    float c = FUN_00666fa0();
+    if (b < 0.0 || b > 90.0 || c < 0.0 || c > 90.0 || b > c)
+    {
+        b = input->Get19c();
+        c = input->Get1a4();
+    }
+    if (b >= 0.0 && b <= 90.0 && c >= 0.0 && c <= 90.0 && b <= c)
+    {
+        runtime->FUN_00b07490(b);
+        runtime->SetFieldD0(c);
+    }
+    AutoMemContext context(30, true,
+                           "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeModel.cpp", 145);
+    if (!branches.FUN_00559450())
+    {
+        FUN_00b02e20 mapBank5;
+        char branchPath[260];
+        char normalPathA[260];
+        unsigned int length2 = 0;
+        runtime->FUN_00b0d040(&mapBank5);
+        strcpy_s(branchPath, 260, "Textures\\Trees\\Branches\\");
+        strcat_s(branchPath, 260, mapBank5.branchMaps[0]);
+        length2 = FUN_0044a670(branchPath);
+        branchPath[length2 - 3] = 'd';
+        branchPath[length2 - 2] = 'd';
+        branchPath[length2 - 1] = 's';
+        FUN_00b4f5e0(normalPathA, branchPath, "_n", true);
+        branches.FUN_0066b0d0(new BSShaderTextureSet);
+        branches.FUN_00559450()->SetTexture(0, branchPath);
+        branches.FUN_00559450()->SetTexture(1, normalPathA);
+    }
+    if (!leaves.FUN_00559450() && input->leafName.FUN_0048cee0())
+    {
+        char leafPath[260];
+        strcpy_s(leafPath, 260, "Textures\\Trees\\Leaves\\");
+        strcat_s(leafPath, 260, input->leafName.FUN_00408da0());
+        g_TES->FUN_004568c0(leafPath, &leaves, true, false);
+    }
+    if (!billboards.FUN_00559450())
+    {
+        char billboardPath[260];
+        input->BuildBillboardTexturePath(billboardPath);
+        billboards.FUN_0066b0d0(new BSShaderTextureSet);
+        billboards.FUN_00559450()->SetTexture(0, billboardPath);
+    }
+}
+
+struct Element226
+{
+    void* object;
+    ~Element226();
+    static void operator delete[](void*);
+};
+struct Ref226
+{
+    void* object;
+    void FUN_0066b0d0(void*);
+};
+struct Owner226
+{
+    int unk00, unk04, unk08, unk0c, unk10;
+    Element226* array14;
+    Element226* array18;
+    Ref226 ref1c, ref20;
+    Element226* array24;
+    Element226* array28;
+    Ref226 ref2c, ref30, ref34, ref38;
+    bool FUN_00666f00();
+    void ClearArrays();
+};
+// Deletes the object's array members and clears the reference members, resetting each pointer to null.
+// @fnv 0x00666fc0
+void Owner226::ClearArrays()
+{
+    if (array14)
+    {
+        if (FUN_00666f00())
+        {
+        }
+        delete[] array14;
+        array14 = 0;
+    }
+    if (array18)
+    {
+        delete[] array18;
+        array18 = 0;
+    }
+    ref1c.FUN_0066b0d0(0);
+    ref20.FUN_0066b0d0(0);
+    if (array24)
+    {
+        delete[] array24;
+        array24 = 0;
+    }
+    if (array28)
+    {
+        delete[] array28;
+        array28 = 0;
+    }
+    ref2c.FUN_0066b0d0(0);
+    ref30.FUN_0066b0d0(0);
+    ref34.FUN_0066b0d0(0);
+    ref38.FUN_0066b0d0(0);
+}
+
+namespace fnv_00668500 {
+class NiGPUProgram;
+struct NiMemObject
+{
+    static void* operator new(unsigned int uiSize);
+    static void operator delete(void* pMem, unsigned int);
+};
+class NiAVObject : public NiMemObject
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void SetMaterial(NiAVObject*);
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual NiGPUProgram* GetProgram(int);
+    void FUN_00a67050(unsigned int uiFlags);
+    void SetByteAtOffset38(unsigned int uiFlags);
+    void FUN_004410f0(unsigned int uiFlags);
+};
+template <> struct NiPointer<NiAVObject>
+{
+    NiAVObject* m_pObject;
+    NiPointer();
+    NiPointer(NiAVObject* pObject);
+    ~NiPointer();
+    NiPointer& operator=(NiAVObject* pObject);
+    operator NiAVObject*() const;
+    NiAVObject* operator->() const;
+};
+class NiGPUProgramOwner
+{
+  public:
+    void SetProgram(NiGPUProgram* pProgram);
+};
+struct NiPoint2
+{
+    float x, y;
+    NiPoint2();
+    NiPoint2(float fX, float fY);
+};
+struct NiPoint3
+{
+    float x, y, z;
+    NiPoint3();
+};
+struct FUN_00414430
+{
+    float a, b, c, d;
+    FUN_00414430();
+    FUN_00414430(float fA, float fB, float fC, float fD);
+};
+void* NiMalloc(unsigned int uiSize);
+int FUN_00408b20(const char* pA, const char* pB);
+unsigned int __fastcall FUN_0044edb0(void* pTree);
+void __fastcall FUN_00804cb0(void* pObject, float fValue);
+class TESObjectREFR
+{
+  public:
+    float GetScale();
+};
+struct FUN_00792760_shell
+{
+    float FUN_00792760();
+};
+struct FUN_0063f790_shell
+{
+    void FUN_0063f790(float fValue);
+};
+struct FUN_00621b20_Class
+{
+    void FUN_00621b20(float fValue);
+};
+class BSMultiBoundSphere
+{
+  public:
+    void FUN_00819a50(float fValue);
+};
+struct FUN_00b029f0
+{
+    int m_aiPad00[0x84 / 4];
+    unsigned short m_usNumLeaves;
+    unsigned short m_usPad86;
+    int m_iPad88;
+    unsigned char* m_pucAngleIndices;
+    NiPoint3* m_pkCenters;
+    float** m_ppfTexCoords;
+    int m_iPad98;
+    unsigned int* m_puiColors;
+    NiPoint3* m_pkNormals;
+    int m_aiPadA4[2];
+    float* m_pfWidths;
+    unsigned char* m_pucSizes;
+    int m_aiPadB4[(0x130 - 0xb4) / 4];
+    FUN_00b029f0();
+    ~FUN_00b029f0();
+};
+struct FUN_00b02e20
+{
+    int m_iPad00;
+    unsigned short m_usValue;
+    unsigned short m_usPad06;
+    const char** m_ppTextures;
+    int m_aiPad0C[4];
+    FUN_00b02e20();
+    ~FUN_00b02e20();
+};
+struct SpeedTreeRT
+{
+    float* FUN_00b0cb10();
+    void FUN_00b0d040(FUN_00b02e20* pTextures);
+    void FUN_00b0ab20(FUN_00b029f0* m_pShaderGeometry, unsigned int uiBits, short sBranch, short sFrond, short sLeaf);
+    void FUN_00b088b0();
+};
+struct FUN_00bb3950 : public NiAVObject
+{
+    int m_kNextStreamField[7];
+    FUN_00bb3950();
+};
+struct FUN_00bb33c0 : public NiAVObject
+{
+    int m_kNextStreamField[3];
+    FUN_00bb33c0();
+};
+struct FUN_00bb3ba0 : public NiAVObject
+{
+    int m_kNextStreamField[0x8c / 4];
+    FUN_00bb3ba0(unsigned short usLod, NiAVObject* pData, NiAVObject* pMaterial);
+};
+struct FUN_00a7b630 : public NiAVObject
+{
+    int m_kNextStreamField[0x54 / 4];
+    FUN_00a7b630(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, void* pkColor, NiPoint2* pkTexture,
+                 unsigned short usNumTextureSets, int eNBTMethod, unsigned short usTriangles,
+                 unsigned short* pusTriList);
+};
+class TreeLeafRef
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual float GetWidth();
+    virtual void v1c8();
+    virtual float GetHeight();
+};
+class TreeLeafModel
+{
+  public:
+    int m_aiPad00[3];
+    SpeedTreeRT* m_pLeafTreeRuntime;
+    int m_aiPad10[2];
+    NiPointer<NiAVObject>* m_pspLeafGeometry;
+    int m_iPad1C;
+    NiPointer<NiAVObject> m_spLeafMaterial;
+    int m_iPad24;
+    NiPointer<NiAVObject>* m_pspLeafShaders;
+    int m_iPad2C;
+    NiPointer<NiAVObject> m_spLeafTexture;
+    int m_aiPad34[2];
+    float m_fLeafScale;
+    unsigned short FUN_006699d0();
+    void FUN_00668500(TreeLeafRef* pRef);
+};
+
+// Builds per-level leaf geometry, shaders and material from the SpeedTree data, allocating vertex, normal, UV and attribute arrays and triangle indices.
+// @fnv 0x00668500
+void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
+{
+    unsigned short usJ;
+    FUN_00b029f0 kLeafGeom;
+    unsigned short* pusTris;
+    unsigned short usVertCount;
+    unsigned short usLeafCount;
+    unsigned short usLevels;
+    unsigned short* pusIndex;
+    unsigned short usTex;
+    FUN_00b02e20 kTexData;
+    NiPoint3* pkSrcPos = 0;
+    NiPoint3* pkCardNormals = 0;
+    float* pfCoords = 0;
+    NiPoint3* pkVertex = 0;
+    NiPoint3* pkNorm = 0;
+    NiPoint2* pkUVCoords = 0;
+    FUN_00414430* pkAttributes;
+    unsigned short usNumNames;
+    unsigned short usBaseVert;
+    unsigned short usCornerIndex;
+    NiPointer<NiAVObject> spWindData = 0;
+    unsigned short usI;
+    bool bMultiTexture = false;
+    unsigned short usCard;
+    unsigned short usBaseIndex;
+    float fCorner;
+    float fLightness;
+
+    if (!m_pLeafTreeRuntime || !m_pLeafTreeRuntime->FUN_00b0cb10() || ((FUN_00666f00_shell*)this)->FUN_00666f00())
+        return;
+
+    if (m_pspLeafGeometry)
+    {
+        delete[] m_pspLeafGeometry;
+        m_pspLeafGeometry = 0;
+    }
+    if (m_pspLeafShaders)
+    {
+        delete[] m_pspLeafShaders;
+        m_pspLeafShaders = 0;
+    }
+
+    usLevels = FUN_006699d0();
+    if (usLevels <= 0)
+        return;
+
+    m_pLeafTreeRuntime->FUN_00b0d040(&kTexData);
+    usNumNames = kTexData.m_usValue;
+    if (usNumNames <= 0)
+        return;
+
+    for (usTex = 0; usTex < usNumNames; usTex++)
+    {
+        for (usJ = usTex + 1; usJ < usNumNames; usJ++)
+        {
+            if (FUN_00408b20(kTexData.m_ppTextures[usTex], kTexData.m_ppTextures[usJ]))
+                bMultiTexture = true;
+        }
+    }
+
+    m_pspLeafGeometry = new NiPointer<NiAVObject>[usLevels];
+    m_pspLeafShaders = new NiPointer<NiAVObject>[usLevels];
+    for (usI = 0; usI < usLevels; usI++)
+    {
+        m_pspLeafGeometry[usI] = 0;
+        m_pspLeafShaders[usI] = 0;
+    }
+
+    m_spLeafMaterial = new FUN_00bb3950;
+    ((FUN_0063f790_shell*)(NiAVObject*)m_spLeafMaterial)->FUN_0063f790(m_fLeafScale);
+    if (m_pLeafTreeRuntime && FUN_0044edb0(m_pLeafTreeRuntime))
+    {
+        ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
+            ->FUN_00621b20(((TESObjectREFR*)FUN_0044edb0(m_pLeafTreeRuntime))->GetScale());
+        ((FUN_006694c0_shell*)(NiAVObject*)m_spLeafMaterial)
+            ->SetPad5(((FUN_00792760_shell*)FUN_0044edb0(m_pLeafTreeRuntime))->FUN_00792760());
+        if (pRef)
+        {
+            ((BSMultiBoundSphere*)(NiAVObject*)m_spLeafMaterial)->FUN_00819a50(pRef->GetWidth());
+            FUN_00804cb0((NiAVObject*)m_spLeafMaterial, pRef->GetHeight());
+        }
+    }
+
+    for (usI = 0; usI < usLevels; usI++)
+    {
+        m_pLeafTreeRuntime->FUN_00b0ab20(&kLeafGeom, 4, -1, -1, usI);
+        usLeafCount = kLeafGeom.m_usNumLeaves;
+        usVertCount = usLeafCount * 4;
+        if (usLeafCount <= 0)
+            continue;
+
+        pkSrcPos = kLeafGeom.m_pkCenters;
+        pkCardNormals = kLeafGeom.m_pkNormals;
+        pkVertex = new NiPoint3[usVertCount];
+        pkNorm = new NiPoint3[usVertCount];
+        pkUVCoords = new NiPoint2[usVertCount];
+        pkAttributes = new FUN_00414430[usVertCount];
+        pusTris = (unsigned short*)NiMalloc(usLeafCount * 6 * sizeof(unsigned short));
+        pusIndex = pusTris;
+
+        for (usCard = 0; usCard < usLeafCount; usCard++)
+        {
+            usBaseVert = usCard * 4;
+            usBaseIndex = usCard * 6;
+            pkVertex[usBaseVert + 3] = pkSrcPos[usCard];
+            pkVertex[usBaseVert + 2] = pkVertex[usBaseVert + 3];
+            pkVertex[usBaseVert + 1] = pkVertex[usBaseVert + 2];
+            pkVertex[usBaseVert] = pkVertex[usBaseVert + 1];
+            pkNorm[usBaseVert + 3] = pkCardNormals[usCard];
+            pkNorm[usBaseVert + 2] = pkNorm[usBaseVert + 3];
+            pkNorm[usBaseVert + 1] = pkNorm[usBaseVert + 2];
+            pkNorm[usBaseVert] = pkNorm[usBaseVert + 1];
+
+            fLightness = ((kLeafGeom.m_puiColors[usCard] & 0xff00) >> 8) / 255.0;
+            if (fLightness >= 1.0)
+                fLightness = 0.99f;
+
+            pfCoords = kLeafGeom.m_ppfTexCoords[usCard];
+            for (usCornerIndex = 0; usCornerIndex < 4; usCornerIndex++)
+            {
+                if (bMultiTexture)
+                    pkUVCoords[usBaseVert + usCornerIndex] =
+                        NiPoint2(pfCoords[usCornerIndex * 2], pfCoords[(3 - usCornerIndex) * 2 + 1]);
+                else
+                    pkUVCoords[usBaseVert + usCornerIndex] =
+                        NiPoint2(pfCoords[usCornerIndex * 2], pfCoords[usCornerIndex * 2 + 1]);
+
+                fCorner = kLeafGeom.m_pucAngleIndices[usCard] * 4 + (usCornerIndex + 2) % 4;
+                fCorner += fLightness;
+                pkAttributes[usBaseVert + usCornerIndex] =
+                    FUN_00414430(kLeafGeom.m_pfWidths[usCard], kLeafGeom.m_pucSizes[usCard] * 4, fCorner,
+                                 m_pLeafTreeRuntime->FUN_00b0cb10()[usI]);
+            }
+
+            pusIndex[usBaseIndex] = usBaseVert + 3;
+            pusIndex[usBaseIndex + 1] = usBaseVert + 1;
+            pusIndex[usBaseIndex + 2] = usBaseVert + 2;
+            pusIndex[usBaseIndex + 3] = usBaseVert;
+            pusIndex[usBaseIndex + 4] = usBaseVert + 1;
+            pusIndex[usBaseIndex + 5] = usBaseVert + 3;
+        }
+
+        m_pspLeafGeometry[usI] =
+            new FUN_00a7b630(usVertCount, pkVertex, pkNorm, 0, pkUVCoords, 1, 0, usLeafCount * 2, pusTris);
+        spWindData = new FUN_00bb33c0;
+        ((FUN_006684d0_shell*)(NiAVObject*)spWindData)->FUN_006684d0((int)pkAttributes, usVertCount);
+        m_pspLeafShaders[usI] = new FUN_00bb3ba0(usI, spWindData, m_spLeafMaterial);
+        m_pspLeafShaders[usI]->SetMaterial(m_spLeafTexture);
+        ((NiGPUProgramOwner*)(NiAVObject*)m_pspLeafGeometry[usI])->SetProgram(m_pspLeafShaders[usI]->GetProgram(0));
+        ((NiAVObject*)m_pspLeafGeometry[usI])->FUN_00a67050(0x4000);
+        ((NiAVObject*)m_pspLeafGeometry[usI])->SetByteAtOffset38(0x11);
+        ((NiAVObject*)m_pspLeafGeometry[usI])->FUN_004410f0(1);
+    }
+
+    m_pLeafTreeRuntime->FUN_00b088b0();
+}
+}  // namespace fnv_00668500
+
+struct TreeEval
+{
+    TreeEval()
+    {
+        FUN_00b029f0();
+    }
+    ~TreeEval()
+    {
+        FUN_00b02ac0();
+    }
+    void FUN_00b029f0();
+    void FUN_00b02ac0();
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    float leafScale;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned char leftEnabled, leftU79, leftU7a, leftU7b;
+    float leftAlpha;
+    int leftLevel;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned char rightEnabled, rightUb5, rightUb6, rightUb7;
+    float rightAlpha;
+    int rightLevel;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned char opacityEnabled, opacityF1, opacityF2, opacityF3;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    float opacity;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+};
+struct RuntimeOps
+{
+    void FUN_00b065e0(float, float, float);
+    void FUN_00b08480(float);
+    void FUN_00b08200();
+    float FUN_00b08440();
+    short GetIndexFromLevel(float);
+    void FUN_00b0ad00(TreeEval*, float);
+    RuntimeOps* FUN_00b051e0();
+    RuntimeOps* FUN_00b08af0(void*);
+};
+struct SceneNode
+{
+    void FUN_00bb39e0(void*, void*);
+};
+struct NodeHandle
+{
+    SceneNode* FUN_00559450();
+};
+struct TreeCallback
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual int IsReady();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void SetLeafEnabled(unsigned char);
+    virtual void SetBranchEnabled(unsigned char);
+    virtual void SetTopEnabled(unsigned char);
+    virtual void SetLeafLod(unsigned short, unsigned char);
+    virtual void SetBranchLod(unsigned short, unsigned char);
+    virtual void SetTopAlpha(unsigned char);
+    Point3X* FUN_0045bb80();
+};
+unsigned char __cdecl FUN_0054ee20();
+unsigned char __cdecl FUN_005b9790();
+struct TreeActor
+{
+    int unk00, unk04, unk08;
+    RuntimeOps* runtime;
+    int unk10, unk14, unk18, unk1c;
+    NodeHandle handle;
+    short FUN_00669990();
+    short FUN_006699d0();
+    void UpdateTreeLod(TreeCallback*);
+};
+// Evaluates tree fade/LOD state and pushes top alpha, leaf and branch LOD levels to the receiver callback.
+// @fnv 0x00669a10
+void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
+{
+    TreeEval info;
+    float fade;
+    unsigned char visible;
+    short leaf;
+    {
+        Point3X worldPos;
+        void* pNode = 0;
+        short levelCount;
+        if (!pCallback || !pCallback->IsReady())
+            return;
+        if (!runtime)
+            return;
+        if (!FUN_0054ee20())
+            return;
+        worldPos = *pCallback->FUN_0045bb80();
+        runtime->FUN_00b065e0(worldPos.x, worldPos.y, worldPos.z);
+
+        if (GetByteAtOffset1B())
+        {
+            runtime->FUN_00b08480(1.0f);
+            fade = 1.0f;
+        }
+        else
+        {
+            runtime->FUN_00b08200();
+            fade = runtime->FUN_00b08440();
+        }
+        runtime->FUN_00b0ad00(&info, fade);
+        visible = 0;
+        if (info.opacityEnabled)
+        {
+            visible = 1;
+            pCallback->SetTopAlpha((unsigned char)info.opacity);
+        }
+        pCallback->SetTopEnabled(visible);
+        if (fade <= 0.0f)
+        {
+            pCallback->SetLeafEnabled(0);
+            pCallback->SetBranchEnabled(0);
+            return;
+        }
+        visible = 0;
+        levelCount = FUN_00669990();
+        if (levelCount > 0)
+        {
+            short preferred = runtime->GetIndexFromLevel(runtime->FUN_00b08440());
+            for (leaf = 0; leaf < levelCount; ++leaf)
+            {
+                if (preferred == leaf)
+                {
+                    visible = 1;
+                    pCallback->SetLeafLod(leaf, (unsigned char)info.leafScale);
+                }
+                else
+                {
+                    pCallback->SetLeafLod(leaf, 255);
+                }
+            }
+        }
+        pCallback->SetLeafEnabled(visible);
+        if (!FUN_005b9790())
+        {
+            pCallback->SetBranchEnabled(0);
+            return;
+        }
+        visible = 0;
+        levelCount = FUN_006699d0();
+        if (levelCount > 0)
+        {
+            if (info.leftEnabled || info.rightEnabled)
+            {
+                for (leaf = 0; leaf < levelCount; ++leaf)
+                {
+                    if (info.leftEnabled && info.leftLevel == leaf)
+                    {
+                        visible = 1;
+                        pCallback->SetBranchLod(leaf, (unsigned char)info.leftAlpha);
+                    }
+                    else if (info.rightEnabled && info.rightLevel == leaf)
+                    {
+                        visible = 1;
+                        pCallback->SetBranchLod(leaf, (unsigned char)info.rightAlpha);
+                    }
+                    else
+                    {
+                        pCallback->SetBranchLod(leaf, 255);
+                    }
+                }
+            }
+            if (handle.FUN_00559450())
+            {
+                void* lightPtr = runtime->FUN_00b051e0() ? runtime->FUN_00b051e0()->FUN_00b08af0(&pNode)
+                                                         : runtime->FUN_00b08af0(&pNode);
+                handle.FUN_00559450()->FUN_00bb39e0(lightPtr, pNode);
+            }
+        }
+        pCallback->SetBranchEnabled(visible);
+    }
+}

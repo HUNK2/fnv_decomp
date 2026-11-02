@@ -1,0 +1,215 @@
+
+// src/havok/common/base/reflection/hkclassupdate.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassupdate.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct Allocator;
+struct BSAudio
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    Allocator* allocator;
+};
+BSAudio* FUN_00c85750();
+struct TypeNode;
+struct VisitMap
+{
+    unsigned int LookupHashEntry(TypeNode*, int);
+    void FUN_00cb1870(Allocator*, TypeNode*, unsigned int);
+};
+struct Member
+{
+    void* type;
+    TypeNode* FUN_00d86920();
+};
+struct TypeNode
+{
+    TypeNode* FUN_00d46d60();
+    int FUN_00d46f70();
+    Member* FUN_00d46f80(int);
+};
+// Walks a type node and its members, skipping nodes whose visited flags intersect mask, marking them visited, and invoking callback on each member.
+// @fnv 0x00e04af0
+void __cdecl VisitTypeMembers(TypeNode* node, VisitMap* visited, unsigned int mask, void(__cdecl* callback)(Member*))
+{
+    for (;;)
+    {
+        unsigned int flags = visited->LookupHashEntry(node, 0);
+        if (mask & flags)
+            return;
+        BSAudio* audio = FUN_00c85750();
+        visited->FUN_00cb1870(audio->allocator, node, flags | mask);
+        for (int i = 0; i < node->FUN_00d46f70(); ++i)
+        {
+            Member* member = node->FUN_00d46f80(i);
+            TypeNode* child = member->FUN_00d86920();
+            if (child)
+                VisitTypeMembers(child, visited, mask, callback);
+            callback(member);
+        }
+        if (!node->FUN_00d46d60())
+            return;
+        node = node->FUN_00d46d60();
+    }
+}
+
+namespace fnv_00e04bb0 {
+struct Allocator;
+struct BSAudio
+{
+    int unk00, unk04, unk08, unk0C;
+    Allocator* allocator;
+};
+BSAudio* FUN_00c85750();
+struct TypeNode;
+struct VisitMap
+{
+    unsigned int LookupHashEntry(TypeNode*, int);
+    void FUN_00cb1870(Allocator*, TypeNode*, unsigned int);
+};
+struct Member
+{
+    int unk00;
+    void* type;
+    TypeNode* FUN_00d86910();
+};
+struct TypeNode
+{
+    TypeNode* FUN_00d46d60();
+    int FUN_00d46f70();
+    Member* FUN_00d46f80(int);
+};
+struct Property
+{
+    int unk00, unk04, unk08, unk0C;
+    short unk10;
+    unsigned short offset;
+};
+struct Registry
+{
+    Property* FUN_00d46fe0(const char*);
+};
+extern Registry DAT_0126ed90;
+extern char DAT_010ea4cc[], DAT_010e5210[];
+// Marks a type node as visited, resets an offset field up the ancestor chain, bumps a count, then recurses into member types and the parent node.
+// @fnv 0x00e04bb0
+void VisitTypeNode(TypeNode* node, VisitMap* visited)
+{
+    unsigned int flags = visited->LookupHashEntry(node, 0);
+    if (!(flags & 1))
+    {
+        BSAudio* audio = FUN_00c85750();
+        visited->FUN_00cb1870(audio->allocator, node, flags | 1);
+        unsigned int offset = DAT_0126ed90.FUN_00d46fe0(DAT_010ea4cc)->offset;
+        TypeNode* ancestor = node;
+        while (ancestor->FUN_00d46d60())
+        {
+            *reinterpret_cast<int*>(reinterpret_cast<char*>(ancestor) + offset) = 0;
+            ancestor = ancestor->FUN_00d46d60();
+        }
+        if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(ancestor) + offset))
+        {
+            unsigned int countOffset = DAT_0126ed90.FUN_00d46fe0(DAT_010e5210)->offset;
+            ++*reinterpret_cast<int*>(reinterpret_cast<char*>(ancestor) + countOffset);
+        }
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(ancestor) + offset) = 0;
+        for (int i = 0; i < node->FUN_00d46f70(); ++i)
+        {
+            Member* member = node->FUN_00d46f80(i);
+            if (member->type)
+                VisitTypeNode(member->FUN_00d86910(), visited);
+        }
+        if (node->FUN_00d46d60())
+            VisitTypeNode(node->FUN_00d46d60(), visited);
+    }
+}
+}  // namespace fnv_00e04bb0
+
+void __cdecl VisitTypeNode(void* registry, void* context);
+void __cdecl VisitTypeMembers(void* registry, void* context, int size, void(__cdecl* func)(void*));
+void __cdecl FUN_00e04a60(void* data);
+void __cdecl UpdateStateFlags(void* data);
+
+extern void* g_E04D30Last;
+
+// Stand-in for the file-static FUN_00e04cc0: its body here is a placeholder; only its
+// existence as a static function (which MSVC calls with the argument in eax) matters.
+static __declspec(noinline) void E04D30Finish(void* registry)
+{
+    g_E04D30Last = registry;
+}
+
+// Registers context handlers by level: at level 1 runs VisitTypeNode and records registry, and below 4/5 registers size-2 and size-8 handlers.
+// @fnv 0x00e04d30
+void __cdecl RegisterContextHandlers(void* registry, void* context, int level)
+{
+    if (level == 1)
+    {
+        VisitTypeNode(registry, context);
+        E04D30Finish(registry);
+    }
+    if (level < 4)
+        VisitTypeMembers(registry, context, 2, FUN_00e04a60);
+    if (level < 5)
+        VisitTypeMembers(registry, context, 8, UpdateStateFlags);
+}
+
+struct TraverseNode
+{
+    const char* FUN_00d46d40();
+    char* FUN_00d46f80(int index) const;
+};
+struct TypeDefinition
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    unsigned short unk10;
+    unsigned short fieldOffset;
+};
+struct TypeRegistry
+{
+    TypeDefinition* FUN_00d46f20(int index);
+};
+extern TypeRegistry DAT_0126ca58;
+extern const char DAT_010d27bc[];
+int __cdecl FUN_00cb0fa0(const char*, const char*);
+
+// Marks the node visited and, when its name matches DAT_010d27bc, writes 0x19 at the selected member offset.
+// @fnv 0x00e04cc0
+static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitMap* visited)
+{
+    unsigned int flags = visited->LookupHashEntry(reinterpret_cast<TypeNode*>(node), 0);
+    if ((flags & 4) == 0)
+    {
+        BSAudio* audio = FUN_00c85750();
+        visited->FUN_00cb1870(audio->allocator, reinterpret_cast<TypeNode*>(node), flags | 4);
+        if (FUN_00cb0fa0(node->FUN_00d46d40(), DAT_010d27bc) == 0)
+        {
+            char* member = node->FUN_00d46f80(2);
+            TypeDefinition* type = DAT_0126ca58.FUN_00d46f20(4);
+            member[type->fieldOffset] = 0x19;
+        }
+    }
+}
+
+void CallTraversal(TraverseNode* node, VisitMap* visited)
+{
+    FUN_00e04cc0(node, visited);
+}
+
+struct ParentNodeView : TypeNode
+{
+    const char* name;
+    TypeNode* parent;
+
+    TypeNode* FUN_00d46d60();
+};
+
+// @fnv 0x00d46d60
+TypeNode* ParentNodeView::FUN_00d46d60()
+{
+    return parent;
+}

@@ -1,0 +1,141 @@
+
+// src/havok/common/serialize/serialize/hkrelocationinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/hkrelocationinfo.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct S_00e028e0_Alloc
+{
+    virtual void unk0();
+    virtual void unk4();
+    virtual void ReleaseBlock(void* p, int n);
+    virtual void unkc();
+    virtual void ReturnMemory(void* p, int n);
+};
+struct S_00e028e0_Router
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkc;
+    S_00e028e0_Alloc* m_pStreamAllocator;
+    static S_00e028e0_Router& FUN_00c85750();
+    S_00e028e0_Alloc& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+struct S_00e028e0_Base
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkc;
+    ~S_00e028e0_Base() throw();
+};
+struct S_00e028e0_Obj : S_00e028e0_Base
+{
+    void FUN_00e029d0() throw();
+    ~S_00e028e0_Obj() throw()
+    {
+        FUN_00e029d0();
+    }
+    void operator delete(void* p, unsigned int n)
+    {
+        S_00e028e0_Router::FUN_00c85750().heap().ReleaseBlock(p, n);
+    }
+};
+
+template <typename T> struct S_00e028e0_Array
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline void _clearAndDeallocate(S_00e028e0_Alloc& a) throw()
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline ~S_00e028e0_Array() throw()
+    {
+        _clearAndDeallocate(S_00e028e0_Router::FUN_00c85750().heap());
+    }
+};
+
+struct S_00e028e0_8
+{
+    int unk0;
+    int unk4;
+};
+struct S_00e028e0_16
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkc;
+};
+
+struct FUN_00e028e0
+{
+    S_00e028e0_Array<S_00e028e0_8> m_a0;
+    S_00e028e0_Array<S_00e028e0_16> m_ac;
+    S_00e028e0_Array<S_00e028e0_8> m_a18;
+    S_00e028e0_Array<S_00e028e0_8> m_a24;
+    S_00e028e0_Obj* m_obj;
+    ~FUN_00e028e0() throw();
+};
+
+// Destructor that deletes the owned m_obj object; the array members are destroyed automatically afterwards.
+// @fnv 0x00e028e0
+FUN_00e028e0::~FUN_00e028e0() throw()
+{
+    delete m_obj;
+}
+
+struct AllocHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int m_10;
+};
+
+struct FUN_00e029d0_cls
+{
+    unsigned int FUN_00d87410();
+    unsigned int GetEntry(unsigned int a1);
+    unsigned int FindNextUsedSlot(unsigned int a1);
+    void SetBoolFromThreshold(unsigned char* apFlag, unsigned int a1);
+    unsigned int ClearEntries();
+
+    unsigned int FUN_00e029d0();
+};
+
+AllocHolder* FUN_00c85750();
+void CallSwappedArgs(unsigned int a1, int a2);
+
+// Iterates handles from FUN_00d87410, passing each item with the holder's m_10 to CallSwappedArgs, then returns ClearEntries().
+// @fnv 0x00e029d0
+unsigned int FUN_00e029d0_cls::FUN_00e029d0()
+{
+    unsigned int handle = FUN_00d87410();
+    {
+        unsigned char flag;
+        SetBoolFromThreshold(&flag, handle);
+        if (flag != 0)
+        {
+            do
+            {
+                unsigned int item = GetEntry(handle);
+                AllocHolder* pAllocHolder = FUN_00c85750();
+                CallSwappedArgs(item, pAllocHolder->m_10);
+                handle = FindNextUsedSlot(handle);
+                SetBoolFromThreshold(&flag, handle);
+            } while (flag != 0);
+        }
+    }
+    return ClearEntries();
+}

@@ -1,0 +1,935 @@
+
+// src/unmapped/bssimplearray_ob1_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/unmapped/bssimplearray.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+extern int DAT_0106b8a0;
+struct FUN_006cf9d0
+{
+    int* vfptr;
+    void FUN_009a3d00(unsigned int maxSize, unsigned int growBy);
+    FUN_006cf9d0(unsigned int maxSize, unsigned int growBy);
+};
+extern int DAT_0106b91c;
+struct FUN_006cf180
+{
+    void* vfptr;
+    void ResizeAndConstruct(int a, int b);
+    FUN_006cf180();
+};
+struct FUN_006cf250_Class
+{
+    void* __thiscall AllocateBuffer(unsigned int count);
+};
+extern "C" void* __cdecl _Reallocate(void* p, unsigned int size);
+struct FUN_006cf280_Class
+{
+    void* __thiscall FUN_006cf280(void* p, unsigned int n);
+};
+bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
+extern int DAT_0106b8c8;
+struct Dummy_0061bf20
+{
+    void FUN_006b3f40(int, int);
+};
+struct FUN_006cf9a0 : Dummy_0061bf20
+{
+    int* vfptr;
+    FUN_006cf9a0(int maxSize, int growBy);
+};
+extern int DAT_0106c9e0;
+struct GlobalObject_00869f00
+{
+    void Clear(bool);
+};
+struct FUN_006cfaa0
+{
+    int* vfptr;
+    void FUN_006cfaa0_();
+};
+struct FUN_006e91e0_cls
+{
+    void* __thiscall AllocateBlock(int count);
+};
+void* __cdecl _Reallocate(void* p, unsigned int size);
+struct FUN_006e9210
+{
+    void Reallocate(void* p, unsigned int size);
+};
+extern int DAT_0106d4e8;
+struct FUN_006e9230_class
+{
+    int* vfptr;
+    void FUN_006e97a0(int a, int b);
+    FUN_006e9230_class();
+};
+extern int DAT_0106d4e8;
+struct PSNodeStub
+{
+    int* vfptr;
+    void FUN_006cf120(bool);
+};
+struct FUN_006e9260Class : PSNodeStub
+{
+    void FUN_006e9260();
+};
+struct BSSimpleArray_006e93c0
+{
+    void* AllocateElements(int count);
+};
+void* __cdecl Reallocate(void* p, int size);
+struct FUN_006e93f0
+{
+    void* __thiscall FUN_006e93f0_(void* p, int n);
+};
+struct NiPoint3
+{
+    float x, y, z;
+    bool FUN_004390c0(const NiPoint3& a);
+};
+struct FUN_00692290_class
+{
+    void FUN_005ef650(unsigned int count, unsigned int growBy);
+};
+struct FUN_00691820_arr
+{
+    int m0;
+    unsigned short* pBuffer;
+    unsigned int GetNextPosition();
+    unsigned int Append(const unsigned short* aValue);
+};
+struct NavMeshSearchLOSArray
+{
+    void FUN_006a8500();
+};
+struct PacketNodeRecord
+{
+    void FUN_006a8500();
+};
+struct BSSimpleArray_006cefa0
+{
+    void* vfptr;
+    PacketNodeRecord* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+    void ReleaseElements(PacketNodeRecord* pItems, unsigned int ItemUpdateArray);
+    void FreeArray(bool abFreeMemory);
+};
+struct PathingLocation
+{
+    PathingLocation& operator=(const PathingLocation&);
+};
+struct PathingLocationArray
+{
+    void* m_pBase;
+    void* m_pItems;
+    unsigned int m_uiCount;
+    void ConstructItems(PathingLocation* pItems, unsigned int ItemUpdateArray);
+    unsigned int AppendSlot();
+    unsigned int FUN_006cf1b0(const PathingLocation& aValue);
+};
+struct PathBuilderDetailedPathInfos
+{
+    int* vfptr;
+    void Clear(bool);
+    virtual ~PathBuilderDetailedPathInfos();
+};
+struct FUN_006cf340 : PathBuilderDetailedPathInfos
+{
+    virtual ~FUN_006cf340();
+};
+struct _Mem_20a4
+{
+    void* vfptr;
+    int m_04;
+    _Mem_20a4(int, int, int);
+    virtual ~_Mem_20a4();
+};
+struct FUN_006cf440 : _Mem_20a4
+{
+    int m_08;
+    virtual ~FUN_006cf440();
+};
+struct ParentSpaceNode
+{
+    bool m_bIsWorldspace;
+    void* m_pContainingWorldspace;
+    void* m_pReferenceCell;
+};
+struct ArrHelper
+{
+    void __thiscall ConstructParentSpaceNodes(ParentSpaceNode* p, unsigned int count);
+};
+struct S5460
+{
+    unsigned int __thiscall FUN_00978bc0();
+};
+struct FUN_006cf4c0_Array
+{
+    ParentSpaceNode* pDummy;
+    ParentSpaceNode* pBuffer;
+    unsigned int iSize;
+    unsigned int FUN_006cf4c0(const ParentSpaceNode& aValue);
+};
+extern int DAT_0106c990;
+struct FUN_0069b1d0
+{
+    virtual ~FUN_0069b1d0();
+    void Clear(bool);
+};
+struct FUN_006cf610 : FUN_0069b1d0
+{
+    ~FUN_006cf610();
+};
+struct ScrapHeapBuffer
+{
+    void* Allocate(unsigned int, unsigned int);
+    void Deallocate(void*);
+};
+struct ArrSI
+{
+    unsigned int GetFlags();
+};
+extern unsigned int DAT_010a2720;
+void* __cdecl __memcpy(void* dst, const void* src, unsigned int size);
+struct FUN_006cf6a0_Class
+{
+    void* __thiscall CopyAndFreeBuffer(void* src, unsigned int size);
+};
+void __cdecl Deallocate(void* p);
+struct FUN_006cf230_Class
+{
+    void* __thiscall FUN_006cf230();
+};
+struct FUN_006cfc80_Class
+{
+    void* __thiscall FUN_006cfc80(unsigned int flags);
+};
+void __cdecl Deallocate(void* p);
+struct FUN_006cf340_Class
+{
+    void* __thiscall FUN_006cf340();
+};
+struct FUN_006cfcb0_Class
+{
+    void* __thiscall FUN_006cfcb0(unsigned int flags);
+};
+void __cdecl operator delete(void* p);
+struct FUN_006cfd40_Class
+{
+    void __thiscall FUN_006cf610();
+    void* __thiscall FUN_006cfd40(unsigned int flags);
+};
+struct FUN_006e9410_shell
+{
+    void FUN_006e90a0(int a, int b);
+    void* FUN_006e8f40(int a, void* b);
+};
+struct FUN_006e9530_shell
+{
+    void FUN_006e9530();
+};
+struct FUN_006e9410_class
+{
+    void __thiscall FUN_006e9410(void* arg);
+};
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+struct FUN_006dc6e0_Class
+{
+    void __thiscall FUN_006dc6e0(char* a, char* b, unsigned int count);
+};
+struct FUN_006cf820
+{
+    virtual ~FUN_006cf820();
+};
+struct FUN_006cf840 : FUN_006cf820
+{
+    virtual ~FUN_006cf840();
+};
+struct TypeValueCount
+{
+    int a;
+    float b;
+};
+struct FUN_006c8a30_Class
+{
+    void FUN_006a8500();
+};
+struct FUN_006dc590
+{
+    int* vfptr;
+    TypeValueCount* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+    void __thiscall FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
+};
+struct FUN_0072ba80_shell
+{
+    void FUN_0072ba80(char* dst, unsigned int count);
+};
+struct FUN_006f9eb0_class
+{
+    void FUN_006f9eb0(unsigned int newSize, int oldSize);
+};
+struct FUN_006f9790_class
+{
+    void* vfptr;
+    char* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+    void FUN_006f9790(unsigned int aiReserveSize);
+};
+struct FUN_006e1280_Class
+{
+    void FUN_006e1280(char* p, unsigned int n);
+};
+struct FUN_006cf520_Class
+{
+    int __thiscall FUN_006cf520(const unsigned char* aValue);
+};
+struct FUN_006d0450_Class
+{
+    int __thiscall GetNextIndex();
+};
+struct BSSimpleArrayActor
+{
+    virtual ~BSSimpleArrayActor();
+    virtual unsigned short* Allocate(unsigned int count);
+
+    unsigned short* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void Clear(bool abFreeMemory);
+    void FUN_005eee80(unsigned int aiNewSize, bool abFreeMemory);
+};
+struct FUN_005ef6a0Class
+{
+    void __thiscall SetOrReplace(unsigned int newSize, int oldSize);
+};
+void* __cdecl operator new(unsigned int, void*);
+struct EightByteData
+{
+    unsigned char m_data[8];
+};
+struct NavMeshEdgeReference
+{
+    EightByteData m_triHandle;
+    int m_iEdgeIndex;
+};
+struct FUN_006f3170_Class
+{
+    bool FUN_006f3170();
+};
+struct FUN_00869600_Class
+{
+    unsigned int FUN_00869600();
+};
+struct FUN_0061bf70_Class
+{
+    virtual void FUN_0061bf70_vtable0();
+    virtual NavMeshEdgeReference* FUN_0061bf70_alloc(unsigned int count);
+
+    NavMeshEdgeReference* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void FUN_0061bf70(unsigned int aiIndex, bool abShrink);
+};
+extern int DAT_0106c954;
+struct FUN_006d0310_Class
+{
+    void FUN_006d0310(unsigned int, unsigned int);
+};
+struct FUN_006cf200
+{
+    int* vfptr;
+    FUN_006cf200();
+};
+struct BSScrapArray
+{
+    void* vfptr;
+    void* field04;
+    void* field08;
+    void* field0c;
+    ScrapHeapBuffer* m_pPoolBase;
+    void* __thiscall FUN_006cf670(unsigned int size);
+};
+struct EH
+{
+    int m_00;
+    int m_04;
+    int m_08;
+
+    EH& operator=(const EH&);
+};
+struct FUN_006cf900_Class : EH
+{
+    struct Location
+    {
+        int m_00;
+        int m_04;
+        int m_08;
+    } m_Location;
+
+    FUN_006cf900_Class& FUN_006cf900(const FUN_006cf900_Class* aLocation);
+};
+struct PSClearStub
+{
+    void __thiscall Clear(bool abFreeMemory);
+};
+struct SaveGameSizeState
+{
+    void __thiscall FUN_006e95d0(unsigned int pBuffer, unsigned int ItemUpdateArray);
+};
+struct S5460Helper
+{
+    void __thiscall FUN_006cfe70(unsigned int aiNewSize, unsigned int uiOldSize);
+};
+struct FUN_006e90a0_class
+{
+    virtual ~FUN_006e90a0_class();
+    virtual PacketNodeRecord* Allocate(unsigned int size);
+
+    PacketNodeRecord* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory);
+};
+struct FUN_006e9080
+{
+    virtual ~FUN_006e9080();
+};
+struct FUN_006e94d0 : FUN_006e9080
+{
+    void* FUN_006e94d0_006e94d0(unsigned int flags);
+};
+struct FUN_0042fb60_shell
+{
+    void __thiscall FUN_0042fb60(char* dst, char* src, unsigned int count);
+};
+struct FUN_006bf8f0_Class
+{
+    virtual void FUN_006bf8f0_slot0() = 0;
+    virtual char* FUN_006bf8f0_reallocate(unsigned int size) = 0;
+
+    char* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void __thiscall FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
+};
+class PathingGraphNode
+{
+    unsigned char m_data[0x3c];
+};
+template <class T, unsigned int Capacity> struct BSSimpleArray
+{
+    void ReleaseElements(T* pItems, unsigned int ItemUpdateArray);
+};
+struct FUN_006a2270_class
+{
+    void FUN_006a2270(char* pDest, char* pSource, unsigned int ItemUpdateArray);
+};
+struct FUN_006cf000_Class
+{
+    virtual void FUN_006cf000_Dummy() = 0;
+    virtual PathingGraphNode* FUN_006cf000_Reallocate(unsigned int uiSize) = 0;
+
+    PathingGraphNode* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void RemoveAt(unsigned int uiIndex, bool bCondition);
+};
+struct PathingAvoidanceNode
+{
+    NiPoint3 m_kLocation;
+    NiPoint3 TwoComponentVector;
+    char Padding[12];
+};
+struct S5460_FUN_006e3d30_Helper
+{
+    void* __thiscall FUN_006e3d30(unsigned int newSize, unsigned int oldSize);
+};
+struct BSSimpleArray_PathingAvoidNode_1024
+{
+    virtual void* Dummy();
+    virtual void* Allocate(unsigned int newSize);
+
+    PathingAvoidanceNode* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void InitializeItems(PathingAvoidanceNode* pItems, unsigned int ItemUpdateArray);
+    void SetSize(unsigned int aiNewSize, bool abFreeMemory);
+};
+struct FUN_009f6540_Helper
+{
+    void __thiscall FUN_009f6540(unsigned int, unsigned int);
+};
+struct Host9f6340
+{
+    void __thiscall FUN_009f6460(int, int);
+};
+struct FUN_009f6200_Class
+{
+    virtual void FUN_009f6200_v0();
+    virtual void* FUN_009f6200_v1(unsigned int);
+
+    char* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
+
+    void FUN_009f6200(unsigned int aiNewSize, bool abFreeMemory);
+};
+struct FUN_0069cfe0_Elem
+{
+    unsigned int m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+};
+struct FUN_0069cfe0_Dst
+{
+    void FUN_0069cea0(unsigned int count, int flag);
+    FUN_0069cfe0_Elem* FUN_006a1440(unsigned int index);
+};
+struct FUN_0069cfe0_cls
+{
+    int m_00;
+    FUN_0069cfe0_Elem* m_04;
+    unsigned int m_08;
+
+    void CopyElementsTo(FUN_0069cfe0_Dst* dst);
+};
+struct FUN_005e0510
+{
+    void* m_vftable;
+    unsigned int m_uiItemCount;
+    unsigned int m_pRayCursor;
+    unsigned int m_flags;
+    FUN_005e0510();
+    ~FUN_005e0510();
+};
+extern int DAT_0106c968;
+struct HeapProvider
+{
+    void* FUN_00aa42e0();
+};
+HeapProvider* __cdecl FUN_00401020();
+struct FUN_006cf2a0 : FUN_005e0510
+{
+    void* m_pStreamAllocator;
+    FUN_006cf2a0(int first, int second, void* heap);
+    void FUN_006b3eb0(int first, int second);
+};
+struct FUN_006cf700_cls
+{
+    int m_00;
+    int m_04;
+    unsigned int m_08;
+    int FindIndexIf(int a, unsigned int start, bool (*pred)(int, int));
+};
+struct ItemRaw
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+};
+struct ParamHost
+{
+    void Prepare(unsigned int count, int flags);
+    void* ProcessItem(unsigned int index, ItemRaw* item);
+};
+struct ItemFinish
+{
+    void FUN_006cf900();
+};
+struct FUN_006cf8a0_cls
+{
+    int unk00;
+    ItemRaw* pItems;
+    unsigned int iCount;
+
+    void ProcessItems(ParamHost* p);
+};
+struct FUN_006cf940_Item
+{
+    void FUN_006dcce0();
+};
+struct FUN_006cf940_Owner
+{
+    void FUN_006cff60(unsigned int count, int flag);
+    FUN_006cf940_Item* FUN_00691750(unsigned int index, char* pItem);
+};
+struct FUN_006cf940_cls
+{
+    int unk00;
+    char* m_04;
+    unsigned int m_08;
+
+    void FUN_006cf940(FUN_006cf940_Owner* a1);
+};
+struct FUN_006cfac0_base
+{
+    int* vfptr;
+    virtual ~FUN_006cfac0_base();
+};
+struct FUN_006cfac0_cls : FUN_006cfac0_base
+{
+    virtual ~FUN_006cfac0_cls();
+    void FUN_008454f0(int flag);
+};
+struct FUN_006d0540_shell
+{
+    virtual void vf00();
+    virtual void* vf04(int value);
+    virtual void vf08();
+    virtual void* vf0c(void* current, int value);
+
+    void* unk04;
+    int unk08;
+    int unk0c;
+
+    void __thiscall FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
+    void __thiscall FUN_006a8500();
+};
+struct FUN_006cfe70_Class : public FUN_006d0540_shell
+{
+    void __thiscall FUN_006cfe70(int value, int count);
+};
+void* __cdecl operator new(unsigned int size, void* place);
+void __cdecl operator delete(void* p, void* place);
+struct SpawnedObject9
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+
+    SpawnedObject9();
+};
+struct FUN_006e3c90_cls
+{
+    void ConstructSpawnedObjects(char* base, unsigned int count);
+};
+struct FUN_006e9470_Helper
+{
+    void FUN_006e9280(unsigned int count, int flag);
+    void* FUN_006e8f80(int index, void* item);
+};
+struct FUN_006e9470_Obj
+{
+    void FUN_006e9570();
+};
+struct FUN_006e9470_cls
+{
+    int m_00;
+    char* m_04;
+    unsigned int m_08;
+
+    void FUN_006e9470(FUN_006e9470_Helper* pHelper);
+};
+struct S_00a0d000_Class
+{
+    virtual unsigned int FUN_00a0d000();
+    virtual void* FUN_00a0d010(unsigned int size);
+
+    void* pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiReservedSize;
+
+    void FUN_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
+};
+struct FUN_006cf230
+{
+    virtual ~FUN_006cf230();
+    void Clear(bool abFree);
+};
+class Allocator6CF;
+class MemoryManager6CF
+{
+  public:
+    Allocator6CF* GetDefaultAllocator();
+};
+MemoryManager6CF* __cdecl GetMemoryManager6CF();
+class ContainerBase6CF
+{
+  public:
+    ContainerBase6CF();
+    virtual ~ContainerBase6CF();
+
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+class FUN_006cf780_Pool : public ContainerBase6CF
+{
+  public:
+    FUN_006cf780_Pool(int iCapacity, int iGrowBy, Allocator6CF* pkAllocator);
+    virtual ~FUN_006cf780_Pool();
+
+    void Initialize(int iCapacity, int iGrowBy);
+
+    Allocator6CF* m_pHeapAllocator;
+};
+// Destructor: clear the detailed path infos; the base list is destroyed afterwards.
+class CFBC0Base
+{
+  public:
+    virtual ~CFBC0Base();
+    int unk04;
+};
+class FUN_006cfbc0 : public CFBC0Base
+{
+  public:
+    virtual ~FUN_006cfbc0();
+    void Clear(bool bFree);
+};
+struct FUN_006e9280_Item
+{
+    char data[0x3c];
+};
+struct FUN_006e9280_shell
+{
+    virtual void Unk_00();
+    virtual FUN_006e9280_Item* Allocate(unsigned int ItemUpdateArray);
+    FUN_006e9280_Item* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
+    void FUN_006a21c0(unsigned int uiNewAlloc, unsigned int uiCopy);
+    void ConstructArray(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
+    void FUN_006cff20(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
+    void FUN_006e9280(unsigned int uiNewSize, bool bShrink);
+};
+
+struct ArrayStub
+{
+    virtual void vf0()
+    {}
+    virtual void* vf1(void* value)
+    {
+        return value;
+    }
+    virtual void vf2(void* value)
+    {}
+    virtual void* vf3(void* first, void* second)
+    {
+        return first;
+    }
+
+    void* unk04;
+    unsigned int unk08;
+    void* unk0C;
+
+    void FUN_00a0cf60(char* dest, char* src, unsigned int count)
+    {
+        if (count == 0)
+            return;
+        if (dest < src)
+        {
+            for (unsigned int i = 0; i < count; i++)
+                copyOne(dest + i * 4, src + i * 4);
+        }
+        else if (dest > src)
+        {
+            for (int j = (int)count - 1; j >= 0; j--)
+                copyOne(dest + j * 4, src + j * 4);
+        }
+    }
+    void copyOne(char* dest, char* src);
+
+    void FUN_00a0d0c0(void* newValue, void* key);
+};
+
+// @fnv 0x00a0d0c0
+void ArrayStub::FUN_00a0d0c0(void* newValue, void* key)
+{
+    if (unk04 != 0)
+    {
+        if (key == unk0C)
+        {
+            unk04 = vf3(unk04, newValue);
+        }
+        else
+        {
+            void* tmp = vf1(newValue);
+            FUN_00a0cf60((char*)tmp, (char*)unk04, (unsigned int)key);
+            vf2(unk04);
+            unk04 = 0;
+            unk04 = tmp;
+        }
+    }
+    else
+    {
+        unk04 = vf1(newValue);
+        unk0C = newValue;
+    }
+}
+
+inline void DeadQ1()
+{
+    int a[1];
+}
+inline void DeadQ2()
+{
+    int a[2];
+}
+inline void DeadQ3()
+{
+    int a[3];
+}
+inline void DeadQ4()
+{
+    int a[4];
+}
+inline void DeadQ5()
+{
+    int a[5];
+}
+inline void DeadQ6()
+{
+    int a[6];
+}
+struct PNQ0cd50
+{
+};
+inline void* __cdecl operator new(unsigned int, void* p, PNQ0cd50*)
+{
+    return p;
+}
+struct ArrQ0cd50
+{
+    virtual ~ArrQ0cd50();
+    virtual void** Allocate(unsigned int count);
+    virtual void Free(void** p);
+    void** m_pBuffer;
+    unsigned int m_iElementCount;
+    unsigned int m_alloc;
+    void FUN_00a0cf00(void* const& item);
+    void FUN_00a0cf60(void** dst, void** src, unsigned int count);
+    bool IsFull()
+    {
+        if (m_iElementCount == m_alloc)
+            return true;
+        return false;
+    }
+    unsigned int GetNewSize()
+    {
+        return m_alloc > 8 ? m_alloc + 8 : m_alloc * 2;
+    }
+    void ConstructItems(void** p, unsigned int n)
+    {
+        for (unsigned int i = 0; i < n; i++)
+            new (&p[i], (PNQ0cd50*)0) void*;
+    }
+    void FUN_00a0cd50(unsigned int index, void* const& item);
+};
+// @fnv 0x00a0cd50
+void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
+{
+    DeadQ3();
+    if (index == m_iElementCount)
+    {
+        FUN_00a0cf00(item);
+        return;
+    }
+    if (IsFull())
+    {
+        DeadQ2();
+        unsigned int newSize = GetNewSize();
+        void** p = Allocate(newSize);
+        FUN_00a0cf60(p, m_pBuffer, index);
+        ConstructItems(p + index, 1);
+        FUN_00a0cf60(p + index + 1, m_pBuffer + index, m_iElementCount - index);
+        Free(m_pBuffer);
+        m_pBuffer = 0;
+        m_pBuffer = p;
+        m_alloc = newSize;
+    }
+    else
+    {
+        DeadQ4();
+        FUN_00a0cf60(m_pBuffer + index + 1, m_pBuffer + index, m_iElementCount - index);
+        ConstructItems(m_pBuffer + index, 1);
+    }
+    m_iElementCount++;
+    m_pBuffer[index] = item;
+}
+
+extern int DAT_0109527c;
+inline void* __cdecl operator new(unsigned int, void* memory)
+{
+    return memory;
+}
+inline void __cdecl operator delete(void*, void*)
+{}
+
+struct ArrayVector
+{
+    float x, y, z, w;
+    ArrayVector() : x(0), y(0), z(0), w(0)
+    {}
+};
+
+struct ArrayElement
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+    ArrayVector value;
+};
+
+struct ArrayConstructor;
+typedef void*(__thiscall* ArrayAllocate)(ArrayConstructor*, unsigned int);
+
+struct ArrayConstructor
+{
+    int* vfptr;
+    ArrayElement* data;
+    unsigned int size;
+    unsigned int capacity;
+
+    void ConstructElements(ArrayElement* items, unsigned int count)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            new (items + i) ArrayElement;
+    }
+
+    __forceinline void Initialize(unsigned int count, unsigned int initial)
+    {
+        data = 0;
+        size = 0;
+        capacity = 0;
+        if (count < initial)
+            count = initial;
+        if (count > 0)
+        {
+            data = (ArrayElement*)((ArrayAllocate)(void*)vfptr[1])(this, count);
+            capacity = count;
+        }
+        if (initial > 0)
+        {
+            ConstructElements(data, initial);
+            size = initial;
+        }
+    }
+
+    ArrayConstructor* FUN_00a1bef0();
+};
+
+// @fnv 0x00a1bef0
+ArrayConstructor* ArrayConstructor::FUN_00a1bef0()
+{
+    vfptr = &DAT_0109527c;
+    Initialize(0, 0);
+    return this;
+}

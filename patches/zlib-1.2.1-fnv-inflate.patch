@@ -1,0 +1,108 @@
+--- a/inflate.c
++++ b/inflate.c
+@@ -1,3 +1,6 @@
++/* zlib 1.2.1 inflate.c as patched in the game (state reuse in inflateInit2_, reserved-gated free in inflateEnd,
++   no checksum in inflate). The official file plus patches/zlib-1.2.1-fnv-inflate.patch; byte-identical to
++   Fallout: New Vegas 1.4.0.525 with the recipe flags. Vendored patched (1 Nov 2026) so the file builds as is. */
+ /* inflate.c -- zlib decompression
+  * Copyright (C) 1995-2003 Mark Adler
+  * For conditions of distribution and use, see copyright notice in zlib.h
+@@ -121,6 +124,7 @@
+     return Z_OK;
+ }
+ 
++// @fnv 0x00b43e70
+ int ZEXPORT inflateInit2_(strm, windowBits, version, stream_size)
+ z_streamp strm;
+ int windowBits;
+@@ -139,11 +143,19 @@
+         strm->opaque = (voidpf)0;
+     }
+     if (strm->zfree == (free_func)0) strm->zfree = zcfree;
+-    state = (struct inflate_state FAR *)
+-            ZALLOC(strm, 1, sizeof(struct inflate_state));
+-    if (state == Z_NULL) return Z_MEM_ERROR;
+-    Tracev((stderr, "inflate: allocated\n"));
+-    strm->state = (voidpf)state;
++    /* FNV: the caller may supply the inflate state; reserved records ownership. */
++    if (strm->state == Z_NULL) {
++        state = (struct inflate_state FAR *)
++                ZALLOC(strm, 1, sizeof(struct inflate_state));
++        if (state == Z_NULL) return Z_MEM_ERROR;
++        Tracev((stderr, "inflate: allocated\n"));
++        strm->state = (voidpf)state;
++        strm->reserved = 1;
++    }
++    else {
++        strm->reserved = 0;
++        state = (struct inflate_state FAR *)strm->state;
++    }
+     if (windowBits < 0) {
+         state->wrap = 0;
+         windowBits = -windowBits;
+@@ -155,7 +167,7 @@
+ #endif
+     }
+     if (windowBits < 8 || windowBits > 15) {
+-        ZFREE(strm, state);
++        if (strm->reserved) ZFREE(strm, state);
+         strm->state = Z_NULL;
+         return Z_STREAM_ERROR;
+     }
+@@ -353,12 +365,8 @@
+ /* Macros for inflate(): */
+ 
+ /* check function to use adler32() for zlib or crc32() for gzip */
+-#ifdef GUNZIP
+-#  define UPDATE(check, buf, len) \
+-    (state->flags ? crc32(check, buf, len) : adler32(check, buf, len))
+-#else
+-#  define UPDATE(check, buf, len) adler32(check, buf, len)
+-#endif
++/* FNV: checksum updates are disabled for the game resource stream. */
++#define UPDATE(check, buf, len) 0
+ 
+ /* check macros for header crc */
+ #ifdef GUNZIP
+@@ -531,6 +539,7 @@
+    will return Z_BUF_ERROR if it has not reached the end of the stream.
+  */
+ 
++// @fnv 0x00b44000
+ int ZEXPORT inflate(strm, flush)
+ z_streamp strm;
+ int flush;
+@@ -1013,15 +1022,7 @@
+                     strm->adler = state->check =
+                         UPDATE(state->check, put - out, out);
+                 out = left;
+-                if ((
+-#ifdef GUNZIP
+-                     state->flags ? hold :
+-#endif
+-                     REVERSE(hold)) != state->check) {
+-                    strm->msg = (char *)"incorrect data check";
+-                    state->mode = BAD;
+-                    break;
+-                }
++                /* FNV consumes the trailer without validating its checksum. */
+                 INITBITS();
+                 Tracev((stderr, "inflate:   check matches trailer\n"));
+             }
+@@ -1081,6 +1082,7 @@
+     return ret;
+ }
+ 
++// @fnv 0x00b45db0
+ int ZEXPORT inflateEnd(strm)
+ z_streamp strm;
+ {
+@@ -1089,7 +1091,7 @@
+         return Z_STREAM_ERROR;
+     state = (struct inflate_state FAR *)strm->state;
+     if (state->window != Z_NULL) ZFREE(strm, state->window);
+-    ZFREE(strm, strm->state);
++    if (strm->reserved) ZFREE(strm, strm->state);
+     strm->state = Z_NULL;
+     Tracev((stderr, "inflate: end\n"));
+     return Z_OK;

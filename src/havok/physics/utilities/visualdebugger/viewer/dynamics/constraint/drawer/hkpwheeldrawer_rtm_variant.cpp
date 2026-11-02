@@ -1,0 +1,148 @@
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    struct
+    {
+        float x, y, z, w;
+    };
+};
+extern "C" __m128 _mm_add_ps(__m128, __m128);
+extern "C" __m128 _mm_mul_ps(__m128, __m128);
+extern "C" __m128 _mm_load_ps1(const float*);
+extern "C" __m128 _mm_load_ss(const float*);
+extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
+
+struct Matrix
+{
+    __m128 x, y, z, w;
+};
+struct Dbg
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void Line(__m128* a, __m128* b, unsigned int c, int d, int e);
+};
+
+struct Sub
+{
+    void FUN_00e10a10(Dbg* d);
+};
+struct Ops
+{
+    void FUN_00c7f640(const Matrix* p, const __m128* q);
+    void FUN_00c7f700(const __m128* p, const __m128* q);
+};
+struct Ex
+{
+    void FUN_00de47e0(void* a, Matrix* b, Matrix* c);
+    void FUN_00de4530(int a, int b);
+    void FUN_00de44c0(int a, int b);
+};
+
+struct Body
+{
+    __m128 unk00, unk10, unk20, unk30, unk40, v50;
+    __m128 v60, v70, unk80, v90, limitsA0, unkB0, unkC0, vD0;
+    __m128 unkE0, unkF0, unk100, v110;
+};
+struct Input
+{
+    int unk00, unk04, unk08;
+    Body* body;
+};
+
+struct DrawObject
+{
+    float m00;
+    float unk04;
+    float unk08;
+    float unk0c;
+    float unk10;
+    float unk14;
+    float unk18;
+    float m1c;
+    __m128 unk20;
+    __m128 unk30;
+    __m128 m40;
+    __m128 m50;
+    __m128 m60;
+    __m128 unk70;
+    __m128 unk80;
+    __m128 m90;
+    __m128 unka0;
+    __m128 unkb0;
+    __m128 mc0;
+    void FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4);
+};
+
+static inline __m128 bc(const float& s)
+{
+    __m128 x = _mm_load_ss(&s);
+    return _mm_shuffle_ps(x, x, 0);
+}
+
+// @fnv 0x00de71d0
+void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
+{
+    Body* b = a->body;
+    Matrix t0, t1;
+    __m128 q1, vc, vd, x2;
+
+    ((Sub*)&mc0)->FUN_00e10a10(dbg);
+    ((Ex*)this)->FUN_00de47e0(a, &t0, &t1);
+    ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
+    ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
+    ((Ex*)this)->FUN_00de4530(p3, p4);
+    ((Ex*)this)->FUN_00de44c0(p3, p4);
+    dbg->Line(&m40, &m50, 0xffff0000, p3, p4);
+
+    ((Ops*)&q1)->FUN_00c7f700(&m90, &b->v60);
+    float k = m00 * m1c;
+    float s;
+    s = (float)((double)k * -0.5);
+    vc = _mm_add_ps(_mm_mul_ps(bc(s), q1), m50);
+    s = (float)((double)k * 0.5);
+    vd = _mm_add_ps(_mm_mul_ps(bc(s), q1), m50);
+    dbg->Line(&vc, &vd, 0xff008000, p3, p4);
+
+    float wa = b->limitsA0.y;
+    float wb = b->limitsA0.z;
+    ((Ops*)&vd)->FUN_00c7f700(&m90, &b->v70);
+    __m128 r = _mm_add_ps(_mm_mul_ps(bc(wb), q1), m50);
+    float kk = m00 * m1c;
+    s = (float)((double)kk * (double)0.1f);
+    vc = _mm_add_ps(_mm_mul_ps(bc(s), vd), r);
+    s = (float)((double)kk * -(double)0.1f);
+    x2 = _mm_add_ps(_mm_mul_ps(bc(s), vd), r);
+    dbg->Line(&vc, &x2, 0xffffffff, p3, p4);
+
+    float kf = m00 * m1c;
+    __m128 x4 = _mm_add_ps(_mm_mul_ps(bc(wa), q1), m50);
+    vc = _mm_add_ps(_mm_mul_ps(bc((float)((double)kf * (double)0.1f)), vd), x4);
+    x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)kf * -(double)0.1f)), vd), x4);
+    dbg->Line(&vc, &x2, 0xffffffff, p3, p4);
+
+    ((Ops*)&vd)->FUN_00c7f700(&m90, &b->v110);
+    k = m1c * m00;
+    x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * -0.5)), vd), m50);
+    vc = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * 0.5)), vd), m50);
+    dbg->Line(&x2, &vc, 0xffffff00, p3, p4);
+
+    ((Ops*)&vd)->FUN_00c7f700(&m60, &b->vD0);
+    k = m00 * m1c;
+    x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * -0.5)), vd), m40);
+    vc = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * 0.5)), vd), m40);
+    dbg->Line(&x2, &vc, 0xff0000ff, p3, p4);
+}

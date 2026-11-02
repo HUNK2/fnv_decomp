@@ -1,0 +1,238 @@
+// fallout_shared/magic/enchantmentitem.cpp: EnchantmentItem, MagicShaderHitEffect, SpellItem, Unnamed and more (11 functions)
+
+#include "enchantmentitem.h"
+
+// @fnv 0x009d6b60
+TEMP_EFFECT_TYPE MagicShaderHitEffect::GetType()
+{
+    return MAGIC_HIT_EFFECT_SHADER;
+}
+
+#include "enchantmentitem_packet.h"
+// @fnv 0x00409340
+void SpellItem::ClearData()
+{
+    effects.RemoveAllEffectItems();
+}
+// @fnv 0x00409310
+void EnchantmentItem::ResetFormData()
+{
+    cost = 0xffffffff;
+    charge = 0xffffffff;
+    flags = 0;
+    type = 2;
+}
+
+// @fnv 0x00409080
+EnchantmentItem::EnchantmentItem()
+{
+    formVtable = DAT_01012ea4;
+    nameVtable = DAT_01012e5c;
+    effects.vtable = DAT_01012e44;
+    SetFormType(FORM_ENCHANTMENT);
+    ResetFormData();
+}
+
+void __cdecl _Deallocate(void*);
+struct FUN_00409160_Class
+{
+    void FUN_004092a0();
+    void* DestroyIfFlagged(unsigned int);
+};
+// Calls FUN_004092a0, frees this when flags has bit 1 set, and returns this.
+// @fnv 0x00409160
+void* FUN_00409160_Class::DestroyIfFlagged(unsigned int flags)
+{
+    FUN_004092a0();
+    if (flags & 1)
+        _Deallocate(this);
+    return this;
+}
+
+struct Unnamed
+{
+    void __thiscall FUN_00409210();
+    void* __thiscall FUN_00409270(unsigned int);
+};
+void __cdecl _Deallocate(void*);
+// Calls FUN_00409210, then frees this via _Deallocate when flags has bit 1 set, and returns this.
+// @fnv 0x00409270
+void* __thiscall Unnamed::FUN_00409270(unsigned int flags)
+{
+    FUN_00409210();
+    if (flags & 1)
+        _Deallocate(this);
+    return this;
+}
+
+struct TESActorBase
+{
+    virtual ~TESActorBase();
+};
+struct TESSound;
+struct TESTopicInfoData;
+struct MagicItem
+{
+    virtual ~MagicItem();
+};
+struct TESTopicInfo
+{
+    TESSound* GetConversationData();
+    void SetSpeaker(MagicItem*);
+    virtual ~TESTopicInfo();
+};
+struct EP_008c48d0
+{
+    MagicItem* GetEntryPoint();
+};
+struct CP_008c48d0
+{
+    TESSound* GetPrevPath();
+};
+struct BGSAcousticSpace
+{
+    void SetNoonSound(TESSound*);
+};
+struct TES
+{
+    void SetDawnSound(TESSound*);
+};
+struct FUN_00409400_shell
+{
+    void CopySoundAndSpeakerData(MagicItem*);
+};
+// Casts actor to EnchantmentItem, then copies its conversation data, entry point, prev path and byte at 0x40 into fields of the object at this-0x18.
+// @fnv 0x00409400
+void FUN_00409400_shell::CopySoundAndSpeakerData(MagicItem* apItem)
+{
+    EnchantmentItem* info = dynamic_cast<EnchantmentItem*>(apItem);
+    if (!info)
+        return;
+    ((BGSAcousticSpace*)((char*)this - 0x18))->SetNoonSound(((TESTopicInfo*)info)->GetConversationData());
+    ((TESTopicInfo*)((char*)this - 0x18))->SetSpeaker(((EP_008c48d0*)info)->GetEntryPoint());
+    ((TES*)((char*)this - 0x18))->SetDawnSound(((CP_008c48d0*)info)->GetPrevPath());
+    ((char*)this)[0x28] = ((char*)info)[0x40];
+}
+
+namespace fnv_004094a0 {
+struct FlaggedData
+{
+    bool ContainsAnyFlag(unsigned int);
+};
+struct EP_008c48d0
+{
+    void* GetEntryPoint();
+};
+struct S_004063e0
+{
+    float GetTotalCost(int);
+};
+
+struct FUN_004094a0_Class
+{
+    float FUN_004094a0(int);
+};
+
+// Returns the entry point value as a float if the check on the object at this-0x24 passes, otherwise calls GetTotalCost(0).
+// @fnv 0x004094a0
+float FUN_004094a0_Class::FUN_004094a0(int apActor)
+{
+    if (((FlaggedData*)((char*)this - 0x24))->ContainsAnyFlag(1))
+    {
+        return (float)(long)((EP_008c48d0*)((char*)this - 0x24))->GetEntryPoint();
+    }
+    else
+    {
+        return ((S_004063e0*)this)->GetTotalCost(0);
+    }
+}
+}  // namespace fnv_004094a0
+
+struct IMH
+{
+    int FUN_00586150(void);
+};
+
+struct IngredientItem : MagicItem
+{
+};
+
+struct FUN_00409fd0_shell : EnchantmentItem
+{
+    bool FUN_00409fd0(MagicItem* apCompare);
+};
+
+// Returns true unless apCompare is an IngredientItem with the same FUN_00586150 value and matching byte at offset 0xa0 as this object.
+// @fnv 0x00409fd0
+bool FUN_00409fd0_shell::FUN_00409fd0(MagicItem* apCompare)
+{
+    EnchantmentItem* penchantment = (EnchantmentItem*)dynamic_cast<IngredientItem*>(apCompare);
+    if (!penchantment)
+        return true;
+    if (((IMH*)((char*)penchantment))->FUN_00586150() != ((IMH*)((char*)this - 0x30))->FUN_00586150() ||
+        *(unsigned char*)((char*)penchantment + 0xa0) != *(unsigned char*)((char*)this + 0x70))
+        return true;
+    return false;
+}
+
+struct PrimaryBase
+{
+    virtual ~PrimaryBase();
+    unsigned int unk04, unk08, unk0c, unk10, unk14;
+};
+struct SecondaryBase
+{
+    virtual void access();
+    unsigned int unk1c, unk20;
+};
+struct TertiaryBase
+{
+    virtual void access();
+};
+struct FUN_004092a0 : PrimaryBase, SecondaryBase, TertiaryBase
+{
+    void FUN_00409340();
+    ~FUN_004092a0();
+};
+// Destructor that calls FUN_00409340 before the object is destroyed.
+// @fnv 0x004092a0
+FUN_004092a0::~FUN_004092a0()
+{
+    FUN_00409340();
+}
+
+struct EnchantmentMagicPart : MagicItem
+{
+    unsigned int nameData04;
+    unsigned int nameData08;
+    EffectItemList effects;
+    virtual bool FUN_00409360(MagicItem* object) = 0;
+};
+
+struct EnchantmentComparison : PrimaryBase, EnchantmentMagicPart
+{
+    unsigned int type;
+    unsigned int charge;
+    unsigned int cost;
+    unsigned char flags;
+    unsigned int GetField38();
+    unsigned int FUN_00639b40();
+    unsigned int FUN_005f36f0();
+    virtual bool FUN_00409360(MagicItem* object);
+};
+
+// Returns true if the cast fails or any of three accessor results or flags differ; otherwise returns false.
+// @fnv 0x00409360
+bool EnchantmentComparison::FUN_00409360(MagicItem* apMagicItem)
+{
+    EnchantmentItem* pEnchantmentItem = dynamic_cast<EnchantmentItem*>(apMagicItem);
+    if (pEnchantmentItem == 0)
+        return true;
+
+    if (reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->GetField38() != GetField38() ||
+        reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->FUN_00639b40() != FUN_00639b40() ||
+        reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)->FUN_005f36f0() != FUN_005f36f0() ||
+        pEnchantmentItem->flags != flags)
+        return true;
+    return false;
+}

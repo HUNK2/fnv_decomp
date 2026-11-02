@@ -1,0 +1,225 @@
+
+// src/fallout/magic/magiccaster_o2_variant_od_noo2_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /Od /GS /EHsc /Gy /GF (unit src/fallout/magic/magiccaster_o2_variant.cpp lists /MT /O2 /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/fallout/magic/magiccaster_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/magic/magiccaster.cpp functions whose prologue its flags cannot
+// produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include "magiccaster_private_match.h"
+
+#include <xmmintrin.h>
+struct Vec3
+{
+    float x, y, z;
+    Vec3();
+    Vec3(float ix, float iy, float iz);
+    Vec3 FUN_00439e90(const Vec3& source);
+};
+struct Box3
+{
+    Vec3 minimum;
+    Vec3 maximum;
+    int kind;
+};
+struct __declspec(align(16)) BoundShape
+{
+    int field00, field04, field08, field0c, field10, field14, field18, field1c;
+    __m128 low, high;
+    BoundShape();
+    ~BoundShape();
+};
+struct PhantomShape
+{
+    int field00, field04, field08, field0c, field10, field14;
+    PhantomShape(BoundShape* bounds);
+    ~PhantomShape();
+    void FUN_00c85810(void* form);
+    struct ListEntries* FUN_00818110();
+    void FUN_00c9f420();
+};
+struct ListEntries
+{
+    int FUN_00726070();
+    int* FUN_00629ab0(int at);
+};
+struct TargetInterface
+{
+    void** vtable;
+    int unused04;
+    int unused08;
+    int unused0c;
+    int unused10;
+    int unused14;
+    int unused18;
+    int unused1c;
+    int unused20;
+    int unused24;
+    int unused28;
+    int unused2c;
+    int unused30;
+    int unused34;
+    int unused38;
+    int unused3c;
+    int unused40;
+    int unused44;
+    int unused48;
+    int unused4c;
+    int unused50;
+    int unused54;
+    int unused58;
+    int unused5c;
+    int unused60;
+    int unused64;
+    int unused68;
+    int unused6c;
+    int unused70;
+    int unused74;
+    int unused78;
+    int unused7c;
+    int unused80;
+    int unused84;
+    int unused88;
+    int unused8c;
+    int unused90;
+    int origin94;
+    bool FUN_008ace90();
+    float FUN_00572380(Vec3* point);
+    struct TargetInterface** FUN_006815c0();
+    TargetInterface* FUN_00726070();
+};
+typedef bool(__thiscall* TargetAvailable)(TargetInterface*);
+typedef int(__thiscall* TargetActive)(TargetInterface*);
+typedef bool(__thiscall* TargetDisabled)(TargetInterface*, int);
+struct RangeManager
+{
+    struct TimeObject* FUN_00825c00();
+    int FUN_00404420();
+    int FUN_0084e3a0();
+    int FUN_00404390();
+    int FUN_004044d0();
+};
+struct TimeObject
+{
+    bool FUN_00403e60(unsigned int flags);
+    float FUN_00639b20();
+};
+struct CalcObject
+{
+    float* FUN_00403e20();
+};
+struct ListHandle
+{
+    void* FUN_004543c0();
+};
+struct Master
+{
+    int reserved;
+    int field04;
+    int field08;
+    int field0c;
+    int field10;
+    int field14;
+    int field18;
+    void FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeManager* source, TargetInterface* first,
+                      float scale, float strength);
+    TargetInterface* FUN_00815410();
+    bool CheckHealthDamageKill(int* origin, void* filter);
+    void FUN_00818150(TargetInterface* selected, Vec3 location, RangeManager* source, float attenuation);
+    void ApplyExplosion(TargetInterface* selected, Vec3 location, RangeManager* source, float attenuation);
+};
+extern TargetInterface* DAT_011dea3c;
+class GameSettingCollection;
+template <> class SettingT<GameSettingCollection>
+{
+  public:
+    float* FUN_00403e20();
+};
+extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1112;
+extern const double DAT_01012060;
+extern const double DAT_01011588;
+extern void* __stdcall FUN_005dbe10(int which);
+struct FormRef;
+struct MediaSelector
+{
+    int field00;
+    FormRef* FUN_00622290(int type, void* context);
+};
+struct FormRef
+{
+    int FUN_00559450();
+};
+extern int __cdecl FUN_004b59f0(int object);
+extern float __cdecl CalcEffectCost(float value, int area, int duration, int magnitude, bool special);
+extern int __cdecl FUN_00ec62c0();
+extern void __cdecl FUN_004a3e00(Vec3* destination, Vec3* source);
+extern int* __cdecl FUN_00403e20(unsigned int);
+extern void* __cdecl FUN_00416870(float, float, float);
+
+// @fnv 0x00817b90
+void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeManager* source, TargetInterface* first,
+                          float scale, float strength)
+{
+    if (source->FUN_00825c00()->FUN_00403e60(0x20000000))
+    {
+        float range = (double)source->FUN_00404420() * *originalRuntimeFloatSetting1112.FUN_00403e20() * strength;
+        if (range > DAT_01012060)
+        {
+            float attenuation = CalcEffectCost(source->FUN_00825c00()->FUN_00639b20(), source->FUN_00404420(),
+                                               (int)(source->FUN_004044d0() * scale),
+                                               (int)(source->FUN_00404390() * scale), source->FUN_0084e3a0() == 2);
+            float size = (float)(range * DAT_01011588);
+            BoundShape space;
+            FUN_004a3e00((Vec3*)&space.low, &center.FUN_00439e90(Vec3(-size, -size, -size)));
+            FUN_004a3e00((Vec3*)&space.high, &center.FUN_00439e90(Vec3(size, size, size)));
+            MediaSelector obj;
+            space.field00 = obj.FUN_00622290(0x29, FUN_005dbe10(0))->FUN_00559450();
+            PhantomShape results(&space);
+            void* world = item->FUN_004543c0();
+            results.FUN_00c85810(world);
+            ListEntries* entries = results.FUN_00818110();
+            for (int i = 0; i < entries->FUN_00726070(); ++i)
+            {
+                int target = FUN_004b59f0(*entries->FUN_00629ab0(i));
+                if (target)
+                {
+                    FUN_00818150((TargetInterface*)target, center, source, attenuation);
+                }
+            }
+
+            results.FUN_00c9f420();
+            TargetInterface* node = first;
+            TargetInterface* skip = FUN_00815410();
+            while (node && *node->FUN_006815c0())
+            {
+                TargetInterface* current = *node->FUN_006815c0();
+                TargetInterface* candidate = ((TargetAvailable)current->vtable[64])(current) ? current : 0;
+                if (candidate)
+                    if (candidate && candidate != skip && ((TargetActive)candidate->vtable[116])(candidate))
+                    {
+                        float distance = candidate->FUN_00572380(&center);
+                        if (distance <= range && !((TargetDisabled)candidate->vtable[139])(candidate, 0) &&
+                            !candidate->FUN_008ace90())
+                        {
+                            if (CheckHealthDamageKill(candidate ? &candidate->origin94 : 0, filter))
+                            {
+                                ApplyExplosion(candidate, center, source, attenuation);
+                            }
+                        }
+                    }
+                node = node->FUN_00726070();
+            }
+            if (DAT_011dea3c && DAT_011dea3c != skip && ((TargetActive)DAT_011dea3c->vtable[116])(DAT_011dea3c))
+            {
+                float distance = DAT_011dea3c->FUN_00572380(&center);
+                if (distance <= range && !((TargetDisabled)DAT_011dea3c->vtable[139])(DAT_011dea3c, 0) &&
+                    !DAT_011dea3c->FUN_008ace90())
+                {
+                    if (CheckHealthDamageKill(DAT_011dea3c ? &DAT_011dea3c->origin94 : 0, filter))
+                    {
+                        ApplyExplosion(DAT_011dea3c, center, source, attenuation);
+                    }
+                }
+            }
+        }
+    }
+}

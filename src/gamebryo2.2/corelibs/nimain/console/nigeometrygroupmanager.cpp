@@ -1,0 +1,25 @@
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+extern int DAT_0109df2c;
+extern int DAT_011f4ab4;
+void __cdecl _delete(void*, unsigned int);
+struct NiGeometryGroupManager
+{
+    void* FUN_00a7f840(unsigned int);
+};
+// Sets the vtable pointer, clears DAT_011f4ab4, and if bit 0 of a1 is set deletes this with size 4, then returns this.
+// @fnv 0x00a7f840
+void* NiGeometryGroupManager::FUN_00a7f840(unsigned int auiFlags)
+{
+    *(void**)this = (void*)&DAT_0109df2c;
+    DAT_011f4ab4 = 0;
+    if (auiFlags & 1)
+        _delete(this, 4);
+    return this;
+}
+
+// @fnv 0x00aa00c0
+bool __stdcall FUN_00aa00c0(int a, int b)
+{
+    return false;
+}

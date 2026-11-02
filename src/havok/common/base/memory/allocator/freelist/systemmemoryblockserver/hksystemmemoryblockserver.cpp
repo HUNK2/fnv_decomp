@@ -1,0 +1,205 @@
+
+// src/havok/common/base/memory/allocator/freelist/systemmemoryblockserver/hksystemmemoryblockserver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/freelist/systemmemoryblockserver/hksystemmemoryblockserver.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct FUN_00d60480
+{
+    int __thiscall GetValueAsInteger();
+};
+// @fnv 0x00d60480
+int __thiscall FUN_00d60480::GetValueAsInteger()
+{
+    int end = *(int*)((char*)this + 0xc);
+    if (!end)
+        return -1;
+    return end - *(int*)((char*)this + 8);
+}
+
+struct hkSystemMemoryBlockServer
+{
+    unsigned int GetBlockSize(unsigned int size);
+};
+
+// @fnv 0x00d603f0
+unsigned int hkSystemMemoryBlockServer::GetBlockSize(unsigned int size)
+{
+    unsigned char* base = reinterpret_cast<unsigned char*>(this);
+
+    unsigned int value = *reinterpret_cast<unsigned int*>(base + 0xc);
+    if (value != 0)
+    {
+        unsigned int available = value - *reinterpret_cast<unsigned int*>(base + 0x8);
+        if (available >= size)
+            return available;
+        return size;
+    }
+
+    unsigned int minimum = *reinterpret_cast<unsigned int*>(base + 0x4);
+    if (size < minimum)
+        return minimum;
+
+    return (size + 0x7fffu) & 0xffff8000u;
+}
+
+struct FUN_00d60460_Block
+{
+// @fnv 0x00d60460
+    virtual void FUN_00d60460_dummy1()
+    {}
+    virtual void FUN_00d60460_dummy2()
+    {}
+    virtual void free(void*, int)
+    {}
+};
+
+struct FUN_00d60460_Class
+{
+    int m_auiShapeKeys[2];
+    int m_uiBufferCapacity;
+    int m_pAuxiliaryObject;
+    FUN_00d60460_Block* m_block;
+
+    void FUN_00d60460(void*, int);
+};
+
+void FUN_00d60460_Class::FUN_00d60460(void* p, int size)
+{
+    m_uiBufferCapacity -= size;
+    m_block->free(p, size);
+}
+
+struct FUN_00d604e0_inner
+{
+    virtual void v00();
+    virtual void Tail(int a);
+};
+
+struct FUN_00d604e0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    FUN_00d604e0_inner* m_pInner;
+    void FUN_00d604e0(int a);
+};
+
+// @fnv 0x00d604e0
+void FUN_00d604e0_cls::FUN_00d604e0(int a)
+{
+    m_pInner->Tail(a);
+}
+
+struct SpawnedTarget
+{
+    virtual void vSlot00();
+    virtual void vSlot04();
+    virtual void Forward(int a);
+};
+
+struct FUN_00d604f0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    SpawnedTarget* m_10;
+    void FUN_00d604f0(int a);
+};
+
+// @fnv 0x00d604f0
+void FUN_00d604f0_cls::FUN_00d604f0(int a)
+{
+    m_10->Forward(a);
+}
+
+// FUN_00d60530: stdcall, 5 stack params, clears one byte through the first param.
+// Original: mov eax,[esp+4]; mov byte ptr [eax],0; ret 0x14
+
+// @fnv 0x00d60530
+void __stdcall FUN_00d60530(unsigned char* out, int a2, int a3, int a4, int a5)
+{
+    *out = 0;
+}
+
+class hkStreamReaderD604
+{
+  public:
+    virtual void V0();
+    virtual int read(int iNumBytes);
+};
+
+class hkObjD604
+{
+  public:
+    int unk00;
+    int unk04;
+    unsigned int m_pos;
+    unsigned int m_pFreeList;
+    hkStreamReaderD604* m_pStreamReader;
+
+    int ReadBytes(int iNumBytes, int* piOut);
+};
+
+// Checks the read stays within the limit, advances m_pos by iNumBytes, stores iNumBytes in piOut and returns the stream read result.
+// @fnv 0x00d60420
+int hkObjD604::ReadBytes(int iNumBytes, int* piOut)
+{
+    if (m_pFreeList && m_pos + iNumBytes > m_pFreeList)
+        return 0;
+    *piOut = iNumBytes;
+    m_pos += iNumBytes;
+    return m_pStreamReader->read(iNumBytes);
+}
+
+struct FUN_00d60490_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int FUN_00d60490();
+};
+
+// @fnv 0x00d60490
+int FUN_00d60490_cls::FUN_00d60490()
+{
+    return unk0C;
+}
+
+namespace fnv_00d604a0 {
+struct hkBoolD604
+{
+    char m_cBooleanValue;
+    hkBoolD604()
+    {}
+    hkBoolD604(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+};
+
+struct hkObjD604
+{
+    int unk00;
+    int unk04;
+    unsigned int m_pRayCursor;
+    unsigned int m_iElementCount;
+
+    hkBoolD604 FUN_00d604a0(unsigned int n);
+};
+
+// @fnv 0x00d604a0
+hkBoolD604 hkObjD604::FUN_00d604a0(unsigned int n)
+{
+    if (n == 0)
+    {
+        m_iElementCount = 0;
+        return true;
+    }
+    if (m_pRayCursor > n)
+        return false;
+    m_iElementCount = n;
+    return true;
+}
+}  // namespace fnv_00d604a0

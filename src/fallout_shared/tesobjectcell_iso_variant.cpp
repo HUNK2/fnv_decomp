@@ -1,0 +1,571 @@
+// src/fallout_shared/tesobjectcell_iso_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesobjectcell.cpp that match byte for byte only
+// with VC9 SP1 and /MT /Od /Oy- /GS /EHsc /Gy /GF (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
+
+#include "tesobjectcell_packet.h"
+void __cdecl operator delete(void* pointer);
+const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
+unsigned int FUN_0054f4c0();
+NiAVObject* FUN_0054f4f0();
+
+struct ExpiredRefPosition3
+{
+    float x, y, z;
+};
+class TESBoundObject
+{
+  public:
+    virtual ~TESBoundObject();
+    int FUN_00401170();
+};
+struct FUN_00546af0_shell : public TESObjectCELL
+{
+    unsigned int FUN_00546af0();
+};
+struct BGSSaveLoadGame
+{
+    unsigned char FUN_0042ce10();
+};
+extern BGSSaveLoadGame* g_BGSSaveLoadGame;
+extern TESDataHandler* g_dataHandler;
+struct RefNode;
+struct RefrShell;
+struct ExtraShell;
+struct ZoneShell
+{
+    bool FUN_00526120(FUN_00546af0_shell* cell);
+};
+struct Modelish
+{
+    bool FUN_0042cde0();
+};
+struct RefNode
+{
+    bool FUN_008256d0();
+    RefrShell** FUN_006815c0();
+    RefNode* FUN_00726070();
+    void FUN_0063f7b0();
+};
+struct Inner3c
+{
+    virtual void v0();
+    virtual bool v1();
+};
+class IngredientItem : public TESBoundObject
+{
+  public:
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+
+    Inner3c m3c;
+};
+struct Obj34
+{
+    void UpdateSoundLevel(RefrShell* refr);
+};
+struct ExtraShell : public ExtraDataList
+{
+    void* FUN_0042e250();
+    Modelish* FUN_00418520();
+    RefNode* FUN_0041df90();
+    void FUN_0041dfd0();
+    void FUN_0041de40(int a);
+    RefrShell* FUN_0041e310();
+};
+struct RefrShell : public TESObjectREFR
+{
+
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void V49(int a);
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual bool V64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual bool V88();
+    virtual void v89();
+    virtual void v90();
+    virtual ExpiredRefPosition3 V91();
+    virtual void V92(ExpiredRefPosition3* p);
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void V130(bool b);
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual bool V139(int a);
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void* V165();
+    virtual void* V166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual void v186();
+    virtual void v187();
+    virtual void v188();
+    virtual void v189();
+    virtual void v190();
+    virtual void v191();
+    virtual void v192();
+    virtual void v193();
+    virtual void v194();
+    virtual void v195();
+    virtual void v196();
+    virtual void v197();
+    virtual void v198();
+    virtual void v199();
+    virtual void v200();
+    virtual void V201(int a, int b, int c);
+    bool FUN_005653d0();
+    bool FUN_0056ae60();
+    bool IsExpired(unsigned int a);
+    bool FUN_00577de0();
+    void FUN_00572270();
+    ZoneShell* FUN_00567d20();
+    bool FUN_00452370();
+    bool FUN_00440d80();
+    bool FUN_00565450();
+    void FUN_00569250();
+    void FUN_00484580(bool b);
+    void SetFlag2000(bool b);
+    bool FUN_0087f4a0();
+    unsigned int FUN_0084e3a0();
+    TESBoundObject* FUN_007af430();
+    void FUN_00575830(ExpiredRefPosition3* p);
+    void FUN_00575700(ExpiredRefPosition3 p);
+};
+struct Calendar
+{
+    unsigned int FUN_00867e30();
+};
+struct DHShell : public TESDataHandler
+{
+    bool FUN_00469860(unsigned int id);
+};
+extern Calendar g_calendar;
+unsigned int __cdecl FUN_00526100();
+bool __fastcall FUN_005262a0(void* zone);
+Obj34* __cdecl FUN_00475400(void* p);
+void __cdecl FUN_005ac190(RefrShell* refr, ExtraShell* extra);
+bool __cdecl FUN_005ac750(RefrShell* refr, ExtraShell* extra, unsigned int a);
+ExtraShell* __fastcall FUN_005d43c0(RefrShell* refr);
+struct CellShell : public FUN_00546af0_shell
+{
+    ZoneShell* FUN_00546c20();
+    RefNode* FUN_009604f0();
+    void SetDetachTime(unsigned int a, bool b);
+    void* FUN_0054ddd0();
+    bool FUN_00550200(ExpiredRefPosition3* p);
+    bool FUN_0054df30();
+};
+// @fnv 0x0054df30
+bool CellShell::FUN_0054df30()
+{
+    if (g_BGSSaveLoadGame->FUN_0042ce10())
+        return false;
+    unsigned long _type;
+    bool _changed;
+    bool _allowed;
+    ZoneShell* _special;
+    unsigned int _oldState;
+    RefNode* _item;
+    bool _done;
+    _oldState = g_calendar.FUN_00867e30();
+    _changed = 0;
+    _done = 0;
+    _type = FUN_00546af0();
+    if (_type == 0)
+    {
+        CellRefLockEnter();
+        RefNode* a;
+        a = FUN_009604f0();
+        for (; 0 != a && !a->FUN_008256d0();)
+        {
+            RefrShell* flag6;
+            flag6 = *a->FUN_006815c0();
+            a = a->FUN_00726070();
+            switch (flag6->FUN_007af430()->FUN_00401170())
+            {
+            case 0x1b:
+                if (flag6->FUN_005653d0())
+                {
+                    flag6->V130(!flag6->FUN_0056ae60());
+                }
+                break;
+            case 0x2a:
+            case 0x2b:
+                if (flag6->FUN_005653d0())
+                {
+                    RefrShell* c;
+                    c = flag6;
+                    if (c->IsExpired(_oldState))
+                    {
+                        flag6->V130(!flag6->FUN_0056ae60());
+                    }
+                }
+                break;
+            }
+        }
+        CellRefLockLeave();
+        return true;
+    }
+    _allowed = 0;
+    _special = FUN_00546c20();
+    if (_type == 0xffffffff)
+    {
+        _changed = 1;
+        _done = 1;
+        _allowed = 1;
+    }
+    else
+    {
+        if (_oldState - _type > FUN_00526100())
+            _allowed = 1;
+        if (0 != _special)
+        {
+            if (FUN_005262a0(_special))
+                _changed = _special->FUN_00526120(this);
+            else
+                _changed = 0;
+        }
+        else
+        {
+            _changed = _allowed;
+        }
+    }
+    CellRefLockEnter();
+    {
+        _item = FUN_009604f0();
+        for (; 0 != _item && !_item->FUN_008256d0();)
+        {
+            RefrShell* refr2;
+            refr2 = *_item->FUN_006815c0();
+            _item = _item->FUN_00726070();
+            if (_done && ((DHShell*)g_dataHandler)->FUN_00469860(refr2->FUN_0084e3a0()))
+            {
+                if (!refr2->V88() && !refr2->FUN_00577de0())
+                    refr2->V49(1);
+                continue;
+            }
+            RefrShell* cnt;
+            cnt = 0;
+            if (refr2->V64())
+                cnt = refr2;
+            if (0 != cnt)
+            {
+                if (!cnt->IsExpired(_oldState))
+                    continue;
+            }
+            else
+            {
+                if (_allowed)
+                {
+                    if (refr2->FUN_00452370())
+                    {
+                        Obj34* v;
+                        v = FUN_00475400(refr2->FUN_007af430());
+                        v->UpdateSoundLevel(refr2);
+                        if (!!FUN_005d43c0(refr2)->FUN_0042e250())
+                            refr2->SetFlag2000(true);
+                    }
+                }
+                ZoneShell* q;
+                q = refr2->FUN_00567d20();
+                if (q != _special)
+                {
+                    if (q)
+                    {
+                        if (!FUN_005262a0(q))
+                            continue;
+                    }
+                }
+                else
+                {
+                    if (!_changed)
+                        continue;
+                }
+            }
+            if (0 != cnt)
+            {
+                if (cnt->FUN_0087f4a0())
+                {
+                    cnt->V201(1, 0, 0);
+                    RefNode* i;
+                    i = FUN_005d43c0(cnt)->FUN_0041df90();
+                    if (0 != i)
+                    {
+                        for (; 0 != i && !i->FUN_008256d0();)
+                        {
+                            RefrShell* tmp;
+                            tmp = *i->FUN_006815c0();
+                            FUN_005d43c0(tmp)->FUN_0041de40(0);
+                            if (!tmp->V88())
+                                tmp->FUN_00572270();
+                            i->FUN_0063f7b0();
+                        }
+                        FUN_005d43c0(cnt)->FUN_0041dfd0();
+                    }
+                    ExpiredRefPosition3 b;
+                    cnt->V92(&b);
+                    bool s;
+                    s = 0;
+                    if (cnt->V166() == this)
+                    {
+                        s = 1;
+                    }
+                    else
+                    {
+                        if (cnt->V165() == FUN_0054ddd0())
+                        {
+                            if (FUN_00550200(&b))
+                                s = 1;
+                        }
+                    }
+                    if (s)
+                    {
+                        cnt->FUN_00575830(&b);
+                        cnt->FUN_00575700(cnt->V91());
+                    }
+                }
+                else
+                {
+                    if (cnt->V139(0))
+                    {
+                        if (!cnt->V88() && !cnt->FUN_00577de0())
+                        {
+                            cnt->FUN_00572270();
+                            RefrShell* x;
+                            x = FUN_005d43c0(cnt)->FUN_0041e310();
+                            if (!!x)
+                                x->FUN_00572270();
+                        }
+                        RefNode* p;
+                        p = FUN_005d43c0(cnt)->FUN_0041df90();
+                        if (!!p)
+                        {
+                            for (; p && !p->FUN_008256d0();)
+                            {
+                                RefrShell* y;
+                                y = *p->FUN_006815c0();
+                                FUN_005d43c0(y)->FUN_0041de40(0);
+                                if (!y->V88())
+                                    y->FUN_00572270();
+                                p->FUN_0063f7b0();
+                            }
+                            FUN_005d43c0(cnt)->FUN_0041dfd0();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                switch (refr2->FUN_007af430()->FUN_00401170())
+                {
+                case 0x1b:
+                    if (refr2->FUN_0056ae60())
+                    {
+                        refr2->V130(0);
+                        if (!!FUN_005d43c0(refr2)->FUN_00418520())
+                        {
+                            if (!FUN_005d43c0(refr2)->FUN_00418520()->FUN_0042cde0())
+                                refr2->FUN_00569250();
+                        }
+                    }
+                    break;
+                case 0x26:
+                    refr2->FUN_00484580(false);
+                    break;
+                case 0x1d:
+                    if (refr2->FUN_00440d80() && !refr2->FUN_00565450() && !refr2->V88())
+                    {
+                        IngredientItem* j;
+                        j = dynamic_cast<IngredientItem*>(refr2->FUN_007af430());
+                        if (0 != j)
+                        {
+                            if (j->m3c.v1())
+                                refr2->V49(0);
+                        }
+                    }
+                    break;
+                }
+            }
+            FUN_005ac190(refr2, FUN_005d43c0(refr2));
+            FUN_005ac750(refr2, FUN_005d43c0(refr2), 0x80000000);
+        }
+    }
+    CellRefLockLeave();
+    SetDetachTime(0, false);
+    return _changed;
+}

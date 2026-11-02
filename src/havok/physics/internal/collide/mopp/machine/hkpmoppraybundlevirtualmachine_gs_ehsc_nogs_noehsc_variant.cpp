@@ -1,0 +1,289 @@
+
+// src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+#include "fnv_asm_helpers.h"
+// src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
+__declspec(align(16)) struct FUN_00dd4a50_cls
+{
+    __m128 m_v00;
+    unsigned int m_i10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    __m128 m_v20;
+    unsigned int m_i30;
+    unsigned int m_i34;
+
+    FUN_00dd4a50_cls* FUN_00dd4a50(const FUN_00dd4a50_cls* src);
+};
+
+extern const double DAT_010d5198;
+extern const __m128 DAT_01268460;
+
+class __declspec(align(16)) Vec4
+{
+public:
+    __forceinline void operator=(const Vec4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+
+    __forceinline void operator=(const __m128& v)
+    {
+        m_vComponents = v;
+    }
+
+    __forceinline void SetAllComponents(float a)
+    {
+        m_vComponents = _mm_set_ps1(a);
+    }
+
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+
+    __forceinline void setSub4(const Vec4& v0, const Vec4& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+
+    __forceinline void mul4(const Vec4& v)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, v.m_vComponents);
+    }
+
+    __forceinline float& operator()(int a)
+    {
+        return reinterpret_cast<float*>(&m_vComponents)[a];
+    }
+
+    __forceinline const float& operator()(int a) const
+    {
+        return reinterpret_cast<const float*>(&m_vComponents)[a];
+    }
+
+    __forceinline void setBroadcast(const Vec4& v, int i)
+    {
+        if (i == 0)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(0, 0, 0, 0));
+        }
+        else if (i == 1)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+        }
+        else if (i == 2)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+        }
+        else if (i == 3)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+        }
+    }
+
+    __forceinline __m128& getQuad()
+    {
+        return m_vComponents;
+    }
+
+    __forceinline const __m128& getQuad() const
+    {
+        return m_vComponents;
+    }
+
+private:
+    __m128 m_vComponents;
+
+public:
+    operator __m128() const
+    {
+        return m_vComponents;
+    }
+};
+
+class __declspec(align(16)) Vec4Comp
+{
+public:
+    enum Mask
+    {
+        MASK_NONE = 0
+    };
+
+    __forceinline void set(Mask)
+    {
+        m_uiMask = DAT_01268460;
+    }
+
+private:
+    __m128 m_uiMask;
+    friend class Vec4;
+};
+
+template <typename T>
+class ArrBase
+{
+public:
+    const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+struct CodeInfo
+{
+    inline float getScale() const
+    {
+        return m_offset(3);
+    }
+
+    Vec4 m_offset;
+};
+
+struct TreeCode
+{
+    void* vftable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    CodeInfo m_info;
+    ArrBase<unsigned char> m_data;
+    signed char m_eBuildType;
+};
+
+struct RayBundleInput
+{
+    Vec4 m_vFrom[3];
+    Vec4 m_vTo[3];
+    unsigned int m_uiFilterInfo;
+    const void* m_pRayShapeCollectionFilter;
+};
+
+struct RayBundleOutput;
+class ShapeContainer;
+
+struct PointBundle
+{
+    Vec4 m_vec[3];
+};
+
+class BaseMachine
+{
+public:
+    void* m_pPrimitiveInfoArray;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+class BundleMachine : public BaseMachine
+{
+public:
+    struct MachineVectorIndexRecord
+    {
+        Vec4 m_kVectorBeforeIndex;
+        int m_iIndex;
+        Vec4 m_kVectorAfterIndex;
+        unsigned int m_uiPropertyCount;
+        unsigned int m_kProperties[1];
+    };
+
+    struct PointBundlePairAndVector
+    {
+        PointBundle m_kPointBundles[2];
+        Vec4Comp m_kVectorComponent;
+    };
+
+    const TreeCode* m_pMoppCode;
+    Vec4 m_vRayDirectionVector;
+    const RayBundleInput* m_kRays;
+    PointBundle m_vTo;
+    PointBundle m_vFrom;
+    Vec4Comp m_vRayDelta;
+    Vec4 m_fEarlyOutHitFraction;
+    RayBundleOutput* m_pRayBundleOutput;
+    void* m_kCollector;
+    const void* m_kCollisionBody;
+    const ShapeContainer* m_pShapeCollection;
+    int m_iCurrentChunkId;
+
+    void FUN_00dd3210(const MachineVectorIndexRecord* query, const unsigned char* pc, PointBundlePairAndVector* fQuery, int chunkId);
+    __forceinline void querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask);
+    Vec4Comp FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask);
+};
+
+inline void BundleMachine::querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask)
+{
+    m_pMoppCode = code;
+    const unsigned char* programCounter = &m_pMoppCode->m_data[0];
+
+    MachineVectorIndexRecord query;
+    query.m_kVectorBeforeIndex.setZero4();
+
+    m_vRayDirectionVector.SetAllComponents(1.0f / m_pMoppCode->m_info.getScale());
+    query.m_kVectorAfterIndex.SetAllComponents(float(m_pMoppCode->m_info.getScale() * DAT_010d5198));
+
+    Vec4 offset;
+    PointBundlePairAndVector fQuery;
+
+    offset.setBroadcast(code->m_info.m_offset, 0);
+    fQuery.m_kPointBundles[0].m_vec[0].setSub4(m_vFrom.m_vec[0], offset);
+    fQuery.m_kPointBundles[1].m_vec[0].setSub4(m_vTo.m_vec[0], offset);
+    fQuery.m_kPointBundles[0].m_vec[0].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[0].mul4(query.m_kVectorAfterIndex);
+
+    offset.setBroadcast(code->m_info.m_offset, 1);
+    fQuery.m_kPointBundles[0].m_vec[1].setSub4(m_vFrom.m_vec[1], offset);
+    fQuery.m_kPointBundles[1].m_vec[1].setSub4(m_vTo.m_vec[1], offset);
+    fQuery.m_kPointBundles[0].m_vec[1].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[1].mul4(query.m_kVectorAfterIndex);
+
+    offset.setBroadcast(code->m_info.m_offset, 2);
+    fQuery.m_kPointBundles[0].m_vec[2].setSub4(m_vFrom.m_vec[2], offset);
+    fQuery.m_kPointBundles[1].m_vec[2].setSub4(m_vTo.m_vec[2], offset);
+    fQuery.m_kPointBundles[0].m_vec[2].mul4(query.m_kVectorAfterIndex);
+    fQuery.m_kPointBundles[1].m_vec[2].mul4(query.m_kVectorAfterIndex);
+
+    fQuery.m_kVectorComponent = mask;
+    m_kRays = &input;
+    m_vRayDelta.set(Vec4Comp::MASK_NONE);
+
+    query.m_uiPropertyCount = 0;
+    query.m_iIndex = 0;
+    for (int p = 0; p < 1; p++)
+    {
+        query.m_kProperties[p] = 0;
+    }
+
+    m_iCurrentChunkId = (programCounter[0] != 0x0d) - 1;
+
+    FUN_00dd3210(&query, programCounter, &fQuery, 0);
+}
+
+// @fnv 0x00dd4870
+Vec4Comp BundleMachine::FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask)
+{
+    m_pShapeCollection = collection;
+    m_pRayBundleOutput = &rayResult;
+    m_fEarlyOutHitFraction.SetAllComponents(1.0f);
+
+    m_vFrom.m_vec[0] = input.m_vFrom[0];
+    m_vFrom.m_vec[1] = input.m_vFrom[1];
+    m_vFrom.m_vec[2] = input.m_vFrom[2];
+
+    m_vTo.m_vec[0] = input.m_vTo[0];
+    m_vTo.m_vec[1] = input.m_vTo[1];
+    m_vTo.m_vec[2] = input.m_vTo[2];
+
+    querySub(code, input, mask);
+
+    return m_vRayDelta;
+}

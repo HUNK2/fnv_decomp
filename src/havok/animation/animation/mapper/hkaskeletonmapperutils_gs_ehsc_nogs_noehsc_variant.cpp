@@ -1,0 +1,171 @@
+
+// src/havok/animation/animation/mapper/hkaskeletonmapperutils_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+struct CE5F90QsTransform
+{
+    float m_vTranslation[4];
+    float m_rotation[4];
+    float m_vScale[4];
+};
+void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
+                          float weightA, float weightB);
+void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
+                          const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB);
+
+extern "C" void _ReadBarrier();
+struct hkStringPtr
+{
+    const char* m_pcText;
+};
+struct hkaBone
+{
+    hkStringPtr m_name;
+    char m_bLockTranslation;
+};
+template <typename T> struct hkArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+};
+struct hkReferencedObject
+{
+    virtual ~hkReferencedObject();
+    unsigned short memSizeAndFlags;
+    unsigned short referenceCount;
+};
+struct hkaSkeleton : hkReferencedObject
+{
+    hkStringPtr m_name;
+    hkArray<short> m_kParentIndices;
+    hkArray<hkaBone> m_kBones;
+};
+struct __declspec(align(16)) MapperQsTransform
+{
+    float translation[4];
+    float rotation[4];
+    float scale[4];
+};
+struct hkaSkeletonMapperDataSimpleMapping
+{
+    short m_sBoneA;
+    short m_sBoneB;
+    MapperQsTransform transform;
+};
+struct hkaSkeletonMapperData
+{
+    hkaSkeleton* m_pSkeletonA;
+    hkaSkeleton* m_pSkeletonB;
+    hkArray<hkaSkeletonMapperDataSimpleMapping> m_kSimpleMappings;
+};
+struct hkOstream : hkReferencedObject
+{
+    void* m_pStreamWriter;
+    hkOstream(char* buf, int bufLen);
+    virtual ~hkOstream();
+    hkOstream& operator<<(const char* str);
+    hkOstream& operator<<(const hkStringPtr& str);
+};
+struct hkError
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void message(int kind, int id, const char* text, const char* file, int line);
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void beginSection(int id, const char* name);
+    virtual void endSection();
+};
+extern hkError* DAT_01268360;
+// @fnv 0x00ce5840
+int __cdecl FUN_00ce5840(hkaSkeletonMapperData* mapping)
+{
+    int i = 0;
+    int count = mapping->m_kSimpleMappings.GetLogicalSize();
+    hkaSkeleton* skelA = mapping->m_pSkeletonA;
+    int numBonesA = skelA->m_kBones.GetLogicalSize();
+    hkaSkeleton* skelB = mapping->m_pSkeletonB;
+    int numBonesB = skelB->m_kBones.GetLogicalSize();
+    int rootA = numBonesA;
+    _ReadBarrier();
+    int rootB;
+    if (count > 0)
+    {
+        do
+        {
+            hkaSkeletonMapperDataSimpleMapping* current = &mapping->m_kSimpleMappings[i];
+            if (current->m_sBoneA < rootA)
+            {
+                rootB = current->m_sBoneB;
+                if (rootB < numBonesB)
+                {
+                    rootA = current->m_sBoneA;
+                    goto found;
+                }
+                else
+                {
+                    char buf[512];
+                    hkOstream os(buf, 512);
+                    os << "Invalid mapping - cannot lock translation based on it";
+                    DAT_01268360->message(1, 0xabba782a, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 767);
+                    return 1;
+                }
+            }
+        } while (++i < count);
+        rootB = numBonesB;
+    }
+    else
+    {
+        rootB = numBonesB;
+    }
+found:
+    if (rootA == skelA->m_kBones.GetLogicalSize())
+    {
+        char buf[512];
+        hkOstream os(buf, 512);
+        os << "Invalid mapping - cannot lock translations based on it";
+        DAT_01268360->message(1, 0xabba782a, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 776);
+        return 1;
+    }
+    DAT_01268360->beginSection(0x87e5654e, "lockTranslationsAutomatically");
+    {
+        char buf[512];
+        hkOstream os(buf, 512);
+        os << "Locking translations in skeleton " << skelA->m_name << " from bone " << skelA->m_kBones[rootA].m_name;
+        DAT_01268360->message(0, -1, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 784);
+    }
+    for (int i = 0; i < skelA->m_kBones.GetLogicalSize(); ++i)
+    {
+        skelA->m_kBones[i].m_bLockTranslation = (i > rootA);
+    }
+    {
+        char buf[512];
+        hkOstream os(buf, 512);
+        os << "Locking translations in skeleton " << skelB->m_name << " from bone " << skelB->m_kBones[rootB].m_name;
+        DAT_01268360->message(0, -1, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 793);
+    }
+    for (int i = 0; i < skelB->m_kBones.GetLogicalSize(); ++i)
+    {
+        skelB->m_kBones[i].m_bLockTranslation = (i > rootB);
+    }
+    DAT_01268360->endSection();
+    return 0;
+}

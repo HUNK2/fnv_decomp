@@ -1,0 +1,13 @@
+# Never commit game files, executables or build output.
+*.exe
+*.dll
+*.obj
+*.lib
+*.pdb
+*.bsa
+*.esm
+*.esp
+results*.json
+/out/
+/obj/
+__pycache__/

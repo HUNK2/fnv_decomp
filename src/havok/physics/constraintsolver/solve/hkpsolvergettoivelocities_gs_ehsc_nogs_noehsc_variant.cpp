@@ -1,0 +1,186 @@
+// src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolvergettoivelocities.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+#include <xmmintrin.h>
+struct __declspec(align(16)) Vector
+{
+    __m128 quad;
+    __forceinline __m128 get() const
+    {
+        return quad;
+    }
+    __forceinline void set(__m128 value)
+    {
+        quad = value;
+    }
+    void FUN_00c7f750(const void*, const Vector*);
+};
+struct State
+{
+    int type;
+    int index;
+    float scale;
+    float parameter;
+    Vector position, axis, basis0, basis1, basis2, extra0, extra1;
+    void FUN_00d72030(const State*);
+};
+struct Header
+{
+    int type;
+    unsigned short first;
+    unsigned short second;
+    int flags;
+    int size;
+};
+struct Command
+{
+    Vector a, b, c;
+};
+extern unsigned char DAT_011b9414[];
+static __forceinline float evaluate(const Command* command, const State* first, const State* second,
+                                    bool firstTermFirst = false)
+{
+    __m128 sum;
+    if (firstTermFirst)
+        sum = _mm_add_ps(_mm_mul_ps(command->b.get(), first->axis.get()),
+                         _mm_mul_ps(command->c.get(), second->axis.get()));
+    else
+        sum = _mm_add_ps(_mm_mul_ps(command->c.get(), second->axis.get()),
+                         _mm_mul_ps(command->b.get(), first->axis.get()));
+    sum = _mm_add_ps(sum, _mm_mul_ps(_mm_sub_ps(first->position.get(), second->position.get()), command->a.get()));
+    __m128 y = _mm_shuffle_ps(sum, sum, 0x55);
+    __m128 z = _mm_shuffle_ps(sum, sum, 0xaa);
+    float value;
+    _mm_store_ss(&value, _mm_add_ss(z, _mm_add_ss(y, sum)));
+    return value;
+}
+static __forceinline float evaluatePair(const Command* command, const State* first, const State* second,
+                                        bool firstTermFirst = false)
+{
+    __m128 sum =
+        _mm_add_ps(_mm_mul_ps(command->b.get(), first->axis.get()), _mm_mul_ps(command->c.get(), second->axis.get()));
+    sum = _mm_add_ps(sum, _mm_mul_ps(_mm_sub_ps(first->position.get(), second->position.get()), command->a.get()));
+    __m128 y = _mm_shuffle_ps(sum, sum, 0x55);
+    __m128 z = _mm_shuffle_ps(sum, sum, 0xaa);
+    float value;
+    _mm_store_ss(&value, _mm_add_ss(z, _mm_add_ss(y, sum)));
+    return value;
+}
+static __forceinline float clampValue(float a)
+{
+    return 0.0f < a ? 0.0f : a;
+}
+// @fnv 0x00d9f6f0
+int __cdecl FUN_00d9f6f0(void* unused, const Header* header, const State* states, int limit, float* output)
+{
+    const State* first = states + header->first;
+    const State* second = states + header->second;
+    int count = 0;
+    const signed char* cursor = reinterpret_cast<const signed char*>(header + 1);
+    int single = 1, pair = 2;
+    State firstLocal, secondLocal;
+    for (;;)
+    {
+        int opcode = *cursor;
+        switch (opcode)
+        {
+        case 0:
+        case 1:
+        case 22:
+        case 23:
+        case 24:
+            return count;
+        case 3:
+        case 8:
+        case 9:
+        case 10:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 25:
+        case 26:
+            do
+            {
+                cursor += DAT_011b9414[*cursor];
+            } while (*cursor == static_cast<signed char>(opcode));
+            break;
+        case 27: {
+            firstLocal.FUN_00d72030(first);
+            first = &firstLocal;
+            secondLocal.FUN_00d72030(second);
+            second = &secondLocal;
+            Vector firstAxis, secondAxis, firstBasis, secondBasis;
+            firstAxis.FUN_00c7f750(cursor, &firstLocal.axis);
+            secondAxis.FUN_00c7f750(cursor + 48, &secondLocal.axis);
+            firstBasis.FUN_00c7f750(cursor, &firstLocal.basis2);
+            secondBasis.FUN_00c7f750(cursor + 48, &secondLocal.basis2);
+            firstLocal.position.set(_mm_add_ps(firstLocal.position.get(), firstAxis.get()));
+            firstLocal.basis1.set(_mm_add_ps(firstLocal.basis1.get(), firstBasis.get()));
+            secondLocal.position.set(_mm_add_ps(secondLocal.position.get(), secondAxis.get()));
+            secondLocal.basis1.set(_mm_add_ps(secondLocal.basis1.get(), secondBasis.get()));
+            cursor += 96;
+            break;
+        }
+        case 2:
+            cursor += *reinterpret_cast<const int*>(cursor + 4);
+            break;
+        case 16:
+        case 17:
+        case 18:
+        case 19: {
+            if (single > limit)
+                return count;
+            ++pair;
+            float value = evaluate(reinterpret_cast<const Command*>(cursor), first, second);
+            ++count;
+            ++single;
+            *output++ = clampValue(value);
+            cursor += 48;
+            break;
+        }
+        case 20:
+        case 21: {
+            if (pair > limit)
+                return count;
+            pair += 2;
+            const Command* command = reinterpret_cast<const Command*>(cursor);
+            float value = evaluatePair(command, first, second);
+            count += 2;
+            single += 2;
+            *output++ = clampValue(value);
+            value = evaluatePair(command + 1, first, second);
+            *output++ = clampValue(value);
+            cursor += 112;
+            break;
+        }
+        case 5:
+        case 6:
+            if (single > limit)
+                return count;
+            ++pair;
+            *output = evaluate(reinterpret_cast<const Command*>(cursor), first, second);
+            ++count;
+            ++single;
+            ++output;
+            cursor += 48;
+            break;
+        case 7:
+            if (single > limit)
+                return count;
+            ++pair;
+            *output = evaluate(reinterpret_cast<const Command*>(cursor), first, second);
+            ++count;
+            ++single;
+            ++output;
+            cursor += 64;
+            break;
+        default:
+            break;
+        }
+    }
+}

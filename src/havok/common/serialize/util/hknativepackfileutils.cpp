@@ -1,0 +1,870 @@
+
+// src/havok/common/serialize/util/hknativepackfileutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hknativepackfileutils.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+extern "C" void __cdecl ProcessElements(int, int, int);
+
+struct FUN_00dc0ed0_class
+{
+    void FUN_00dc0ed0(int a, int b);
+};
+
+// @fnv 0x00dc0ed0
+void FUN_00dc0ed0_class::FUN_00dc0ed0(int aiFirst, int aiSecond)
+{
+    ProcessElements(*(int*)((char*)this + 8), aiSecond, aiFirst);
+}
+
+void __cdecl FUN_00dc0de0(void*, void*);
+
+struct FUN_00dc0ef0_class
+{
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    void FUN_00dc0ef0();
+};
+
+// If m_14 is set, calls FUN_00dc0de0 on m_08 and m_0c, then clears m_14 and m_18.
+// @fnv 0x00dc0ef0
+void FUN_00dc0ef0_class::FUN_00dc0ef0()
+{
+    if (m_14)
+    {
+        FUN_00dc0de0(m_08, m_0c);
+        m_14 = 0;
+        m_18 = 0;
+    }
+}
+
+struct FUN_00dc08f0_Element
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int dataOffset;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    void IsRendererActive(void* data, int arg);
+    void SecondPass(void* data, int arg);
+};
+
+struct FUN_00dc08f0_Header
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    FUN_00dc08f0_Element* elements;
+    int count;
+};
+
+// @fnv 0x00dc08f0
+extern "C" void __cdecl ProcessElements(int header, int first, int second)
+{
+    FUN_00dc08f0_Header* pHeader = (FUN_00dc08f0_Header*)header;
+    for (int i = 0; i < pHeader->count; i++)
+    {
+        FUN_00dc08f0_Element* pElement = &pHeader->elements[i];
+        void* data = (char*)pHeader + pElement->dataOffset;
+        pElement->IsRendererActive(data, first);
+        pElement->SecondPass(data, second);
+    }
+}
+
+struct S_00dc0de0_Allocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int nbytes);
+};
+
+struct S_00dc0de0_Router
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkC;
+    S_00dc0de0_Allocator* m_pStreamAllocator;
+    S_00dc0de0_Allocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+S_00dc0de0_Router* FUN_00c85750();
+
+struct S_00dc0de0_Value
+{
+    int unk00;
+    int unk04;
+    void (*m_callback)(unsigned int key);
+};
+
+struct S_00dc0de0_Pair
+{
+    unsigned int key;
+    S_00dc0de0_Value* val;
+};
+
+struct S_00dc0de0_Map
+{
+    S_00dc0de0_Pair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+
+    int GetFirstIterator() const
+    {
+        int i;
+        for (i = 0; i <= m_iPairCount; i++)
+            if (m_kPrimitiveElement[i].key != (unsigned int)-1)
+                break;
+        return i;
+    }
+    int getNext(int it) const
+    {
+        int i;
+        for (i = it + 1; i <= m_iPairCount; i++)
+            if (m_kPrimitiveElement[i].key != (unsigned int)-1)
+                break;
+        return i;
+    }
+    bool isValid(int it) const
+    {
+        return it <= m_iPairCount;
+    }
+    unsigned int GetIteratorKey(int it) const
+    {
+        return m_kPrimitiveElement[it].key;
+    }
+    S_00dc0de0_Value* getValue(int it) const
+    {
+        return m_kPrimitiveElement[it].val;
+    }
+    void ClearAndRelease(S_00dc0de0_Allocator& alloc);
+    void FUN_00a29680();
+};
+
+struct S_00dc0de0_Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+struct S_00dc0de0_Array
+{
+    S_00dc0de0_Elem* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    void _clearAndDeallocate(S_00dc0de0_Allocator& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(S_00dc0de0_Elem));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct S_00dc0de0
+{
+    int m_00;
+    int unk04;
+    S_00dc0de0_Map m_map;
+    S_00dc0de0_Array m_ppData;
+};
+
+// @fnv 0x00dc0de0
+void FUN_00dc0de0(S_00dc0de0* s)
+{
+    s->m_00 = 0;
+    S_00dc0de0_Map& map = s->m_map;
+    for (int it = map.GetFirstIterator(); map.isValid(it); it = map.getNext(it))
+    {
+        S_00dc0de0_Value* pValue = map.getValue(it);
+        if (pValue->m_callback)
+            pValue->m_callback(map.GetIteratorKey(it));
+    }
+    s->m_ppData._clearAndDeallocate(FUN_00c85750()->heap());
+    map.ClearAndRelease(FUN_00c85750()->heap());
+    map.FUN_00a29680();
+}
+
+extern char DAT_010d6ab4[];
+
+// @fnv 0x00dc0eb0
+void* __cdecl FUN_00dc0eb0()
+{
+    return DAT_010d6ab4;
+}
+
+struct FUN_00dc0ec0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int FUN_00dc0ec0(int first, int second);
+};
+// @fnv 0x00dc0ec0
+int FUN_00dc0ec0_cls::FUN_00dc0ec0(int first, int second)
+{
+    return unk14;
+}
+
+extern "C" int __cdecl FUN_00dc07d0(void*, void*) throw();
+extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int) throw();
+extern "C" void* __cdecl UnpackPackfile(void*, void*, void*, int, void*) throw();
+extern "C" void* DAT_010d6a94;
+
+struct S_00dc0cd0_Alloc
+{
+    virtual void* unk00() throw();
+    virtual void* AllocateMemoryBlock(int size) throw();
+    virtual void ReleaseBlock(void* p, int size) throw();
+    virtual void* AllocateBufferWithSize(int& req, int size) throw();
+    virtual void ReturnMemory(void* p, int size) throw();
+};
+
+struct S_00dc0cd0_Router
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    S_00dc0cd0_Alloc* m_pStreamAllocator;
+
+    S_00dc0cd0_Alloc& heap() throw()
+    {
+        return *m_pStreamAllocator;
+    }
+    static S_00dc0cd0_Router& GetMonitorStream() throw()
+    {
+        return *(S_00dc0cd0_Router*)FUN_00c85750();
+    }
+};
+
+struct S_00dc0cd0_Map
+{
+    void* LookupHashEntry(void* key, int defVal) throw();
+};
+
+struct S_00dc0cd0_Base0
+{
+    int unk00;
+    int unk04;
+};
+
+struct S_00dc0cd0_Data : public S_00dc0cd0_Base0, public S_00dc0cd0_Map
+{
+};
+
+struct S_00dc0cd0_MemberArray
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline void init() throw()
+    {
+        m_data = 0;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000000;
+    }
+
+    void SwapThreeInts(void* other) throw();
+};
+
+struct S_00dc0cd0_Array
+{
+    S_00dc0cd0_Data* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    S_00dc0cd0_Array() throw()
+    {
+        m_data = 0;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000000;
+    }
+
+    void GrowArrayCapacity(S_00dc0cd0_Alloc& alloc, int n) throw()
+    {
+        int cap = m_iCapacityState & 0x3fffffff;
+        if (cap < n)
+        {
+            int newCap = 2 * cap;
+            if (n >= newCap)
+                newCap = n;
+            FUN_00c908c0(&alloc, this, newCap, 1);
+        }
+    }
+
+    void _setSize(S_00dc0cd0_Alloc& alloc, int n) throw()
+    {
+        if ((m_iCapacityState & 0x3fffffff) < n)
+        {
+            GrowArrayCapacity(alloc, n);
+        }
+        m_iElementCount = n;
+    }
+
+    void SetSizeAndGrow(int n) throw()
+    {
+        _setSize(S_00dc0cd0_Router::GetMonitorStream().heap(), n);
+    }
+
+    ~S_00dc0cd0_Array() throw()
+    {
+        S_00dc0cd0_Alloc& alloc = S_00dc0cd0_Router::GetMonitorStream().heap();
+        m_iElementCount = 0;
+        int cap = m_iCapacityState;
+        if ((cap & 0x80000000) == 0)
+        {
+            alloc.ReturnMemory(m_data, cap & 0x3fffffff);
+        }
+    }
+};
+
+struct S_00dc0cd0_Resource
+{
+    void* m_00;
+    short m_04;
+    short m_06;
+    S_00dc0cd0_MemberArray m_ppData;
+    void* m_14;
+    void* m_18;
+};
+
+// @fnv 0x00dc0cd0
+void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw()
+{
+    S_00dc0cd0_Array tempArray;
+    int needed = FUN_00dc07d0(arg0, arg1);
+    tempArray.SetSizeAndGrow(needed);
+    void* pKey = UnpackPackfile(arg0, arg1, tempArray.m_data, needed, arg2);
+    S_00dc0cd0_Map* map = (S_00dc0cd0_Map*)((char*)tempArray.m_data + 8);
+    void* pFound = 0;
+    void** ppValue = (void**)map->LookupHashEntry(pKey, 0);
+    if (ppValue)
+    {
+        pFound = *ppValue;
+    }
+    S_00dc0cd0_Resource* pResource =
+        (S_00dc0cd0_Resource*)S_00dc0cd0_Router::GetMonitorStream().heap().AllocateMemoryBlock(0x1c);
+    pResource->m_04 = 0x1c;
+    pResource->m_06 = 1;
+    pResource->m_00 = &DAT_010d6a94;
+    pResource->m_ppData.init();
+    pResource->m_14 = pKey;
+    pResource->m_18 = pFound;
+    pResource->m_ppData.SwapThreeInts(&tempArray);
+    return pResource;
+}
+
+namespace fnv_00dc0f20 {
+extern int DAT_010d6a94;
+extern int DAT_0102e388;
+
+void __cdecl FUN_00dc0de0(void*, void*);
+
+struct AudioAllocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
+};
+
+struct AudioHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    AudioAllocator* m_pAllocator;
+};
+
+struct BSAudio;
+
+struct FUN_00dc0f20_cls
+{
+    int m_vptr;
+    int unk04;
+    void* m_08;
+    void* m_0c;
+    unsigned int m_10;
+    int m_14;
+    int m_18;
+
+    void FUN_00dc0f20();
+};
+
+// @fnv 0x00dc0f20
+void FUN_00dc0f20_cls::FUN_00dc0f20()
+{
+    m_vptr = (int)&DAT_010d6a94;
+    if (m_14 != 0)
+    {
+        FUN_00dc0de0(m_08, m_0c);
+        m_14 = 0;
+        m_18 = 0;
+    }
+    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
+    AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
+    m_0c = 0;
+    unsigned int uCapBits = m_10;
+    if ((uCapBits & 0x80000000u) == 0)
+    {
+        pAllocator->FreeArray(m_08, uCapBits & 0x3fffffffu);
+    }
+    m_08 = 0;
+    m_10 = 0x80000000u;
+    *(volatile int*)&m_vptr = (int)&DAT_0102e388;
+}
+}  // namespace fnv_00dc0f20
+
+struct StructureLayoutRules
+{
+    unsigned char m_ucBytesInPointer;
+    unsigned char m_bLittleEndian;
+    unsigned char m_bReusePaddingOptimization;
+    unsigned char m_bEmptyBaseClassOptimization;
+};
+
+extern StructureLayoutRules DAT_011b7b88;
+
+void __cdecl FUN_00cb1280(void* p, int a, int b);
+void* __cdecl FUN_00dc0fb0();
+int __cdecl FUN_00cb0fa0(const void* a, const void* b);
+
+struct hkPackfileHeader
+{
+    unsigned int m_magic0;
+    unsigned int m_magic1;
+    int m_uiUserTag;
+    int m_iFileVersion;
+    unsigned char m_layoutRules_0;
+    unsigned char m_layoutRules_1;
+    unsigned char m_layoutRules_2;
+    unsigned char m_layoutRules_3;
+    int m_iNumSections;
+    int m_iContentsSectionIndex;
+    int m_iContentsSectionOffset;
+    int m_iContentsClassNameSectionIndex;
+    int m_iContentsClassNameSectionOffset;
+    unsigned char m_contentsVersion_0;
+    unsigned char unk29;
+    unsigned char unk2a;
+    unsigned char unk2b;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    int m_flags;
+    int unk3c;
+
+    hkPackfileHeader()
+    {
+        FUN_00cb1280(this, -1, sizeof(*this));
+        m_magic0 = 0x57e0e057;
+        m_magic1 = 0x10c0c010;
+        m_contentsVersion_0 = 0;
+    }
+};
+
+// @fnv 0x00dc0640
+int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** outError)
+{
+    if (!header)
+    {
+        if (outError)
+            *outError = "Pointer is null";
+        return 1;
+    }
+
+    hkPackfileHeader defaultHeader;
+    if (header->m_magic0 != defaultHeader.m_magic0)
+        goto bad_magic;
+    if (header->m_magic1 != defaultHeader.m_magic1)
+    {
+    bad_magic:
+        if (outError)
+            *outError = "Missing packfile magic header. Is this from a binary file?";
+        return 1;
+    }
+
+    const StructureLayoutRules& hostRules = DAT_011b7b88;
+    if (header->m_layoutRules_0 != hostRules.m_ucBytesInPointer)
+    {
+        if (outError)
+            *outError = "Trying to process a binary file with a different pointer size than this platform.";
+        return 1;
+    }
+    if (header->m_layoutRules_1 != hostRules.m_bLittleEndian)
+    {
+        if (outError)
+            *outError = "Trying to process a binary file with a different endian than this platform.";
+        return 1;
+    }
+    if (header->m_layoutRules_2 != DAT_011b7b88.m_bReusePaddingOptimization)
+    {
+        if (outError)
+            *outError = "Trying to process a binary file with a different padding optimization than this platform.";
+        return 1;
+    }
+    if (header->m_layoutRules_3 != DAT_011b7b88.m_bEmptyBaseClassOptimization)
+    {
+        if (outError)
+            *outError =
+                "Trying to process a binary file with a different empty base class optimization than this platform.";
+        return 1;
+    }
+    if (((unsigned int)header & 3) != 0)
+    {
+        if (outError)
+            *outError = "Packfile data source needs to be 4 byte aligned";
+        return 1;
+    }
+    if (header->m_contentsVersion_0 == 0xff)
+    {
+        if (outError)
+            *outError = "Packfile file format is too old";
+        return 1;
+    }
+    if (FUN_00cb0fa0(&header->m_contentsVersion_0, FUN_00dc0fb0()) != 0)
+    {
+        if (outError)
+            *outError = "Packfile contents are not up to date";
+        return 1;
+    }
+
+    return 0;
+}
+
+struct hkPackfileSectionHeaderN
+{
+    char m_acSectionTag[19];
+    char m_cNullByte;
+    int m_iAbsoluteDataStart;
+    int m_iLocalFixupsOffset;
+    int m_iGlobalFixupsOffset;
+    int m_iVirtualFixupsOffset;
+    int m_iExportsOffset;
+    int m_iImportsOffset;
+    int m_iEndOffset;
+};
+
+void __cdecl hkMemCpyN(void* dst, const void* src, int n);
+
+inline void* operator new(unsigned int, void* p) throw()
+{
+    return p;
+}
+
+struct hkSectionArrayN
+{
+    hkPackfileSectionHeaderN* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    hkSectionArrayN(hkPackfileSectionHeaderN* p, int size, int capacity) throw()
+        : m_data(p), m_iElementCount(size), m_iCapacityState(capacity | 0x80000000)
+    {}
+    hkPackfileSectionHeaderN& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+struct hkTypeInfoRegistryN
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual const void* RegisterLoadedObject(void* obj, const char* className);
+};
+
+struct hkBuiltinTypeRegistryN
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual hkTypeInfoRegistryN* GetTypeInfoRegistry();
+};
+
+extern hkBuiltinTypeRegistryN* g_pkBuiltinTypeRegistryN;
+
+struct hkLoadedObjectTrackerN
+{
+    int m_00;
+    int m_04;
+    int m_08;
+
+    hkLoadedObjectTrackerN(void* buffer, int bufferSize) throw();
+    void add(void* allocator, void* obj, const void* typeInfo) throw();
+};
+
+struct hkNativeHeaderN
+{
+    unsigned int m_kMagic;
+    int m_iContentsVersion;
+    hkLoadedObjectTrackerN m_pTracker;
+    hkSectionArrayN m_sections;
+
+    void* getSectionPointer(int sectionIndex, int offset)
+    {
+        return m_sections[sectionIndex].m_iLocalFixupsOffset != 0
+                   ? (char*)this + m_sections[sectionIndex].m_iAbsoluteDataStart + offset
+                   : 0;
+    }
+};
+
+// Copies section data, applies local and global fixups, registers objects listed by virtual fixups, and returns the contents pointer.
+// @fnv 0x00dc0940
+extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void* outBuffer, int outBufferSize,
+                                        void* userRegistry) throw()
+{
+    int iFixupIndex;
+    const hkPackfileHeader* header = (const hkPackfileHeader*)packfileData;
+    const hkPackfileSectionHeaderN* sectionHeaders =
+        header->m_iNumSections > 0 ? (const hkPackfileSectionHeaderN*)(header + 1) : 0;
+    hkNativeHeaderN* out = (hkNativeHeaderN*)outBuffer;
+
+    out->m_kMagic = 0xd5109142;
+    new (&out->m_sections)
+        hkSectionArrayN((hkPackfileSectionHeaderN*)(out + 1), header->m_iNumSections, header->m_iNumSections);
+
+    int dataOffset = sizeof(hkNativeHeaderN) + header->m_iNumSections * sizeof(hkPackfileSectionHeaderN);
+    for (int i = 0; i < header->m_iNumSections; i++)
+    {
+        hkPackfileSectionHeaderN& dst = out->m_sections[i];
+        const hkPackfileSectionHeaderN& src = sectionHeaders[i];
+
+        hkMemCpyN(dst.m_acSectionTag, src.m_acSectionTag, sizeof(src.m_acSectionTag));
+        dst.m_cNullByte = src.m_cNullByte;
+        dst.m_iAbsoluteDataStart = dataOffset;
+        dst.m_iLocalFixupsOffset = src.m_iLocalFixupsOffset;
+        dst.m_iGlobalFixupsOffset = src.m_iLocalFixupsOffset;
+        dst.m_iVirtualFixupsOffset = src.m_iLocalFixupsOffset;
+        dst.m_iExportsOffset = src.m_iLocalFixupsOffset;
+        dst.m_iImportsOffset = src.m_iImportsOffset - src.m_iExportsOffset + src.m_iLocalFixupsOffset;
+        dst.m_iEndOffset = src.m_iEndOffset - src.m_iExportsOffset + src.m_iLocalFixupsOffset;
+
+        const char* srcData = (const char*)packfileData + src.m_iAbsoluteDataStart;
+        char* dstData = (char*)outBuffer + dataOffset;
+        hkMemCpyN(dstData, srcData, src.m_iLocalFixupsOffset);
+        hkMemCpyN(dstData + dst.m_iExportsOffset, srcData + src.m_iExportsOffset,
+                  src.m_iImportsOffset - src.m_iExportsOffset);
+        hkMemCpyN(dstData + dst.m_iImportsOffset, srcData + src.m_iImportsOffset,
+                  src.m_iEndOffset - src.m_iImportsOffset);
+
+        if (i == header->m_iContentsSectionIndex)
+            out->m_iContentsVersion = dataOffset + header->m_iContentsSectionOffset;
+
+        const int* localFixups = (const int*)(srcData + src.m_iLocalFixupsOffset);
+        for (iFixupIndex = 0; iFixupIndex < (src.m_iGlobalFixupsOffset - src.m_iLocalFixupsOffset) / 4;
+             iFixupIndex += 2)
+        {
+            int srcOffset = localFixups[iFixupIndex];
+            if (srcOffset != -1)
+                *(void**)(dstData + srcOffset) = dstData + localFixups[iFixupIndex + 1];
+        }
+        dataOffset += dst.m_iEndOffset;
+    }
+
+    for (int i = 0; i < header->m_iNumSections; i++)
+    {
+        const hkPackfileSectionHeaderN& src = sectionHeaders[i];
+        char* dstData = (char*)outBuffer + out->m_sections[i].m_iAbsoluteDataStart;
+        const int* globalFixups =
+            (const int*)((const char*)packfileData + src.m_iAbsoluteDataStart + src.m_iGlobalFixupsOffset);
+        for (iFixupIndex = 0; iFixupIndex < (src.m_iVirtualFixupsOffset - src.m_iGlobalFixupsOffset) / 4;
+             iFixupIndex += 3)
+        {
+            int srcOffset = globalFixups[iFixupIndex];
+            if (srcOffset != -1)
+            {
+                void* target = out->getSectionPointer(globalFixups[iFixupIndex + 1], globalFixups[iFixupIndex + 2]);
+                *(void**)(dstData + srcOffset) = target;
+            }
+        }
+    }
+
+    new (&out->m_pTracker) hkLoadedObjectTrackerN((char*)outBuffer + dataOffset, outBufferSize - dataOffset);
+
+    hkTypeInfoRegistryN* registry =
+        userRegistry ? (hkTypeInfoRegistryN*)userRegistry : g_pkBuiltinTypeRegistryN->GetTypeInfoRegistry();
+
+    for (int i = 0; i < header->m_iNumSections; i++)
+    {
+        char* dstData = (char*)outBuffer + out->m_sections[i].m_iAbsoluteDataStart;
+        const hkPackfileSectionHeaderN& src = sectionHeaders[i];
+        const int* virtualFixups =
+            (const int*)((const char*)packfileData + src.m_iAbsoluteDataStart + src.m_iVirtualFixupsOffset);
+        for (iFixupIndex = 0; iFixupIndex < (src.m_iExportsOffset - src.m_iVirtualFixupsOffset) / 4; iFixupIndex += 3)
+        {
+            int objOffset = virtualFixups[iFixupIndex];
+            if (objOffset != -1)
+            {
+                const char* className =
+                    (const char*)out->getSectionPointer(virtualFixups[iFixupIndex + 1], virtualFixups[iFixupIndex + 2]);
+                void* obj = dstData + objOffset;
+                const void* typeInfo = registry->RegisterLoadedObject(obj, className);
+                if (typeInfo)
+                {
+                    S_00dc0de0_Allocator& heap = FUN_00c85750()->heap();
+                    out->m_pTracker.add(&heap, obj, typeInfo);
+                }
+            }
+        }
+    }
+    return (char*)outBuffer + out->m_iContentsVersion;
+}
+
+struct Entry_dc07b0
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct Table_dc07b0
+{
+    Entry_dc07b0* entries;
+};
+
+// @fnv 0x00dc07b0
+static __declspec(noinline) int FUN_00dc07b0(Table_dc07b0* apTable, int aiIndex, int a, int b)
+{
+    if (apTable->entries[aiIndex].unk18 != 0)
+    {
+        return apTable->entries[aiIndex].unk14 + a + b;
+    }
+    return 0;
+}
+
+volatile int g_idx_dc07b0;
+volatile int g_a_dc07b0;
+volatile int g_b_dc07b0;
+Table_dc07b0* volatile g_t_dc07b0;
+volatile int g_out_dc07b0;
+
+void CallTarget_dc07b0()
+{
+    g_out_dc07b0 = FUN_00dc07b0(g_t_dc07b0, g_idx_dc07b0, g_a_dc07b0, g_b_dc07b0);
+}
+
+extern "C" int __cdecl FUN_00cb17f0(int);
+
+struct hkPackfileSectionHeader
+{
+    char m_acSectionTag[19];
+    char m_cNullByte;
+    int m_iAbsoluteDataStart;
+    int m_iLocalFixupsOffset;
+    int m_iGlobalFixupsOffset;
+    int m_iVirtualFixupsOffset;
+    int m_iExportsOffset;
+    int m_iImportsOffset;
+    int m_iEndOffset;
+
+    int getDataSize() const
+    {
+        return m_iLocalFixupsOffset;
+    }
+    int getVirtualFixupsSize() const
+    {
+        return m_iExportsOffset - m_iVirtualFixupsOffset;
+    }
+    int getExportsSize() const
+    {
+        return m_iImportsOffset - m_iExportsOffset;
+    }
+    int getImportsSize() const
+    {
+        return m_iEndOffset - m_iImportsOffset;
+    }
+};
+
+// @fnv 0x00dc07d0
+extern "C" int __cdecl FUN_00dc07d0(void* packfileData, void* packfileSize) throw()
+{
+    const hkPackfileHeader* header = (const hkPackfileHeader*)packfileData;
+    int dataSize = 0;
+    int numVirtualFixups = 0;
+    const hkPackfileSectionHeader* sections =
+        header->m_iNumSections > 0 ? (const hkPackfileSectionHeader*)(header + 1) : 0;
+    for (int i = 0; i < header->m_iNumSections; i++)
+    {
+        numVirtualFixups += sections[i].getVirtualFixupsSize() / (3 * (int)sizeof(int));
+        dataSize += sections[i].getDataSize() + sections[i].getExportsSize() + sections[i].getImportsSize();
+    }
+    int mapSize = FUN_00cb17f0(numVirtualFixups);
+    return 0x20 + header->m_iNumSections * (int)sizeof(hkPackfileSectionHeader) + dataSize + mapSize;
+}
+
+namespace fnv_00dc0f80 {
+struct Allocator
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void Free(void*, unsigned);
+};
+struct Manager
+{
+    unsigned flags, state, count, capacity;
+    Allocator* allocator;
+};
+Manager* FUN_00c85750();
+struct FUN_00dc0f80
+{
+    unsigned short allocationSize;
+    FUN_00dc0f80();
+    virtual ~FUN_00dc0f80();
+    void operator delete(void* ptr)
+    {
+        Manager* manager = FUN_00c85750();
+        manager->allocator->Free(ptr, static_cast<FUN_00dc0f80*>(ptr)->allocationSize);
+    }
+};
+// @fnv 0x00dc0f80
+FUN_00dc0f80::FUN_00dc0f80()
+{}
+}  // namespace fnv_00dc0f80

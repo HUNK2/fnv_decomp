@@ -1,0 +1,109 @@
+
+// src/havok/physics/dynamics/constraint/util/hkpconstraintcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/util/hkpconstraintcallbackutil.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+#include <windows.h>
+extern DWORD DAT_0126835c;
+extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
+extern const char str_010d3824[];
+extern const char str_010c41f8[];
+
+unsigned __int64 __cdecl __rdtsc(void);
+extern "C" void _ReadWriteBarrier(void);
+
+struct ProfRec
+{
+    const char* m_pName;
+    DWORD m_iTick;
+    DWORD unk08;
+};
+
+struct ProfBuf
+{
+    DWORD unk00;
+    ProfRec* m_pCur;
+    DWORD unk08;
+    ProfRec* m_pRecordEnd;
+};
+
+struct ListenerOwner;
+
+class ListenerObj
+{
+  public:
+    virtual void v00(void);
+    virtual void v01(void);
+    virtual void v02(void);
+    virtual void v03(ListenerOwner* pEvent);
+};
+
+struct ListenerOwner;
+
+struct ListenerArray
+{
+    ListenerObj** m_ppItems;
+    WORD m_wCount;
+};
+
+struct ListenerOwner
+{
+    DWORD unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    ListenerArray m_kListeners;
+};
+
+static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
+{
+    for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
+    {
+        if (pArr->m_ppItems[i] == 0)
+        {
+            pArr->m_wCount--;
+            for (int j = i; j < (int)pArr->m_wCount; j++)
+                pArr->m_ppItems[j] = pArr->m_ppItems[j + 1];
+        }
+    }
+}
+
+// Invokes v03 on each non-null listener in pOwner->m_kListeners with pOwner, logging start and end ticks, then compacts the array.
+// @fnv 0x00d85ef0
+void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
+{
+    volatile DWORD ticks[2];
+    ListenerArray* pArr = &pOwner->m_kListeners;
+    int i = (int)pArr->m_wCount - 1;
+    if (i >= 0)
+    {
+        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        do
+        {
+            if (pArr->m_ppItems[i] != 0)
+            {
+                ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
+                ProfRec* cur = pBuf->m_pCur;
+                if (cur < pBuf->m_pRecordEnd)
+                {
+                    cur->m_pName = str_010d3824;
+                    _ReadWriteBarrier();
+                    ticks[0] = (DWORD)__rdtsc();
+                    cur->m_iTick = ticks[0];
+                    cur++;
+                    pBuf->m_pCur = cur;
+                }
+                pArr->m_ppItems[i]->v03(pOwner);
+                pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
+                cur = pBuf->m_pCur;
+                if (cur < pBuf->m_pRecordEnd)
+                {
+                    cur->m_pName = str_010c41f8;
+                    _ReadWriteBarrier();
+                    ticks[1] = (DWORD)__rdtsc();
+                    cur->m_iTick = ticks[1];
+                    cur++;
+                    pBuf->m_pCur = cur;
+                }
+            }
+            i--;
+        } while (i >= 0);
+    }
+    FUN_00d85d40(pArr);
+}

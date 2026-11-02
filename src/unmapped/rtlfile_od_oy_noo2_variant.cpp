@@ -1,0 +1,40 @@
+
+// src/unmapped/rtlfile_od_oy_noo2_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /Od /Oy- /GS /EHsc /Gy (unit src/unmapped/rtlfile.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+unsigned int gm_GetCurrentThreadId();
+int FUN_0043b460(const long* lock, long zero, long owner);
+void FUN_0040fbe0();
+
+struct FUN_0078d200_cls
+{
+    unsigned int m_pOwnerObject;
+    unsigned int m_uiItemCount;
+    bool FUN_0078d200();
+};
+
+// @fnv 0x0078d200
+bool FUN_0078d200_cls::FUN_0078d200()
+{
+    __declspec(align(32)) unsigned int tid;
+    bool ok = false;
+    tid = gm_GetCurrentThreadId();
+    if (m_pOwnerObject == tid)
+    {
+        m_uiItemCount = m_uiItemCount + 1;
+        ok = true;
+    }
+    else
+    {
+        ok = !FUN_0043b460((const long*)this, 0, (long)tid);
+        if (ok)
+        {
+            FUN_0040fbe0();
+            m_uiItemCount = 1;
+        }
+    }
+    return ok;
+}

@@ -1,0 +1,10 @@
+No licence is granted.
+
+This repository reconstructs source code for FNV (PC, version 1.4.0.525). The program it reconstructs
+is the copyrighted work of its owners, and nothing in this repository grants any rights in it. The contributors do not
+grant a licence to their own contributions either. You may view this repository and fork it on GitHub as GitHub's
+Terms of Service allow.
+
+Code under third_party/ keeps its own licence (zlib 1.2.1: see third_party/zlib-1.2.1/README).
+
+Questions and takedown requests: contact@fnvdecomp.com

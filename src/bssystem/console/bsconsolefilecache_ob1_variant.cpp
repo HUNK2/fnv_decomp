@@ -1,0 +1,325 @@
+
+// to their real unit once identified.
+
+#include "bsconsolefilecache_decls.h"
+extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
+extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
+struct FUN_00b02310_shell
+{
+    bool FUN_00b02310(unsigned char* param);
+};
+struct DelObj
+{
+    virtual ~DelObj()
+    {}
+};
+struct FUN_00b02360_shell
+{
+    void DeleteIfNotNull(DelObj* p);
+};
+extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
+                                                                             unsigned long dwMilliseconds);
+extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
+extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long dwExitCode);
+struct Inner_00b023b0
+{
+    long cnt;
+    void* h;
+};
+struct Outer_00b023b0
+{
+    char pad[8];
+    Inner_00b023b0 inner;
+    void ResumeAllThreads();
+};
+void __stdcall WaitAndExitThread(Outer_00b023b0* p);
+extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long);
+struct Unk00b023f0
+{
+    void CallVfn1OnAllEntries();
+    void FUN_00b02460();
+    void CallVirtualOnAllEntries();
+};
+void __stdcall FUN_00b023f0(Unk00b023f0* p);
+extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
+struct FUN_00b02420_Data
+{
+    unsigned char pad[0x1C];
+    unsigned int cnt;
+    void* h[1];
+    void ResumeAllThreads();
+};
+struct FUN_00b02600_shell
+{
+    bool ContainsValue(int);
+};
+struct MemoryManager
+{
+    void _DeallocateAlias(void*);
+};
+extern MemoryManager g_memoryManager;
+struct S00b02640
+{
+    void DestroyAndFreeLibraries();
+    void* FUN_00b02640(unsigned int);
+};
+struct FUN_00b02130_shell
+{
+    bool QueueItem(void* p);
+};
+extern "C" __declspec(dllimport) void __stdcall ReleaseSemaphore(void* hSemaphore, long cReleaseCount,
+                                                                 long* lPreviousCount);
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
+struct FUN_00b020a0_shell
+{
+    char FUN_00b020a0(void* p);
+};
+extern "C" __declspec(dllimport) unsigned long __stdcall WaitForMultipleObjects(unsigned long nCount,
+                                                                                const void* const* lpHandles,
+                                                                                int bWaitAll,
+                                                                                unsigned long dwMilliseconds);
+extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
+struct FUN_00b01f50_shell
+{
+    void FUN_00b01f50();
+};
+extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
+struct Lock_00b02220
+{
+    int m_debugInfo;
+    int m_lLockCount;
+    int m_recursionCount;
+    void* m_owningThread;
+    void* m_lockSemaphore;
+    unsigned int m_spinCount;
+};
+struct FUN_00b02220_Owner
+{
+    int u000;
+    int u004;
+    int u008;
+    int u00C;
+    int u010;
+    Lock_00b02220 m_kLock;
+    bool m_bEnableState;
+    bool m_bPending;
+    short u02E;
+    int u030;
+    int m_iArrayLength;
+};
+struct FUN_00b02220_Task
+{
+    int unk00;
+    bool m_bDone;
+    char u005;
+    short u006;
+    FUN_00b02220_Owner* m_pkOwnerManager;
+    int unk0C;
+    long m_lBusy;
+};
+struct FUN_00b02220_Class : FUN_00b02130_shell
+{
+    bool TryStartTask(void* pOwner, void* pTask, bool bClearPending);
+};
+
+struct NiMemoryManager_b02010
+{
+    void* FUN_00aa3e40(unsigned int size);
+};
+extern NiMemoryManager_b02010 DAT_011f6238;
+
+struct Spawned_b02010
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    Spawned_b02010();
+    static void* operator new(unsigned int size)
+    {
+        return DAT_011f6238.FUN_00aa3e40(size);
+    }
+    static void operator delete(void*)
+    {}
+};
+
+struct Owner_b02010
+{
+    unsigned int unk00;
+    bool FUN_00b02010(Spawned_b02010** out);
+};
+
+// @fnv 0x00b02010
+bool Owner_b02010::FUN_00b02010(Spawned_b02010** out)
+{
+    Spawned_b02010* v = new Spawned_b02010;
+    *out = v;
+    return v != 0;
+}
+
+extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
+extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
+extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
+                                                                             unsigned long dwMilliseconds);
+extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
+extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long dwMilliseconds);
+extern "C" __declspec(dllimport) void __stdcall ReleaseSemaphore(void*, long, long*);
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
+struct CritSection
+{
+    void* DebugInfo;
+    long LockCount;
+    long RecursionCount;
+    void* OwningThread;
+    void* LockSemaphore;
+    unsigned long SpinCount;
+};
+struct JobSemaphore
+{
+    long cnt;
+    void* h;
+    void Wait()
+    {
+        WaitForSingleObject(h, -1);
+        InterlockedDecrement(&cnt);
+    }
+    void Signal()
+    {
+        ReleaseSemaphore(h, 1, 0);
+        InterlockedIncrement(&cnt);
+    }
+};
+struct JobOwner
+{
+    int unk00;
+    int unk04;
+    JobSemaphore completion;
+    int unk10;
+    CritSection kLock;
+    bool enabled;
+    bool pending;
+    bool bBusy;
+    char unk2F;
+    unsigned int priority;
+    unsigned int count;
+    unsigned int completed;
+    void CompleteTask()
+    {
+        EnterCriticalSection(&kLock);
+        ++completed;
+        bool done = !pending && completed == count;
+        LeaveCriticalSection(&kLock);
+        if (done)
+            completion.Signal();
+    }
+    bool IsBusy()
+    {
+        return bBusy;
+    }
+};
+struct Job
+{
+    virtual void Release();
+    virtual bool HasFinished();
+    virtual void Run();
+    virtual void Cancel();
+    bool bHasCallback;
+    JobOwner* pOwner;
+    bool bPending;
+    int unk10;
+    Job* pNext;
+};
+struct JobThread
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    bool bStop;
+    CritSection kLock;
+    Job* m_pQueueHeads[64];
+    Job** pQueueTails[64];
+    JobSemaphore kSemaphore;
+    bool QueueItem(void* p);
+    void FUN_00b02460();
+};
+// @fnv 0x00b02460
+void JobThread::FUN_00b02460()
+{
+    Job* pJobB;
+    JobOwner* pOwner;
+    unsigned int i;
+    Job** ppSlot;
+    bool bRun;
+    while (!bStop)
+    {
+        pJobB = 0;
+        pOwner = 0;
+        kSemaphore.Wait();
+        if (!bStop)
+        {
+            EnterCriticalSection(&kLock);
+            for (i = 0, ppSlot = m_pQueueHeads; i < 64; ++i, ++ppSlot)
+            {
+                pJobB = *ppSlot;
+                if (pJobB)
+                {
+                    *ppSlot = pJobB->pNext;
+                    pOwner = pJobB->pOwner;
+                    break;
+                }
+            }
+            LeaveCriticalSection(&kLock);
+            if (pJobB && pOwner && pJobB && !pOwner->IsBusy())
+            {
+                if ((bRun = pJobB->bPending ? pJobB->HasFinished() : true))
+                {
+                    pJobB->bPending = false;
+                    pJobB->Run();
+                }
+            }
+            if (pJobB && pOwner)
+            {
+                if (pJobB->bHasCallback && !pOwner->IsBusy())
+                {
+                    QueueItem(pJobB);
+                }
+                else
+                {
+                    pJobB->Cancel();
+                    pJobB->pOwner = 0;
+                    pJobB->unk10 = 0;
+                    pOwner->CompleteTask();
+                }
+            }
+        }
+        Sleep(0);
+    }
+}

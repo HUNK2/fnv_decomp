@@ -1,0 +1,2 @@
+
+#include "nifloatdata.inl"

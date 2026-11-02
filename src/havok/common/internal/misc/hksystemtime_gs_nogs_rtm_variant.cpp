@@ -1,0 +1,237 @@
+// src/havok/common/internal/misc/hksystemtime_gs_nogs_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/common/internal/misc/hksystemtime.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS- /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
+
+// src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+extern "C" __int64 __cdecl __time64(__int64*);
+int FUN_00e29910(void);
+
+#include <math.h>
+typedef union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+} __m128;
+extern "C"
+{
+    __m128 _mm_setzero_ps();
+    __m128 _mm_sub_ps(__m128, __m128);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_mul_ss(__m128, __m128);
+    __m128 _mm_add_ss(__m128, __m128);
+    __m128 _mm_shuffle_ps(__m128, __m128, int);
+    __m128 _mm_rsqrt_ss(__m128);
+    __m128 _mm_set_ss(float);
+    __m128 _mm_cmplt_ps(__m128, __m128);
+    int _mm_movemask_ps(__m128);
+    float _mm_cvtss_f32(__m128);
+    void _mm_store_ss(float*, __m128);
+    void _mm_store_ps(float*, __m128);
+    __m128 _mm_load_ps(const float*);
+    __m128 _mm_load_ss(const float*);
+}
+
+// ---- stand-ins for the analysed image's types
+struct __declspec(align(16)) FNV_Vec4
+{
+    float x, y, z, w;
+};
+struct E29Src
+{
+    int idx[4];
+    int n;
+    static __forceinline void* operator new(size_t, void* place) throw()
+    {
+        return place;
+    }
+    static __forceinline void operator delete(void*, void*) throw()
+    {}
+    __forceinline E29Src(int index) throw()
+    {
+        idx[0] = index;
+        idx[1] = 0;
+        idx[2] = 0;
+        idx[3] = 0;
+        n = 1;
+    }
+    __forceinline E29Src() throw()
+    {
+        for (int x = 0; x < 4; x++)
+            idx[x] = 0;
+        n = 0;
+    }
+};
+struct E29SrcList
+{
+    E29Src* data;
+    int count;
+    int cap;
+    void* mem;
+};
+
+struct E29Item
+{
+    __m128 a;
+    __m128 b;
+    char flag20;
+    int val24;
+};
+struct E29Out1
+{
+    E29Item item;
+    void* ptr30;
+    int one34;
+    int zero38;
+    char unk3c;
+    char flag3d;
+};
+struct E29Out2
+{
+    E29Item items[4];
+    int count;
+    char flagC4;
+    void* ptrs[4];
+    int unkD8;
+    int unkDC;
+    int zeros[4];
+    int unkF0;
+};
+
+struct FNV_MemObj
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void Release(void* p, int size);  // vtable slot 4 (+0x10)
+};
+
+struct FNV_Ctx
+{
+    void* cur;  // +0x00 bump pointer
+    int pad0;
+    int pad1;
+    int pad2;
+    FNV_MemObj* obj;  // +0x10
+};
+
+extern "C" FNV_Ctx* FUN_00c85750() throw();
+
+// ---- shell helpers
+struct FUN_00e29920_shell;
+extern "C" bool FUN_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
+extern "C" void FUN_00e29a10(E29SrcList*, const __m128*, const __m128*, char*, E29Out1*, int*, E29Out2*, int*) throw();
+
+static __forceinline __m128 dot3(__m128 a, __m128 b)
+{
+    __m128 q = _mm_mul_ps(a, b);
+    return _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
+}
+extern "C" __declspec(noinline) bool FUN_00e29920(FNV_Vec4* a, FNV_Vec4* b, FNV_Vec4* n, FNV_Vec4* a2, FNV_Vec4* b2,
+                                                  FNV_Vec4* n2, float thresh, float limit) throw()
+{
+    float dot;
+    _mm_store_ss(&dot, dot3(*(__m128*)n, *(__m128*)n2));
+    if (dot < thresh)
+        return false;
+    __m128 d1 = _mm_sub_ps(*(__m128*)a2, *(__m128*)a);
+    __m128 d2 = _mm_sub_ps(*(__m128*)b2, *(__m128*)b);
+    float distance1;
+    _mm_store_ss(&distance1, dot3(d1, d1));
+    if (distance1 > limit)
+        return false;
+    float distance2;
+    _mm_store_ss(&distance2, dot3(d2, d2));
+    return !(distance2 > limit);
+}
+
+static __forceinline __m128 normalizeVector(FNV_Vec4& result, __m128 value)
+{
+    __m128 q = _mm_mul_ps(value, value);
+    __m128 y = _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q);
+    __m128 len = _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), y);
+    __m128 inv = _mm_rsqrt_ss(len);
+    __m128 scale = _mm_shuffle_ps(inv, inv, 0);
+    __m128 distance = _mm_mul_ss(len, scale);
+    _mm_store_ps(&result.x, _mm_mul_ps(scale, value));
+    return distance;
+}
+
+// @fnv 0x00e2a010
+void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, float scale, char* a7, E29Out1* a8, int* a9,
+                  E29Out2* a10, int* a11)
+{
+    float thresh = (float)fabs((float)cos((double)angle));
+    E29SrcList list;
+    list.count = 0;
+    FNV_Ctx* ctx = FUN_00c85750();
+    E29Src* recs = (E29Src*)ctx->cur;
+    ctx->cur = (char*)recs + ((n * 5 * 4 + 0x7f) & ~0x7f);
+    int cap = n | 0x80000000;
+    list.data = recs;
+    list.cap = cap;
+    list.mem = recs;
+    FNV_Vec4* pa = A;
+    int i = 0;
+    if (n > 0)
+    {
+        __m128 zero = _mm_setzero_ps();
+        E29Src* cursor = recs;
+        int off = (char*)B - (char*)A;
+        do
+        {
+            FNV_Vec4 va = *pa;
+            FNV_Vec4 vb = *(FNV_Vec4*)((char*)pa + off);
+            __m128 delta = _mm_sub_ps(*(__m128*)&vb, *(__m128*)&va);
+            int bits = _mm_movemask_ps(_mm_cmplt_ps(delta, zero));
+            if ((bits & 4) + (bits & 2) + (bits & 1) != corner)
+                goto next;
+            FNV_Vec4 nrm1;
+            float dist;
+            _mm_store_ss(&dist, normalizeVector(nrm1, delta));
+            float power = pow(dist, 2.0f);
+            __m128 ang = _mm_load_ss(&power);
+
+            {
+                for (int k = 0; k < list.count; k++)
+                {
+                    E29Src* rec = &recs[k];
+                    if (rec->n >= 4)
+                        continue;
+                    for (int j = 0; j < 1; j++)
+                    {
+                        int idx = rec->idx[j];
+                        FNV_Vec4 va2 = A[idx];
+                        FNV_Vec4 vb2 = B[idx];
+                        __m128 d2 = _mm_sub_ps(*(__m128*)&vb2, *(__m128*)&va2);
+                        FNV_Vec4 nrm2;
+                        normalizeVector(nrm2, d2);
+                        float sc;
+                        _mm_store_ss(&sc, _mm_mul_ss(ang, _mm_load_ss(&scale)));
+                        if (FUN_00e29920(&va, &vb, &nrm1, &va2, &vb2, &nrm2, thresh, sc))
+                        {
+                            rec->idx[rec->n] = i;
+                            rec->n++;
+                            goto next;
+                        }
+                    }
+                }
+            }
+            {
+                E29Src tmp;
+                tmp.idx[tmp.n++] = i;
+                new (cursor) E29Src(tmp);
+                list.count++;
+                cursor++;
+            }
+        next:
+            i++;
+            pa++;
+        } while (i < n);
+    }
+    FUN_00e29a10(&list, (const __m128*)A, (const __m128*)B, a7, a8, a9, a10, a11);
+    FUN_00c85750()->cur = recs;
+    FNV_Ctx* holder = FUN_00c85750();
+    FNV_MemObj* allocator = holder->obj;
+    if ((list.cap & 0x80000000) == 0)
+        allocator->Release(recs, (list.cap & 0x3fffffff) * 5 * 4);
+}

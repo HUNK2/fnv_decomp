@@ -1,0 +1,31 @@
+// fallout_shared/pathfinding/navmeshedgeextrainfo.cpp: EdgeExtraInfo, EdgeHolder (2 functions)
+
+#include "navmeshedgeextrainfo_decls.h"
+
+// @fnv 0x00694de0
+EdgeExtraInfo* EdgeExtraInfo::DeserializeFromFile()
+{
+    vtable = &DAT_0106b0dc;
+    reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(this)->FUN_006b3eb0(0, false);
+    return this;
+}
+
+struct TES
+{
+    void* GetActiveCell(void* a, void* b);
+};
+extern TES* g_TES;
+struct PortalHolder
+{
+    void LoadFormRef(void* p);
+};
+struct EdgeHolder
+{
+    void FUN_0069d240(void* a, void* b);
+};
+// @fnv 0x0069d240
+void EdgeHolder::FUN_0069d240(void* apArg1, void* apArg2)
+{
+    *(int*)this = 0;
+    ((PortalHolder*)((char*)this + 4))->LoadFormRef(g_TES->GetActiveCell(apArg1, apArg2));
+}

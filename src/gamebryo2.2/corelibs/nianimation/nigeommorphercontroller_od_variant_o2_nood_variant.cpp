@@ -1,0 +1,218 @@
+
+// src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_od_variant_o2_nood_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHsc /Gy (unit src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_od_variant.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp functions whose prologue its flags cannot
+// produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+// gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp
+// NiGeomMorpherController: morph-target interpolator management.
+#include "nigeommorphercontroller.h"
+
+#include <string.h>
+#include <stdio.h>
+NiFixedString::operator const char*() const
+{
+    return m_kHandle;
+}
+char* FUN_00a7d330(char*);
+char* FUN_00a7d510(const char*, unsigned int);
+void* NiMalloc(unsigned int);
+extern char* DAT_011f3728;
+struct NiRTTI
+{
+    const char* name;
+    NiRTTI* parent;
+};
+extern NiRTTI DAT_011f3e58, DAT_011f3738;
+struct StrArr
+{
+    int u00;
+    char** data;
+    unsigned short capacity, size, filled, grow;
+    void SetSize(unsigned int);
+    __declspec(noinline) void SetAt(unsigned int, char*&);
+    __forceinline void append(char*& value)
+    {
+        unsigned int index = size;
+        if (index >= capacity)
+            SetSize(index + grow);
+        SetAt(index, value);
+    }
+};
+void StrArr::SetAt(unsigned int index, char*& value)
+{
+    if (index >= size)
+    {
+        size = (unsigned short)(index + 1);
+        if (value)
+            ++filled;
+    }
+    else if (value)
+    {
+        if (!data[index])
+            ++filled;
+    }
+    else if (data[index])
+        filled += 0xffff;
+    data[index] = value;
+}
+struct InterpolatorView : NiInterpolator
+{
+    virtual NiRTTI* GetRTTI();
+    __forceinline bool IsKindOfType(const NiRTTI* wanted)
+    {
+        const NiRTTI* rtti = GetRTTI();
+        while (rtti)
+        {
+            if (rtti == wanted)
+                return true;
+            rtti = rtti->parent;
+        }
+        return false;
+    }
+};
+struct BlendValueView : InterpolatorView
+{
+    int u0c, u10, u14, u18, u1c, u20, u24, u28, u2c;
+    float value;
+};
+struct FloatValueView : InterpolatorView
+{
+    float value;
+};
+struct MorphViewer : NiGeomMorpherController
+{
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual void slot37();
+    virtual void slot38();
+    virtual void slot39();
+    virtual void slot40();
+    virtual void slot41();
+    virtual void slot42();
+    virtual void slot43();
+    virtual void slot44();
+    virtual void slot45();
+    virtual void slot46();
+    virtual void slot47();
+    virtual void slot48();
+    virtual InterpolatorView* GetInterpolator(unsigned int);
+    void FUN_00a3b700(StrArr*);
+};
+// @fnv 0x00a3b700
+void MorphViewer::FUN_00a3b700(StrArr* array)
+{
+    union HeaderScratch
+    {
+        char* text;
+        unsigned int count;
+    } header;
+    {
+        header.text = FUN_00a7d330(DAT_011f3728);
+        array->append(header.text);
+        header.text = FUN_00a7d510("NumTargets",
+                                   m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumTargets : 0);
+        array->append(header.text);
+        header.text =
+            FUN_00a7d510("NumVertsPerTarget",
+                         m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumVertsPerTarget : 0);
+        array->append(header.text);
+    }
+    header.count = m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumTargets : 0;
+    float value;
+    unsigned int i = 0;
+    if (i < header.count)
+    {
+        unsigned int offset = 0;
+        do
+        {
+            NiMorphData::MorphTarget* target =
+                i < m_spMorphTargetData.m_pObject->m_uiNumTargets
+                    ? reinterpret_cast<NiMorphData::MorphTarget*>(
+                          reinterpret_cast<char*>(m_spMorphTargetData.m_pObject->m_pMorphTargets) + offset)
+                    : 0;
+            InterpolatorView* interpolator = GetInterpolator(i);
+            char buffer[256];
+            if (interpolator)
+            {
+                BlendValueView* blend =
+                    interpolator->IsKindOfType(&DAT_011f3e58) ? static_cast<BlendValueView*>(interpolator) : 0;
+                FloatValueView* scalar =
+                    interpolator->IsKindOfType(&DAT_011f3738) ? static_cast<FloatValueView*>(interpolator) : 0;
+                if (blend)
+                {
+                    value = blend->value;
+                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>(target->GetName()), (double)value);
+                }
+                else if (scalar)
+                {
+                    value = scalar->value;
+                    sprintf(buffer, "%d %s = %0.2f", i, static_cast<const char*>(target->GetName()), (double)value);
+                }
+                else
+                    goto no_val;
+            }
+            else
+            {
+            no_val:
+                sprintf(buffer, "%d %s", i, static_cast<const char*>(target->GetName()));
+            }
+            unsigned int bytes = strlen(buffer) + 3;
+            char* copy = static_cast<char*>(NiMalloc(bytes));
+            strcpy_s(copy, bytes, buffer);
+            unsigned int index = array->size;
+            if (index >= array->capacity)
+                array->SetSize(index + array->grow);
+            if (index >= array->size)
+            {
+                array->size = index + 1;
+                if (copy)
+                    ++array->filled;
+            }
+            else if (copy)
+            {
+                if (!array->data[index])
+                    ++array->filled;
+            }
+            else if (array->data[index])
+                array->filled += 0xffff;
+            offset += sizeof(NiMorphData::MorphTarget);
+            array->data[index] = copy;
+            ++i;
+        } while (i < header.count);
+    }
+}

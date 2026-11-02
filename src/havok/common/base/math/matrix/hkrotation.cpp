@@ -1,0 +1,281 @@
+
+// src/havok/common/base/math/matrix/hkrotation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkrotation.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct CB2FC0Object;
+
+struct __declspec(align(16)) CB2FC0Snapshot
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+
+    CB2FC0Snapshot(const CB2FC0Object* object);
+};
+
+struct CB2FC0Object
+{
+    void FUN_00cb2d90(void* snapshot);
+    void FUN_00cb2fc0();
+};
+
+// Builds a CB2FC0Snapshot from this object and passes it to FUN_00cb2d90.
+// @fnv 0x00cb2fc0
+void CB2FC0Object::FUN_00cb2fc0()
+{
+    CB2FC0Snapshot snapshot(this);
+    FUN_00cb2d90(&snapshot);
+}
+
+struct __declspec(align(16)) SpawnedSnap
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+
+    SpawnedSnap(int value, float scale);
+};
+
+class FUN_00cb2e30_cls
+{
+  public:
+    void SpawnSnap(int value, float scale);
+};
+
+// Builds a SpawnedSnap from value and scale, then passes it to FUN_00cb2d90 on this object.
+// @fnv 0x00cb2e30
+void FUN_00cb2e30_cls::SpawnSnap(int value, float scale)
+{
+    SpawnedSnap snap(value, scale);
+    ((CB2FC0Object*)this)->FUN_00cb2d90(&snap);
+}
+
+extern int DAT_012683c0;
+
+class FUN_00cb2ff0_base
+{
+  public:
+    virtual void unk00();
+    ~FUN_00cb2ff0_base();
+    int unk04;
+};
+
+class FUN_00cb2ff0 : public FUN_00cb2ff0_base
+{
+  public:
+    virtual ~FUN_00cb2ff0();
+    void unk08();
+};
+
+// Calls unk08 on this object, then decrements the global counter DAT_012683c0.
+// @fnv 0x00cb2ff0
+FUN_00cb2ff0::~FUN_00cb2ff0()
+{
+    this->unk08();
+    DAT_012683c0--;
+}
+
+#include <xmmintrin.h>
+#include <math.h>
+namespace fnv_00cb2e70 {
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+};
+extern "C"
+{
+    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_sub_ps(__m128, __m128);
+    __m128 _mm_and_ps(__m128, __m128);
+    __m128 _mm_add_ss(__m128, __m128);
+    __m128 _mm_cmple_ps(__m128, __m128);
+    __m128 _mm_set_ps1(float);
+    void _mm_store_ss(float*, __m128);
+    int _mm_movemask_ps(__m128);
+}
+
+extern __m128 DAT_01017d10;
+
+class hkBool
+{
+  public:
+    hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    char m_cBooleanValue;
+};
+
+struct hkVector4q
+{
+    __m128 m_vComponents;
+
+    __forceinline float lengthSquared3() const
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 t = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        t = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), t);
+        float r;
+        _mm_store_ss(&r, t);
+        return r;
+    }
+
+    __forceinline void setCross(const hkVector4q& v1, const hkVector4q& v2)
+    {
+        __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                   _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                   _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+
+    __forceinline hkBool equals3(const hkVector4q& v, float epsilon) const
+    {
+        __m128 diff = _mm_and_ps(_mm_sub_ps(m_vComponents, v.m_vComponents), DAT_01017d10);
+        __m128 eps = _mm_set_ps1(epsilon);
+        int mask = _mm_movemask_ps(_mm_cmple_ps(diff, eps)) & 7;
+        return mask == 7;
+    }
+};
+
+__forceinline __m128 hkCross(__m128 a, __m128 b)
+{
+    __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
+    __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
+    return _mm_sub_ps(cross0, cross1);
+}
+__forceinline float hkLen2(__m128 v)
+{
+    __m128 sq = _mm_mul_ps(v, v);
+    __m128 t = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+    t = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), t);
+    float r;
+    _mm_store_ss(&r, t);
+    return r;
+}
+class hkMatrix3q
+{
+  public:
+    hkVector4q m_kColumn0;
+    hkVector4q m_kColumn1;
+    hkVector4q m_kColumn2;
+
+    __forceinline const hkVector4q& getColumn(int i) const
+    {
+        return (&m_kColumn0)[i];
+    }
+    hkBool IsOrthonormal(float epsilon) const;
+};
+
+// Checks that each column's squared length is within epsilon of 1 and the first two columns' cross product matches the third within epsilon.
+// @fnv 0x00cb2e70
+hkBool hkMatrix3q::IsOrthonormal(float epsilon) const
+{
+    float colNorm0 = m_kColumn0.lengthSquared3();
+    if ((float)fabs(colNorm0 - 1.0f) > epsilon)
+    {
+        return false;
+    }
+    float colNorm1 = m_kColumn1.lengthSquared3();
+    if ((float)fabs(colNorm1 - 1.0f) > epsilon)
+    {
+        return false;
+    }
+    float colNorm2 = m_kColumn2.lengthSquared3();
+    if ((float)fabs(colNorm2 - 1.0f) > epsilon)
+    {
+        return false;
+    }
+    hkVector4q col0crosscol1;
+    col0crosscol1.m_vComponents = hkCross(m_kColumn0.m_vComponents, m_kColumn1.m_vComponents);
+    return col0crosscol1.equals3(m_kColumn2, epsilon);
+}
+}  // namespace fnv_00cb2e70
+
+struct FUN_00cd4d90_cls
+{
+    __m128 m_row0;
+    __m128 m_row1;
+    __m128 m_row2;
+
+    const __m128* ScaleRows(const __m128* scale, const __m128* matrix);
+};
+
+// Multiplies each row by the first value at scale, adds it to the corresponding row, and returns scale.
+// @fnv 0x00cd4d90
+const __m128* FUN_00cd4d90_cls::ScaleRows(const __m128* scale, const __m128* matrix)
+{
+    m_row0 = _mm_add_ps(
+        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[0]),
+        m_row0);
+    m_row1 = _mm_add_ps(
+        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[1]),
+        m_row1);
+    m_row2 = _mm_add_ps(
+        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[2]),
+        m_row2);
+    return scale;
+}
+
+extern const __m128 DAT_010c7180;
+extern const __m128 DAT_010c8770;
+extern const __m128 DAT_010c8780;
+class ProductHolder
+{
+    struct __declspec(align(16)) Words
+    {
+        float x, y, z, w;
+    };
+    Words value;
+
+  public:
+    ProductHolder(__m128 input)
+    {
+        _mm_store_ps(&value.x, input);
+    }
+    operator __m128() const
+    {
+        return _mm_load_ps(&value.x);
+    }
+};
+struct RotationRows : FUN_00cd4d90_cls
+{
+    void* FUN_00cb2d90(void* snapshot);
+};
+static __forceinline void convertRotation(RotationRows& output, __m128 quaternion)
+{
+    __m128 twice = _mm_add_ps(quaternion, quaternion);
+    __m128 crossInputs = _mm_shuffle_ps(quaternion, quaternion, 0x41);
+    __m128 pairInputs = _mm_shuffle_ps(twice, twice, 0xa5);
+    __m128 squareX = _mm_mul_ss(quaternion, twice);
+    __m128 products = _mm_mul_ps(pairInputs, crossInputs);
+    ProductHolder savedProducts(products);
+    __assume((reinterpret_cast<unsigned>(&output) & 15) == 0);
+    __m128 diagonalStart = _mm_sub_ss(DAT_010c7180, squareX);
+    __m128 signs = DAT_010c8780;
+    __m128 signedProducts = _mm_xor_ps(static_cast<__m128>(savedProducts), DAT_010c8780);
+    __m128 mixed = _mm_mul_ps(_mm_shuffle_ps(quaternion, quaternion, 0xfe), _mm_shuffle_ps(twice, twice, 0x1a));
+    mixed = _mm_xor_ps(mixed, _mm_load_ps((const float*)&DAT_010c8770));
+    mixed = _mm_add_ss(mixed, DAT_010c7180);
+    __m128 row0 = _mm_sub_ps(mixed, signedProducts);
+    output.m_row0 = row0;
+    __m128 row1 = _mm_xor_ps(mixed, *(const __m128*)&signs);
+    signedProducts = _mm_move_ss(signedProducts, squareX);
+    row1 = _mm_sub_ps(row1, signedProducts);
+    row1 = _mm_shuffle_ps(row1, row1, 0xb1);
+    __m128 diagonal = _mm_sub_ss(diagonalStart, _mm_mul_ps(pairInputs, crossInputs));
+    __m128 row2 = _mm_shuffle_ps(_mm_movehl_ps(row0, row1), diagonal, 0x8d);
+    output.m_row1 = row1;
+    output.m_row2 = row2;
+}
+// Converts a quaternion loaded from snapshot into a rotation matrix stored in this RotationRows object.
+// @fnv 0x00cb2d90
+void* RotationRows::FUN_00cb2d90(void* apQuaternion)
+{
+    convertRotation(*this, _mm_load_ps((const float*)apQuaternion));
+    return apQuaternion;
+}

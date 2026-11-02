@@ -1,0 +1,28 @@
+// src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp functions whose prologue its flags cannot
+// produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+
+// src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+extern int g_01202500;
+int* __cdecl FUN_00c1f4f0();
+struct NiAVObject;
+struct NiPSysVolumeEmitter
+{
+    NiPSysVolumeEmitter();
+    void FUN_00c1fa30(NiAVObject* pkEmitterObj);
+};
+extern void* g_01202508;
+void* __cdecl FUN_00c1fa40();
+
+extern "C" int __cdecl FUN_006397b0();
+extern double DAT_01029790;
+
+// @fnv 0x00639780
+float __cdecl FUN_00639780()
+{
+    int v;
+    float result;
+    v = FUN_006397b0();
+    result = (float)v / DAT_01029790;
+    return result;
+}

@@ -1,0 +1,90 @@
+
+// src/havok/physics/vehicle/steering/default/hkpvehicledefaultsteering.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/steering/default/hkpvehicledefaultsteering.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+#include "havok/hkpVehicleDefaultSteering.h"
+
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+};
+extern "C" __m128 _mm_load_ps(const float* p);
+extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
+extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
+extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+extern "C" void _mm_store_ss(float* p, __m128 a);
+
+struct S00e43f70_Vec
+{
+    __m128 q;
+    void FUN_00c7f700(const void* a, const void* b);
+};
+
+struct S00e43f70_Obj
+{
+    int unk00;
+    int unk04;
+    float unk08;
+    float unk0c;
+    void FUN_00e43f70(int a0, char* a1, S00e43f70_Obj* a2, float* a3);
+};
+
+// Stores a scaled product of two floats into a3, scaling it down when the dot product of two vectors exceeds the threshold in unk0c.
+// @fnv 0x00e43f70
+void S00e43f70_Obj::FUN_00e43f70(int aiUnused, char* a1, S00e43f70_Obj* apOther, float* apResult)
+{
+    *apResult = apOther->unk08 * unk08;
+    S00e43f70_Vec v;
+    v.FUN_00c7f700(*(char**)(a1 + 0x18) + 0xf0, *(char**)(a1 + 0x1c) + 0x40);
+    __m128 w = _mm_load_ps((const float*)(*(char**)(a1 + 0x18) + 0x1b0));
+    __m128 p = _mm_mul_ps(w, v.q);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+    __m128 vDot = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), s);
+    float dot;
+    _mm_store_ss(&dot, vDot);
+    if (dot > unk0c)
+    {
+        dot = unk0c / dot;
+        *apResult = *apResult * dot * dot;
+    }
+}
+
+struct hkOutputE440
+{
+    float m_uiFilterValue;
+    float* m_weights;
+};
+
+class hkBaseE440
+{
+  public:
+    virtual void vfn_00();
+    virtual void vfn_04();
+    virtual void vfn_08();
+    virtual void vfn_0C();
+    virtual void vfn_10(float t, int a, int b, hkOutputE440* out);
+};
+
+class hkMaskedE440 : public hkBaseE440
+{
+  public:
+    int unk04[3];
+    char* m_uiMask;
+    int m_numMask;
+
+    void FUN_00e44010(float t, int a, int b, hkOutputE440* out);
+};
+
+// @fnv 0x00e44010
+void hkMaskedE440::FUN_00e44010(float t, int a, int b, hkOutputE440* out)
+{
+    vfn_10(t, a, b, out);
+    for (int i = 0; i < m_numMask; i++)
+    {
+        if (m_uiMask[i])
+            out->m_weights[i] = out->m_uiFilterValue;
+        else
+            out->m_weights[i] = 0.0f;
+    }
+}

@@ -1,0 +1,1142 @@
+
+// src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+// src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+// src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+struct StateD72090
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+    float unk10;
+    float unk14;
+    float unk18;
+    float unk1C;
+};
+void FUN_00d72090(StateD72090* out);
+#include <string.h>
+struct Node
+{
+    unsigned short unk00;
+    unsigned short unk02;
+    int unk04;
+    int unk08;
+    int unk0c;
+    unsigned short unk10;
+    unsigned short unk12;
+    Node* unk14;
+};
+struct __declspec(align(16)) Buffer
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+};
+extern "C" void __cdecl FUN_00d72090(void*);
+extern "C" void __cdecl FUN_00d72190(Node*, Buffer*, int, int*);
+extern "C" void __cdecl FUN_00d6f460(Node*, unsigned short, Buffer*, int*);
+extern "C" Buffer* __cdecl GetSharedBuffer();
+static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source);
+void __cdecl Caller(Node* self, int* counter);
+
+#include <xmmintrin.h>
+
+typedef float hkReal;
+typedef __m128 hkQuadReal;
+typedef unsigned short hkUint16;
+typedef unsigned char hkUint8;
+typedef signed char hkInt8;
+typedef unsigned int hkUint32;
+
+class hkBool
+{
+  public:
+    __forceinline hkBool()
+    {}
+    __forceinline hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    __forceinline hkBool& operator=(bool e)
+    {
+        m_cBooleanValue = (char)e;
+        return *this;
+    }
+    char m_cBooleanValue;
+};
+
+template <typename TYPE> class ValueWrapper
+{
+  public:
+    __forceinline void operator=(TYPE e)
+    {
+        m_kStorage = e;
+    }
+    __forceinline TYPE val() const
+    {
+        return m_kStorage;
+    }
+    __forceinline TYPE operator->() const
+    {
+        return m_kStorage;
+    }
+    __forceinline operator TYPE() const
+    {
+        return val();
+    }
+    TYPE m_kStorage;
+};
+
+template <typename ENUM, typename STORAGE> class hkEnum
+{
+  public:
+    __forceinline hkEnum(ENUM e)
+    {
+        m_kStorage = (STORAGE)e;
+    }
+    STORAGE m_kStorage;
+};
+
+template <typename TYPE> __forceinline TYPE* hkAddByteOffset(TYPE* base, long offset)
+{
+    return reinterpret_cast<TYPE*>(reinterpret_cast<char*>(base) + offset);
+}
+
+template <typename TYPE> __forceinline const TYPE* hkAddByteOffsetConst(const TYPE* base, long offset)
+{
+    return reinterpret_cast<const TYPE*>(reinterpret_cast<const char*>(base) + offset);
+}
+
+namespace MathUtilities {
+template <typename T> __forceinline T min2(T x, T y)
+{
+    return x < y ? x : y;
+}
+}
+
+class VectorComponentValue
+{
+  public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    __forceinline VectorComponentValue(hkReal x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline operator hkReal() const
+    {
+        hkReal s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const hkQuadReal& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+class hkMatrix3;
+class hkRotation;
+
+extern const hkQuadReal DAT_010c44d0;
+
+class hkVector4
+{
+  public:
+    __forceinline hkVector4()
+    {}
+    __forceinline void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+    __forceinline void add4(const hkVector4& v)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void mul4(const hkVector4& v)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4& a, const hkVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void mul4(hkSimdRealParameter s)
+    {
+        m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents);
+    }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
+    {
+        hkQuadReal cross0;
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));
+        hkQuadReal cross1;
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setNeg4(const hkVector4& v)
+    {
+        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
+    }
+    __forceinline void setAbs4(const hkVector4& v)
+    {
+        static __declspec(align(16)) const hkUint32 absMask[4] = {0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff};
+        m_vComponents = _mm_and_ps(v.m_vComponents, *(const hkQuadReal*)&absMask);
+    }
+    __forceinline void _setMul3(const hkMatrix3& a, const hkVector4& b);
+    __forceinline void _setRotatedDir(const hkRotation& r, const hkVector4& v);
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), xySum);
+    }
+    __forceinline VectorComponentValue horizontalAdd3() const
+    {
+        hkQuadReal xySum =
+            _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(1, 1, 1, 1)), m_vComponents);
+        return _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(2, 2, 2, 2)), xySum);
+    }
+    __forceinline VectorComponentValue horizontalAdd4() const
+    {
+        hkQuadReal sum0 =
+            _mm_add_ps(_mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(1, 0, 3, 2)), m_vComponents);
+        hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
+        return _mm_add_ps(sum0, sum1);
+    }
+    __forceinline VectorComponentValue length3() const
+    {
+        return _mm_sqrt_ss(this->dot3(*this).getQuad());
+    }
+    __forceinline VectorComponentValue lengthSquared3() const
+    {
+        return this->dot3(*this);
+    }
+    __forceinline VectorComponentValue lengthInverse3() const
+    {
+        const hkQuadReal half = _mm_set_ss(0.5f);
+        const hkQuadReal three = _mm_set_ss(3.0f);
+        const hkQuadReal zero = _mm_set_ss(0.0f);
+        const hkQuadReal len2 = this->dot3(*this).getQuad();
+        const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const hkQuadReal approx = _mm_rsqrt_ss(len2);
+        const hkQuadReal refined =
+            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
+    }
+    __forceinline void normalize3()
+    {
+        hkQuadReal lenInv = lengthInverse3().broadcast();
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+    }
+    __forceinline hkReal& operator()(int a)
+    {
+        return reinterpret_cast<hkReal*>(&m_vComponents)[a];
+    }
+    __forceinline const hkReal& operator()(int a) const
+    {
+        return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+    }
+    __forceinline void setW(const hkVector4& w)
+    {
+        m_vComponents =
+            _mm_shuffle_ps(m_vComponents, _mm_unpackhi_ps(m_vComponents, w.m_vComponents), _MM_SHUFFLE(3, 0, 1, 0));
+    }
+    __forceinline void setBroadcast(const hkVector4& v, int i)
+    {
+        if (i == 0)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(0, 0, 0, 0));
+        }
+        else if (i == 1)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+        }
+        else if (i == 2)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+        }
+        else if (i == 3)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+        }
+    }
+    __forceinline void setBroadcast3clobberW(const hkVector4& v, int i)
+    {
+        setBroadcast(v, i);
+    }
+
+    hkQuadReal m_vComponents;
+};
+
+class hkMatrix3
+{
+  public:
+    __forceinline const hkVector4& getColumn(int x) const
+    {
+        return (&m_kColumn0)[x];
+    }
+    hkVector4 m_kColumn0;
+    hkVector4 m_kColumn1;
+    hkVector4 m_kColumn2;
+};
+class hkRotation : public hkMatrix3
+{
+};
+
+class hkTransform
+{
+  public:
+    __forceinline const hkVector4& getColumn(int x) const
+    {
+        return m_rotation.getColumn(x);
+    }
+    __forceinline static const hkTransform& GetIdentityTransform();
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
+extern const hkTransform DAT_01268370;
+__forceinline const hkTransform& hkTransform::GetIdentityTransform()
+{
+    return DAT_01268370;
+}
+
+__forceinline void hkVector4::_setMul3(const hkMatrix3& a, const hkVector4& b)
+{
+    const hkQuadReal b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(0, 0, 0, 0));
+    const hkQuadReal r0 = _mm_mul_ps(a.getColumn(0).m_vComponents, b0);
+    const hkQuadReal b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+    const hkQuadReal r1 = _mm_mul_ps(a.getColumn(1).m_vComponents, b1);
+    const hkQuadReal b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+    const hkQuadReal r2 = _mm_mul_ps(a.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+__forceinline void hkVector4::_setRotatedDir(const hkRotation& r, const hkVector4& v)
+{
+    _setMul3(r, v);
+}
+
+class hkContactPoint
+{
+  public:
+    __forceinline const hkVector4& getPosition() const
+    {
+        return m_vContactPosition;
+    }
+    __forceinline const hkVector4& getNormal() const
+    {
+        return m_vSeparatingNormal;
+    }
+    __forceinline hkReal getDistance() const
+    {
+        return m_vSeparatingNormal(3);
+    }
+    hkVector4 m_vContactPosition;
+    hkVector4 m_vSeparatingNormal;
+};
+
+extern const hkReal DAT_010c7948[];
+
+class QuantizedFloat8
+{
+  public:
+    __forceinline operator hkReal() const
+    {
+        return DAT_010c7948[m_uiFilterValue];
+    }
+    hkUint8 m_uiFilterValue;
+};
+
+class hkContactPointMaterial
+{
+  public:
+    __forceinline hkReal getFriction() const
+    {
+        return m_fSlipAngle;
+    }
+    hkUint32 m_ulUserData;
+    QuantizedFloat8 m_fSlipAngle;
+    hkUint8 m_fElasticity;
+    QuantizedFloat8 m_usFlags;
+    hkUint8 m_flags;
+};
+
+class ContactImpulseInfo
+{
+  public:
+    hkReal m_fAccumulatedImpulse;
+    hkReal m_fImpulseLimit;
+};
+
+class PhysicsMaterial : public ContactImpulseInfo, public hkContactPointMaterial
+{
+  public:
+    hkReal m_uiUserData;
+};
+
+class UInt32Value
+{
+  public:
+    __forceinline PhysicsMaterial* asProperties()
+    {
+        return reinterpret_cast<PhysicsMaterial*>(this);
+    }
+};
+
+class ContactImpulseState
+{
+  public:
+    hkUint16 m_flags;
+    hkUint16 m_uiEdgeIndex;
+    hkReal m_fAngularImpulseFactor;
+    ContactImpulseInfo m_kContactImpulseInfos[3];
+};
+
+class __declspec(align(16)) hkpSimpleContactConstraintAtom
+{
+  public:
+    __forceinline hkContactPoint* getContactPoints() const
+    {
+        return const_cast<hkContactPoint*>(reinterpret_cast<const hkContactPoint*>(this + 1));
+    }
+    __forceinline int getContactPointPropertiesStriding() const
+    {
+        return m_ucContactPointPropertiesStriding;
+    }
+    __forceinline UInt32Value* getContactPointPropertiesStream() const
+    {
+        const hkContactPoint* endContactPoint =
+            hkAddByteOffsetConst(getContactPoints(), sizeof(hkContactPoint) * m_usMaxNumContactPoints);
+        const UInt32Value* beginningOfProperties = reinterpret_cast<const UInt32Value*>(endContactPoint);
+        return const_cast<UInt32Value*>(hkAddByteOffsetConst(beginningOfProperties, 0));
+    }
+
+    hkUint16 m_type;
+    hkUint16 m_usSizeOfAllAtoms;
+    hkUint16 m_usNumContactPoints;
+    hkUint16 m_usMaxNumContactPoints;
+    hkUint8 m_ucNumReservedContactPoints;
+    hkUint8 m_ucNumContactPointProperties;
+    hkUint8 m_ucContactPointPropertiesStriding;
+    hkUint16 m_usMaxNumContactPointProperties;
+    __declspec(align(16)) ContactImpulseState m_info;
+};
+
+class QuantizedBoundsData
+{
+  public:
+    __forceinline const hkVector4& getScratch0() const
+    {
+        return m_vCenterOfMass;
+    }
+    __forceinline const hkVector4& getCenterOfMassInWorld() const
+    {
+        return getScratch0();
+    }
+    __forceinline const hkRotation& getCoreFromWorldMatrix() const
+    {
+        return m_scratch1;
+    }
+
+    hkVector4 m_vLinearVelocity;
+    hkVector4 m_vAngularVelocity;
+    hkVector4 m_uiDeactivationClass;
+    hkVector4 m_vInverseInertiaAndMass;
+    hkVector4 m_vCenterOfMass;
+    hkRotation m_scratch1;
+};
+
+class hkpConstraintInstance;
+
+class ConstraintQueryData
+{
+  public:
+    ValueWrapper<float> m_fQueryInputValue;
+    ValueWrapper<float> m_iBeforeFourthQueryValue;
+    ValueWrapper<float> m_kThirdChainValue;
+    ValueWrapper<float> m_fFirstQueryValue;
+    ValueWrapper<float> m_fSecondQueryValue;
+    ValueWrapper<float> m_fInverseStepCount;
+    ValueWrapper<float> m_fMaxConstraintViolation;
+    ValueWrapper<float> m_maxConstraintViolationSqrdStep;
+    ValueWrapper<float> m_fThirdQueryValue;
+    ValueWrapper<float> m_fFourthQueryValue;
+    ValueWrapper<float> m_fFifthQueryValue;
+};
+
+class __declspec(align(16)) SixteenWordFloatRecord : public ConstraintQueryData
+{
+  public:
+    __declspec(align(16)) ValueWrapper<const QuantizedBoundsData*> m_pBodyA;
+    ValueWrapper<const QuantizedBoundsData*> m_pBodyB;
+    ValueWrapper<const hkTransform*> m_kBodyALocalFrame;
+    ValueWrapper<const hkTransform*> m_kBodyBLocalFrame;
+    ValueWrapper<hkReal> m_fTau;
+    ValueWrapper<hkReal> m_fMotorDamping;
+    VectorComponentValue m_fMaxConstraintViolationSquared;
+    ValueWrapper<hkpConstraintInstance*> m_pConstraintChainInstance;
+    ValueWrapper<void*> m_pByteBuffer;
+    ValueWrapper<void*> m_pOpaqueData;
+    ValueWrapper<hkUint32> m_uiParameterA;
+    ValueWrapper<hkUint32> m_uiParameterB;
+};
+
+class SolverSchemaHeader
+{
+  public:
+    enum SolverSchemaType
+    {
+        SCHEMA_TYPE_HEADER = 1,
+        SCHEMA_TYPE_SINGLE_CONTACT = 0x10,
+        SCHEMA_TYPE_PAIR_CONTACT = 0x14,
+        SCHEMA_TYPE_2D_FRICTION = 0x16,
+        SCHEMA_TYPE_3D_FRICTION = 0x17
+    };
+    __forceinline static void setType(SolverSchemaHeader* schema, hkEnum<SolverSchemaType, hkInt8> type)
+    {
+        *reinterpret_cast<hkReal*>(schema) = *reinterpret_cast<hkReal*>(schema) + 1.192092896e-07f;
+        *reinterpret_cast<hkEnum<SolverSchemaType, hkInt8>*>(hkAddByteOffset(schema, 0)) = type;
+    }
+};
+
+class QueryResultSchema
+{
+  public:
+    ValueWrapper<SolverSchemaHeader*> m_pQueryResultSchema;
+};
+
+class AngularJacobianElement
+{
+  public:
+    __forceinline void setInvJacDiag(hkReal v)
+    {
+        m_kAngularVelocity[0](3) = v;
+    }
+    __forceinline hkReal getInvJacDiag() const
+    {
+        return m_kAngularVelocity[0](3);
+    }
+    __forceinline void setAngularRhs(hkReal v)
+    {
+        m_kAngularVelocity[1](3) = v;
+    }
+    __forceinline hkReal getAngularDiag(const QuantizedBoundsData& mA, const QuantizedBoundsData& mB) const
+    {
+        hkVector4 ang0;
+        ang0.setMul4(m_kAngularVelocity[0], m_kAngularVelocity[0]);
+        hkVector4 ang1;
+        ang1.setMul4(m_kAngularVelocity[1], m_kAngularVelocity[1]);
+        ang0.mul4(mA.m_vInverseInertiaAndMass);
+        ang1.mul4(mB.m_vInverseInertiaAndMass);
+        ang0.add4(ang1);
+        const hkReal eps = 1.192092896e-07f;
+        const hkReal diag = ang0.horizontalAdd3();
+        return diag + eps;
+    }
+    hkVector4 m_kAngularVelocity[2];
+};
+
+class ConstraintJacobian
+{
+  public:
+    __forceinline void setRHS(hkReal v)
+    {
+        m_kLinearJacobian(3) = v;
+    }
+    __forceinline void setInvJacDiag(hkReal v)
+    {
+        m_kAngularVelocity[0](3) = v;
+    }
+    __forceinline void setUserValue(hkReal v)
+    {
+        m_kAngularVelocity[1](3) = v;
+    }
+    __forceinline hkReal getUserValue() const
+    {
+        return m_kAngularVelocity[1](3);
+    }
+    __forceinline hkReal getDiag(const QuantizedBoundsData& mA, const QuantizedBoundsData& mB) const
+    {
+        const ConstraintJacobian& jac = *this;
+        hkVector4 ang0;
+        ang0.setMul4(jac.m_kAngularVelocity[0], jac.m_kAngularVelocity[0]);
+        hkVector4 ang1;
+        ang1.setMul4(jac.m_kAngularVelocity[1], jac.m_kAngularVelocity[1]);
+        ang0.mul4(mA.m_vInverseInertiaAndMass);
+        ang1.mul4(mB.m_vInverseInertiaAndMass);
+        ang0.add4(ang1);
+        hkVector4 sm;
+        sm.setAdd4(mA.m_vInverseInertiaAndMass, mB.m_vInverseInertiaAndMass);
+        ang0.setW(sm);
+        hkReal dot = ang0.horizontalAdd4();
+        return dot + 1.192092896e-07f;
+    }
+    __forceinline hkReal getNonDiagOptimized(const QuantizedBoundsData& mA, const QuantizedBoundsData& mB,
+                                             const ConstraintJacobian& jacB) const
+    {
+        const ConstraintJacobian& jacA = *this;
+        hkVector4 lin;
+        const hkVector4& firstLinear = jacA.m_kLinearJacobian;
+        lin.setMul4(firstLinear, jacB.m_kLinearJacobian);
+        hkVector4 ang0;
+        ang0.setMul4(jacA.m_kAngularVelocity[0], jacB.m_kAngularVelocity[0]);
+        hkVector4 ang1;
+        ang1.setMul4(jacA.m_kAngularVelocity[1], jacB.m_kAngularVelocity[1]);
+        hkVector4 mA3;
+        mA3.setBroadcast3clobberW(mA.m_vInverseInertiaAndMass, 3);
+        hkVector4 mB3;
+        mB3.setBroadcast3clobberW(mB.m_vInverseInertiaAndMass, 3);
+        hkVector4 lin0;
+        lin0.setMul4(mA3, lin);
+        hkVector4 lin1;
+        lin1.setMul4(mB3, lin);
+        ang0.mul4(mA.m_vInverseInertiaAndMass);
+        ang1.mul4(mB.m_vInverseInertiaAndMass);
+        lin0.add4(lin1);
+        ang0.add4(ang1);
+        ang0.add4(lin0);
+        hkReal d = ang0.horizontalAdd3();
+        return d;
+    }
+
+    hkVector4 m_kLinearJacobian;
+    hkVector4 m_kAngularVelocity[2];
+};
+
+class SolverRecordPair
+{
+  public:
+    ConstraintJacobian m_kFirstFrictionJacobian;
+    ConstraintJacobian m_kSecondFrictionJacobian;
+};
+
+class FrictionJacobianTriple
+{
+  public:
+    ConstraintJacobian m_kFirstFrictionJacobian;
+    ConstraintJacobian m_kSecondFrictionJacobian;
+    AngularJacobianElement m_kAngularJacobian;
+};
+
+class QuantizedBoundsData;
+
+class ConstraintHeaderSchema : public SolverSchemaHeader
+{
+  public:
+    __forceinline void initHeader(hkpConstraintInstance* instance, int bodyA, int bodyB, ContactImpulseInfo* results,
+                                  int solverResultStriding)
+    {
+        SolverSchemaHeader::setType(this, SCHEMA_TYPE_HEADER);
+        m_pBodyA = (hkUint16)bodyA;
+        m_pBodyB = (hkUint16)bodyB;
+        m_solverResultInMainMemory = results;
+        m_pConstraintChainInstance = instance;
+        m_ucSecondHeaderByte = (hkUint8)solverResultStriding;
+    }
+    hkInt8 m_schemaType;
+    hkUint8 m_ucSecondHeaderByte;
+    hkUint16 m_auiShapeKeys;
+    hkUint16 m_pBodyA;
+    hkUint16 m_pBodyB;
+    ContactImpulseInfo* m_solverResultInMainMemory;
+    hkpConstraintInstance* m_pConstraintChainInstance;
+};
+
+class JacobianPointerSchema : public SolverSchemaHeader
+{
+  public:
+    __forceinline void initSingleContact(const ConstraintJacobian& jac, int jacIdx)
+    {
+        const int type = SCHEMA_TYPE_SINGLE_CONTACT + jacIdx;
+        SolverSchemaHeader::setType(this, (SolverSchemaType)type);
+    }
+    ConstraintJacobian m_pJacobian;
+};
+
+class JacobianPair : public SolverSchemaHeader
+{
+  public:
+    __forceinline void initPairContact(const SolverRecordPair& jac, hkReal invJac01, int jacIdx)
+    {
+        m_fOffDiagonal = invJac01;
+        const int type = SCHEMA_TYPE_PAIR_CONTACT + jacIdx;
+        SolverSchemaHeader::setType(this, (SolverSchemaType)type);
+    }
+    SolverRecordPair m_pJacobian;
+    hkReal m_fOffDiagonal;
+};
+
+class TwoAxisFrictionInfo : public SolverSchemaHeader
+{
+  public:
+    __forceinline void init2dFriction(const SolverRecordPair& jac, hkReal maxFrictionForce, hkReal invJac01,
+                                      ContactImpulseInfo* results)
+    {
+        m_fOffDiagonal = invJac01;
+        m_fFriction = maxFrictionForce;
+        m_pSolverResults = results;
+        SolverSchemaHeader::setType(this, SCHEMA_TYPE_2D_FRICTION);
+    }
+    SolverRecordPair m_pJacobian;
+    hkReal m_fOffDiagonal;
+    hkReal m_fFriction;
+    ContactImpulseInfo* m_pSolverResults;
+    hkReal m_auiShapeKeys;
+};
+
+class Friction3DSchema : public SolverSchemaHeader
+{
+  public:
+    __forceinline void init3dFriction(const FrictionJacobianTriple& jac, hkReal maxFrictionForce, hkReal invJac01,
+                                      hkReal radius, ContactImpulseInfo* results)
+    {
+        m_fOffDiagonal = invJac01;
+        m_fFriction = maxFrictionForce;
+        m_fSphereRadius = radius;
+        m_pSolverResults = results;
+        SolverSchemaHeader::setType(this, SCHEMA_TYPE_3D_FRICTION);
+    }
+    FrictionJacobianTriple m_pJacobian;
+    hkReal m_fOffDiagonal;
+    hkReal m_fFriction;
+    hkReal m_fSphereRadius;
+    ContactImpulseInfo* m_pSolverResults;
+};
+
+namespace hkVector4Util_S {
+__forceinline void reserveRegisters(hkUint32 r)
+{}
+__forceinline void releaseRegisters(hkUint32 r)
+{}
+}
+
+namespace QuantizedBoundsBuilder {
+__forceinline void initBuilder(const QuantizedBoundsData* opaA, const QuantizedBoundsData* opaB, hkReal invDt)
+{
+    hkVector4Util_S::reserveRegisters(0x0fff0000);
+}
+
+__forceinline void exitBuilder()
+{
+    hkVector4Util_S::releaseRegisters(0x0fff0000);
+}
+
+__forceinline void copyJacRegToJac1Reg()
+{}
+
+__forceinline hkQuadReal contactRotate(const hkRotation& rotation, const hkVector4& direction)
+{
+    hkVector4 rotated;
+    rotated._setMul3(rotation, direction);
+    return rotated.m_vComponents;
+}
+__forceinline void buildContactBegin(const QuantizedBoundsData* opaA, const QuantizedBoundsData* opaB,
+                                     const hkVector4& position, const hkVector4& direction, hkReal invJacFactor,
+                                     ConstraintJacobian& jac)
+{
+    jac.m_kLinearJacobian = direction;
+    hkVector4 massCenterRelative0;
+    massCenterRelative0.setSub4(position, opaA->getCenterOfMassInWorld());
+    hkVector4 massCenterRelative1;
+    massCenterRelative1.setSub4(position, opaB->getCenterOfMassInWorld());
+    hkVector4 cross0;
+    cross0.setCross(massCenterRelative0, direction);
+    hkVector4 cross1;
+    cross1.setCross(direction, massCenterRelative1);
+    jac.m_kAngularVelocity[0].m_vComponents = contactRotate(opaA->getCoreFromWorldMatrix(), cross0);
+    jac.m_kAngularVelocity[1]._setRotatedDir(opaB->getCoreFromWorldMatrix(), cross1);
+    hkReal a = jac.getDiag(*opaA, *opaB);
+    jac.setUserValue(a);
+    jac.setInvJacDiag(invJacFactor / a);
+}
+
+__forceinline void buildLinearBegin(const QuantizedBoundsData* opaA, const QuantizedBoundsData* opaB,
+                                    const hkVector4& position, const hkVector4& direction, hkReal invJacFactor,
+                                    ConstraintJacobian& jac)
+{
+    jac.m_kLinearJacobian = direction;
+    hkVector4 massCenterRelative0;
+    massCenterRelative0.setSub4(position, opaA->getCenterOfMassInWorld());
+    hkVector4 massCenterRelative1;
+    massCenterRelative1.setSub4(position, opaB->getCenterOfMassInWorld());
+    hkVector4 cross0;
+    cross0.setCross(massCenterRelative0, direction);
+    hkVector4 cross1;
+    cross1.setCross(direction, massCenterRelative1);
+    jac.m_kAngularVelocity[0]._setRotatedDir(opaA->getCoreFromWorldMatrix(), cross0);
+    jac.m_kAngularVelocity[1]._setRotatedDir(opaB->getCoreFromWorldMatrix(), cross1);
+    hkReal a = jac.getDiag(*opaA, *opaB);
+    jac.setUserValue(a);
+    jac.setInvJacDiag(invJacFactor / a);
+}
+
+__forceinline void buildLinearEnd(ConstraintJacobian& jac, hkReal rhs, hkReal factor)
+{
+    jac.setRHS(rhs * factor);
+}
+
+__forceinline void buildAngularBegin(const QuantizedBoundsData* opaA, const QuantizedBoundsData* opaB,
+                                     const hkVector4& direction, hkReal virtMassFactor, AngularJacobianElement& jac)
+{
+    hkVector4Util_S::reserveRegisters(0xf0000000);
+    hkVector4 negDir;
+    negDir.setNeg4(direction);
+    jac.m_kAngularVelocity[0]._setRotatedDir(opaA->getCoreFromWorldMatrix(), direction);
+    jac.m_kAngularVelocity[1]._setRotatedDir(opaB->getCoreFromWorldMatrix(), negDir);
+    hkReal diag = jac.getAngularDiag(*opaA, *opaB);
+    jac.setInvJacDiag(virtMassFactor / diag);
+}
+
+__forceinline void mulInvJacDiag(AngularJacobianElement* jac, hkReal m)
+{
+    jac->setInvJacDiag(jac->getInvJacDiag() * m);
+}
+
+__forceinline void buildAngularEnd(AngularJacobianElement& jac, hkReal rhs, hkReal factor)
+{
+    jac.setAngularRhs(rhs * factor);
+    hkVector4Util_S::releaseRegisters(0xf0000000);
+}
+
+__forceinline hkReal getInvJac01Optimized(const QuantizedBoundsData* opaA, const QuantizedBoundsData* opaB,
+                                          ConstraintJacobian* jac, hkReal virtMassFactor, hkReal nonDiagFactor)
+{
+    hkReal nonDiag = jac[1].getNonDiagOptimized(*opaA, *opaB, jac[0]);
+    hkReal a = jac[0].getUserValue();
+    hkReal b = jac[1].getUserValue();
+    nonDiag *= nonDiagFactor;
+    const hkReal invDet = virtMassFactor / (a * b - nonDiag * nonDiag);
+    jac[0].setUserValue(b * invDet);
+    jac[1].setUserValue(a * invDet);
+    return -nonDiag * invDet;
+}
+
+__forceinline void addLastPosition(const hkVector4& pos, const hkVector4& dir, hkVector4& sumPos, hkVector4& sumDir)
+{
+    sumPos.add4(pos);
+    sumDir.add4(dir);
+}
+}
+
+extern hkReal DAT_011b6924;
+extern hkReal DAT_011b6928;
+
+__forceinline hkReal calculateRhs(const hkContactPoint* ccp, PhysicsMaterial& sr, hkReal distance, hkReal dt,
+                                  int& solverResultsModified)
+{
+    hkReal distanceOffset = sr.m_uiUserData;
+    hkReal RHS = distance - distanceOffset;
+    const hkReal estimatedRHS = -sr.m_fImpulseLimit;
+    const hkReal secondOrderError = estimatedRHS - RHS;
+    const hkReal maxDiff = dt * DAT_011b6924;
+    hkReal distanceOffsetRelaxation = MathUtilities::min2(-DAT_011b6928 * distanceOffset, maxDiff);
+    distanceOffset += distanceOffsetRelaxation;
+    RHS -= distanceOffsetRelaxation;
+    if (secondOrderError > 2.0 * distanceOffsetRelaxation + maxDiff)
+    {
+        distanceOffset -= secondOrderError;
+        RHS += secondOrderError;
+    }
+    sr.m_uiUserData = MathUtilities::min2(distanceOffset, -1.192092896e-07f);
+    return RHS;
+}
+
+// @fnv 0x00d72190
+extern "C" void __cdecl FUN_00d72190(Node* atomNode, Buffer* queryIn, int writeHeader, int* queryOut)
+{
+    int modified = 0;
+    const hkContactPoint* __restrict contacts =
+        reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->getContactPoints();
+    const int numContacts = reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->m_usNumContactPoints;
+    UInt32Value* properties =
+        reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->getContactPointPropertiesStream();
+    int propertiesStriding =
+        reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->getContactPointPropertiesStriding();
+    UInt32Value* propertiesInMainMemory = properties;
+    ContactImpulseState& info = reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->m_info;
+
+    hkVector4 avgPosition;
+    avgPosition.setZero4();
+    hkVector4 avgNormal;
+    avgNormal.setZero4();
+    hkReal sumImpulse = 0.0f;
+    hkReal invNum = 1.0f / numContacts;
+    hkReal sumFriction = 0.0f;
+
+    SolverSchemaHeader* com = reinterpret_cast<QueryResultSchema*>(queryOut)->m_pQueryResultSchema;
+    const QuantizedBoundsData* opaA = reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_pBodyA;
+    const QuantizedBoundsData* opaB = reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_pBodyB;
+
+    if ((char)writeHeader)
+    {
+        ConstraintHeaderSchema* header = reinterpret_cast<ConstraintHeaderSchema*>(com);
+        header->initHeader(
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_pConstraintChainInstance,
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_uiParameterA,
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_uiParameterB,
+            reinterpret_cast<ContactImpulseInfo*>(propertiesInMainMemory->asProperties()),
+            reinterpret_cast<hkpSimpleContactConstraintAtom*>(atomNode)->getContactPointPropertiesStriding());
+        com = reinterpret_cast<SolverSchemaHeader*>(header + 1);
+    }
+
+    QuantizedBoundsBuilder::initBuilder(opaA, opaB,
+                                        reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_kThirdChainValue);
+
+    {
+        hkBool jac0Initialized(false);
+        const hkContactPoint* contact = contacts;
+        UInt32Value* sr = properties;
+        int srStriding = propertiesStriding;
+        int i = 0;
+        do
+        {
+            const int contactUsesSolverPath2 = sr->asProperties()->m_flags & 2;
+            ConstraintJacobian* __restrict jac1Lin2Ang = reinterpret_cast<ConstraintJacobian*>(com);
+            const int jacIdx = 0;
+
+            QuantizedBoundsBuilder::buildContactBegin(
+                opaA, opaB, contact->getPosition(), contact->getNormal(),
+                reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue, *jac1Lin2Ang);
+
+            sumFriction += sr->asProperties()->getFriction();
+            sumImpulse += sr->asProperties()->m_fAccumulatedImpulse;
+
+            const hkReal rhs =
+                -calculateRhs(contact, *sr->asProperties(), contact->getDistance(),
+                              reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFirstQueryValue, modified);
+            QuantizedBoundsBuilder::buildLinearEnd(
+                *jac1Lin2Ang, rhs, reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fThirdQueryValue);
+
+            QuantizedBoundsBuilder::addLastPosition(contact->getPosition(), contact->getNormal(), avgPosition,
+                                                    avgNormal);
+
+            if (!contactUsesSolverPath2)
+            {
+                int maxImpulse = sr->asProperties()->m_usFlags.m_uiFilterValue;
+                JacobianPointerSchema* sc = reinterpret_cast<JacobianPointerSchema*>(com);
+                QuantizedBoundsBuilder::copyJacRegToJac1Reg();
+                sc->initSingleContact(*jac1Lin2Ang, 0);
+                com = reinterpret_cast<SolverSchemaHeader*>(sc + 1);
+                jac0Initialized = true;
+                if (maxImpulse != 0)
+                {
+                    const int typeAddon = 2;
+                    sc->initSingleContact(*jac1Lin2Ang, typeAddon);
+                    jac1Lin2Ang->setUserValue(DAT_010c7948[maxImpulse]);
+                }
+            }
+            else
+            {
+                JacobianPointerSchema* single = reinterpret_cast<JacobianPointerSchema*>(com);
+                JacobianPair* sc = reinterpret_cast<JacobianPair*>(single - 1);
+                const hkReal jacNonDiagFactor = 0.99f;
+                const int jacIdx2 = 0;
+                const hkReal invJac01 = QuantizedBoundsBuilder::getInvJac01Optimized(
+                    opaA, opaB, jac1Lin2Ang - 1,
+                    reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue, jacNonDiagFactor);
+                sc->initPairContact(*reinterpret_cast<const SolverRecordPair*>(jac1Lin2Ang - 1), invJac01, 0);
+                com = reinterpret_cast<SolverSchemaHeader*>(sc + 1);
+                jac0Initialized = false;
+            }
+
+            sr = hkAddByteOffset(sr, srStriding);
+            contact = contact + 1;
+            i++;
+        } while (i < numContacts);
+    }
+
+    hkVector4 biNormal;
+    hkVector4 biNormal2;
+    hkReal maxImp = sumImpulse * sumFriction * invNum;
+    if (maxImp > 0.0f)
+    {
+        {
+            hkReal invNum2 = invNum * invNum;
+            hkReal nl = avgNormal.lengthSquared3();
+            if (nl * invNum2 > 0.9999f)
+            {
+                avgNormal = contacts->getNormal();
+            }
+            else if (nl > 0.1f)
+            {
+                avgNormal.normalize3();
+            }
+            else
+            {
+                avgNormal = contacts->getNormal();
+                nl = avgNormal.dot3(avgNormal);
+                if (nl < 0.9f)
+                {
+                    maxImp = 0.0f;
+                    avgNormal.setZero4();
+                    avgNormal(1) = 1.0f;
+                }
+            }
+
+            biNormal = hkTransform::GetIdentityTransform().getColumn(info.m_uiEdgeIndex);
+            biNormal2.setCross(biNormal, avgNormal);
+            hkReal d = biNormal2.dot3(biNormal2);
+            if (d > 0.1f)
+            {
+            }
+            else
+            {
+                hkVector4 absNormal;
+                absNormal.setAbs4(avgNormal);
+                if (absNormal(0) < absNormal(1))
+                {
+                    info.m_uiEdgeIndex = (absNormal(0) < absNormal(2)) ? hkUint16(0) : hkUint16(2);
+                }
+                else
+                {
+                    info.m_uiEdgeIndex = (absNormal(1) < absNormal(2)) ? hkUint16(1) : hkUint16(2);
+                }
+                info.m_kContactImpulseInfos[0].m_fImpulseLimit = 0.0f;
+                info.m_kContactImpulseInfos[1].m_fImpulseLimit = 0.0f;
+                biNormal = hkTransform::GetIdentityTransform().getColumn(info.m_uiEdgeIndex);
+                biNormal2.setCross(biNormal, avgNormal);
+            }
+            biNormal2.normalize3();
+            biNormal.setCross(avgNormal, biNormal2);
+        }
+        avgPosition.mul4(invNum);
+
+        ContactImpulseInfo* solverResults = &info.m_kContactImpulseInfos[0];
+        FrictionJacobianTriple& tripleJac = *reinterpret_cast<FrictionJacobianTriple*>(com);
+
+        QuantizedBoundsBuilder::buildLinearBegin(
+            opaA, opaB, avgPosition, biNormal,
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue,
+            tripleJac.m_kFirstFrictionJacobian);
+        {
+            hkReal rhs = info.m_kContactImpulseInfos[0].m_fImpulseLimit;
+            QuantizedBoundsBuilder::buildLinearEnd(
+                tripleJac.m_kFirstFrictionJacobian, rhs,
+                reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFifthQueryValue);
+        }
+
+        QuantizedBoundsBuilder::copyJacRegToJac1Reg();
+        QuantizedBoundsBuilder::buildLinearBegin(
+            opaA, opaB, avgPosition, biNormal2,
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue,
+            tripleJac.m_kSecondFrictionJacobian);
+        {
+            hkReal rhs = info.m_kContactImpulseInfos[1].m_fImpulseLimit;
+            QuantizedBoundsBuilder::buildLinearEnd(
+                tripleJac.m_kSecondFrictionJacobian, rhs,
+                reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFifthQueryValue);
+        }
+
+        TwoAxisFrictionInfo* frictionSchema = reinterpret_cast<TwoAxisFrictionInfo*>(com);
+        hkReal invJac01 = QuantizedBoundsBuilder::getInvJac01Optimized(
+            opaA, opaB, &tripleJac.m_kFirstFrictionJacobian,
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue, 1.0f);
+        hkReal corrMaxImpulse =
+            reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fMaxConstraintViolation * maxImp;
+        frictionSchema->init2dFriction(*reinterpret_cast<const SolverRecordPair*>(&tripleJac), corrMaxImpulse, invJac01,
+                                       solverResults);
+        com = reinterpret_cast<SolverSchemaHeader*>(frictionSchema + 1);
+
+        if (numContacts > 1)
+        {
+            while (true)
+            {
+                if ((info.m_flags & 4) == 0)
+                {
+                    const hkReal radius = info.m_fAngularImpulseFactor;
+                    const hkReal f = 1.0f / radius;
+                    QuantizedBoundsBuilder::buildAngularBegin(
+                        opaA, opaB, avgNormal,
+                        reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFourthQueryValue,
+                        tripleJac.m_kAngularJacobian);
+                    QuantizedBoundsBuilder::buildAngularEnd(
+                        tripleJac.m_kAngularJacobian, info.m_kContactImpulseInfos[2].m_fImpulseLimit,
+                        reinterpret_cast<const SixteenWordFloatRecord*>(queryIn)->m_fFifthQueryValue);
+                    QuantizedBoundsBuilder::mulInvJacDiag(&tripleJac.m_kAngularJacobian, f);
+                    Friction3DSchema* sc = reinterpret_cast<Friction3DSchema*>(frictionSchema);
+                    sc->init3dFriction(tripleJac, corrMaxImpulse, invJac01, info.m_fAngularImpulseFactor,
+                                       solverResults);
+                    com = reinterpret_cast<SolverSchemaHeader*>(sc + 1);
+                    break;
+                }
+                info.m_fAngularImpulseFactor = 0.0f;
+                hkReal& radius = info.m_fAngularImpulseFactor;
+                const hkContactPoint* cp = contacts;
+                for (int j = numContacts - 1; j >= 0; j--)
+                {
+                    hkVector4 diff;
+                    diff.setSub4(cp->getPosition(), avgPosition);
+                    info.m_fAngularImpulseFactor = diff.length3() + info.m_fAngularImpulseFactor;
+                    cp = cp + 1;
+                }
+                radius = radius * invNum;
+                if (radius < 1e-6f)
+                {
+                    break;
+                }
+                info.m_flags &= 0xfffb;
+            }
+        }
+    }
+    reinterpret_cast<QueryResultSchema*>(queryOut)->m_pQueryResultSchema = com;
+    QuantizedBoundsBuilder::exitBuilder();
+}

@@ -1,0 +1,510 @@
+
+// src/staging/blk_00d60000_od_o2_nood_variant_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d60000_od_o2_nood_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
+
+// src/staging/blk_00d60000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS /EHsc /Gy (unit src/staging/blk_00d60000_od.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+// src/staging/blk_00d60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
+// (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "../../include/layout_support.h"
+namespace sd6ae50 {
+
+extern "C" const char DAT_010cc040[];
+
+struct FinishLoadedObjectFlag
+{
+    int m_iFinishing;
+};
+
+struct LoadedMember
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+
+    LoadedMember(FinishLoadedObjectFlag kFlag);
+};
+
+struct __declspec(align(16)) LoadedObject
+{
+    const char* m_pVtbl;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int m_uiLogicalSize;
+    unsigned short m_usCapacity;
+    unsigned short m_usFlags;
+    LoadedMember m_kMember;
+
+    LoadedObject(FinishLoadedObjectFlag kFlag)
+        : m_pVtbl(DAT_010cc040), m_uiLogicalSize(0), m_usCapacity(0), m_usFlags(0x8000), m_kMember(kFlag)
+    {}
+};
+
+// @fnv 0x00d6ae50
+const char* FUN_00d6ae50()
+{
+    FinishLoadedObjectFlag kFlag;
+    kFlag.m_iFinishing = 0;
+    LoadedObject kObject(kFlag);
+    return kObject.m_pVtbl;
+}
+
+}
+struct FUN_00d6aec0_seed
+{
+    int v;
+};
+__declspec(align(16)) class FUN_00d6aec0_obj
+{
+  public:
+    FUN_00d6aec0_obj(FUN_00d6aec0_seed s) throw();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+};
+int FUN_00d6aec0() throw();
+#include <xmmintrin.h>
+#include <math.h>
+extern float DAT_0104da4c;
+extern const float DAT_01011d78;
+union Basis
+{
+    struct
+    {
+        __m128 x;
+        __m128 y;
+        __m128 z;
+    };
+};
+struct FUN_004b4ab0_Class
+{
+    union
+    {
+        __m128 value;
+    };
+    void FUN_004b4ab0(int basis, int vector);
+    void FUN_00c7f700(const Basis* basis, const FUN_004b4ab0_Class* vector);
+};
+struct MotionInput
+{
+    float scale;
+    __m128 directionA;
+    __m128 directionB;
+    __m128 axis;
+    __m128 position;
+    __m128 target;
+    float maxLength;
+    __m128 translation;
+};
+static __forceinline float scalar(__m128 a)
+{
+    float value;
+    _mm_store_ss(&value, a);
+    return value;
+}
+static __forceinline __m128 cross3(const __m128& a, const __m128& b)
+{
+    __m128 first = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
+    return _mm_sub_ps(first, _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9)));
+}
+static __forceinline __m128 dot3(__m128 a)
+{
+    __m128 squares = _mm_mul_ps(a, a);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(squares, squares, 0x55), squares);
+    return _mm_add_ss(_mm_shuffle_ps(squares, squares, 0xaa), sum);
+}
+static __forceinline __m128 normalized3(__m128 a)
+{
+    __m128 lengthSquared = dot3(a);
+    __m128 inverseLength = _mm_rsqrt_ss(lengthSquared);
+    __m128 correction =
+        _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(lengthSquared, inverseLength), inverseLength));
+    __m128 refined = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), inverseLength), correction);
+    refined = _mm_andnot_ps(_mm_cmpeq_ss(lengthSquared, _mm_set_ss(DAT_01011d78)), refined);
+    return _mm_mul_ps(_mm_shuffle_ps(refined, refined, 0), a);
+}
+static __forceinline void buildBasis(const MotionInput* input, __m128 normal, Basis& basis)
+{
+    __m128 side = normalized3(cross3(normal, input->axis));
+    __m128 up = normalized3(cross3(side, input->axis));
+    basis.x = side;
+    basis.y = up;
+    basis.z = input->axis;
+}
+void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits);
+struct Vec4
+{
+    __m128 m_vComponents;
+};
+struct BodySource
+{
+    Vec4 m_000, m_010, m_020, m_030, m_040, m_050, m_060, m_070;
+    Vec4 m_080, m_090, m_0a0, m_0b0, m_0c0, m_0d0, m_0e0, m_0f0;
+    Vec4 m_100, m_110, m_120, m_130;
+    Vec4 m_140;
+    Vec4 m_150;
+    Vec4 m_160;
+    Vec4 m_170;
+    Vec4 m_180;
+    Vec4 m_190;
+    Vec4 m_1a0;
+    Vec4 m_1b0;
+    Vec4 m_1c0;
+};
+struct BodyList
+{
+    int m_iElementCount;
+    BodySource** m_data;
+};
+struct BodyOut
+{
+    Vec4 m_00;
+    Vec4 m_10;
+    Vec4 m_20;
+    Vec4 m_30;
+};
+void FUN_00d6b4b0(BodyList* list, BodyOut* out);
+struct __declspec(align(16)) V16
+{
+    float x, y, z, w;
+};
+struct __declspec(align(16)) D6Vec3
+{
+    V16 a;
+    V16 b;
+    V16 c;
+};
+struct D6Owner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    V16 f30;
+};
+struct D6Idx
+{
+    unsigned char unk00;
+    unsigned char unk01;
+    unsigned char idx02;
+};
+extern "C" void __cdecl FUN_00dcf280(D6Vec3* s, void* d, void* e);
+extern "C" V16* __cdecl D6GetArray(void);
+void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
+volatile D6Owner* g_d6Owner;
+volatile D6Idx* g_d6Idx;
+volatile void* g_d6D;
+volatile void* g_d6E;
+extern "C" __declspec(noinline) void d6c030_dummy_caller(void)
+{
+    FUN_00d6c030((D6Owner*)g_d6Owner, D6GetArray(), (D6Idx*)g_d6Idx, (void*)g_d6D, (void*)g_d6E);
+}
+
+namespace SimdC {
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    struct
+    {
+        float x, y, z, w;
+    } m128_f32;
+    struct
+    {
+        unsigned __int64 lo, hi;
+    } m128_u64;
+};
+extern "C"
+{
+    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_add_ps(__m128, __m128);
+    __m128 _mm_sub_ps(__m128, __m128);
+    __m128 _mm_add_ss(__m128, __m128);
+    __m128 _mm_set_ps1(float);
+    __m128 _mm_load_ps(float const*);
+    __m128 _mm_load_ss(float const*);
+    __m128 _mm_load_ps1(float const*);
+    __m128 _mm_unpackhi_ps(__m128, __m128);
+    void _mm_store_ps(float*, __m128);
+}
+
+}
+extern "C" void _ReadWriteBarrier();
+extern SimdC::__m128 DAT_010c71e0;
+extern SimdC::__m128 DAT_010ec7f0;
+extern float DAT_01267e30;
+
+struct hkQuaternion;
+struct Vec
+{
+    SimdC::__m128 m_vComponents;
+    __forceinline SimdC::__m128& quad()
+    {
+        return m_vComponents;
+    }
+    __forceinline const SimdC::__m128& quad() const
+    {
+        return m_vComponents;
+    }
+    __forceinline void SetRotatedDirection(const hkQuaternion& q, const Vec& d);
+    __forceinline void setRotatedTranslation(const hkQuaternion& q, const Vec& d);
+    __forceinline void setAdd4(const Vec& a, const Vec& b)
+    {
+        m_vComponents = SimdC::_mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void add4(const Vec& a)
+    {
+        m_vComponents = SimdC::_mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline void setMul4(const Vec& a, const Vec& b)
+    {
+        m_vComponents = SimdC::_mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+};
+struct hkQuaternion
+{
+    SimdC::__m128 m_vComponents;
+    void FUN_00c66320(const hkQuaternion&, const hkQuaternion&);
+    void FUN_00cb2850(const hkQuaternion&, const hkQuaternion&, float);
+};
+struct Transform
+{
+    Vec position;
+    hkQuaternion rotation;
+    Vec scale;
+    __forceinline void SetProduct(const Transform& a, const Transform& b);
+};
+struct Pose
+{
+    Vec position;
+    hkQuaternion rotation;
+};
+struct OutputPair
+{
+    Transform world;
+    Transform local;
+};
+struct Binding
+{
+    int count;
+    BodySource** nodes;
+    short* parents;
+    int* indices;
+    float* weights;
+};
+struct Weight
+{
+    float value;
+    float unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
+};
+
+__forceinline SimdC::__m128 rotate(SimdC::__m128 q, SimdC::__m128 v)
+{
+    SimdC::__m128 w = SimdC::_mm_shuffle_ps(q, q, 0xff);
+    SimdC::__m128 p = SimdC::_mm_mul_ps(v, q);
+    SimdC::__m128 y = SimdC::_mm_shuffle_ps(p, p, 0x55);
+    y = SimdC::_mm_add_ss(y, p);
+    SimdC::__m128 z = SimdC::_mm_shuffle_ps(p, p, 0xaa);
+    SimdC::__m128 d = SimdC::_mm_add_ss(z, y);
+    SimdC::__m128 cross =
+        SimdC::_mm_sub_ps(SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(v, v, 0xd2), SimdC::_mm_shuffle_ps(q, q, 0xc9)),
+                          SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(v, v, 0xc9), SimdC::_mm_shuffle_ps(q, q, 0xd2)));
+    SimdC::__m128 r = SimdC::_mm_add_ps(
+        SimdC::_mm_mul_ps(cross, w),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(w, w), DAT_010c71e0), v),
+                          SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), q)));
+    return SimdC::_mm_add_ps(r, r);
+}
+__forceinline void Vec::SetRotatedDirection(const hkQuaternion& quat, const Vec& direction)
+{
+    SimdC::__m128 qreal = SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xff);
+    SimdC::__m128 p = SimdC::_mm_mul_ps(quat.m_vComponents, direction.m_vComponents);
+    SimdC::__m128 y = SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0x55), p);
+    SimdC::__m128 d = SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0xaa), y);
+    SimdC::__m128 cross = SimdC::_mm_sub_ps(
+        SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xc9),
+                          SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xd2)),
+        SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xd2),
+                          SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xc9)));
+    SimdC::__m128 r = SimdC::_mm_add_ps(
+        SimdC::_mm_mul_ps(cross, qreal),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), DAT_010c71e0),
+                                            direction.m_vComponents),
+                          SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), quat.m_vComponents)));
+    m_vComponents = SimdC::_mm_add_ps(r, r);
+}
+__forceinline void Vec::setRotatedTranslation(const hkQuaternion& quat, const Vec& direction)
+{
+    SimdC::__m128 qreal = SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xff);
+    SimdC::__m128 p = SimdC::_mm_mul_ps(SimdC::_mm_load_ps(&quat.m_vComponents.m128_f32.x), direction.m_vComponents);
+    SimdC::__m128 y = SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0x55), p);
+    SimdC::__m128 d = SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0xaa), y);
+    SimdC::__m128 cross = SimdC::_mm_sub_ps(
+        SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xc9),
+                          SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xd2)),
+        SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(quat.m_vComponents, quat.m_vComponents, 0xd2),
+                          SimdC::_mm_shuffle_ps(direction.m_vComponents, direction.m_vComponents, 0xc9)));
+    SimdC::__m128 r = SimdC::_mm_add_ps(
+        SimdC::_mm_mul_ps(cross, qreal),
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_add_ps(SimdC::_mm_mul_ps(qreal, qreal), DAT_010c71e0),
+                                            direction.m_vComponents),
+                          SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(d, d, 0), quat.m_vComponents)));
+    m_vComponents = SimdC::_mm_add_ps(r, r);
+}
+__forceinline void Transform::SetProduct(const Transform& a, const Transform& b)
+{
+    Vec extra;
+    extra.setRotatedTranslation(a.rotation, b.position);
+    position.setAdd4(extra, a.position);
+    rotation.FUN_00c66320(a.rotation, b.rotation);
+    scale.setMul4(a.scale, b.scale);
+}
+__forceinline SimdC::__m128 blendPosition(const Vec& position, const Vec& target, float weight)
+{
+    SimdC::__m128 scalar = SimdC::_mm_load_ss(&weight);
+    SimdC::__m128 t = SimdC::_mm_shuffle_ps(scalar, scalar, 0);
+    return SimdC::_mm_add_ps(SimdC::_mm_mul_ps(SimdC::_mm_sub_ps(DAT_010ec7f0, t), position.quad()),
+                             SimdC::_mm_mul_ps(t, target.quad()));
+}
+
+extern "C" unsigned int __security_cookie;
+extern "C" void __fastcall __security_check_cookie(unsigned int);
+__declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
+{
+    SimdC::__m128 av = a.m_vComponents, bv = b.m_vComponents;
+    SimdC::__m128 cross =
+        SimdC::_mm_sub_ps(SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(bv, bv, 0xd2), SimdC::_mm_shuffle_ps(av, av, 0xc9)),
+                          SimdC::_mm_mul_ps(SimdC::_mm_shuffle_ps(bv, bv, 0xc9), SimdC::_mm_shuffle_ps(av, av, 0xd2)));
+    SimdC::__m128 ar = SimdC::_mm_shuffle_ps(av, av, 0xff);
+    ar = SimdC::_mm_shuffle_ps(ar, ar, 0);
+    SimdC::__m128 br = SimdC::_mm_shuffle_ps(bv, bv, 0xff);
+    br = SimdC::_mm_shuffle_ps(br, br, 0);
+    SimdC::__m128 xyz =
+        SimdC::_mm_add_ps(SimdC::_mm_mul_ps(br, av), SimdC::_mm_add_ps(SimdC::_mm_mul_ps(ar, bv), cross));
+    SimdC::__m128 p = SimdC::_mm_mul_ps(bv, av);
+    SimdC::__m128 dot =
+        SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0xaa), SimdC::_mm_add_ss(SimdC::_mm_shuffle_ps(p, p, 0x55), p));
+    SimdC::__m128 w = SimdC::_mm_sub_ps(p, SimdC::_mm_shuffle_ps(dot, dot, 0));
+    m_vComponents = SimdC::_mm_shuffle_ps(xyz, SimdC::_mm_unpackhi_ps(xyz, w), 0xc4);
+    __security_check_cookie(__security_cookie);
+}
+
+// @fnv 0x00d6b510
+static __declspec(noinline) void FUN_00d6b510(Binding* binding, Weight* weights, const Transform* root,
+                                              Transform* output, const Transform* __restrict transforms)
+{
+    for (int i = 0; i < binding->count; ++i)
+    {
+        const Transform& input = transforms[i];
+        Transform& outWorld = output[2 * i];
+        Transform& outLocal = output[2 * i + 1];
+        int parentIndex = binding->parents[i];
+        const Transform* parent = parentIndex >= 0 ? &output[2 * parentIndex + 1] : root;
+        outLocal.SetProduct(*parent, input);
+        Pose local;
+        local.rotation = outLocal.rotation;
+        local.position = outLocal.position;
+        int weightIndex = binding->indices ? binding->indices[i] : 0;
+        if (weightIndex == -1)
+            continue;
+        float weight = weights[weightIndex].value;
+        if (binding->weights)
+            weight = (float)(weight * binding->weights[i]);
+        if (weight > 0.0f && parentIndex >= 0)
+        {
+            BodySource* node = binding->nodes[parentIndex];
+            Transform reference;
+            reference.position = *reinterpret_cast<const Vec*>(&node->m_120);
+            reference.scale.quad() = SimdC::_mm_set_ps1(1.0f);
+            reference.rotation = *reinterpret_cast<const hkQuaternion*>(&node->m_160);
+            Transform composed;
+            composed.SetProduct(reference, input);
+            local.rotation.FUN_00cb2850(local.rotation, composed.rotation, weight);
+            local.position.quad() = blendPosition(local.position, composed.position, weight);
+        }
+        Vec offset;
+        offset.SetRotatedDirection(local.rotation, *reinterpret_cast<const Vec*>(&binding->nodes[i]->m_170));
+        outWorld.position.setAdd4(offset, local.position);
+        outWorld.rotation.m_vComponents = local.rotation.m_vComponents;
+        outWorld.scale.quad() = SimdC::_mm_load_ps(&DAT_01267e30);
+    }
+}
+
+void RunCompose_d6b510(Binding* binding, Weight* weights, const Transform* root, Transform* output,
+                       const Transform* __restrict transforms)
+{
+    FUN_00d6b510(binding, weights, root, output, transforms);
+}

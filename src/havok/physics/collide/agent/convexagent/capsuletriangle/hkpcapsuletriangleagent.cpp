@@ -1,0 +1,1061 @@
+
+// src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+void CreateObjectFromFactory();
+void FUN_00d3a8c0();
+void FUN_00d3a280();
+void FUN_00daf8e0();
+
+// Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
+// @fnv 0x00d3ab60
+void FUN_00d3ab60(void* apObject)
+{
+    *(void**)apObject = (void*)&CreateObjectFromFactory;
+    *(void**)((char*)apObject + 4) = (void*)&FUN_00d3a8c0;
+    *(void**)((char*)apObject + 8) = (void*)&FUN_00d3a280;
+    *(void**)((char*)apObject + 12) = (void*)&FUN_00daf8e0;
+    *(char*)((char*)apObject + 16) = 0;
+    *(char*)((char*)apObject + 17) = 0;
+}
+
+void __cdecl CreateAllocatedObject();
+void __cdecl FUN_00d3ac80();
+void __cdecl FUN_00d3b1a0();
+void __cdecl FUN_00d3b220();
+
+// @fnv 0x00d3ab90
+void __cdecl FUN_00d3ab90(void** apTable)
+{
+    apTable[0] = (void*)&CreateAllocatedObject;
+    apTable[1] = (void*)&FUN_00d3b1a0;
+    apTable[2] = (void*)&FUN_00d3b220;
+    apTable[3] = (void*)&FUN_00d3ac80;
+    ((unsigned char*)apTable)[0x10] = 1;
+    ((unsigned char*)apTable)[0x11] = 0;
+}
+
+void __cdecl CreateTriAgent2();
+void __cdecl FUN_00d38ac0();
+void __cdecl FUN_00d38ed0();
+void __cdecl FUN_00d3ac80();
+void __cdecl CreateTriAgent();
+void __cdecl FUN_00d38130();
+void __cdecl FUN_00d386c0();
+void __cdecl FUN_00daf8e0();
+
+typedef void (__cdecl *S_00d389f0_Func)();
+
+struct S_00d389f0_AgentFuncs
+{
+    S_00d389f0_Func m_pCreateFunc;
+    S_00d389f0_Func m_pQueryPenetrationsFunc;
+    S_00d389f0_Func m_getClosestPointsFunc;
+    S_00d389f0_Func m_pLinearCastFunc;
+    bool m_bIsFlipped;
+    bool m_bIsPredictive;
+};
+
+struct S_00d389f0_Dispatcher
+{
+    void FUN_00cfbbe0(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
+};
+
+// Registers two agent function tables with the dispatcher, one for type 3 to 0x15 and one for 0x15 to 3.
+// @fnv 0x00d389f0
+void __cdecl FUN_00d389f0(S_00d389f0_Dispatcher* dispatcher)
+{
+    {
+        S_00d389f0_AgentFuncs agentFuncs;
+        agentFuncs.m_pCreateFunc = CreateTriAgent2;
+        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d38ac0;
+        agentFuncs.m_getClosestPointsFunc = FUN_00d38ed0;
+        agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
+        agentFuncs.m_bIsFlipped = true;
+        agentFuncs.m_bIsPredictive = false;
+        dispatcher->FUN_00cfbbe0(agentFuncs, 3, 0x15);
+    }
+    {
+        S_00d389f0_AgentFuncs agentFuncs;
+        agentFuncs.m_pCreateFunc = CreateTriAgent;
+        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d38130;
+        agentFuncs.m_getClosestPointsFunc = FUN_00d386c0;
+        agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
+        agentFuncs.m_bIsFlipped = false;
+        agentFuncs.m_bIsPredictive = false;
+        dispatcher->FUN_00cfbbe0(agentFuncs, 0x15, 3);
+    }
+}
+
+struct ReceiverBase { virtual void Release(unsigned int value); int unk04; };
+struct NoteDispatcher {
+    virtual void Unknown00(unsigned int, void*);
+    virtual void Unknown04(unsigned int, void*);
+    virtual void Unknown08(unsigned int, void*);
+    virtual void Unknown0C(unsigned int, void*);
+    virtual void Unknown10(unsigned int, void*);
+    virtual void Dispatch(unsigned int id, void* value);
+};
+struct FUN_00d39930_class : ReceiverBase {
+    NoteDispatcher* dispatcher;
+    unsigned short receiverIds[3];
+    void __thiscall DispatchToReceivers(void* value);
+};
+// Dispatches value to each non-0xFFFF receiver id via dispatcher, then releases this if non-null.
+// @fnv 0x00d39930
+void FUN_00d39930_class::DispatchToReceivers(void* value)
+{
+    unsigned short* id = receiverIds;
+    int count = 3;
+    do {
+        unsigned int current = *id;
+        if ((unsigned short)current != 0xFFFF)
+            dispatcher->Dispatch(current, value);
+        ++id;
+    } while (--count != 0);
+    if (this)
+        Release(1);
+}
+
+extern const int DAT_010ce7fc;
+
+struct CallbackState {
+    const int* m_pIntegerValue;
+    float m_fFirstLightParameter;
+    int m_iValue;
+};
+
+void __cdecl FUN_00d3a280(void* apFirst, void* apSecond, void* apThird,
+                          CallbackState* apState);
+
+// Builds a CallbackState with a max float, the given value and a constant pointer, then passes it to FUN_00d3a280 with the three pointers reordered.
+// @fnv 0x00d3b220
+void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue)
+{
+    CallbackState kState;
+    kState.m_fFirstLightParameter = 3.40282e+38f;
+    kState.m_iValue = aiValue;
+    kState.m_pIntegerValue = &DAT_010ce7fc;
+    FUN_00d3a280(apTwo, apOne, apThree, &kState);
+}
+
+struct AllocIface {
+    virtual void unk00();
+    virtual void* Alloc(unsigned int size);
+};
+
+struct AllocHolder {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    AllocIface* m_pAllocator;
+};
+
+AllocHolder* __cdecl FUN_00c85750() throw();
+
+void __cdecl ComputeInverseLengths(void* value, void* self);
+
+extern char DAT_010ceefc[];
+extern char DAT_010cef38[];
+
+struct FUN_00d39980_cls {
+    void* m_vptr;
+    unsigned short m_w04;
+    unsigned short m_w06;
+    int m_i08;
+    unsigned short m_w0C;
+    unsigned short m_w0E;
+    unsigned short m_w10;
+    unsigned short m_w12;
+    void* m_sub;
+};
+
+// @fnv 0x00d39980
+FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4)
+{
+    AllocHolder* pAllocHolder = FUN_00c85750();
+    FUN_00d39980_cls* pObject = (FUN_00d39980_cls*)pAllocHolder->m_pAllocator->Alloc(0x28);
+    pObject->m_w04 = 0x28;
+    pObject->m_w06 = 1;
+    pObject->m_i08 = a4;
+    pObject->m_w0C = 0xffff;
+    pObject->m_w0E = 0xffff;
+    pObject->m_w10 = 0xffff;
+    pObject->m_vptr = DAT_010ceefc;
+    ComputeInverseLengths((void*)(*(int*)a1 + 0x20), &pObject->m_sub);
+    pObject->m_vptr = DAT_010cef38;
+    return pObject;
+}
+
+typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+    int m128_i32[4];
+    __int64 m128_i64[2];
+    unsigned int m128_u32[4];
+} __m128;
+
+extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
+extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
+extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
+extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+
+extern const __m128 DAT_010c4c00;
+
+struct hkVector4 {
+    __m128 m_vComponents;
+    void operator=(const hkVector4& o) { m_vComponents = o.m_vComponents; }
+    void setBroadcast3(const hkVector4& v) { m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff); }
+    void mul4(const hkVector4& a) { m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents); }
+    void add4(const hkVector4& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
+    void addMul4(const hkVector4& a, const hkVector4& b) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents)); }
+    void setNeg4(const hkVector4& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c4c00); }
+    void neg() { m_vComponents = _mm_xor_ps(m_vComponents, DAT_010c4c00); }
+};
+
+struct Elem_d3b260 {
+    hkVector4 m_pos;
+    hkVector4 m_dir;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+struct Buffer_d3b260 {
+    Elem_d3b260* m_kRayEnd;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    Elem_d3b260 m_pElements[256];
+    hkVector4 m_vHitNormal;
+    float m_fHitFraction;
+    int unk3034;
+    int unk3038;
+    int unk303c;
+    unsigned short m_idx[4];
+    unsigned char m_kPointA;
+    unsigned char m_kPointB;
+    unsigned char m_ucLowNibble : 4;
+    unsigned char m_ucHighNibble : 4;
+};
+
+
+
+struct Agent_d3b260 {
+    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
+    void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
+};
+
+// @fnv 0x00d3b260
+void Agent_d3b260::FUN_00d3b260(int a, int b, int c, Buffer_d3b260* apBuffer)
+{
+    float dist = apBuffer->m_fHitFraction;
+    Elem_d3b260* e = apBuffer->m_kRayEnd;
+    FUN_00d3ad70(b, a, c, apBuffer);
+    for (; e < apBuffer->m_kRayEnd; e++)
+    {
+        hkVector4 w;
+        w.setBroadcast3(e->m_dir);
+        w.mul4(e->m_dir);
+        w.add4(e->m_pos);
+        e->m_pos = w;
+        e->m_dir.setNeg4(e->m_dir);
+    }
+    if (dist != apBuffer->m_fHitFraction)
+    {
+        apBuffer->m_vHitNormal.neg();
+        unsigned char n = apBuffer->m_ucLowNibble;
+        apBuffer->m_ucLowNibble = apBuffer->m_ucHighNibble;
+        apBuffer->m_ucHighNibble = n;
+        unsigned char t = apBuffer->m_kPointA;
+        apBuffer->m_kPointA = apBuffer->m_kPointB;
+        apBuffer->m_kPointB = t;
+        int idx = apBuffer->m_kPointA + apBuffer->m_kPointB - 1;
+        unsigned short w = apBuffer->m_idx[0];
+        apBuffer->m_idx[0] = apBuffer->m_idx[idx];
+        apBuffer->m_idx[idx] = w;
+        if ((apBuffer->m_kPointA & apBuffer->m_kPointB) == 2)
+        {
+            unsigned short usTmp = apBuffer->m_idx[1];
+            apBuffer->m_idx[1] = apBuffer->m_idx[2];
+            apBuffer->m_idx[2] = usTmp;
+        }
+    }
+}
+
+struct __declspec(align(16)) FourWord {
+    unsigned int x, y, z, w;
+};
+
+struct __declspec(align(16)) FourFloat {
+    union { __m128 simd; FourWord words; };
+};
+
+struct __declspec(align(16)) MotionPacket {
+    unsigned int word00;
+    unsigned int word04;
+    unsigned int word08;
+    unsigned int word0c;
+    unsigned int word10;
+    unsigned int word14;
+    unsigned int word18;
+    unsigned int word1c;
+    unsigned int word20;
+    unsigned int word24;
+    unsigned int word28;
+    unsigned int word2c;
+    unsigned int word30;
+    unsigned int word34;
+    unsigned int word38;
+    unsigned int word3c;
+    unsigned int word40;
+    unsigned int word44;
+    unsigned int word48;
+    unsigned int word4c;
+    FourFloat direction;
+    unsigned int trailing60, trailing64, trailing68, trailing6c;
+};
+
+struct __declspec(align(16)) MotionCallData {
+    const void* descriptor;
+    float scale;
+    FourWord direction;
+    unsigned int mode;
+};
+
+extern "C" float DAT_0104da48;
+extern "C" const __m128 DAT_010c44d0;
+extern "C" unsigned char UNK_010ce80c;
+
+extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first,
+                            MotionPacket* packet, MotionCallData* primary,
+                            MotionCallData* secondary);
+
+// Copies the input packet, XORs its direction with DAT_010c44d0, builds primary/secondary MotionCallData and calls FUN_00daf8e0.
+// @fnv 0x00d3ac80
+void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
+                           const MotionPacket* apPacket, unsigned int mode,
+                           unsigned int optionalMode)
+{
+    MotionPacket packetCopy = *apPacket;
+    packetCopy.direction.simd = _mm_xor_ps(apPacket->direction.simd, DAT_010c44d0);
+    const void* descriptor = &UNK_010ce80c;
+    MotionCallData primary;
+    primary.descriptor = descriptor;
+    primary.scale = DAT_0104da48;
+    primary.direction = apPacket->direction.words;
+    primary.mode = mode;
+
+    if (optionalMode) {
+        MotionCallData secondary;
+        secondary.descriptor = descriptor;
+        secondary.scale = DAT_0104da48;
+        secondary.direction = apPacket->direction.words;
+        secondary.mode = optionalMode;
+        FUN_00daf8e0(second, first, &packetCopy, &primary, &secondary);
+    } else {
+        FUN_00daf8e0(second, first, &packetCopy, &primary, 0);
+    }
+}
+
+extern char DAT_010ce81c;
+struct FUN_00d3b160_tmp { const void* vt; unsigned char flag; unsigned int a4; };
+struct CallbackHost_d3b160 {
+    void FUN_00d3a620(void*, void*, void*, void*);
+    void FUN_00d3b160(void*, void*, void*, unsigned int);
+};
+
+// Builds a temporary object holding a4 and a cleared flag with a vtable, then calls FUN_00d3a620 with a2, a1, a3 and that object.
+// @fnv 0x00d3b160
+void CallbackHost_d3b160::FUN_00d3b160(void* a1, void* a2, void* a3, unsigned int a4)
+{
+    FUN_00d3b160_tmp t;
+    t.a4 = a4;
+    t.flag = 0;
+    t.vt = &DAT_010ce81c;
+    FUN_00d3a620(a2, a1, a3, &t);
+}
+
+struct __declspec(align(16)) Vec4 {
+    float x, y, z, w;
+};
+
+struct Mat4 {
+    Vec4 row0, row1, row2, row3;
+};
+
+void __cdecl FUN_00cd6520(void* a, float b, void* c, float d, void* e, float f, int g, int h, int i);
+
+static __forceinline void transform(Vec4* out, const char* shape, int count, const Mat4* m)
+{
+    Vec4 p0 = m->row0;
+    Vec4 p1 = m->row1;
+    Vec4 p2 = m->row2;
+    Vec4 p3 = m->row3;
+    __m128 r0 = *(__m128*)&p0;
+    __m128 r1 = *(__m128*)&p1;
+    __m128 r2 = *(__m128*)&p2;
+    __m128 r3 = *(__m128*)&p3;
+
+    __m128* v = (__m128*)(shape + 0x20);
+    for (int i = count - 1; i >= 0; --i) {
+        __m128 vi = v[i];
+        __m128 x = _mm_shuffle_ps(vi, vi, 0x00);
+        __m128 y = _mm_shuffle_ps(vi, vi, 0x55);
+        __m128 z = _mm_shuffle_ps(vi, vi, 0xaa);
+        __m128 a = _mm_add_ps(_mm_mul_ps(y, r1), _mm_mul_ps(x, r0));
+        __m128 b = _mm_add_ps(_mm_mul_ps(z, r2), r3);
+        *(__m128*)&out[i] = _mm_add_ps(a, b);
+    }
+}
+
+// Transforms two shapes' vertices by their matrices, then calls FUN_00cd6520 with the results, a4, a3's float at +8, a5 and a6.
+// @fnv 0x00d399f0
+void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6)
+{
+    const char* shapeA = *(const char**)a1;
+    const char* shapeB = *(const char**)a2;
+
+    Vec4 aTransformedA[2];
+    transform(aTransformedA, shapeA, 2, *(Mat4**)(a1 + 8));
+
+    Vec4 aTransformedB[3];
+    transform(aTransformedB, shapeB, 3, *(Mat4**)(a2 + 8));
+
+    FUN_00cd6520(&aTransformedA[0],
+                 *(float*)(shapeA + 0x10),
+                 &aTransformedB[0],
+                 *(float*)(shapeB + 0x10),
+                 a4,
+                 *(float*)((char*)pExtra + 8),
+                 a5,
+                 a6,
+                 0);
+}
+
+extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
+extern "C" void _mm_store_ss(float* p, __m128 a);
+extern "C" __m128 _mm_load_ps(const float* p);
+extern "C" void _mm_store_ps(float* p, __m128 a);
+extern "C" __m128 _mm_rsqrt_ps(__m128 a);
+extern __m128 DAT_010c71c0;
+extern __m128 DAT_010c71d0;
+
+static __forceinline float SqLenLane(__m128 x)
+{
+    __m128 sq = _mm_mul_ps(x, x);
+    __m128 yx = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+    __m128 zyx = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), yx);
+    float r;
+    _mm_store_ss(&r, zyx);
+    return r;
+}
+
+// Computes Newton-refined inverse square roots of four vector lengths from pts and stores them plus a fifth value into out.
+// @fnv 0x00cd72a0
+void __cdecl ComputeInverseLengths(__m128* pts, float* out)
+{
+    __m128 c = pts[2];
+    __m128 a = pts[0];
+    __m128 b = pts[1];
+
+    __m128 v = _mm_sub_ps(c, b);
+    __m128 u = _mm_sub_ps(a, c);
+    __m128 w = _mm_sub_ps(b, a);
+
+    __m128 p = _mm_mul_ps(_mm_shuffle_ps(u, u, 0xc9), _mm_shuffle_ps(v, v, 0xd2));
+    __m128 q = _mm_mul_ps(_mm_shuffle_ps(u, u, 0xd2), _mm_shuffle_ps(v, v, 0xc9));
+    __m128 x = _mm_sub_ps(q, p);
+
+    __declspec(align(16)) float lens[4];
+    float fSqLen = SqLenLane(v);
+    lens[0] = fSqLen;
+    fSqLen = SqLenLane(u);
+    lens[1] = fSqLen;
+    fSqLen = SqLenLane(w);
+    lens[2] = fSqLen;
+    fSqLen = SqLenLane(x);
+    lens[3] = fSqLen;
+
+    __m128 l = _mm_load_ps(lens);
+    __m128 r = _mm_rsqrt_ps(l);
+    __m128 t = _mm_mul_ps(_mm_mul_ps(r, l), r);
+    __m128 k1 = _mm_sub_ps(DAT_010c71c0, t);
+    __m128 k2 = _mm_mul_ps(r, DAT_010c71d0);
+    __m128 inv = _mm_mul_ps(k1, k2);
+
+    _mm_store_ps(lens, inv);
+    out[0] = lens[0];
+    out[1] = lens[1];
+    out[2] = lens[2];
+    out[3] = lens[3];
+    out[4] = fSqLen * lens[3];
+}
+
+struct __declspec(align(16)) ScalarVector {
+    int x, y, z, w;
+    __m128 quad() const { return *(const __m128*)this; }
+};
+struct Xf {
+    ScalarVector r0, r1, r2, t;
+};
+struct Vt {
+    void* f00; void* f04; void* f08; void* f0c;
+    void* f10; void* f14; void* f18; void* f1c;
+    void* f20; void* f24; void* f28; void* f2c;
+    void* f30; void* f34; void* f38; void* f3c;
+    int (__thiscall *fn)(void*, void*, void*, void*, void*, void*, void*, void*);
+};
+struct ShapeInterface {
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0c();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1c();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2c();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual void slot3c();
+    virtual int refine(void*,void*,void*,void*,void*,void*,void*);
+};
+struct Shape : ShapeInterface {
+    int unk04;
+    int unk08;
+    int unk0c;
+    float radius;
+    int unk14;
+    int unk18;
+    int unk1c;
+    hkVector4 vertices[3];
+};
+struct Obj {
+    Shape* base;
+    int u;
+    Xf* xf;
+};
+struct Par {
+    float a;
+    int flag;
+    float c;
+};
+struct Info {
+    unsigned char count;
+    unsigned char type;
+    unsigned short feature;
+    int index;
+};
+struct Contact {
+    __m128 normal;
+    __m128 position;
+    Contact& operator=(const Contact& c) { normal = c.normal; position = c.position; return *this; }
+    void __thiscall FUN_00caad60(void* arg);
+};
+
+
+
+static __forceinline void xform(const Xf& m, const __m128* src, __m128* dst, int hi)
+{
+    ScalarVector column0 = m.r0;
+    __m128 c0 = column0.quad();
+    ScalarVector column1 = m.r1;
+    __m128 c1 = column1.quad();
+    ScalarVector column2 = m.r2;
+    __m128 c2 = column2.quad();
+    ScalarVector translation = m.t;
+    __m128 ct = translation.quad();
+    for (int i = hi; i >= 0; --i) {
+        __m128 v = src[i];
+        __m128 x = _mm_shuffle_ps(v, v, 0);
+        __m128 y = _mm_shuffle_ps(v, v, 0x55);
+        __m128 z = _mm_shuffle_ps(v, v, 0xaa);
+        dst[i] = _mm_add_ps(_mm_add_ps(_mm_mul_ps(y, c1), _mm_mul_ps(x, c0)), _mm_add_ps(_mm_mul_ps(z, c2), ct));
+    }
+}
+
+struct CollisionWorkspace { __m128 la[2]; __m128 lb[3]; };
+// Transforms shape vertices, runs a collision query, optionally refines the contact, and writes the result to out.
+// @fnv 0x00d39bf0
+int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile apParams, void* q, Contact* apContactOut)
+{
+    CollisionWorkspace workspace;
+    Shape* shapes[2];
+    shapes[0] = a->base;
+    shapes[1] = b->base;
+
+    xform(*a->xf, (const __m128*)shapes[0]->vertices, workspace.la, 1);
+
+    xform(*b->xf, (const __m128*)shapes[1]->vertices, workspace.lb, 2);
+
+    Info info[3];
+    __m128 res[6];
+    Par* input = apParams;
+    FUN_00cd6520(workspace.la, shapes[0]->radius, workspace.lb, shapes[1]->radius, q, input->c, 0, (int)res, (int)info);
+
+    float fDistA = ((float*)res)[7];
+    float fDistB = ((float*)res)[15];
+    int idx;
+    if (fDistA < fDistB) {
+        if (!(fDistA < input->c)) goto fail;
+        idx = 0;
+    } else {
+        if (!(fDistB < input->c)) goto fail;
+        idx = 1;
+    }
+
+    unsigned char n;
+    n = info[idx].count;
+    if (input->flag != 0 && n > 0) {
+        const ScalarVector& source = *(ScalarVector*)(res + idx * 2 + 1);
+        ScalarVector t;
+        t.x = source.x;
+        t.y = source.y;
+        t.z = source.z;
+        t.w = source.w;
+        Xf* transformA = a->xf;
+        Xf* transformB = b->xf;
+        int r = shapes[1]->refine(&info[idx].feature, &n, res + idx * 2, transformB, shapes[0], transformA, &t);
+        if (r != 0) { if (r == 1) ((Contact*)(res + idx * 2))->FUN_00caad60(&t); } else goto fail;
+    }
+
+    *apContactOut = ((Contact*)res)[idx];
+    return 1;
+fail:
+    return 0;
+}
+
+#include <windows.h>
+extern DWORD DAT_0126835c;
+
+extern "C" void _ReadWriteBarrier(void);
+unsigned __int64 __cdecl __rdtsc(void);
+
+struct ProfRec
+{
+    const char* m_pName;
+    DWORD m_iTick;
+    DWORD unk08;
+};
+
+struct ProfBuf
+{
+    DWORD unk00;
+    ProfRec* m_pCur;
+    DWORD unk08;
+    ProfRec* m_pRecordEnd;
+};
+
+typedef ScalarVector Vec4f;
+
+struct ContactMatrix
+{
+    Vec4f row[4];
+};
+
+struct VirtObj
+{
+    virtual void v00();
+    virtual void Run(const void* a, const void* b);
+};
+
+struct ManifoldPoint
+{
+    __m128 pos;
+    int unk10;
+    int unk14;
+    int unk18;
+    float dist;
+};
+
+struct HitRec
+{
+    ManifoldPoint pt0;
+    ManifoldPoint pt1;
+    ManifoldPoint pt2;
+};
+
+struct Context
+{
+    HitRec hit;
+    __m128 capsule[2];
+    __m128 triangle[3];
+};
+
+extern "C" void __cdecl FUN_00cd6520(void* out1, float fx, void* out2, float fy, void* p, float afDepth, int zero, HitRec* hit, int zero2);
+
+struct hkpShape
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    float m_fSphereRadius;
+    int unk14;
+    int unk18;
+    int unk1c;
+    __m128 m_kVertices[4];
+};
+
+struct hkpCdBody
+{
+    const hkpShape* m_pCollisionShape;
+    int unk04;
+    const ContactMatrix* m_kMotionState;
+};
+
+struct CollisionInput { int unk00; int unk04; float tolerance; };
+
+struct __declspec(align(16)) RowPair { Vec4f first, second; };
+
+struct CapsuleTriangleAgent {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    void FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
+};
+
+// Transforms capsule and triangle vertices into world space, tests for intersection, and reports a hit to the collector if found.
+// @fnv 0x00d3a620
+void CapsuleTriangleAgent::FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector)
+{
+    volatile DWORD tick;
+    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
+    {
+        ProfRec* pRec = pBuf->m_pCur;
+        pRec->m_pName = "TtCapsTriangle";
+        _ReadWriteBarrier();
+        tick = (DWORD)__rdtsc();
+        pRec->m_iTick = tick;
+        pBuf->m_pCur = pRec + 1;
+    }
+
+    Context ctx;
+    const hkpShape* capsuleShape = bodyA.m_pCollisionShape;
+    const hkpShape* triangleShape = bodyB.m_pCollisionShape;
+    const ContactMatrix* transformA = bodyA.m_kMotionState;
+
+    {
+        RowPair xyRows;
+        __declspec(align(16)) Vec4f c2;
+        __declspec(align(16)) Vec4f c3;
+        xyRows.first = transformA->row[0];
+        xyRows.second = transformA->row[1];
+        c2 = transformA->row[2];
+        c3 = transformA->row[3];
+        __m128 r0 = _mm_load_ps((const float*)&xyRows.first);
+        __m128 r1 = _mm_load_ps((const float*)&xyRows.second);
+        for (int i = 1; i >= 0; i--)
+        {
+
+            __m128 r2 = *(__m128*)&c2;
+            __m128 r3 = *(__m128*)&c3;
+
+            __m128 v = capsuleShape->m_kVertices[i];
+            __m128 t = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0), r0), _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), r1));
+            ctx.capsule[i] = _mm_add_ps(t, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), r2), r3));
+        }
+
+    }
+
+    const ContactMatrix* transformB = bodyB.m_kMotionState;
+    {
+        __declspec(align(16)) Vec4f d0;
+        __declspec(align(16)) Vec4f d1;
+        RowPair translationAndZ;
+        d0 = transformB->row[0];
+        d1 = transformB->row[1];
+        translationAndZ.second = transformB->row[2];
+        translationAndZ.first = transformB->row[3];
+        for (int i = 2; i >= 0; i--)
+        {
+            __m128 s1 = *(__m128*)&d1;
+            __m128 s2 = *(__m128*)&translationAndZ.second;
+            __m128 s3 = *(__m128*)&translationAndZ.first;
+            __m128 s0 = *(__m128*)&d0;
+            __m128 v = triangleShape->m_kVertices[i];
+            __m128 t = _mm_mul_ps(_mm_shuffle_ps(v, v, 0), s0);
+            t = _mm_add_ps(t, _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), s1));
+            ctx.triangle[i] = _mm_add_ps(t, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), s2), s3));
+        }
+
+    }
+
+    FUN_00cd6520(ctx.capsule, capsuleShape->m_fSphereRadius, ctx.triangle, triangleShape->m_fSphereRadius, &this->unk14, input->tolerance, 0, &ctx.hit, 0);
+    if (ctx.hit.pt0.dist < 0.0f || ctx.hit.pt1.dist < 0.0f)
+    {
+        collector->Run(&bodyA, &bodyB);
+    }
+
+    ProfBuf* pBuf2 = (ProfBuf*)TlsGetValue(DAT_0126835c);
+    if (pBuf2->m_pCur < pBuf2->m_pRecordEnd)
+    {
+        ProfRec* pRec = pBuf2->m_pCur;
+        pRec->m_pName = "Et";
+        _ReadWriteBarrier();
+        tick = (DWORD)__rdtsc();
+        pRec->m_iTick = tick;
+        pBuf2->m_pCur = pRec + 1;
+    }
+}
+
+namespace fnv_00d3b1a0 {
+extern "C" const int DAT_010ce81c;
+
+struct LocalState_d3b1a0 {
+    const int* m_pIntegerValue;
+    unsigned char m_bZero;
+    int m_iValue;
+};
+
+typedef void (__cdecl *Call_d3a8c0)(int, int, int, LocalState_d3b1a0*);
+
+// Initialises a LocalState_d3b1a0 with param4, a zero flag and a pointer to DAT_010ce81c, then calls FUN_00d3a8c0 with param2, param1, param3 and the state.
+// @fnv 0x00d3b1a0
+void __cdecl FUN_00d3b1a0(int param1, int param2, int param3, int aiValue) {
+    LocalState_d3b1a0 state;
+    state.m_iValue = aiValue;
+    state.m_bZero = 0;
+    state.m_pIntegerValue = &DAT_010ce81c;
+
+    Call_d3a8c0 call = (Call_d3a8c0)FUN_00d3a8c0;
+    call(param2, param1, param3, &state);
+}
+}  // namespace fnv_00d3b1a0
+
+namespace fnv_00d3b1e0 {
+struct CpuCallData { void* descriptor; float bound; unsigned int value; };
+extern float DAT_0104da48;
+extern unsigned char DAT_010ce7fc;
+struct CpuObject {
+    void FUN_00d39ef0(void*, void*, unsigned int, CpuCallData*);
+    void FUN_00d3b1e0(void*, void*, unsigned int, unsigned int);
+};
+// Builds a CpuCallData from fourth, DAT_0104da48 and &DAT_010ce7fc, then calls FUN_00d39ef0 with second, first, third and that data.
+// @fnv 0x00d3b1e0
+void CpuObject::FUN_00d3b1e0(void* first, void* second, unsigned int third, unsigned int fourth)
+{
+    CpuCallData data;
+    data.value = fourth;
+    data.bound = DAT_0104da48;
+    data.descriptor = &DAT_010ce7fc;
+    FUN_00d39ef0(second, first, third, &data);
+}
+}  // namespace fnv_00d3b1e0
+
+extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
+
+struct ContactNormalSetter : Contact
+{
+    ContactNormalSetter* FUN_00caad60(const __m128* source);
+};
+
+// Copies the x, y and z components of *source into position, keeping position's existing w, and returns this.
+// @fnv 0x00caad60
+ContactNormalSetter* ContactNormalSetter::FUN_00caad60(const __m128* source)
+{
+    __m128 incoming = *source;
+    __m128 current = position;
+    __m128 high = _mm_unpackhi_ps(incoming, current);
+    position = _mm_shuffle_ps(incoming, high, 0xc4);
+    return this;
+}
+
+extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
+struct MonitorRecord { const char* name; unsigned int time; unsigned int unk08; };
+struct MonitorStream { unsigned int unk00; MonitorRecord* cursor; unsigned int unk08; MonitorRecord* end; };
+struct __declspec(align(16)) PlainVector { int x,y,z,w; __m128 quad() const { return *(const __m128*)this; } };
+struct PlainMatrix { PlainVector r0,r1,r2,t; };
+struct ContactRecord {
+    __m128 position;
+    __m128 normal;
+    ContactRecord& operator=(const ContactRecord& o) { position=o.position; normal=o.normal; return *this; }
+    void FUN_00caad60(const PlainVector*);
+};
+struct CacheRecord { unsigned char flag; unsigned char unk01; unsigned short feature; unsigned int unk04; };
+union __declspec(align(16)) TransformCacheScratch { PlainVector column; CacheRecord cache[3]; };
+struct CollisionShape;
+struct CapsuleShapeInterface {
+    virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0c();
+    virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1c();
+    virtual void slot20(); virtual void slot24(); virtual void slot28(); virtual void slot2c();
+    virtual void slot30(); virtual void slot34(); virtual void slot38(); virtual void slot3c();
+    virtual int process(unsigned short*,unsigned char*,ContactRecord*,const PlainMatrix*,const CollisionShape*,const PlainMatrix*,PlainVector*);
+};
+struct CollisionShape : CapsuleShapeInterface {
+    unsigned int unk04,unk08,unk0c;
+    float radius;
+    unsigned int unk14,unk18,unk1c;
+    hkVector4 points[3];
+};
+struct BodyRecord { const CollisionShape* shape; unsigned int unk04; const PlainMatrix* matrix; };
+struct PointEvent { ContactRecord contact; const BodyRecord* a; const BodyRecord* b; unsigned int unk28,unk2c; };
+struct Collector { virtual void slot00(); virtual void accept(const PointEvent*); };
+struct ContactResults { ContactRecord points[3]; };
+void __cdecl FUN_00cd6520(hkVector4*,float,hkVector4*,float,void*,float,int,ContactResults*,CacheRecord*);
+struct CollisionAgent {
+    unsigned int unk00,unk04,unk08,unk0c,unk10,cache14;
+    void FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output);
+};
+// @fnv 0x00d39ef0
+void CollisionAgent::FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output) {
+    {
+        MonitorStream* stream=(MonitorStream*)TlsGetValue(DAT_0126835c);
+        if(stream->cursor < stream->end) {
+            MonitorRecord* rec=stream->cursor;
+            rec->name="TtCapsTriangle";
+            unsigned int ticks;
+            __asm {
+                rdtsc
+                mov dword ptr[ticks], eax
+            }
+            rec->time=ticks;
+            stream->cursor=rec+1;
+        }
+    }
+    {
+    PointEvent event;
+    event.a=&a; event.b=&b;
+    TransformCacheScratch transformCache;
+    hkVector4 pointsA[2];
+    hkVector4 pointsB[3];
+    const CollisionShape* shapeA=a.shape;
+    const CollisionShape* shapeB=b.shape;
+    xform(*(const Xf*)a.matrix,&shapeA->points[0].m_vComponents,&pointsA[0].m_vComponents,1);
+    xform(*(const Xf*)b.matrix,&shapeB->points[0].m_vComponents,&pointsB[0].m_vComponents,2);
+    ContactResults result;
+    CacheRecord* cache=transformCache.cache;
+    FUN_00cd6520(pointsA,shapeA->radius,pointsB,shapeB->radius,&cache14,input.tolerance,0,&result,cache);
+    int index;
+    if(result.points[0].normal.m128_f32[3] < result.points[1].normal.m128_f32[3]) {
+        if(!(input.tolerance > result.points[0].normal.m128_f32[3])) goto done;
+        index=0;
+    } else {
+        if(!(input.tolerance > result.points[1].normal.m128_f32[3])) goto done;
+        index=1;
+    }
+    {
+        unsigned char flag=cache[index].flag;
+        if(input.unk04 && flag>0) {
+            PlainVector normal=*(const PlainVector*)&result.points[index].normal;
+            const PlainMatrix* transformA=a.matrix;
+            const PlainMatrix* transformB=b.matrix;
+            ContactRecord* contact=&result.points[index];
+            int outcome=const_cast<CollisionShape*>(shapeB)->process(&cache[index].feature,&flag,contact,transformB,shapeA,transformA,&normal);
+            if(outcome==0) goto done;
+            if(outcome==1) result.points[index].FUN_00caad60(&normal);
+        }
+        event.contact=result.points[index];
+        output->accept(&event);
+    }
+    }
+done:
+    {
+        MonitorStream* stream=(MonitorStream*)TlsGetValue(DAT_0126835c);
+        if(stream->cursor < stream->end) {
+            MonitorRecord* rec=stream->cursor;
+            rec->name="Et";
+            unsigned int ticks;
+            __asm {
+                rdtsc
+                mov dword ptr[ticks], eax
+            }
+            rec->time=ticks;
+            stream->cursor=rec+1;
+        }
+    }
+}
+
+extern char DAT_010cef80[], DAT_010c41f8[];
+struct Timer { char* volatile name; unsigned time; unsigned extra; };
+struct TimerPair { int unused; Timer* current; int unused2; Timer* end; };
+struct Body { Shape* shape; int unused; Mat4* matrix; };
+struct Input { int unk00,unk04; float tolerance; };
+struct PenetrationCollector { virtual void unused(); virtual void add(Body*, Body*); };
+struct AlignedPairData { Vec4 position, normal; };
+struct Result { AlignedPairData points[3]; };
+struct Cache { float inverseEdge0,inverseEdge1,inverseEdge2,inverseNormal,normalLength; };
+struct OutputA { Vec4 points[2]; };
+struct OutputB { Vec4 points[3]; };
+struct Locals { Result result; OutputA outA; OutputB outB; };
+static __forceinline void mytransform(Vec4* out, const Shape* shape, int count, const Mat4* m)
+{
+    struct Rows { Vec4 p3,p2,p1,p0; } p;
+    p.p0 = m->row0; p.p1 = m->row1; p.p2 = m->row2; p.p3 = m->row3;
+    __m128 r0 = *(__m128*)&p.p0, r1 = *(__m128*)&p.p1, r2 = *(__m128*)&p.p2, r3 = *(__m128*)&p.p3;
+    const __m128* v = (const __m128*)shape->vertices;
+    for (int i = count - 1; i >= 0; --i) {
+        __m128 vi = v[i];
+        __m128 x = _mm_shuffle_ps(vi, vi, 0);
+        __m128 y = _mm_shuffle_ps(vi, vi, 0x55);
+        __m128 z = _mm_shuffle_ps(vi, vi, 0xaa);
+        __m128 a = _mm_add_ps(_mm_mul_ps(r0, x), _mm_mul_ps(r1, y));
+        __m128 b = _mm_add_ps(_mm_mul_ps(z, r2), r3);
+        *(__m128*)&out[i] = _mm_add_ps(a, b);
+    }
+}
+static __forceinline void mytransform2(Vec4* out, const Shape* shape, int count, const Mat4* m)
+{
+    __m128 r0,r1,r2,r3; (void)r1; (void)r2; 
+    struct Rows { Vec4 p0,p1,p2,p3; } p;
+    p.p0 = m->row0; p.p1 = m->row1; p.p2 = m->row2; p.p3 = m->row3;
+    r0 = _mm_load_ps((const float*)&p.p0); r1 = _mm_load_ps((const float*)&p.p1); r2 = _mm_load_ps((const float*)&p.p2); r3 = _mm_load_ps((const float*)&p.p3);
+    const __m128* __restrict v = (const __m128*)shape->vertices;
+    int i = count - 1;
+    do {
+        __m128 vi = v[i];
+        __m128 x = _mm_shuffle_ps(vi, vi, 0); __m128 y = _mm_shuffle_ps(vi, vi, 0x55); __m128 z = _mm_shuffle_ps(vi, vi, 0xaa);
+        __m128 a = _mm_add_ps(_mm_mul_ps(y, r1), _mm_mul_ps(x, r0));
+        __m128 b = _mm_add_ps(_mm_mul_ps(z, r2), r3);
+        *(__m128*)&out[i] = _mm_add_ps(b, a);
+    } while (--i >= 0);
+}
+// Transforms two body shapes, tests for penetration, and adds the pair to the collector if the result normals indicate overlap.
+// @fnv 0x00d3a8c0
+void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, PenetrationCollector* collector)
+{
+    TimerPair* state = (TimerPair*)TlsGetValue(DAT_0126835c);
+    Timer* timer = state->current;
+    if (timer < state->end) {
+        timer->name = DAT_010cef80;
+        _ReadWriteBarrier();
+        volatile unsigned t = (unsigned)__rdtsc();
+        timer->time = t;
+        state->current = timer + 1;
+    }
+    Locals l;
+    Cache cache;
+    ComputeInverseLengths((void*)apBodyB->shape->vertices, &cache);
+    Shape* pShapeA = apBodyA->shape;
+    Shape* pShapeB = apBodyB->shape;
+    mytransform(l.outA.points, pShapeA, 2, apBodyA->matrix);
+    mytransform2(l.outB.points, pShapeB, 3, apBodyB->matrix);
+    FUN_00cd6520(&l.outA, pShapeA->radius, &l.outB, pShapeB->radius, &cache, input->tolerance, 0, (int)&l.result, 0);
+    if (l.result.points[0].normal.w < 0.0f || l.result.points[1].normal.w < 0.0f)
+        collector->add(apBodyA, apBodyB);
+    state = (TimerPair*)TlsGetValue(DAT_0126835c);
+    timer = state->current;
+    if (timer < state->end) {
+        timer->name = DAT_010c41f8;
+        _ReadWriteBarrier();
+        volatile unsigned t = (unsigned)__rdtsc();
+        timer->time = t;
+        state->current = timer + 1;
+    }
+}

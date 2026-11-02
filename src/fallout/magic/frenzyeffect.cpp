@@ -1,0 +1,531 @@
+
+// src/fallout/magic/frenzyeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/frenzyeffect.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+
+struct Actor;
+
+struct ValueModifierEffect
+{
+    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+};
+
+struct FrenzyEffect : ValueModifierEffect
+{
+    unsigned short __thiscall FUN_0080df90(Actor* apActor);
+};
+
+// @fnv 0x0080df90
+unsigned short FrenzyEffect::FUN_0080df90(Actor* apActor)
+{
+    unsigned short isize = 0;
+    isize += ValueModifierEffect::FUN_00802d90(apActor);
+    isize += 1;
+    return isize;
+}
+
+extern "C" float __cdecl FUN_00404010(float, float);
+extern float DAT_011dc778;
+
+// Subtracts FUN_00404010(0.0f, value) from DAT_011dc778 and stores the result back into DAT_011dc778.
+// @fnv 0x0080fc90
+void FUN_0080fc90(float value)
+{
+    DAT_011dc778 = DAT_011dc778 - FUN_00404010(0.0f, value);
+}
+
+extern int DAT_0107a16c;
+struct ValueModifierEffectCtor
+{
+    void __thiscall FUN_0080dbb0_ctor(void* a, void* b, void* c);
+};
+struct FrenzyEffectShell : ValueModifierEffect
+{
+    void* __thiscall ConstructFrenzyEffect(void* a, void* b, void* c);
+};
+// Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte at offset 0x4c, and returns this.
+// @fnv 0x0080dbb0
+void* FrenzyEffectShell::ConstructFrenzyEffect(void* apArg1, void* apArg2, void* apArg3)
+{
+    ((ValueModifierEffectCtor*)this)->FUN_0080dbb0_ctor(apArg1, apArg2, apArg3);
+    *reinterpret_cast<void**>(this) = &DAT_0107a16c;
+    *reinterpret_cast<char*>(this + 0x4c) = 0;
+    return this;
+}
+
+struct TESSaveLoadGame
+{
+    void __thiscall FUN_008579b0(void*, int);
+};
+extern TESSaveLoadGame* g_TESSaveLoadGame;
+struct FUN_0080dfd0_shell : ValueModifierEffect
+{
+    void __thiscall FUN_00802db0(Actor*);
+    void __thiscall FUN_0080dfd0(Actor* actor);
+};
+// Calls FUN_00802db0 on the actor, then passes this+0x4c and 1 to TESSaveLoadGame::FUN_008579b0.
+// @fnv 0x0080dfd0
+void __thiscall FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
+{
+    FUN_00802db0(actor);
+    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x4c, 1);
+}
+
+namespace fnv_0080e000 {
+struct Base00802dd0
+{
+    void FUN_00802dd0(Actor* apActor);
+};
+struct TESSaveLoadGame
+{
+    void ReadTypedData(void* data, unsigned int size);
+};
+extern TESSaveLoadGame* g_TESSaveLoadGame;
+struct FUN_0080e000_shell : Base00802dd0
+{
+    void FUN_0080e000(Actor* apActor);
+};
+// @fnv 0x0080e000
+void FUN_0080e000_shell::FUN_0080e000(Actor* apActor)
+{
+    FUN_00802dd0(apActor);
+    g_TESSaveLoadGame->ReadTypedData((char*)this + 0x4c, 1);
+}
+}  // namespace fnv_0080e000
+
+struct Actor;
+struct MagicCaster
+{
+    Actor* GetCasterActor();
+};
+struct MagicTarget
+{
+    Actor* GetOwnerActor() const;
+};
+struct PCH
+{
+    bool HasCombatState();
+};
+struct BSThread
+{
+    unsigned int GetThreadID();
+};
+struct Proc_S
+{
+    void* GetNext();
+};
+struct FUN_0080dd30_shell : ValueModifierEffect
+{
+    void FUN_0082c000();
+    unsigned int GetThreadID();
+    void* GetNext();
+    Actor* GetOwnerActor() const;
+    Actor* GetCasterActor();
+    void FUN_0080dd30();
+};
+// Calls FUN_0082c000, resolves target and caster, and sets byte at offset 0x4c to 1 when both exist and the target check passes.
+// @fnv 0x0080dd30
+void FUN_0080dd30_shell::FUN_0080dd30()
+{
+    FUN_0082c000();
+    Actor* target = GetThreadID() ? ((MagicTarget*)(void*)GetThreadID())->GetOwnerActor() : 0;
+    Actor* caster = ((Proc_S*)this)->GetNext() ? ((MagicCaster*)((Proc_S*)this)->GetNext())->GetCasterActor() : 0;
+    if (target && caster && ((PCH*)target)->HasCombatState())
+        ((char*)this)[0x4c] = 1;
+}
+
+struct FrenzyEffectCopy : FrenzyEffectShell
+{
+    int u00;
+    int u04;
+    int u08;
+    int u0c;
+    int u10;
+    int u14;
+    int u18;
+    int u1c;
+    int u20;
+    int u24;
+    int u28;
+    int u2c;
+    int u30;
+    int u34;
+    int u38;
+    int u3c;
+    int u40;
+    int u44;
+    int u48;
+    unsigned char u4c;
+    unsigned char u4d;
+    unsigned char u4e;
+    unsigned char u4f;
+    FrenzyEffectCopy(void* a, void* b, void* c)
+    {
+        ConstructFrenzyEffect(a, b, c);
+    }
+};
+struct EffectCloneSource : ValueModifierEffect
+{
+    virtual void V00();
+    virtual void V04();
+    virtual void V08();
+    virtual void V0c();
+    virtual void V10();
+    virtual void V14();
+    virtual void V18();
+    virtual void V1c();
+    virtual void V20();
+    virtual void V24();
+    virtual void V28();
+    virtual void V2c();
+    virtual void V30();
+    virtual void V34();
+    virtual void V38();
+    virtual void V3c();
+    virtual void V40();
+    virtual void OnClone(void* clone);
+    unsigned int unk04;
+    void* unk08;
+    void* unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    void* unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    unsigned char flag4c;
+    FrenzyEffectCopy* FUN_0080dbf0();
+};
+// Allocates a FrenzyEffectCopy from unk28, unk08 and unk0c, copies flag4c into u4c, calls OnClone and returns the copy.
+// @fnv 0x0080dbf0
+FrenzyEffectCopy* EffectCloneSource::FUN_0080dbf0()
+{
+    FrenzyEffectCopy* copy = new FrenzyEffectCopy(unk28, unk08, unk0c);
+    copy->u4c = flag4c;
+    OnClone(copy);
+    return copy;
+}
+
+struct FrenzyEffectObject
+{
+    int m_i00;
+    int m_i04;
+    int m_i08;
+    int m_i0c;
+    int m_i10;
+    int m_i14;
+    int m_i18;
+    int m_i1c;
+    int m_i20;
+    int m_i24;
+    int m_i28;
+    int m_i2c;
+    int m_i30;
+    int m_i34;
+    int m_i38;
+    int m_i3c;
+    int m_i40;
+    int m_i44;
+    int m_i48;
+    int m_i4c;
+    FrenzyEffectObject(void* apFirst, void* apSecond, void* apThird);
+};
+
+// Allocates and constructs a FrenzyEffectObject from three pointers and returns it.
+// @fnv 0x0080df10
+void* __cdecl CreateFrenzyEffectObject(void* apFirst, void* apSecond, void* apThird)
+{
+    return new FrenzyEffectObject(apFirst, apSecond, apThird);
+}
+
+struct Actor
+{
+    void** vtbl;
+    unsigned char FUN_00493bb0();
+    void FUN_008a6730(Actor*);
+};
+
+struct Ref
+{
+    Actor* FUN_00822b40();
+};
+
+struct Population
+{
+    unsigned int FUN_005be5c0(unsigned int unused);
+    Actor* FUN_00968670(unsigned int index);
+};
+
+struct World
+{
+    Population* FUN_00717e50();
+};
+
+extern "C" World DAT_011e0e80;
+
+struct FrenzyEffectCore
+{
+    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned int unk40, unk44, unk48;
+    unsigned char exhausted;
+    void ApplyEffect();
+    Ref* FUN_0059bb30();
+    void FUN_0080ddd0();
+};
+
+typedef void(__thiscall* ActorAction)(Actor*, Actor*);
+typedef unsigned char(__thiscall* ActorPredicate)(Actor*);
+
+// @fnv 0x0080ddd0
+void FrenzyEffectCore::FUN_0080ddd0()
+{
+    ApplyEffect();
+    if (exhausted)
+        return;
+    {
+        Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
+        if (actor != 0 && actor->FUN_00493bb0())
+        {
+            ((ActorAction)actor->vtbl[269])(actor, 0);
+            Population* pPopulation = DAT_011e0e80.FUN_00717e50();
+            for (unsigned int uiIndex = 0; uiIndex < pPopulation->FUN_005be5c0(0); uiIndex++)
+            {
+                Actor* element = pPopulation->FUN_00968670(uiIndex);
+                if (element != actor)
+                {
+                    Actor* pOtherActor = element != 0 && ((ActorPredicate)element->vtbl[64])(element) ? element : 0;
+                    if (pOtherActor)
+                    {
+                        pOtherActor->FUN_008a6730(actor);
+                        if (pOtherActor->FUN_00493bb0())
+                            ((ActorAction)pOtherActor->vtbl[269])(pOtherActor, actor);
+                    }
+                }
+            }
+        }
+    }
+}
+
+extern char DAT_011a0ef8;
+extern char DAT_011a0f14;
+extern "C" void* __cdecl FUN_00ec43fb(void*, long, void*, void*, int);
+
+struct FrenzyCheckCharacter
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual bool IsDead(bool abStrict);
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual bool IsImmune();
+    unsigned short FUN_0087f9f0();
+};
+
+bool FUN_006494d0(int aiLevel, float afMagnitude);
+
+struct FrenzyCheckEffectView : FrenzyEffect
+{
+    float GetFloatAtOffset1C();
+    bool FUN_0080dca0(MagicTarget* apTarget);
+};
+
+// Checks whether apTarget is a valid, non-dead, non-immune character that passes the level and magnitude check for the Frenzy effect.
+// @fnv 0x0080dca0
+bool FrenzyCheckEffectView::FUN_0080dca0(MagicTarget* apTarget)
+{
+    FrenzyCheckCharacter* pChar =
+        static_cast<FrenzyCheckCharacter*>(FUN_00ec43fb(apTarget, 0, &DAT_011a0ef8, &DAT_011a0f14, 0));
+    if (pChar && !pChar->IsDead(false) && !pChar->IsImmune() && FUN_006494d0(pChar->FUN_0087f9f0(), GetFloatAtOffset1C()))
+        return true;
+    return false;
+}
