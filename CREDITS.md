@@ -51,5 +51,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [Jeferino](https://github.com/Jeferino) | 3 | 266 |
 | [Bagszy](https://github.com/Bagszy) | 4 | 226 |
 | [m90caw](https://github.com/m90caw) | 6 | 215 |
+| [Crimson7077](https://github.com/Crimson7077) | 1 | 176 |
 
 The rest of the code was matched by the project's own tooling.
