@@ -7,5 +7,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 
 | Contributor | Functions | Bytes |
 |---|---:|---:|
+| [connorx2000](https://github.com/connorx2000) | 6909 | 5957372 |
 
 The rest of the code was matched by the project's own tooling.
