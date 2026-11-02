@@ -22,5 +22,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [dysnasia](https://github.com/dysnasia) | 1100 | 200392 |
 | [Itxaka](https://github.com/Itxaka) | 413 | 179664 |
 | [TeeFynster](https://github.com/TeeFynster) | 1225 | 163056 |
+| [cedric-msn](https://github.com/cedric-msn) | 368 | 149070 |
 
 The rest of the code was matched by the project's own tooling.
