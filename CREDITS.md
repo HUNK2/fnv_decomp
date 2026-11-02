@@ -25,5 +25,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [cedric-msn](https://github.com/cedric-msn) | 368 | 149070 |
 | [RedMatterGG](https://github.com/RedMatterGG) | 745 | 148907 |
 | [sremich](https://github.com/sremich) | 890 | 134100 |
+| [oh-ashen-one](https://github.com/oh-ashen-one) | 149 | 70168 |
 
 The rest of the code was matched by the project's own tooling.
