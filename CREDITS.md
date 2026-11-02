@@ -42,5 +42,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [denistischtennis](https://github.com/denistischtennis) | 39 | 2469 |
 | [manny2000-404](https://github.com/manny2000-404) | 9 | 2132 |
 | [conumey](https://github.com/conumey) | 18 | 1852 |
+| [k0shir0](https://github.com/k0shir0) | 25 | 1614 |
 
 The rest of the code was matched by the project's own tooling.
