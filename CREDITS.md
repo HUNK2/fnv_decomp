@@ -30,5 +30,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [jakeee786](https://github.com/jakeee786) | 46 | 54494 |
 | [HUNK2](https://github.com/HUNK2) | 25 | 26139 |
 | [skygrime35](https://github.com/skygrime35) | 72 | 18309 |
+| [MattNelGerva](https://github.com/MattNelGerva) | 36 | 18209 |
 
 The rest of the code was matched by the project's own tooling.
