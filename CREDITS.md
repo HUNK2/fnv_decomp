@@ -45,5 +45,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [k0shir0](https://github.com/k0shir0) | 25 | 1614 |
 | [egorkidala](https://github.com/egorkidala) | 1 | 787 |
 | [yulliiyyy](https://github.com/yulliiyyy) | 10 | 742 |
+| [guagepro-beep](https://github.com/guagepro-beep) | 2 | 498 |
 
 The rest of the code was matched by the project's own tooling.
