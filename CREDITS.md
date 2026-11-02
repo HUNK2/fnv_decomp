@@ -9,5 +9,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 |---|---:|---:|
 | [connorx2000](https://github.com/connorx2000) | 6909 | 5957372 |
 | [h-x3n](https://github.com/h-x3n) | 4692 | 942064 |
+| [L1ll3J](https://github.com/L1ll3J) | 978 | 817962 |
 
 The rest of the code was matched by the project's own tooling.
