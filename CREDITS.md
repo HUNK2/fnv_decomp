@@ -36,5 +36,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [ryfraley](https://github.com/ryfraley) | 14 | 6952 |
 | [jamesb5959](https://github.com/jamesb5959) | 49 | 6849 |
 | [Devix71](https://github.com/Devix71) | 7 | 4161 |
+| [SgtMetz](https://github.com/SgtMetz) | 32 | 3380 |
 
 The rest of the code was matched by the project's own tooling.
