@@ -14,5 +14,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [gavinbrow](https://github.com/gavinbrow) | 3002 | 470179 |
 | [FFwLo](https://github.com/FFwLo) | 814 | 433573 |
 | [MK5280](https://github.com/MK5280) | 901 | 364443 |
+| [momentom861](https://github.com/momentom861) | 564 | 317890 |
 
 The rest of the code was matched by the project's own tooling.
