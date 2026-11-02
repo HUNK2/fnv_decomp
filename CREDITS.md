@@ -21,5 +21,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [evilgenius79](https://github.com/evilgenius79) | 761 | 262402 |
 | [dysnasia](https://github.com/dysnasia) | 1100 | 200392 |
 | [Itxaka](https://github.com/Itxaka) | 413 | 179664 |
+| [TeeFynster](https://github.com/TeeFynster) | 1225 | 163056 |
 
 The rest of the code was matched by the project's own tooling.
