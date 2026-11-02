@@ -17,5 +17,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [momentom861](https://github.com/momentom861) | 564 | 317890 |
 | [MatiasIsGood](https://github.com/MatiasIsGood) | 418 | 316061 |
 | [Stargallian](https://github.com/Stargallian) | 624 | 305216 |
+| [loganfechner](https://github.com/loganfechner) | 1722 | 264145 |
 
 The rest of the code was matched by the project's own tooling.
