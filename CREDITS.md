@@ -34,5 +34,6 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [lassebindependentresearch-byte](https://github.com/lassebindependentresearch-byte) | 114 | 17864 |
 | [TimTru57](https://github.com/TimTru57) | 61 | 14948 |
 | [ryfraley](https://github.com/ryfraley) | 14 | 6952 |
+| [jamesb5959](https://github.com/jamesb5959) | 49 | 6849 |
 
 The rest of the code was matched by the project's own tooling.
