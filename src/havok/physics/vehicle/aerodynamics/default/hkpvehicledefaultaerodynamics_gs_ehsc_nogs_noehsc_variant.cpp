@@ -9,5 +9,5 @@
 extern double DAT_01011588;
 struct VehicleAerodynamicsStandIn
 {
-    float FUN_00e442e0(float speed);
+    float calcAerodynamicLift(float speed);
 };

@@ -23,7 +23,7 @@ struct BeamProjectile
 struct FlameProjectile : BeamProjectile
 {
     FlameProjectile();
-    void FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer);
+    void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // placeholder declarations
 struct FUN_009b32b0_shell

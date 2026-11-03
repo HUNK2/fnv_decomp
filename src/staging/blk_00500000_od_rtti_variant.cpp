@@ -221,7 +221,7 @@ struct FUN_00501cd0_class
 };
 struct TESForm;
 TESForm* __cdecl GetFormByID(unsigned int id);
-TESForm* __cdecl FUN_00505000();
+TESForm* __cdecl GetDefaultCombatStyle();
 struct FUN_00507590_Data
 {
     float a;
@@ -302,7 +302,7 @@ struct AVH
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int __thiscall GetTeaches();
 };
 bool __cdecl FUN_00519570(int);
 struct LH
@@ -554,7 +554,7 @@ struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
     unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
+    unsigned char GetFaceTargetAtGoal();
     unsigned char GetByteAtOffset9A();
     unsigned char GetByteAtOffset9B();
     unsigned char FUN_009e8670();
@@ -1223,7 +1223,7 @@ struct NiUpdateData
 struct Obj
 {
     float FUN_004e4600();
-    float FUN_006447d0();
+    float GetCurrentWeatherPct();
     float FUN_004e4620();
     void FUN_0050c630(float v);
     void FUN_0050c660(float v);

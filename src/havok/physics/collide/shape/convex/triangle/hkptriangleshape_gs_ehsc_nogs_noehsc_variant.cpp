@@ -12,7 +12,7 @@ void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2);
 class FUN_00d1ff10_cls : public hkpTriangleShape
 {
   public:
-    int FUN_00d1ff10();
+    int getNumCollisionSpheresImpl();
 };
 static int __cdecl FUN_00d1fef0(unsigned short weldingInfo, int edge);
 int __cdecl ExtractEdge(unsigned short weldingInfo, int edge);

@@ -8,7 +8,7 @@ extern "C" void* g_011f3f68;
 void* __cdecl FUN_00a3dab0();
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* __thiscall GetKeyCount(short idx);
 };
 struct FUN_00a3db10_shell
 {

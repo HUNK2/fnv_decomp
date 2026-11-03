@@ -5,6 +5,6 @@
 #include "niscreenloddata_decls.h"
 struct FUN_00a95cb0_shell : public NiScreenLODData
 {
-    void* FUN_00a95cb0();
+    void* GetRTTI();
 };
 extern "C" void* g_011f5ee8;

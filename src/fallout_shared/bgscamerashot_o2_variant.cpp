@@ -18,7 +18,7 @@ struct FUN_0058c2e0_shell
     int field_0x14;
     int field_0x18;
     int field_0x1c;
-    void FUN_0058c2e0();
+    void Endian();
 };
 void _Deallocate(void*);
 struct FUN_0058be60_host
