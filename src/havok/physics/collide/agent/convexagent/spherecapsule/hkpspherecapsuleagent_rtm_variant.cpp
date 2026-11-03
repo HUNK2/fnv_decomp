@@ -53,7 +53,7 @@ public:
     int m_i04;
     InnerCls *m_pInner;
     unsigned short m_w0c;
-    void FUN_00d3e2b0(int a1);
+    void hkpSphereCapsuleAgent_cleanup(int a1);
 };
 struct AllocHolder {
     int unk00;

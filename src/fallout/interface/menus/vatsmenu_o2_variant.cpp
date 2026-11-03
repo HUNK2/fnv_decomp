@@ -54,14 +54,14 @@ struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct FUN_007ef760_Owner
 {
     virtual void vf0();
     virtual void vf1();
     virtual void vf2();
     virtual void vf3(int, int);
-    void __thiscall FUN_007ef760(int aiID, Tile* apTarget);
+    void __thiscall VATSMenu_HandleMousewheel(int aiID, Tile* apTarget);
 };
 struct Vec2Tmp
 {

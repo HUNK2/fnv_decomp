@@ -16,11 +16,11 @@ struct CombatProcedureEngageTarget : public CombatProcedure
 {
     void FUN_00996e40();
     Actor* FUN_00996de0();
-    void FUN_009d3b50();
+    void CombatProcedureEngageTarget_Shutdown();
 };
 
 // @fnv 0x009d3b50
-void CombatProcedureEngageTarget::FUN_009d3b50()
+void CombatProcedureEngageTarget::CombatProcedureEngageTarget_Shutdown()
 {
     FUN_00996e40();
     FUN_00996de0()->StopMoving();
@@ -68,7 +68,7 @@ struct BGSSaveFormBuffer
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 
 struct CombatTargetTimestamp
@@ -88,11 +88,11 @@ struct FUN_009a5eb0_shell
 
 struct FUN_009d5880_shell
 {
-    void FUN_009d5880(BGSSaveFormBuffer*);
+    void CombatProcedureEngageTarget_SaveGame(BGSSaveFormBuffer*);
 };
 
 // @fnv 0x009d5880
-void FUN_009d5880_shell::FUN_009d5880(BGSSaveFormBuffer* buffer)
+void FUN_009d5880_shell::CombatProcedureEngageTarget_SaveGame(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<CombatProcedureSaveGameHelper*>(this)->SaveGame(buffer);
 
@@ -109,8 +109,8 @@ void FUN_009d5880_shell::FUN_009d5880(BGSSaveFormBuffer* buffer)
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1, 0);
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12, 0);
 
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527b70(buffer);
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527b70(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)->BGSWorldLocation_SaveGame(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)->BGSWorldLocation_SaveGame(buffer);
 
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33), 1, 0);
 
@@ -145,19 +145,19 @@ struct CombatTargetTimestamp
 
 struct FUN_00527ba0_Class
 {
-    void FUN_00527ba0(void* buffer);
+    void BGSWorldLocation_LoadGame(void* buffer);
 };
 
 extern float DAT_01022958;
 
 struct FUN_009d5990_shell : public CombatProcedureEngageTarget
 {
-    void FUN_009d5990(BGSLoadFormBuffer* buffer);
+    void CombatProcedureEngageTarget_LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 // Loads the combat procedure's fields from the buffer, reading a version-gated float and two sub-objects, with extra fields for versions 10 and 14.
 // @fnv 0x009d5990
-void FUN_009d5990_shell::FUN_009d5990(BGSLoadFormBuffer* buffer)
+void FUN_009d5990_shell::CombatProcedureEngageTarget_LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<CombatProcedure_Helper*>(this)->LoadGame(buffer);
 
@@ -182,8 +182,8 @@ void FUN_009d5990_shell::FUN_009d5990(BGSLoadFormBuffer* buffer)
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1);
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12);
 
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527ba0(buffer);
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527ba0(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)->BGSWorldLocation_LoadGame(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)->BGSWorldLocation_LoadGame(buffer);
 
     if (buffer->GetVersion() >= 10)
     {
@@ -467,7 +467,7 @@ struct Actor
     void* FUN_008d6f30();
     void PathToLocation(void*, void*, void*, void*, bool);
     bool SetPathingRequestAvoidNodes(void*);
-    Vec4 FUN_00575650();
+    Vec4 TESObjectREFR_GetWorldLocation();
 };
 struct Procedure
 {
@@ -505,7 +505,7 @@ bool Procedure::CheckAndApply(bool mode)
         request.FUN_006e4320(angle);
         if (!actor->SetPathingRequestAvoidNodes(&request))
             return false;
-        target = targetActor3->FUN_00575650();
+        target = targetActor3->TESObjectREFR_GetWorldLocation();
         FUN_00996e20(mode ? 3 : 1);
         active = false;
         return true;
@@ -526,7 +526,7 @@ bool Procedure::CheckAndApply(bool mode)
         if (!actor2->SetPathingRequestAvoidNodes(&request2))
             return false;
         point = query2.FUN_006815c0();
-        target = targetActor2->FUN_00575650();
+        target = targetActor2->TESObjectREFR_GetWorldLocation();
         FUN_00996e20(mode ? 3 : 1);
         return true;
     }

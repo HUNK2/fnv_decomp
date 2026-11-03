@@ -656,7 +656,7 @@ class hkxNode : public hkxAttributeHolder
 };
 
 // @fnv 0x00dfd800
-void* __cdecl FUN_00dfd800()
+void* __cdecl getVtable_hkxNode()
 {
     __declspec(align(16)) unsigned char storage[sizeof(hkxNode)];
     new (storage) hkxNode(FinishingFlag(0));

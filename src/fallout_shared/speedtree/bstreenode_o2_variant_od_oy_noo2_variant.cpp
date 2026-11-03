@@ -27,7 +27,7 @@ struct BSTreeNode : NiNode
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -62,7 +62,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -81,7 +81,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 struct FUN_0066da50_t
 {
@@ -151,7 +151,7 @@ struct S_00c8c390
 {
     char _0[8];
     Mid14* p8;
-    bool FUN_00c8c390(NiStream*);
+    bool bhkTransformShape_RegisterStreamables(NiStream*);
 };
 struct S_00c8c810_A
 {
@@ -300,7 +300,7 @@ struct S00cb7750
     int _08;
     int _0C;
     Inner00cb7750* m_10;
-    void __thiscall FUN_00cb7750();
+    void __thiscall bhkSPCollisionObject_hktoNiTransform();
 };
 void* __fastcall FUN_00c6b910(void*);
 extern int DAT_01066b94;
@@ -316,7 +316,7 @@ struct BSFadeNode
         vf = (void*)&DAT_01066b94;
     }
 };
-BSFadeNode* FUN_00c87fc0();
+BSFadeNode* bhkPCollisionObject_CreateObject();
 struct Middle
 {
     int unk00;
@@ -341,8 +341,8 @@ struct NiCollisionObject
 };
 struct LegacyLinker : NiCollisionObject
 {
-    void FUN_00c6bb70(NiStream*);
-    void FUN_00c87f80(NiStream*);
+    void bhkNiCollisionObject_LinkObject(NiStream*);
+    void bhkPCollisionObject_LinkObject(NiStream*);
 };
 struct C8C330Source
 {
@@ -408,8 +408,8 @@ struct C8C330Owner
     virtual void vfunc0B0();
     virtual C8C330Child* GetOrCreateChild(bool* pbCreated);
 
-    void FUN_00c84cc0(C8C330Node* pkNode);
-    void FUN_00c8c330(C8C330Node* pkNode);
+    void bhkShape_LinkObject(C8C330Node* pkNode);
+    void bhkTransformShape_LinkObject(C8C330Node* pkNode);
 };
 typedef unsigned int C8CA60size_t;
 struct C8CA60MemoryManager
@@ -457,7 +457,7 @@ struct C8CA60Owner
     C8CA60Child* m_pkChild;
 
     void FUN_00c8c410(C8CA60Child* pkChild);
-    C8CA60Child* FUN_00c8ca60(bool* pbCreated);
+    C8CA60Child* bhkTransformShape_CreateCinfo(bool* pbCreated);
 };
 struct StrArr
 {
@@ -554,8 +554,8 @@ struct Object
 {
     unsigned int unk00, unk04;
     State* state;
-    void FUN_00c851c0(StrArr*);
-    void FUN_00c8cb20(StrArr*);
+    void bhkShape_GetViewerStrings(StrArr*);
+    void bhkTransformShape_GetViewerStrings(StrArr*);
     Component* getComponent()
     {
         if (this)
@@ -633,7 +633,7 @@ struct CB7800Object : CB7800Base
 {
     static CB7800RTTI ms_kRTTI;
 
-    void FUN_00cb7800(CB7800StringArray* pkStrings);
+    void bhkSPCollisionObject_AddViewerStrings(CB7800StringArray* pkStrings);
 };
 struct S_00cb78b0_Base
 {
@@ -739,7 +739,7 @@ struct S_00cb79d0
     virtual void v047();
     virtual void v048();
     virtual void v049(S_00cb79d0_Base* obj, int arg);
-    S_00cb79d0_C* FUN_00cb79d0(int arg);
+    S_00cb79d0_C* bhkMultiSphereShape_CreateClone(int arg);
 };
 void SwapByteQuadWords(void* buffer, int words);
 struct Vector3
@@ -945,7 +945,7 @@ struct TlsGuard_t
 struct FUN_00c88210_cls
 {
     void __thiscall FUN_00c6ba30(BSFadeNode* node, unsigned int flags);
-    BSFadeNode* FUN_00c88210(unsigned int flags);
+    BSFadeNode* bhkPCollisionObject_CreateClone(unsigned int flags);
 };
 extern __declspec(thread) int g_iC882C0AllocTag;
 struct BC882C0AllocTagScope
@@ -993,7 +993,7 @@ class FUN_00c882c0_cls
 {
   public:
     void C882C0BaseGetViewerStrings(BC882C0StringArray* pkArray);
-    void FUN_00c882c0(BC882C0StringArray* pkArray);
+    void bhkPCollisionObject_AddViewerStrings(BC882C0StringArray* pkArray);
 };
 struct ScaleMatrix
 {
@@ -1325,7 +1325,7 @@ struct S_00caaf40
     virtual void vfn_bc();
     virtual void vfn_c0();
     virtual void vfn_c4(S_00caaf40_Obj* o, int a);
-    S_00caaf40_Obj* FUN_00caaf40(int a);
+    S_00caaf40_Obj* bhkCapsuleShape_CreateClone(int a);
 };
 struct AudioTlsState
 {
@@ -1478,7 +1478,7 @@ struct FUN_00cb7790_state
 {
     unsigned int owner;
     unsigned int depth;
-    void __thiscall FUN_0040fbf0(int);
+    void __thiscall BSSpinLock_Lock(int);
 };
 extern FUN_00cb7790_state DAT_01267b80;
 struct FUN_00cb7790_class
@@ -1488,9 +1488,9 @@ struct FUN_00cb7790_class
     FUN_00cb7790_node* node;
     unsigned int unk0C;
     FUN_00cb7790_receiver* receiver;
-    void __thiscall FUN_00cb7790();
+    void __thiscall bhkSPCollisionObject_NitohkTransform();
 };
-// FUN_00cb7920 - factory for a bhkMultiSphereShape.
+// bhkMultiSphereShape_CreateObject - factory for a bhkMultiSphereShape.
 //
 // The shape is allocated with the class' own operator new, the base
 // constructor is run on it and the vtable pointer of the object is moved
@@ -1533,7 +1533,7 @@ struct Guard
 };
 void* __cdecl opnew(unsigned int);
 void __cdecl opdelete(void*);
-Node* FUN_00cb7920();
+Node* bhkMultiSphereShape_CreateObject();
 struct Shader
 {
     virtual void f00();
@@ -1582,8 +1582,8 @@ struct Shader
     virtual void f43();
     virtual void f44();
     virtual int* f45(struct Pass** pass);
-    void FUN_00c84d00(struct Pass* pass);
-    void FUN_00cb7b20(struct Pass* pass);
+    void bhkShape_LoadBinary(struct Pass* pass);
+    void bhkMultiSphereShape_LoadBinary(struct Pass* pass);
 };
 struct Pass
 {
@@ -1818,8 +1818,8 @@ struct FUN_00cb8010_cls
     virtual void vB0();
     virtual OwnerB* v45(unsigned char* pFlag);
 
-    void __thiscall FUN_00c84d50(A1Owner* a1);
-    void __thiscall FUN_00cb8010(A1Owner* a1);
+    void __thiscall bhkShape_SaveBinary(A1Owner* a1);
+    void __thiscall bhkMultiSphereShape_SaveBinary(A1Owner* a1);
 };
 
 #include <xmmintrin.h>
@@ -2200,7 +2200,7 @@ struct xBound
 struct xEvent
 {
     xEvent();
-    void FUN_0066c9c0(xVec4&, xVec4&, float);
+    void hkContactPoint_set(xVec4&, xVec4&, float);
     int m_iWordAt00[8];
     int m_20;
     int m_24;
@@ -2395,7 +2395,7 @@ void xEffect::FUN_0066c160(float afTime)
                     xVec4 DIR(xFUN_005c5420(), xFUN_005c5420(), xFUN_005c5420(), 0.0f);
                     DIR.FUN_0066c930();
                     xVec4 POS(*((xHasPos*)ARR->FUN_0062e150(I)->m_8->FUN_0044ddc0())->FUN_00436aa0());
-                    EV.FUN_0066c9c0(POS, DIR, 0.0f);
+                    EV.hkContactPoint_set(POS, DIR, 0.0f);
                     EV.m_20 = PREF->GetSourceFilesFromObject();
                     EV.m_48 = ARR->FUN_0062e150(I)->m_8;
                     EV.m_24 = EV.m_4c = 0;

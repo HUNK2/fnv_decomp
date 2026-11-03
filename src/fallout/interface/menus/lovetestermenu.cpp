@@ -430,7 +430,7 @@ struct InterfaceHelper
 {
     int FUN_007fd640();
 };
-InterfaceHelper* FUN_004b7210();
+InterfaceHelper* InterfaceManager_Instance();
 struct NP
 {
     int value;
@@ -454,7 +454,7 @@ void FUN_007948d0()
     camera->FUN_00c4f270(true);
     unsigned int localNode = (unsigned int)DAT_011da2f4;
     UpdateCameraFrustum(localNode, 0.65f);
-    NP node(FUN_004b7210()->FUN_007fd640());
+    NP node(InterfaceManager_Instance()->FUN_007fd640());
     camera->FUN_004a0fd0((int)node);
     FUN_00b6bee0(localNode, FUN_00450b80(1), camera);
     FUN_00b6c0d0(localNode, (int)node, 0);
@@ -1183,7 +1183,7 @@ struct ResetResourceManager
 extern ResetResourceManager* DAT_011c3b3c;
 struct ResetPlayer
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void FUN_00b5d180();
 };
 struct ResetString
@@ -1206,7 +1206,7 @@ void __cdecl FUN_007917a0()
         return;
     DAT_011c3b3c->FUN_0045a5e0("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF");
     DAT_011c3b3c->FUN_0045a5e0("Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF");
-    ((ResetPlayer*)FUN_00450b80(1))->FUN_004def90();
+    ((ResetPlayer*)FUN_00450b80(1))->NiNode_RemoveAllChildren();
     ((ResetPlayer*)FUN_00450b80(1))->FUN_00b5d180();
     ((ResetView*)DAT_011da2c8)->counter5c = 0;
     ((ResetView*)DAT_011da2c8)->counter60 = 0;
@@ -1319,7 +1319,7 @@ struct NiTimeController
     virtual void slot36();
     virtual void Update(const NiUpdateData&);
     NiTimeController* GetNext() const;
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
+    NiControllerSequence* NiControllerManager_GetSequenceByName(const NiFixedString&);
 };
 struct ModelOps
 {
@@ -1392,7 +1392,7 @@ void MenuAnimation::UpdateAnimation()
         NiTimeController* manager = iter;
         NiControllerSequence* sequence = 0;
         if (!DAT_011a039c.enabled || animationIndex > 0)
-            sequence = manager->FUN_0047a520(NiFixedString(DAT_011a039c.enabled ? DAT_011a039c.names[animationIndex]
+            sequence = manager->NiControllerManager_GetSequenceByName(NiFixedString(DAT_011a039c.enabled ? DAT_011a039c.names[animationIndex]
                                                                                 : DAT_011a03c0[animationIndex]));
         elapsed += g_timeGlobal.FUN_0084d030();
         if (sequence)
@@ -1726,9 +1726,9 @@ struct FUN_00a712f0
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
     void FUN_00712e60(const ImageSpaceEffectParam&);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(const NiFrustum&);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00a59c60(NiUpdateData&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
     void FUN_00733fd0(float);
@@ -1753,7 +1753,7 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     NiFrustum c(false);
     c.farPlane = ((CameraRenderer*)FUN_0045c670())->GetAspectRatio();
     c.nearPlane = *DAT_01203144.Float();
-    k->FUN_00507700(c.farPlane / c.nearPlane);
+    k->NiCamera_SetMaxFarNearRatio(c.farPlane / c.nearPlane);
     float l = double(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
     float e = 0.75f;
     float j = *DAT_01203150.Float() * 0.01745329238474369 * 0.6499999761581421;
@@ -1763,7 +1763,7 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     c.top = FUN_0057dd70(j) * l * e;
     c.orthographic = false;
     k->FUN_00a6faf0(c);
-    k->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
+    k->NiAVObject_SetTranslate(0.0f, 0.0f, 1.0f);
     NiUpdateData b(0.0f, false, false);
     k->FUN_00a59c60(b);
     k->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
@@ -1791,7 +1791,7 @@ struct Sequence170
 };
 struct Controller170
 {
-    Sequence170* FUN_0047a520(const NiFixedString&);
+    Sequence170* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0048fef0(float);
     void FUN_0047aab0(Sequence170*, int, int, float, float, int);
     void FUN_0047aa40(bool);
@@ -1876,7 +1876,7 @@ bool Menu170::StepPosition(bool increase)
             if (!increasing170 || position > 0)
             {
                 sequence =
-                    manager->FUN_0047a520(NiFixedString(increasing170 ? upNames170[position] : downNames170[position]));
+                    manager->NiControllerManager_GetSequenceByName(NiFixedString(increasing170 ? upNames170[position] : downNames170[position]));
             }
             if (sequence)
             {
@@ -2016,7 +2016,7 @@ RendererHelper* FUN_0043c4b0();
 
 ManagerHelper* FUN_0045c670();
 
-InterfaceHelper* FUN_004b7210();
+InterfaceHelper* InterfaceManager_Instance();
 
 extern int* DAT_011daa38;
 extern Flt DAT_011daa9c;
@@ -2038,7 +2038,7 @@ void __cdecl FUN_007c9ca0()
         cam->FUN_00c4f270(true);
         unsigned int scene = DAT_011daa9c;
         UpdateCameraFrustum(scene, 0.15f);
-        NP node(FUN_004b7210()->FUN_007fd640());
+        NP node(InterfaceManager_Instance()->FUN_007fd640());
         cam->FUN_004a0fd0(node);
         FUN_00b6bee0(scene, FUN_00450b80(1), cam);
         FUN_00b6c0d0(scene, node, 0);
@@ -2167,7 +2167,7 @@ struct Animation109
 };
 struct Controller109
 {
-    Animation109* FUN_0047a520(const NiFixedString&);
+    Animation109* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0048fef0(float);
     void FUN_0047aab0(Animation109*, int, int, float, float, int);
     void FUN_0047aa40(bool);
@@ -2232,7 +2232,7 @@ struct Scene109
     virtual void v0d8();
     virtual void v0dc(Scene109*, bool);
     void FUN_00440490(float);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_0043fa80(const Matrix109&);
     void FUN_00a59c60(const Update109&);
     Controller109* FUN_00a5c570(const void*);
@@ -2314,7 +2314,7 @@ struct Light109 : Scene109
 };
 struct Loader109
 {
-    Scene109* FUN_00447080(const char*, int, int, int, int, int);
+    Scene109* ModelLoader_LoadFile(const char*, int, int, int, int, int);
 };
 extern Loader109* DAT_011c3b3c;
 void __cdecl FUN_004b7660(Scene109*);
@@ -2470,10 +2470,10 @@ struct Menu109
 // @fnv 0x007928e0
 void Menu109::Init()
 {
-    ((Menu109*)DAT_011da2c8)->front = DAT_011c3b3c->FUN_00447080(
+    ((Menu109*)DAT_011da2c8)->front = DAT_011c3b3c->ModelLoader_LoadFile(
         "Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Activate.NIF", 0, 1, 0, 0, 0);
     FUN_004b7660(((Menu109*)DAT_011da2c8)->front);
-    ((Menu109*)DAT_011da2c8)->cabinet = DAT_011c3b3c->FUN_00447080(
+    ((Menu109*)DAT_011da2c8)->cabinet = DAT_011c3b3c->ModelLoader_LoadFile(
         "Meshes\\architecture\\Goodsprings\\NV_VitoMaticVigorTester_Cabinet.NIF", 0, 1, 0, 0, 0);
     FUN_004b7660(((Menu109*)DAT_011da2c8)->cabinet);
     Matrix109 rotation5, turn1;
@@ -2486,19 +2486,19 @@ void Menu109::Init()
     if (narrow3)
     {
         ((Menu109*)DAT_011da2c8)->front->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
+        ((Menu109*)DAT_011da2c8)->front->NiAVObject_SetTranslate(0.0f, -85.0f, -75.0f);
         ((Menu109*)DAT_011da2c8)->front->FUN_0043fa80(rotation5);
         ((Menu109*)DAT_011da2c8)->cabinet->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_004bc1f0(0.0f, -85.0f, -75.0f);
+        ((Menu109*)DAT_011da2c8)->cabinet->NiAVObject_SetTranslate(0.0f, -85.0f, -75.0f);
         ((Menu109*)DAT_011da2c8)->cabinet->FUN_0043fa80(rotation5);
     }
     else
     {
         ((Menu109*)DAT_011da2c8)->front->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->front->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
+        ((Menu109*)DAT_011da2c8)->front->NiAVObject_SetTranslate(0.0f, -85.0f, -85.0f);
         ((Menu109*)DAT_011da2c8)->front->FUN_0043fa80(rotation5);
         ((Menu109*)DAT_011da2c8)->cabinet->FUN_00440490(1.0f);
-        ((Menu109*)DAT_011da2c8)->cabinet->FUN_004bc1f0(0.0f, -85.0f, -85.0f);
+        ((Menu109*)DAT_011da2c8)->cabinet->NiAVObject_SetTranslate(0.0f, -85.0f, -85.0f);
         ((Menu109*)DAT_011da2c8)->cabinet->FUN_0043fa80(rotation5);
     }
     Update109 update13(0.0f, false, false), update259(0.0f, false, false);
@@ -2509,7 +2509,7 @@ void Menu109::Init()
     if (controller7)
     {
         Controller109* animationController20 = controller7;
-        Animation109* animation7 = animationController20->FUN_0047a520(NiFixedString("Forward"));
+        Animation109* animation7 = animationController20->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
         if (animation7)
         {
             animationController20->FUN_0048fef0(0.0f);
@@ -3023,7 +3023,7 @@ void InputMenu::HandleButton(int button, int unused)
         if (mode <= 8)
         {
             int local879956;
-            Cursor* local97635 = (Cursor*)FUN_004b7210();
+            Cursor* local97635 = (Cursor*)InterfaceManager_Instance();
             local879956 = (int)local97635->FUN_009a9350();
             int local866269 = (int)local97635->FUN_00792760();
             if (DAT_011f9426)

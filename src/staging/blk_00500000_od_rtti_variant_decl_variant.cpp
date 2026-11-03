@@ -142,7 +142,7 @@ struct FUN_008256d0_list
 };
 struct FUN_005194d0_shell_base
 {
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
 };
 extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
@@ -224,7 +224,7 @@ struct FUN_00501cd0_class
 };
 struct TESForm;
 TESForm* __cdecl GetFormByID(unsigned int id);
-TESForm* __cdecl FUN_00505000();
+TESForm* __cdecl TESCombatStyle_GetDefaultCombatStyle();
 struct FUN_00507590_Data
 {
     float a;
@@ -305,7 +305,7 @@ struct AVH
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int __thiscall TESObjectBOOK_GetTeaches();
 };
 bool __cdecl FUN_00519570(int);
 struct LH
@@ -728,7 +728,7 @@ struct Actor : public ActorPad04, public ActorValueOwner
     virtual void V231();
     virtual void V232();
     virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool __thiscall FUN_00891db0(TESBoundObject* object, int a, int b, int c, int& count);
 };
 extern Actor* g_thePlayer;
@@ -743,7 +743,7 @@ struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
     unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
+    unsigned char PathingRequest_GetFaceTargetAtGoal();
     unsigned char GetByteAtOffset9A();
     unsigned char GetByteAtOffset9B();
     unsigned char FUN_009e8670();
@@ -1412,12 +1412,12 @@ struct NiUpdateData
 struct Obj
 {
     float FUN_004e4600();
-    float FUN_006447d0();
+    float Sky_GetCurrentWeatherPct();
     float FUN_004e4620();
-    void FUN_0050c630(float v);
-    void FUN_0050c660(float v);
-    void FUN_0050c690(float v);
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiPointLight_SetConstantAttenuation(float v);
+    void NiPointLight_SetLinearAttenuation(float v);
+    void NiPointLight_SetQuadraticAttenuation(float v);
+    void NiAVObject_SetTranslate(float a, float b, float c);
     void FUN_00a59c60(NiUpdateData& u);
     float FUN_00644a50();
     void FUN_0050dd20(float v);
@@ -1573,22 +1573,22 @@ const char* GetActorValueName(Index);
 }
 struct SkillBookEffect552
 {
-    ActorValue::Index FUN_00514fd0();
-    bool FUN_00515040(TESObjectREFR* reference);
+    ActorValue::Index TESObjectBOOK_GetTeaches();
+    bool TESObjectBOOK_Read(TESObjectREFR* reference);
 };
 // @fnv 0x00515040
-bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
+bool SkillBookEffect552::TESObjectBOOK_Read(TESObjectREFR* reference)
 {
     bool applied = false;
     Actor* actor2 = dynamic_cast<Actor*>(reference);
     if (!actor2->CanUseSkillBook())
         return applied;
-    if (actor2->FUN_00493bb0() && !FUN_00702360())
+    if (actor2->Actor_IsInCombat() && !FUN_00702360())
     {
         QueueUIMessage(g_011d4ccc.FUN_00403df0(), 0, 0, 0, DAT_010162c0, false);
         return applied;
     }
-    ActorValue::Index skill2 = FUN_00514fd0();
+    ActorValue::Index skill2 = TESObjectBOOK_GetTeaches();
     if (ActorValue::IsSkill(skill2))
     {
         if (g_thePlayer->GetBaseActorValue(skill2) < 200)

@@ -8,7 +8,7 @@ extern "C"
 }
 
 // @fnv 0x00a56c00
-const void* __cdecl FUN_00a56c00()
+const void* __cdecl NiGeomMorpherUpdateTask_GetRTTI()
 {
     return &g_011f4100;
 }
@@ -138,11 +138,11 @@ struct NiGeomMorpherUpdateTask : BaseTask
     int _pad[2];
     MorphController* m_pkMorphController;
     FakeGeo* m_spReferencedObject;
-    void FUN_00a56bb0();
+    void NiGeomMorpherUpdateTask_DoTask();
 };
 // If the global flag is clear and the geometry's reference count exceeds one, calls MorphFunc on the morph controller, then Tail.
 // @fnv 0x00a56bb0
-void NiGeomMorpherUpdateTask::FUN_00a56bb0()
+void NiGeomMorpherUpdateTask::NiGeomMorpherUpdateTask_DoTask()
 {
     if (!DAT_011f5b08 && m_spReferencedObject->m_ref > 1)
         m_pkMorphController->MorphFunc();

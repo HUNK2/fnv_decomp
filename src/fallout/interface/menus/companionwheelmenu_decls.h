@@ -27,7 +27,7 @@ class InterfaceManager
     char storage[228];
     unsigned char menuState;
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 class CompanionWheelMenu : public Menu
 {
   public:

@@ -6,7 +6,7 @@ extern "C" void* g_011f3e74;
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
-void* __cdecl FUN_00a415e0()
+void* __cdecl NiMorphData_GetRTTI()
 {
     return &g_011f3e74;
 }
@@ -71,11 +71,11 @@ struct NiMorphData : NiObject
     unsigned int m_uiNumTargets;
     unsigned int _pad0C;
     MorphTarget* m_pMorphTargets;
-    bool __thiscall FUN_00a41710(NiStream& kStream);
+    bool __thiscall NiMorphData_RegisterStreamables(NiStream& kStream);
 };
 // Registers the base object's streamables, then streams the _04 field of each morph target, returning false if registration fails.
 // @fnv 0x00a41710
-bool __thiscall NiMorphData::FUN_00a41710(NiStream& kStream)
+bool __thiscall NiMorphData::NiMorphData_RegisterStreamables(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
         return false;
@@ -530,11 +530,11 @@ struct NiMorphDataX : NiObjBase
     MorphTgt* m_pMorphTargets;
     bool m_bTargetsAreRelative;
 
-    void FUN_00a41d90(NiStreamM& kStream);
+    void NiMorphData_SaveBinary(NiStreamM& kStream);
 };
 
 // @fnv 0x00a41d90
-void NiMorphDataX::FUN_00a41d90(NiStreamM& kStream)
+void NiMorphDataX::NiMorphData_SaveBinary(NiStreamM& kStream)
 {
     SaveBinaryBase(kStream);
     SerializeValue(kStream, m_uiNumTargets);
@@ -902,7 +902,7 @@ struct MorphEqualData
     MorphEqualTarget* m_10;
     unsigned char m_14;
     bool IsSameAs(MorphEqualData* other);
-    bool FUN_00a418a0(MorphEqualData* other);
+    bool NiMorphData_IsEqual(MorphEqualData* other);
 };
 
 __declspec(noinline) bool MorphEqualTarget::Equals(MorphEqualTarget* other, unsigned int val)
@@ -919,7 +919,7 @@ __declspec(noinline) bool MorphEqualTarget::Equals(MorphEqualTarget* other, unsi
 
 // Compares two MorphEqualData instances by checking m_08, m_0c, m_14 and each MorphEqualTarget in m_10 via Equals.
 // @fnv 0x00a418a0
-bool MorphEqualData::FUN_00a418a0(MorphEqualData* other)
+bool MorphEqualData::NiMorphData_IsEqual(MorphEqualData* other)
 {
     if (!IsSameAs(other))
     {

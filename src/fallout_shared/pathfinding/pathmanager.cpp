@@ -403,12 +403,12 @@ struct FUN_006ebc70_shell : public PathManager
     void FUN_006ebc70();
 };
 
-void __fastcall FUN_006eb310(void*);
+void __fastcall PathManagerImpl_Pause(void*);
 
 // @fnv 0x006ebc70
 void FUN_006ebc70_shell::FUN_006ebc70()
 {
-    FUN_006eb310(*reinterpret_cast<void**>(this));
+    PathManagerImpl_Pause(*reinterpret_cast<void**>(this));
 }
 
 struct FUN_006ebc90_shell : public PathManager
@@ -429,12 +429,12 @@ struct FUN_006ebcd0_shell : public PathManager
     void FUN_006ebcd0();
 };
 
-void __fastcall FUN_006eb3b0(void*);
+void __fastcall PathManagerImpl_Resume(void*);
 
 // @fnv 0x006ebcd0
 void FUN_006ebcd0_shell::FUN_006ebcd0()
 {
-    FUN_006eb3b0(*reinterpret_cast<void**>(this));
+    PathManagerImpl_Resume(*reinterpret_cast<void**>(this));
 }
 
 struct T006ebd10
@@ -1130,8 +1130,8 @@ struct SearchLock
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_0040fbf0(const char*);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(const char*);
+    void BSSpinLock_Unlock();
 };
 struct ManagerView
 {
@@ -1152,7 +1152,7 @@ struct ManagerView
 int ManagerView::FUN_006ea350()
 {
     int total = 0;
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < first.FUN_0044ddc0(); i++)
     {
         if (second.FUN_00877a30(i)->flags == 0)
@@ -1164,7 +1164,7 @@ int ManagerView::FUN_006ea350()
                 break;
         }
     }
-    lock.FUN_0040fba0();
+    lock.BSSpinLock_Unlock();
     return total;
 }
 
@@ -3930,7 +3930,7 @@ class B6EB310Lock
 class B6EB310Manager
 {
   public:
-    void FUN_006eb310();
+    void PathManagerImpl_Pause();
 
     int unk000;
     int unk004;
@@ -4718,7 +4718,7 @@ class B6EB310Manager
 };
 
 // @fnv 0x006eb310
-void B6EB310Manager::FUN_006eb310()
+void B6EB310Manager::PathManagerImpl_Pause()
 {
     m_kLock.Lock(g_acB6EB310Name);
     switch (m_eAnimationState)
@@ -4747,7 +4747,7 @@ class B6EB3B0Lock
 class B6EB3B0Manager
 {
   public:
-    void FUN_006eb3b0();
+    void PathManagerImpl_Resume();
 
     int unk000;
     int unk004;
@@ -5535,7 +5535,7 @@ class B6EB3B0Manager
 };
 
 // @fnv 0x006eb3b0
-void B6EB3B0Manager::FUN_006eb3b0()
+void B6EB3B0Manager::PathManagerImpl_Resume()
 {
     m_kLock.Lock(g_acB6EB3B0Name);
     switch (m_eAnimationState)
@@ -5783,7 +5783,7 @@ struct RequestManager
 unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, int a3, int bTypeFlag)
 {
     unsigned int status = 0;
-    ((RequestManager*)this)->lock.FUN_0040fbf0(0);
+    ((RequestManager*)this)->lock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < ((RequestManager*)this)->statuses.FUN_0044ddc0(); i++)
     {
         if (((RequestManager*)this)->statuses.FUN_00877a30(i)->type == !(unsigned char)bTypeFlag &&
@@ -5803,7 +5803,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
             default:
                 status = 2;
             }
-            ((RequestManager*)this)->lock.FUN_0040fba0();
+            ((RequestManager*)this)->lock.BSSpinLock_Unlock();
             return status;
         }
     }
@@ -5817,7 +5817,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
     request->status = 0;
     ((RequestManager*)this)->requests.FUN_007cb2e0(entry);
     ((RequestManager*)this)->statuses.FUN_007cb2e0(request);
-    ((RequestManager*)this)->lock.FUN_0040fba0();
+    ((RequestManager*)this)->lock.BSSpinLock_Unlock();
     ((RequestManager*)this)->FUN_0060d4b0(1);
     return status;
 }

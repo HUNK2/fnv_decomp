@@ -63,7 +63,7 @@ class TESForm
 class TESCombatStyle : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 extern int DAT_0118627c, DAT_01183028;
 void __cdecl FNV_Warning(const char*, ...);
@@ -157,7 +157,7 @@ class PackageInit
     ProcedureInit begin, end, change;
     bool FUN_004013e0();
     FUN_0067f030* FUN_0055b980();
-    FUN_0067f030* FUN_00672dd0();
+    FUN_0067f030* TESPackage_GetPackageSecondLocation();
     FUN_0067ff70* FUN_00671d10();
     ConditionInit* FUN_0087eaa0();
     IdleInit* FUN_005f36f0();
@@ -168,21 +168,21 @@ class PackageInit
     int GetPackType();
     bool FUN_00674d20();
     bool FUN_00673890();
-    void FUN_00672fc0(FUN_0067ff70*);
-    void FUN_00671d30(FUN_0067f030*);
+    void TESPackage_SetPackageTarget(FUN_0067ff70*);
+    void TESPackage_SetPackageLocation(FUN_0067f030*);
     void FUN_00484ab0(int);
-    void FUN_00674930();
+    void TESPackage_InitItem();
 };
 // @fnv 0x00674930
-void PackageInit::FUN_00674930()
+void PackageInit::TESPackage_InitItem()
 {
     if (FUN_004013e0())
         return;
     int warningsA = FUN_0046e8a0();
     if (FUN_0055b980())
         FUN_0055b980()->FUN_0067f760(this);
-    if (FUN_00672dd0())
-        FUN_00672dd0()->FUN_0067f760(this);
+    if (TESPackage_GetPackageSecondLocation())
+        TESPackage_GetPackageSecondLocation()->FUN_0067f760(this);
     if (FUN_00671d10())
         FUN_00671d10()->FUN_006803b0(this);
     if (FUN_0087eaa0())
@@ -195,7 +195,7 @@ void PackageInit::FUN_00674930()
     if (kCombatStyle)
     {
         ResolveFormID(&kCombatStyle, FUN_00484e60(-1));
-        FUN_00673400(dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle)));
+        FUN_00673400(dynamic_cast<TESCombatStyle*>(TESForm_GetFormByNumericID(kCombatStyle)));
         if (!FUN_006733e0())
             FNV_Warning("FORMS: Could not find combat style (%08X) on package '%s' (%08X).", kCombatStyle,
                         GetDebugName(), FUN_0084e3a0());
@@ -223,7 +223,7 @@ void PackageInit::FUN_00674930()
         if (FUN_00674d20())
         {
             if (!FUN_00671d10())
-                FUN_00672fc0(new FUN_0067ff70);
+                TESPackage_SetPackageTarget(new FUN_0067ff70);
             FUN_00671d10()->FUN_006800b0(3);
         }
         break;
@@ -235,7 +235,7 @@ void PackageInit::FUN_00674930()
         {
             FUN_0067f030* location = new FUN_0067f030;
             location->FUN_0067f140(6);
-            FUN_00671d30(location);
+            TESPackage_SetPackageLocation(location);
             delete static_cast<FUN_00670b30*>(location);
         }
         break;

@@ -339,11 +339,11 @@ void FUN_004392c0_shell::FUN_00439320()
 struct NiObjectNET
 {
     void FUN_00439360(unsigned short a, unsigned int b, unsigned int c);
-    void FUN_00439340(unsigned short a);
+    void NiAlphaProperty_SetSrcBlendMode(unsigned short a);
 };
 
 // @fnv 0x00439340
-void NiObjectNET::FUN_00439340(unsigned short a)
+void NiObjectNET::NiAlphaProperty_SetSrcBlendMode(unsigned short a)
 {
     FUN_00439360(a, 0x1e, 1);
 }
@@ -352,12 +352,12 @@ namespace fnv_00439390 {
 struct NiObjectNET
 {
     void FUN_00439360(unsigned short a, unsigned int b, unsigned int c);
-    void FUN_00439390(unsigned short a);
+    void NiAlphaProperty_SetDestBlendMode(unsigned short a);
 };
 
 // Calls FUN_00439360 with the given unsigned short and the constants 0x1e0 and 5.
 // @fnv 0x00439390
-void NiObjectNET::FUN_00439390(unsigned short ausValue)
+void NiObjectNET::NiAlphaProperty_SetDestBlendMode(unsigned short ausValue)
 {
     FUN_00439360(ausValue, 0x1e0, 5);
 }
@@ -370,12 +370,12 @@ struct NiPoint3
 
 struct FUN_00439680_class
 {
-    void FUN_00439680(const NiPoint3& p);
+    void BSMultiBoundAABB_SetHalfExtents(const NiPoint3& p);
 };
 
 // Stores the given NiPoint3 into the object at offset 0x18.
 // @fnv 0x00439680
-void FUN_00439680_class::FUN_00439680(const NiPoint3& aPoint)
+void FUN_00439680_class::BSMultiBoundAABB_SetHalfExtents(const NiPoint3& aPoint)
 {
     *(NiPoint3*)((char*)this + 0x18) = aPoint;
 }
@@ -1133,19 +1133,19 @@ struct TESSound
 {
     unsigned int Deallocate();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 void __cdecl FUN_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
 {
-    void __thiscall FUN_00438c10();
+    void __thiscall MapMarkerData_Save();
 };
 // @fnv 0x00438c10
-void __thiscall FUN_00438c10_Class::FUN_00438c10()
+void __thiscall FUN_00438c10_Class::MapMarkerData_Save()
 {
     FUN_004858f0(0x4d414e46, *(unsigned char*)((char*)this + 0xc));
-    FUN_004856f0(0x4c4c5546, (void*)GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
+    TESForm_AddChunkArray(0x4c4c5546, (void*)GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
     FUN_00485950(0x4d414e54, *(unsigned short*)((char*)this + 0xe));
     if (*(void**)((char*)this + 0x10))
     {
@@ -1224,22 +1224,22 @@ struct FUN_004396b0_class
 {
     char _pad[0x24];
     Mat9 m;
-    void __thiscall FUN_004396b0(const Mat9& src);
+    void __thiscall BSMultiBoundOBB_SetAxis(const Mat9& src);
 };
 // Copies the 9-element matrix src into the object's m field.
 // @fnv 0x004396b0
-void __thiscall FUN_004396b0_class::FUN_004396b0(const Mat9& aMatrix)
+void __thiscall FUN_004396b0_class::BSMultiBoundOBB_SetAxis(const Mat9& aMatrix)
 {
     m = aMatrix;
 }
 
 struct FUN_00439f50_class
 {
-    void FUN_00439f50(unsigned int col, NiPoint3* out);
+    void NiMatrix3_GetCol(unsigned int col, NiPoint3* out);
 };
 // Reads three floats at offsets col*4, col*4+0xc and col*4+0x18 from this into out as x, y and z.
 // @fnv 0x00439f50
-void FUN_00439f50_class::FUN_00439f50(unsigned int uiColumn, NiPoint3* out)
+void FUN_00439f50_class::NiMatrix3_GetCol(unsigned int uiColumn, NiPoint3* out)
 {
     out->x = *(float*)((char*)this + uiColumn * 4);
     out->y = *(float*)((char*)this + uiColumn * 4 + 0xc);
@@ -1980,20 +1980,20 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void* __thiscall FUN_00410220(unsigned char type);
+    void* __thiscall BaseExtraList_GetExtraData(unsigned char type);
     void __thiscall FUN_00410020(void* extra, bool remove);
-    void __thiscall FUN_0040ff60(void* extra);
+    void __thiscall BaseExtraList_AddExtra(void* extra);
     void __thiscall FUN_0042e060(unsigned int a, unsigned int b);
 };
-// Removes the existing 0x55-type entry, allocates a new FUN_00436b20 from a and b, and installs it via FUN_0040ff60.
+// Removes the existing 0x55-type entry, allocates a new FUN_00436b20 from a and b, and installs it via BaseExtraList_AddExtra.
 // @fnv 0x0042e060
 void FUN_0042e060_class::FUN_0042e060(unsigned int a, unsigned int b)
 {
-    void* pEntry = FUN_00410220(0x55);
+    void* pEntry = BaseExtraList_GetExtraData(0x55);
     if (pEntry)
         FUN_00410020(pEntry, true);
     pEntry = new FUN_00436b20(a, b);
-    FUN_0040ff60(pEntry);
+    BaseExtraList_AddExtra(pEntry);
 }
 
 void* __cdecl operator new(unsigned int uiSize, void* pvMem);
@@ -2496,7 +2496,7 @@ struct CloneCell
 
 struct CloneExtraList
 {
-    void FUN_0041d390(CloneCell* pCell);
+    void ExtraDataList_SetPersistentCell(CloneCell* pCell);
 };
 
 struct CloneSource
@@ -2692,10 +2692,10 @@ struct CloneRef
     int unk084;
 
     CloneRef();
-    void FUN_00575690(void* pBase);
-    void FUN_00565480(bool b);
-    void FUN_00575830(const NiPoint3& kPos);
-    void FUN_00575700(NiPoint3 kAngle);
+    void TESObjectREFR_SetObjectReference(void* pBase);
+    void TESObjectREFR_SetRefPersists(bool b);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& kPos);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3 kAngle);
     void FUN_004fbf00(CloneSource* pSource);
     void FUN_00898280(bool b);
     void FUN_00935ae0();
@@ -3024,10 +3024,10 @@ CloneRef* CloneFactory::FUN_00436780(void* pBase, CloneSource* pSource)
     if (pSource)
     {
         pRef = new CloneRef;
-        pRef->FUN_00575690(pBase);
-        pRef->FUN_00565480(pSource->FUN_005653d0());
-        pRef->FUN_00575830(*pSource->FUN_00436aa0());
-        pRef->FUN_00575700(pSource->FUN_00430830());
+        pRef->TESObjectREFR_SetObjectReference(pBase);
+        pRef->TESObjectREFR_SetRefPersists(pSource->FUN_005653d0());
+        pRef->TESObjectREFR_SetLocationOnReference(*pSource->FUN_00436aa0());
+        pRef->TESObjectREFR_SetAngleOnReference(pSource->FUN_00430830());
         pRef->FUN_004fbf00(pSource);
         pRef->FUN_00898280(true);
         pRef->FUN_00935ae0();
@@ -3039,7 +3039,7 @@ CloneRef* CloneFactory::FUN_00436780(void* pBase, CloneSource* pSource)
         {
             CloneCell* pCell = pSource->kChildCell.GetPersistentCell();
             if (pCell)
-                pRef->FUN_005d43c0()->FUN_0041d390(pCell);
+                pRef->FUN_005d43c0()->ExtraDataList_SetPersistentCell(pCell);
             else
                 pRef->SetParentCell(pSource->FUN_008d6f30());
         }
@@ -3350,7 +3350,7 @@ class TESObjectREFR
     virtual int v125();
     const NiPoint3& GetAngleOnReference() const;
     const NiPoint3& FUN_00569880();
-    Matrix FUN_0056fa00();
+    Matrix TESObjectREFR_GetOrientation();
 };
 class NiMemObject
 {
@@ -3408,8 +3408,8 @@ struct Bound : NiMemObject
     virtual void b45();
     virtual void SetScale(int);
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    void FUN_00439680(const NiPoint3&);
-    void FUN_004396b0(const Matrix&);
+    void BSMultiBoundAABB_SetHalfExtents(const NiPoint3&);
+    void BSMultiBoundOBB_SetAxis(const Matrix&);
 };
 struct FUN_00c37ec0 : Bound
 {
@@ -3428,7 +3428,7 @@ class BSMultiBound : public NiMemObject
     void FUN_004addc0(Bound*);
 };
 // @fnv 0x00439490
-BSMultiBound* __cdecl FUN_00439490(TESObjectREFR* reference)
+BSMultiBound* __cdecl MultiBoundMarkerData_CreateMultiBoundForRef(TESObjectREFR* reference)
 {
     BSMultiBound* result = 0;
     if (reference)
@@ -3439,13 +3439,13 @@ BSMultiBound* __cdecl FUN_00439490(TESObjectREFR* reference)
             std::abs(reference->GetAngleOnReference().z) < 0.01f)
         {
             pBound = new FUN_00c37ec0;
-            pBound->FUN_00439680(reference->FUN_00569880());
+            pBound->BSMultiBoundAABB_SetHalfExtents(reference->FUN_00569880());
         }
         else
         {
             pBound = new FUN_00c36310;
-            pBound->FUN_004396b0(reference->FUN_0056fa00());
-            pBound->FUN_00439680(reference->FUN_00569880());
+            pBound->BSMultiBoundOBB_SetAxis(reference->TESObjectREFR_GetOrientation());
+            pBound->BSMultiBoundAABB_SetHalfExtents(reference->FUN_00569880());
         }
         pBound->SetScale(reference->v125());
         result = new BSMultiBound;
@@ -3674,7 +3674,7 @@ struct AnimSource
     virtual void* GetSourceData();
     const AnimPoint3& GetAngleOnReference() const;
     const AnimPoint3& FUN_00569880();
-    AnimMatrix3 FUN_0056fa00();
+    AnimMatrix3 TESObjectREFR_GetOrientation();
 };
 
 struct AnimInterpolator : AnimMemObject
@@ -3783,7 +3783,7 @@ AnimController* __cdecl FUN_004396e0(AnimSource* apSource)
         else
         {
             pInterp = new AnimTransformInterpolator;
-            pInterp->SetRotation(apSource->FUN_0056fa00());
+            pInterp->SetRotation(apSource->TESObjectREFR_GetOrientation());
             pInterp->SetPosition(apSource->FUN_00569880());
         }
         pInterp->SetSource(apSource->GetSourceData());
@@ -3868,7 +3868,7 @@ extern int DAT_011c7d74;
 const char* __cdecl FUN_0043b9d0(const char* pcString, int iChar);
 char* __cdecl FUN_00401460(char* pcDest, const char* pcSrc, int iCount);
 AttachedNode* __cdecl FUN_005f3a20(NamedObject* pkObject, const char* pcName);
-bool __cdecl FUN_0043b300(const void* pvKey, NamedObject* pkObject);
+bool __cdecl NiObject_IsKindOf(const void* pvKey, NamedObject* pkObject);
 
 class NamedObjectLoader
 {
@@ -3878,11 +3878,11 @@ class NamedObjectLoader
     AttachedNodePtr m_spNode;            // +0x08
 
     AttachTarget* FUN_007fa950();
-    void FUN_0043b7e0(const char* pcName);
+    void KFModel_InitSequence(const char* pcName);
 };
 
 // @fnv 0x0043b7e0
-void NamedObjectLoader::FUN_0043b7e0(const char* pcName)
+void NamedObjectLoader::KFModel_InitSequence(const char* pcName)
 {
     if (!m_pReferencedObject.FUN_00559450())
         return;
@@ -3899,7 +3899,7 @@ void NamedObjectLoader::FUN_0043b7e0(const char* pcName)
         }
     }
     m_spNode.FUN_0066b0d0(FUN_005f3a20(m_pReferencedObject.FUN_00559450(), pcName));
-    if (FUN_0043b300(&DAT_011c7d74, m_pReferencedObject.FUN_00559450()))
+    if (NiObject_IsKindOf(&DAT_011c7d74, m_pReferencedObject.FUN_00559450()))
         FUN_007fa950()->FUN_0043baa0(m_spNode.FUN_00559450());
     m_pReferencedObject.FUN_00559450()->FUN_0043b9f0(NiFixedString(pcName));
 }
@@ -4193,13 +4193,13 @@ struct FUN_00436b20 : BE
     CloneRef* unk0c;
     FUN_00436b20(unsigned int first, unsigned int second);
 };
-// Sets the vtable pointer, stores the result of FUN_00436780(first, second) in unk0c, then calls FUN_00575830 on it with second's v125() point.
+// Sets the vtable pointer, stores the result of FUN_00436780(first, second) in unk0c, then calls TESObjectREFR_SetLocationOnReference on it with second's v125() point.
 // @fnv 0x00436b20
 FUN_00436b20::FUN_00436b20(unsigned int first, unsigned int second) : BE(0x55)
 {
     *(void**)this = (void*)&DAT_01015f24;
     unk0c = ((CloneFactory*)this)->FUN_00436780((void*)first, (CloneSource*)second);
-    unk0c->FUN_00575830(*((FUN_00436b20_Ref*)second)->v125());
+    unk0c->TESObjectREFR_SetLocationOnReference(*((FUN_00436b20_Ref*)second)->v125());
 }
 }
 

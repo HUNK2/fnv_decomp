@@ -33,7 +33,7 @@ FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
 class NiAVObject : public NiObjectNET
 {
   public:
-    bool FUN_004f0140();
+    bool NiAVObject_GetSelectiveUpdate();
     void FUN_00440460(const NiPoint3& translate);
     void FUN_004f0160(const NiQuaternion& rotate);
     void FUN_00440490(float scale);
@@ -132,7 +132,7 @@ class NiMultiTargetTransformController : public NiInterpController
 class AnimationInterpolatorNode : public NiMultiTargetTransformController
 {
   public:
-    bool FUN_004f05a0();
+    bool NiTimeController_GetActive();
     void UpdateInterpolatorsAtTime(float time, bool selective);
 };
 FNV_STATIC_ASSERT(sizeof(AnimationInterpolatorNode) == 64);

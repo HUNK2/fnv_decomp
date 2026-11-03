@@ -112,7 +112,7 @@ struct TCEq : NiObject
     NiObject* m_pkTarget;
 };
 // @fnv 0x00a6cc80
-bool __fastcall FUN_00a6cc80(TCEq* pThis, int edx, NiObject* pkObject)
+bool __fastcall NiTimeController_IsEqual(TCEq* pThis, int edx, NiObject* pkObject)
 {
     TCEq* pkControl = (TCEq*)pkObject;
     if (pThis->IsSameAs(pkObject) && pThis->m_uiObjectFlags == pkControl->m_uiObjectFlags &&
@@ -168,7 +168,7 @@ struct TCReg : NiObject
 };
 // Registers the object's streamables with kStream, then registers the streamables of the stored NiObject if present; returns false if the base registration fails.
 // @fnv 0x00a6d0f0
-bool __fastcall FUN_00a6d0f0(TCReg* p, int edx, NiStream& kStream)
+bool __fastcall NiTimeController_RegisterStreamables(TCReg* p, int edx, NiStream& kStream)
 {
     if (!p->NiObject::RegisterStreamables(kStream))
         return false;
@@ -492,11 +492,11 @@ after_list:
 
 struct NiTimeController_Luna : NiTimeController
 {
-    void FUN_00a6d5e0(NiStream& kStream);
+    void NiTimeController_LoadBinary(NiStream& kStream);
 };
 // Loads a time controller from a stream: base object, flags, frequency, phase, key times, and version-dependent flag fixups.
 // @fnv 0x00a6d5e0
-void NiTimeController_Luna::FUN_00a6d5e0(NiStream& kStream)
+void NiTimeController_Luna::NiTimeController_LoadBinary(NiStream& kStream)
 {
     NiObject::LoadBinary(kStream);
     kStream.ResetStreamState();
@@ -759,10 +759,10 @@ template <class T> inline void Save_a6d730(Stream_a6d730& stream, T& value)
 struct FUN_00a6d730_shell : NiTimeController
 {
     void FUN_00a89af0(Stream_a6d730&);
-    void FUN_00a6d730(Stream_a6d730&);
+    void NiTimeController_SaveBinary(Stream_a6d730&);
 };
 // @fnv 0x00a6d730
-void FUN_00a6d730_shell::FUN_00a6d730(Stream_a6d730& stream)
+void FUN_00a6d730_shell::NiTimeController_SaveBinary(Stream_a6d730& stream)
 {
     FUN_00a89af0(stream);
     NiTimeController* next = m_spNextController.m_pObject;
@@ -809,11 +809,11 @@ class NiViewerStringsArray : public NiTPrimitiveArray<char*>
 class TCController : public NiTimeController
 {
   public:
-    void FUN_00a6d830(NiViewerStringsArray* pkViewerStrings);
+    void NiTimeController_GetViewerStrings(NiViewerStringsArray* pkViewerStrings);
 };
 
 // @fnv 0x00a6d830
-void TCController::FUN_00a6d830(NiViewerStringsArray* pkViewerStrings)
+void TCController::NiTimeController_GetViewerStrings(NiViewerStringsArray* pkViewerStrings)
 {
     pkViewerStrings->Add(FUN_00a7d330(DAT_011f49e4));
     pkViewerStrings->Add(FUN_00a7d550("m_fFrequency", m_fFrequency));
@@ -1179,7 +1179,7 @@ inline float AddLowKey(double remainder, float lowKey)
 class ScaledTimeController : public NiTimeController
 {
   public:
-    float FUN_00a6cd60(float fTime);
+    float NiTimeController_ComputeScaledTime(float fTime);
 };
 
 __declspec(thread) float ts_fLastScaledTime = 0.0f;
@@ -1190,7 +1190,7 @@ __declspec(thread) float ts_fLastHiKeyTime = 0.0f;
 
 // Computes a scaled time from fTime using frequency, phase, and cycle type, caching the result in thread-local storage when inputs are unchanged.
 // @fnv 0x00a6cd60
-float ScaledTimeController::FUN_00a6cd60(float fTime)
+float ScaledTimeController::NiTimeController_ComputeScaledTime(float fTime)
 {
     if (m_fStartTime == -3.402823466e+38F)
         m_fStartTime = fTime;

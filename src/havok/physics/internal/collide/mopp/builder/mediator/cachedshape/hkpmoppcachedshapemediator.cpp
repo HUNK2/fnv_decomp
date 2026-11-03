@@ -529,11 +529,11 @@ struct Owner
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     OutCollection* collection;
     int count;
-    void FUN_00dd55f0(OutRecord* out);
+    void hkpMoppCachedShapeMediator_getPrimitives(OutRecord* out);
 };
 // Iterates the collection and writes each element's handle and index into the out array.
 // @fnv 0x00dd55f0
-void Owner::FUN_00dd55f0(OutRecord* out)
+void Owner::hkpMoppCachedShapeMediator_getPrimitives(OutRecord* out)
 {
     int n = count;
     void* current = collection->Begin();

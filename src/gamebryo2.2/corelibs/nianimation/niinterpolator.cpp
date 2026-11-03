@@ -29,7 +29,7 @@ void FUN_00a57030_shell::GetKeyTimeRange(float* fBeginKeyTime, float* fEndKeyTim
 extern "C" const char* const g_011f36fc_arg1;
 
 // @fnv 0x00a57070
-const char* const* __cdecl FUN_00a57070()
+const char* const* __cdecl NiInterpolator_GetRTTI()
 {
     return &g_011f36fc_arg1;
 }
@@ -67,7 +67,7 @@ void __stdcall AppendCameraPathEntries(NiTPrimitiveArray<char*, NiTMallocInterfa
 char* _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330(g_011f36fc_arg1) to pkStrings, growing the array when full.
 // @fnv 0x00a570b0
-void __stdcall FUN_00a570b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void __stdcall NiInterpolator_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pcString = _FUN_00a7d330(g_011f36fc_arg1);

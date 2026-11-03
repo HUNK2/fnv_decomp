@@ -94,9 +94,9 @@ struct Own_00cc0470
     void __thiscall FUN_00cc0470(void* a);
 };
 extern int g_unk01268560;
-int* __cdecl FUN_00cc04c0();
+int* __cdecl hkOstream_getClassType();
 extern int DAT_01268ad8;
-int __cdecl FUN_00cc0770();
+int __cdecl hkArrayStreamWriter_getClassType();
 void __stdcall FUN_00e3b490(bool* p);
 struct FUN_00cc04a0_Slots
 {

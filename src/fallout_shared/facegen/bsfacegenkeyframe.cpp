@@ -171,7 +171,7 @@ struct FUN_0064f690_shell : public BSFaceGenKeyframeMultiple
 
 struct RotationValues
 {
-    float FUN_005dd4e0(unsigned int);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned int);
 };
 
 struct VTableHelper
@@ -211,8 +211,8 @@ bool FUN_0064f690_shell::DiffersFrom(BSFaceGenKeyframe* apOther)
     }
     for (unsigned int i = 0; i < reinterpret_cast<OSGlobals*>(this)->GetUptimeMilliseconds(); ++i)
     {
-        if (reinterpret_cast<RotationValues*>(pkeyframe)->FUN_005dd4e0(i) !=
-            reinterpret_cast<RotationValues*>(this)->FUN_005dd4e0(i))
+        if (reinterpret_cast<RotationValues*>(pkeyframe)->BSFaceGenKeyframeMultiple_GetQuantity(i) !=
+            reinterpret_cast<RotationValues*>(this)->BSFaceGenKeyframeMultiple_GetQuantity(i))
         {
             return true;
         }
@@ -294,11 +294,11 @@ struct KFX2
     virtual void s14();
     virtual void s15();
     virtual void s16();
-    float FUN_005dd4e0(unsigned int);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned int);
 };
 struct KFXLoop
 {
-    void FUN_0064a4d0(unsigned int, float);
+    void BSFaceGenKeyframeMultiple_SetQuantity(unsigned int, float);
 };
 
 struct FUN_0064ec10_obj : public BSFaceGenKeyframe
@@ -319,7 +319,7 @@ FUN_0064ec10_obj::FUN_0064ec10_obj(const FUN_0064ec10_obj& aOther) : BSFaceGenKe
     ((BSFaceGenKeyframeMultiple*)this)
         ->BSFaceGenKeyframeMultiple::ApplyFaceGenValues(((OSGlobals*)&aOther)->GetUptimeMilliseconds(), true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
-        ((KFXLoop*)this)->FUN_0064a4d0(i, ((KFX2*)&aOther)->FUN_005dd4e0(i));
+        ((KFXLoop*)this)->BSFaceGenKeyframeMultiple_SetQuantity(i, ((KFX2*)&aOther)->BSFaceGenKeyframeMultiple_GetQuantity(i));
 }
 
 namespace fnv_0064f5b0 {
@@ -370,11 +370,11 @@ struct KFX
     virtual void s15();
     virtual void s16();
     virtual bool IsMultiple();
-    float FUN_005dd4e0(unsigned int);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned int);
 };
 struct KFXLoop
 {
-    void FUN_0064a4d0(unsigned int, float);
+    void BSFaceGenKeyframeMultiple_SetQuantity(unsigned int, float);
 };
 
 // @fnv 0x0064f5b0
@@ -387,7 +387,7 @@ void KFThis::CopyFromKeyframe(BSFaceGenKeyframe* apFrom)
     vfn_10(pSourceMultiple->vfn_0c());
     ApplyFaceGenValues(((OSGlobals*)pSourceMultiple)->GetUptimeMilliseconds(), true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
-        ((KFXLoop*)this)->FUN_0064a4d0(i, pSourceMultiple->FUN_005dd4e0(i));
+        ((KFXLoop*)this)->BSFaceGenKeyframeMultiple_SetQuantity(i, pSourceMultiple->BSFaceGenKeyframeMultiple_GetQuantity(i));
 }
 }  // namespace fnv_0064f5b0
 
@@ -415,11 +415,11 @@ struct FUN_0064ec10_obj
 };
 struct FUN_0064f530_shell : FUN_0064ec10_obj
 {
-    FUN_0064ec10_obj* FUN_0064f530();
+    FUN_0064ec10_obj* BSFaceGenKeyframeMultiple_CreateCopy();
 };
 // Allocates a new FUN_0064ec10_obj by copying *this and returns the pointer.
 // @fnv 0x0064f530
-FUN_0064ec10_obj* FUN_0064f530_shell::FUN_0064f530()
+FUN_0064ec10_obj* FUN_0064f530_shell::BSFaceGenKeyframeMultiple_CreateCopy()
 {
     FUN_0064ec10_obj* preturn;
     preturn = new FUN_0064ec10_obj(*this);
@@ -431,12 +431,12 @@ extern double _gModifierZero;
 
 struct FUN_0064f7e0_shell : public BSFaceGenKeyframeMultiple
 {
-    bool FUN_0064f7e0();
+    bool BSFaceGenKeyframeMultiple_IsEmpty();
 };
 
 // Loops over the keyframes, calling the virtual at vtable slot 19; returns false if any keyframe is active and its value exceeds _gModifierZero, otherwise true.
 // @fnv 0x0064f7e0
-bool FUN_0064f7e0_shell::FUN_0064f7e0()
+bool FUN_0064f7e0_shell::BSFaceGenKeyframeMultiple_IsEmpty()
 {
     unsigned int i;
     for (i = 0; i < m_uiFaceGenValueCount; ++i)
@@ -629,7 +629,7 @@ struct Sh0044edb0
 };
 struct Sd4e0
 {
-    float FUN_005dd4e0(unsigned int i);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned int i);
 };
 
 bool __cdecl FUN_0040eb10(float a, float b, float c);
@@ -654,7 +654,7 @@ struct KFXLoop
     virtual void d3c();
     virtual void d40();
     virtual bool v44();
-    bool FUN_0064a4d0(unsigned int i, float v);
+    bool BSFaceGenKeyframeMultiple_SetQuantity(unsigned int i, float v);
     bool BlendFrom(Vt0064eea0* o, float f, bool b1, bool b2);
 };
 
@@ -686,25 +686,25 @@ bool KFXLoop::BlendFrom(Vt0064eea0* pOther, float f, bool b1, bool b2)
 
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 0x10); ++i)
     {
-        if (!b1 && FUN_0040eb10(((Sd4e0*)pfOther)->FUN_005dd4e0(i), 0.0f, 0.001f))
+        if (!b1 && FUN_0040eb10(((Sd4e0*)pfOther)->BSFaceGenKeyframeMultiple_GetQuantity(i), 0.0f, 0.001f))
         {
             continue;
         }
-        if (((Sd4e0*)pfOther)->FUN_005dd4e0(i) < 3.4028234663852886e38)
+        if (((Sd4e0*)pfOther)->BSFaceGenKeyframeMultiple_GetQuantity(i) < 3.4028234663852886e38)
         {
-            if (f < 1.0f && ((Sd4e0*)this)->FUN_005dd4e0(i) < 3.4028234663852886e38)
+            if (f < 1.0f && ((Sd4e0*)this)->BSFaceGenKeyframeMultiple_GetQuantity(i) < 3.4028234663852886e38)
             {
-                bChanged = bChanged | this->FUN_0064a4d0(i, ((Sd4e0*)this)->FUN_005dd4e0(i) * (1.0 - fClamped) +
-                                                                ((Sd4e0*)pfOther)->FUN_005dd4e0(i) * fClamped);
+                bChanged = bChanged | this->BSFaceGenKeyframeMultiple_SetQuantity(i, ((Sd4e0*)this)->BSFaceGenKeyframeMultiple_GetQuantity(i) * (1.0 - fClamped) +
+                                                                ((Sd4e0*)pfOther)->BSFaceGenKeyframeMultiple_GetQuantity(i) * fClamped);
             }
             else
             {
-                bChanged = bChanged | this->FUN_0064a4d0(i, ((Sd4e0*)pfOther)->FUN_005dd4e0(i));
+                bChanged = bChanged | this->BSFaceGenKeyframeMultiple_SetQuantity(i, ((Sd4e0*)pfOther)->BSFaceGenKeyframeMultiple_GetQuantity(i));
             }
         }
         else if (b2)
         {
-            bChanged = bChanged | this->FUN_0064a4d0(i, 3.402823466e38f);
+            bChanged = bChanged | this->BSFaceGenKeyframeMultiple_SetQuantity(i, 3.402823466e38f);
         }
     }
     return bChanged;

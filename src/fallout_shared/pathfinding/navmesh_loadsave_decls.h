@@ -55,7 +55,7 @@ class Pathing
     virtual void vfn_c0();
     virtual void vfn_c4();
     virtual void SetAltered(bool);
-    bool FUN_00460340();
+    bool TESForm_GetAltered();
 };
 class TES
 {

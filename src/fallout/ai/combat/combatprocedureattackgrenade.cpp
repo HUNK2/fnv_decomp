@@ -9,11 +9,11 @@ struct CombatProcedure
 
 struct CombatProcedureAttackGrenade : CombatProcedure
 {
-    void FUN_009cafc0();
+    void CombatProcedureAttackGrenade_Shutdown();
 };
 
 // @fnv 0x009cafc0
-void CombatProcedureAttackGrenade::FUN_009cafc0()
+void CombatProcedureAttackGrenade::CombatProcedureAttackGrenade_Shutdown()
 {
     CombatProcedure::RunProcedure();
 }
@@ -113,10 +113,10 @@ struct CombatProcedureSaveGameShell
 };
 struct FUN_009cb9c0_shell
 {
-    void __thiscall FUN_009cb9c0(BGSSaveFormBuffer* p);
+    void __thiscall CombatProcedureAttackGrenade_SaveGame(BGSSaveFormBuffer* p);
 };
 // @fnv 0x009cb9c0
-void __thiscall FUN_009cb9c0_shell::FUN_009cb9c0(BGSSaveFormBuffer* pBuffer)
+void __thiscall FUN_009cb9c0_shell::CombatProcedureAttackGrenade_SaveGame(BGSSaveFormBuffer* pBuffer)
 {
     ((CombatProcedureSaveGameShell*)this)->SaveGame(pBuffer);
     pBuffer->SaveData((char*)this + 0x10, 4, 0);
@@ -193,10 +193,10 @@ struct FUN_009cba50_shell
     int m_ax;
     int m_ay;
     int m_az;
-    void __thiscall FUN_009cba50(BGSLoadFormBuffer* buffer);
+    void __thiscall CombatProcedureAttackGrenade_LoadGame(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x009cba50
-void __thiscall FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
+void __thiscall FUN_009cba50_shell::CombatProcedureAttackGrenade_LoadGame(BGSLoadFormBuffer* buffer)
 {
     ((CombatProcedure_LoadGame*)this)->LoadGame(buffer);
     buffer->ReadTypedData((char*)this + 0x10, 4);
@@ -684,7 +684,7 @@ struct Procedure
     Target* TargetGet();
     bool Validate(void*, Point*, float);
     void Reset();
-    bool FUN_009cb460(Point* output, Point* input);
+    bool CombatProcedureAttackGrenade_GetTargetedPoint(Point* output, Point* input);
 };
 extern Point zeroPoint;
 extern const float scaleValue;
@@ -692,7 +692,7 @@ unsigned char Arc(void*, Target*, Item*, Point, Point, Point, unsigned char*, Po
 unsigned char Direct(void*, Target*, Item*, Point*, unsigned char*, Point*, float);
 float Distance(Item*, Point, Point, unsigned char, float);
 // @fnv 0x009cb460
-bool Procedure::FUN_009cb460(Point* output, Point* input)
+bool Procedure::CombatProcedureAttackGrenade_GetTargetedPoint(Point* output, Point* input)
 {
     void* i;
     i = ActorGet();
@@ -1199,7 +1199,7 @@ struct GlobalObj
 extern GlobalObj* DAT_011f1708;
 struct Member34
 {
-    void FUN_00910b10();
+    void TESWeightForm_InitializeDataComponent();
 };
 void __cdecl FUN_009a9180(Sub04* a, Obj703* b, float* x, float* y, float* z);
 unsigned char __cdecl FUN_009a7580(ActorObj* a, ActorObj* b, MidObj* c, void* d, unsigned char* e, Pt3* f, float g);
@@ -1324,7 +1324,7 @@ void Package::UpdateWeaponFire()
     if (idx)
     {
         n->FUN_00442a80(0);
-        m_34.FUN_00910b10();
+        m_34.TESWeightForm_InitializeDataComponent();
     }
     actor2->FUN_008d8520()->vfn_43c(1);
     actor2->TryAttack(0x72);

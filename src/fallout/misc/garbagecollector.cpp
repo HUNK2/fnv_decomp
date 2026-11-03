@@ -212,7 +212,7 @@ extern bool DAT_011de958;
 extern __declspec(thread) bool bCollecting;
 
 // @fnv 0x00868d70
-void FUN_00868d70(bool abTryLock)
+void GarbageCollector_ClearAll(bool abTryLock)
 {
     if (DAT_011de958)
         return;
@@ -465,14 +465,14 @@ void CopyNonNullElements(GlobalObject_00869f00* apSource, GlobalObject_00869f00*
 
 struct FUN_0050f5a0_struct
 {
-    void FUN_0050f5a0();
+    void NiAVObject_DetachParent();
 };
 struct FUN_00572160_shell
 {
-    void FUN_00572160();
+    void NiNode_DetachAllChildren();
 };
 // @fnv 0x00572160
-void FUN_00572160_shell::FUN_00572160()
+void FUN_00572160_shell::NiNode_DetachAllChildren()
 {
     unsigned int i;
     unsigned int count = ((GlobalObject_004aff00*)((char*)this + 0x9c))->GetSize();
@@ -480,7 +480,7 @@ void FUN_00572160_shell::FUN_00572160()
     {
         unsigned int effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
         if (effect)
-            ((FUN_0050f5a0_struct*)effect)->FUN_0050f5a0();
+            ((FUN_0050f5a0_struct*)effect)->NiAVObject_DetachParent();
     }
     ((GlobalObject_004aff00*)((char*)this + 0x9c))->RemoveAll();
 }
@@ -597,13 +597,13 @@ struct SceneObject
 };
 struct AnimationObject
 {
-    void FUN_0048ff50();
-    AnimationManager* FUN_00496940();
+    void Animation_ShutdownAllAnimIdles();
+    AnimationManager* Animation_GetControllerManager();
     SceneObject* FUN_005585e0();
 };
 struct AnimationLoader
 {
-    void FUN_00445430(AnimationObject*);
+    void ModelLoader_CancelReplacementKFList(AnimationObject*);
 };
 struct AnimationQueue
 {
@@ -615,9 +615,9 @@ extern int g_011f36e4;
 void AddAnimationToGarbageCollector(AnimationObject* object)
 {
     TwoPointerRecord event(8, "GarbageCollector::Add(Animation)");
-    object->FUN_0048ff50();
-    if (object->FUN_00496940())
-        object->FUN_00496940()->FUN_0048fef0(0.0f);
+    object->Animation_ShutdownAllAnimIdles();
+    if (object->Animation_GetControllerManager())
+        object->Animation_GetControllerManager()->FUN_0048fef0(0.0f);
     SceneObject* pRoot = object->FUN_005585e0();
     if (pRoot)
     {
@@ -628,7 +628,7 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
         if (controller)
             pRoot->FUN_00a5c480(controller);
     }
-    ((AnimationLoader*)g_modelLoader)->FUN_00445430(object);
+    ((AnimationLoader*)g_modelLoader)->ModelLoader_CancelReplacementKFList(object);
     if (!DAT_tlsFlag || (g_BGSSaveLoadGame && g_BGSSaveLoadGame->FUN_0042ce10()))
     {
         delete (GarbageCollectorDeleteA*)object;

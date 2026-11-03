@@ -28,11 +28,11 @@ unsigned int FUN_005224e0_class::GetField230()
 
 struct FUN_00524b40_class
 {
-    bool FUN_00524b40();
+    bool TESObjectWEAP_IsAutomaticWeapon();
 };
 
 // @fnv 0x00524b40
-bool FUN_00524b40_class::FUN_00524b40()
+bool FUN_00524b40_class::TESObjectWEAP_IsAutomaticWeapon()
 {
     return reinterpret_cast<unsigned char*>(this)[0x100] & 2;
 }
@@ -96,11 +96,11 @@ extern "C" int __cdecl sprintf_s(char*, int, const char*, ...);
 
 struct FUN_0052a980_Class
 {
-    int __thiscall FUN_0052a980(char* dst);
+    int __thiscall ImageSpaceModifierInstanceTemp_PrintInfo(char* dst);
 };
 
 // @fnv 0x0052a980
-int __thiscall FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
+int __thiscall FUN_0052a980_Class::ImageSpaceModifierInstanceTemp_PrintInfo(char* pcBuffer)
 {
     return sprintf_s(pcBuffer, 0x800, "  Temp");
 }
@@ -736,7 +736,7 @@ struct FUN_00526c90
 void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00526e10
-void FUN_00526e10()
+void BGSLoadedReferenceCollection_Create()
 {
     AutoMemHelper context(
         0x2c, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSLoadedReferenceCollection.cpp", 0x58);
@@ -1773,7 +1773,7 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
     return false;
 }
 
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeap_Free(void*);
 extern "C" void FUN_0044e360(unsigned long);
 
 struct ArrayItem
@@ -1808,7 +1808,7 @@ void __thiscall Cls::FUN_00529330()
     }
     {
         void* p = this->m_8;
-        FUN_00401030(p);
+        FormHeap_Free(p);
     }
     FUN_0044e360(this->m_iWordAt04);
 }
@@ -1823,7 +1823,7 @@ class NiPoint3
     NiPoint3 operator*(float) const;
     bool FUN_004390c0(const NiPoint3&);
     NiPoint3& Subtract(const NiPoint3&);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     NiPoint3 FUN_0053d1a0(const NiPoint3&);
 };
 NiPoint3 operator*(float, const NiPoint3&);
@@ -1839,11 +1839,11 @@ struct TerrainInput
 };
 struct TerrainOwner
 {
-    NiPoint3 FUN_0053b450(unsigned char, unsigned short, int*, int*);
-    void FUN_00534240(unsigned int, unsigned int, NiPoint3&);
-    void FUN_00534390(unsigned int, unsigned int, NiPoint3&);
-    float FUN_00534080();
-    float FUN_00534050();
+    NiPoint3 TESObjectLAND_GetVertexLocation(unsigned char, unsigned short, int*, int*);
+    void TESObjectLAND_GetVertex(unsigned int, unsigned int, NiPoint3&);
+    void TESObjectLAND_GetNormal(unsigned int, unsigned int, NiPoint3&);
+    float TESObjectLAND_GetWorldCellY();
+    float TESObjectLAND_GetWorldCellX();
     bool ComputeTerrainNormalAndTangent(TerrainInput*, NiPoint3*, NiPoint3*);
 };
 // Computes a terrain normal and tangent at input->position, blending edge/u/c samples by flip flags, and returns true.
@@ -1851,15 +1851,15 @@ struct TerrainOwner
 bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3* normal, NiPoint3* tangent)
 {
     NiPoint3 origin;
-    NiPoint3 position = FUN_0053b450((unsigned char)input->region, (unsigned short)input->position, 0, 0);
-    FUN_00534240(input->region, input->position, origin);
+    NiPoint3 position = TESObjectLAND_GetVertexLocation((unsigned char)input->region, (unsigned short)input->position, 0, 0);
+    TESObjectLAND_GetVertex(input->region, input->position, origin);
     NiPoint3 location;
-    location = NiPoint3(FUN_00534050() + 2048.0, FUN_00534080() + 2048.0, 0.0f);
+    location = NiPoint3(TESObjectLAND_GetWorldCellX() + 2048.0, TESObjectLAND_GetWorldCellY() + 2048.0, 0.0f);
     NiPoint3 center = origin + location;
     center.z = 0.0f;
     if (center.FUN_004390c0(position))
     {
-        FUN_00534390(input->region, input->position, *normal);
+        TESObjectLAND_GetNormal(input->region, input->position, *normal);
         *tangent = *normal;
     }
     else
@@ -1870,9 +1870,9 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
         NiPoint3 u;
         NiPoint3 c;
         NiPoint3 v = DAT_011a9484;
-        FUN_00534390(input->region, input->edgeA, edgeA);
-        FUN_00534390(input->region, input->u, u);
-        FUN_00534390(input->region, input->c, c);
+        TESObjectLAND_GetNormal(input->region, input->edgeA, edgeA);
+        TESObjectLAND_GetNormal(input->region, input->u, u);
+        TESObjectLAND_GetNormal(input->region, input->c, c);
         if (!input->flipA && !input->flipB)
             v = ((1.0f - blended) * u + blended * edgeA) * (1.0f - pointB) + pointB * c;
         if (!input->flipA && input->flipB)
@@ -1882,16 +1882,16 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
         if (input->flipA && input->flipB)
             v = ((1.0f - blended) * c + blended * edgeA) * pointB + (1.0f - pointB) * u;
         *normal = v;
-        normal->FUN_004a0c10();
+        normal->NiPoint3_Unitize();
         NiPoint3 a;
         NiPoint3 pointC;
         NiPoint3 edgeB;
         NiPoint3 b;
-        FUN_00534240(input->region, input->edgeA, a);
-        FUN_00534240(input->region, input->u, pointC);
+        TESObjectLAND_GetVertex(input->region, input->edgeA, a);
+        TESObjectLAND_GetVertex(input->region, input->u, pointC);
         a.Subtract(pointC);
-        FUN_00534240(input->region, input->edgeA, edgeB);
-        FUN_00534240(input->region, input->c, b);
+        TESObjectLAND_GetVertex(input->region, input->edgeA, edgeB);
+        TESObjectLAND_GetVertex(input->region, input->c, b);
         edgeB.Subtract(b);
         if ((input->flipA && !input->flipB) || (!input->flipA && input->flipB))
             *tangent = a.FUN_0053d1a0(edgeB);
@@ -1990,15 +1990,15 @@ struct FUN_00528be0 : QueueBase528be0
     ~FUN_00528be0();
 };
 
-// Calls FUN_00528e40(true), then passes m_buckets and unk04 to FUN_00401030.
+// Calls FUN_00528e40(true), then passes m_buckets and unk04 to FormHeap_Free.
 // @fnv 0x00528be0
 FUN_00528be0::~FUN_00528be0()
 {
     FUN_00528e40(true);
     void* buckets = m_buckets;
-    FUN_00401030(buckets);
+    FormHeap_Free(buckets);
     void* buffer = unk04;
-    FUN_00401030(buffer);
+    FormHeap_Free(buffer);
 }
 
 }
@@ -2147,11 +2147,11 @@ struct AmmoOwner
     int unk9c;
     int unka0;
     BGSAmmoForm ammo;
-    Form* FUN_00525980(AmmoActor* actor);
+    Form* TESObjectWEAP_GetCurrentAmmo(AmmoActor* actor);
 };
 // Returns the right-hand Form if it differs from the left one and passes the dynamic cast; otherwise returns the ammo helper's result.
 // @fnv 0x00525980
-Form* AmmoOwner::FUN_00525980(AmmoActor* actor)
+Form* AmmoOwner::TESObjectWEAP_GetCurrentAmmo(AmmoActor* actor)
 {
     if (actor && actor->FUN_008d8520() && actor->FUN_008d8520()->GetRight())
     {
@@ -2175,13 +2175,13 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    Obj* FUN_00525980(int arg);
+    Obj* TESObjectWEAP_GetCurrentAmmo(int arg);
     int GetOrFallback(int arg);
 };
 // @fnv 0x00525a90
 int Thing::GetOrFallback(int arg)
 {
-    Obj* result = FUN_00525980(arg);
+    Obj* result = TESObjectWEAP_GetCurrentAmmo(arg);
     if (result != 0)
     {
         int value = result->FUN_008d80e0();

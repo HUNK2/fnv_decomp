@@ -4,7 +4,7 @@
 extern "C" void* g_01202730;
 
 // @fnv 0x00c2b460
-void* __cdecl FUN_00c2b460()
+void* __cdecl NiPSysEmitterPlanarAngleVarCtlr_GetRTTI()
 {
     return &g_01202730;
 }
@@ -51,13 +51,13 @@ struct StrArr
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 // Appends the string returned by _FUN_00a7d330(g_01202730) to the end of pkStrings, growing the array if it is full.
 // @fnv 0x00c2b4d0
-void __stdcall FUN_00c2b4d0(StrArr* pkStrings)
+void __stdcall NiPSysEmitterPlanarAngleVarCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330(g_01202730);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
@@ -86,11 +86,11 @@ inline void* __cdecl operator new(unsigned int, void* memory)
 }
 struct C_00c2b480 : FUN_00c32d80
 {
-    CloneShell* FUN_00c2b480(void* volatile argument);
+    CloneShell* NiPSysEmitterPlanarAngleVarCtlr_CreateClone(void* volatile argument);
 };
 // Allocates a 0x40-byte CloneShell, constructs it, passes the argument to FUN_00c32de0, and returns the clone or null.
 // @fnv 0x00c2b480
-CloneShell* C_00c2b480::FUN_00c2b480(void* volatile argument)
+CloneShell* C_00c2b480::NiPSysEmitterPlanarAngleVarCtlr_CreateClone(void* volatile argument)
 {
     CloneShell* clone = (CloneShell*)NiMemObject::operator new(0x40);
     if (clone)

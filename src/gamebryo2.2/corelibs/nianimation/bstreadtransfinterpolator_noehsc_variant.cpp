@@ -9,7 +9,7 @@ struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    int __thiscall FUN_00a43560(short arg);
+    int __thiscall BSTreadTransfInterpolator_GetKeyCount(short arg);
 };
 struct FUN_00a43580_shell
 {
@@ -127,7 +127,7 @@ struct FUN_00a435e0_shell
     int unk1c;
     int unk20;
 
-    bool __thiscall FUN_00a435e0(int arg);
+    bool __thiscall BSTreadTransfInterpolator_GetChannelPosed(int arg);
 };
 inline void FUN_00a435e0_shell::v01()
 {}
@@ -241,7 +241,7 @@ inline void FUN_00a435e0_shell::v37()
 {}
 inline void FUN_00a435e0_shell::v38(int)
 {}
-bool FUN_00a435e0_shell::FUN_00a435e0(int arg)
+bool FUN_00a435e0_shell::BSTreadTransfInterpolator_GetChannelPosed(int arg)
 {
     if (unk20 != 0)
     {
@@ -473,7 +473,7 @@ class A43600Base
 class A43600Controller : public A43600Base
 {
   public:
-    void FUN_00a43600(A43600Stream& kStream);
+    void BSTreadTransfInterpolator_SaveBinary(A43600Stream& kStream);
 
     int unk00;
     int unk04;
@@ -756,7 +756,7 @@ class A438D0Base
 class A438D0Interpolator : public A438D0Base
 {
   public:
-    void FUN_00a438d0(A438D0Stream& kStream);
+    void BSTreadTransfInterpolator_LoadBinary(A438D0Stream& kStream);
 
     int unk00;
     int unk04;
@@ -770,7 +770,7 @@ class A438D0Interpolator : public A438D0Base
 };
 
 // @fnv 0x00a438d0
-void A438D0Interpolator::FUN_00a438d0(A438D0Stream& kStream)
+void A438D0Interpolator::BSTreadTransfInterpolator_LoadBinary(A438D0Stream& kStream)
 {
     A438D0Base::LoadBinary(kStream);
     NiStreamLoadBinaryA438(kStream, m_uiNumEntries);

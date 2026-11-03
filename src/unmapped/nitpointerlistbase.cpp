@@ -433,7 +433,7 @@ struct S_00ae8370_Node
 struct S_00ae8370_Alloc
 {
     int unk00;
-    void FUN_0045cee0(S_00ae8370_Node* node);
+    void NiTPointerAllocator_Deallocate(S_00ae8370_Node* node);
 };
 struct S_00ae8370_List
 {
@@ -452,7 +452,7 @@ void S_00ae8370_List::FUN_00ae8370()
         unsigned int pad[3];
         pos = pos->unk00;
         cur->unk08 = 0;
-        unk08.FUN_0045cee0(cur);
+        unk08.NiTPointerAllocator_Deallocate(cur);
     }
     unk08.unk00 = 0;
     unk00 = 0;

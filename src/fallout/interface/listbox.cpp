@@ -3255,8 +3255,8 @@ struct InventoryEntry
     InventoryEntry();
     int FUN_00726070();
     TESBoundObject* GetObject();
-    bool FUN_004bd820();
-    void FUN_004bc810(InventoryEntry*);
+    bool ItemChange_GetModSlots();
+    void ItemChange_Copy(InventoryEntry*);
     void FUN_006ecd40(int);
 };
 struct InventoryList
@@ -3325,14 +3325,14 @@ void InventoryListBox::PopulateInventoryList(InventoryOwner* owner, bool(__cdecl
                     i = BSStringLength(s->GetFullName());
                     char name[128];
                     strcpy_s(name, i + 1, s->GetFullName());
-                    if (entry->FUN_004bd820())
+                    if (entry->ItemChange_GetModSlots())
                         strcat_s(name, i + 2, "+");
                     if (split)
                     {
                         if (p > 0)
                         {
                             InventoryEntry* single = new InventoryEntry;
-                            single->FUN_004bc810(entry);
+                            single->ItemChange_Copy(entry);
                             entry = single;
                             entry->FUN_006ecd40(1);
                         }
@@ -3387,7 +3387,7 @@ struct RemovalInterface
 {
     void FUN_00715860(LBTileObj*, int, int);
 };
-RemovalInterface* FUN_004b7210();
+RemovalInterface* InterfaceManager_Instance();
 extern "C" char str_0106f8d0[];
 
 // @fnv 0x0071aaa0
@@ -3400,7 +3400,7 @@ bool RemovalList::RemoveNode(RemovalNode* node, RemovalNode* previous)
             selected = node->FUN_00726070() ? (*node->FUN_00726070()->GetItem())->tile
                                             : ((previous && previous != node) ? (*previous->GetItem())->tile : 0);
             if (selected)
-                FUN_004b7210()->FUN_00715860(selected, 0xfc3, 1);
+                InterfaceManager_Instance()->FUN_00715860(selected, 0xfc3, 1);
         }
         if (container && (*node->GetItem())->counted)
             container->FUN_00a012d0(FUN_00a01860(str_0106f8d0),
@@ -7160,9 +7160,9 @@ struct IMObjX
 {
     void FUN_00715860(int, int, int);
 };
-void* FUN_004b7210();
+void* InterfaceManager_Instance();
 int __cdecl FUN_00a01860(const char*);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 
 struct LBThis
 {
@@ -7191,7 +7191,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
                                                      : ((p2 && p2 != pNodeToRemove) ? (*p2->FUN_006815c0())->f0 : 0);
             if (selected)
             {
-                ((IMObjX*)FUN_004b7210())->FUN_00715860((int)selected, 0xfc3, 1);
+                ((IMObjX*)InterfaceManager_Instance())->FUN_00715860((int)selected, 0xfc3, 1);
             }
         }
         if (container && (*pNodeToRemove->FUN_006815c0())->f8)
@@ -7209,7 +7209,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
             (void)(elemA ? elemA->FUN_004459e0(1) : 0);
         }
         itemB = *pNodeToRemove->FUN_006815c0();
-        FUN_00401030(itemB);
+        FormHeap_Free(itemB);
         if (pNodeToRemove == (this ? &head : 0))
         {
             if (head.next)

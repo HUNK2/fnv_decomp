@@ -9,7 +9,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5f40;
 
 // @fnv 0x00a9a420
-GlobalObjectO2_00a7b610* __cdecl FUN_00a9a420()
+GlobalObjectO2_00a7b610* __cdecl NiFloatExtraData_GetRTTI()
 {
     return &g_011f5f40;
 }
@@ -97,7 +97,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a9a480
-void* __cdecl FUN_00a9a480()
+void* __cdecl NiFloatExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)

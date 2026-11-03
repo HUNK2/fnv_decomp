@@ -81,10 +81,10 @@ struct ArrSI
 };
 struct FUN_004d7d50_StandIn
 {
-    unsigned int __thiscall FUN_004d7d50();
+    unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
 // @fnv 0x004d7d50
-unsigned int __thiscall FUN_004d7d50_StandIn::FUN_004d7d50()
+unsigned int __thiscall FUN_004d7d50_StandIn::NiParticleSystem_GetModifierCount()
 {
     return ((ArrSI*)((char*)this + 0xC8))->GetFlags();
 }
@@ -103,7 +103,7 @@ void FUN_004d8510_StandIn::FUN_004d8510()
 
 struct TESObjectREFR;
 struct bhkShape;
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
 {
@@ -113,7 +113,7 @@ struct FUN_004d85a0_Class
 // @fnv 0x004d85a0
 void* FUN_004d85a0_Class::FUN_004d85a0(int a)
 {
-    return FUN_004a3a40(GetLocalSubValue(a));
+    return bhkShape_Getbhk(GetLocalSubValue(a));
 }
 
 struct FUN_004d8670_Class
@@ -346,11 +346,11 @@ struct GlobalObject_004aff00
 
 struct FUN_004def90_Class
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 
 // @fnv 0x004def90
-void FUN_004def90_Class::FUN_004def90()
+void FUN_004def90_Class::NiNode_RemoveAllChildren()
 {
     ((GlobalObject_004aff00*)((char*)this + 0x9c))->RemoveAll();
 }
@@ -699,7 +699,7 @@ struct FUN_004d8630_Class
 bhkShape* __thiscall FUN_004d8630_Class::GetShape()
 {
     void* p = ((ScriptLocalsX*)this)->GetLocalData();
-    return FUN_004a3a40(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0);
+    return bhkShape_Getbhk(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0);
 }
 }  // namespace fnv_004d8630
 
@@ -1086,7 +1086,7 @@ FUN_004d4f70::FUN_004d4f70(unsigned int auiCount, int iParam)
     }
 }
 
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeap_Free(void*);
 
 struct FUN_004d5080_Class
 {
@@ -1103,13 +1103,13 @@ void __thiscall FUN_004d5080_Class::FUN_004d5080()
 {
     void* fourthValue = *(void**)this->unk08;
     void* secondValue = fourthValue;
-    FUN_00401030(secondValue);
+    FormHeap_Free(secondValue);
 
     void* thirdValue = this->unk08;
-    FUN_00401030(thirdValue);
+    FormHeap_Free(thirdValue);
 
     void* firstValue = this->unk0C;
-    FUN_00401030(firstValue);
+    FormHeap_Free(firstValue);
 }
 
 struct GlobalObject_0044f440
@@ -1493,7 +1493,7 @@ typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
 
 struct FUN_004d74c0_Value
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 struct FUN_004d74c0_Node
 {
@@ -1520,7 +1520,7 @@ struct FUN_004d74c0_Item
     int expandedImage;
 };
 
-// Walks the tree items from startingItem, and for each item whose node value passes FUN_00453470, expands it with expandFlags and recurses into its children.
+// Walks the tree items from startingItem, and for each item whose node value passes NiNode_GetChildCount, expands it with expandFlags and recurses into its children.
 // @fnv 0x004d74c0
 void __cdecl ExpandTreeItemsRecursively(void* tree, int startingItem, int expandFlags)
 {
@@ -1546,7 +1546,7 @@ void __cdecl ExpandTreeItemsRecursively(void* tree, int startingItem, int expand
             }
             if (pNodeValue != 0)
             {
-                if (pNodeValue->FUN_00453470() != 0)
+                if (pNodeValue->NiNode_GetChildCount() != 0)
                 {
                     ((SendTreeMessage)DAT_00fdf28c)(tree, 0x1102, expandFlags, item.handle);
                     ExpandTreeItemsRecursively(tree, item.handle, expandFlags);
@@ -1597,7 +1597,7 @@ class NiStream
     NiStream();
     ~NiStream();
     void InsertObject(NiObject* pkObject);
-    bool FUN_00a640b0(const char* pcFileName);
+    bool NiStream_Save(const char* pcFileName);
     int m_kNextStreamField[0x172];
 };
 
@@ -1651,7 +1651,7 @@ int FUN_004d78c0(NiObject* pkObject, int iType, int iCommand)
                 FUN_00406d30(acPath, 0x104, "c:\\");
                 FUN_00406d50(acPath, 0x104, pcNodeName);
                 FUN_00406d50(acPath, 0x104, ".nif");
-                kNiStream.FUN_00a640b0(acPath);
+                kNiStream.NiStream_Save(acPath);
                 iResult = 1;
             }
         }
@@ -1780,7 +1780,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
 
         bo = ((DAT_00fdf28c_fn)DAT_00fdf28c)(this->unk0C, 0x1100, 0, &n3);
 
-        for (cnt2 = 0; cnt2 < res->FUN_004d7d50(); ++cnt2)
+        for (cnt2 = 0; cnt2 < res->NiParticleSystem_GetModifierCount(); ++cnt2)
         {
             qB = res->GetByIndex(cnt2);
             if (qB)
@@ -1989,7 +1989,7 @@ struct FNVChildLink
 };
 struct FNVTypeA
 {
-    FNVObjectName* FUN_004ae6a0();
+    FNVObjectName* bhkWorldObject_GetShape();
 };
 struct FNVTypeB
 {
@@ -2069,7 +2069,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
         partA = (FNVTypeA*)FUN_00653270(&DAT_01268110, node);
         if (partA)
         {
-            FNVTreeNode* childNode = (FNVTreeNode*)partA->FUN_004ae6a0();
+            FNVTreeNode* childNode = (FNVTreeNode*)partA->bhkWorldObject_GetShape();
             BuildTreeItems(parent, childNode);
             FNVTypeB* partB = (FNVTypeB*)FUN_00653270(&DAT_012681c0, node);
             if (partB && partB->GetNodeCount())
@@ -2190,8 +2190,8 @@ struct Palette4d86;
 struct Object4d86
 {
     Palette4d86* GetStringAtOffset();
-    unsigned int FUN_00495d00();
-    MediaSet4d86* FUN_00495d20(unsigned int uiIndex);
+    unsigned int NiControllerManager_GetSequenceCount();
+    MediaSet4d86* NiControllerManager_GetSequenceAt(unsigned int uiIndex);
 };
 
 struct TreeCtrl4d86
@@ -2230,17 +2230,17 @@ void TreeCtrl4d86::PopulateObjectTree(void* hParentItem, Object4d86* pkObject)
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
         hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
-        for (unsigned int i = 0; i < pkObject->FUN_00495d00(); i++)
+        for (unsigned int i = 0; i < pkObject->NiControllerManager_GetSequenceCount(); i++)
         {
-            MediaSet4d86* pkSet = pkObject->FUN_00495d20(i);
+            MediaSet4d86* pkSet = pkObject->NiControllerManager_GetSequenceAt(i);
             if (pkSet && pkSet->FUN_008041a0())
                 FUN_004d8b90(hItem, pkSet);
         }
         kInsert.item.pszText = PrepareScriptMessage("Inactive Sequences", false);
         hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
-        for (unsigned int uiIndex2 = 0; uiIndex2 < pkObject->FUN_00495d00(); uiIndex2++)
+        for (unsigned int uiIndex2 = 0; uiIndex2 < pkObject->NiControllerManager_GetSequenceCount(); uiIndex2++)
         {
-            MediaSet4d86* pkSet = pkObject->FUN_00495d20(uiIndex2);
+            MediaSet4d86* pkSet = pkObject->NiControllerManager_GetSequenceAt(uiIndex2);
             if (pkSet && !pkSet->FUN_008041a0())
                 FUN_004d8b90(hItem, pkSet);
         }
@@ -2843,7 +2843,7 @@ FUN_004de2b0_StandIn* FUN_004de2d0_StandIn::FUN_004de2d0(char c)
     return this;
 }
 
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeap_Free(void*);
 
 struct FUN_004de3f0_Class
 {
@@ -2858,7 +2858,7 @@ void* __thiscall FUN_004de3f0_Class::FUN_004de3f0(int flags)
 
     if ((flags & 1) != 0)
     {
-        FUN_00401030(this);
+        FormHeap_Free(this);
     }
 
     return this;
@@ -2886,7 +2886,7 @@ struct FUN_00559450_Helper
 };
 struct FUN_0066b0d0_Helper
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void FUN_0066b0d0(int);
 };
 
@@ -2895,7 +2895,7 @@ void FUN_004def20()
 {
     if ((unsigned char)DAT_011c77e8)
     {
-        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->FUN_00559450())->FUN_004def90();
+        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->FUN_00559450())->NiNode_RemoveAllChildren();
         ((FUN_0066b0d0_Helper*)&DAT_011c7810)->FUN_0066b0d0(0);
         ((FUN_0066b0d0_Helper*)&DAT_011c781c)->FUN_0066b0d0(0);
     }

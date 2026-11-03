@@ -576,11 +576,11 @@ const char* RandomGen::GetName()
 
 struct Gen
 {
-    const char* FUN_00b43d70();
+    const char* Uniform_Name();
 };
 
 // @fnv 0x00b43d70
-const char* Gen::FUN_00b43d70()
+const char* Gen::Uniform_Name()
 {
     return "Uniform";
 }
@@ -588,11 +588,11 @@ const char* Gen::FUN_00b43d70()
 namespace fnv_00b43d80 {
 struct Gen
 {
-    const char* FUN_00b43d80();
+    const char* Normal_Name();
 };
 
 // @fnv 0x00b43d80
-const char* Gen::FUN_00b43d80()
+const char* Gen::Normal_Name()
 {
     return "Normal";
 }
@@ -601,11 +601,11 @@ const char* Gen::FUN_00b43d80()
 namespace fnv_00b43d90 {
 struct Gen
 {
-    const char* FUN_00b43d90();
+    const char* PosGen_Name();
 };
 
 // @fnv 0x00b43d90
-const char* Gen::FUN_00b43d90()
+const char* Gen::PosGen_Name()
 {
     return "PosGen";
 }
@@ -614,11 +614,11 @@ const char* Gen::FUN_00b43d90()
 namespace fnv_00b43da0 {
 struct Gen
 {
-    const char* FUN_00b43da0();
+    const char* SymGen_Name();
 };
 
 // @fnv 0x00b43da0
-const char* Gen::FUN_00b43da0()
+const char* Gen::SymGen_Name()
 {
     return "SymGen";
 }

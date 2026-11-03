@@ -169,15 +169,15 @@ struct Obj
 Obj* FUN_004b5a80(int a);
 Obj* FUN_00653270(int* dat, Obj* o_tmp);
 Obj* FUN_004b5a20(Obj* o_tmp);
-int FUN_0056f930(Obj* o_tmp);
+int TESObjectREFR_FindReferenceFor3D(Obj* o_tmp);
 
 struct FUN_0062a510_cls
 {
-    void FUN_0062a510(int a1);
+    void TESArrowTargetListener_entityRemovedCallback(int a1);
 };
 
 // @fnv 0x0062a510
-void FUN_0062a510_cls::FUN_0062a510(int a1)
+void FUN_0062a510_cls::TESArrowTargetListener_entityRemovedCallback(int a1)
 {
     Obj* o_tmp = FUN_004b5a80(a1);
     Obj* p = FUN_00653270(&DAT_012681c0, o_tmp);
@@ -185,7 +185,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
     {
         Obj* m_tmp = FUN_004b5a20(p->FUN_004ae750());
         Obj* r = (m_tmp != 0) ? m_tmp->FUN_0044ddc0() : 0;
-        int g_tmp = FUN_0056f930(r);
+        int g_tmp = TESObjectREFR_FindReferenceFor3D(r);
         Obj* t = DAT_011e0e80.FUN_00717e50();
         for (unsigned int i = 0; i < t->FUN_005be5c0(0); ++i)
         {
@@ -439,7 +439,7 @@ struct S_0062a690_B
 void* __cdecl FUN_004b5a80(int id);
 S_0062a690_A* __cdecl FUN_00653270(void* rtti, void* obj);
 S_0062a690_B* __cdecl FUN_004b5a20(void* p);
-void* __cdecl FUN_0056f930(void* p);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(void* p);
 
 struct S_0062a690_Class
 {
@@ -455,7 +455,7 @@ void S_0062a690_Class::FUN_0062a690(int arg0)
     {
         S_0062a690_B* v_18 = FUN_004b5a20(v_04->FUN_004ae750());
         void* ptr = v_18 ? v_18->FUN_0044ddc0() : 0;
-        void* v_0c = FUN_0056f930(ptr);
+        void* v_0c = TESObjectREFR_FindReferenceFor3D(ptr);
         S_0062a690_ProcessArray* v_14 = DAT_011e0e80.FUN_00717e50();
 
         for (unsigned int v_1c = 0; v_1c < v_14->FUN_005be5c0(0); v_1c++)

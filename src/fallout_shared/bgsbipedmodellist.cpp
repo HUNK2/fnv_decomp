@@ -79,7 +79,7 @@ struct BaseFormComponent
 };
 struct FUN_00474fc0_shell : BGSBipedModelList
 {
-    bool FUN_00474fc0(BaseFormComponent* apCompareFC);
+    bool BGSBipedModelList_CompareComponent(BaseFormComponent* apCompareFC);
     BSSimpleList<BGSCameraShot*>* GetNext();
 };
 
@@ -102,11 +102,11 @@ struct FUN_00474d60_shell
 {
     int _pad;
     TESForm* m_pForm;
-    void __thiscall FUN_00474d60();
+    void __thiscall BGSBipedModelList_Save();
 };
 
 // @fnv 0x00474d60
-void __thiscall FUN_00474d60_shell::FUN_00474d60()
+void __thiscall FUN_00474d60_shell::BGSBipedModelList_Save()
 {
     if (m_pForm)
     {
@@ -118,10 +118,10 @@ void __thiscall FUN_00474d60_shell::FUN_00474d60()
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct FUN_00479350_shell
 {
-    void FUN_00479350();
+    void BGSEquipType_Save();
 };
 // @fnv 0x00479350
-void FUN_00479350_shell::FUN_00479350()
+void FUN_00479350_shell::BGSEquipType_Save()
 {
     unsigned int tempint;
     tempint = *(unsigned int*)((char*)this + 4);
@@ -148,7 +148,7 @@ FUN_00474d40_shell::~FUN_00474d40_shell()
 
 // Returns true if apCompareFC is not a BGSBipedModelList or its GetNext differs from this GetNext, otherwise false.
 // @fnv 0x00474fc0
-bool FUN_00474fc0_shell::FUN_00474fc0(BaseFormComponent* apCompareFC)
+bool FUN_00474fc0_shell::BGSBipedModelList_CompareComponent(BaseFormComponent* apCompareFC)
 {
     BGSBipedModelList* pcomp = dynamic_cast<BGSBipedModelList*>(apCompareFC);
     if (!pcomp)
@@ -165,12 +165,12 @@ struct TESRaceForm
 
 struct FUN_00474f70_shell : BaseFormComponent
 {
-    void FUN_00474f70(BaseFormComponent* apCopyFC);
+    void BGSBipedModelList_CopyComponent(BaseFormComponent* apCopyFC);
 };
 
 // Passes the GetNext() value from apCopyFC to TESRaceForm::Initialize.
 // @fnv 0x00474f70
-void FUN_00474f70_shell::FUN_00474f70(BaseFormComponent* apCopyFC)
+void FUN_00474f70_shell::BGSBipedModelList_CopyComponent(BaseFormComponent* apCopyFC)
 {
     BGSBipedModelList* pCopyFC = dynamic_cast<BGSBipedModelList*>(apCopyFC);
     if (!pCopyFC)

@@ -194,7 +194,7 @@ bool FUN_005f3740_shell::FUN_005f3740(unsigned int aiIndex, float afValue)
 
 struct FUN_005f3780_shell : public TESAnimGroup
 {
-    float FUN_005f3780(int);
+    float TESAnimGroup_GetTime(int);
 };
 
 void __cdecl _FNV_Warning(const char*, ...);
@@ -209,7 +209,7 @@ extern AnimGroupInfo_011977d8 DAT_011977d8[];
 
 // Validates groupAction against frameCount, warns on out-of-range or NaN times, and returns times[groupAction] or 0.0f.
 // @fnv 0x005f3780
-float FUN_005f3780_shell::FUN_005f3780(int groupAction)
+float FUN_005f3780_shell::TESAnimGroup_GetTime(int groupAction)
 {
     if (groupAction < 0)
     {
@@ -244,7 +244,7 @@ extern const char* DAT_01197794[];
 extern const char* DAT_011977a4[];
 
 // @fnv 0x005f38d0
-void __cdecl FUN_005f38d0(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
+void __cdecl TESAnimGroup_ParseAnimGroupFilename(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
 {
     unsigned int n;
     const char* plastSlash = _strrchr(apModelName, '\\');
@@ -366,7 +366,7 @@ ANIM_GROUP_MOVE_ENUM FUN_005f23a0_shell::GetMoveAnimGroup()
     return TESAnimGroup::GetMoveType(this->sType);
 }
 
-extern "C" unsigned short __cdecl FUN_005f2400(unsigned short);
+extern "C" unsigned short __cdecl TESAnimGroup_GetWeapon(unsigned short);
 
 struct FUN_005f23e0_shell
 {
@@ -376,12 +376,12 @@ struct FUN_005f23e0_shell
 // @fnv 0x005f23e0
 unsigned short __thiscall FUN_005f23e0_shell::FUN_005f23e0()
 {
-    return FUN_005f2400(*((unsigned short*)((char*)this + 0x10)));
+    return TESAnimGroup_GetWeapon(*((unsigned short*)((char*)this + 0x10)));
 }
 
 namespace fnv_005f2400 {
 // @fnv 0x005f2400
-int FUN_005f2400(unsigned short ausValue)
+int TESAnimGroup_GetWeapon(unsigned short ausValue)
 {
     return (ausValue & 0xf00) >> 8;
 }
@@ -421,7 +421,7 @@ bool __cdecl IsNine(int);
 
 // Returns false for type 0xff, otherwise looks up the type's entry and returns the result of IsNine on its stored value.
 // @fnv 0x005f25d0
-bool FUN_005f25d0(unsigned short ausType)
+bool TESAnimGroup_IsAttackSpinAction(unsigned short ausType)
 {
     if (ausType == 0xff)
         return false;
@@ -493,7 +493,7 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
 int __cdecl GetType(unsigned short);
 // Returns true when GetType(a) is 0, 1 or 0xAA, otherwise false.
 // @fnv 0x005f4cc0
-bool __cdecl FUN_005f4cc0(unsigned short ausType)
+bool __cdecl TESAnimGroup_IsIdleAnim(unsigned short ausType)
 {
     switch (GetType(ausType))
     {

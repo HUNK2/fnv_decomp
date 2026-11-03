@@ -46,8 +46,8 @@ class NiGeometry
   public:
     NiProperty* GetProperty(int);
 };
-InterfaceManager* FUN_004b7210();
-unsigned int FUN_004af350();
+InterfaceManager* InterfaceManager_Instance();
+unsigned int NiMaterialProperty_GetType();
 
 class GlobalObject_0044f440
 {

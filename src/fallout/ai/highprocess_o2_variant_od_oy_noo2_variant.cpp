@@ -22,9 +22,9 @@ struct xProcess
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
+    int CFilter_GetGroup();
     unsigned int FUN_00559450();
     unsigned int m_uiFilterValue;
 };
@@ -832,10 +832,10 @@ void xController::FUN_008e4e50(xActor* apActor)
             HALF.z = HALF.z * fActorScale;
             xShape* SHAPE = new xShape(&HALF);
             xFilter FILTER(0);
-            FILTER.FUN_004a39f0(0x22);
+            FILTER.CFilter_SetLayer(0x22);
             xHasFilter* OWNER = FUN_28c();
             if (OWNER)
-                FILTER.FUN_0059ce80(OWNER->FUN_0070c440().FUN_004a3a20());
+                FILTER.CFilter_SetGroup(OWNER->FUN_0070c440().CFilter_GetGroup());
             xCinfo CINFO;
             CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
             CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);

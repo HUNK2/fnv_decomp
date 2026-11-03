@@ -16,17 +16,17 @@ struct GlobalObjectO2_00a7b610
 {
 };
 extern GlobalObjectO2_00a7b610 g_011f405c;
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55120();
+GlobalObjectO2_00a7b610* __cdecl NiBoneLODController_GetRTTI();
 
 struct Unknown_00c536a0
 {
-    bool FUN_00a6d0f0(int);
-    bool FUN_00c536a0(int);
+    bool NiTimeController_RegisterStreamables(int);
+    bool NiBSBoneLODController_RegisterStreamables(int);
 };
 // @fnv 0x00c536a0
-bool Unknown_00c536a0::FUN_00c536a0(int a)
+bool Unknown_00c536a0::NiBSBoneLODController_RegisterStreamables(int a)
 {
-    if (FUN_00a6d0f0(a) == 0)
+    if (NiTimeController_RegisterStreamables(a) == 0)
         return false;
     return true;
 }
@@ -60,21 +60,21 @@ struct NiStream
     static int __cdecl RegisterObjectLoader(const char*, NiObject*(__cdecl*)(void));
 };
 extern const char g_012031b8_arg0[];
-NiObject* __cdecl FUN_00c537f0();
+NiObject* __cdecl NiBSBoneLODController_CreateObject();
 // @fnv 0x00c53cd0
 int __cdecl FUN_00c53cd0()
 {
-    return NiStream::RegisterObjectLoader(g_012031b8_arg0, FUN_00c537f0);
+    return NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
 }
 }  // namespace fnv_00c53cd0
 
 extern GlobalObjectO2_00a7b610 g_012031b8;
 struct FUN_00c53e00_shell
 {
-    GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
+    GlobalObjectO2_00a7b610* __thiscall NiBSBoneLODController_GetRTTI();
 };
 // @fnv 0x00c53e00
-GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00_shell::FUN_00c53e00()
+GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00_shell::NiBSBoneLODController_GetRTTI()
 {
     return &g_012031b8;
 }
@@ -133,10 +133,10 @@ struct S_00c53ed0
 {
     char _pad[0x2C];
     Inner_00c53ed0* m_ptr;
-    bool FUN_00c53ed0();
+    bool NiBSBoneLODController_TargetIsRequiredType();
 };
 // @fnv 0x00c53ed0
-bool S_00c53ed0::FUN_00c53ed0()
+bool S_00c53ed0::NiBSBoneLODController_TargetIsRequiredType()
 {
     if (m_ptr != 0 && m_ptr->F3() != 0)
         return true;
@@ -186,11 +186,11 @@ struct BoneLODControllerSave : NiBSBoneLODController
     BoneEntryGroup** groupArray;
     unsigned short unk44;
     unsigned short groupCount;
-    void __thiscall FUN_00a6d730(NiStream*);
-    void __thiscall FUN_00c536d0(NiStream*);
+    void __thiscall NiTimeController_SaveBinary(NiStream*);
+    void __thiscall NiBSBoneLODController_SaveBinary(NiStream*);
 };
 // @fnv 0x00c536d0
-void __thiscall BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
+void __thiscall BoneLODControllerSave::NiBSBoneLODController_SaveBinary(NiStream* stream)
 {
     BoneEntryGroup* i;
     unsigned int n;
@@ -202,7 +202,7 @@ void __thiscall BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
     unsigned int innerCount;
     unsigned int j;
 
-    FUN_00a6d730(stream);
+    NiTimeController_SaveBinary(stream);
     CallAnimCallback(stream, &m_34field);
     FUN_0044adf0(stream, &m_38field);
     savedCount = groupCount;
@@ -262,10 +262,10 @@ struct ControllerObject
     unsigned short unk44;
     unsigned short listCount;
     void FUN_00a6d500(BinaryStream*);
-    void FUN_00c53a10(BinaryStream*);
+    void NiBSBoneLODController_LinkObject(BinaryStream*);
 };
 // @fnv 0x00c53a10
-void ControllerObject::FUN_00c53a10(BinaryStream* stream)
+void ControllerObject::NiBSBoneLODController_LinkObject(BinaryStream* stream)
 {
     FUN_00a6d500(stream);
     for (unsigned int i = 0; i < listCount; ++i)
@@ -372,7 +372,7 @@ struct FUN_00c53c50_Class
     unsigned int unk34;
     unsigned int unk38;
 
-    void __thiscall FUN_00c53c50(NiTPrimitiveArray_unsigned_int* array);
+    void __thiscall NiBSBoneLODController_GetViewerStrings(NiTPrimitiveArray_unsigned_int* array);
 };
 
 struct FUN_00c53c50_Padding
@@ -400,7 +400,7 @@ struct FUN_00c53c50_Values
 };
 
 // @fnv 0x00c53c50
-void __thiscall FUN_00c53c50_Class::FUN_00c53c50(NiTPrimitiveArray_unsigned_int* array)
+void __thiscall FUN_00c53c50_Class::NiBSBoneLODController_GetViewerStrings(NiTPrimitiveArray_unsigned_int* array)
 {
     FUN_00c53c50_Padding padding;
     FUN_00c53c50_Values values;

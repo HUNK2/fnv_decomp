@@ -103,11 +103,11 @@ complete:
 
 struct FUN_00b43390_shell
 {
-    float FUN_00b43390(float);
+    float Random_Density(float);
 };
 
 // @fnv 0x00b43390
-float FUN_00b43390_shell::FUN_00b43390(float)
+float FUN_00b43390_shell::Random_Density(float)
 {
     return 0.0f;
 }
@@ -291,11 +291,11 @@ FUN_00b436b0::~FUN_00b436b0()
 struct FUN_00b43910_cls : PosGen
 {
     float GetRandomSample();
-    float FUN_00b43910();
+    float PosGen_Next();
 };
 
 // @fnv 0x00b43910
-float FUN_00b43910_cls::FUN_00b43910()
+float FUN_00b43910_cls::PosGen_Next()
 {
     int idx3;
     float zTmp;
@@ -321,11 +321,11 @@ float FUN_00b43910_cls::FUN_00b43910()
 struct FUN_00b439e0_cls : PosGen
 {
     float GetRandomSample();
-    float FUN_00b439e0();
+    float SymGen_Next();
 };
 
 // @fnv 0x00b439e0
-float FUN_00b439e0_cls::FUN_00b439e0()
+float FUN_00b439e0_cls::SymGen_Next()
 {
     int idx3;
     float zTmp;

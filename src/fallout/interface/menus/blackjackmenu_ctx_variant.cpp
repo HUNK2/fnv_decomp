@@ -9,7 +9,7 @@ struct FUN_007316f0_shell
 };
 struct BlackJackMenu
 {
-    int __thiscall FUN_00731790();
+    int __thiscall BlackJackMenu_GetClass();
 };
 int __cdecl FUN_00733f80();
 struct FUN_007399d0_shell
@@ -37,7 +37,7 @@ struct Tile
 {
     void Set(int, float, bool);
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct DAT_011d9050_S
 {
     char _pad[0x28];
@@ -426,7 +426,7 @@ struct String90
 };
 struct Controller90
 {
-    void* FUN_0047a520(const String90&);
+    void* NiControllerManager_GetSequenceByName(const String90&);
     void FUN_0048fef0(float);
 };
 struct Bound90
@@ -567,7 +567,7 @@ extern Pointer90 DAT_011d90bc;
 extern int DAT_011f36ac;
 struct Loader90
 {
-    Node90* FUN_00447080(const char*, int, int, int, int, int);
+    Node90* ModelLoader_LoadFile(const char*, int, int, int, int, int);
 };
 extern Loader90* DAT_011c3b3c;
 Node90* __cdecl FUN_004aae30(Node90*, const char*);
@@ -2878,8 +2878,8 @@ class TESContainer
     int unk00, unk04, unk08;
     TESContainer();
     ~TESContainer();
-    void FUN_004818e0(void*, int, void*);
-    void FUN_004821a0(void*, bool);
+    void TESContainer_AddObject(void*, int, void*);
+    void TESContainer_AddContainerToReference(void*, bool);
 };
 struct BooleanHandler
 {
@@ -2889,7 +2889,7 @@ struct CasinoUpdate
 {
     void* FUN_007316d0();
     int GetFieldAt210();
-    BooleanHandler* FUN_00504e40();
+    BooleanHandler* TESCasino_GetQuest();
     Stats129* FUN_00504e60();
 };
 struct PlayerUpdate
@@ -3023,7 +3023,7 @@ struct SequenceUpdateHandler
     void FUN_0048fef0(float);
 };
 Audio129* __cdecl FUN_00453a70();
-const char* __cdecl FUN_00482720(void*);
+const char* __cdecl TESFullName_GetFullName(void*);
 int __cdecl FUN_00406f60(BSStringT<char>*, const char*, ...);
 void __cdecl FUN_004d5c60(int);
 extern Settings129 DAT_011d3db4, DAT_011d3114, DAT_011d4e7c, DAT_011d5050, DAT_011d3a98, DAT_011d2ff4, DAT_011d25e0,
@@ -3140,11 +3140,11 @@ struct BlackjackUpdate
     int DrawCard(FUN_0096a2d0*, bool, bool);
     void UpdateTileText();
     void FUN_007399d0();
-    void FUN_00734db0();
+    void BlackJackMenu_Update();
 };
 
 // @fnv 0x00734db0
-void BlackjackUpdate::FUN_00734db0()
+void BlackjackUpdate::BlackJackMenu_Update()
 {
     int dt = 0;
     float speed = 1.0f;
@@ -3172,7 +3172,7 @@ void BlackjackUpdate::FUN_00734db0()
     lastTime = g_timeGlobal.FUN_00825c00();
     DAT_011d90dc = state;
     if (!active)
-        ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        ((InterfaceUpdate*)InterfaceManager_Instance())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
     switch (state)
     {
     case 13:
@@ -3180,7 +3180,7 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         if (FUN_0059bb30() != 2)
         {
-            ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+            ((InterfaceUpdate*)InterfaceManager_Instance())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
             FUN_00726070()->FUN_00700320(0x1772, 1);
             FUN_00a1d910();
             int difference =
@@ -3191,7 +3191,7 @@ void BlackjackUpdate::FUN_00734db0()
                     ->Remove(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), 0, -difference, 0, 0, 0, 0, 0, 1, 0);
                 BSStringT<char> msg;
                 FUN_00406f60(&msg, DAT_0101c178, -difference,
-                             FUN_00482720(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()), DAT_011d3114.FUN_00403df0(),
+                             TESFullName_GetFullName(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()), DAT_011d3114.FUN_00403df0(),
                              DAT_011d3db4.FUN_00403df0());
                 DispatchMessageToSink(msg, 0, DAT_010208a0,
                                       (int)((PlayerUpdate*)DAT_011dea3c)
@@ -3201,15 +3201,15 @@ void BlackjackUpdate::FUN_00734db0()
             else if (difference > 0)
             {
                 TESContainer inventory;
-                inventory.FUN_004818e0(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), difference, 0);
+                inventory.TESContainer_AddObject(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), difference, 0);
                 if (DAT_011d9054->amount < ((CasinoUpdate*)DAT_011d9058)->GetFieldAt210())
-                    inventory.FUN_004821a0(DAT_011dea3c, false);
+                    inventory.TESContainer_AddContainerToReference(DAT_011dea3c, false);
                 else
                 {
-                    inventory.FUN_004821a0(DAT_011dea3c, true);
+                    inventory.TESContainer_AddContainerToReference(DAT_011dea3c, true);
                     BSStringT<char> msg2;
                     FUN_00406f60(&msg2, DAT_01070d8c, difference,
-                                 FUN_00482720(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()),
+                                 TESFullName_GetFullName(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()),
                                  DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0(), DAT_011d3abc.FUN_00403df0());
                     DispatchMessageToSink(msg2, 0, DAT_0103a830,
                                           (int)((PlayerUpdate*)DAT_011dea3c)
@@ -3219,7 +3219,7 @@ void BlackjackUpdate::FUN_00734db0()
             }
             if (reward)
             {
-                BooleanHandler* quest = ((CasinoUpdate*)DAT_011d9058)->FUN_00504e40();
+                BooleanHandler* quest = ((CasinoUpdate*)DAT_011d9058)->TESCasino_GetQuest();
                 if (quest)
                     quest->FUN_0060c9c0(true);
             }

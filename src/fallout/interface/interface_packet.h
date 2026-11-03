@@ -18,7 +18,7 @@ class InterfaceManager
     Tile* FUN_004fd400();
     bool FUN_00706d90();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 float FUN_00715da0();
 float FUN_00706e20();
 float FUN_00706e50();

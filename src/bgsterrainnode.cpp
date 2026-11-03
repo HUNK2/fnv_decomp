@@ -91,25 +91,25 @@ struct BSSimpleListX
 };
 struct FileX
 {
-    BSSimpleListX* FUN_00464df0();
+    BSSimpleListX* TESFile_GetMasterList();
 };
 struct FUN_00485b60
 {
-    unsigned int FUN_00485bc0();
+    unsigned int TESForm_GetFormIDWithoutIndex();
     FileX* GetFile(int);
     unsigned int Go();
 };
-// Calls FUN_00485bc0, checks whether the first file's list is non-empty, and ORs that flag into bit 24 of the result.
+// Calls TESForm_GetFormIDWithoutIndex, checks whether the first file's list is non-empty, and ORs that flag into bit 24 of the result.
 // @fnv 0x00485b60
 unsigned int FUN_00485b60::Go()
 {
     char flag;
     unsigned int result;
     FileX* file;
-    result = FUN_00485bc0();
+    result = TESForm_GetFormIDWithoutIndex();
     flag = 0;
     file = GetFile(0);
-    if (!file->FUN_00464df0()->IsEmpty())
+    if (!file->TESFile_GetMasterList()->IsEmpty())
         flag = 1;
     result |= flag << 24;
     return result;
@@ -793,7 +793,7 @@ struct SceneUpdate
     virtual void v46() = 0;
     virtual void Refresh() = 0;
     void SetTaskFlag2000(bool);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00450f90(bool);
 };
 struct WorldUpdate
@@ -908,7 +908,7 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
             if (chunk->GetInitialized() && !chunk->FUN_00759d80() && (!parent || parent->FUN_006fe920(true)))
             {
                 chunk->FUN_006facb0();
-                chunk->FUN_0056c7f0()->FUN_00507700((float)((level / 4.0) * *g_011d86f8.Float()));
+                chunk->FUN_0056c7f0()->NiCamera_SetMaxFarNearRatio((float)((level / 4.0) * *g_011d86f8.Float()));
                 SceneUpdate* root7 = Get()->GetMenuRoot();
                 root7->SetTaskFlag2000(false);
                 root7->Refresh();
@@ -1111,7 +1111,7 @@ struct FUN_006f5160
     FUN_006f5160(Node006f*, int, unsigned short, unsigned short, bool);
     ~FUN_006f5160();
     void* GetNiObj(bool);
-    unsigned char FUN_00529ea0();
+    unsigned char TESGlobal_GetType();
     void FUN_006f5ca0();
     unsigned char GetByteAtOffset35();
     void ResetAndCreateTask(Ret006f*, int, unsigned short, unsigned short);
@@ -1151,7 +1151,7 @@ void Node006f::UpdateBlock(int a, bool abFlag)
             }
             else if (block && block->GetNiObj(false))
             {
-                if (block->FUN_00529ea0())
+                if (block->TESGlobal_GetType())
                     block->FUN_006f5ca0();
                 if (abFlag)
                     FUN_006fee90(false);
@@ -1224,7 +1224,7 @@ struct BlockObj
 struct MgrObj
 {
     GetterObj* FUN_004fd3e0();
-    bool FUN_004511e0(NodeObj* p, int a);
+    bool TES_IsCellLoaded(NodeObj* p, int a);
 };
 extern MgrObj* DAT_011dea10;
 struct FeeNode
@@ -1267,7 +1267,7 @@ void FeeNode::FUN_006fee90(int a)
                                 int y3 = baseY + j_;
                                 int idx4 = count * i + j_;
                                 NodeObj* node = getter5->FUN_005875a0(x4, y3);
-                                if (!grid->FUN_006ff0a0(idx4) && DAT_011dea10->FUN_004511e0(node, 1) &&
+                                if (!grid->FUN_006ff0a0(idx4) && DAT_011dea10->TES_IsCellLoaded(node, 1) &&
                                     node->FUN_00557d30())
                                 {
                                     grid->DisableEntry(idx4);

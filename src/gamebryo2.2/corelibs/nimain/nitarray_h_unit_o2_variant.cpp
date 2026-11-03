@@ -25,7 +25,7 @@ struct FUN_00cc6540_Class
     unsigned char m_auiShapeKeys[4];
     void* m_pUserData;
 
-    void FUN_00c8a560(StrArr* array);
+    void hkConstraintCinfo_GetViewerStrings(StrArr* array);
     void FUN_00cc6540(StrArr* array);
 };
 
@@ -34,7 +34,7 @@ char* __cdecl FUN_00a7d550(char const* name, float value);
 // @fnv 0x00cc6540
 void FUN_00cc6540_Class::FUN_00cc6540(StrArr* array)
 {
-    FUN_00c8a560(array);
+    hkConstraintCinfo_GetViewerStrings(array);
 
     unsigned char* data = static_cast<unsigned char*>(m_pUserData);
     if (data)
@@ -216,11 +216,11 @@ class FUN_00c8ad40_cls
 {
   public:
     void C8AD40BaseGetViewerStrings(BC8AD40StringArray* pkArray);
-    void FUN_00c8ad40(BC8AD40StringArray* pkArray);
+    void bhkBinaryAction_GetViewerStrings(BC8AD40StringArray* pkArray);
 };
 
 // @fnv 0x00c8ad40
-void FUN_00c8ad40_cls::FUN_00c8ad40(BC8AD40StringArray* pkArray)
+void FUN_00c8ad40_cls::bhkBinaryAction_GetViewerStrings(BC8AD40StringArray* pkArray)
 {
     BC8AD40AllocTagScope kScope(0x10);
     C8AD40BaseGetViewerStrings(pkArray);
@@ -277,11 +277,11 @@ class CC31C0Object
 {
   public:
     void GetViewerStringsBase(CC31C0StrArray* pkStrings);
-    void FUN_00cc31c0(CC31C0StrArray* pkStrings);
+    void bhkSpringAction_GetViewerStrings(CC31C0StrArray* pkStrings);
 };
 
 // @fnv 0x00cc31c0
-void CC31C0Object::FUN_00cc31c0(CC31C0StrArray* pkStrings)
+void CC31C0Object::bhkSpringAction_GetViewerStrings(CC31C0StrArray* pkStrings)
 {
     CC31C0MemContext kContext(0x10);
     GetViewerStringsBase(pkStrings);
@@ -312,10 +312,10 @@ struct ViewerConstraint
     int priority;
     void* entityA;
     void* entityB;
-    void FUN_00c8a560(BC8AD40StringArray* array);
+    void hkConstraintCinfo_GetViewerStrings(BC8AD40StringArray* array);
 };
 // @fnv 0x00c8a560
-void ViewerConstraint::FUN_00c8a560(BC8AD40StringArray* array)
+void ViewerConstraint::hkConstraintCinfo_GetViewerStrings(BC8AD40StringArray* array)
 {
     BC8AD40AllocTagScope scope(16);
     char* text;
@@ -393,11 +393,11 @@ class CC4740Base
 class CC4740Derived : public CC4740Base
 {
   public:
-    void FUN_00cc4740(BCC4740StringArray* pkArray);
+    void bhkAngularDashpotAction_GetViewerStrings(BCC4740StringArray* pkArray);
 };
 
 // @fnv 0x00cc4740
-void CC4740Derived::FUN_00cc4740(BCC4740StringArray* pkArray)
+void CC4740Derived::bhkAngularDashpotAction_GetViewerStrings(BCC4740StringArray* pkArray)
 {
     BCC4740AllocTagScope kScope(0x10);
     CC4740Base::GetViewerStrings(pkArray);
@@ -501,11 +501,11 @@ class CCCFD0Base
 class CCCFD0Derived : public CCCFD0Base
 {
   public:
-    void FUN_00cccfd0(BCCCFD0StringArray* pkStrings);
+    void bhkExtendedMeshShape_GetViewerStrings(BCCCFD0StringArray* pkStrings);
 };
 
 // @fnv 0x00cccfd0
-void CCCFD0Derived::FUN_00cccfd0(BCCCFD0StringArray* pkStrings)
+void CCCFD0Derived::bhkExtendedMeshShape_GetViewerStrings(BCCCFD0StringArray* pkStrings)
 {
     BCCCFD0AllocTagScope kScope(0x10);
     CCCFD0Base::GetViewerStrings(pkStrings);
@@ -590,7 +590,7 @@ struct CAA010This
 {
     int unk00;
     void* m_pUserData;
-    void FUN_00c8a560(CAA010Arr* array);
+    void hkConstraintCinfo_GetViewerStrings(CAA010Arr* array);
     CAA010Inner* GetObj()
     {
         return m_pUserData ? ((CAA010Data*)m_pUserData)->m_obj : 0;
@@ -602,7 +602,7 @@ struct CAA010This
 void CAA010This::FUN_00caa010(CAA010Arr* array)
 {
     CAA010TagScope scope(16);
-    FUN_00c8a560(array);
+    hkConstraintCinfo_GetViewerStrings(array);
     array->SetAtGrow(array->m_usSize, FUN_00a7d550("Strength", m_pUserData ? ((CAA010Data*)m_pUserData)->m_f : 0.0f));
     CAA010Inner* inner = GetObj();
     _ReadWriteBarrier();

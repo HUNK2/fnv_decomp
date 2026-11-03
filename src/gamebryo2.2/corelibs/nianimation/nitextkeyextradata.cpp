@@ -6,7 +6,7 @@ extern void* g_011f3f28;
 
 // Returns the address of the global pointer g_011f3f28.
 // @fnv 0x00a46b60
-void* __cdecl FUN_00a46b60()
+void* __cdecl NiTextKeyExtraData_GetRTTI()
 {
     return &g_011f3f28;
 }
@@ -24,7 +24,7 @@ struct BSFadeNode
 extern void* DAT_0109827c;
 
 // @fnv 0x00a46b70
-void* __cdecl FUN_00a46b70()
+void* __cdecl NiTextKeyExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)
@@ -66,7 +66,7 @@ void* __thiscall NiTextKeyExtraData::FUN_00a46ed0(unsigned int flags)
 struct NiStream;
 struct FakeBase00
 {
-    bool __thiscall FUN_00a7b290(NiStream*);
+    bool __thiscall NiExtraData_RegisterStreamables(NiStream*);
 };
 struct FakeKey00
 {
@@ -76,7 +76,7 @@ struct FakeKey00
 // @fnv 0x00a46b10
 bool __fastcall LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream)
 {
-    if (!((FakeBase00*)_this)->FUN_00a7b290(stream))
+    if (!((FakeBase00*)_this)->NiExtraData_RegisterStreamables(stream))
         return false;
     unsigned int uiI;
     for (uiI = 0; uiI < *(unsigned int*)((char*)_this + 0xC); ++uiI)
@@ -104,12 +104,12 @@ struct A46BB0KeyData : A46BB0Object
     unsigned int m_uiNumKeys;
     A46BB0Key* m_pKeyArray;
 
-    bool FUN_00a46bb0(A46BB0Object* pkObject);
+    bool NiTextKeyExtraData_IsEqual(A46BB0Object* pkObject);
 };
 
 // Checks that pkObject is non-null, base-equal, has the same key count, and that every key's time and value match; returns true if so.
 // @fnv 0x00a46bb0
-bool A46BB0KeyData::FUN_00a46bb0(A46BB0Object* pkObject)
+bool A46BB0KeyData::NiTextKeyExtraData_IsEqual(A46BB0Object* pkObject)
 {
     if (!pkObject)
         return false;
@@ -262,7 +262,7 @@ struct ExtraDataBase
     void* m_vtbl;
     void* m_pcName;
     void* m_unk08;
-    void FUN_00a7b580(StrArray* pkStrings);
+    void NiExtraData_GetViewerStrings(StrArray* pkStrings);
 };
 
 struct TextKeyExtraData : ExtraDataBase
@@ -276,7 +276,7 @@ struct TextKeyExtraData : ExtraDataBase
 // @fnv 0x00a46ef0
 void TextKeyExtraData::WriteToStrings(StrArray* pkStrings)
 {
-    FUN_00a7b580(pkStrings);
+    NiExtraData_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330((const char*)g_011f3f28));
     pkStrings->Add(FUN_00a7d510("m_uiNumKeys", m_uiNumKeys));
 
@@ -325,11 +325,11 @@ class NiPSysOwnerA46
 {
   public:
     void CopyMemberData(NiPSysBaseA46* pkDest, void* pvProcess);
-    NiPSysBaseA46* FUN_00a46da0(void* pvProcess);
+    NiPSysBaseA46* NiTextKeyExtraData_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00a46da0
-NiPSysBaseA46* NiPSysOwnerA46::FUN_00a46da0(void* pvProcess)
+NiPSysBaseA46* NiPSysOwnerA46::NiTextKeyExtraData_CreateClone(void* pvProcess)
 {
     NiPSysDerivedA46* pkClone = new NiPSysDerivedA46;
     CopyMemberData(pkClone, pvProcess);
@@ -528,7 +528,7 @@ class S00a46cf0_Entry
 class S00a46cf0_Base
 {
   public:
-    void LoadBinary(S00a46cf0_Stream& kStream);  // FUN_00a7b2c0
+    void LoadBinary(S00a46cf0_Stream& kStream);  // NiExtraData_SaveBinary
     void* m_ppVirtualMethodTable;
     unsigned int unk04;
     unsigned int unk08;
@@ -537,14 +537,14 @@ class S00a46cf0_Base
 class S00a46cf0_Object : public S00a46cf0_Base
 {
   public:
-    void FUN_00a46cf0(S00a46cf0_Stream& kStream);  // LoadBinary
+    void NiTextKeyExtraData_SaveBinary(S00a46cf0_Stream& kStream);  // LoadBinary
     unsigned int m_uiCount;
     S00a46cf0_Entry* m_pEntries;
 };
 
 // Calls the base LoadBinary, reads m_uiCount from kStream, then loads each of the m_uiCount entries via their LoadBinary method.
 // @fnv 0x00a46cf0
-void S00a46cf0_Object::FUN_00a46cf0(S00a46cf0_Stream& kStream)
+void S00a46cf0_Object::NiTextKeyExtraData_SaveBinary(S00a46cf0_Stream& kStream)
 {
     S00a46cf0_Base::LoadBinary(kStream);
     ReadBinaryValue(kStream, m_uiCount);

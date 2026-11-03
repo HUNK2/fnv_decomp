@@ -85,7 +85,7 @@ struct InterfaceManager
 {
     static void __cdecl SendGamepadButton(Interface::enumGamepadButtons);
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 void __cdecl FUN_007e8d60();
 struct VHack
 {
@@ -113,7 +113,7 @@ bool TMenu::HandleGamepadButton(int aiButton, float afValue)
 {
     if (InterfaceH::GetSelectedTargetIndex(((VHack*)this)->v13()) && aiButton == 10)
     {
-        FUN_004b7210();
+        InterfaceManager_Instance();
         InterfaceManager::SendGamepadButton((Interface::enumGamepadButtons)10);
         FUN_007e8d60();
         return true;
@@ -150,12 +150,12 @@ void FUN_007e9010_Owner::FUN_007e9010()
 struct FUN_007e8db0_shell : FUN_007e8e40_shell
 {
     Tile* m_pTiles[32];
-    void FUN_007e8db0(int aiID, Tile* apTarget);
+    void TutorialMenu_DoClick(int aiID, Tile* apTarget);
 };
 
 // Resolves apTarget from the tile array at offset 0x28 when null and aiID is 0-7, then dispatches on aiID to one of three handlers.
 // @fnv 0x007e8db0
-void FUN_007e8db0_shell::FUN_007e8db0(int aiID, Tile* apTarget)
+void FUN_007e8db0_shell::TutorialMenu_DoClick(int aiID, Tile* apTarget)
 {
     if (!apTarget && aiID >= 0 && aiID < 8)
         apTarget = ((Tile**)((char*)this + 0x28))[aiID];
@@ -377,7 +377,7 @@ class BGSListForm : public TESForm
   public:
     HelpListNode* FUN_00500940();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int auID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auID);
 
 struct TForm2
 {
@@ -448,7 +448,7 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
     if (p)
         delete p;
 
-    TileX* pTile = ((IMF*)FUN_004b7210())->FUN_00586150()->ReadFile(str_01077ba4);
+    TileX* pTile = ((IMF*)InterfaceManager_Instance())->FUN_00586150()->ReadFile(str_01077ba4);
     DAT_011db088 = pTile ? pTile->FUN_00a03c90() : 0;
 
     if (DAT_011db088 != 0 && ((HMenuX*)DAT_011db088)->vGet() == FUN_007cc6d0())
@@ -463,8 +463,8 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
 
         if (aFlag)
         {
-            BGSListForm* pForm = FUN_004b71d0() ? dynamic_cast<BGSListForm*>(FUN_004839c0(0x165u))
-                                                : dynamic_cast<BGSListForm*>(FUN_004839c0(0x163u));
+            BGSListForm* pForm = FUN_004b71d0() ? dynamic_cast<BGSListForm*>(TESForm_GetFormByNumericID(0x165u))
+                                                : dynamic_cast<BGSListForm*>(TESForm_GetFormByNumericID(0x163u));
             if (pForm)
             {
                 ((HMenuX*)DAT_011db088)->pPages = pForm->FUN_00500940();
@@ -518,7 +518,7 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
             ((HMenuX*)DAT_011db088)->ApplyRecordToTiles(apMsg);
             ((HMenuX*)DAT_011db088)->FUN_007e9010();
             ((TForm2*)DAT_011db088)->IsInCombat();
-            ((IMF*)FUN_004b7210())->FUN_0045cd60()->Set(0xfa9, DAT_01023cd8, 1);
+            ((IMF*)InterfaceManager_Instance())->FUN_0045cd60()->Set(0xfa9, DAT_01023cd8, 1);
             ((HMenuX*)DAT_011db088)->FUN_00a1dc20(0);
             return true;
         }

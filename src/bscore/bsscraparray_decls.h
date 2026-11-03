@@ -12,7 +12,7 @@ class MemoryManager
   public:
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* FUN_00401020();
+MemoryManager* MemoryManager_Instance();
 template <class T, unsigned int N> class BSSimpleArray
 {
   public:

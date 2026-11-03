@@ -5,7 +5,7 @@
 extern "C" void* g_012682bc;
 
 // @fnv 0x00ca34b0
-void* __cdecl FUN_00ca34b0()
+void* __cdecl hkPackedNiTriStripsData_GetRTTI()
 {
     return &g_012682bc;
 }

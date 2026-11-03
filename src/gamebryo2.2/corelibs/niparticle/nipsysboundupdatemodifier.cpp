@@ -5,19 +5,19 @@
 struct NiParticleSystem;
 struct NiPSysModifier_shell
 {
-    void FUN_00c31640(NiParticleSystem*);
-    void FUN_00c2dc70(NiParticleSystem* system);
+    void NiPSysModifier_SetSystemPointer(NiParticleSystem*);
+    void NiPSysBoundUpdateModifier_SetSystemPointer(NiParticleSystem* system);
 };
-// Clears the flag at offset 0xd9 on the previously attached system, sets it on the new system, then calls FUN_00c31640.
+// Clears the flag at offset 0xd9 on the previously attached system, sets it on the new system, then calls NiPSysModifier_SetSystemPointer.
 // @fnv 0x00c2dc70
-void NiPSysModifier_shell::FUN_00c2dc70(NiParticleSystem* system)
+void NiPSysModifier_shell::NiPSysBoundUpdateModifier_SetSystemPointer(NiParticleSystem* system)
 {
     NiParticleSystem* pOldSystem = *(NiParticleSystem**)((char*)this + 0x10);
     if (pOldSystem)
         ((char*)pOldSystem)[0xd9] = 0;
     if (system)
         ((char*)system)[0xd9] = 1;
-    FUN_00c31640(system);
+    NiPSysModifier_SetSystemPointer(system);
 }
 
 struct MM
@@ -76,7 +76,7 @@ struct NiPSysBoundUpdateModifier : NiPSysPositionModifier
     void* m_pkBounds;
     NiPSysBoundUpdateModifier() throw();
     void SetUpdateSkipCounter(int);
-    NiObject* FUN_00c2dec0(CloningProcess&);
+    NiObject* NiPSysBoundUpdateModifier_CreateClone(CloningProcess&);
 };
 inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
 {
@@ -86,7 +86,7 @@ inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
     m_pkBounds = 0;
 }
 // @fnv 0x00c2dec0
-NiObject* NiPSysBoundUpdateModifier::FUN_00c2dec0(CloningProcess& kCloning)
+NiObject* NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier_CreateClone(CloningProcess& kCloning)
 {
     NiPSysBoundUpdateModifier* pkObject = new NiPSysBoundUpdateModifier;
     CopyMemberData(pkObject, kCloning);
@@ -111,17 +111,17 @@ struct NiStream
 struct NiPSysModifier
 {
     char _b[0x18];
-    void FUN_00c31950(NiStream&);
+    void NiPSysModifier_SaveBinary(NiStream&);
 };
 struct NiPSysBoundUpdateModifier : NiPSysModifier
 {
     short m_s;
-    void FUN_00c2e3f0(NiStream&);
+    void NiPSysBoundUpdateModifier_SaveBinary(NiStream&);
 };
 // @fnv 0x00c2e3f0
-void NiPSysBoundUpdateModifier::FUN_00c2e3f0(NiStream& stream)
+void NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier_SaveBinary(NiStream& stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     NiBinaryStream* __restrict out = stream.m_pBackingStream;
     unsigned int size = 2;
     out->position += out->write(out, &m_s, 2, &size, 1);
@@ -318,7 +318,7 @@ class BC2E370Emitter : public BC2E370Modifier
 {
   public:
     virtual void LoadBinary(BC2E370Stream& kStream);
-    void FUN_00c2e370(BC2E370Stream& kStream);
+    void NiPSysBoundUpdateModifier_LoadBinary(BC2E370Stream& kStream);
     void SetFlags(unsigned short usFlags);
 
     int unk04;
@@ -331,7 +331,7 @@ class BC2E370Emitter : public BC2E370Modifier
 
 // Loads the modifier base data, then reads the flags (or a local usFlags on older file versions) and applies them via SetFlags.
 // @fnv 0x00c2e370
-void BC2E370Emitter::FUN_00c2e370(BC2E370Stream& kStream)
+void BC2E370Emitter::NiPSysBoundUpdateModifier_LoadBinary(BC2E370Stream& kStream)
 {
     BC2E370Modifier::LoadBinary(kStream);
     if (kStream.m_uiFileVersion <= 0x0A010064)
@@ -374,7 +374,7 @@ struct NiStrTable
 struct StrArr;
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr* arr);
+    void NiPSysModifier_GetViewerStrings(StrArr* arr);
 };
 
 extern "C" char* __cdecl FUN_00a7d330(char* s);
@@ -382,13 +382,13 @@ extern "C" char* __cdecl FUN_00a7d450(const char* key, unsigned short value);
 
 struct FUN_00c2e430_shell : Base00c319e0, NiPSysBoundUpdateModifier
 {
-    void FUN_00c2e430(NiStream& stream);
+    void NiPSysBoundUpdateModifier_GetViewerStrings(NiStream& stream);
 };
 
 // @fnv 0x00c2e430
-void FUN_00c2e430_shell::FUN_00c2e430(NiStream& stream)
+void FUN_00c2e430_shell::NiPSysBoundUpdateModifier_GetViewerStrings(NiStream& stream)
 {
-    Base00c319e0::FUN_00c319e0(reinterpret_cast<StrArr*>(&stream));
+    Base00c319e0::NiPSysModifier_GetViewerStrings(reinterpret_cast<StrArr*>(&stream));
     reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d330((char*)g_01202788));
     reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d450("Update Skip", *(unsigned short*)((char*)this + 0x18)));
 }

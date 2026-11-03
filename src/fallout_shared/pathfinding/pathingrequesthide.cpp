@@ -45,18 +45,18 @@ struct BGSSaveFormBuffer
 };
 struct StandIn5740
 {
-    void FUN_006e3230(BGSSaveFormBuffer*);
-    void FUN_006e5740(BGSSaveFormBuffer*);
+    void PathingRequest_SaveGame(BGSSaveFormBuffer*);
+    void PathingRequestHide_SaveGame(BGSSaveFormBuffer*);
 };
 struct ThreatLocStandIn
 {
     virtual void SaveGame(BGSSaveFormBuffer*);
 };
-// Calls FUN_006e3230, saves the object at offset 0xB0, then writes 4 bytes from offset 0xD8 to the save buffer.
+// Calls PathingRequest_SaveGame, saves the object at offset 0xB0, then writes 4 bytes from offset 0xD8 to the save buffer.
 // @fnv 0x006e5740
-void StandIn5740::FUN_006e5740(BGSSaveFormBuffer* apSaveGameBuffer)
+void StandIn5740::PathingRequestHide_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_006e3230(apSaveGameBuffer);
+    PathingRequest_SaveGame(apSaveGameBuffer);
     ((ThreatLocStandIn*)((char*)this + 0xB0))->SaveGame(apSaveGameBuffer);
     apSaveGameBuffer->SaveData((void*)((char*)this + 0xD8), 4, 0);
 }
@@ -80,11 +80,11 @@ struct MyHide : PathingRequest
     PathingLocation m_kHideLocation;
     char _pad2[0x24];
     int unkD8;
-    void FUN_006e5790(BGSLoadFormBuffer*);
+    void PathingRequestHide_LoadGame(BGSLoadFormBuffer*);
 };
 // Loads the base PathingRequest and the embedded PathingLocation from the buffer, then reads 4 bytes into unkD8.
 // @fnv 0x006e5790
-void MyHide::FUN_006e5790(BGSLoadFormBuffer* apLoadGameBuffer)
+void MyHide::PathingRequestHide_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     PathingRequest::LoadGame(apLoadGameBuffer);
     m_kHideLocation.LoadGame(apLoadGameBuffer);
@@ -108,12 +108,12 @@ struct PathingRequestHide : PathingRequest
     PathingLocation m_Location;
     float m_fHideDistance;
     unsigned char pad1[0x24];
-    void FUN_006e56f0(PathingRequest* apDest);
+    void PathingRequestHide_CopyTo(PathingRequest* apDest);
 };
 
 // Copies the base PathingRequest, then copies m_Location and the float at offset 0xd8 into the destination.
 // @fnv 0x006e56f0
-void PathingRequestHide::FUN_006e56f0(PathingRequest* apDest)
+void PathingRequestHide::PathingRequestHide_CopyTo(PathingRequest* apDest)
 {
     PathingRequestHide* pdest = static_cast<PathingRequestHide*>(apDest);
     PathingRequest::CopyTo(pdest);

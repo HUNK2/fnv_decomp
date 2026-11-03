@@ -154,7 +154,7 @@ void FUN_00baa000_shell::FUN_00baa000()
 
 extern const char g_01200464_arg1[];
 // @fnv 0x00a81450
-const char* __cdecl FUN_00a81450()
+const char* __cdecl NiShadeProperty_GetRTTI()
 {
     return g_01200464_arg1;
 }

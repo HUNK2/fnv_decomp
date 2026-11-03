@@ -346,7 +346,7 @@ struct PlayerMover
 };
 struct Proxy00511120
 {
-    void FUN_00511120(TESForm*);
+    void TESObjectACTI_CopyFrom(TESForm*);
 };
 struct FUN_004fecf0_ : BGSTalkingActivator
 {
@@ -358,7 +358,7 @@ void FUN_004fecf0_::CopyVoiceTypeFromActivator(TESForm* apCopy)
     BGSTalkingActivator* acti = dynamic_cast<BGSTalkingActivator*>(apCopy);
     if (!acti)
         return;
-    ((Proxy00511120*)this)->FUN_00511120(apCopy);
+    ((Proxy00511120*)this)->TESObjectACTI_CopyFrom(apCopy);
     SetVoiceType((BGSVoiceType*)((PlayerMover*)acti)->GetActorStateFlags());
 }
 
@@ -377,16 +377,16 @@ struct BGSSaveFormBuffer : public BGSLoadFormBuffer
 };
 struct FUN_00511860_shell
 {
-    void FUN_00511860(void*);
+    void TESObjectACTI_AppendSaveLoadFormBuffer(void*);
 };
 struct FUN_004ff800_shell : public FUN_00511860_shell
 {
-    void FUN_004ff800(BGSSaveFormBuffer*);
+    void BGSTalkingActivator_AppendSaveLoadFormBuffer(BGSSaveFormBuffer*);
 };
 // @fnv 0x004ff800
-void FUN_004ff800_shell::FUN_004ff800(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_004ff800_shell::BGSTalkingActivator_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_00511860_shell::FUN_00511860(apSaveGameBuffer);
+    FUN_00511860_shell::TESObjectACTI_AppendSaveLoadFormBuffer(apSaveGameBuffer);
     if (apSaveGameBuffer->GetChangeFlags(0x800000))
         apSaveGameBuffer->SerializeFormData(((void**)this)[36], 0);
 }
@@ -404,7 +404,7 @@ struct BGSLoadFormBuffer
 };
 struct Base005118c0
 {
-    void FUN_005118c0(BGSLoadFormBuffer*);
+    void TESObjectACTI_LoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_004ff850_shell
 {
@@ -415,7 +415,7 @@ struct FUN_004ff850_shell
 // @fnv 0x004ff850
 void FUN_004ff850_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((Base005118c0*)this)->FUN_005118c0(apLoadGameBuffer);
+    ((Base005118c0*)this)->TESObjectACTI_LoadGame(apLoadGameBuffer);
     if (apLoadGameBuffer->GetChangeFlags(0x800000))
     {
         apLoadGameBuffer->ReadFormIdentifier(&_90);
@@ -448,19 +448,19 @@ void FUN_004ff930_shell::RevertAndClearField(BGSLoadFormBuffer* apLoadGameBuffer
 
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -468,22 +468,22 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 void FUN_00485910(unsigned int, unsigned int);
 struct FUN_004fec10_shell
 {
-    void FUN_004fec10();
+    void BGSTalkingActivator_SaveForm();
 };
 // @fnv 0x004fec10
-void FUN_004fec10_shell::FUN_004fec10()
+void FUN_004fec10_shell::BGSTalkingActivator_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)->TESFullName_Save();
     reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048cca0();
-    reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)->FUN_00477f20();
+    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->TESScriptableForm_Save();
+    reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)->BGSDestructibleObjectForm_Save();
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x74))
     {
         unsigned int id =
@@ -505,7 +505,7 @@ void FUN_004fec10_shell::FUN_004fec10()
                 ->GetFormID();
         FUN_00485910(0x4d414e49, id);
     }
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 extern void* DAT_01025520;
@@ -625,33 +625,33 @@ struct FUN_00428110_shell
 {
     FUN_004280f0_shell* FUN_00428110(unsigned int* a1, unsigned int a2);
 };
-TESForm* __cdecl FUN_004839c0(unsigned int a);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int a);
 struct FUN_004ff8a0_shell : public BGSTalkingActivator
 {
-    void FUN_004ff8a0(void* arg);
+    void BGSTalkingActivator_InitLoadGame(void* arg);
 };
-// Calls FUN_004534f0, then conditionally replaces m_pTempRef with an Actor cast of the form returned by FUN_004839c0.
+// Calls FUN_004534f0, then conditionally replaces m_pTempRef with an Actor cast of the form returned by TESForm_GetFormByNumericID.
 // @fnv 0x004ff8a0
-void FUN_004ff8a0_shell::FUN_004ff8a0(void* arg)
+void FUN_004ff8a0_shell::BGSTalkingActivator_InitLoadGame(void* arg)
 {
     ((FUN_004534f0_shell*)this)->FUN_004534f0(arg);
     unsigned int local;
     if (((FUN_00428110_shell*)arg)->FUN_00428110(&local, 0x800000)->FUN_004280f0())
     {
         m_pTempRef =
-            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)m_pTempRef)) : 0);
+            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(TESForm_GetFormByNumericID((unsigned int)m_pTempRef)) : 0);
     }
 }
 
 struct ActivatorComparison
 {
-    bool __thiscall FUN_005111e0(TESForm* form);
+    bool __thiscall TESObjectACTI_Compare(TESForm* form);
 };
 
 struct TalkingActivatorComparison : BGSTalkingActivator
 {
     BGSVoiceType* __thiscall FUN_009185e0();
-    bool __thiscall FUN_004fed50(TESForm* form);
+    bool __thiscall BGSTalkingActivator_Compare(TESForm* form);
 };
 
 BGSVoiceType* __thiscall TalkingActivatorComparison::FUN_009185e0()
@@ -659,14 +659,14 @@ BGSVoiceType* __thiscall TalkingActivatorComparison::FUN_009185e0()
     return m_kFactionList;
 }
 
-// Returns true if form is not a BGSTalkingActivator, FUN_005111e0 returns true, or the two FUN_009185e0 results differ.
+// Returns true if form is not a BGSTalkingActivator, TESObjectACTI_Compare returns true, or the two FUN_009185e0 results differ.
 // @fnv 0x004fed50
-bool __thiscall TalkingActivatorComparison::FUN_004fed50(TESForm* form)
+bool __thiscall TalkingActivatorComparison::BGSTalkingActivator_Compare(TESForm* form)
 {
     BGSTalkingActivator* activator = dynamic_cast<BGSTalkingActivator*>(form);
     if (!activator)
         return true;
-    if (reinterpret_cast<ActivatorComparison*>(this)->FUN_005111e0(form))
+    if (reinterpret_cast<ActivatorComparison*>(this)->TESObjectACTI_Compare(form))
         return true;
     if (FUN_009185e0() != static_cast<TalkingActivatorComparison*>(activator)->FUN_009185e0())
         return true;

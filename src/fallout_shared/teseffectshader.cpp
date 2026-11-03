@@ -305,7 +305,7 @@ FUN_00505d20::~FUN_00505d20()
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_005062a0Class
 {
@@ -319,7 +319,7 @@ void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
     TESEffectShader* pcopy = dynamic_cast<TESEffectShader*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     _memcpy(((TESEffectShader*)this)->GetData(), pcopy->GetData(), 0x134);
     ((TESTexture*)((char*)this + 0x14c))
         ->CopyFromBase((BaseFormComponent*)((FUN_00506370Class*)pcopy)->GetFieldAt14C());
@@ -331,22 +331,22 @@ void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005063d0Shell : public TESEffectShader
 {
-    bool FUN_005063d0(TESForm* apCompare);
+    bool TESEffectShader_Compare(TESForm* apCompare);
 };
 // Compares this effect shader with apCompare: returns true if apCompare is not a TESEffectShader or any component or the shader data differs.
 // @fnv 0x005063d0
-bool FUN_005063d0Shell::FUN_005063d0(TESForm* apCompare)
+bool FUN_005063d0Shell::TESEffectShader_Compare(TESForm* apCompare)
 {
     TESEffectShader* pOtherShader = dynamic_cast<TESEffectShader*>(apCompare);
     if (!pOtherShader)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOtherShader))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pOtherShader))
         return true;
     if (m_kFillTexture.CompareWithBase((BaseFormComponent*)((FUN_00506370Class*)pOtherShader)->GetFieldAt14C()))
         return true;
@@ -360,24 +360,24 @@ bool FUN_005063d0Shell::FUN_005063d0(TESForm* apCompare)
     return false;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(void*, int);
+    void TESForm___SaveData(void*, int);
 };
 
 struct TESModel
@@ -392,10 +392,10 @@ struct FNStub
 
 struct FUN_005060f0Class
 {
-    void FUN_005060f0();
+    void TESEffectShader_SaveForm();
 };
 
-void FUN_004856f0(unsigned int, void*, unsigned int);
+void TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 
 bool _FUN_00401500();
 
@@ -406,38 +406,38 @@ struct FUN_005060f0Data
 };
 
 // @fnv 0x005060f0
-void FUN_005060f0Class::FUN_005060f0()
+void FUN_005060f0Class::TESEffectShader_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() == 0)
     {
-        FUN_004856f0(0x4e4f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x14c)->GetFullName(),
+        TESForm_AddChunkArray(0x4e4f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x14c)->GetFullName(),
                      reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() + 1);
     }
     else
     {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x14c)->FUN_0048e370(0x4e4f4349);
+        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x14c)->TESTexture_Save(0x4e4f4349);
     }
 
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() == 0)
     {
-        FUN_004856f0(0x324f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x158)->GetFullName(),
+        TESForm_AddChunkArray(0x324f4349, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x158)->GetFullName(),
                      reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() + 1);
     }
     else
     {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x158)->FUN_0048e370(0x324f4349);
+        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x158)->TESTexture_Save(0x324f4349);
     }
 
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() == 0)
     {
-        FUN_004856f0(0x374d414e, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x164)->GetFullName(),
+        TESForm_AddChunkArray(0x374d414e, reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x164)->GetFullName(),
                      reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() + 1);
     }
     else
     {
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x164)->FUN_0048e370(0x374d414e);
+        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x164)->TESTexture_Save(0x374d414e);
     }
 
     BGSDebris* psaveAddon = reinterpret_cast<FUN_005060f0Data*>(this)->mAddon;
@@ -452,7 +452,7 @@ void FUN_005060f0Class::FUN_005060f0()
         reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<char*>(this) + 0x18, 0x134);
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(reinterpret_cast<char*>(this) + 0x18, 0x134);
 
     if (_FUN_00401500())
     {
@@ -461,7 +461,7 @@ void FUN_005060f0Class::FUN_005060f0()
 
     reinterpret_cast<FUN_005060f0Data*>(this)->mAddon = psaveAddon;
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct BGSPerk;
@@ -683,7 +683,7 @@ struct Destination
     void FUN_005076c0(float);
     void FUN_005076e0(float);
     void FUN_00733fd0(float);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00507720(float);
     void FUN_006d30e0(int);
     void FUN_00505e50(int);
@@ -736,7 +736,7 @@ void ShaderSettings::CopySettingsTo(Destination* apDestination, void* apTexture)
     apDestination->FUN_005076c0(Data.m_fShaderFloatParameter16);
     apDestination->FUN_005076e0(Data.m_fShaderFloatParameter7);
     apDestination->FUN_00733fd0(Data.m_fShaderFloatParameter8);
-    apDestination->FUN_00507700(Data.m_fShaderFloatParameter9);
+    apDestination->NiCamera_SetMaxFarNearRatio(Data.m_fShaderFloatParameter9);
     apDestination->FUN_00507720(Data.m_fShaderFloatParameter10);
     apDestination->FUN_006d30e0(Data.m_eAlphaSourceBlend);
     apDestination->FUN_00505e50(Data.m_eAlphaDestinationBlend);
@@ -882,10 +882,10 @@ struct SwapFlag
 extern "C" void __cdecl FUN_00401080(void* field, bool reverseBytes);
 struct EffectShaderDataEndian : EffectShaderData
 {
-    void FUN_00506850();
+    void EffectShaderData_Endian();
 };
 // @fnv 0x00506850
-void EffectShaderDataEndian::FUN_00506850()
+void EffectShaderDataEndian::EffectShaderData_Endian()
 {
     {
         SwapFlag needsEndianSwap = {};

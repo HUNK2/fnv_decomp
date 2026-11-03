@@ -1528,11 +1528,11 @@ void FUN_00a0baf0_class::FUN_00a0baf0()
 }
 
 struct TileText {
-    const char* FUN_00a0bbe0();
+    const char* TileText_GetTypeName();
 };
 
 // @fnv 0x00a0bbe0
-const char* TileText::FUN_00a0bbe0()
+const char* TileText::TileText_GetTypeName()
 {
     return "TEXT";
 }
@@ -1540,11 +1540,11 @@ const char* TileText::FUN_00a0bbe0()
 struct Tile3D
 {
     virtual ~Tile3D();
-    const char* __thiscall FUN_00a0bdd0();
+    const char* __thiscall Tile3D_GetTypeName();
 };
 
 // @fnv 0x00a0bdd0
-const char* __thiscall Tile3D::FUN_00a0bdd0()
+const char* __thiscall Tile3D::Tile3D_GetTypeName()
 {
     return "3DAN";
 }
@@ -1852,7 +1852,7 @@ extern GlobalObject_0040c150 g_011d4918;
 int __cdecl FUN_00408b20(const char*, const char*);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 void __cdecl FUN_00730490(char*, int);
-struct FUN_0055d520_shell { char* FUN_0055d520(); };
+struct FUN_0055d520_shell { char* TESObjectREFR_GetFullName(); };
 struct Menu_007301f0 {
     int unk00;
     int unk04;
@@ -1911,7 +1911,7 @@ void Menu_007301f0::UpdateTileText(P09TileS* tile)
             if (!isLocalized)
                 FUN_00730490(text, 260);
         } else {
-            strcpy_s(text, 260, selectedObject->FUN_0055d520());
+            strcpy_s(text, 260, selectedObject->TESObjectREFR_GetFullName());
         }
         break;
     case 1:

@@ -118,11 +118,11 @@ void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
 
 struct FUN_00487400_shell
 {
-    const char* __thiscall FUN_00487400();
+    const char* __thiscall TESIcon_GetDefaultPath();
 };
 
 // @fnv 0x00487400
-const char* __thiscall FUN_00487400_shell::FUN_00487400()
+const char* __thiscall FUN_00487400_shell::TESIcon_GetDefaultPath()
 {
     return "Textures";
 }
@@ -134,42 +134,42 @@ struct FNStub
 
 struct FUN_0048e580_shell : FNStub
 {
-    const char* __thiscall FUN_0048e580(BSStringT<char>& result);
+    const char* __thiscall TESTexture_GetNormalMap(BSStringT<char>& result);
 };
 
 // @fnv 0x0048e580
-const char* __thiscall FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
+const char* __thiscall FUN_0048e580_shell::TESTexture_GetNormalMap(BSStringT<char>& result)
 {
     return TESTexture::NormalizeTextureFilePath(result, this->GetFullName());
 }
 
 struct TESTexture_shell
 {
-    const char* FUN_0048e720();
+    const char* TESTexture_GetDefaultPath();
 };
 // @fnv 0x0048e720
-const char* TESTexture_shell::FUN_0048e720()
+const char* TESTexture_shell::TESTexture_GetDefaultPath()
 {
     return "Textures\\";
 }
 
 struct TESEyes
 {
-    void FUN_005fc1b0();
+    void TESEyes_InitializeData();
 };
 // @fnv 0x005fc1b0
-void TESEyes::FUN_005fc1b0()
+void TESEyes::TESEyes_InitializeData()
 {
     ((char*)this)[0x30] = 0;
 }
 
 struct FUN_005fdc30_shell
 {
-    void FUN_005fdc30();
+    void TESHair_InitializeData();
 };
 
 // @fnv 0x005fdc30
-void FUN_005fdc30_shell::FUN_005fdc30()
+void FUN_005fdc30_shell::TESHair_InitializeData()
 {
     ((char*)this)[0x48] = 0;
 }
@@ -177,23 +177,23 @@ void FUN_005fdc30_shell::FUN_005fdc30()
 struct TESSkill
 {
     void ResetData();
-    void FUN_00617e80();
+    void TESSkill_InitializeData();
 };
 
 // @fnv 0x00617e80
-void TESSkill::FUN_00617e80()
+void TESSkill::TESSkill_InitializeData()
 {
     ResetData();
 }
 
 struct FUN_005eac70_shell
 {
-    void FUN_005eac70();
+    void BGSPerk_InitializeData();
 };
 
 // Clears the bytes at offsets 0x38, 0x39 and 0x3C of this and sets the bytes at 0x3A and 0x3B to 1.
 // @fnv 0x005eac70
-void FUN_005eac70_shell::FUN_005eac70()
+void FUN_005eac70_shell::BGSPerk_InitializeData()
 {
     *(unsigned char*)((char*)this + 0x38) = 0;
     *(unsigned char*)((char*)this + 0x39) = 0;
@@ -233,17 +233,17 @@ struct FNStub
 {
     char const* GetFullName();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_0048e370_shell
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
-// If the model length is non-zero, calls FUN_004856f0 with the texture ID, the full name, and the model length plus one.
+// If the model length is non-zero, calls TESForm_AddChunkArray with the texture ID, the full name, and the model length plus one.
 // @fnv 0x0048e370
-void FUN_0048e370_shell::FUN_0048e370(unsigned int aeTextureID)
+void FUN_0048e370_shell::TESTexture_Save(unsigned int aeTextureID)
 {
     if (((TESModel*)this)->GetModelLength())
-        FUN_004856f0(aeTextureID, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
+        TESForm_AddChunkArray(aeTextureID, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
 }
 }  // namespace fnv_0048e370
 
@@ -283,10 +283,10 @@ struct TESModel
 int __cdecl FUN_00404dc0(const char*, const char*);
 struct FUN_0048e4f0_shell : TESModel
 {
-    bool FUN_0048e4f0(BaseFormComponent* apCompareFC);
+    bool TESTexture_CompareComponent(BaseFormComponent* apCompareFC);
 };
 // @fnv 0x0048e4f0
-bool FUN_0048e4f0_shell::FUN_0048e4f0(BaseFormComponent* apCompareFC)
+bool FUN_0048e4f0_shell::TESTexture_CompareComponent(BaseFormComponent* apCompareFC)
 {
     TESTexture* pcompare = dynamic_cast<TESTexture*>(apCompareFC);
     if (!pcompare)
@@ -319,11 +319,11 @@ struct FUN_00480ef0_obj
     int FUN_00401170();
     int FUN_005f0cc0();
     int FUN_00481230(int value);
-    FUN_00480ef0_obj* FUN_00567790();
+    FUN_00480ef0_obj* TESObjectREFR_GetOwner();
 };
 
 // @fnv 0x00480ef0
-int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
+int __cdecl TESBipedModelForm_GetIcon(FUN_00480ef0_obj* pOwner, int param)
 {
     FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, DAT_01183028, DAT_01183978, 0);
     if (found == 0)
@@ -334,7 +334,7 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     {
         return ((FUN_00480ef0_sub*)((char*)found + 0x8c))->FUN_00408da0();
     }
-    FUN_00480ef0_obj* ref = ((FUN_00480ef0_obj*)param)->FUN_00567790();
+    FUN_00480ef0_obj* ref = ((FUN_00480ef0_obj*)param)->TESObjectREFR_GetOwner();
     int valueX = 0;
     if (ref != 0 && ref->FUN_00401170() == 0x2a)
     {

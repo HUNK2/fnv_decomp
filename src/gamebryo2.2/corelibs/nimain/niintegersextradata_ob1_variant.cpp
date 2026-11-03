@@ -19,24 +19,24 @@ struct FUN_00c543e0_shell : NiAVObject
 extern int g_012031c4;
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* __thiscall BSFurnitureMarker_GetRTTI();
 };
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int __thiscall BSFurnitureMarker_CreateClone(int param_1);
 };
 struct FUN_00a7b290_shell
 {
-    void __thiscall FUN_00a7b290(int);
+    void __thiscall NiExtraData_RegisterStreamables(int);
 };
 struct FUN_00c54150_shell
 {
-    void __thiscall FUN_00c54150(int param_1);
+    void __thiscall BSFurnitureMarker_RegisterStreamables(int param_1);
 };
 struct C00c541e0
 {
-    bool FUN_00a7b3d0(int);
-    bool FUN_00c541e0(int);
+    bool NiExtraData_IsEqual(int);
+    bool BSFurnitureMarker_IsEqual(int);
 };
 class NiStream;
 struct NiColor
@@ -84,7 +84,7 @@ struct NiExtraDataSaveHelper : NiExtraData
 void __cdecl FUN_0044adf0(NiStream&, unsigned const&);
 struct NiExtraDataSaveHelperShell : NiExtraDataSaveHelper
 {
-    void FUN_00c54170(NiStream&);
+    void BSFurnitureMarker_SaveBinary(NiStream&);
 };
 struct A51BF0Base
 {
@@ -96,7 +96,7 @@ struct FUN_00c53f10 : A51BF0Base
     FUN_00c53f10();
 };
 NiFixedString DAT_011f49e0;
-NiAVObject* FUN_00c54210();
+NiAVObject* BSFurnitureMarker_CreateObject();
 class NiStream;
 struct FUN_00c54040_cls
 {
@@ -112,7 +112,7 @@ struct FUN_00c54040_cls
 struct S_00c54130
 {
     void FUN_00a7b3b0(int a);
-    void FUN_00c54130(int a);
+    void BSFurnitureMarker_LinkObject(int a);
 };
 extern double DAT_01012060;
 extern float DAT_012031cc;

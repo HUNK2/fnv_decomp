@@ -56,7 +56,7 @@ struct BSFadeNode {
 extern const void* DAT_0109e984;
 // Allocates a 0xc4-byte BSFadeNode, runs Init on it, sets its vtbl to DAT_0109e984 and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a877a0
-BSFadeNode* FUN_00a877a0()
+BSFadeNode* NiScreenElements_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0xc4));
     if (node) {
@@ -286,7 +286,7 @@ struct NiLODData {
     void* operator new(size_t, void* p) { return p; }
 };
 // @fnv 0x00a81fb0
-BSFadeNode* FUN_00a81fb0()
+BSFadeNode* NiSkinPartition_CreateObject()
 {
     BSFadeNode* p = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x10));
     if (p) {
@@ -321,7 +321,7 @@ struct NiExtraDataHelper {
 };
 extern int DAT_0109fb94;
 // @fnv 0x00a91fe0
-void* __cdecl FUN_00a91fe0()
+void* __cdecl NiVectorExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x1c);
     if (p) {
@@ -351,7 +351,7 @@ struct NiProperty {
 };
 // Allocates a 0x1c-byte NiProperty, constructs it, sets m_18 to 0 and its vtbl to DAT_010a02e4, returning the object or null on allocation failure.
 // @fnv 0x00a95160
-NiProperty* __cdecl FUN_00a95160()
+NiProperty* __cdecl NiSpecularProperty_CreateObject()
 {
     NiProperty* p = 0;
     if (void* mem = BSFadeNode::operator new(0x1c))
@@ -378,7 +378,7 @@ struct NiParticleMeshes {
 extern const void* DAT_010a0a6c;
 // Allocates a 0xcc-byte NiParticleMeshes, calls Init, sets its vtable and m_flag to 1, and returns it (or null on allocation failure).
 // @fnv 0x00a98e70
-NiParticleMeshes* __cdecl FUN_00a98e70() {
+NiParticleMeshes* __cdecl NiParticleMeshes_CreateObject() {
     NiParticleMeshes* p = (NiParticleMeshes*)BSFadeNode::operator new(0xcc);
     if (p) {
         p->Init();
@@ -419,7 +419,7 @@ extern const void* DAT_010a12cc;
 void __fastcall FUN_00a71f60(void*);
 
 // @fnv 0x00a9b330
-void* __cdecl FUN_00a9b330()
+void* __cdecl NiAmbientLight_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xf0);
     if (p) {
@@ -627,7 +627,7 @@ struct FUN_00a87140_class {
     void FUN_00a87140_ctor();
 };
 // @fnv 0x00a87140
-FUN_00a87140_class* FUN_00a87140() {
+FUN_00a87140_class* BSSegmentedTriShape_CreateObject() {
     FUN_00a87140_class* p = (FUN_00a87140_class*)BSFadeNode::operator new(0xd0);
     if (p) {
         p->FUN_00a87140_ctor();
@@ -1024,7 +1024,7 @@ struct FUN_00a81760_obj
 };
 
 // @fnv 0x00a81760
-FUN_00a81760_obj* __cdecl FUN_00a81760()
+FUN_00a81760_obj* __cdecl NiTriShapeDynamicData_CreateObject()
 {
     FUN_00a81760_obj* p = (FUN_00a81760_obj*)FUN_00aa13e0(0x5c);
     if (p != 0)
@@ -1278,7 +1278,7 @@ struct SpawnedObject
 
 // Allocates a 0x34-byte SpawnedObject, runs InitBase, installs the vtable, zeroes most fields, sets m18 to -1, and returns it (or null).
 // @fnv 0x00a866f0
-SpawnedObject* __cdecl FUN_00a866f0() throw()
+SpawnedObject* __cdecl NiSkinInstance_CreateObject() throw()
 {
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x34);
     if (p != 0)

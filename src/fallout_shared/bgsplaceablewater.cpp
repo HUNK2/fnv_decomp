@@ -174,21 +174,21 @@ void FUN_004fc420_shell::FUN_004fc420(bool abValue)
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm*);
+    void __thiscall TESForm_CopyAllComponents(TESForm*);
 };
 void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_004fc860_shell : public BGSPlaceableWater
 {
-    void FUN_004fc860(TESForm* apCopy);
+    void BGSPlaceableWater_CopyFrom(TESForm* apCopy);
 };
 // @fnv 0x004fc860
-void FUN_004fc860_shell::FUN_004fc860(TESForm* apCopy)
+void FUN_004fc860_shell::BGSPlaceableWater_CopyFrom(TESForm* apCopy)
 {
     BGSPlaceableWater* pcopy;
     pcopy = dynamic_cast<BGSPlaceableWater*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(FUN_00624700(), pcopy->FUN_00624700(), 8);
 }
 
@@ -281,21 +281,21 @@ void FUN_004fc490_shell::FUN_004fc490(bool abValue)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 extern char DAT_01183028;
 struct FUN_004fc8c0_shell : public BGSPlaceableWater
 {
-    bool FUN_004fc8c0(TESForm* apCompare);
+    bool BGSPlaceableWater_Compare(TESForm* apCompare);
 };
 // @fnv 0x004fc8c0
-bool FUN_004fc8c0_shell::FUN_004fc8c0(TESForm* apCompare)
+bool FUN_004fc8c0_shell::BGSPlaceableWater_Compare(TESForm* apCompare)
 {
     BGSPlaceableWater* pcomp = dynamic_cast<BGSPlaceableWater*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     if (memcmp((char*)this + 0x48, pcomp->FUN_00624700(), 8))
         return true;
@@ -328,9 +328,9 @@ class WaterFormCallees
 class FUN_004fc7b0_cls : public BGSPlaceableWater
 {
   public:
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_004fc7b0();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void BGSPlaceableWater_SaveForm();
 };
 
 bool __cdecl FUN_00401500();
@@ -338,9 +338,9 @@ void __cdecl FUN_00401460(void* dst, void* src, unsigned int size);
 void __cdecl AppendChunk(unsigned int chunkId, void* data, unsigned int size);
 
 // @fnv 0x004fc7b0
-void FUN_004fc7b0_cls::FUN_004fc7b0()
+void FUN_004fc7b0_cls::BGSPlaceableWater_SaveForm()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     ((ModelCallees*)((char*)this + 0x30))->WriteToBuffer(0x4c444f4d, 0x54444f4d);
     PlaceableWaterData waterFormData;
     waterFormData.FUN_004019f0();
@@ -356,7 +356,7 @@ void FUN_004fc7b0_cls::FUN_004fc7b0()
     {
         waterFormData.FUN_00462230();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 // @fnv 0x004fc240

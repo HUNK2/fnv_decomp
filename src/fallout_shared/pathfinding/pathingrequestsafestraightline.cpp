@@ -56,11 +56,11 @@ struct FUN_006e5f50_shell
 };
 struct FUN_006e6110_shell : public PathingRequestSafeStraightLine
 {
-    void FUN_006e6110(BGSLoadFormBuffer* buffer);
+    void PathingRequestSafeStraightLine_LoadGame(BGSLoadFormBuffer* buffer);
 };
 // Calls the base load routine on buffer, then loads the field at offset 0xb8 from the buffer.
 // @fnv 0x006e6110
-void FUN_006e6110_shell::FUN_006e6110(BGSLoadFormBuffer* buffer)
+void FUN_006e6110_shell::PathingRequestSafeStraightLine_LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<FUN_006e5f50_shell*>(this)->FUN_006e5f50(buffer);
     buffer->ReadFormIdentifier((char*)this + 0xb8);
@@ -74,10 +74,10 @@ struct FUN_006e6080_cls
 {
     char _pad[0xB8];
     int pTarget;
-    void __thiscall FUN_006e6080(PathingRequest* apDest);
+    void __thiscall PathingRequestSafeStraightLine_CopyTo(PathingRequest* apDest);
 };
 // @fnv 0x006e6080
-void __thiscall FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
+void __thiscall FUN_006e6080_cls::PathingRequestSafeStraightLine_CopyTo(PathingRequest* apDest)
 {
     PathingRequestSafeStraightLine* pdest = (PathingRequestSafeStraightLine*)apDest;
     ((PathingRequest*)this)->CopyTo((PathingRequest*)pdest);

@@ -27,20 +27,20 @@ struct TESForm
 };
 struct FUN_005e78f0_t : TESForm
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct TESLevSpell : FUN_005e78f0_t
 {
-    void FUN_0050bcd0(TESForm*);
+    void TESLevSpell_CopyFrom(TESForm*);
 };
-// Casts apCopy to TESLevSpell and, if the cast succeeds, calls FUN_004851b0 on apCopy.
+// Casts apCopy to TESLevSpell and, if the cast succeeds, calls TESForm_CopyAllComponents on apCopy.
 // @fnv 0x0050bcd0
-void TESLevSpell::FUN_0050bcd0(TESForm* apCopy)
+void TESLevSpell::TESLevSpell_CopyFrom(TESForm* apCopy)
 {
     TESLevSpell* pllcopy = dynamic_cast<TESLevSpell*>(apCopy);
     if (!pllcopy)
         return;
-    FUN_004851b0(apCopy);
+    TESForm_CopyAllComponents(apCopy);
 }
 
 extern "C" void* __cdecl _alloca(unsigned int);
@@ -178,10 +178,10 @@ struct LevSpellS
     virtual void w75();
     virtual void w76();
     virtual void SetEditorID(const char*);
-    bool FUN_0050ba30(TESFile* apFile);
+    bool TESLevSpell_Load(TESFile* apFile);
 };
 // @fnv 0x0050ba30
-bool LevSpellS::FUN_0050ba30(TESFile* apFile)
+bool LevSpellS::TESLevSpell_Load(TESFile* apFile)
 {
     unsigned char formid = apFile->GetTESForm();
     if (formid != 0x4c)
@@ -500,7 +500,7 @@ struct ListData
 };
 struct FormHandle
 {
-    unsigned int FUN_004065e0();
+    unsigned int EffectItemList_GetAssociatedSkill();
 };
 struct FieldLayout
 {
@@ -550,7 +550,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         FUN_0050bf90_cls* mapped =
             (FUN_0050bf90_cls*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
-        if (entry > level || (mapped != 0 && GetSix(((FieldLayout*)mapped)->form0c.FUN_004065e0()) != desiredForm))
+        if (entry > level || (mapped != 0 && GetSix(((FieldLayout*)mapped)->form0c.EffectItemList_GetAssociatedSkill()) != desiredForm))
             break;
         if (entry > maxLevel && (maxLevel == 0 || !((FieldLayout*)this)->list30.FUN_004877e0()))
         {
@@ -597,18 +597,18 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
 
 struct LeveledSpellComparison : TESLevSpell
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_0050bd10(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESLevSpell_Compare(TESForm*);
 };
 
-// Returns true if apCompare is not a TESLevSpell or if FUN_00485270(pcomp) is true, otherwise false.
+// Returns true if apCompare is not a TESLevSpell or if TESForm_CompareAllComponents(pcomp) is true, otherwise false.
 // @fnv 0x0050bd10
-bool LeveledSpellComparison::FUN_0050bd10(TESForm* apCompare)
+bool LeveledSpellComparison::TESLevSpell_Compare(TESForm* apCompare)
 {
     TESLevSpell* pLevSpell = dynamic_cast<TESLevSpell*>(apCompare);
     if (!pLevSpell)
         return true;
-    if (FUN_00485270(pLevSpell))
+    if (TESForm_CompareAllComponents(pLevSpell))
         return true;
     return false;
 }

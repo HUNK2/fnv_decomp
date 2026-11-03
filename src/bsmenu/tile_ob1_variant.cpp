@@ -951,7 +951,7 @@ public:
     ChildPtr<NiNode> m_spNode;
 
     NiNode* GetNode() const { return m_spNode; }
-    TileShaderProperty* FUN_00a0b1f0();
+    TileShaderProperty* Tile_GetShaderProperty();
 };
 
 static inline NiAVObject* A0B1F0GetChild(NiNode* pkNode, unsigned int uiIndex) {
@@ -962,7 +962,7 @@ static inline NiAVObject* A0B1F0GetChild(NiNode* pkNode, unsigned int uiIndex) {
 }
 
 // @fnv 0x00a0b1f0
-TileShaderProperty* A0B1F0Tile::FUN_00a0b1f0() {
+TileShaderProperty* A0B1F0Tile::Tile_GetShaderProperty() {
     TileShaderProperty* pkProperty = 0;
     NiNode* pkNode = GetNode();
     NiAVObject* pkCurrentObject = pkNode ? A0B1F0GetChild(pkNode, 0) : 0;
@@ -1159,10 +1159,10 @@ public:
     int unk, unk0C, unkCur, unkValue, uNewnk, unk1C, uTmpnk, unk24, unk28;
     ChildPtr<NiNode> m_spNode;
     NiNode* GetNode() const { return m_spNode; }
-    void FUN_00a0b020();
+    void Tile_ForceTextureRelease();
 };
 // @fnv 0x00a0b020
-void A0B020Tile::FUN_00a0b020()
+void A0B020Tile::Tile_ForceTextureRelease()
 {
     A0B020Node* pos2;
     NiAVObject* pNewkChild;
@@ -3091,8 +3091,8 @@ void TileB35::FUN_00a0b350(int iValue, float fDefault)
 
 unsigned int __cdecl FUN_0044a670(const char* text);
 unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
-void* __cdecl FUN_00401000(unsigned int size);
-void __cdecl FUN_00401030(void* p);
+void* __cdecl FormHeap_Allocate(unsigned int size);
+void __cdecl FormHeap_Free(void* p);
 void* __cdecl FUN_00401460(void* dst, const void* src, unsigned int size);
 
 template <> inline void BSStringT<char>::SetLength(unsigned int length)
@@ -3119,7 +3119,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
     unsigned int maxLen = MaxLength();
     if (newLen > maxLen) {
         char* oldString = pString;
-        char* newString = (char*)FUN_00401000(newLen + 1);
+        char* newString = (char*)FormHeap_Allocate(newLen + 1);
         pString = newString;
         if (text)
             FUN_00401460(pString, text, srcLen + 1);
@@ -3127,7 +3127,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
             *pString = 0;
         if (oldString) {
             char* p = oldString;
-            FUN_00401030(p);
+            FormHeap_Free(p);
         }
         SetMaxLength(newLen);
     } else if (newLen) {
@@ -3138,7 +3138,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
     } else {
         if (pString) {
             char* p = pString;
-            FUN_00401030(p);
+            FormHeap_Free(p);
         }
         pString = 0;
         newLen = 0;
@@ -3346,7 +3346,7 @@ struct FUN_00ac5490 : FUN_00aaaa80 {
     void* file;
     void* archive;
     FUN_00ac5490(GameString signature);
-    bool FUN_00ac5540(GameString filename, bool binary);
+    bool BSFaceGenBinaryFile_LoadFile(GameString filename, bool binary);
     bool FUN_00ac5e00(void* buffer, unsigned int size, unsigned int count);
     void ClearHolders();
     __forceinline ~FUN_00ac5490() {
@@ -3385,7 +3385,7 @@ bool __cdecl FUN_00aaa7d0(const GameString& filename, unsigned int* width,
     unsigned int* height, unsigned int values[2][2], FractalReaderA* a, FractalReaderB* b)
 {
     FUN_00ac5490 stream("FRCTL001");
-    if (!stream.FUN_00ac5540(filename, true))
+    if (!stream.BSFaceGenBinaryFile_LoadFile(filename, true))
         return false;
     FractalHeader header;
     if (!stream.FUN_00ac5e00(&header, 1, 24))
@@ -3726,10 +3726,10 @@ extern "C" int __cdecl sscanf(const char*, const char*, ...);
 
 inline unsigned int __cdecl FUN_0044a670(const char* value) { return strlen(value); }
 unsigned int __cdecl FUN_00403940(unsigned int, unsigned int);
-void* __cdecl FUN_00401000(unsigned int);
-void __cdecl FUN_00401030(void*);
+void* __cdecl FormHeap_Allocate(unsigned int);
+void __cdecl FormHeap_Free(void*);
 inline void* __cdecl FUN_00401460(void* d, const void* s, unsigned n) { return memcpy(d,s,n); }
-inline void ReleaseParsedString(void* pointer) { FUN_00401030(pointer); }
+inline void ReleaseParsedString(void* pointer) { FormHeap_Free(pointer); }
 extern double DAT_01094ba8, DAT_01012060, DAT_01094ce8, DAT_01094ca0, DAT_01094c98, DAT_01094c90, DAT_01094c88, DAT_01073490, DAT_01094c80;
 extern const char DAT_01011584[], DAT_01094cf0[], DAT_01094ca8[], DAT_01094c58[];
 
@@ -3810,7 +3810,7 @@ struct ParsedToken {
     }
 };
 struct ParsedNode {
-    static void* operator new[](unsigned int bytes) { return FUN_00401000(bytes); }
+    static void* operator new[](unsigned int bytes) { return FormHeap_Allocate(bytes); }
     ParsedNode* next;
     ParsedNode* previous;
     ParsedToken* value;
@@ -3822,7 +3822,7 @@ unsigned int FUN_0043b460(volatile unsigned int*, unsigned int, unsigned int);
 struct ParsedPoolLock {
     volatile unsigned int owner;
     unsigned int recursion;
-    void FUN_0040fbf0(int) {
+    void BSSpinLock_Lock(int) {
         unsigned int thread = FUN_0040fc90();
         if (owner == thread) ++recursion;
         else {
@@ -3836,7 +3836,7 @@ struct ParsedPoolLock {
             recursion = 1;
         }
     }
-    void FUN_0040fba0() {
+    void BSSpinLock_Unlock() {
         FUN_0040fbe0();
         --recursion;
         if (!recursion) owner = 0;
@@ -3867,23 +3867,23 @@ inline void FUN_0043a080() {
 struct ParsedAllocator {
     unsigned count;
     ParsedNode* FUN_0043a010() {
-        DAT_011c5f80.FUN_0040fbf0(0);
+        DAT_011c5f80.BSSpinLock_Lock(0);
         if (!DAT_011c5f58) FUN_0043a080();
         ParsedNode* node = DAT_011c5f58;
         DAT_011c5f58 = DAT_011c5f58->next;
         node->value = 0;
         node->next = 0;
         node->previous = 0;
-        DAT_011c5f80.FUN_0040fba0();
+        DAT_011c5f80.BSSpinLock_Unlock();
         return node;
     }
-    void FUN_0045cee0(ParsedNode* node) {
-        DAT_011c5f80.FUN_0040fbf0(0);
+    void NiTPointerAllocator_Deallocate(ParsedNode* node) {
+        DAT_011c5f80.BSSpinLock_Lock(0);
         ParsedNode* item = node;
         item->previous = 0;
         item->next = DAT_011c5f58;
         DAT_011c5f58 = item;
-        DAT_011c5f80.FUN_0040fba0();
+        DAT_011c5f80.BSSpinLock_Unlock();
     }
 };
 struct ParsedList {
@@ -3903,7 +3903,7 @@ struct ParsedList {
         else head = 0;
         ParsedToken* element = node->value;
         node->value = 0;
-        allocator.FUN_0045cee0(node);
+        allocator.NiTPointerAllocator_Deallocate(node);
         --allocator.count;
         return element;
     }
@@ -4389,9 +4389,9 @@ struct R_P04 { void FUN_00a09410(bool); };
 struct R_P08 { void FUN_00a07530(int); };
 
 struct R_HeapManager : FUN_00a0d220_pool { void* FUN_00aa3e40(unsigned); };
-inline R_HeapManager* FUN_00401020(){return static_cast<R_HeapManager*>(&DAT_011f6238);}
-inline void* FUN_00401000(unsigned n){return FUN_00401020()->FUN_00aa3e40(n);}
-inline void FUN_00401030(void*p){FUN_00401020()->FUN_00aa4060(p);}
+inline R_HeapManager* MemoryManager_Instance(){return static_cast<R_HeapManager*>(&DAT_011f6238);}
+inline void* FormHeap_Allocate(unsigned n){return MemoryManager_Instance()->FUN_00aa3e40(n);}
+inline void FormHeap_Free(void*p){MemoryManager_Instance()->FUN_00aa4060(p);}
 inline void* FUN_00401460(void*dst,const void*src,unsigned n){return memcpy(dst,src,n);}
 extern "C" unsigned strlen(const char*);
 
@@ -4408,15 +4408,15 @@ struct R_SH {
         if(len<=FUN_004039a0()) {
             if(len)FUN_00401460(pString,src.FUN_00559450(),len+1);
             else {
-                if(pString){char* deleted=pString;FUN_00401030(deleted);}
+                if(pString){char* deleted=pString;FormHeap_Free(deleted);}
                 pString=0;len=0;FUN_00403a00(len);
             }
         } else {
             old=pString;
-            char* allocated=(char*)FUN_00401000(len+1);
+            char* allocated=(char*)FormHeap_Allocate(len+1);
             pString=allocated;
             FUN_00401460(pString,src.FUN_00559450(),len+1);
-            if(old){char* deletedOld=old;FUN_00401030(deletedOld);}
+            if(old){char* deletedOld=old;FormHeap_Free(deletedOld);}
             FUN_00403a00(len);
         }
         FUN_004039c0(len);

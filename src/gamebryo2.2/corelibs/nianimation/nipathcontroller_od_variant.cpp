@@ -5,4 +5,4 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 typedef void NiRTTI;
 extern NiRTTI* g_011f3f80;
-NiRTTI* __cdecl FUN_00a49e00();
+NiRTTI* __cdecl NiPathController_GetRTTI();

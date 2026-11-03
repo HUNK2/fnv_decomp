@@ -6,7 +6,7 @@
 extern "C" void* g_011f5b48;
 
 // @fnv 0x00a87800
-void* __cdecl FUN_00a87800()
+void* __cdecl NiScreenElements_GetRTTI()
 {
     return &g_011f5b48;
 }
@@ -43,18 +43,18 @@ struct StrArr
 };
 struct BaseCls
 {
-    void FUN_00a74690(StrArr*);
+    void NiTriShape_GetViewerStrings(StrArr*);
 };
 extern char* g_011f5b48;
 char* _FUN_00a7d330(char*);
 struct MyTarg : BaseCls
 {
-    void FUN_00a878b0(StrArr*);
+    void NiScreenElements_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00a878b0
-void MyTarg::FUN_00a878b0(StrArr* pkStrings)
+void MyTarg::NiScreenElements_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a74690(pkStrings);
+    NiTriShape_GetViewerStrings(pkStrings);
     char* tmp = _FUN_00a7d330(g_011f5b48);
     unsigned int sz = pkStrings->sa;
     if (sz >= pkStrings->s8)
@@ -149,11 +149,11 @@ struct ChildObject : ChildBase
 struct FUN_00a87860_cls
 {
     void FUN_00a744c0(ChildObject* apChild, void* apArg);
-    ChildObject* FUN_00a87860(void* apArg);
+    ChildObject* NiScreenElements_CreateClone(void* apArg);
 };
 
 // @fnv 0x00a87860
-ChildObject* FUN_00a87860_cls::FUN_00a87860(void* apArg)
+ChildObject* FUN_00a87860_cls::NiScreenElements_CreateClone(void* apArg)
 {
     ChildObject* pChild = new ChildObject();
     FUN_00a744c0(pChild, apArg);

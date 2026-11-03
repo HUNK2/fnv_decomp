@@ -5,7 +5,7 @@
 extern "C" void* g_01202720;
 
 // @fnv 0x00c2b230
-void* __cdecl FUN_00c2b230()
+void* __cdecl NiPSysFieldAttenuationCtlr_GetRTTI()
 {
     return &g_01202720;
 }
@@ -125,12 +125,12 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 char* __cdecl FUN_00a7d330(char*);
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 // Appends the string returned by FUN_00a7d330(g_01202720) to the array, growing it if the index reaches capacity.
 // @fnv 0x00c2b2e0
-void __stdcall FUN_00c2b2e0(StrArr* array)
+void __stdcall NiPSysFieldAttenuationCtlr_GetViewerStrings(StrArr* array)
 {
-    FUN_00c32f60(array);
+    NiPSysModifierFloatCtlr_GetViewerStrings(array);
     char* value = FUN_00a7d330(static_cast<char*>(g_01202720));
     unsigned int index = array->index;
     unsigned int capacity = array->capacity;

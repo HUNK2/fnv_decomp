@@ -225,11 +225,11 @@ int __fastcall FUN_00517670(hkpRigidBody* p);
 
 struct bhkRigidBody_shell
 {
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 };
 
 // @fnv 0x00517630
-int bhkRigidBody_shell::FUN_00517630()
+int bhkRigidBody_shell::bhkRigidBody_GetMotionType()
 {
     hkpRigidBody* pb = FUN_004ae750(this);
     return pb ? FUN_00517670(pb) : 5;
@@ -275,12 +275,12 @@ bool __fastcall FUN_00517fa0(void* thisPtr)
 
 struct FUN_00518080_shell : public TESObjectDOOR
 {
-    bool FUN_00518080();
+    bool TESObjectDOOR_IsSlidingDoor();
 };
 
 // Returns true if the 0x10 flag is set in cFlags, otherwise false.
 // @fnv 0x00518080
-bool FUN_00518080_shell::FUN_00518080()
+bool FUN_00518080_shell::TESObjectDOOR_IsSlidingDoor()
 {
     if (cFlags & 0x10)
         return true;
@@ -420,12 +420,12 @@ struct BSXFlags_shell
 {
     char _pad[0xc];
     unsigned int m_uiCurrentValue;
-    void FUN_00519230(unsigned int aiFlags, bool abTF);
+    void BSXFlags_SetFlags(unsigned int aiFlags, bool abTF);
     void ClearFlags(unsigned int aiFlags);
 };
 
 // @fnv 0x00519230
-void BSXFlags_shell::FUN_00519230(unsigned int aiFlags, bool abTF)
+void BSXFlags_shell::BSXFlags_SetFlags(unsigned int aiFlags, bool abTF)
 {
     if (abTF)
         m_uiCurrentValue |= aiFlags;
@@ -544,7 +544,7 @@ struct DoorFormNode
 };
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct DoorPart3c
 {
@@ -552,11 +552,11 @@ struct DoorPart3c
 };
 struct DoorPart5c
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct DoorPart68
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct DoorSave_shell
 {
@@ -573,8 +573,8 @@ struct DoorSave_shell
     TESForm* form7c;
     TESForm* form80;
     unsigned char flags;
-    void FUN_004855a0();
-    void FUN_00485680();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
     DoorFormNode* FUN_00871a30();
     void WriteSaveData();
 };
@@ -584,11 +584,11 @@ void DoorSave_shell::WriteSaveData()
 {
     DoorFormNode* pCurrentElementNext;
     unsigned int itempint;
-    FUN_004855a0();
-    part30.FUN_00487010();
+    TESForm_StartForm();
+    part30.TESFullName_Save();
     part3c.ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    part5c.FUN_0048cca0();
-    part68.FUN_00477f20();
+    part5c.TESScriptableForm_Save();
+    part68.BGSDestructibleObjectForm_Save();
     if (form78)
     {
         itempint = form78->GetFormID();
@@ -612,7 +612,7 @@ void DoorSave_shell::WriteSaveData()
         FUN_00485910(0x4d414e54, itempint);
         pCurrentElementNext = pCurrentElementNext->FUN_00726070();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct DoorTeleportNode
@@ -626,7 +626,7 @@ struct DoorTeleportNode
 
 struct DoorCompare_shell : public TESObjectDOOR
 {
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
     TESSound* GetOpenSoundForm();
     TESSound* GetCloseSoundForm();
     TESSound* GetLoopSoundForm();
@@ -641,7 +641,7 @@ bool DoorCompare_shell::CompareDoor(TESForm* form)
     DoorCompare_shell* door = (DoorCompare_shell*)dynamic_cast<TESObjectDOOR*>(form);
     if (!door)
         return true;
-    if (FUN_00485270(door))
+    if (TESForm_CompareAllComponents(door))
         return true;
     if (m_pOpenSound != door->GetOpenSoundForm())
         return true;
@@ -679,16 +679,16 @@ class HighProcess : public BaseProcess
 {
 };
 extern S_00518f80_Player* DAT_011dea3c;
-S_00518f80_Ref* __cdecl FUN_0056f930(unsigned int id);
+S_00518f80_Ref* __cdecl TESObjectREFR_FindReferenceFor3D(unsigned int id);
 // @fnv 0x00518f80
 void __cdecl FUN_00518f80(unsigned int uiRefId)
 {
-    S_00518f80_Ref* ref = FUN_0056f930(uiRefId);
+    S_00518f80_Ref* ref = TESObjectREFR_FindReferenceFor3D(uiRefId);
     if (ref)
     {
         if (ref->FUN_007af430()->FUN_00401170() == 0x1c)
         {
-            if (!ref->FUN_00477ba0())
+            if (!ref->TESForm_GetDestroyed())
             {
                 HighProcess* pHighProcess = dynamic_cast<HighProcess*>(DAT_011dea3c->GetProcess());
                 if (pHighProcess)
@@ -747,10 +747,10 @@ struct DoorCopy
     TESSound* FUN_00407820();
     TESSound* FUN_00407840();
     TESSound* FUN_004fb070();
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
     void CopyFromDoor(TESForm*);
 };
-// Copies the door node list, flags and open/close/loop sounds from the TESObjectDOOR cast of form into this door, then calls FUN_004851b0(form).
+// Copies the door node list, flags and open/close/loop sounds from the TESObjectDOOR cast of form into this door, then calls TESForm_CopyAllComponents(form).
 // @fnv 0x00517d70
 void DoorCopy::CopyFromDoor(TESForm* form)
 {
@@ -772,7 +772,7 @@ void DoorCopy::CopyFromDoor(TESForm* form)
     openSound = source3->FUN_00407820();
     closeSound = source3->FUN_00407840();
     loopSound = source3->FUN_004fb070();
-    FUN_004851b0(form);
+    TESForm_CopyAllComponents(form);
 }
 
 #include <float.h>
@@ -784,7 +784,7 @@ struct ActivateVector
 };
 struct ActivateAnimation
 {
-    void FUN_00498910(int, int);
+    void Animation_SpecialIdleFree(int, int);
 };
 struct ActivateDoorExtra
 {
@@ -825,7 +825,7 @@ struct ActivateLock
 };
 struct ActivateTeleport
 {
-    void* FUN_0043a2b0();
+    void* DoorTeleportData_GetTeleportCell();
     void* FUN_0043a320();
     int FUN_00717e50();
     ActivateVector* FUN_00460140();
@@ -1747,21 +1747,21 @@ struct ActivateObject
     unsigned unk5fc;
     unsigned unk600;
     ActivateObject* lastDoor;
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     ActivateTeleport* FUN_00568e50();
-    ActivateLock* FUN_00569160();
-    ActivateOpenState* FUN_005691f0();
+    ActivateLock* TESObjectREFR_GetLock();
+    ActivateOpenState* TESObjectREFR_GetExtraLock();
     void FUN_005789b0();
     ActivateProcess* FUN_008d8520();
     bool FUN_00891db0(ActivateKey*, int, int, int, unsigned*);
-    bool FUN_00573170(ActivateObject*, int, int, int);
+    bool TESObjectREFR_Activate(ActivateObject*, int, int, int);
     bool FUN_0094df60();
     const char* FUN_0084e3a0();
     bool FUN_00575d10();
     void ProcessAllActions();
-    void FUN_00575830(int);
-    void FUN_005757d0(float);
-    void FUN_00575770(float);
+    void TESObjectREFR_SetLocationOnReference(int);
+    void TESObjectREFR_SetAngleOnReferenceZ(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
     void FUN_008ae640(int);
 };
 struct ActivateSound
@@ -1789,7 +1789,7 @@ struct ActivateSetting
 extern ActivateKey* DAT_011ca268;
 struct ActivateDetection
 {
-    bool FUN_004511e0(void*, int);
+    bool TES_IsCellLoaded(void*, int);
 };
 extern ActivateDetection* DAT_011dea10;
 void DispatchMessageToSink(const char*, int, const char*, int, float, int);
@@ -1798,12 +1798,12 @@ bool FUN_00518f00(ActivateObject*, ActivateObject*, int, int);
 void FUN_005e58f0(int, ActivateObject*, float*);
 void FUN_00706f30(int);
 void FUN_00705830(ActivateObject*, int, int);
-void FUN_00600900(ActivateKey*);
+void TESIdleManager_SetUsedItem(ActivateKey*);
 void FUN_00600940(int);
 void FUN_00600920(int);
 int FUN_00406d00(char*, unsigned, const char*, ...);
-void FUN_00573800(ActivateObject*, void*, void*);
-void FUN_0047a560(ActivateObject*, ActivateObject*, void*);
+void TESObjectREFR_MoveRefToNewSpace(ActivateObject*, void*, void*);
+void BGSOpenCloseForm_HandleActivate(ActivateObject*, ActivateObject*, void*);
 struct DoorActivation
 {
     unsigned unk000;
@@ -1836,7 +1836,7 @@ struct DoorActivation
     unsigned unk06c;
     unsigned unk070;
     bool ActivateDoor(ActivateObject*, ActivateObject*, int, int, int);
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
     ActivateObject* FindRandomSelection(ActivateObject*, ActivateObject*);
     ActivateObject* FUN_00407820();
     void QueueDoorTeleport(ActivateObject*);
@@ -1845,11 +1845,11 @@ struct DoorActivation
 // @fnv 0x005180b0
 bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* activator, int arg3, int arg4, int arg5)
 {
-    if (!reference || reference->FUN_00477ba0())
+    if (!reference || reference->TESForm_GetDestroyed())
         return false;
     ActivateTeleport* teleport = reference->FUN_00568e50();
-    ActivateLock* lockA = reference->FUN_00569160();
-    if (!teleport && FUN_005194d0())
+    ActivateLock* lockA = reference->TESObjectREFR_GetLock();
+    if (!teleport && TESObjectDOOR_IsRandomDoor())
     {
         ActivateObject* destination = FindRandomSelection(reference, activator);
         if (!destination)
@@ -1884,7 +1884,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                 {
                     if (actor == (ActivateObject*)DAT_011dea3c)
                     {
-                        ActivateOpenState* statePart1 = reference->FUN_005691f0();
+                        ActivateOpenState* statePart1 = reference->TESObjectREFR_GetExtraLock();
                         float skillPart1 = 0.0f;
                         FUN_005e58f0(32, (ActivateObject*)DAT_011dea3c, &skillPart1);
                         if (statePart1 &&
@@ -1905,15 +1905,15 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                     {
                         ActivateAnimation* animationPart1 = actor->Animation();
                         if (animationPart1)
-                            animationPart1->FUN_00498910(1, 0);
-                        FUN_00600900(DAT_011ca268);
+                            animationPart1->Animation_SpecialIdleFree(1, 0);
+                        TESIdleManager_SetUsedItem(DAT_011ca268);
                         FUN_00600940(1);
                         FUN_00600920(1);
                         process1->Open(actor, 0, 2, 1, 0, 1);
-                        FUN_00600900((ActivateKey*)0);
+                        TESIdleManager_SetUsedItem((ActivateKey*)0);
                         FUN_00600940(0);
                         FUN_00600920(-1);
-                        ActivateOpenState* statePart2 = reference->FUN_005691f0();
+                        ActivateOpenState* statePart2 = reference->TESObjectREFR_GetExtraLock();
                         if (statePart2)
                         {
                             statePart2->FUN_00517360();
@@ -1924,7 +1924,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                 else if (actor == (ActivateObject*)DAT_011dea3c && !DAT_011c9350)
                 {
                     DAT_011c9350 = (TESObjectREFR*)reference;
-                    ActivateOpenState* statePart3 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart3 = reference->TESObjectREFR_GetExtraLock();
                     if (statePart3)
                     {
                         statePart3->FUN_00517360();
@@ -1936,7 +1936,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                                  lockA->key->name.FUN_00408da0());
                     DispatchMessageToSink(message, 0, "Interface\\Icons\\Message Icons\\glow_message_key.dds", 0, 2.0f,
                                           0);
-                    ((ActivateObject*)DAT_011c9350)->FUN_00573170((ActivateObject*)DAT_011dea3c, 0, 0, 1);
+                    ((ActivateObject*)DAT_011c9350)->TESObjectREFR_Activate((ActivateObject*)DAT_011dea3c, 0, 0, 1);
                     DAT_011c9350 = 0;
                     return true;
                 }
@@ -1945,7 +1945,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
             {
                 if (actor == (ActivateObject*)DAT_011dea3c)
                 {
-                    ActivateOpenState* statePart4 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart4 = reference->TESObjectREFR_GetExtraLock();
                     float skillPart2_2 = 0.0f;
                     FUN_005e58f0(32, (ActivateObject*)DAT_011dea3c, &skillPart2_2);
                     if (statePart4 &&
@@ -1965,15 +1965,15 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                 {
                     ActivateAnimation* animationPart2 = actor->Animation();
                     if (animationPart2)
-                        animationPart2->FUN_00498910(1, 0);
-                    FUN_00600900(DAT_011ca268);
+                        animationPart2->Animation_SpecialIdleFree(1, 0);
+                    TESIdleManager_SetUsedItem(DAT_011ca268);
                     FUN_00600940(1);
                     FUN_00600920(1);
                     process1->Open(actor, 0, 2, 1, 0, 1);
-                    FUN_00600900((ActivateKey*)0);
+                    TESIdleManager_SetUsedItem((ActivateKey*)0);
                     FUN_00600940(0);
                     FUN_00600920(-1);
-                    ActivateOpenState* statePart5 = reference->FUN_005691f0();
+                    ActivateOpenState* statePart5 = reference->TESObjectREFR_GetExtraLock();
                     if (statePart5)
                     {
                         statePart5->FUN_00517360();
@@ -2010,7 +2010,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
             else
                 return false;
         }
-        void* cell = teleport->FUN_0043a2b0();
+        void* cell = teleport->DoorTeleportData_GetTeleportCell();
         void* world = teleport->FUN_0043a320();
         actor->FUN_008d8520()->SetTarget(reference);
         if (actor == (ActivateObject*)DAT_011dea3c)
@@ -2024,29 +2024,29 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
         }
         else
         {
-            activator->FUN_00575830(teleport->FUN_00717e50());
-            if (cell && ((ActivateDetection*)DAT_011dea10)->FUN_004511e0(cell, 0))
+            activator->TESObjectREFR_SetLocationOnReference(teleport->FUN_00717e50());
+            if (cell && ((ActivateDetection*)DAT_011dea10)->TES_IsCellLoaded(cell, 0))
             {
-                activator->FUN_005757d0(teleport->FUN_00460140()->z);
-                activator->FUN_00575770(0.0f);
+                activator->TESObjectREFR_SetAngleOnReferenceZ(teleport->FUN_00460140()->z);
+                activator->TESObjectREFR_SetAngleOnReferenceX(0.0f);
             }
             else
-                activator->FUN_00575770(FLT_MAX);
+                activator->TESObjectREFR_SetAngleOnReferenceX(FLT_MAX);
             ActivateObject* actorAgain = (ActivateObject*)dynamic_cast<Actor*>((TESObjectREFR*)activator);
             if (actorAgain)
                 actorAgain->FUN_008ae640(0);
-            FUN_00573800(activator, cell, world);
+            TESObjectREFR_MoveRefToNewSpace(activator, cell, world);
         }
     }
     else
     {
-        ActivateOpenState* statePart6 = reference->FUN_005691f0();
+        ActivateOpenState* statePart6 = reference->TESObjectREFR_GetExtraLock();
         if (statePart6)
         {
             statePart6->FUN_00517360();
             reference->FUN_005789b0();
         }
-        FUN_0047a560(reference, activator, this ? &unk070 : 0);
+        BGSOpenCloseForm_HandleActivate(reference, activator, this ? &unk070 : 0);
     }
     return true;
 }
@@ -2094,7 +2094,7 @@ void TESObjectDOOR::QueueDoorTeleport(TESObjectREFR* apRef)
         TeleportableReference* pTeleport2 = ((RefShell*)apRef)->GetTeleportData();
         if (pTeleport2)
         {
-            TESObjectCELL* pDestinationCell = pTeleport2->FUN_0043a2b0();
+            TESObjectCELL* pDestinationCell = pTeleport2->DoorTeleportData_GetTeleportCell();
             TESWorldSpace* pWorld8 = pTeleport2->GetTeleportWorldspace();
             FastTravelRequest* pRequest = new FastTravelRequest();
             pRequest->kPosition = *pTeleport2->GetPosition();

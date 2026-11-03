@@ -144,7 +144,7 @@ class TESObject : public TESForm
     TESObject* prev;
     TESObject* next;
     TESObject* GetNext();
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
 };
 class TESBoundObject : public TESObject
 {
@@ -414,7 +414,7 @@ typedef char check_TESAmmo_size[(sizeof(TESAmmo) == 0xdc) ? 1 : -1];
 class ActorBaseData
 {
   public:
-    bool FUN_00461560();
+    bool TESActorBaseData_GetMatchesPCLevel();
     virtual void vfn_0();
     virtual void vfn_4();
     virtual void vfn_8();

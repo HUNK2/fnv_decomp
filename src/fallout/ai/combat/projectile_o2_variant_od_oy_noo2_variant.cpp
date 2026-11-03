@@ -372,7 +372,7 @@ SpherePB* __cdecl CreateOctahedron(float fRadius, const NiColorAPB& kColor, int 
 class ProjPB : public RefPB
 {
   public:
-    void FUN_009becc0(float fUnused);
+    void Projectile_Update(float fUnused);
     char m_acPad2[0xd8 - 0xa8];
     float m_fXValue;
     float m_fPadDC;
@@ -387,7 +387,7 @@ class ProjPB : public RefPB
 };
 
 // @fnv 0x009becc0
-void ProjPB::FUN_009becc0(float fUnused)
+void ProjPB::Projectile_Update(float fUnused)
 {
     float fTimeSinceScaleStart = g_kTimerPB.GetMovementDelta();
     if (g_kVATSPB.GetMode() == 4 && !HasFlag(4))
@@ -483,7 +483,7 @@ struct S9c_Target
 };
 struct S9c_Ref
 {
-    S9c_Target* FUN_004543c0();
+    S9c_Target* TESObjectCELL_GetbhkWorld();
 };
 struct S9c_Pos
 {
@@ -797,7 +797,7 @@ struct S9c_Geom
 struct S9c_Layer
 {
     void* p;
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct S9c_World
 {
@@ -808,10 +808,10 @@ struct S9c_Form
     void* FUN_005d43c0();
 };
 void* __cdecl FUN_004b5820(void*);
-S9c_Form* __cdecl FUN_0056f930(void*);
+S9c_Form* __cdecl TESObjectREFR_FindReferenceFor3D(void*);
 void* __cdecl FUN_004b5950(void*);
 S9c_World* __cdecl FUN_004b5a80(void*);
-void __cdecl FUN_005ac750(void*, void*, unsigned int);
+void __cdecl Script_SetActionFlag(void*, void*, unsigned int);
 extern NiPoint3 DAT_011a9490;
 extern void* DAT_011ca288;
 S9c_Pt __cdecl FUN_004a3760(float, const NiPoint3*);
@@ -955,7 +955,7 @@ bool S9c_Actor::FUN_009c0090()
     bool found = false;
     if (FUN_004181e0()->HasFlag8() && FUN_004181e0()->FUN_006ab360()->FUN_0048cee0())
     {
-        S9c_Target* target = FUN_008d6f30() ? FUN_008d6f30()->FUN_004543c0() : 0;
+        S9c_Target* target = FUN_008d6f30() ? FUN_008d6f30()->TESObjectCELL_GetbhkWorld() : 0;
         if (!target)
             return found;
         S9c_Obj* obj = target->FUN_00541c80();
@@ -973,16 +973,16 @@ bool S9c_Actor::FUN_009c0090()
             S9c_Coll* coll = rec->obj;
             void* item = coll->FUN_009b2c90();
             void* a = FUN_004b5820(item);
-            S9c_Form* form = FUN_0056f930(a);
+            S9c_Form* form = TESObjectREFR_FindReferenceFor3D(a);
             void* c = FUN_004b5950(item);
             S9c_World* world = c ? FUN_004b5a80(c) : 0;
             if (world && form)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 23 || world->FUN_0043b4f0().FUN_0043b4d0() == 24)
+                if (world->FUN_0043b4f0().CFilter_GetLayer() == 23 || world->FUN_0043b4f0().CFilter_GetLayer() == 24)
                 {
                     found = true;
-                    FUN_005ac750(this, form->FUN_005d43c0(), 0x80);
-                    FUN_005ac750(DAT_011ca288, form->FUN_005d43c0(), 0x100);
+                    Script_SetActionFlag(this, form->FUN_005d43c0(), 0x80);
+                    Script_SetActionFlag(DAT_011ca288, form->FUN_005d43c0(), 0x100);
                 }
             }
         }
@@ -1338,7 +1338,7 @@ void __cdecl FUN_005b5e40(const char* pcFormat, ...);
 bool __cdecl FUN_00888960();
 void __cdecl FUN_00c66230(bool bValue);
 void* __cdecl FUN_005dbe10();
-void* __cdecl FUN_004b3890(const NiPoint3P9& kStart, const NiColorAP9& kStartColor, const NiPoint3P9& kEnd,
+void* __cdecl MakeLine(const NiPoint3P9& kStart, const NiColorAP9& kStartColor, const NiPoint3P9& kEnd,
                            const NiColorAP9& kEndColor, int iFlags);
 
 class PlayerP9
@@ -1536,14 +1536,14 @@ class RefP9
     BaseFormP9* GetBaseForm();
     bool CheckHits(PickQueryP9& kQuery, float& fDistance);
     void OnHit();
-    bool FUN_009c03f0();
+    bool Projectile_RunTargetPick();
     char m_acPad[0x11c - 4];
     CollSrcP9 m_kCollSrc;
 };
 int __cdecl FUN_009c0d80(PickQueryP9& kQuery, RefP9* pkRef, BaseFormP9* pkBase, int iA, int iB, float fDistance);
 
 // @fnv 0x009c03f0
-bool RefP9::FUN_009c03f0()
+bool RefP9::Projectile_RunTargetPick()
 {
     if (!GetParentCell() || !GetParentCell()->GetWorld())
         return false;
@@ -1631,7 +1631,7 @@ bool RefP9::FUN_009c03f0()
     if (g_kShowRaysP9.GetBool())
     {
         NiColorAP9 kColor = kQuery.HasHit() ? NiColorAP9(1.0f, 0.0f, 0.0f, 1.0f) : NiColorAP9(1.0f, 1.0f, 0.0f, 1.0f);
-        void* pvLine = FUN_004b3890(kPos, kColor, kPos + kRay, kColor, 1);
+        void* pvLine = MakeLine(kPos, kColor, kPos + kRay, kColor, 1);
         g_pkDebugP9->AddLine(pvLine, g_kRayTimeP9.GetValue());
     }
     if (kQuery.HasHit())
@@ -1715,7 +1715,7 @@ class ImpulseRigidBody
     virtual void v37();
     virtual ImpulseLock* GetLock();  // +0x98
 
-    int FUN_00517630();  // motion type
+    int bhkRigidBody_GetMotionType();  // motion type
     ImpulseBody* FUN_004ae750();
 };
 
@@ -1746,7 +1746,7 @@ void ImpulseSource::FUN_009c2e80(NiPoint3 kPoint, NiPoint3 kDirection, void* pvT
     ImpulseLock* pkLock = pkBody ? pkBody->GetLock() : 0;
     if (pkLock)
     {
-        if (pkBody->FUN_00517630() < 4)
+        if (pkBody->bhkRigidBody_GetMotionType() < 4)
         {
             float fForce = FUN_004181e0()->FUN_00644930();
             fForce = FUN_0062b520(fForce, pkBody, 1);
@@ -1964,7 +1964,7 @@ class NiNode9C
 };
 
 CollisionObject9C* __cdecl FUN_0043b610(NiAVObject9C* pkObject);
-bool __cdecl FUN_0043b300(NiRTTI9C* pkRTTI, void* pvObject);
+bool __cdecl NiObject_IsKindOf(NiRTTI9C* pkRTTI, void* pvObject);
 void __cdecl FUN_0056df80(hkTransform9C& kOut, const void* pvTransform);
 
 // @fnv 0x009c5ba0
@@ -1982,13 +1982,13 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
                 (!bCheckMotion || pkWorldObject->GetFlags().GetMotionType() != 1))
             {
                 hkTransform9C kXform;
-                if (FUN_0043b300(&g_kBlendCollisionRTTI9C, pkCollision))
+                if (NiObject_IsKindOf(&g_kBlendCollisionRTTI9C, pkCollision))
                 {
                     BlendCollisionObject9C* pkBlend = (BlendCollisionObject9C*)pkCollision;
                     if (!pkWorldObject->IsFixed() || pkBlend->GetBlend() == 1.0)
                     {
                         FUN_0056df80(kXform, pkObject->GetWorldTransform());
-                        if (FUN_0043b300(&g_kPhantomRTTI9C, pkWorldObject))
+                        if (NiObject_IsKindOf(&g_kPhantomRTTI9C, pkWorldObject))
                         {
                             Phantom9C* pkPhantom = (Phantom9C*)pkWorldObject;
                             hkTransform9C kLocal;

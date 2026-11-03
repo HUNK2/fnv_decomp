@@ -388,7 +388,7 @@ void ProcessLists::Revert(BGSLoadGameBuffer* buffer)
     NiTMap<TESGlobal*, bool>::NewItem();
     FUN_004ee7d0();
     bsrandom_singleton::MersenneTwister::GetRandomGenerator();
-    FUN_004a42a0();
+    BGSDecalManager_RemoveAllDecals();
 }
 
 // Scans the temp-effect list for a MagicShaderHitEffect matching target with the lowest FUN_00621b00 value and no IsUnk28Set, returning it.
@@ -405,7 +405,7 @@ MagicShaderHitEffect* ProcessLists::FindMagicShaderHitEffect(TESObjectREFR* targ
         {
             BSTempEffect* effect = current->GetItem();
             if (effect &&
-                FUN_0043b300(reinterpret_cast<const NiRTTI*>(&g_011dc804), reinterpret_cast<NiAVObject*>(effect)))
+                NiObject_IsKindOf(reinterpret_cast<const NiRTTI*>(&g_011dc804), reinterpret_cast<NiAVObject*>(effect)))
             {
                 MagicShaderHitEffect* shader = reinterpret_cast<MagicShaderHitEffect*>(effect);
                 if (reinterpret_cast<BGSTerrainManager*>(shader)->GetMinLevel() ==
@@ -425,11 +425,11 @@ MagicShaderHitEffect* ProcessLists::FindMagicShaderHitEffect(TESObjectREFR* targ
 
 struct FUN_00632d20_shell : public Crime
 {
-    void FUN_00632d20(bool);
+    void NiPick_SetFrontOnly(bool);
 };
 
 // @fnv 0x00632d20
-void FUN_00632d20_shell::FUN_00632d20(bool abflag)
+void FUN_00632d20_shell::NiPick_SetFrontOnly(bool abflag)
 {
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x10) = abflag;
 }
@@ -1474,7 +1474,7 @@ struct MobileObjectExt
     virtual void V150();
     virtual void Update(float afDelta);
     void SetCurrentProcess(BaseProcess* apProcess);
-    void FUN_00565870();
+    void TESObjectREFR_RunScript();
 };
 
 class LowProcess
@@ -1503,8 +1503,8 @@ struct PathfindQueueStorage
 };
 
 __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64* apCount);
-bool __fastcall FUN_00437bb0(MobileObject* apObject);
-int __fastcall FUN_004f8960(void* apActor);
+bool __fastcall MobileObject_GetRunsInLow(MobileObject* apObject);
+int __fastcall Actor_GetLifeState(void* apActor);
 bool __cdecl FUN_005ac740();
 
 extern Calendar g_calendar;
@@ -1565,7 +1565,7 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
                 }
                 else if (!DAT_011e0e34)
                 {
-                    if (FUN_00437bb0(pmob))
+                    if (MobileObject_GetRunsInLow(pmob))
                     {
                         float flastprocesstime = ((LowProcess*)pproc)->FUN_007df1f0();
                         if (flastprocesstime == -1.0)
@@ -1581,11 +1581,11 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
                                 {
                                     ((MobileObjectExt*)pmob)->Update(afDelta);
                                     if (FUN_005ac740())
-                                        ((MobileObjectExt*)pmob)->FUN_00565870();
+                                        ((MobileObjectExt*)pmob)->TESObjectREFR_RunScript();
                                     Actor* pact = 0;
                                     if (pmob && pmob->IsActor())
                                         pact = (Actor*)pmob;
-                                    if (pact && FUN_004f8960(pact) == 1)
+                                    if (pact && Actor_GetLifeState(pact) == 1)
                                         bfirst = false;
                                 }
                             }
@@ -2933,7 +2933,7 @@ void FUN_00974af0_shell::FUN_00974af0(char* apTarget)
         while (pIter)
         {
             BSTempEffect* pEffect = *pIter->_ref_006815c0();
-            if (pEffect && FUN_0043b300((const NiRTTI*)&g_011dc804, (NiAVObject*)pEffect))
+            if (pEffect && NiObject_IsKindOf((const NiRTTI*)&g_011dc804, (NiAVObject*)pEffect))
             {
                 MagicHitEffect* pHitEffect = (MagicHitEffect*)pEffect;
                 if (pHitEffect->GetData() == apTarget)
@@ -3195,7 +3195,7 @@ void FUN_00974c30_shell::FUN_00974c30()
         while (list)
         {
             BSTempEffectGeometryDecal* decal = (BSTempEffectGeometryDecal*)(unsigned int)(*(Flt*)&list->GetItem());
-            if (decal && FUN_0043b300(&g_011d6b04, (NiAVObject*)decal))
+            if (decal && NiObject_IsKindOf(&g_011d6b04, (NiAVObject*)decal))
             {
                 MiddleHighProcess* target = (MiddleHighProcess*)decal;
                 target->FUN_00929260(1);
@@ -3216,10 +3216,10 @@ struct FUN_00978550_shell
 class MobileObjectExt : public MobileObject
 {
   public:
-    void FUN_00565870();
+    void TESObjectREFR_RunScript();
 };
 
-// Iterates the high-process list and calls FUN_00565870 on each entry that is an actor.
+// Iterates the high-process list and calls TESObjectREFR_RunScript on each entry that is an actor.
 // @fnv 0x00978550
 void FUN_00978550_shell::FUN_00978550()
 {
@@ -3229,7 +3229,7 @@ void FUN_00978550_shell::FUN_00978550()
     {
         actor = arr.GetItem(index);
         if (actor && actor->IsActor())
-            reinterpret_cast<MobileObjectExt*>(actor)->FUN_00565870();
+            reinterpret_cast<MobileObjectExt*>(actor)->TESObjectREFR_RunScript();
     }
 }
 }  // namespace fnv_00978550
@@ -3494,11 +3494,11 @@ struct FUN_009722e0_shell
 };
 struct FUN_0047eb90_shell
 {
-    void FUN_0047eb90(int);
+    void TESFaction_SetPCAnEnemy(int);
 };
 struct FUN_0041cf00_shell
 {
-    void* FUN_0041cf00();
+    void* ExtraDataList_GetPlayerCrimeList();
 };
 struct List_009e03e0
 {
@@ -3539,7 +3539,7 @@ SL* FUN_00971fd0_shell::FUN_00971fd0(float afTime)
                     {
                         FUN_0047eb90_shell* pRef = *(FUN_0047eb90_shell**)pNode->_ref_006815c0();
                         if (!((FUN_009722e0_shell*)&g_kProcessLists)->IsActorInOtherList(pRef, pItem))
-                            pRef->FUN_0047eb90(0);
+                            pRef->TESFaction_SetPCAnEnemy(0);
                         pNode = (NodeS*)((TESFormList*)pNode)->GetFirst();
                     }
                 }
@@ -3547,7 +3547,7 @@ SL* FUN_00971fd0_shell::FUN_00971fd0(float afTime)
                 if (pTarget && pTarget->IsActor())
                 {
                     Actor* pActor = (Actor*)pTarget;
-                    NodeS* pActorList = (NodeS*)((FUN_0041cf00_shell*)pActor->GetExtra())->FUN_0041cf00();
+                    NodeS* pActorList = (NodeS*)((FUN_0041cf00_shell*)pActor->GetExtra())->ExtraDataList_GetPlayerCrimeList();
                     if (pActorList)
                         pActorList->_ref_00905330((void* const*)&pItem);
                 }
@@ -3748,7 +3748,7 @@ void FUN_00974a50_shell::FUN_00974a50(TESObjectREFR* apEffectTarget, void* apSha
         while (pelist)
         {
             BSTempEffect* peffect = (BSTempEffect*)_ref_006815c0(pelist)->operator unsigned int();
-            if (peffect && FUN_0043b300((const NiRTTI*)&g_011dc804, (NiAVObject*)peffect))
+            if (peffect && NiObject_IsKindOf((const NiRTTI*)&g_011dc804, (NiAVObject*)peffect))
             {
                 MagicShaderHitEffect* pshaderEffect = (MagicShaderHitEffect*)peffect;
                 if (((BGSTerrainManager*)pshaderEffect)->GetMinLevel() == (unsigned int)apEffectTarget &&
@@ -3831,10 +3831,10 @@ struct FUN_00977130_shell : public ProcessLists
 
 struct ActorQuery_00977130
 {
-    int FUN_004f8960();
+    int Actor_GetLifeState();
 };
 bool FUN_00525420();
-bool __fastcall FUN_00577de0(Actor*);
+bool __fastcall TESObjectREFR_HasQuestObject(Actor*);
 extern double _gModifierZero;
 struct Setting_S
 {
@@ -3856,11 +3856,11 @@ struct TESResponse
 };
 struct Fn56ac90
 {
-    void* FUN_0056ac90();
+    void* TESObjectREFR_GetEnableStateChildList();
 };
 struct FUN_005722c0_shell
 {
-    bool FUN_005722c0(int);
+    bool TESObjectREFR_IsDead(int);
 };
 struct ActorV_S
 {
@@ -4371,18 +4371,18 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
             {
                 iactorCount++;
                 Actor* pactor = (Actor*)pCurrentObject;
-                if (reinterpret_cast<ActorQuery_00977130*>(pactor)->FUN_004f8960() == 2)
+                if (reinterpret_cast<ActorQuery_00977130*>(pactor)->Actor_GetLifeState() == 2)
                 {
                     BaseProcess* pprocess = pactor->GetCurrentAIProcess();
                     if (pprocess && !((TESResponse*)pprocess)->GetNext())
                     {
                         HighProcess* phigh = (HighProcess*)pprocess;
                         if (!phigh->IsInDialogue() && !((ActorV_S*)pactor)->IsDisabledOrDeleted() &&
-                            !FUN_00577de0(pactor) && !((FUN_005722c0_shell*)pactor)->FUN_005722c0(0) &&
+                            !TESObjectREFR_HasQuestObject(pactor) && !((FUN_005722c0_shell*)pactor)->TESObjectREFR_IsDead(0) &&
                             ((HighProcess*)pprocess)->GetDeadTimer() < _gModifierZero)
                         {
-                            if (!((Fn56ac90*)pactor)->FUN_0056ac90() ||
-                                ((BSSimpleList<Actor*>*)((Fn56ac90*)pactor)->FUN_0056ac90())->IsEmpty())
+                            if (!((Fn56ac90*)pactor)->TESObjectREFR_GetEnableStateChildList() ||
+                                ((BSSimpleList<Actor*>*)((Fn56ac90*)pactor)->TESObjectREFR_GetEnableStateChildList())->IsEmpty())
                             {
                                 ideadCount++;
                                 deadActors.AddTail(pactor);
@@ -4555,7 +4555,7 @@ void FUN_00974b80_shell::FUN_00974b80(unsigned int uiMinLevel, char* pText)
         while (node)
         {
             unsigned int effect = (unsigned int)(GO*)(void*)(node->GetItem());
-            if (effect && FUN_0043b300(&g_011dc724, (NiAVObject*)(void*)effect))
+            if (effect && NiObject_IsKindOf(&g_011dc724, (NiAVObject*)(void*)effect))
             {
                 MagicHitEffect* pEffect = (MagicHitEffect*)(void*)effect;
                 if (((BGSTerrainManager*)pEffect)->GetMinLevel() == uiMinLevel &&
@@ -5895,7 +5895,7 @@ struct ProcActorStub
     bool GetDisabled();
     void* Get3D() const;
 };
-bool __fastcall FUN_00450ff0(void* apNode);
+bool __fastcall TESObjectCELL_IsAttached(void* apNode);
 void __cdecl ProcTaskFunc(unsigned int, void*);
 struct ProcParallelTask
 {
@@ -5950,7 +5950,7 @@ void ProcListsExt::FUN_0096cda0()
             {
                 ProcActorStub* actor6 = obj;
                 if (!(actor6->GetProcessV() && !actor6->GetDeleted() && !actor6->GetDisabled() && actor6->Get3D() &&
-                      FUN_00450ff0(actor6->Get3D())))
+                      TESObjectCELL_IsAttached(actor6->Get3D())))
                     continue;
                 if (actor6->byteBC)
                 {
@@ -5988,7 +5988,7 @@ struct CellProcessManager
     CellProcessState* FUN_00422700();
     void FUN_00422690(MobileObject* actor);
     void FUN_00422720();
-    CellProcessType* FUN_0041cb10();
+    CellProcessType* ExtraDataList_GetPackageExtra();
 };
 
 struct ActorProcessProxy
@@ -6031,7 +6031,7 @@ void __cdecl ProcessPlayerCellActors()
                 {
                     CellProcessType* process = reinterpret_cast<ActorProcessProxy*>(actor)->FUN_00881510();
                     CellProcessType* replacement =
-                        reinterpret_cast<ActorProcessProxy*>(actor)->FUN_005d43c0()->FUN_0041cb10();
+                        reinterpret_cast<ActorProcessProxy*>(actor)->FUN_005d43c0()->ExtraDataList_GetPackageExtra();
                     if (replacement)
                         process = replacement;
                     if (!process || (process->FUN_0041ca90() != 1 && process->FUN_0041ca90() != 7))
@@ -6088,7 +6088,7 @@ extern bool DAT_011e0360;
 struct Actor970d50 : Actor
 {
     void* FUN_005d43c0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     int FUN_007af430();
     void FUN_008a1800(int);
     int FUN_008d8520();
@@ -6121,9 +6121,9 @@ void Lists970d50::FUN_00970d50()
         if (actor)
         {
             FUN_005ac190(actor, actor->FUN_005d43c0());
-            if (actor->FUN_00440d80() || !actor->FUN_007af430() || actor->GetActorValue((ActorValue::Index)16) <= 0)
+            if (actor->TESForm_GetDelete() || !actor->FUN_007af430() || actor->GetActorValue((ActorValue::Index)16) <= 0)
             {
-                if (!actor->FUN_00440d80() && actor->FUN_007af430() && actor->GetActorValue((ActorValue::Index)16) <= 0)
+                if (!actor->TESForm_GetDelete() && actor->FUN_007af430() && actor->GetActorValue((ActorValue::Index)16) <= 0)
                 {
                     actor->FUN_008a1800(2);
                 }
@@ -6140,16 +6140,16 @@ void Lists970d50::FUN_00970d50()
 
 struct FUN_005723b0_Obj
 {
-    float FUN_005723b0(void* a1, unsigned char a2, int a3);
+    float TESObjectREFR_GetDistanceFromReference(void* a1, unsigned char a2, int a3);
 };
 extern void* DAT_011dea3c;
 
-// Compares the values returned by FUN_005723b0 for pA and pB, returning -1, 0 or 1.
+// Compares the values returned by TESObjectREFR_GetDistanceFromReference for pA and pB, returning -1, 0 or 1.
 // @fnv 0x00970ee0
 int __cdecl FUN_00970ee0(Actor* apActorA, Actor* apActorB)
 {
-    float fB = ((FUN_005723b0_Obj*)apActorA)->FUN_005723b0(DAT_011dea3c, 0, 0);
-    float fA = ((FUN_005723b0_Obj*)apActorB)->FUN_005723b0(DAT_011dea3c, 0, 0);
+    float fB = ((FUN_005723b0_Obj*)apActorA)->TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0);
+    float fA = ((FUN_005723b0_Obj*)apActorB)->TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0);
     int result;
     if (fB < fA)
         result = -1;
@@ -6822,7 +6822,7 @@ struct Mid9749
     ObjV* FUN_00559450();
 };
 extern int DAT_011dc6b4;
-bool __cdecl FUN_0043b300(const void*, ObjV*);
+bool __cdecl NiObject_IsKindOf(const void*, ObjV*);
 struct FUN_009749b0_shell
 {
     char pad[0x60];
@@ -6838,7 +6838,7 @@ void FUN_009749b0_shell::FUN_009749b0(int id)
         while (n)
         {
             ObjV* o = ((Mid9749*)n->FUN_006815c0())->FUN_00559450();
-            if (o && FUN_0043b300(&DAT_011dc6b4, o))
+            if (o && NiObject_IsKindOf(&DAT_011dc6b4, o))
             {
                 ObjV* r = o;
                 if (r->FUN_00441110() == id)
@@ -7510,26 +7510,26 @@ struct Obj
     Obj* FUN_008d8520();
     Obj* FUN_004fd380();
     void FUN_0057bd60(int a);
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     Obj* FUN_00881510();
     bool FUN_00674d40();
     int FUN_0041ca90();
     Obj* FUN_00671d10();
     Obj* FUN_00680020();
-    void FUN_00672fc0(int a);
-    Obj* FUN_00676140(Obj* a);
-    void FUN_00671d30(int a);
+    void TESPackage_SetPackageTarget(int a);
+    Obj* TESPackage_GetLocationReference(Obj* a);
+    void TESPackage_SetPackageLocation(int a);
     Obj* FUN_00881650();
     bool FUN_009336c0();
     Obj* FUN_009344a0();
     void FUN_00881680(int a);
     void FUN_008c4f10(int a);
-    Obj* FUN_00410220(unsigned char a);
+    Obj* BaseExtraList_GetExtraData(unsigned char a);
     bool FUN_008a6650(int a);
     Obj* FUN_005e3fc0();
     void FUN_00994ef0(int a);
     void FUN_008a6730(Obj* a);
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     void FUN_0097f9c0(Obj* a);
     Obj* FUN_00422690(Obj* a);
     void FUN_00881620(int a);
@@ -7632,7 +7632,7 @@ void Host::FUN_00976680(Obj* apObject)
     for (i8 = 0; (unsigned int)i8 < arr.FUN_005be5c0(3); i8++)
     {
         objA6 = arr.FUN_00968670((unsigned int)i8);
-        if (objA6 != 0 && !objA6->FUN_00576d30())
+        if (objA6 != 0 && !objA6->TESForm_IsStillLoading())
         {
             objB4 = 0;
             if (objA6->v100())
@@ -7662,10 +7662,10 @@ void Host::FUN_00976680(Obj* apObject)
                                 if (objD4->FUN_00671d10() != 0)
                                 {
                                     if (objD4->FUN_00671d10()->FUN_00680020() == apObject)
-                                        objD4->FUN_00672fc0(0);
+                                        objD4->TESPackage_SetPackageTarget(0);
                                 }
-                                if (objD4->FUN_00676140(objB4) == apObject)
-                                    objD4->FUN_00671d30(0);
+                                if (objD4->TESPackage_GetLocationReference(objB4) == apObject)
+                                    objD4->TESPackage_SetPackageLocation(0);
                             }
                         }
                     }
@@ -7678,10 +7678,10 @@ void Host::FUN_00976680(Obj* apObject)
                                 if (objC8->FUN_00671d10() != 0)
                                 {
                                     if (objC8->FUN_00671d10()->FUN_00680020() == apObject)
-                                        objC8->FUN_00672fc0(0);
+                                        objC8->TESPackage_SetPackageTarget(0);
                                 }
-                                if (objC8->FUN_00676140(objB4) == apObject)
-                                    objC8->FUN_00671d30(0);
+                                if (objC8->TESPackage_GetLocationReference(objB4) == apObject)
+                                    objC8->TESPackage_SetPackageLocation(0);
                             }
                         }
                     }
@@ -7716,7 +7716,7 @@ void Host::FUN_00976680(Obj* apObject)
                     }
                     baseB->v47c(apObject);
                     baseB->v7b0(apObject);
-                    extra = objB4->FUN_005d43c0()->FUN_00410220(0x19);
+                    extra = objB4->FUN_005d43c0()->BaseExtraList_GetExtraData(0x19);
                     if (extra != 0)
                     {
                         if (extra->f14 == apObject)
@@ -7740,7 +7740,7 @@ void Host::FUN_00976680(Obj* apObject)
                         }
                         objB4->FUN_008a6730(apObject);
                     }
-                    if (objB4->FUN_00493bb0())
+                    if (objB4->Actor_IsInCombat())
                     {
                         unk428 = objB4->v428();
                         if (unk428 != 0)
@@ -7785,7 +7785,7 @@ void Host::FUN_00976680(Obj* apObject)
         item5 = 0;
         if ((*node7->FUN_006815c0())->v100())
             item5 = *node7->FUN_006815c0();
-        if (item5 != 0 && !item5->FUN_00576d30())
+        if (item5 != 0 && !item5->TESForm_IsStillLoading())
         {
             base16 = item5->FUN_008d8520();
             if (item5->FUN_004fd380() == apObject)
@@ -7810,10 +7810,10 @@ void Host::FUN_00976680(Obj* apObject)
                             if (objD7->FUN_00671d10() != 0)
                             {
                                 if (objD7->FUN_00671d10()->FUN_00680020() == apObject)
-                                    objD7->FUN_00672fc0(0);
+                                    objD7->TESPackage_SetPackageTarget(0);
                             }
-                            if (objD7->FUN_00676140(item5) == apObject)
-                                objD7->FUN_00671d30(0);
+                            if (objD7->TESPackage_GetLocationReference(item5) == apObject)
+                                objD7->TESPackage_SetPackageLocation(0);
                         }
                     }
                 }
@@ -7826,10 +7826,10 @@ void Host::FUN_00976680(Obj* apObject)
                             if (objC2->FUN_00671d10() != 0)
                             {
                                 if (objC2->FUN_00671d10()->FUN_00680020() == apObject)
-                                    objC2->FUN_00672fc0(0);
+                                    objC2->TESPackage_SetPackageTarget(0);
                             }
-                            if (objC2->FUN_00676140(item5) == apObject)
-                                objC2->FUN_00671d30(0);
+                            if (objC2->TESPackage_GetLocationReference(item5) == apObject)
+                                objC2->TESPackage_SetPackageLocation(0);
                         }
                     }
                 }
@@ -7863,7 +7863,7 @@ void Host::FUN_00976680(Obj* apObject)
                     }
                 }
                 base16->v47c(apObject);
-                extra2 = item5->FUN_005d43c0()->FUN_00410220(0x19);
+                extra2 = item5->FUN_005d43c0()->BaseExtraList_GetExtraData(0x19);
                 if (extra2 != 0)
                 {
                     if (extra2->f14 == apObject)
@@ -7887,7 +7887,7 @@ void Host::FUN_00976680(Obj* apObject)
                     }
                     item5->FUN_008a6730(apObject);
                 }
-                if (item5->FUN_00493bb0())
+                if (item5->Actor_IsInCombat())
                 {
                     unk428b = item5->v428();
                     if (unk428b != 0)
@@ -8594,7 +8594,7 @@ void PLStub::FUN_009781d0(float dt)
 namespace fnv_009eb500 {
 struct RefObj
 {
-    void FUN_00564db0(int);
+    void TESObjectREFR_SetTargeted(int);
 };
 struct DispatchMembers
 {
@@ -8649,7 +8649,7 @@ FUN_009eb500::FUN_009eb500(unsigned int arg1, RefObj* arg2, unsigned int uiField
     field04 = arg1;
     field00 = 0;
     if (arg2)
-        arg2->FUN_00564db0(1);
+        arg2->TESObjectREFR_SetTargeted(1);
     field08 = arg2;
     field0c = uiField0c;
     field10 = false;
@@ -8854,7 +8854,7 @@ struct LowListArray
 };
 struct LowListObject : MobileObject
 {
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     void FUN_0092f190();
 };
 struct LowListProcessLists : ProcessLists
@@ -8886,7 +8886,7 @@ void LowListProcessLists::UpdateLowListProcessLists(float delta, bool)
             }
             else if (!DAT_011e0e34)
             {
-                if (!FUN_00437bb0(tail) && actor && !actor->FUN_00493bb0())
+                if (!MobileObject_GetRunsInLow(tail) && actor && !actor->Actor_IsInCombat())
                 {
                     tail->GetCurrentAIProcess()->ResetPackageState();
                 }
@@ -8904,11 +8904,11 @@ void LowListProcessLists::UpdateLowListProcessLists(float delta, bool)
                         {
                             ((MobileObjectExt*)tail)->Update(delta);
                             if (FUN_005ac740())
-                                ((MobileObjectExt*)tail)->FUN_00565870();
+                                ((MobileObjectExt*)tail)->TESObjectREFR_RunScript();
                             LowListObject* updatedActor = 0;
                             if (tail && tail->IsActor())
                                 updatedActor = (LowListObject*)tail;
-                            if (updatedActor && FUN_004f8960(updatedActor) == 1)
+                            if (updatedActor && Actor_GetLifeState(updatedActor) == 1)
                                 deferred = false;
                         }
                     }
@@ -9252,14 +9252,14 @@ struct Obj96
     virtual void v185();
     virtual void v186();
     virtual bool destroyed();
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     bool FUN_00440da0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     int FUN_00931850();
     Proc96* FUN_008d8520();
     void FUN_0092f190();
-    void FUN_00565870();
-    int FUN_004f8960();
+    void TESObjectREFR_RunScript();
+    int Actor_GetLifeState();
     void FUN_00407800(int);
 };
 struct Array96
@@ -9287,9 +9287,9 @@ void Shell96::FUN_0096b810(float delta, int unused)
     for (unsigned int uiIndex = f; uiIndex < i; uiIndex++)
     {
         h = arr.FUN_00968670(uiIndex);
-        if (h && !((Obj96*)h)->FUN_00576d30())
+        if (h && !((Obj96*)h)->TESForm_IsStillLoading())
         {
-            if (((Obj96*)h)->FUN_00440da0() || ((Obj96*)h)->FUN_00440d80() || ((Obj96*)h)->FUN_00931850() != 1)
+            if (((Obj96*)h)->FUN_00440da0() || ((Obj96*)h)->TESForm_GetDelete() || ((Obj96*)h)->FUN_00931850() != 1)
                 eb->AddHead(h);
             else if (!DAT_011e0e34)
             {
@@ -9306,11 +9306,11 @@ void Shell96::FUN_0096b810(float delta, int unused)
                     {
                         ((Obj96*)h)->update(delta);
                         if (FUN_005ac740())
-                            ((Obj96*)h)->FUN_00565870();
+                            ((Obj96*)h)->TESObjectREFR_RunScript();
                         Obj96* pUpdatedActor = 0;
                         if (h && ((Obj96*)h)->isActor())
                             pUpdatedActor = (Obj96*)h;
-                        if (pUpdatedActor && pUpdatedActor->FUN_004f8960() == 1)
+                        if (pUpdatedActor && pUpdatedActor->Actor_GetLifeState() == 1)
                             p = false;
                     }
                 }
@@ -9654,11 +9654,11 @@ struct ActorEntity
     int fieldb4;
     int fieldb8;
     unsigned char enabled;
-    float FUN_005723b0(ActorEntity*, int, int);
-    bool FUN_00437bd0();
+    float TESObjectREFR_GetDistanceFromReference(ActorEntity*, int, int);
+    bool Actor_IsUnConscious();
     DetectBase* Base();
     DetectProcess* Process();
-    unsigned char FUN_00493bb0();
+    unsigned char Actor_IsInCombat();
     int FUN_008a0d10(int, ActorEntity*, bool*, unsigned char, int, int, bool*);
     bool IsHostileTo(ActorEntity*, int, int*, int);
     bool FUN_008bc700(ActorEntity*);
@@ -9723,13 +9723,13 @@ void DetectionLists::UpdateDetection()
             ActorEntity* f = h;
             if (f->enabled && f->Active())
             {
-                float eb = f->FUN_005723b0(((ActorEntity*)DAT_011dea3c), 0, 0);
+                float eb = f->TESObjectREFR_GetDistanceFromReference(((ActorEntity*)DAT_011dea3c), 0, 0);
                 if (f != ((ActorEntity*)DAT_011dea3c) && !DAT_011de45c->FUN_0047c850())
                 {
                     float cf = h->Timer();
                     if (s == 0)
                         ((ActorEntity*)DAT_011dea3c)->FUN_008c8bb0(0);
-                    if (cf < 0.0 && !f->FUN_00437bd0() && !h->State(0))
+                    if (cf < 0.0 && !f->Actor_IsUnConscious() && !h->State(0))
                     {
                         if (DAT_011d8804->FUN_007014e0(1) <= 0.0)
                         {
@@ -9738,7 +9738,7 @@ void DetectionLists::UpdateDetection()
                             if (!f->Base()->component.Check() && f->Process()->Check(f))
                             {
                                 bool k = false;
-                                unsigned char e = h->FUN_00493bb0();
+                                unsigned char e = h->Actor_IsInCombat();
                                 bool c = false;
                                 int b = ((ActorEntity*)DAT_011dea3c)->FUN_008a0d10(1, h, &k, e, 0, 0, &c);
                                 int l = 0;
@@ -9798,8 +9798,8 @@ struct FUN_009640b0_player
 struct FUN_0040fbf0_lock
 {
     bool FUN_0078d200();
-    void FUN_0040fbf0(char* apName);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(char* apName);
+    void BSSpinLock_Unlock();
 };
 
 void __cdecl FUN_008d5bc0();
@@ -9879,19 +9879,19 @@ void FUN_0096d810_shell::FUN_0096d810()
         if (m_bUpdateLowProcesses && !FUN_00525420() && ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0078d200())
         {
             UpdateLowProcesses(0.0f, false);
-            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0040fba0();
+            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->BSSpinLock_Unlock();
         }
         if (m_bUpdateLowListProcessLists && !FUN_00525420())
         {
-            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0040fbf0(0);
+            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->BSSpinLock_Lock(0);
             UpdateLowListProcessLists(0.0f, false);
-            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0040fba0();
+            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->BSSpinLock_Unlock();
         }
         if (m_bRunSecondProcessUpdate)
         {
-            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0040fbf0(0);
+            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->BSSpinLock_Lock(0);
             FUN_0096b810(0.0f, false);
-            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->FUN_0040fba0();
+            ((FUN_0040fbf0_lock*)&DAT_011f11a0)->BSSpinLock_Unlock();
         }
         if (m_fCrimeListUpdateTimer <= DAT_01012060)
             UpdateCrimeLists();
@@ -10121,7 +10121,7 @@ struct Obj96
     virtual void V208();
     virtual void V209();
     virtual void V210(float, bool);
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     Proc96* FUN_008d8520();
 };
 struct Array96
@@ -10161,7 +10161,7 @@ void Target96::FUN_0096db30(float delta, bool flag, int level)
     for (unsigned int i = actor->FUN_005de0f0(level); i < actor->FUN_005be5c0(level); i++)
     {
         Obj96* object = actor->FUN_00968670(i);
-        if (object && object->FUN_00576d30())
+        if (object && object->TESForm_IsStillLoading())
             continue;
         if (object && object->V64())
         {
@@ -10388,7 +10388,7 @@ struct FUN_0096a2d0
     FUN_0096a2d0();
     void FUN_005ae3d0(Actor* const&);
 };
-TESObjectREFR* __cdecl FUN_004839c0(unsigned int);
+TESObjectREFR* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct Target96
 {
     int unk00;
@@ -10401,7 +10401,7 @@ FUN_0096a2d0* Target96::FUN_0096f450(unsigned int uiControllerId, Actor96* pExcl
     FUN_0096a2d0* reference = 0;
     Actor96* actor = 0;
     Actor96* result = 0;
-    TESObjectREFR* mobile = FUN_004839c0(uiControllerId);
+    TESObjectREFR* mobile = TESForm_GetFormByNumericID(uiControllerId);
     for (unsigned int i = 0; i < entries.FUN_0055b980(); ++i)
     {
         result = entries.FUN_00968670(i);
@@ -10477,11 +10477,11 @@ struct FUN_008b3200_shell
 };
 struct FUN_00419ea0_shell
 {
-    Actor* FUN_00419ea0();
+    Actor* ExtraDataList_GetHeadTrackTargetExtra();
 };
 struct FUN_00419dc0_shell
 {
-    void FUN_00419dc0(int);
+    void ExtraDataList_SetHeadTrackTargetExtra(int);
 };
 struct FUN_0044ddc0_shell
 {
@@ -10579,7 +10579,7 @@ struct FUN_004212b0_shell
 };
 struct FUN_0041cb70_shell
 {
-    Actor* FUN_0041cb70();
+    Actor* ExtraDataList_GetPackageExtraTarget();
 };
 struct FUN_0041cab0_shell
 {
@@ -10938,9 +10938,9 @@ void FUN_0096f600_shell::FUN_0096f600(Actor* arg1, bool abClearPackageTargets)
                         ((FUN_008b3200_shell*)bed1)->FUN_008b3200(arg1);
                         if (bed1->GetExtraData() != 0)
                         {
-                            if (((FUN_00419ea0_shell*)bed1->GetExtraData())->FUN_00419ea0() == arg1)
+                            if (((FUN_00419ea0_shell*)bed1->GetExtraData())->ExtraDataList_GetHeadTrackTargetExtra() == arg1)
                             {
-                                ((FUN_00419dc0_shell*)bed1->GetExtraData())->FUN_00419dc0(0);
+                                ((FUN_00419dc0_shell*)bed1->GetExtraData())->ExtraDataList_SetHeadTrackTargetExtra(0);
                             }
                         }
                         BaseProcess* mainProc = bed1->GetCurrentAIProcess();
@@ -11061,7 +11061,7 @@ void FUN_0096f600_shell::FUN_0096f600(Actor* arg1, bool abClearPackageTargets)
                                     pd->v1(arg1);
                                 }
                                 Actor* ti5;
-                                ti5 = ((FUN_0041cb70_shell*)b)->FUN_0041cb70();
+                                ti5 = ((FUN_0041cb70_shell*)b)->ExtraDataList_GetPackageExtraTarget();
                                 if (ti5 == arg1)
                                 {
                                     ((FUN_0041cab0_shell*)b)->FUN_0041cab0(0);
@@ -11969,8 +11969,8 @@ struct Obj9715 : Mob9715
     virtual bool V193();
     X9715* FUN_008d6f30();
     int FUN_00575d70();
-    bool FUN_00493bb0();
-    float FUN_005723b0(void*, int, int);
+    bool Actor_IsInCombat();
+    float TESObjectREFR_GetDistanceFromReference(void*, int, int);
     Proc9715* FUN_008d8520();
     Z9715* FUN_00568e50();
 };
@@ -12031,12 +12031,12 @@ RetCls* Cls9715::CollectCombatTargets(Obj9715* arg1, Node9715* apNodeList)
             {
                 X9715* cId = ptr->FUN_008d6f30();
                 int cSec = ptr->FUN_00575d70();
-                if (!ptr->FUN_00493bb0() && ptr->V193())
+                if (!ptr->Actor_IsInCombat() && ptr->V193())
                 {
                     if ((cId && cId->FUN_00425fd0() && cId == e2) ||
                         (num == cSec && ((cId && !cId->FUN_00425fd0()) || (e2 && !e2->FUN_00425fd0()))))
                     {
-                        val = ptr->FUN_005723b0(q, 0, 0);
+                        val = ptr->TESObjectREFR_GetDistanceFromReference(q, 0, 0);
                         if (val <= *g_011cdbec.FUN_0043d4d0())
                         {
                             ptr->FUN_008d8520()->EnterCombatV(ptr, q, false, false, 0, false, false, false, false,
@@ -12060,7 +12060,7 @@ RetCls* Cls9715::CollectCombatTargets(Obj9715* arg1, Node9715* apNodeList)
                                     if (obj4c->FUN_008d6f30() == cId ||
                                         (obj4c->FUN_008d6f30() == 0 && obj4c->FUN_00575d70() == ptr->FUN_00575d70()))
                                     {
-                                        val = ptr->FUN_005723b0(obj4c, 0, 0);
+                                        val = ptr->TESObjectREFR_GetDistanceFromReference(obj4c, 0, 0);
                                         if (val <= *g_011cdbec.FUN_0043d4d0())
                                         {
                                             ptr->FUN_008d8520()->EnterCombatV(ptr, q, false, false, 0, false, false,
@@ -12224,7 +12224,7 @@ bool FUN_009722e0_shell::IsActorInOtherList(Actor* pActor, FUN_009722e0_member* 
 namespace fnv_00972aa0 {
 struct S_972aa0_Actor
 {
-    void FUN_0047eb90(int a);
+    void TESFaction_SetPCAnEnemy(int a);
 };
 struct S_972aa0_ActorNode
 {
@@ -12294,7 +12294,7 @@ void S_972aa0_Owner::RemoveCrimeById(unsigned int uiCrimeId)
                 {
                     S_972aa0_Actor* actor = *actors->FUN_006815c0();
                     if (!DAT_011e0e80.IsActorInOtherList(actor, crime))
-                        actor->FUN_0047eb90(0);
+                        actor->TESFaction_SetPCAnEnemy(0);
                     actors = actors->FUN_00726070();
                 }
                 list->FUN_00905330(crime);
@@ -12662,7 +12662,7 @@ extern bool _s_bAllowDetach;
 class TES
 {
   public:
-    bool FUN_004511e0(TESObjectCELL* pCell, bool bArg);
+    bool TES_IsCellLoaded(TESObjectCELL* pCell, bool bArg);
     void ProcessItemNodes();
 };
 extern TES* g_TES;
@@ -12670,7 +12670,7 @@ extern TES* g_TES;
 class ModelLoader
 {
   public:
-    bool FUN_00445750(Actor* pActor);
+    bool ModelLoader_IsReferenceQueued(Actor* pActor);
 };
 extern ModelLoader* g_modelLoader;
 
@@ -12706,14 +12706,14 @@ void ProcessListsSub::UpdateActor3D()
         if (pActor)
         {
             if (pActor->GetNiNode() &&
-                (!pActor->GetParentCell() || !g_TES->FUN_004511e0(pActor->GetParentCell(), false)))
+                (!pActor->GetParentCell() || !g_TES->TES_IsCellLoaded(pActor->GetParentCell(), false)))
             {
                 pActor->Set3D(NULL, false);
             }
-            else if (!pActor->GetNiNode() && !g_modelLoader->FUN_00445750(pActor) && !pActor->GetDisabled() &&
+            else if (!pActor->GetNiNode() && !g_modelLoader->ModelLoader_IsReferenceQueued(pActor) && !pActor->GetDisabled() &&
                      !pActor->GetDeleted())
             {
-                if (pActor->GetParentCell() && g_TES->FUN_004511e0(pActor->GetParentCell(), true))
+                if (pActor->GetParentCell() && g_TES->TES_IsCellLoaded(pActor->GetParentCell(), true))
                 {
                     ((TESObjectCELLSub*)pActor->GetParentCell())->AddReference(pActor, false);
                     i = 0;
@@ -12728,7 +12728,7 @@ void ProcessListsSub::UpdateActor3D()
 
 struct Actor976030 : Actor
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
     const char* FUN_005715d0();
 };
 int __cdecl FUN_00404dc0(const char*, const char*);
@@ -12752,11 +12752,11 @@ void Lists976030::FUN_00976030(int mode)
         p = 0;
         if (s && s->IsActor())
             p = (Actor976030*)s;
-        if (p && !((Actor976030*)p)->FUN_00565450())
+        if (p && !((Actor976030*)p)->TESObjectREFR_GetPersistFlagValue())
         {
             if (mode != 2)
             {
-                if (((FUN_005723b0_Obj*)p)->FUN_005723b0(DAT_011dea3c, 0, 0) > 3000.0)
+                if (((FUN_005723b0_Obj*)p)->TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0) > 3000.0)
                     h->AddHead((Actor*)p);
                 else
                     i->AddHead((Actor*)p);
@@ -13350,9 +13350,9 @@ struct Actor96 : ActorValid96
     virtual void b85();
     virtual void update(float);
     Proc96* FUN_008d8520();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     bool FUN_00440da0();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_008842c0();
 };
 struct Clock96
@@ -13389,8 +13389,8 @@ void Owner96::UpdateActorsFromList(FUN_0096a2d0* pInputList)
     while (list3 && *list3->FUN_006815c0())
     {
         Actor96* actor2 = *list3->FUN_006815c0();
-        if (actor2 && actor2 != *(Actor96**)&DAT_011dea3c && actor2->FUN_008d8520() && !actor2->FUN_00440d80() &&
-            !actor2->FUN_00440da0() && !actor2->FUN_00493bb0())
+        if (actor2 && actor2 != *(Actor96**)&DAT_011dea3c && actor2->FUN_008d8520() && !actor2->TESForm_GetDelete() &&
+            !actor2->FUN_00440da0() && !actor2->Actor_IsInCombat())
         {
             float last = actor2->FUN_008d8520()->FUN_007df1f0();
             float now = ((Clock96*)&DAT_011de7b8)->FUN_00867da0();
@@ -13449,8 +13449,8 @@ struct Actor970 : ActorSlots970<141>
 {
     virtual bool Check2();
     bool FUN_00440da0();
-    bool FUN_00440d80();
-    char FUN_00437bd0();
+    bool TESForm_GetDelete();
+    char Actor_IsUnConscious();
     Process970* FUN_008d8520();
     int FUN_008a0d10(int, Actor970*, bool*, int, int, int, int);
 };
@@ -13484,7 +13484,7 @@ List970* C970::FUN_00970f60(Input970* input)
 {
     List970* result9 = 0;
     Actor970* actor = input->FUN_0084e3a0();
-    if (actor && (actor->FUN_00440da0() || actor->FUN_00440d80() || actor->Check(1)))
+    if (actor && (actor->FUN_00440da0() || actor->TESForm_GetDelete() || actor->Check(1)))
         return 0;
     int count4 = 0;
     if (actor)
@@ -13506,7 +13506,7 @@ List970* C970::FUN_00970f60(Input970* input)
         if (entry3 && entry3->IsActor())
             other5 = entry3;
         bool flag;
-        if (other5 && !(unsigned char)other5->FUN_00437bd0() && !other5->Check2() && other5 != actor &&
+        if (other5 && !(unsigned char)other5->Actor_IsUnConscious() && !other5->Check2() && other5 != actor &&
             !other5->Check(0) && !other5->FUN_00440da0())
         {
             if (other5->FUN_008a0d10(0, actor, &flag, 0, 0, 0, 0) > 0)
@@ -13878,7 +13878,7 @@ struct ZAct
     virtual void v267();
     virtual void v268();
     virtual void Disable(int);
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     ZPack* FUN_00881510();
     ZPack* FUN_009344a0();
     ZProc* FUN_008d8520();
@@ -13916,7 +13916,7 @@ BSSimpleList<Actor*>* ZOwner::CollectActorsByPackage(int arg1, int arg2, bool ar
                 actor = obj2;
             if (actor)
             {
-                if (actor->FUN_00493bb0() && arg2 == 18)
+                if (actor->Actor_IsInCombat() && arg2 == 18)
                 {
                     ZPack* package4 = actor->FUN_00881510();
                     ZPack* valid = 0;
@@ -14847,7 +14847,7 @@ class Actor9734 : public Actor
 {
   public:
     int FUN_008a81e0(Actor* pkTarget);
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 };
 
 struct ActorArray9734
@@ -14877,7 +14877,7 @@ bool ActorGroup9734::FUN_00973460(Actor* pkTarget)
             pkActor = (Actor9734*)pkMember;
         if (pkActor && pkActor->IsCharacter() && pkActor->FUN_008a81e0(pkTarget) == 3)
         {
-            if (!pkActor->FUN_00493bb0() || !((ActorView9734*)pkActor)->GetCombatController() ||
+            if (!pkActor->Actor_IsInCombat() || !((ActorView9734*)pkActor)->GetCombatController() ||
                 ((ActorView9734*)pkActor)->GetCombatController()->FUN_004030b0() != pkTarget ||
                 !((ActorView9734*)pkActor)->GetCombatController()->FUN_009818b0())
                 bFound = true;
@@ -15350,11 +15350,11 @@ struct ActorX
     virtual Combat* combat();
     bool IsPlayerTeammate();
     bool GetDisabled();
-    bool FUN_00437bd0();
+    bool Actor_IsUnConscious();
     void SetByteAt66c(char);
     unsigned char GetByteAtOffset();
-    float FUN_005723b0(ActorX*, int, int);
-    bool FUN_00493bb0();
+    float TESObjectREFR_GetDistanceFromReference(ActorX*, int, int);
+    bool Actor_IsInCombat();
     bool FUN_008a61b0();
     ActorX* FUN_00881650();
     Process* FUN_008d8520();
@@ -15405,17 +15405,17 @@ int Shell::GetHighestDetectionValue(ActorX* apObserver, bool abSkipListCheck)
         }
         if (!skip && actor)
         {
-            if (actor && !actor->isDead(0) && !actor->GetDisabled() && !actor->FUN_00437bd0())
+            if (actor && !actor->isDead(0) && !actor->GetDisabled() && !actor->Actor_IsUnConscious())
             {
                 if (apObserver == _g_thePlayer && !_g_thePlayer->GetByteAtOffset())
                 {
-                    float f = apObserver->FUN_005723b0(actor, 0, 0);
+                    float f = apObserver->TESObjectREFR_GetDistanceFromReference(actor, 0, 0);
                     if (f <= (float)*DAT_011cd850.FUN_0043d4d0())
                         _g_thePlayer->SetByteAt66c(1);
                 }
-                if (actor->FUN_00493bb0() || actor->FUN_008a61b0())
+                if (actor->Actor_IsInCombat() || actor->FUN_008a61b0())
                 {
-                    if (actor->FUN_00493bb0() && actor->combat() && actor->combat()->FUN_004030b0() == apObserver &&
+                    if (actor->Actor_IsInCombat() && actor->combat() && actor->combat()->FUN_004030b0() == apObserver &&
                         !actor->combat()->FUN_009818b0())
                         return 100;
                     else if (actor->FUN_008a61b0() && actor->FUN_00881650() == _g_thePlayer)
@@ -15618,7 +15618,7 @@ struct Sh0045cd60
 };
 struct Sh00576d30
 {
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
 };
 struct Sh005d43c0
 {
@@ -15626,11 +15626,11 @@ struct Sh005d43c0
 };
 struct Sh0041cb10
 {
-    void* FUN_0041cb10();
+    void* ExtraDataList_GetPackageExtra();
 };
 struct Sh0041c930
 {
-    void FUN_0041c930(int a, int b, int c, int d, int e, int f);
+    void ExtraDataList_SetPackageExtra(int a, int b, int c, int d, int e, int f);
 };
 struct Sh0042ce10
 {
@@ -15673,7 +15673,7 @@ void Menu75x::FUN_00970810(int arg)
         {
             if (((Vt75*)a)->v40())
             {
-                if (!((Sh00576d30*)a)->FUN_00576d30())
+                if (!((Sh00576d30*)a)->TESForm_IsStillLoading())
                 {
                     p = a;
                 }
@@ -15717,9 +15717,9 @@ void Menu75x::FUN_00970810(int arg)
                     }
                 }
             }
-            if (((Sh0041cb10*)((Sh005d43c0*)p)->FUN_005d43c0())->FUN_0041cb10() == (void*)arg)
+            if (((Sh0041cb10*)((Sh005d43c0*)p)->FUN_005d43c0())->ExtraDataList_GetPackageExtra() == (void*)arg)
             {
-                ((Sh0041c930*)((Sh005d43c0*)p)->FUN_005d43c0())->FUN_0041c930(0, 0, 0, 0, 0, 0);
+                ((Sh0041c930*)((Sh005d43c0*)p)->FUN_005d43c0())->ExtraDataList_SetPackageExtra(0, 0, 0, 0, 0, 0);
             }
             p = 0;
         }
@@ -17230,7 +17230,7 @@ struct WeaponShaderCleanup : public ::ProcessLists
         while (node)
         {
             ::BSTempEffect* effect = node->GetItem();
-            if (effect && ::FUN_0043b300(reinterpret_cast<const ::NiRTTI*>(&::g_011dc804),
+            if (effect && ::NiObject_IsKindOf(reinterpret_cast<const ::NiRTTI*>(&::g_011dc804),
                                          reinterpret_cast< ::NiAVObject*>(effect)))
             {
                 WeaponShaderEffectAccess* current = reinterpret_cast<WeaponShaderEffectAccess*>(effect);

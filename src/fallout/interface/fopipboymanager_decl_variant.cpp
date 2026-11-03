@@ -70,7 +70,7 @@ extern int DAT_011a0ba0;
 bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y, int& button)
 {
     bool result = false;
-    Interface* ui = Interface::FUN_004b7210();
+    Interface* ui = Interface::InterfaceManager_Instance();
     if (!FUN_007fa950() || !(NiAVObject*)m_cPipBoyButtonAvailability[0] ||
         !(NiAVObject*)m_cPipBoyButtonAvailability[1] || !(NiAVObject*)m_cPipBoyButtonAvailability[2])
         return false;

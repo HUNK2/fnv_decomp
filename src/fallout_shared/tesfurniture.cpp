@@ -297,7 +297,7 @@ FUN_00508ee0::~FUN_00508ee0()
 
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -305,36 +305,36 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 void __cdecl FUN_00485910(unsigned int, int);
 
 struct FUN_00509280_obj : public TESFurniture
 {
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_00509280();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void TESFurniture_SaveForm();
 };
 
 // @fnv 0x00509280
-void FUN_00509280_obj::FUN_00509280()
+void FUN_00509280_obj::TESFurniture_SaveForm()
 {
-    FUN_004855a0();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    TESForm_StartForm();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((S_0048cca0*)((char*)this + 0x5c))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x68))->FUN_00477f20();
+    ((S_0048cca0*)((char*)this + 0x5c))->TESScriptableForm_Save();
+    ((S_00477f20*)((char*)this + 0x68))->BGSDestructibleObjectForm_Save();
     FUN_00485910(0x4d414e4d, m_iMarkerCount);
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct FUN_005092f0_obj : public TESFurniture
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
     void CopyFromFurniture(TESForm* apCopy);
 };
 
@@ -344,24 +344,24 @@ void FUN_005092f0_obj::CopyFromFurniture(TESForm* apCopy)
     TESFurniture* pcopy = dynamic_cast<TESFurniture*>(apCopy);
     if (!pcopy)
         return;
-    FUN_004851b0(apCopy);
+    TESForm_CopyAllComponents(apCopy);
     m_iMarkerCount = pcopy->m_iMarkerCount;
     InitializeMarkerFlags();
 }
 
 struct FUN_00509540_obj : public TESFurniture
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_00509540(TESForm* apCompare);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESFurniture_Compare(TESForm* apCompare);
 };
 
 // @fnv 0x00509540
-bool FUN_00509540_obj::FUN_00509540(TESForm* apCompare)
+bool FUN_00509540_obj::TESFurniture_Compare(TESForm* apCompare)
 {
     TESFurniture* pcomp = dynamic_cast<TESFurniture*>(apCompare);
     if (!pcomp)
         return true;
-    if (FUN_00485270(pcomp))
+    if (TESForm_CompareAllComponents(pcomp))
         return true;
     if (m_iMarkerCount != pcomp->m_iMarkerCount)
         return true;

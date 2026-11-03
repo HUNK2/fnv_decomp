@@ -976,12 +976,12 @@ struct FUN_0052ed90_shell
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
 };
 
 struct FUN_005310b0_shell
 {
-    bool FUN_005310b0(TESForm* form);
+    bool TESImageSpaceModifier_Compare(TESForm* form);
 };
 
 int __cdecl _memcmp(const void* left, const void* right, unsigned int count);
@@ -990,7 +990,7 @@ extern char _DAT_01183028;
 
 // Looks up the TESImageSpaceModifier matching form, updates both objects, and returns false only if all compared fields and arrays are identical.
 // @fnv 0x005310b0
-bool FUN_005310b0_shell::FUN_005310b0(TESForm* form)
+bool FUN_005310b0_shell::TESImageSpaceModifier_Compare(TESForm* form)
 {
     FUN_005310b0_shell* imageSpaceModifier;
     int i;
@@ -1013,7 +1013,7 @@ bool FUN_005310b0_shell::FUN_005310b0(TESForm* form)
         *reinterpret_cast<int*>(reinterpret_cast<char*>(imageSpaceModifier) + 0x18))
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(reinterpret_cast<TESForm*>(imageSpaceModifier)))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(reinterpret_cast<TESForm*>(imageSpaceModifier)))
         return true;
 
     if (_memcmp(reinterpret_cast<char*>(this) + 0x20, reinterpret_cast<char*>(imageSpaceModifier) + 0x20, 0xf4))
@@ -1402,11 +1402,11 @@ void xSkyX::CacheObjectValues()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 bool FUN_00401500();
 void AppendChunk(unsigned int, void*, unsigned int);
@@ -1420,7 +1420,7 @@ struct FUN_0052f250_shell : TESImageSpaceModifier
 // @fnv 0x0052f250
 void FUN_0052f250_shell::WriteToStream()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
+    ((FUN_004855a0_shell*)this)->TESForm_StartForm();
     ((FUN_0052ed90_shell*)this)->CacheObjectValues();
     if (FUN_00401500())
         ((FUN_00531490_shell*)&Data)->SwapEndian();
@@ -1594,7 +1594,7 @@ void FUN_0052f250_shell::WriteToStream()
         unsigned int outro = pOutroSound->GetFormID();
         FUN_00485910(0x49534452, outro);
     }
-    ((FUN_00485680_shell*)this)->FUN_00485680();
+    ((FUN_00485680_shell*)this)->TESForm_CloseForm();
 }
 
 extern char _DAT_011862b8;
@@ -1604,25 +1604,25 @@ struct PassPtr
 {
     TESImageSpaceModifier* value;
 };
-extern "C" void __fastcall FUN_004851b0(TESImageSpaceModifier*, PassPtr);
+extern "C" void __fastcall TESForm_CopyAllComponents(TESImageSpaceModifier*, PassPtr);
 struct CopyBaseShell
 {
-    void FUN_004851b0(TESImageSpaceModifier*);
+    void TESForm_CopyAllComponents(TESImageSpaceModifier*);
 };
 struct TESImageSpaceModifierCopy : TESImageSpaceModifier
 {
-    void FUN_00530160(TESForm*);
+    void TESImageSpaceModifier_CopyFrom(TESForm*);
 };
 // Looks up a TESImageSpaceModifier by form, clears this object's data, then copies its sounds, Data struct and all list arrays into newly allocated storage.
 // @fnv 0x00530160
-void TESImageSpaceModifierCopy::FUN_00530160(TESForm* form)
+void TESImageSpaceModifierCopy::TESImageSpaceModifier_CopyFrom(TESForm* form)
 {
     unsigned int count;
     TESImageSpaceModifier* source = (TESImageSpaceModifier*)FUN_00ec43fb(form, 0, &_DAT_01183028, &_DAT_011862b8, 0);
     if (!source)
         return;
     CacheObjectValues(source);
-    FUN_004851b0(this, *(PassPtr*)&source);
+    TESForm_CopyAllComponents(this, *(PassPtr*)&source);
     ClearData();
     pIntroSound = source->pIntroSound;
     pOutroSound = source->pOutroSound;

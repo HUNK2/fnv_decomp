@@ -12,8 +12,8 @@ extern OSGlobals* g_osGlobals;
 struct TES
 {
     void FUN_00452490(int);
-    bool FUN_00453a80();
-    void FUN_004539a0(int, int);
+    bool TES_ClearOldestBufferedCell();
+    void TES_ClearAllCells(int, int);
 };
 extern TES* g_TES;
 extern unsigned int DAT_011de70c;
@@ -24,21 +24,21 @@ struct ScrapHeapManager
 };
 struct Worker
 {
-    bool FUN_00529ea0();
+    bool TESGlobal_GetType();
     void PurgeUnusedModels(int);
 };
 Worker* FUN_00652110();
 bool FUN_00652160();
 int FUN_00652130();
-void FUN_00652190();
+void BSFaceGenManager_UnlockFaceGenAccess();
 void SetTlsFlag(int);
-void FUN_00868d70(int);
+void GarbageCollector_ClearAll(int);
 void FUN_00c459d0(int);
 void FUN_00aa7030();
 struct RecursiveSpinLock
 {
     bool FUN_0078d200();
-    void FUN_0040fba0();
+    void BSSpinLock_Unlock();
 };
 extern RecursiveSpinLock DAT_011f11a0;
 struct IOManager
@@ -147,32 +147,32 @@ int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
         ScrapHeapManager::Instance().FUN_00aa5c80();
         break;
     case 2:
-        if (FUN_00652110() && FUN_00652110()->FUN_00529ea0() && FUN_00652160())
+        if (FUN_00652110() && FUN_00652110()->TESGlobal_GetType() && FUN_00652160())
         {
             if (FUN_00652130() == 1)
                 FUN_00652110()->PurgeUnusedModels(0);
-            FUN_00652190();
+            BSFaceGenManager_UnlockFaceGenAccess();
         }
         break;
     case 5:
         if (mainThread)
         {
             SetTlsFlag(0);
-            if (g_TES->FUN_00453a80())
+            if (g_TES->TES_ClearOldestBufferedCell())
                 step = step - 1;
             else
-                g_TES->FUN_004539a0(1, 0);
+                g_TES->TES_ClearAllCells(1, 0);
             g_TES->FUN_00452490(0);
             SetTlsFlag(1);
-            FUN_00868d70(1);
+            GarbageCollector_ClearAll(1);
         }
         else
             break;
     case 4:
         if (DAT_011f11a0.FUN_0078d200())
         {
-            FUN_00868d70(1);
-            DAT_011f11a0.FUN_0040fba0();
+            GarbageCollector_ClearAll(1);
+            DAT_011f11a0.BSSpinLock_Unlock();
         }
     case 3:
         FUN_00c459d0(1);

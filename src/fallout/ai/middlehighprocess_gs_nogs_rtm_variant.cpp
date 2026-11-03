@@ -85,7 +85,7 @@ struct FUN_00914b40_cls
 };
 struct FUN_00915400_shell : public MiddleHighProcess
 {
-    void FUN_00915400();
+    void MiddleHighProcess_SetupNewPackage();
 };
 void __fastcall FUN_00483710(void*);
 void __fastcall FUN_00914b40(void*);
@@ -374,7 +374,7 @@ struct Animation
 typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_0091fe80_shell : public MiddleHighProcess
 {
-    void FUN_0091fe80(Animation*);
+    void MiddleHighProcess_SetAnimation(Animation*);
 };
 void* __cdecl memset(void*, int, unsigned int);
 void __cdecl AddAnimationToGarbageCollector(Animation*);
@@ -408,7 +408,7 @@ struct FUN_0092c720_cls
 };
 struct ObjB
 {
-    void FUN_004b0ef0();
+    void BSCloneReserver_DecRefCount();
     void FUN_0092c870();
 };
 struct FUN_0092c8b0_cls
@@ -424,8 +424,8 @@ struct MemoryManager
 {
     void* Allocate(unsigned int);
 };
-MemoryManager* __cdecl FUN_00401020(void);
-void* __cdecl FUN_00401000(unsigned int size);
+MemoryManager* __cdecl MemoryManager_Instance(void);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 struct QueuedItemList
 {
     PaddedFloatRecord** _ref_006815c0();
@@ -522,7 +522,7 @@ struct FUN_009b4d90
 };
 struct MiddleHighProcessS : MiddleHighProcess
 {
-    void FUN_0092c400(FUN_009b4d90* apData);
+    void MiddleHighProcess_SetLastHitData(FUN_009b4d90* apData);
 };
 struct VirtObj
 {
@@ -579,7 +579,7 @@ struct MiddleHighProcessStandIn
 {
     char _pad[0x12C];
     void* m_pActorNode;
-    void* FUN_00922b20(void* apBiped);
+    void* MiddleHighProcess_GetWeaponNode(void* apBiped);
 };
 struct FUN_00922b60
 {
@@ -587,13 +587,13 @@ struct FUN_00922b60
 };
 struct FUN_00495480_shell
 {
-    void FUN_00495480(float);
+    void NiControllerSequence_SetSequenceWeight(float);
 };
 struct Host00929570
 {
     char _pad[0x1C4];
     FUN_00495480_shell* seqs[8];
-    void FUN_00929570(int aeDirection, FUN_00495480_shell* apSeq);
+    void MiddleHighProcess_SetAimSequence(int aeDirection, FUN_00495480_shell* apSeq);
 };
 struct ActorPackage_GetTarget_Helper : ActorPackageContext
 {
@@ -1164,12 +1164,12 @@ class TESBoundObject
 class TESNPC
 {
   public:
-    void FUN_006047c0(Actor*, bool, bool, bool, bool);
+    void TESNPC_InitDefaultWorn(Actor*, bool, bool, bool, bool);
 };
 class TESCreature
 {
   public:
-    void FUN_005f9e00(Actor*, bool, bool, bool);
+    void TESCreature_InitDefaultWorn(Actor*, bool, bool, bool);
 };
 class TESPackage
 {
@@ -1183,7 +1183,7 @@ struct ProcessUpdate : MiddleHighProcess
 };
 struct FUN_00915d20_shell : public MiddleHighProcess
 {
-    void FUN_00915d20(unsigned char value);
+    void MiddleHighProcess_SetWantWeaponDrawn(unsigned char value);
 };
 extern "C" Actor* DAT_011dea3c;
 struct WeaponEquipmentAccess
@@ -1197,19 +1197,19 @@ struct ActorWeaponAccess
 };
 struct WeaponDrawProcess : MiddleHighProcess
 {
-    void FUN_00915d60(Actor* actor, bool drawn);
+    void MiddleHighProcess_SetWeaponDrawn(Actor* actor, bool drawn);
 };
 struct ActorCalls
 {
     int FUN_00931850();
-    bool FUN_00437bf0();
-    bool FUN_00437bd0();
-    bool FUN_005a2030();
+    bool Actor_IsRestrained();
+    bool Actor_IsUnConscious();
+    bool Actor_IsSwimming();
     bool FUN_0087f3b0();
     bool FUN_0087f570();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     void* FUN_005d43c0();
-    float FUN_00572380(NiPoint3*);
+    float TESObjectREFR_GetDistanceFromPoint(NiPoint3*);
     int FUN_008a8230(Actor*);
     void FUN_0093a690(Actor*);
     int FUN_00953c20();
@@ -1235,7 +1235,7 @@ struct TimingSettings
 };
 struct ProcessToken
 {
-    void* FUN_0041cb10();
+    void* ExtraDataList_GetPackageExtra();
 };
 extern GlobalCallContext* DAT_011f1958;
 extern TimingSettings DAT_011ccffc;
@@ -1266,14 +1266,14 @@ struct PackageForTarget
 };
 struct TargetData
 {
-    TESObjectREFR* FUN_0041c8d0();
+    TESObjectREFR* ExtraDataList_GetReferencePointer();
 };
 struct TargetReference : TESObjectREFR
 {
-    bool FUN_00576d30();
-    bool FUN_00440d80();
+    bool TESForm_IsStillLoading();
+    bool TESForm_GetDelete();
     TargetData* FUN_005d43c0();
-    void FUN_00564db0(bool);
+    void TESObjectREFR_SetTargeted(bool);
 };
 struct TargetProcess : MiddleHighProcess
 {
@@ -1301,7 +1301,7 @@ struct TargetProcess : MiddleHighProcess
     virtual void unkSlot514();
     virtual void unkSlot515();
     virtual TESObjectREFR* ResolveTarget(Actor*, TESPackage*);
-    bool FUN_0091aca0(Actor* actor);
+    bool MiddleHighProcess_SetTargetForPackage(Actor* actor);
 };
 struct InventoryItemLookup
 {
@@ -1734,7 +1734,7 @@ class B91FD90Owner
     virtual void vfn278();
     virtual B91FD90Package* GetAssignedPackage();
 
-    void FUN_0091fd90(B91FD90Actor* pkActor);
+    void MiddleHighProcess_ProcessDialogue(B91FD90Actor* pkActor);
 };
 struct SSLookData
 {
@@ -1751,7 +1751,7 @@ struct SSTaskQueue
 };
 struct SSFurnRef
 {
-    void FUN_00568020(unsigned char idx, bool b);
+    void TESObjectREFR_SetMarkerUsed(unsigned char idx, bool b);
 };
 struct SSMarker
 {
@@ -1961,8 +1961,8 @@ struct FUN_00921250_Item;
 struct FUN_00921250_Node;
 struct FUN_00921250_Mgr
 {
-    bool FUN_004eaf60();
-    void FUN_005c4210(int);
+    bool PlayerCharacter_Is3rdPerson();
+    void PlayerCharacter_Force3rdPerson(int);
     FUN_00921250_Item* FUN_00950a60(int);
 };
 struct FUN_00921250_Svc
@@ -2384,7 +2384,7 @@ struct FUN_00922b40_cls
     int unk00[118];
     unsigned short unk01;
     unsigned char m_bFlag;
-    unsigned char FUN_00922b40();
+    unsigned char MiddleHighProcess_HasBeenAttacked();
 };
 struct CvPoint3
 {
@@ -3208,7 +3208,7 @@ struct LoadBuffer
     virtual void v2();
     virtual Actor* GetActor();
     LoadFlags FUN_0042ce30();
-    bool FUN_00562d00();
+    bool BGSLoadFormBuffer_GetRevertOnly();
 };
 struct PackageLoad
 {
@@ -3221,8 +3221,8 @@ struct AnimationLoad
 void __cdecl FUN_00806ba0(LoadBuffer*, BSSimpleList<ActiveEffect*>*);
 struct FUN_009280f0_Class : MiddleHighProcess
 {
-    void FUN_0092eb00(LoadBuffer*);
-    void FUN_009280f0(LoadBuffer*);
+    void MiddleLowProcess_RevertBGS(LoadBuffer*);
+    void MiddleHighProcess_RevertBGS(LoadBuffer*);
 };
 struct SaveVector
 {
@@ -4284,7 +4284,7 @@ struct FUN_0092b460_cls
     FUN_0092b460_cls* GetTargetFromOffset();
     FUN_0092b460_cls* FUN_008d8520();
     FUN_0092b460_cls* FUN_008d0430();
-    void FUN_005ac1e0(FUN_0092b460_cls* a, int b, int c, int d);
+    void Script_Run(FUN_0092b460_cls* a, int b, int c, int d);
     void FUN_0092b460(FUN_0092b460_cls* a1, FUN_0092b460_cls* a2);
 };
 struct FUN_0092b9c0_Class : public MiddleHighProcess
@@ -4645,15 +4645,15 @@ struct FUN_0092bff0_shell : public MiddleHighProcess
 };
 struct FUN_00493830_shell
 {
-    bool FUN_00493830();
+    bool Animation_GetAnimsLoading();
 };
 struct FUN_00494710_shell
 {
-    bool FUN_00494710(unsigned short);
+    bool Animation_GroupLoaded(unsigned short);
 };
 struct FUN_0092c340_shell : public MiddleHighProcess
 {
-    bool FUN_0092c340(int aiMovement);
+    bool MiddleHighProcess_HasMovementAnim(int aiMovement);
 };
 struct CFItem;
 struct CFList
@@ -5075,7 +5075,7 @@ class PathingRequestClosePoint
 struct WanderPackage
 {
     int GetProcedureType();
-    NiPoint3 FUN_00675de0(Actor*);
+    NiPoint3 TESPackage_GetLocationCoord(Actor*);
     unsigned int FUN_00676280(Actor*);
 };
 struct WanderActor : Actor
@@ -5085,7 +5085,7 @@ struct WanderActor : Actor
 };
 struct WanderDataHandler
 {
-    TESObjectCELL* FUN_00461bc0(float, float, TESWorldSpace*, bool);
+    TESObjectCELL* TESDataHandler_GetCellFromWorldCoord(float, float, TESWorldSpace*, bool);
 };
 Actor* FUN_00703180();
 void DebugLog(const char*, ...);
@@ -5097,7 +5097,7 @@ struct WanderProcess : LowProcess
 struct MgrObj
 {
     void FUN_00444d40(void* a, int b, void* c);
-    void* FUN_00447330(void* p);
+    void* ModelLoader_BuildKFFileList(void* p);
     void FUN_00446500(void* a, int b, void* c);
 };
 extern MgrObj* DAT_011c3b3c;
@@ -5105,8 +5105,8 @@ extern int DAT_0118a838[];
 unsigned short FUN_005f2370(int a, int b, int c, int d);
 struct ObjB913
 {
-    int FUN_00496940();
-    bool FUN_00494710(unsigned short a);
+    int Animation_GetControllerManager();
+    bool Animation_GroupLoaded(unsigned short a);
 };
 struct ResObj
 {
@@ -5400,7 +5400,7 @@ extern void* DAT_0108904c[];
 struct Global96
 {
     bool FUN_0047c850();
-    void FUN_0085a2e0(void*);
+    void TESSaveLoadGame_DeleteForm(void*);
 };
 struct FUN_00914610 : Base96
 {
@@ -5497,8 +5497,8 @@ struct FUN_00914610 : Base96
     int unk250;
     ~FUN_00914610();
     void* FUN_008d83e0();
-    void FUN_0091ee70();
-    void FUN_0091fe80(int);
+    void MiddleHighProcess_ClearRunOncePackage();
+    void MiddleHighProcess_SetAnimation(int);
     void FUN_00914b40();
     void ClearQueuedItems();
 };
@@ -5542,12 +5542,12 @@ struct QueueActor
 };
 struct QueueAnimation
 {
-    bool FUN_00494710(unsigned short);
-    void FUN_00490400(void*);
+    bool Animation_GroupLoaded(unsigned short);
+    void Animation_AddAnimationsFromList(void*);
 };
 struct QueueModelLoader
 {
-    void* FUN_00447330(const char*, bool, bool, bool);
+    void* ModelLoader_BuildKFFileList(const char*, bool, bool, bool);
 };
 extern QueueModelLoader* g_modelLoader;
 unsigned short __cdecl FUN_005f2370(int, int, int, bool);
@@ -5594,7 +5594,7 @@ struct P114RefOps
     int FUN_0044ddc0();
     P114RefOps* FUN_00559450();
     P114RefOps** FUN_006815c0();
-    TESObjectREFR* FUN_0041c8d0();
+    TESObjectREFR* ExtraDataList_GetReferencePointer();
     TESObjectREFR* FUN_0067f390();
     void* FUN_0055d310();
     TESBoundObject* FUN_007af430();
@@ -5688,9 +5688,9 @@ struct P114Package
     int FUN_0041ca90();
     int FUN_00672930();
     bool FUN_00678610();
-    P114Point FUN_00675de0(Actor*);
-    void* FUN_00675a50(Actor*);
-    void* FUN_00675c20(Actor*);
+    P114Point TESPackage_GetLocationCoord(Actor*);
+    void* TESPackage_GetLocationWorld(Actor*);
+    void* TESPackage_GetLocationCell(Actor*);
 };
 struct P114ActorOps
 {
@@ -5825,7 +5825,7 @@ extern P114Settings DAT_011cd82c;
 extern P114Clock DAT_011de7b8;
 extern TESBoundObject* DAT_011ca244;
 extern TESBoundObject* DAT_011ca248;
-P114Global* __cdecl FUN_004839c0(unsigned int);
+P114Global* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct P114Process : MiddleHighProcess
 {
     virtual void slot493();
@@ -6707,8 +6707,8 @@ struct ItemCls
     virtual void u003f();
     virtual bool V100();
     void* f00;
-    OwnerForm* FUN_00567790();
-    int FUN_005682c0(int a);
+    OwnerForm* TESObjectREFR_GetOwner();
+    int TESObjectREFR_GetFirstFreeMarkerIndex(int a);
 };
 struct Cont
 {
@@ -6875,10 +6875,10 @@ struct P0
     virtual void u008a();
     virtual bool V22c(int);
     void* FUN_00569b80_asP0();
-    P0* FUN_00569b80();
+    P0* TESObjectREFR_GetLinkedRef();
     CellCls* FUN_008d6f30();
     void FUN_004534f0(unsigned int a);
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 };
 struct ObjE
 {
@@ -7096,11 +7096,11 @@ struct Pkg
     int FUN_0041ca90();
     ObjC* FUN_0055b980();
     bool FUN_00674d40();
-    void FUN_00674e70(void* o, int a);
-    void* FUN_00672f20();
-    unsigned int FUN_006758a0(P0* a);
-    void* FUN_006757e0(P0* a);
-    P3 FUN_00675830(P0* a);
+    void TESPackage_SetNeverRun(void* o, int a);
+    void* TESPackage_GetPackageSearchLocation();
+    unsigned int TESPackage_GetSearchLocationRadius(P0* a);
+    void* TESPackage_GetSearchLocationCell(P0* a);
+    P3 TESPackage_GetSearchLocationCoord(P0* a);
     int FUN_00672930();
     bool FUN_00678d00();
 };
@@ -7154,7 +7154,7 @@ struct FUN_004534f0_shell
 struct MobileObject;
 struct Proxy758a0
 {
-    unsigned int FUN_006758a0(MobileObject* a);
+    unsigned int TESPackage_GetSearchLocationRadius(MobileObject* a);
 };
 struct ProcessQuery
 {
@@ -7934,7 +7934,7 @@ struct PlayerPackageAccess
 };
 struct ReferenceAccess
 {
-    float FUN_005723b0(TESObjectREFR*, int, int);
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR*, int, int);
     TESWorldSpace* FUN_00575d70();
     bool FUN_008b3bb0();
     void FUN_0087faa0();
@@ -7969,9 +7969,9 @@ struct ActivationPackage : TESForm
 struct ActivationReference : TESObjectREFR
 {
     void* FUN_00568e50();
-    const NiPoint3& FUN_00568fa0();
-    bool FUN_00440d80();
-    bool FUN_00573170(Actor*, bool, TESBoundObject*, int);
+    const NiPoint3& TESObjectREFR_GetLinkedDoorTeleportPosition();
+    bool TESForm_GetDelete();
+    bool TESObjectREFR_Activate(Actor*, bool, TESBoundObject*, int);
 };
 struct ActivationPlayer : Actor
 {
@@ -8307,7 +8307,7 @@ struct ProcedureActor
     virtual void ResetTargetPointer(Actor*);
     virtual void Advance();
     void FUN_00881680(int);
-    float FUN_005723b0(Actor*, int, int);
+    float TESObjectREFR_GetDistanceFromReference(Actor*, int, int);
     ProcedureProcess* FUN_008d8520();
 };
 struct FollowProcedure
@@ -8813,7 +8813,7 @@ struct CrimeProcess
     virtual void Slot205();
     virtual void Slot206();
     virtual void Accept(CrimeActor*, void*, int, int, int, int, int, int, int, int, int, int, int);
-    void FUN_0091ded0(CrimeActor* actor);
+    void MiddleHighProcess_ProcessAlarm(CrimeActor* actor);
 };
 struct PackageTargetView
 {
@@ -9044,7 +9044,7 @@ struct RefView
     virtual void slot132();
     virtual void slot133();
     virtual bool IsNPC();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     bool FUN_00440da0();
     TESBoundObject* FUN_007af430();
     int FUN_00931850();
@@ -9746,9 +9746,9 @@ struct P130Ref
     virtual void v114();
     virtual void v115();
     virtual int GetNumericValue();
-    bool FUN_00567f80(int, bool);
-    void FUN_00568020(int, bool);
-    void FUN_00568150(int, bool);
+    bool TESObjectREFR_GetMarkerUsed(int, bool);
+    void TESObjectREFR_SetMarkerUsed(int, bool);
+    void TESObjectREFR_SetMarkerReserved(int, bool);
     struct P130Marker* FUN_007af430();
 };
 struct P130Seq
@@ -9768,15 +9768,15 @@ struct P130Anim : Animation
 {
     bool FUN_00498f80();
     bool IsFlaggedAsTwo();
-    void FUN_00498910(bool, bool);
-    void FUN_00497ca0(P130Node*, int);
+    void Animation_SpecialIdleFree(bool, bool);
+    void Animation_SpecialIdleQueue(P130Node*, int);
     void CopyGlobalPosition();
     bool FUN_004981f0();
     P130Seq* FUN_00491040(int);
     void FUN_00498230(P130Actor*);
-    bool FUN_004985f0();
+    bool Animation_SpecialIdleDonePlaying();
     void FUN_004974a0();
-    void FUN_004994f0(int, bool);
+    void Animation_BlendOut(int, bool);
     int FUN_00921e30();
 };
 struct P130Node
@@ -10076,7 +10076,7 @@ struct P130Actor
     void FUN_00884f80();
     void ForwardToVtSlot(int);
     void FUN_008b3ab0();
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     void FUN_00931fb0(bool);
     void FUN_008a73e0(int, bool);
     void FUN_00931d30(float);
@@ -10146,7 +10146,7 @@ struct P130Process : public MiddleHighProcess
     virtual void v528();
     virtual void v529();
     virtual void StartIdle(P130Actor*, int, int);
-    bool FUN_009213e0(P130Actor* actor);
+    bool MiddleHighProcess_SitOrSleep(P130Actor* actor);
 };
 struct ItemChangeStub;
 struct EquipListStub
@@ -10686,7 +10686,7 @@ struct LoadResetProcess926
     int f248;
     int f24c;
     int f250;
-    void FUN_00926000(unsigned int flags, MobileObject* mobile);
+    void MiddleHighProcess_RevertTES(unsigned int flags, MobileObject* mobile);
 };
 struct SaveBuffer58;
 struct Flag58
@@ -10729,7 +10729,7 @@ struct SavedPart58
 {
     void SavePackage(SaveBuffer58*);
     void SaveAnimData(SaveBuffer58*);
-    unsigned int FUN_0040a1e0();
+    unsigned int MagicItem_GetMagicItemFormID();
     unsigned int RefreshItem();
     unsigned int FUN_00726070();
 };
@@ -10913,7 +10913,7 @@ struct ProcessSave58
     unsigned int unk240;
     unsigned int unk244;
     void LoadFromStream(SaveBuffer58*);
-    void FUN_00926a20(SaveBuffer58*);
+    void MiddleHighProcess_SaveGameBGS(SaveBuffer58*);
 };
 struct P124Point
 {
@@ -11074,12 +11074,12 @@ struct P124Furniture
     virtual void v124();
     virtual P124Point* GetPosition();
     P124Base* FUN_007af430();
-    P124Matrix FUN_0056fa00();
+    P124Matrix TESObjectREFR_GetOrientation();
     const P124Point& FUN_00430830();
 };
 struct P124Controller
 {
-    void FUN_005620e0(P124Point*);
+    void bhkCharacterController_SetPosition(P124Point*);
 };
 struct P124Actor
 {
@@ -11477,7 +11477,7 @@ struct ObjC9 : TESObjectREFR
 {
     void* FUN_00575d70();
     ObjC9* FUN_008d6f30();
-    float FUN_005723b0(void*, int, int);
+    float TESObjectREFR_GetDistanceFromReference(void*, int, int);
     bool FUN_00425fd0();
 };
 struct ObjPkg9
@@ -11488,9 +11488,9 @@ struct ObjB9
 {
     unsigned int FUN_00676280(Actor9*);
     int FUN_0055b980();
-    void* FUN_00675a50(Actor9*);
-    void* FUN_00675c20(Actor9*);
-    NiPoint3 FUN_00675de0(Actor9*);
+    void* TESPackage_GetLocationWorld(Actor9*);
+    void* TESPackage_GetLocationCell(Actor9*);
+    NiPoint3 TESPackage_GetLocationCoord(Actor9*);
 };
 struct ObjA9
 {
@@ -11575,7 +11575,7 @@ struct Proc9 : MiddleHighProcess
 };
 struct FurnitureReference : TESObjectREFR
 {
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
 };
 struct FurnitureBase
 {
@@ -11769,7 +11769,7 @@ struct InventoryStackRecord
 float RoundScaledValue(float afValue);
 struct MHP_0092b9e0_Owner : MiddleHighProcess
 {
-    int FUN_0092b9e0(Actor* apActor);
+    int MiddleHighProcess_GetWeaponCondition(Actor* apActor);
 };
 struct ArmorForm : TESForm
 {
@@ -11811,7 +11811,7 @@ struct TESObjectARMO : ArmorForm
 struct InventoryItem
 {
     ArmorForm* GetObject();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 class InventoryChanges
 {
@@ -11821,8 +11821,8 @@ class InventoryChanges
 };
 struct ArmorActor : Actor
 {
-    Animation* FUN_008b70d0();
-    BipedAnim* FUN_005d9f90();
+    Animation* Actor_GetAnimData();
+    BipedAnim* Character_GetValidBip01Names();
 };
 struct ArmorProcess : MiddleHighProcess
 {
@@ -12235,17 +12235,17 @@ struct ActRef
     virtual void r07b();
     virtual void r07c();
     virtual ActPoint* GetPos();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     void* FUN_007af430();
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
     void* FUN_00568e50();
-    ActPoint* FUN_00568fa0();
-    bool FUN_00567f80(unsigned char aucMarker, int aiFlags);
+    ActPoint* TESObjectREFR_GetLinkedDoorTeleportPosition();
+    bool TESObjectREFR_GetMarkerUsed(unsigned char aucMarker, int aiFlags);
     void* FUN_008d6f30();
     void* FUN_00575d70();
-    bool FUN_005686b0(ActPoint* apPos, int a2, int a3, ActPoint* apOut, int* apMarker, int a6);
-    bool FUN_00573170(ActActor* apActor, int aiActivate, void* apItem, int a4);
-    void FUN_00565870();
+    bool TESObjectREFR_GetClosestFreeMarker(ActPoint* apPos, int a2, int a3, ActPoint* apOut, int* apMarker, int a6);
+    bool TESObjectREFR_Activate(ActActor* apActor, int aiActivate, void* apItem, int a4);
+    void TESObjectREFR_RunScript();
 };
 
 struct ActPackage
@@ -12333,7 +12333,7 @@ struct ActPackage
     virtual void k050();
     virtual bool FUN_vt144(ActActor* apActor, int aiFlags);
     virtual bool FUN_vt148(ActActor* apActor, int aiDistance);
-    ActRef* FUN_00676140(ActActor* apActor);
+    ActRef* TESPackage_GetLocationReference(ActActor* apActor);
     int FUN_0041ca90();
     bool FUN_0067efd0();
 };
@@ -12364,7 +12364,7 @@ struct ActGlobal
 
 extern void* DAT_011ca248;
 extern void* DAT_011ca244;
-ActGlobal* __cdecl FUN_004839c0(unsigned int auiFormID);
+ActGlobal* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormID);
 
 struct ActProcess
 {
@@ -12913,7 +12913,7 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
 {
     ActPackage* pPackage = 0;
     pPackage = FUN_vt27c();
-    if (pTarget == 0 || pTarget->FUN_00440d80())
+    if (pTarget == 0 || pTarget->TESForm_GetDelete())
         FindPackageTarget(apActor);
     if (pTarget == 0)
     {
@@ -12921,8 +12921,8 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
     }
     else
     {
-        ActRef* pRef = pPackage->FUN_00676140(apActor);
-        if (pRef && pRef->FUN_00568680() &&
+        ActRef* pRef = pPackage->TESPackage_GetLocationReference(apActor);
+        if (pRef && pRef->TESObjectREFR_IsFurniture() &&
             (pTarget->FUN_007af430() == DAT_011ca248 || pTarget->FUN_007af430() == DAT_011ca244))
         {
             FUN_vt628(pRef);
@@ -12934,15 +12934,15 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
         bool bDoneEntry = false;
         if (pFurniture)
         {
-            ActPoint kDelta = pTarget->FUN_00568fa0()->FUN_00439ef0(*apActor->GetPos());
+            ActPoint kDelta = pTarget->TESObjectREFR_GetLinkedDoorTeleportPosition()->FUN_00439ef0(*apActor->GetPos());
             if (kDelta.FUN_00457990() <= *DAT_011cde98.FUN_0043d4d0())
                 bDoneEntry = true;
         }
-        else if (pTarget->FUN_00568680() && apActor->FUN_vt214())
+        else if (pTarget->TESObjectREFR_IsFurniture() && apActor->FUN_vt214())
         {
             bDoneEntry = true;
         }
-        else if (pTarget->FUN_00568680() && !apActor->FUN_vt214() && pTarget->FUN_00567f80(ucMarker, 1) &&
+        else if (pTarget->TESObjectREFR_IsFurniture() && !apActor->FUN_vt214() && pTarget->TESObjectREFR_GetMarkerUsed(ucMarker, 1) &&
                  !apActor->FUN_008b3bb0())
         {
             FUN_vt84(apActor);
@@ -12970,11 +12970,11 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
                     if (!FUN_vt824(apActor, *pTarget->GetPos(), pTarget->FUN_008d6f30(), pTarget->FUN_00575d70()))
                         return false;
                 }
-                else if (pTarget->FUN_00568680())
+                else if (pTarget->TESObjectREFR_IsFurniture())
                 {
                     ActPoint kActorPos = *apActor->GetPos();
                     int iMarkerTmp = 0;
-                    if (pTarget->FUN_005686b0(&kActorPos, 1, 1, &kMarkerPos, &iMarkerTmp, 1))
+                    if (pTarget->TESObjectREFR_GetClosestFreeMarker(&kActorPos, 1, 1, &kMarkerPos, &iMarkerTmp, 1))
                     {
                         if (!FUN_vt824(apActor, kMarkerPos, pTarget->FUN_008d6f30(), pTarget->FUN_00575d70()))
                             return false;
@@ -12990,13 +12990,13 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
                 }
                 else
                 {
-                    if (!FUN_vt824(apActor, *pTarget->FUN_00568fa0(), pTarget->FUN_008d6f30(), pTarget->FUN_00575d70()))
+                    if (!FUN_vt824(apActor, *pTarget->TESObjectREFR_GetLinkedDoorTeleportPosition(), pTarget->FUN_008d6f30(), pTarget->FUN_00575d70()))
                         return false;
                 }
             }
             if (!apActor->FUN_008b3bb0())
             {
-                ActGlobal* pHourGlobal = FUN_004839c0(0x3a);
+                ActGlobal* pHourGlobal = TESForm_GetFormByNumericID(0x3a);
                 float fNowCur = DAT_011de7b8.FUN_00867da0();
                 if (FUN_007df1f0() > fNowCur)
                     fNowCur = fNowCur + 24.0;
@@ -13029,7 +13029,7 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
                     SetProcessTarget(apActor, 1);
                 if (!FUN_00915ef0(apActor))
                 {
-                    if (pTarget->FUN_00568680())
+                    if (pTarget->TESObjectREFR_IsFurniture())
                     {
                         if (apActor->FUN_vt214() != 4 && apActor->FUN_vt214() != 9)
                         {
@@ -13055,23 +13055,23 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
                     }
                     else if (m_pDetectionData60)
                     {
-                        pTarget->FUN_00573170(apActor, 1, m_pDetectionData60->pItem, 1);
+                        pTarget->TESObjectREFR_Activate(apActor, 1, m_pDetectionData60->pItem, 1);
                     }
-                    else if (!pTarget->IsActor() && !pTarget->FUN_00573170(apActor, 1, 0, 1) &&
+                    else if (!pTarget->IsActor() && !pTarget->TESObjectREFR_Activate(apActor, 1, 0, 1) &&
                              pPackage->FUN_0067efd0())
                     {
                         SetProcessTarget(apActor, -1);
                     }
                 }
                 if (pActivated)
-                    pActivated->FUN_00565870();
+                    pActivated->TESObjectREFR_RunScript();
             }
             else
             {
                 ActRef* pUsed = pTarget;
                 if (!FUN_00915ef0(apActor))
                 {
-                    if (pTarget->FUN_00568680())
+                    if (pTarget->TESObjectREFR_IsFurniture())
                     {
                         if (apActor->FUN_vt214() != 4 && apActor->FUN_vt214() != 9)
                         {
@@ -13096,15 +13096,15 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
                     }
                     else if (m_pDetectionData60)
                     {
-                        pTarget->FUN_00573170(apActor, 0, m_pDetectionData60->pItem, 1);
+                        pTarget->TESObjectREFR_Activate(apActor, 0, m_pDetectionData60->pItem, 1);
                     }
                     else
                     {
-                        pTarget->FUN_00573170(apActor, 0, 0, 1);
+                        pTarget->TESObjectREFR_Activate(apActor, 0, 0, 1);
                     }
                 }
                 if (pUsed)
-                    pUsed->FUN_00565870();
+                    pUsed->TESObjectREFR_RunScript();
             }
             delete m_pDetectionData60;
             m_pDetectionData60 = 0;
@@ -13139,7 +13139,7 @@ struct Point91;
 struct SelfFull91 : Slots<432>
 {
     virtual void v6c4();
-    void FUN_0091fee0(Ref91*, Point91, float);
+    void MiddleHighProcess_KnockExplosion(Ref91*, Point91, float);
 };
 struct Actor91 : Slots<132>
 {
@@ -14119,7 +14119,7 @@ struct N92Procedure
     int unk13c;
     int m140;
     N92Proc* FUN_008d0430();
-    void FUN_0092acd0(N92Actor* actor);
+    void MiddleHighProcess_ProcessPatrol(N92Actor* actor);
 };
 }
 using namespace proc92a;
@@ -14127,11 +14127,11 @@ namespace s44b130 {
 
 struct Lock
 {
-    bool FUN_0044b130();
+    bool BSCriticalSection_TryLock();
 };
 
 // @fnv 0x0044b130
-bool Lock::FUN_0044b130()
+bool Lock::BSCriticalSection_TryLock()
 {
     bool bResult = DAT_00fdf1b0(this) ? 1 : 0;
     return bResult;
@@ -14941,7 +14941,7 @@ struct xProcess
     unsigned int m_244;
     int m_248;
     void BaseLoadGame(xBuf* buf);
-    void FUN_00927000(xBuf* buf);
+    void MiddleHighProcess_LoadGameBGS(xBuf* buf);
 };
 TESForm* xLookupForm(unsigned int id);
 int __cdecl xStrcmp(const char* a, const char* b);
@@ -14951,7 +14951,7 @@ extern xActor* xg_pPlayer;
 extern xSpinLock xg_kLock;
 struct CellStandIn_9294b0
 {
-    void FUN_00548740(ArrowProjectile*);
+    void TESObjectCELL_AddReferenceSimple(ArrowProjectile*);
 };
 struct MatchQueue_9294b0
 {
@@ -14962,7 +14962,7 @@ extern "C" MatchQueue_9294b0 DAT_011e0e80;
 }
 struct S_9294b0 : public MiddleHighProcess
 {
-    void FUN_009294b0(TESObjectREFR* apAttachedRef);
+    void MiddleHighProcess_MoveAttachedArrowsToParentCell(TESObjectREFR* apAttachedRef);
 };
 class QueuedFileAccess
 {
@@ -14999,7 +14999,7 @@ class WeaponBaseAccess
 {
   public:
     int FUN_00446390();
-    SoundAccess* FUN_005215a0(bool);
+    SoundAccess* TESObjectWEAP_GetAttackSound(bool);
     SoundAccess* GetValueByFlag(bool);
     SoundAccess* GetPointerByFlag(bool);
     SoundAccess* GetField22C();
@@ -15016,7 +15016,7 @@ class AnimAccess
 {
   public:
     NiNode* FUN_005585e0();
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* Animation_GetControllerManager();
 };
 class PlayerAccess
 {
@@ -15047,7 +15047,7 @@ class CloneAccess
 class WeaponProcess : public MiddleHighProcess
 {
   public:
-    bool FUN_0091e100(InventoryStackRecord*, NiNode*, bool);
+    bool MiddleHighProcess_SetCurrentWeapon(InventoryStackRecord*, NiNode*, bool);
     void UpdateWeaponTypeFlags();
 };
 class NiUpdateData
@@ -15103,15 +15103,15 @@ class TESFurniture : public TESBoundObject
 struct TESObjectREFRExt : public TESObjectREFR
 {
     NiAVObject* Get3DSimple();
-    void FUN_00568020(unsigned int, bool);
-    ThreeByThreeMatrix FUN_0056fa00();
+    void TESObjectREFR_SetMarkerUsed(unsigned int, bool);
+    ThreeByThreeMatrix TESObjectREFR_GetOrientation();
     ::NiNode* GetNiNode();
     NiPoint3* GetPos() const;
 };
 class bhkCharacterController
 {
   public:
-    void FUN_005620e0(void*);
+    void bhkCharacterController_SetPosition(void*);
 };
 class PlayerCharacter : public Actor
 {
@@ -15119,7 +15119,7 @@ class PlayerCharacter : public Actor
     Animation* GetAnimation(bool);
     BipedAnim* GetBipedAnim(bool);
     NiNode* GetNode(bool);
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     void FUN_00950110(bool);
     void FUN_005098c0();
 };
@@ -15341,7 +15341,7 @@ class ObjectWithVFunc1b8
 class FinishInitLoadProcessView : public MiddleHighProcess
 {
   public:
-    void FUN_00925700(unsigned int, unsigned int, MobileObject*);
+    void MiddleHighProcess_FinishInitLoadGame(unsigned int, unsigned int, MobileObject*);
 };
 namespace fnv_00928510 {
 using ::Actor;
@@ -15675,9 +15675,9 @@ struct ActorEx : Actor
 class PlayerCharacter : public Actor
 {
   public:
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     Animation* GetAnimation(bool);
-    void FUN_005c4210(bool);
+    void PlayerCharacter_Force3rdPerson(bool);
 };
 
 extern PlayerCharacter* g_thePlayer;
@@ -15702,7 +15702,7 @@ extern TIM_008b2010* DAT_011cb6a0;
 
 struct FurnEx
 {
-    void FUN_00568020(unsigned char, bool);
+    void TESObjectREFR_SetMarkerUsed(unsigned char, bool);
 };
 
 struct FUN_005094b0_shell
@@ -15984,11 +15984,11 @@ class bhkCharacterController
 class MiddleHighProcessExt : public MiddleHighProcess
 {
   public:
-    void FUN_00928510(Actor* a1, Animation* a2);
+    void MiddleHighProcess_LoadSitSleepIdle(Actor* a1, Animation* a2);
 };
 
 // @fnv 0x00928510
-void MiddleHighProcessExt::FUN_00928510(Actor* a1, Animation* a2)
+void MiddleHighProcessExt::MiddleHighProcess_LoadSitSleepIdle(Actor* a1, Animation* a2)
 {
     if (m_pFurnitureReference)
     {
@@ -16021,14 +16021,14 @@ void MiddleHighProcessExt::FUN_00928510(Actor* a1, Animation* a2)
             a1->SetCurrentSitSleepState((SIT_SLEEP_STATE)m_ucFurnitureInteractionState);
             if (m_ucFurnitureInteractionState)
             {
-                ((FurnEx*)m_pFurnitureReference)->FUN_00568020(m_ucFurnitureMarkerIndex, true);
+                ((FurnEx*)m_pFurnitureReference)->TESObjectREFR_SetMarkerUsed(m_ucFurnitureMarkerIndex, true);
                 bool b3 = false;
                 if (a1 == g_thePlayer)
                 {
-                    b3 = g_thePlayer->FUN_004eaf60();
+                    b3 = g_thePlayer->PlayerCharacter_Is3rdPerson();
                     if (a2 != g_thePlayer->GetAnimation(!b3))
                     {
-                        g_thePlayer->FUN_005c4210(!b3);
+                        g_thePlayer->PlayerCharacter_Force3rdPerson(!b3);
                     }
                 }
                 TESIdleForm* idle = DAT_011cb6a0->FUN_00600950(a1, m_pFurnitureReference);
@@ -16038,7 +16038,7 @@ void MiddleHighProcessExt::FUN_00928510(Actor* a1, Animation* a2)
                 }
                 if (a1 == g_thePlayer)
                 {
-                    g_thePlayer->FUN_005c4210(b3);
+                    g_thePlayer->PlayerCharacter_Force3rdPerson(b3);
                 }
             }
             m_ucFurnitureInteractionState = savedState;
@@ -16095,7 +16095,7 @@ class QueuedItemSV
 };
 struct FUN_00915950_shell : public MiddleHighProcess
 {
-    void FUN_00915950(Actor* apActor, bool abEquip, TESBoundObject* apObject, int aiCount, ExtraDataList* apExtraData,
+    void MiddleHighProcess_AddQueuedItem(Actor* apActor, bool abEquip, TESBoundObject* apObject, int aiCount, ExtraDataList* apExtraData,
                       bool abArg6, bool abArg7, bool abArg8, bool abArg9, bool abArg10, bool abArg11);
 };
 namespace queued_item_load913 {
@@ -16144,7 +16144,7 @@ struct ItemLoadState913e80
 void ItemLoadState913e80::FUN_00913e80(BufferView* buffer)
 {
     ReferenceView* ref = buffer->GetRef();
-    object = dynamic_cast<TESBoundObject*>(reinterpret_cast<TESForm*>(::FUN_004839c0(buffer->FUN_008648a0())));
+    object = dynamic_cast<TESBoundObject*>(reinterpret_cast<TESForm*>(::TESForm_GetFormByNumericID(buffer->FUN_008648a0())));
     int iIndex = -1;
     buffer->FUN_00864980(&iIndex, 4);
     if (iIndex != -1)
@@ -16167,7 +16167,7 @@ void ItemLoadState913e80::FUN_00913e80(BufferView* buffer)
 }
 struct SetTargetProcess : public MiddleHighProcess
 {
-    void FUN_0091ea40(TESObjectREFR*);
+    void MiddleHighProcess_SetTarget(TESObjectREFR*);
 };
 struct SetFlagsX
 {
@@ -16184,7 +16184,7 @@ struct MarkerX
 void __fastcall FUN_00914b40(void*);
 struct FUN_005682c0_caller
 {
-    int FUN_005682c0(bool);
+    int TESObjectREFR_GetFirstFreeMarkerIndex(bool);
 };
 __if_not_exists(FUN_00678d00_shell::FUN_00678d00)
 {
@@ -16387,7 +16387,7 @@ class CurrentDataView
 }
 struct PackageReferenceProcess : public ::MiddleHighProcess
 {
-    void FUN_00914be0(::TESObjectREFR* reference);
+    void MiddleHighProcess_HandleDeletedReference(::TESObjectREFR* reference);
 };
 namespace queued_item_save913 {
 
@@ -16482,7 +16482,7 @@ class PackageActorView : public Actor
 {
 
   public:
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 
     bool FUN_009336c0();
 
@@ -16520,7 +16520,7 @@ class PackageProcessView : public MiddleHighProcess
 bool PackageProcessView::FUN_00917df0(Actor* pActor, bool bArg2)
 {
 
-    if (((PackageActorView*)pActor)->FUN_00493bb0() ||
+    if (((PackageActorView*)pActor)->Actor_IsInCombat() ||
 
         ((PackageActorView*)pActor)->FUN_009336c0() ||
 
@@ -16627,12 +16627,12 @@ bool PackageProcessView::FUN_00917df0(Actor* pActor, bool bArg2)
             if (pNPC2 != NULL)
             {
 
-                pNPC2->FUN_006047c0(pActor, bFlag1, bFlag6, 0, 1);
+                pNPC2->TESNPC_InitDefaultWorn(pActor, bFlag1, bFlag6, 0, 1);
             }
             else if (pCreature7 != NULL)
             {
 
-                pCreature7->FUN_005f9e00(pActor, bFlag1, bFlag6, 1);
+                pCreature7->TESCreature_InitDefaultWorn(pActor, bFlag1, bFlag6, 1);
             }
         }
     }
@@ -16916,7 +16916,7 @@ struct UseRef
     UseCell* FUN_008d6f30();
     void FUN_00892e90(void* apItem);
     TESBoundObject* FUN_007af430();
-    float FUN_005723b0(UseRef* apRef, int a2, int a3);
+    float TESObjectREFR_GetDistanceFromReference(UseRef* apRef, int a2, int a3);
     UseProcess* FUN_008d8520();
     void FUN_0087faa0();
     int FUN_0055d310();
@@ -16924,7 +16924,7 @@ struct UseRef
 
 struct UseExtraList
 {
-    UseRef* FUN_0041c8d0();
+    UseRef* ExtraDataList_GetReferencePointer();
 };
 
 struct UseExtraNode
@@ -17337,8 +17337,8 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
                 if (pEntryOut->FUN_00559450())
                     pXData = *pEntryOut->FUN_00559450()->FUN_006815c0();
                 void* pOwner = 0;
-                if (pXData && pXData->FUN_0041c8d0())
-                    pOwner = pXData->FUN_0041c8d0()->FUN_0084e3a0();
+                if (pXData && pXData->ExtraDataList_GetReferencePointer())
+                    pOwner = pXData->ExtraDataList_GetReferencePointer()->FUN_0084e3a0();
                 UseRef* pLocationCur = pPackage->FUN_0055b980()->FUN_0067f390();
                 if (!pLocationCur)
                     pLocationCur = m_pReference40;
@@ -17413,13 +17413,13 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
                     {
                         TESNPC* pNPC = dynamic_cast<TESNPC*>(apActor->FUN_007af430());
                         if (pNPC)
-                            pNPC->FUN_006047c0((::Actor*)apActor, bUpdateA, bUpdateB, 0, 1);
+                            pNPC->TESNPC_InitDefaultWorn((::Actor*)apActor, bUpdateA, bUpdateB, 0, 1);
                     }
                     else
                     {
                         TESCreature* pCreature = dynamic_cast<TESCreature*>(apActor->FUN_007af430());
                         if (pCreature)
-                            pCreature->FUN_005f9e00((::Actor*)apActor, bUpdateA, bUpdateB, 1);
+                            pCreature->TESCreature_InitDefaultWorn((::Actor*)apActor, bUpdateA, bUpdateB, 1);
                     }
                 }
                 FUN_vt118(1);
@@ -17454,7 +17454,7 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
     iMinDistanceNum = (int)GetCurrentPackage()->GetPackageResult(apActor, false);
     if (pTarget && pTarget->IsActor())
     {
-        if (apActor->FUN_005723b0(pTarget, 0, 0) < iMinDistanceNum)
+        if (apActor->TESObjectREFR_GetDistanceFromReference(pTarget, 0, 0) < iMinDistanceNum)
         {
         }
     }
@@ -17469,7 +17469,7 @@ struct PackageTargetData
 struct PackageMethods : TESPackage
 {
     PackageTargetData* FUN_00671d10();
-    bool FUN_00678ec0(Actor*);
+    bool TESPackage_IsTargetAnActor(Actor*);
     TESObjectREFR* FUN_006780e0(Actor*, int);
 };
 struct SpecificPackage : TESPackage
@@ -17485,7 +17485,7 @@ struct ProcessTarget : MiddleHighProcess
 {
     TESObjectREFR* FUN_0091ae00(Actor*, TESPackage*, PackageTargetData*);
     PackageRuntime* FUN_008d0430();
-    TESObjectREFR* FUN_0091ab30(Actor*, TESPackage*);
+    TESObjectREFR* MiddleHighProcess_GetTargetForPackage(Actor*, TESPackage*);
 };
 struct S00926350_CharController
 {
@@ -17799,11 +17799,11 @@ struct Reference0091 : TESObjectREFR
 
     bool FUN_00566950();
 
-    TESForm* FUN_00567790();
+    TESForm* TESObjectREFR_GetOwner();
 
-    int FUN_00569160();
+    int TESObjectREFR_GetLock();
 
-    void FUN_00564db0(int);
+    void TESObjectREFR_SetTargeted(int);
 
     void* FUN_004181e0(TESForm*);
 };
@@ -17823,11 +17823,11 @@ struct Actor0091 : Actor
 
     int FUN_00891d70();
 
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 
     bool FUN_00891db0(int, int, int, int, unsigned int*);
 
-    void FUN_005723b0(TESObjectREFR*, int, int);
+    void TESObjectREFR_GetDistanceFromReference(TESObjectREFR*, int, int);
 
     TESForm* FUN_007af430();
 
@@ -17845,7 +17845,7 @@ struct EquippedList0091
 struct EquipCheckingObject0091
 {
 
-    bool FUN_0047f600();
+    bool TESAIForm_SellBuysItem();
 };
 
 struct EquipBase0091
@@ -17901,7 +17901,7 @@ extern int DAT_01183028;
 
 extern int DAT_01183a1c;
 
-int __cdecl FUN_0048e8a0(TESForm*);
+int __cdecl TESValueForm_GetFormValue(TESForm*);
 
 unsigned int __cdecl FUN_00ec43fb(int, int, int*, int*, int);
 
@@ -17955,14 +17955,14 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
             save = false;
         }
 
-        if (rememberedCharacter->FUN_00567790() || rememberedCharacter->IsActor())
+        if (rememberedCharacter->TESObjectREFR_GetOwner() || rememberedCharacter->IsActor())
         {
 
             bool remove = false;
 
             bool equip = false;
 
-            int required = FUN_0048e8a0(form);
+            int required = TESValueForm_GetFormValue(form);
 
             TESNPC* matchedHandle = 0;
 
@@ -17980,7 +17980,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                 else
                 {
 
-                    matchedHandle = dynamic_cast<TESNPC*>(rememberedCharacter->FUN_00567790());
+                    matchedHandle = dynamic_cast<TESNPC*>(rememberedCharacter->TESObjectREFR_GetOwner());
 
                     if (matchedHandle)
                     {
@@ -17994,18 +17994,18 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                 if (matched && allowEquip)
                 {
 
-                    if (reinterpret_cast<EquipBase0091*>(matched->FUN_004181e0(form))->equipment.FUN_0047f600())
+                    if (reinterpret_cast<EquipBase0091*>(matched->FUN_004181e0(form))->equipment.TESAIForm_SellBuysItem())
                     {
 
-                        if (reinterpret_cast<Actor0091*>(apActor)->FUN_00891d70() >= FUN_0048e8a0(item->form))
+                        if (reinterpret_cast<Actor0091*>(apActor)->FUN_00891d70() >= TESValueForm_GetFormValue(item->form))
                         {
 
-                            if (!reinterpret_cast<Actor0091*>(apActor)->FUN_00493bb0())
+                            if (!reinterpret_cast<Actor0091*>(apActor)->Actor_IsInCombat())
                             {
 
                                 item->operationState = 2;
 
-                                reinterpret_cast<Actor0091*>(apActor)->FUN_005723b0(rememberedCharacter, 0, 0);
+                                reinterpret_cast<Actor0091*>(apActor)->TESObjectREFR_GetDistanceFromReference(rememberedCharacter, 0, 0);
 
                                 item->operationHandle = FUN_00ec62c0();
 
@@ -18062,7 +18062,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                             bool success = reinterpret_cast<Actor0091*>(apActor)->FUN_00891db0(DAT_011ca268, 0, 1, 0,
                                                                                                &operationResult);
 
-                            if (!success && rememberedCharacter->FUN_00569160())
+                            if (!success && rememberedCharacter->TESObjectREFR_GetLock())
                                 save = false;
                         }
                         else
@@ -18074,7 +18074,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                     else if (remove)
                     {
 
-                        if (!reinterpret_cast<Actor0091*>(apActor)->FUN_00493bb0())
+                        if (!reinterpret_cast<Actor0091*>(apActor)->Actor_IsInCombat())
                             item->operationState = 4;
 
                         else
@@ -18083,7 +18083,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                     else if (equip)
                     {
 
-                        if (!reinterpret_cast<Actor0091*>(apActor)->FUN_00493bb0() &&
+                        if (!reinterpret_cast<Actor0091*>(apActor)->Actor_IsInCombat() &&
                             !reinterpret_cast<Actor0091*>(apActor)->FUN_00566950())
                         {
 
@@ -18112,7 +18112,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
                     }
                     else if (rememberedCharacter->IsActor() && !rememberedCharacter->IsCharacter() &&
 
-                             rememberedCharacter->FUN_00567790() !=
+                             rememberedCharacter->TESObjectREFR_GetOwner() !=
                                  reinterpret_cast<Actor0091*>(apActor)->FUN_007af430() &&
 
                              !reinterpret_cast<Actor0091*>(apActor)->FUN_00566950())
@@ -18137,7 +18137,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
         else
         {
 
-            reinterpret_cast<Actor0091*>(apActor)->FUN_005723b0(rememberedCharacter, 0, 0);
+            reinterpret_cast<Actor0091*>(apActor)->TESObjectREFR_GetDistanceFromReference(rememberedCharacter, 0, 0);
 
             item->operationHandle = FUN_00ec62c0();
         }
@@ -18145,7 +18145,7 @@ void MiddleHigh0091::FUN_0091b700(Actor* apActor)
         if (save)
         {
 
-            reinterpret_cast<Reference0091*>(item->rememberedCharacter)->FUN_00564db0(1);
+            reinterpret_cast<Reference0091*>(item->rememberedCharacter)->TESObjectREFR_SetTargeted(1);
 
             reinterpret_cast<EquippedList0091*>(&ReferenceListNode)->FUN_00905820(&item);
         }

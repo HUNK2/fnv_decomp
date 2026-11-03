@@ -31,13 +31,13 @@ void* BGSConstructibleObject::Destroy(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
+    void __thiscall TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -45,7 +45,7 @@ struct S_0048a520
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -53,17 +53,17 @@ struct FUN_0047a240_shell
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall TESScriptableForm_Save();
 };
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
+    void __thiscall BGSDestructibleObjectForm_Save();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
@@ -75,20 +75,20 @@ void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_004f9a90_shell : BGSConstructibleObject
 {
-    void __thiscall FUN_004f9a90();
+    void __thiscall BGSConstructibleObject_SaveForm();
 };
 
 // @fnv 0x004f9a90
-void __thiscall FUN_004f9a90_shell::FUN_004f9a90()
+void __thiscall FUN_004f9a90_shell::BGSConstructibleObject_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4C444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x84))->FUN_00477f20();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((S_0048cca0*)((char*)this + 0x68))->TESScriptableForm_Save();
+    ((S_00477f20*)((char*)this + 0x84))->BGSDestructibleObjectForm_Save();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     if (*(void**)((char*)this + 0xac))
     {
         unsigned int itempint = ((SoundH*)*(void**)((char*)this + 0xac))->Deallocate();
@@ -99,7 +99,7 @@ void __thiscall FUN_004f9a90_shell::FUN_004f9a90()
         unsigned int itempint2 = ((SoundH*)*(void**)((char*)this + 0xb0))->Deallocate();
         FUN_00485910(0x4d414e43, itempint2);
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 namespace fnv_004f9570 {
@@ -108,12 +108,12 @@ struct BGSConstructibleObject
     char pad[0xac];
     void* m_pCreatedObject;
     void* m_pWorkbenchKeyword;
-    void FUN_004f9570();
+    void BGSConstructibleObject_InitializeData();
 };
 
 // Sets the two pointer fields at offsets 0xac and 0xb0 to null.
 // @fnv 0x004f9570
-void BGSConstructibleObject::FUN_004f9570()
+void BGSConstructibleObject::BGSConstructibleObject_InitializeData()
 {
     m_pCreatedObject = 0;
     m_pWorkbenchKeyword = 0;
@@ -336,11 +336,11 @@ struct FUN_004f96f0_cobj : public TESBoundObjectBase,
 {
     BGSListForm* m_pCreatedObject;
     TESBoundObject* m_pWorkbenchKeyword;
-    bool FUN_004f96f0(TESFile* apFile);
+    bool BGSConstructibleObject_Load(TESFile* apFile);
 };
 // Loads a bound object record from the file, dispatching each chunk to the matching loader and returning true.
 // @fnv 0x004f96f0
-bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
+bool FUN_004f96f0_cobj::BGSConstructibleObject_Load(TESFile* apFile)
 {
     LoadRecordHeader(apFile);
     SetInitializationState(false);
@@ -420,7 +420,7 @@ void* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned in
 
 struct FUN_0051af50_cls
 {
-    void __thiscall FUN_0051af50(void* p);
+    void __thiscall TESObjectMISC_CopyFrom(void* p);
 };
 
 struct FUN_009ee040_cls
@@ -476,11 +476,11 @@ struct FUN_004f9b80_cls
     unsigned int m_ac;
     unsigned int m_b0;
 
-    void __thiscall FUN_004f9b80(unsigned int a1);
+    void __thiscall BGSConstructibleObject_CopyFrom(unsigned int a1);
 };
 
 // @fnv 0x004f9b80
-void FUN_004f9b80_cls::FUN_004f9b80(unsigned int a1)
+void FUN_004f9b80_cls::BGSConstructibleObject_CopyFrom(unsigned int a1)
 {
     void* r = FUN_00ec43fb(a1, 0, &DAT_01183028, &DAT_01189c78, 0);
     if (r == 0)
@@ -488,7 +488,7 @@ void FUN_004f9b80_cls::FUN_004f9b80(unsigned int a1)
     }
     else
     {
-        reinterpret_cast<FUN_0051af50_cls*>(this)->FUN_0051af50(r);
+        reinterpret_cast<FUN_0051af50_cls*>(this)->TESObjectMISC_CopyFrom(r);
         m_ac = reinterpret_cast<FUN_004f9bf0_shell*>(r)->FUN_004f9bf0();
         m_b0 = reinterpret_cast<FUN_009ee040_cls*>(r)->FUN_009ee040();
     }
@@ -505,7 +505,7 @@ class TESBoundObject : public TESForm
     virtual ~TESBoundObject();
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int id);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl ResolveFormID(unsigned int* id, void* file);
 int __cdecl FUN_005b5e40(const char* fmt, ...);
 
@@ -650,7 +650,7 @@ void S_004f95a0::LoadFormReferences()
     if (id)
     {
         ResolveFormID(&id, FUN_00484e60(-1));
-        unkac = dynamic_cast<BGSListForm*>(FUN_004839c0(id));
+        unkac = dynamic_cast<BGSListForm*>(TESForm_GetFormByNumericID(id));
         if (!unkac)
             FUN_005b5e40("MASTERFILE: Could not find item list (%08X) on constructible object '%s' (%08X).", id, v130(),
                          FUN_0084e3a0());
@@ -659,7 +659,7 @@ void S_004f95a0::LoadFormReferences()
     if (id)
     {
         ResolveFormID(&id, FUN_00484e60(-1));
-        unkb0 = dynamic_cast<TESBoundObject*>(FUN_004839c0(id));
+        unkb0 = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(id));
         if (!unkb0)
             FUN_005b5e40("MASTERFILE: Could not find created item (%08X) on constructible object '%s' (%08X).", id,
                          v130(), FUN_0084e3a0());
@@ -669,22 +669,22 @@ void S_004f95a0::LoadFormReferences()
 
 struct BoundObjectComparison
 {
-    bool FUN_0051afb0(void*);
+    bool TESObjectMISC_Compare(void*);
 };
 
 struct ConstructibleComparison : FUN_004f96f0_cobj
 {
-    bool FUN_004f9c10(void* apCompare);
+    bool BGSConstructibleObject_Compare(void* apCompare);
 };
 
 // Returns true when FUN_00ec43fb returns null, the bound-object comparison succeeds, or either stored pointer differs.
 // @fnv 0x004f9c10
-bool ConstructibleComparison::FUN_004f9c10(void* apCompare)
+bool ConstructibleComparison::BGSConstructibleObject_Compare(void* apCompare)
 {
     void* pcomp = FUN_00ec43fb((unsigned int)apCompare, 0, &DAT_01183028, &DAT_01189c78, 0);
     if (!pcomp)
         return true;
-    if (((BoundObjectComparison*)this)->FUN_0051afb0(pcomp))
+    if (((BoundObjectComparison*)this)->TESObjectMISC_Compare(pcomp))
         return true;
     if (m_pCreatedObject != (BGSListForm*)((FUN_004f9bf0_shell*)pcomp)->FUN_004f9bf0())
         return true;

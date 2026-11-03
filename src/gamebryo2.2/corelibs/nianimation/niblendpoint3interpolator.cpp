@@ -44,30 +44,30 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f406c;
 // @fnv 0x00a55af0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55af0()
+GlobalObjectO2_00a7b610* __cdecl NiBlendPoint3Interpolator_GetRTTI()
 {
     return &g_011f406c;
 }
 
 struct FUN_00a55ec0_shell : public NiBlendPoint3Interpolator
 {
-    bool FUN_00a55ec0(NiObject*);
+    bool NiBlendPoint3Interpolator_IsEqual(NiObject*);
 };
 
 struct FUN_00a36fd0_tgt
 {
-    bool FUN_00a36fd0(NiObject*);
+    bool NiBlendInterpolator_IsEqual(NiObject*);
 };
 struct Call_439090_tgt
 {
     bool _Call_439090(const void*);
 };
 
-// Calls FUN_00a36fd0 on pkObject; if that succeeds, calls _Call_439090 on pkObject+0x30 and returns its negation.
+// Calls NiBlendInterpolator_IsEqual on pkObject; if that succeeds, calls _Call_439090 on pkObject+0x30 and returns its negation.
 // @fnv 0x00a55ec0
-bool FUN_00a55ec0_shell::FUN_00a55ec0(NiObject* pkObject)
+bool FUN_00a55ec0_shell::NiBlendPoint3Interpolator_IsEqual(NiObject* pkObject)
 {
-    bool r = ((FUN_00a36fd0_tgt*)this)->FUN_00a36fd0(pkObject);
+    bool r = ((FUN_00a36fd0_tgt*)this)->NiBlendInterpolator_IsEqual(pkObject);
     if (!r)
         return r;
     r = ((Call_439090_tgt*)((char*)this + 0x30))->_Call_439090((char*)pkObject + 0x30);
@@ -90,7 +90,7 @@ extern GlobalObjectO2_00a7b610 g_011f406c;
 char* FUN_00a7d330(GlobalObjectO2_00a7b610);
 struct ViewerBase
 {
-    void FUN_00a38080(void*);
+    void NiBlendInterpolator_GetViewerStrings(void*);
 };
 struct ViewerPoint3
 {
@@ -113,7 +113,7 @@ typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > StrA
 // @fnv 0x00a55ef0
 void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
 {
-    ((ViewerBase*)this)->FUN_00a38080(pkStrings);
+    ((ViewerBase*)this)->NiBlendInterpolator_GetViewerStrings(pkStrings);
     StrArray* arr = (StrArray*)pkStrings;
     StrArrView* pArrayView = (StrArrView*)pkStrings;
     ActorCombatGroup* pElement = (ActorCombatGroup*)FUN_00a7d330(g_011f406c);
@@ -147,7 +147,7 @@ extern int _DAT_011a9424;
 extern int _DAT_011a9428;
 extern int _DAT_011a942c;
 // @fnv 0x00a55a80
-void* FUN_00a55a80()
+void* NiBlendPoint3Interpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(64);
     if (p)
@@ -165,7 +165,7 @@ void* FUN_00a55a80()
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream&);
+    void NiBlendInterpolator_SaveBinary(NiStream&);
 };
 struct NiColorSaveHelper
 {
@@ -173,12 +173,12 @@ struct NiColorSaveHelper
 };
 struct FUN_00a37ec0_shell : public NiBlendPoint3Interpolator
 {
-    void FUN_00a55ad0(NiStream& stream);
+    void NiBlendPoint3Interpolator_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00a55ad0
-void FUN_00a37ec0_shell::FUN_00a55ad0(NiStream& stream)
+void FUN_00a37ec0_shell::NiBlendPoint3Interpolator_SaveBinary(NiStream& stream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(stream);
+    ((FUN_00a37ec0_tgt*)this)->NiBlendInterpolator_SaveBinary(stream);
     ((NiColorSaveHelper*)((char*)this + 0x30))->SaveBinary(stream);
 }
 
@@ -205,11 +205,11 @@ struct CloneOwner
 };
 struct FUN_00a55b20_shell : public NiBlendPoint3Interpolator
 {
-    void* FUN_00a55b20(CloningProcess*);
+    void* NiBlendPoint3Interpolator_CreateClone(CloningProcess*);
 };
 // Allocates a NiBlendPoint3Interpolator, initialises it, copies the point3 fields and flag from this, and returns the clone.
 // @fnv 0x00a55b20
-void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
+void* FUN_00a55b20_shell::NiBlendPoint3Interpolator_CreateClone(CloningProcess* kCloning)
 {
     NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(BSFadeNode::operator new(0x40));
     if (pkObject)
@@ -275,7 +275,7 @@ FUN_00a55a10::FUN_00a55a10(void* apArg, float f, void* c)
 
 struct FUN_00a37980_tgt
 {
-    void FUN_00a37980(NiObjectNET* p);
+    void NiBlendInterpolator_LoadBinary(NiObjectNET* p);
 };
 struct FUN_00a59be0_tgt
 {
@@ -283,12 +283,12 @@ struct FUN_00a59be0_tgt
 };
 struct FUN_00a55e60_cls : public NiBlendPoint3Interpolator
 {
-    void FUN_00a55e60(NiObjectNET* p);
+    void NiBlendPoint3Interpolator_LoadBinary(NiObjectNET* p);
 };
 // @fnv 0x00a55e60
-void FUN_00a55e60_cls::FUN_00a55e60(NiObjectNET* apObject)
+void FUN_00a55e60_cls::NiBlendPoint3Interpolator_LoadBinary(NiObjectNET* apObject)
 {
-    ((FUN_00a37980_tgt*)this)->FUN_00a37980(apObject);
+    ((FUN_00a37980_tgt*)this)->NiBlendInterpolator_LoadBinary(apObject);
     NiPoint3* pt = &m_kPoint3Value;
     ((FUN_00a59be0_tgt*)pt)->FUN_00a59be0(apObject);
     if (pt->x != DAT_011a9424.x || pt->y != DAT_011a9424.y || pt->z != DAT_011a9424.z)

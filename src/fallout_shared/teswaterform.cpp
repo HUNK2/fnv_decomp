@@ -163,7 +163,7 @@ bool TESWaterForm::Load(TESFile* file)
                 Data.m_fWaterParameter4 = 1.0f;
                 Data.m_fWaterParameter5 = 0.5f;
                 Data.m_fWaterParameter6 = 0.25f;
-                FUN_0047ff50(0);
+                TESAttackDamageForm_SetAttackDamage(0);
             }
             break;
         }
@@ -257,11 +257,11 @@ struct FUN_0057fef0_shell
 {
     char m_auiShapeKeys[0x74];
     BSStr m_str;
-    void FUN_0057fef0(const char* name);
+    void TESWaterForm_SetMaterialName(const char* name);
 };
 
 // @fnv 0x0057fef0
-void FUN_0057fef0_shell::FUN_0057fef0(const char* name)
+void FUN_0057fef0_shell::TESWaterForm_SetMaterialName(const char* name)
 {
     m_str.Set(name, 0);
 }
@@ -461,10 +461,10 @@ struct FUN_005806e0_s
     char pad[0x80];
     void* m_pWaterForm;
     void SaveIfChanged(FUN_00865df0_buf*);
-    void FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer);
+    void TESWaterForm_AppendSaveLoadFormBuffer(FUN_00865df0_buf* apSaveGameBuffer);
 };
 // @fnv 0x005806e0
-void FUN_005806e0_s::FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer)
+void FUN_005806e0_s::TESWaterForm_AppendSaveLoadFormBuffer(FUN_00865df0_buf* apSaveGameBuffer)
 {
     SaveIfChanged(apSaveGameBuffer);
     if (apSaveGameBuffer->GetChangeFlags(0x80000000))
@@ -488,11 +488,11 @@ struct BGSLoadFormBuffer
 
 struct FUN_005807a0_shell : TESForm
 {
-    void FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void TESWaterForm_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x005807a0
-void FUN_005807a0_shell::FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_005807a0_shell::TESWaterForm_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert((unsigned int)apLoadGameBuffer);
     if (apLoadGameBuffer->GetOldChangeFlags(0x80000000))
@@ -521,11 +521,11 @@ struct BGSLoadGameBuffer : public BGSLoadFormBuffer
 
 struct FUN_00580730_shell : public TESWaterForm
 {
-    void FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer);
+    void TESWaterForm_LoadGame(BGSLoadGameBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x00580730
-void FUN_00580730_shell::FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer)
+void FUN_00580730_shell::TESWaterForm_LoadGame(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
     if (apLoadGameBuffer->GetChangeFlags(0x80000000))
@@ -540,11 +540,11 @@ struct Holder
 {
     unsigned char _pad[0x74];
     Flt m_kHandle;
-    const char* FUN_0057fda0();
+    const char* TESWaterForm_GetMaterialName();
 };
 // Returns the stored string pointer if the field is nonzero, otherwise an empty string literal.
 // @fnv 0x0057fda0
-const char* Holder::FUN_0057fda0()
+const char* Holder::TESWaterForm_GetMaterialName()
 {
     return m_kHandle ? (const char*)(unsigned int)m_kHandle : "";
 }
@@ -564,25 +564,25 @@ float FUN_00580100_obj::FUN_00580100()
 
 struct FUN_004855a0_standin
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00485680_standin
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 struct FUN_00487010_shell
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 struct S7010
 {
     unsigned int Length();
 };
-void FUN_004856f0(unsigned int id, void* data, unsigned int size);
+void TESForm_AddChunkArray(unsigned int id, void* data, unsigned int size);
 void FUN_004858f0(unsigned int id, unsigned char value);
 void FUN_00485910(unsigned int id, unsigned int value);
 void AppendChunk(unsigned int id, void* data, unsigned int size);
@@ -599,13 +599,13 @@ struct FUN_0057fbf0_shell : public TESWaterForm
 void FUN_0057fbf0_shell::SaveWaterForm()
 {
     unsigned int auiFormIds[3];
-    ((FUN_004855a0_standin*)this)->FUN_004855a0();
-    ((FUN_00487010_shell*)((char*)this + 0x18))->FUN_00487010();
-    FUN_004856f0(0x4d414e4e, (void*)((FNStub*)((char*)this + 0x64))->GetFullName(),
+    ((FUN_004855a0_standin*)this)->TESForm_StartForm();
+    ((FUN_00487010_shell*)((char*)this + 0x18))->TESFullName_Save();
+    TESForm_AddChunkArray(0x4d414e4e, (void*)((FNStub*)((char*)this + 0x64))->GetFullName(),
                  ((TESModel*)((char*)this + 0x64))->GetModelLength() + 1);
     FUN_004858f0(0x4d414e41, m_ucOpacity);
     FUN_004858f0(0x4d414e46, cFlags);
-    FUN_004856f0(0x4d414e4d, (void*)((Holder*)this)->FUN_0057fda0(), ((S7010*)((char*)this + 0x74))->Length() + 1);
+    TESForm_AddChunkArray(0x4d414e4d, (void*)((Holder*)this)->TESWaterForm_GetMaterialName(), ((S7010*)((char*)this + 0x74))->Length() + 1);
     if (m_pWaterSound)
     {
         unsigned int itempint = m_pWaterSound->GetFormID();
@@ -616,7 +616,7 @@ void FUN_0057fbf0_shell::SaveWaterForm()
         unsigned int itempint = m_pWaterSpell->GetFormID();
         FUN_00485910(0x4d414e58, itempint);
     }
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     if (FUN_00401500())
         Data.Endian();
     AppendChunk(0x4d414e44, &Data, 0xc4);
@@ -630,12 +630,12 @@ void FUN_0057fbf0_shell::SaveWaterForm()
             auiFormIds[i] = 0;
     }
     FUN_00485710(0x4d414e47, auiFormIds, 3);
-    ((FUN_00485680_standin*)this)->FUN_00485680();
+    ((FUN_00485680_standin*)this)->TESForm_CloseForm();
 }
 
 struct FUN_0057ff10_shell : public TESWaterForm
 {
-    bool FUN_0057ff10(TESForm* apCompare);
+    bool TESWaterForm_Compare(TESForm* apCompare);
 };
 
 struct TESPackage
@@ -645,7 +645,7 @@ struct TESPackage
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct FUN_0057ff10_texture
@@ -659,7 +659,7 @@ struct FUN_0057ff10_texture
 extern int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x0057ff10
-bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
+bool FUN_0057ff10_shell::TESWaterForm_Compare(TESForm* apCompare)
 {
     TESWaterForm* pcomp;
 
@@ -667,7 +667,7 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (pcomp == 0)
         return true;
 
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
 
     if (*(unsigned char*)((char*)this + 0x71) != *(unsigned char*)((char*)pcomp + 0x71))
@@ -685,7 +685,7 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (((TESPackage*)this)->GetRefCount() != ((TESPackage*)pcomp)->GetRefCount())
         return true;
 
-    if (((Holder*)this)->FUN_0057fda0() != ((Holder*)pcomp)->FUN_0057fda0())
+    if (((Holder*)this)->TESWaterForm_GetMaterialName() != ((Holder*)pcomp)->TESWaterForm_GetMaterialName())
         return true;
 
     if (((FUN_0057fed0*)this)->GetMember() != ((FUN_0057fed0*)pcomp)->GetMember())
@@ -723,7 +723,7 @@ struct FUN_00589f50_shell
 
 struct FUN_00580130_shell : public TESWaterForm
 {
-    BGSPlaceableWater* FUN_00580130();
+    BGSPlaceableWater* TESWaterForm_GetPlaceableAutoWater();
 };
 
 void* __cdecl operator new(unsigned int);
@@ -749,7 +749,7 @@ void FUN_00589f50_shell::SetSound(void*)
 
 // Returns the BGSPlaceableWater stored at offset 0x180, creating and initialising it with editor ID "PlaceableAutoWater" if it is null.
 // @fnv 0x00580130
-BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
+BGSPlaceableWater* FUN_00580130_shell::TESWaterForm_GetPlaceableAutoWater()
 {
     char ptempname[260];
 
@@ -820,14 +820,14 @@ struct FUN_00580330_shell
     unsigned char m_auiShapeKeys[0x184];
     BGSPlaceableWater* m_pPlaceableWater;
 
-    BGSPlaceableWater* FUN_00580330();
+    BGSPlaceableWater* TESWaterForm_GetPlaceableLODWater();
 };
 
 void* __cdecl operator new(unsigned int);
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00580330
-BGSPlaceableWater* FUN_00580330_shell::FUN_00580330()
+BGSPlaceableWater* FUN_00580330_shell::TESWaterForm_GetPlaceableLODWater()
 {
     char ptempname[260];
 
@@ -1114,10 +1114,10 @@ struct ByteArg
 void FUN_00401080(void* p, ByteArg v);
 struct F3a0
 {
-    void FUN_0057f3a0();
+    void WaterShaderData_Endian();
 };
 // @fnv 0x0057f3a0
-void F3a0::FUN_0057f3a0()
+void F3a0::WaterShaderData_Endian()
 {
     FUN_00401080((char*)this + 0x0, ByteArg());
     FUN_00401080((char*)this + 0x4, ByteArg());
@@ -1187,20 +1187,20 @@ void FUN_005800e0_shell::FUN_005800e0(FUN_006e5cc0_Class* a1)
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct WaterEffectSetting : public TESWaterForm
 {
-    void FUN_0057fde0(TESForm* apCopy);
+    void TESWaterForm_CopyFrom(TESForm* apCopy);
 };
 // Copies water effect settings from apCopy into this, including flags, opacity, shader, spell item, and noise map texture.
 // @fnv 0x0057fde0
-void WaterEffectSetting::FUN_0057fde0(TESForm* apCopy)
+void WaterEffectSetting::TESWaterForm_CopyFrom(TESForm* apCopy)
 {
     TESWaterForm* pcopy = dynamic_cast<TESWaterForm*>(apCopy);
     if (!pcopy)
         return;
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(pcopy);
+    reinterpret_cast<FUN_005e78f0_t*>(this)->TESForm_CopyAllComponents(pcopy);
     this->cFlags = pcopy->cFlags;
     this->m_ucOpacity = pcopy->m_ucOpacity;
     memcpy(this->FUN_0057eef0(), pcopy->FUN_0057eef0(), 0xc4);
@@ -1210,5 +1210,5 @@ void WaterEffectSetting::FUN_0057fde0(TESForm* apCopy)
     memcpy(reinterpret_cast<unsigned char*>(this) + 0x148, reinterpret_cast<unsigned char*>(pcopy) + 0x148, 0xc);
     this->m_kNoiseMapTexture.CopyFromBase(
         reinterpret_cast<BaseFormComponent*>(reinterpret_cast<unsigned char*>(pcopy) + 0x64));
-    reinterpret_cast<FUN_0057fef0_shell*>(this)->FUN_0057fef0(reinterpret_cast<Holder*>(pcopy)->FUN_0057fda0());
+    reinterpret_cast<FUN_0057fef0_shell*>(this)->TESWaterForm_SetMaterialName(reinterpret_cast<Holder*>(pcopy)->TESWaterForm_GetMaterialName());
 }

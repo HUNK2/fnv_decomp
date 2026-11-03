@@ -53,7 +53,7 @@ void NiAVObject::SetLocalRotation(float angle,float x,float y,float z) { rotatio
 NiPoint3 NiAVObject::GetWorldTranslation() {
  NiPoint3 result;
 
- worldRotation.FUN_00439f50(0,result);
+ worldRotation.NiMatrix3_GetCol(0,result);
  return result;
 }
 

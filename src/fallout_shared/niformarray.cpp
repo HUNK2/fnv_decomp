@@ -67,12 +67,12 @@ struct BaseFormComponent
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004d6170_shell : public NiFormArray
 {
-    TESForm* FUN_004d6170(unsigned int);
+    TESForm* NiFormArray_GetFormAt(unsigned int);
 };
 
 // Returns the form at aiIndex if it is within GetSize(), otherwise returns null.
 // @fnv 0x004d6170
-TESForm* FUN_004d6170_shell::FUN_004d6170(unsigned int aiIndex)
+TESForm* FUN_004d6170_shell::NiFormArray_GetFormAt(unsigned int aiIndex)
 {
     TESForm* pretform = 0;
     if (aiIndex < GetSize())

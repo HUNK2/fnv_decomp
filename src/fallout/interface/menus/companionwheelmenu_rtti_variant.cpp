@@ -106,7 +106,7 @@ struct InterfaceH
 void __cdecl FUN_00717280(int);
 struct FUN_007552e0_shell
 {
-    void __thiscall FUN_007552e0(int, Tile*);
+    void __thiscall CompanionWheelMenu_DoClick(int, Tile*);
     void __thiscall SelectTile(int, bool);
     void __thiscall ToggleAggressive();
     void __thiscall ToggleRelatedTopic();
@@ -163,7 +163,7 @@ struct WheelHost
     char unk00[0x28];
     int m_aiIndexedValues[16];
     void __thiscall SelectTile(int, bool);
-    void __thiscall FUN_00755760(int a, int b);
+    void __thiscall CompanionWheelMenu_HandleMouseover(int a, int b);
 };
 bool __cdecl FUN_00702450(int);
 struct InteractionActor;
@@ -224,7 +224,7 @@ struct ActorLevelInfo
 };
 struct DialoguePolicy
 {
-    bool FUN_00619df0();
+    bool TESTopic_IsRemappedRumors();
 };
 struct DialogueItem
 {
@@ -678,9 +678,9 @@ struct InteractionActor
     unsigned int unk84;
     ActorExtraData extras;
     InteractionActor* FUN_008d8520();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_00566950();
-    bool FUN_00608d80();
+    bool Actor_IsReanimated();
     bool FUN_0087f3d0();
     TESPackage* FUN_009344a0();
     bool FUN_004997b0();
@@ -691,7 +691,7 @@ struct InteractionActor
     bool FUN_008b3c30();
     void FUN_008a8e50();
     void FUN_008a7a90();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 extern InteractionActor* interactionPlayer;
 struct DialogueDisplay
@@ -1349,8 +1349,8 @@ struct Reference
     void FUN_0057ace0(unsigned int);
     Reference* FUN_005e3fa0();
     void FUN_00484490();
-    void FUN_00575690(void*);
-    void FUN_00575830(void*);
+    void TESObjectREFR_SetObjectReference(void*);
+    void TESObjectREFR_SetLocationOnReference(void*);
 };
 struct Process
 {
@@ -1806,7 +1806,7 @@ struct Actor : Reference
     int FUN_00931850();
     bool FUN_0094df60();
     bool FUN_0087f3d0();
-    int FUN_004f8960();
+    int Actor_GetLifeState();
     unsigned int FUN_005d43c0();
 };
 extern Actor* DAT_011dea3c;
@@ -1819,11 +1819,11 @@ extern Setting DAT_011cd378;
 extern const float DAT_01012054;
 extern const char DAT_011846d4, DAT_011841cc;
 Actor* FUN_00ec43fb(Reference*, int, const void*, const void*, int);
-void FUN_005ac750(Idle*, unsigned int, int);
-Reference* FUN_00564480(int, int);
-bool FUN_005accb0(void*, void*, void*, Reference*, void*, void*, void*, Idle**, int*, void**, int*, int*);
+void Script_SetActionFlag(Idle*, unsigned int, int);
+Reference* TESObjectREFR_CreateReference(int, int);
+bool Script_ParseParameters(void*, void*, void*, Reference*, void*, void*, void*, Idle**, int*, void**, int*, int*);
 // @fnv 0x005c8a50
-bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* containing, void* script, void* locals,
+bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void* containing, void* script, void* locals,
                   double* result, void* offset)
 {
     *result = 0.0;
@@ -1832,7 +1832,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
     void* object4 = 0;
     int immediateA = 0;
     int _usePriority = 0;
-    if (!FUN_005accb0(paramInfo, scriptData, offset, source, containing, script, locals, &idleVal, &force, &object4,
+    if (!Script_ParseParameters(paramInfo, scriptData, offset, source, containing, script, locals, &idleVal, &force, &object4,
                       &immediateA, &_usePriority))
         return false;
     bool forceFlag4 = false;
@@ -1874,7 +1874,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                     return true;
                 }
                 if (DAT_011dea3c->FUN_0094df60() || actor->FUN_008d8520()->FUN_0045cd60() != 0 ||
-                    (actor->FUN_0087f3d0() && actor->FUN_004f8960() == 6))
+                    (actor->FUN_0087f3d0() && actor->Actor_GetLifeState() == 6))
                 {
                     Sequence* selected = idleVal->FUN_0061b320(actor, 0, 0, 0, 1);
                     if (selected)
@@ -1883,7 +1883,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                         int unused = selected->FUN_0083c820();
                         selected->FUN_0083c850(0);
                         selected->FUN_0083c850(1);
-                        FUN_005ac750(idleVal, actor->FUN_005d43c0(), 0x40000);
+                        Script_SetActionFlag(idleVal, actor->FUN_005d43c0(), 0x40000);
                         delete selected;
                     }
                 }
@@ -1892,16 +1892,16 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             }
             else if (actor->FUN_008d8520())
             {
-                FUN_005ac750(idleVal, actor->FUN_005d43c0(), 0x40000);
+                Script_SetActionFlag(idleVal, actor->FUN_005d43c0(), 0x40000);
                 actor->FUN_008d8520()->Clear(0);
             }
         }
         else if (source && object4)
         {
-            Reference* created = FUN_00564480(59, 0);
+            Reference* created = TESObjectREFR_CreateReference(59, 0);
             created->FUN_00484490();
-            created->FUN_00575690(object4);
-            created->FUN_00575830(source->GetParent());
+            created->TESObjectREFR_SetObjectReference(object4);
+            created->TESObjectREFR_SetLocationOnReference(source->GetParent());
             source->FUN_0057ad20(idleVal);
             Sequence* chosen2 = idleVal->FUN_0061b320(created, 0, 0, 0, 0);
             if (chosen2)

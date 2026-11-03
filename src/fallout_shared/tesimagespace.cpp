@@ -76,45 +76,45 @@ FUN_0052b3b0::~FUN_0052b3b0()
 
 bool __cdecl FUN_00401500();
 void __cdecl AppendChunk(unsigned int, char*, unsigned int);
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_0052b630_obj
 {
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_0052b630();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void TESImageSpace_SaveForm();
 };
 // @fnv 0x0052b630
-void FUN_0052b630_obj::FUN_0052b630()
+void FUN_0052b630_obj::TESImageSpace_SaveForm()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     if (FUN_00401500())
         ((ImageSpaceModifierParameterData*)((char*)this + 0x18))->Endian();
     AppendChunk(0x4d414e44, (char*)this + 0x18, 0x98);
     if (FUN_00401500())
         ((ImageSpaceModifierParameterData*)((char*)this + 0x18))->Endian();
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct FUN_0052b700_shell : public TESImageSpace
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_0052b700(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESImageSpace_Compare(TESForm*);
 };
 
 // @fnv 0x0052b700
-bool FUN_0052b700_shell::FUN_0052b700(TESForm* apCompare)
+bool FUN_0052b700_shell::TESImageSpace_Compare(TESForm* apCompare)
 {
     TESImageSpace* pcomp = dynamic_cast<TESImageSpace*>(apCompare);
     if (!pcomp)
         return true;
-    if (FUN_00485270((TESForm*)pcomp))
+    if (TESForm_CompareAllComponents((TESForm*)pcomp))
         return true;
     if (memcmp((char*)this + 0x18, (char*)pcomp + 0x18, 0x98))
         return true;
@@ -138,16 +138,16 @@ void* FUN_0052b380_shell::DestroyAndDeallocate(unsigned int flags)
 
 struct ImageSpaceCopyEntry : public ::TESImageSpace
 {
-    void FUN_004851b0(::TESForm*);
-    void FUN_0052b6a0(::TESForm* apCopy);
+    void TESForm_CopyAllComponents(::TESForm*);
+    void TESImageSpace_CopyFrom(::TESForm* apCopy);
 };
-// Copies the TESImageSpace data from apCopy into this entry after calling FUN_004851b0.
+// Copies the TESImageSpace data from apCopy into this entry after calling TESForm_CopyAllComponents.
 // @fnv 0x0052b6a0
-void ImageSpaceCopyEntry::FUN_0052b6a0(::TESForm* apCopy)
+void ImageSpaceCopyEntry::TESImageSpace_CopyFrom(::TESForm* apCopy)
 {
     ::TESImageSpace* pcopy = dynamic_cast< ::TESImageSpace*>(apCopy);
     if (!pcopy)
         return;
-    FUN_004851b0(pcopy);
+    TESForm_CopyAllComponents(pcopy);
     ::memcpy(&Data, &pcopy->Data, sizeof(Data));
 }

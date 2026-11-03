@@ -14,11 +14,11 @@ struct TESUseItemPackageData
 {
     TESPackageData base;
     LocationDescriptor* m_pPackageTarget;
-    void FUN_0067c9d0();
+    void TESUseItemPackageData_Save();
 };
 
 // @fnv 0x0067c9d0
-void TESUseItemPackageData::FUN_0067c9d0()
+void TESUseItemPackageData::TESUseItemPackageData_Save()
 {
     FUN_004856d0(0x44495550);
     if (this->m_pPackageTarget != 0)
@@ -67,11 +67,11 @@ struct FUN_0067f600_shell
 };
 struct FUN_0067c960_shell : TESUseItemPackageData
 {
-    bool FUN_0067c960(TESPackageData* apCompare);
+    bool TESUseItemPackageData_Compare(TESPackageData* apCompare);
 };
 // Returns true if the cast fails, the target comparison returns true, or only the other target is non-null.
 // @fnv 0x0067c960
-bool FUN_0067c960_shell::FUN_0067c960(TESPackageData* apCompare)
+bool FUN_0067c960_shell::TESUseItemPackageData_Compare(TESPackageData* apCompare)
 {
     TESUseItemPackageData* pUseItemData =
         (TESUseItemPackageData*)FUN_00ec43fb(apCompare, 0, &DAT_0119bdec, &DAT_0119bed8, 0);

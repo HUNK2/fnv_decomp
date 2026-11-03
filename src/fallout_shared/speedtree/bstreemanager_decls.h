@@ -34,7 +34,7 @@ class MemoryManager
   public:
     static void* Allocate(unsigned int size);
 };
-void FUN_00664940();
+void BSTreeManager_Destroy();
 void* FUN_00664840(bool);
 void SetGlobalValue(bool);
 void SetGlobalFloatFromUInt(unsigned int);

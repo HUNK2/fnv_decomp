@@ -55,7 +55,7 @@ struct NiAdditionalGeometryData
 };
 struct NiNode
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 struct ModelLoader
 {
@@ -98,7 +98,7 @@ void __cdecl FUN_007c6120()
     if (!menu5)
         return;
     g_modelLoader->FUN_0045a5e0("Meshes\\Terminals\\Babybook02.NIF");
-    ((NiNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_004def90();
+    ((NiNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->NiNode_RemoveAllChildren();
     ((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_00b5d180();
     *(int*)((char*)DAT_011daa38 + 0x5c) = 0;
     ((GO*)&g_011daa9c)->operator=(0);
@@ -358,7 +358,7 @@ struct MenuController
     virtual void slot36();
     virtual void Update(const NiUpdateData&);
     MenuController* GetNext() const;
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
+    NiControllerSequence* NiControllerManager_GetSequenceByName(const NiFixedString&);
 };
 struct MenuScene
 {
@@ -420,11 +420,11 @@ struct MenuUpdate
     bool finished;
     int field58;
     MenuScene* scene;
-    void FUN_007c6200();
+    void SPECIALBookMenu_Update();
 };
 // Checks a key press to trigger Handle(4,0), otherwise advances the scene's controller sequence by elapsed time and updates the scene.
 // @fnv 0x007c6200
-void MenuUpdate::FUN_007c6200()
+void MenuUpdate::SPECIALBookMenu_Update()
 {
     if (!FUN_00702450(0x424))
         return;
@@ -446,7 +446,7 @@ void MenuUpdate::FUN_007c6200()
                 MenuController* manager = pController;
                 NiControllerSequence* sequence = 0;
                 if (!DAT_011a0854 || selection > 0)
-                    sequence = manager->FUN_0047a520(
+                    sequence = manager->NiControllerManager_GetSequenceByName(
                         NiFixedString(DAT_011a0854 ? DAT_011a0878[selection] : DAT_011a0858[selection]));
                 elapsed += g_timeGlobal.FUN_0084d030();
                 if (sequence)
@@ -680,7 +680,7 @@ FUN_007ca2c0::FUN_007ca2c0(int a, const char* apFirstName, const char* apSecondN
 struct G_011dea10_cls
 {
 
-    void FUN_004568c0(char* a, int* b, int c, int d);
+    void TES_CreateTextureImage(char* a, int* b, int c, int d);
 };
 
 extern G_011dea10_cls* g_011dea10;
@@ -975,7 +975,7 @@ void FUN_007cadd0_self::FUN_007cadd0()
 
         FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-        g_011dea10->FUN_004568c0(auStack_218, &m180[auStack_110], 0, 0);
+        g_011dea10->TES_CreateTextureImage(auStack_218, &m180[auStack_110], 0, 0);
     }
 
     for (iStack_228 = 1; iStack_228 < 5; iStack_228++)
@@ -985,7 +985,7 @@ void FUN_007cadd0_self::FUN_007cadd0()
 
         FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-        g_011dea10->FUN_004568c0(auStack_218, &m1a8[iStack_228], 0, 0);
+        g_011dea10->TES_CreateTextureImage(auStack_218, &m1a8[iStack_228], 0, 0);
     }
 
     if (FUN_00709d40())
@@ -998,55 +998,55 @@ void FUN_007cadd0_self::FUN_007cadd0()
 
     FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c38);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c0, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1c0, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c24);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1bc, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1bc, 0, 0);
 
     FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c1c);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c4, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1c4, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c14);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1c8, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1c8, 0, 0);
 
     FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c00);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1cc, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1cc, 0, 0);
 
     FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074bf8);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d0, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1d0, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074be8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d4, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1d4, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bd8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1d8, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1d8, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bc8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1dc, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1dc, 0, 0);
 
     FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bb8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
-    g_011dea10->FUN_004568c0(auStack_218, &m1e0, 0, 0);
+    g_011dea10->TES_CreateTextureImage(auStack_218, &m1e0, 0, 0);
 }
 
 struct NiRTTI
@@ -1205,7 +1205,7 @@ bool SPECIALBookMenu_7c9dc0::FUN_007c9dc0(bool forward)
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int size);
 
 void __cdecl CallVfunc60WithGlobalOffset(void* p);
 void __cdecl FUN_007cabb0(void* p);
@@ -1249,7 +1249,7 @@ struct BkAnimSeq
 };
 struct BkAnimCtrl
 {
-    BkAnimSeq* FUN_0047a520(const BkFixedStr& name);
+    BkAnimSeq* NiControllerManager_GetSequenceByName(const BkFixedStr& name);
     void FUN_0048fef0(float t);
     void FUN_0047aab0(BkAnimSeq* seq, int a, int b, float c, float d, int e);
     void FUN_0047aa40(int a);
@@ -1303,7 +1303,7 @@ struct BkNode
     virtual void v02();
     virtual int v03(float f);
     void FUN_00440490(float s);
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
     void FUN_006404b0(float a, float b, float c, float d);
     void FUN_00a59c60(const BkPoint3& p);
     BkCtrl* FUN_00a5c570(void* rtti);
@@ -1384,7 +1384,7 @@ struct BkScene
 };
 struct BkLoader
 {
-    BkNode* FUN_00447080(const char* path, int a, int b, int c, int d, int e);
+    BkNode* ModelLoader_LoadFile(const char* path, int a, int b, int c, int d, int e);
 };
 
 struct BkItemBase
@@ -1499,10 +1499,10 @@ void SpecialBookMenuX::InitMenu()
     BkDisplay* kMsg;
 
     ((BkMenuG*)DAT_011daa38)->m_pReferencedNode =
-        DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\Babybook02.NIF", 0, 1, 0, 0, 0);
+        DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\Babybook02.NIF", 0, 1, 0, 0, 0);
     FUN_004b7660(((BkMenuG*)DAT_011daa38)->m_pReferencedNode);
     ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_00440490(0.05f);
-    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_004bc1f0(0.0f, 0.0f, -60.0f);
+    ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->NiAVObject_SetTranslate(0.0f, 0.0f, -60.0f);
     ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_006404b0(1.5707964f, 1.0f, 0.0f, 0.0f);
     akStart.Init(0.0f, 0, 0);
     ((BkMenuG*)DAT_011daa38)->m_pReferencedNode->FUN_00a59c60(akStart);
@@ -1511,7 +1511,7 @@ void SpecialBookMenuX::InitMenu()
     if (aPCtrl)
     {
         BkAnimCtrl* mgr5 = (BkAnimCtrl*)aPCtrl;
-        BkAnimSeq* pForwardSequence = mgr5->FUN_0047a520(BkFixedStr("Forward"));
+        BkAnimSeq* pForwardSequence = mgr5->NiControllerManager_GetSequenceByName(BkFixedStr("Forward"));
         if (pForwardSequence)
         {
             mgr5->FUN_0048fef0(0.0f);
@@ -1835,7 +1835,7 @@ struct BookInterface
     float FUN_009a9350();
     float FUN_00792760();
 };
-BookInterface* __cdecl FUN_004b7210();
+BookInterface* __cdecl InterfaceManager_Instance();
 struct RenderBuffer
 {
     unsigned int FUN_0084e3a0();
@@ -2040,7 +2040,7 @@ void BookMenu::HandleKey(unsigned int key, int unused)
     case 5:
         if (pageIndex < 9)
         {
-            BookInterface* interfaceManager3 = FUN_004b7210();
+            BookInterface* interfaceManager3 = InterfaceManager_Instance();
             int mouseX = (int)interfaceManager3->FUN_009a9350();
             int mouseY = (int)interfaceManager3->FUN_00792760();
             if (DAT_011f9426)

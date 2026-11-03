@@ -343,7 +343,7 @@ class TESActorBaseData : public BaseFormComponent
     void FUN_0050f9a0(TESLevItem*);  // SetDeathItem (inferred from field access)
     void SetKarmaValue(float);
     unsigned short GetLevel();
-    unsigned short FUN_0047d390();  // GetCalcLevelMin (inferred from field access)
+    unsigned short TESActorBaseData_GetCalcLevelMin();  // GetCalcLevelMin (inferred from field access)
     unsigned short FUN_0047d3b0();  // GetCalcLevelMax (inferred from field access)
     bool GetMatchesPCLevel();
     void SetMatchesPCLevel(bool);
@@ -597,7 +597,7 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     ~TESCreature();
     virtual void CopyFromTemplateForm(TESActorBase*);
     void SetCombatStyle(TESCombatStyle*);
-    void FUN_0050eaa0(TESCreature*);           // CopyBounds (inferred from field access)
+    void TESBoundObject_CopyBoundData(TESCreature*);           // CopyBounds (inferred from field access)
     BGSImpactDataSet* GetImpactDataSet();      // GetImpactDataSet (inferred from field access)
     void SetImpactDataSet(BGSImpactDataSet*);  // SetImpactDataSet (inferred from field access)
     CreatureSoundCollection* GetCreatureSounds();
@@ -615,7 +615,7 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     void SetCreatureType(unsigned char);  // SetHandReach (inferred from field access)
     float FUN_00821640();                 // GetTurnSpeed (inferred from field access)
     void FUN_00507780(float);             // SetTurnSpeed (inferred from field access)
-    float FUN_00567470();                 // GetBaseScale (inferred from field access)
+    float TESCreature_GetBaseScale();                 // GetBaseScale (inferred from field access)
     void SetBoltGrowWidth(float);         // SetBaseScale (inferred from field access)
     float FUN_00821660();                 // GetFootWeight (inferred from field access)
     void SetBoltSmallWidth(float);        // SetFootWeight (inferred from field access)
@@ -684,5 +684,5 @@ class TESResponse
     void SetSpeakerIdle(TESIdleForm*);
     void GetListenerIdle(TESIdleForm*);
 };
-TESCombatStyle* FUN_00505000();
+TESCombatStyle* TESCombatStyle_GetDefaultCombatStyle();
 #endif

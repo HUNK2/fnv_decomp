@@ -212,11 +212,11 @@ struct MeshEmitter : EmitterBase
     int unkc0;
     unsigned int m_uiMax;
 
-    void FUN_00c5e9f0(ViewerStrings* pkStrings);
+    void BSMasterParticleSystem_GetViewerStrings(ViewerStrings* pkStrings);
 };
 
 // @fnv 0x00c5e9f0
-void MeshEmitter::FUN_00c5e9f0(ViewerStrings* pkStrings)
+void MeshEmitter::BSMasterParticleSystem_GetViewerStrings(ViewerStrings* pkStrings)
 {
     EmitterBase::GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_0120436c.GetName()));

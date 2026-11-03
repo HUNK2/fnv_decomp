@@ -108,11 +108,11 @@ void* FUN_005119e0_obj::Destroy(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
@@ -128,20 +128,20 @@ unsigned int __cdecl _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_00511d10_shell
 {
-    void __thiscall FUN_00511d10();
+    void __thiscall TESObjectANIO_SaveForm();
 };
 
 // @fnv 0x00511d10
-void __thiscall FUN_00511d10_shell::FUN_00511d10()
+void __thiscall FUN_00511d10_shell::TESObjectANIO_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     ((S_0048a520*)((char*)this + 0x18))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     if (((int*)this)[0x38 / 4])
     {
         unsigned int iid = ((_ref_0084e3a0_t*)(((int*)this)[0x38 / 4]))->_ref_0084e3a0();
         _FUN_00485910(0x41544144, iid);
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 class B511A10Form

@@ -18,7 +18,7 @@ struct bhkCharacterProxy
 extern const NiRTTI g_01268344;
 struct FUN_00806f10_shell
 {
-    unsigned int FUN_00806f10();
+    unsigned int bhkCharacterController_QCinfoSize();
 };
 struct FUN_00cbe8d0_class
 {
@@ -1205,7 +1205,7 @@ class Debug807
 };
 extern Debug807* g_pkDebug807;
 
-DebugNode807* __cdecl FUN_004a3a40(void* pvOwner);
+DebugNode807* __cdecl bhkShape_Getbhk(void* pvOwner);
 void __cdecl FUN_00624b10(Matrix807& kOut, const hkRotation_807& kIn);
 void __cdecl FUN_00458620(Point807& kOut, const hkVector4_807& kIn);
 void* __cdecl FUN_004b5950(void* pvCollidable);
@@ -1655,7 +1655,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
     {
         Point807 kUnused;
         EventCopy807 kCopy(pkEvent);
-        DebugNode807* pkNodeA = FUN_004a3a40(kCopy.m_pkBodyA->GetOwner());
+        DebugNode807* pkNodeA = bhkShape_Getbhk(kCopy.m_pkBodyA->GetOwner());
         if (pkNodeA)
         {
             Line807* pkLineA = new Line807(0);
@@ -1668,7 +1668,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
             FUN_00458620(kPosA, kCopy.m_pkBodyA->GetTransform()->GetTranslation());
             pkLineA->GetTransformScale(kPosA);
         }
-        DebugNode807* pkNodeB = FUN_004a3a40(kCopy.m_pkBodyB->GetOwner());
+        DebugNode807* pkNodeB = bhkShape_Getbhk(kCopy.m_pkBodyB->GetOwner());
         if (pkNodeB)
         {
             Line807* pkLineB = new Line807(0);

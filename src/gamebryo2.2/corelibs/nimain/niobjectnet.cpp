@@ -256,7 +256,7 @@ void __fastcall FUN_00a5c760(void** pThis)
 
 extern char const* const g_011f3e6c_arg1;
 // @fnv 0x00a57290
-char const* const* __cdecl FUN_00a57290()
+char const* const* __cdecl NiExtraDataController_GetRTTI()
 {
     return &g_011f3e6c_arg1;
 }
@@ -317,7 +317,7 @@ struct NiObjectBase
     bool RegisterStreamables(NiStream*);
 };
 // @fnv 0x00a5c180
-bool __fastcall FUN_00a5c180(void* thisp, int, NiStream* kStream)
+bool __fastcall NiObjectNET_RegisterStreamables(void* thisp, int, NiStream* kStream)
 {
     char* self = reinterpret_cast<char*>(thisp);
     VStream* stream = reinterpret_cast<VStream*>(kStream);
@@ -911,7 +911,7 @@ struct VExtra : NiExtraData
 };
 struct NetEqual : NiObjectNET
 {
-    bool FUN_00a5c820(NiObjectNET*);
+    bool NiObjectNET_IsEqual(NiObjectNET*);
     bool IsSameAs(NiObject*);
 };
 struct CountController : NiTimeController
@@ -921,7 +921,7 @@ struct CountController : NiTimeController
 
 // Compares two NiObjectNET objects by checking name handle, geometry controller extra data, and time controller lists for equality.
 // @fnv 0x00a5c820
-bool NetEqual::FUN_00a5c820(NiObjectNET* other)
+bool NetEqual::NiObjectNET_IsEqual(NiObjectNET* other)
 {
     if (!IsSameAs(other))
         return false;
@@ -1086,11 +1086,11 @@ struct S
         return unk08;
     }
     void AppendCameraPathEntries(StrArray* arr);
-    void FUN_00a5ca80(StrArray* arr);
+    void NiObjectNET_GetViewerStrings(StrArray* arr);
 };
 // Appends camera path entries, a string from DAT_011f4304, and a formatted m_kName string to the given StrArray.
 // @fnv 0x00a5ca80
-void S::FUN_00a5ca80(StrArray* apArray)
+void S::NiObjectNET_GetViewerStrings(StrArray* apArray)
 {
     AppendCameraPathEntries(apArray);
     char* str = FUN_00a7d330(DAT_011f4304);

@@ -48,7 +48,7 @@ struct Wrap_00a532d0
 
 // Reads a bool via virtual call at offset 0xf0, allocates a 0x18-byte BSFadeNode, and constructs it with that bool, returning null on allocation failure.
 // @fnv 0x00c32b80
-void* __fastcall FUN_00c32b80(void* pThis, int, unsigned short usUnused)
+void* __fastcall NiPSysModifierBoolCtlr_CreatePoseInterpolator(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
     (*(void(__thiscall**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
@@ -79,7 +79,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026d0;
 
 // @fnv 0x00c29d40
-GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
+GlobalObjectO2_00a7b610* __cdecl NiPSysModifierActiveCtlr_GetRTTI()
 {
     return &g_012026d0;
 }
@@ -87,7 +87,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
 extern char const* const g_012026d0_arg1;
 
 // @fnv 0x00c32be0
-const char* __cdecl FUN_00c32be0()
+const char* __cdecl NiPSysModifierBoolCtlr_GetRTTI()
 {
     return reinterpret_cast<const char*>(&g_012026d0_arg1);
 }
@@ -104,10 +104,10 @@ struct PsStandIn
 };
 struct StandIn
 {
-    bool FUN_00c29dd0(NiObjectNET*);
+    bool NiPSysModifierActiveCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 // @fnv 0x00c29dd0
-bool StandIn::FUN_00c29dd0(NiObjectNET* pkTarget)
+bool StandIn::NiPSysModifierActiveCtlr_InterpTargetIsCorrectType(NiObjectNET* pkTarget)
 {
     NiPSysModifier* pkModifier;
     if (!((BaseStandIn*)this)->IsTargetParticleSystem(pkTarget))
@@ -126,16 +126,16 @@ struct StrArr
 };
 struct NiPSysModifierBoolCtlr
 {
-    void __thiscall FUN_00c32d30(StrArr*);
+    void __thiscall NiPSysModifierBoolCtlr_GetViewerStrings(StrArr*);
 };
 struct NiPSysModifierActiveCtlr : NiPSysModifierBoolCtlr
 {
-    void __thiscall FUN_00c29e00(StrArr*);
+    void __thiscall NiPSysModifierActiveCtlr_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00c29e00
-void __thiscall NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
+void __thiscall NiPSysModifierActiveCtlr::NiPSysModifierActiveCtlr_GetViewerStrings(StrArr* pArray)
 {
-    FUN_00c32d30(pArray);
+    NiPSysModifierBoolCtlr_GetViewerStrings(pArray);
     char* p = (char*)FUN_00a7d330((const void*)*(void**)(void*)&g_012026d0);
     unsigned int uiIndex = *(unsigned short*)((char*)pArray + 0x0a);
     unsigned int n = *(unsigned short*)((char*)pArray + 0x08);
@@ -214,7 +214,7 @@ struct FNV_C29D60_Target : FNV_C29D60_VtableBase
     int unk0c;
     int unk10;
     unsigned char unk14;
-    virtual void FUN_00c29e00(unsigned int nValue);
+    virtual void NiPSysModifierActiveCtlr_GetViewerStrings(unsigned int nValue);
 };
 
 // The owner of the function: the target pointer sits at +0x3c.
@@ -244,7 +244,7 @@ void FNV_C29D60_Owner::FUN_00c29d60(unsigned int nValue)
 {
     if (this->unk3c->unk14 != (unsigned char)nValue)
     {
-        this->unk3c->FUN_00c29e00(nValue);
+        this->unk3c->NiPSysModifierActiveCtlr_GetViewerStrings(nValue);
     }
 }
 
@@ -282,11 +282,11 @@ class C29D80Object : public C29D80Base
     virtual ~C29D80Object();
 
     void CopyMemberData(C29D80Object* pkDest, void* pvCloning);
-    C29D80Object* FUN_00c29d80(void* pvCloning);
+    C29D80Object* NiPSysModifierActiveCtlr_CreateClone(void* pvCloning);
 };
 
 // @fnv 0x00c29d80
-C29D80Object* C29D80Object::FUN_00c29d80(void* pvCloning)
+C29D80Object* C29D80Object::NiPSysModifierActiveCtlr_CreateClone(void* pvCloning)
 {
     C29D80Object* pkClone = new C29D80Object;
     CopyMemberData(pkClone, pvCloning);
@@ -296,7 +296,7 @@ C29D80Object* C29D80Object::FUN_00c29d80(void* pvCloning)
 extern "C" void __cdecl jmp_0xc32bf0();
 
 // @fnv 0x00c29d30
-void FUN_00c29d30()
+void NiPSysModifierActiveCtlr_LinkObject()
 {
     jmp_0xc32bf0();
 }
@@ -326,7 +326,7 @@ struct ArgStandIn
 class FUN_00c32bf0_cls
 {
   public:
-    void FUN_00c32bf0(ArgStandIn* arg);
+    void NiPSysModifierBoolCtlr_LinkObject(ArgStandIn* arg);
     void FUN_00a57630(ArgStandIn* arg);
 
     char unk00[0x34];
@@ -335,7 +335,7 @@ class FUN_00c32bf0_cls
 
 // Calls FUN_00a57630, allocates an object using the returned pointer, and replaces m_34 while updating reference counts.
 // @fnv 0x00c32bf0
-void FUN_00c32bf0_cls::FUN_00c32bf0(ArgStandIn* arg)
+void FUN_00c32bf0_cls::NiPSysModifierBoolCtlr_LinkObject(ArgStandIn* arg)
 {
     FUN_00a57630(arg);
     if (arg->m_d8 >= 0xa010068)

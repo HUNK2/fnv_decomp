@@ -93,10 +93,10 @@ bool FUN_005fdfa0_shell::IsHairValidForNPC(TESNPC* apNPC)
 {
     bool bretval = false;
     BGSQuestObjective* hair;
-    if (apNPC && ((TESHairCanBeNPCData*)apNPC)->FUN_004ac110() != 0)
+    if (apNPC && ((TESHairCanBeNPCData*)apNPC)->TESNPC_GetRace() != 0)
     {
         hair = (BGSQuestObjective*)this;
-        if (((TESHairCanBeNPCData*)apNPC)->FUN_004ac110()->FUN_0045bb80()->IsInList(hair))
+        if (((TESHairCanBeNPCData*)apNPC)->TESNPC_GetRace()->FUN_0045bb80()->IsInList(hair))
         {
             switch (((TESActorBase*)apNPC)->GetSex())
             {
@@ -146,7 +146,7 @@ bool FUN_005fdf80_shell::IsFlag4Clear()
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm* apCopy);
+    void __thiscall TESForm_CopyAllComponents(TESForm* apCopy);
 };
 
 struct FUN_005fde80_shell
@@ -160,7 +160,7 @@ void __thiscall FUN_005fde80_shell::CopyFromHair(TESForm* apCopy)
     TESHair* pcopy = dynamic_cast<TESHair*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
     ((char*)this)[0x48] = ((char*)pcopy)[0x48];
 }
 
@@ -180,21 +180,21 @@ void* S::FUN_005fdb60(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_004891d0_holder
 {
@@ -204,33 +204,33 @@ void __cdecl FUN_004858f0(unsigned int, unsigned char);
 
 struct FUN_005fdc50_shell
 {
-    void FUN_005fdc50();
+    void TESHair_SaveForm();
 };
 
 // @fnv 0x005fdc50
-void FUN_005fdc50_shell::FUN_005fdc50()
+void FUN_005fdc50_shell::TESHair_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->TESFullName_Save();
     reinterpret_cast<FUN_004891d0_holder*>(reinterpret_cast<char*>(this) + 0x24)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x3c)->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x3c)->TESTexture_Save(0x4e4f4349);
     FUN_004858f0(0x41544144, reinterpret_cast<char*>(this)[0x48]);
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct HairComparisonEntry : public TESHair
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_005fded0(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESHair_Compare(TESForm*);
 };
-// Returns true if apCompare is not a TESHair, differs per FUN_00485270, or has a different cFlags value.
+// Returns true if apCompare is not a TESHair, differs per TESForm_CompareAllComponents, or has a different cFlags value.
 // @fnv 0x005fded0
-bool HairComparisonEntry::FUN_005fded0(TESForm* apCompare)
+bool HairComparisonEntry::TESHair_Compare(TESForm* apCompare)
 {
     TESHair* pCompare = dynamic_cast<TESHair*>(apCompare);
     if (!pCompare)
         return true;
-    if (FUN_00485270(pCompare))
+    if (TESForm_CompareAllComponents(pCompare))
         return true;
     if (pCompare->cFlags != cFlags)
         return true;

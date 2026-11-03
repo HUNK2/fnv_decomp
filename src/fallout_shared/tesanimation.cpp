@@ -191,12 +191,12 @@ struct blob12
 };
 struct FUN_0047fb50_shell : public TESAnimation
 {
-    void FUN_0047fb50(BaseFormComponent*);
+    void TESAnimation_CopyComponent(BaseFormComponent*);
 };
 
 // Casts apCopyFC to TESAnimation, frees this component, then copies each filename from the source's file list via AddPathToList.
 // @fnv 0x0047fb50
-void FUN_0047fb50_shell::FUN_0047fb50(BaseFormComponent* apCopyFC)
+void FUN_0047fb50_shell::TESAnimation_CopyComponent(BaseFormComponent* apCopyFC)
 {
     TESAnimation* pcopy = dynamic_cast<TESAnimation*>(apCopyFC);
     if (pcopy == 0)

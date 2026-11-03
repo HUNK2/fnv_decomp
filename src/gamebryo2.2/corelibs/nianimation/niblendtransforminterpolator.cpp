@@ -21,31 +21,31 @@ bool NiBlendTransformInterpolator::Update(float fTime, NiObjectNET* pkObject, Ni
 
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
-    void* FUN_00a40a40();
+    void* NiBlendTransformInterpolator_GetRTTI();
 };
 
 extern "C" const NiRTTI* g_011f3e64;
 
 // @fnv 0x00a40a40
-void* FUN_00a40a40_shell::FUN_00a40a40()
+void* FUN_00a40a40_shell::NiBlendTransformInterpolator_GetRTTI()
 {
     return &g_011f3e64;
 }
 
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
 {
-    bool FUN_00a40a20(NiObject*);
+    bool NiBlendTransformInterpolator_IsEqual(NiObject*);
 };
 
 struct FUN_00a36fd0_tgt
 {
-    char FUN_00a36fd0(NiObject*);
+    char NiBlendInterpolator_IsEqual(NiObject*);
 };
 
 // @fnv 0x00a40a20
-bool FUN_00a40a20_shell::FUN_00a40a20(NiObject* pkObject)
+bool FUN_00a40a20_shell::NiBlendTransformInterpolator_IsEqual(NiObject* pkObject)
 {
-    return ((FUN_00a36fd0_tgt*)this)->FUN_00a36fd0(pkObject);
+    return ((FUN_00a36fd0_tgt*)this)->NiBlendInterpolator_IsEqual(pkObject);
 }
 
 class FUN_00a40980_base
@@ -113,7 +113,7 @@ extern unsigned int DAT_011f370c;
 extern unsigned int DAT_011f3710;
 extern float DAT_01096b8c;
 
-void __stdcall FUN_00a37980(void* a1);
+void __stdcall NiBlendInterpolator_LoadBinary(void* a1);
 
 class FUN_00a40ab0_obj
 {
@@ -190,9 +190,9 @@ class QuatBlockArg
 };
 
 // @fnv 0x00a40ab0
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1)
+void __stdcall NiBlendTransformInterpolator_LoadBinary(FUN_00a40ab0_obj* a1)
 {
-    FUN_00a37980(a1);
+    NiBlendInterpolator_LoadBinary(a1);
     if (a1->m_uiD8 < 0xa01006e)
     {
         QuatBlockArg b;
@@ -234,13 +234,13 @@ template <class T> class AGPrimArray
 };
 typedef AGPrimArray<const char*> AGViewerStrings;
 extern "C" const char* DAT_011f3e64;
-void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
+void __stdcall NiBlendInterpolator_GetViewerStrings(AGViewerStrings* pkStrings);
 const char* __cdecl FUN_00a7d330(const char* pcText);
 
 // @fnv 0x00a41170
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings)
+void __stdcall NiBlendTransformInterpolator_GetViewerStrings(AGViewerStrings* pkStrings)
 {
-    FUN_00a38080(pkStrings);
+    NiBlendInterpolator_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(DAT_011f3e64));
 }
 

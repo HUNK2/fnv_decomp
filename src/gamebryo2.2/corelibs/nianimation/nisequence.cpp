@@ -7,7 +7,7 @@
 extern "C" void* g_011f3f48;
 
 // @fnv 0x00a47a10
-void* __cdecl FUN_00a47a10()
+void* __cdecl NiSequence_GetRTTI()
 {
     return &g_011f3f48;
 }

@@ -396,7 +396,7 @@ struct NiPoint3
     NiPoint3();
     NiPoint3(float, float, float);
     NiPoint3 operator+(const NiPoint3&) const;
-    void FUN_005df510(unsigned int, NiPoint3*);
+    void NiMatrix3_SetRow(unsigned int, NiPoint3*);
     NiPoint3* FUN_004b4500(void*, NiPoint3*, NiPoint3*);
 };
 float FUN_0040ebd0(float, float);
@@ -434,8 +434,8 @@ struct __declspec(align(16)) ObjA
     int m_a8;
     int m_ac;
     void FUN_004a3c20();
-    void FUN_004a3f70(int);
-    void FUN_004a3da0(NiPoint3*);
+    void bhkPickData_SetFilter(int);
+    void bhkPickData_SetFrom(NiPoint3*);
     void FUN_004a3eb0(NiPoint3*);
     void FUN_005dbe60(NiPoint3*);
 };
@@ -448,7 +448,7 @@ struct MatrixS
 {
     float matrix[9];
     void FUN_006815c0();
-    void FUN_005df510(unsigned int, NiPoint3*);
+    void NiMatrix3_SetRow(unsigned int, NiPoint3*);
     NiPoint3 FUN_004b4500(NiPoint3*);
 };
 struct AnimS
@@ -457,24 +457,24 @@ struct AnimS
 };
 struct NodeS
 {
-    S36* FUN_00461130();
+    S36* NiAVObject_GetWorldRotate();
 };
 unsigned int FUN_0045c670();
-NiPoint3* __fastcall FUN_005df5b0(void*);
+NiPoint3* __fastcall PlayerCharacter_GetCachedWorldCameraPos(void*);
 struct StrSrc
 {
     void* FUN_00931ed0(int*);
 };
 struct Src2
 {
-    unsigned int FUN_004a3a20();
+    unsigned int CFilter_GetGroup();
 };
 struct StrObj
 {
     int m_00;
     StrObj(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
 };
 struct TESX
 {
@@ -756,7 +756,7 @@ struct ObjX
     virtual void w106();
     virtual void Gate41c(float);
     void FUN_008bcd20();
-    void FUN_00568bd0(float);
+    void TESObjectREFR_SetHealth(float);
 };
 struct DataHandlerS
 {
@@ -961,7 +961,7 @@ extern TESX* g_TES;
 extern DataHandlerS* g_dataHandler;
 
 // @fnv 0x005df040
-bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
+bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
                   ScriptLocals* a5, double& result, unsigned int& a7)
 {
     result = 0.0;
@@ -977,26 +977,26 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
     NiPoint3 pt(0.0f, f14, 0.0f);
     NiPoint3 pos = *g_thePlayer->GetPos1f4();
     void* tmpEC = ((AnimS*)FUN_0045c670())->GetAnimationData();
-    S36 s36 = *((NodeS*)tmpEC)->FUN_00461130();
+    S36 s36 = *((NodeS*)tmpEC)->NiAVObject_GetWorldRotate();
     MatrixS p134;
     p134.FUN_006815c0();
     NiPoint3 p140;
     s36.GetRowFloats(0, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(0, &p140);
+    p134.NiMatrix3_SetRow(0, &p140);
     s36.GetRowFloats(1, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(1, &p140);
+    p134.NiMatrix3_SetRow(1, &p140);
     s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(2, &p140);
-    pos = *FUN_005df5b0(g_thePlayer);
+    p134.NiMatrix3_SetRow(2, &p140);
+    pos = *PlayerCharacter_GetCachedWorldCameraPos(g_thePlayer);
     pt = p134.FUN_004b4500(&pt) + pos;
     int out15c;
     ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
     StrObj strObj(0);
-    strObj.FUN_004a39f0(6);
+    strObj.CFilter_SetLayer(6);
     int out164;
-    strObj.FUN_0059ce80(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->FUN_004a3a20());
-    objA.FUN_004a3f70(strObj.m_00);
-    objA.FUN_004a3da0(&pos);
+    strObj.CFilter_SetGroup(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->CFilter_GetGroup());
+    objA.bhkPickData_SetFilter(strObj.m_00);
+    objA.bhkPickData_SetFrom(&pos);
     objA.FUN_004a3eb0(&pt);
     int res168 = g_TES->FUN_00458420(&objA);
     (void)res168;
@@ -1026,7 +1026,7 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
             {
                 float fnc = (float)hf->Get10();
                 fnc *= 100.0;
-                objX->FUN_00568bd0(fnc);
+                objX->TESObjectREFR_SetHealth(fnc);
             }
         }
     }
@@ -1153,7 +1153,7 @@ Q_FUN_005dbf20::Q_FUN_005dbf20(float f)
 
 namespace fnv_005df040 {
 // @fnv 0x005df040
-bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
+bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
                   ScriptLocals* a5, double& result, unsigned int& a7)
 {
     result = 0.0;
@@ -1169,26 +1169,26 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
     NiPoint3 pt(0.0f, f14, 0.0f);
     NiPoint3 pos = *g_thePlayer->GetPos1f4();
     void* tmpEC = ((AnimS*)FUN_0045c670())->GetAnimationData();
-    S36 s36 = *((NodeS*)tmpEC)->FUN_00461130();
+    S36 s36 = *((NodeS*)tmpEC)->NiAVObject_GetWorldRotate();
     MatrixS p134;
     p134.FUN_006815c0();
     NiPoint3 p140;
     s36.GetRowFloats(0, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(0, &p140);
+    p134.NiMatrix3_SetRow(0, &p140);
     s36.GetRowFloats(1, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(1, &p140);
+    p134.NiMatrix3_SetRow(1, &p140);
     s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
-    p134.FUN_005df510(2, &p140);
-    pos = *FUN_005df5b0(g_thePlayer);
+    p134.NiMatrix3_SetRow(2, &p140);
+    pos = *PlayerCharacter_GetCachedWorldCameraPos(g_thePlayer);
     pt = p134.FUN_004b4500(&pt) + pos;
     int out15c;
     ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
     StrObj strObj(0);
-    strObj.FUN_004a39f0(6);
+    strObj.CFilter_SetLayer(6);
     int out164;
-    strObj.FUN_0059ce80(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->FUN_004a3a20());
-    objA.FUN_004a3f70(strObj.m_00);
-    objA.FUN_004a3da0(&pos);
+    strObj.CFilter_SetGroup(((Src2*)((StrSrc*)g_thePlayer)->FUN_00931ed0(&out164))->CFilter_GetGroup());
+    objA.bhkPickData_SetFilter(strObj.m_00);
+    objA.bhkPickData_SetFrom(&pos);
     objA.FUN_004a3eb0(&pt);
     int res168 = g_TES->FUN_00458420(&objA);
     (void)res168;
@@ -1218,7 +1218,7 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, 
             {
                 float fnc = (float)hf->Get10();
                 fnc *= 100.0;
-                objX->FUN_00568bd0(fnc);
+                objX->TESObjectREFR_SetHealth(fnc);
             }
         }
     }

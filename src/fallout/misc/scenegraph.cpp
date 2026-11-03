@@ -68,7 +68,7 @@ class TESWorldSpace
 class Sky
 {
   public:
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 class TESObjectCELL
 {
@@ -107,7 +107,7 @@ float FUN_008786b0_shell::FUN_008786b0()
     }
     else if (!g_TES || !g_TES->GetHitSound() || g_TES->GetHitSound()->GetWorldTerrainManager()->FUN_00454b70())
     {
-        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->FUN_00476c90() == 1)
+        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->Sky_GetMode() == 1)
         {
             ffar = ((TESObjectCELL*)((BGSCameraPath*)g_TES)->GetPrevPath())->GetInteriorLightValue();
             if (ffar <= _gModifierZero || ffar > DAT_010c26d8)
@@ -123,7 +123,7 @@ float FUN_008786b0_shell::FUN_008786b0()
     else
     {
         float ffarMax;
-        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->FUN_00476c90() == 1)
+        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->Sky_GetMode() == 1)
         {
             ffarMax = ((TESObjectCELL*)((BGSCameraPath*)g_TES)->GetPrevPath())->GetInteriorLightValue();
             if (ffarMax <= _gModifierZero || ffarMax > g_0120312c.Float()->f)

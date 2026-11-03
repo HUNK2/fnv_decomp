@@ -21,5 +21,5 @@ class InterfaceManager
   public:
     int FUN_00874480();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 #endif

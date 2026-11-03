@@ -63,10 +63,10 @@ DummyObj* __fastcall InitFromGlobals(DummyObj* pThis)
 
 struct FUN_00a43350_shell
 {
-    unsigned int FUN_00a43350(unsigned short usChannel);
+    unsigned int BSTreadTransfInterpolator_GetKeyContent(unsigned short usChannel);
 };
 // @fnv 0x00a43350
-unsigned int FUN_00a43350_shell::FUN_00a43350(unsigned short usChannel)
+unsigned int FUN_00a43350_shell::BSTreadTransfInterpolator_GetKeyContent(unsigned short usChannel)
 {
     return usChannel ? 6 : 0;
 }
@@ -78,7 +78,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3ed8;
 // Returns the address of the global object g_011f3ed8.
 // @fnv 0x00a43360
-GlobalObjectO2_00a7b610* __cdecl FUN_00a43360()
+GlobalObjectO2_00a7b610* __cdecl BSTreadTransfInterpolator_GetRTTI()
 {
     return &g_011f3ed8;
 }
@@ -140,11 +140,11 @@ struct FUN_00a43450_shell : FUN_00aa0ad0_base
     unsigned int m_uiLinkCount;
     char pad2[0x20 - 0x14];
     FUN_00a43450_data* m_pData;
-    bool FUN_00a43450(FUN_00a43450_stream* arStream);
+    bool BSTreadTransfInterpolator_RegisterStreamables(FUN_00a43450_stream* arStream);
 };
 // Calls the base register, then registers each link's name string and the data object's streamables with the stream; returns the base result.
 // @fnv 0x00a43450
-bool FUN_00a43450_shell::FUN_00a43450(FUN_00a43450_stream* arStream)
+bool FUN_00a43450_shell::BSTreadTransfInterpolator_RegisterStreamables(FUN_00a43450_stream* arStream)
 {
     bool bret = FUN_00aa0ad0(arStream);
     if (bret)
@@ -166,28 +166,28 @@ struct NiMemObject
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a9b510_shell : public NiAlphaAccumulator
 {
-    bool FUN_00a9b510(NiObject*);
+    bool NiAlphaAccumulator_IsEqual(NiObject*);
 };
 
 struct FUN_00aa0ae0_stub
 {
-    char FUN_00aa0ae0(NiObject* pkObject);
+    char NiBackToFrontAccumulator_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a9b510
-bool FUN_00a9b510_shell::FUN_00a9b510(NiObject* pkObject)
+bool FUN_00a9b510_shell::NiAlphaAccumulator_IsEqual(NiObject* pkObject)
 {
-    bool b = ((FUN_00aa0ae0_stub*)this)->FUN_00aa0ae0(pkObject) != 0;
+    bool b = ((FUN_00aa0ae0_stub*)this)->NiBackToFrontAccumulator_IsEqual(pkObject) != 0;
     return b;
 }
 
 struct FUN_00a9b530_shell : public NiAlphaAccumulator
 {
-    void* FUN_00a9b530();
+    void* NiAlphaAccumulator_GetRTTI();
 };
 
 extern const char* const g_011fa000_arg1;
 // @fnv 0x00a9b530
-void* FUN_00a9b530_shell::FUN_00a9b530()
+void* FUN_00a9b530_shell::NiAlphaAccumulator_GetRTTI()
 {
     return (void*)&g_011fa000_arg1;
 }
@@ -402,14 +402,14 @@ bool FUN_00a43340::IsEqual(const FUN_00a43340& apObject)
 
 void __cdecl FUN_00aa0ac0();
 // @fnv 0x00a9b4f0
-void __cdecl FUN_00a9b4f0()
+void __cdecl NiAlphaAccumulator_LoadBinary()
 {
     FUN_00aa0ac0();
 }
 
 void __cdecl FUN_00aa0ad0();
 // @fnv 0x00a9b500
-void __cdecl FUN_00a9b500()
+void __cdecl NiAlphaAccumulator_RegisterStreamables()
 {
     FUN_00aa0ad0();
 }
@@ -545,12 +545,12 @@ struct S00a9b570_Acc
     bool m_bSkipObjectsWithFlag14;
     bool m_bInterface;
 
-    void FUN_00a9b570();
+    void NiAlphaAccumulator_Sort();
     void FUN_00aa0b40(int start, int finish);
 };
 
 // @fnv 0x00a9b570
-void S00a9b570_Acc::FUN_00a9b570()
+void S00a9b570_Acc::NiAlphaAccumulator_Sort()
 {
     if (!m_pkList)
         m_pkList = &m_kUnsortedGeometryList;
@@ -872,12 +872,12 @@ struct CloneCopyHelper
 };
 struct CloneAccumulator : NiAlphaAccumulator
 {
-    NiObject* FUN_00a9b730(CloningProcess*);
+    NiObject* NiAlphaAccumulator_CreateClone(CloningProcess*);
 };
 
 // Allocates a NiAlphaAccumulator clone, initializes it, copies skip flags, and returns the new object.
 // @fnv 0x00a9b730
-NiObject* CloneAccumulator::FUN_00a9b730(CloningProcess* cloning)
+NiObject* CloneAccumulator::NiAlphaAccumulator_CreateClone(CloningProcess* cloning)
 {
     NiAlphaAccumulator* clone = (NiAlphaAccumulator*)FUN_00aa13e0(sizeof(NiAlphaAccumulator));
     if (clone)

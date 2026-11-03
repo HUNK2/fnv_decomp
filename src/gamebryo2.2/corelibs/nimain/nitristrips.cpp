@@ -119,7 +119,7 @@ void FUN_00a71e00_shell::GetTriangleVertices(unsigned short m_usTriangleID, NiPo
 extern char const* const g_012024b8_arg1;
 
 // @fnv 0x00a71d20
-char const* const* __cdecl FUN_00a71d20()
+char const* const* __cdecl NiTriStrips_GetRTTI()
 {
     return &g_012024b8_arg1;
 }
@@ -157,17 +157,17 @@ void* __cdecl FUN_00a9b150()
 struct NiRenderer;
 struct FUN_00a80610_shell
 {
-    void __thiscall FUN_00a80610(NiRenderer*);
+    void __thiscall NiGeometry_RenderImmediate(NiRenderer*);
 };
 struct FUN_00a71d70_shell
 {
     void __thiscall FUN_00a71d70(NiRenderer*);
 };
-// Calls FUN_00a80610, then if the renderer's field at 0x200 is 1 or 2 and the byte at 0x208 is 1, invokes virtual slot 110 with this.
+// Calls NiGeometry_RenderImmediate, then if the renderer's field at 0x200 is 1 or 2 and the byte at 0x208 is 1, invokes virtual slot 110 with this.
 // @fnv 0x00a71d70
 void __thiscall FUN_00a71d70_shell::FUN_00a71d70(NiRenderer* apkRenderer)
 {
-    ((FUN_00a80610_shell*)this)->FUN_00a80610(apkRenderer);
+    ((FUN_00a80610_shell*)this)->NiGeometry_RenderImmediate(apkRenderer);
     int i = *(int*)((char*)apkRenderer + 0x200);
     if ((i == 1 || i == 2) && *(char*)((char*)apkRenderer + 0x208) == 1)
     {
@@ -188,7 +188,7 @@ struct StrArr
 };
 struct BaseA
 {
-    void FUN_00a897c0(StrArr*);
+    void NiTriBasedGeom_GetViewerStrings(StrArr*);
 };
 struct Holder : BaseA
 {
@@ -200,7 +200,7 @@ char* _FUN_00a7d330(char const*);
 // @fnv 0x00a71e70
 void Holder::AppendString(StrArr* pkStrings)
 {
-    FUN_00a897c0(pkStrings);
+    NiTriBasedGeom_GetViewerStrings(pkStrings);
     char* tmp = _FUN_00a7d330(g_012024b8_arg1);
     unsigned int sz = pkStrings->mA;
     if (sz >= pkStrings->m8)
@@ -221,17 +221,17 @@ struct NiDX9Renderer : NiRenderer
 };
 struct FUN_00a80610_shell
 {
-    void FUN_00a80610(NiRenderer*);
+    void NiGeometry_RenderImmediate(NiRenderer*);
 };
 struct FUN_00a71d30_shell
 {
-    void FUN_00a71d30(NiRenderer*);
+    void NiTriStrips_RenderImmediate(NiRenderer*);
 };
 // @fnv 0x00a71d30
-void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
+void FUN_00a71d30_shell::NiTriStrips_RenderImmediate(NiRenderer* apkRenderer)
 {
     NiDX9Renderer* pkRenderer = (NiDX9Renderer*)apkRenderer;
-    ((FUN_00a80610_shell*)this)->FUN_00a80610(apkRenderer);
+    ((FUN_00a80610_shell*)this)->NiGeometry_RenderImmediate(apkRenderer);
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
         ((void(__thiscall**)(NiRenderer*, void*)) * (void***)pkRenderer)[108](pkRenderer, this);
 }

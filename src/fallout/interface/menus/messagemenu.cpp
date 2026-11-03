@@ -135,7 +135,7 @@ struct FUN_007aa070_shell : public MessageMenu
     void HandleTileSelection(int, Tile*);
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_Instance(void);
 void* __cdecl GetCurrentArrayElement(void);
 void __cdecl CleanupGlobalObject(void);
 extern bool DAT_011da4ed;
@@ -158,7 +158,7 @@ void FUN_007aa070_shell::HandleTileSelection(int aiID, Tile* apTarget)
     }
     if (aiID == 7 && apTarget)
     {
-        *(unsigned char*)((char*)FUN_004b7210() + 0xe4) =
+        *(unsigned char*)((char*)InterfaceManager_Instance() + 0xe4) =
             (unsigned char)(int)((ListBox<PerkForm*>*)((char*)this + 0x40))->GetSelectedData(apTarget);
         DAT_011da4ed = true;
         if (GetCurrentArrayElement() && *(void(__cdecl**)())((char*)GetCurrentArrayElement() + 0x28))
@@ -372,7 +372,7 @@ struct InterfaceManager
 {
     Tile* FUN_004fd400();
 };
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_Instance();
 int __cdecl FUN_00a01860(const char* apTraitName);
 struct FUN_007a8850
 {
@@ -404,7 +404,7 @@ FUN_007a8850::FUN_007a8850()
     iTileID = -1;
     iCallbackID = -1;
     fDisplayTime = 0.0f;
-    fBackgroundAlpha = FUN_004b7210()->FUN_004fd400()->GetFloat(FUN_00a01860("_background_fill_alpha"));
+    fBackgroundAlpha = InterfaceManager_Instance()->FUN_004fd400()->GetFloat(FUN_00a01860("_background_fill_alpha"));
     iFlags = 0;
 }
 
@@ -572,7 +572,7 @@ struct Message
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-void* FUN_00401000(unsigned int);
+void* FormHeap_Allocate(unsigned int);
 int FUN_0044a670(const char*);
 void FUN_00406d30(char*, unsigned int, const char*);
 int FUN_00408b20(const char*, const char*);
@@ -890,8 +890,8 @@ struct ActionMenuReference
 {
     int FUN_00579280();
     ActionMenuBase* FUN_007af430();
-    ActionMenuOwner* FUN_00569160();
-    bool FUN_00579690();
+    ActionMenuOwner* TESObjectREFR_GetLock();
+    bool TESObjectREFR_IsCrimeToActivate();
     bool FUN_005785e0(ActionMenuReference*, bool);
 };
 struct ActionMenuAction
@@ -983,9 +983,9 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
     }
     int action3 = reference->FUN_00579280();
     unsigned type22 = reference->FUN_007af430()->FUN_00401170();
-    ActionMenuOwner* owner15 = reference->FUN_00569160();
+    ActionMenuOwner* owner15 = reference->TESObjectREFR_GetLock();
     ActionMenuBase* base7 = reference->FUN_007af430();
-    if (action3 == 1 && reference->FUN_00579690())
+    if (action3 == 1 && reference->TESObjectREFR_IsCrimeToActivate())
     {
         FUN_00406d30(label58, 260, type22 == 42 ? DAT_011d3708.FUN_00403df0() : DAT_011d4f48.FUN_00403df0());
     }
@@ -1169,7 +1169,7 @@ extern const float DAT_01016970;
 MsgData* GetCurrentArrayElement();
 MsgAudio* FUN_00453a70();
 MsgFont* FUN_005bd5b0();
-MsgInterface* FUN_004b7210();
+MsgInterface* InterfaceManager_Instance();
 int __cdecl FUN_00a01860(const char* apTrait);
 int __cdecl FUN_00647b70(int a, int b);
 float __cdecl FUN_0040ebd0(float a, float b);
@@ -1324,7 +1324,7 @@ void MsgMenu::PopulateFromMessageData()
     if (!pMessagePtr->GetByteAtOffset56())
     {
         DAT_011da4f0->m_pTiles[0]->FUN_00a012d0(0xfa9, 0.0f, true);
-        if (FUN_004b7210()->FUN_00714f90(GetID()))
+        if (InterfaceManager_Instance()->FUN_00714f90(GetID()))
             FUN_00706fd0(GetID(), 1);
         float fScreenWidth = FUN_00715d40();
         float fMenuWidth = DAT_011da4f0->m_pTiles[0]->FUN_00a011b0(0xfb1);
@@ -1350,7 +1350,7 @@ void MsgMenu::PopulateFromMessageData()
     else
     {
         DAT_011da4f0->m_pTiles[0]->FUN_00a012d0(0xfa9, 1.0f, true);
-        if (!FUN_004b7210()->FUN_00714f90(GetID()))
+        if (!InterfaceManager_Instance()->FUN_00714f90(GetID()))
             FUN_00706fb0(GetID(), 0);
     }
     DAT_011da4f0->m_pTiles[5]->FUN_00a012d0(0xfa9, pMessagePtr->fAlpha, true);
@@ -1399,7 +1399,7 @@ extern double DAT_0101e568;
 // @fnv 0x007a8ba0
 bool __cdecl FUN_007a8ba0()
 {
-    InterfaceManager* B = FUN_004b7210();
+    InterfaceManager* B = InterfaceManager_Instance();
     unsigned char flag = 0;
     VDel* pVDel = (VDel*)FUN_00a09030(FUN_007a8de0());
     if (pVDel != 0)

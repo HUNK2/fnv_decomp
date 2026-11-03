@@ -56,7 +56,7 @@ struct FUN_00781b10_shell
 };
 struct FUN_00781620_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781620(int aiID, Tile* apTarget);
+    void __thiscall InventoryMenu_DoLeave(int aiID, Tile* apTarget);
 };
 struct ProxyPipboy
 {
@@ -81,7 +81,7 @@ struct FUN_00726070_shell
 void __cdecl FUN_007800c0();
 struct FUN_004bddd0_t
 {
-    bool __thiscall FUN_004bddd0(bool);
+    bool __thiscall ItemChange_GetWorn(bool);
 };
 struct FUN_00781860_shell
 {
@@ -109,7 +109,7 @@ struct FUN_007823d0_shell : public InventoryMenu
 };
 struct XExtra
 {
-    short __thiscall FUN_00418770();
+    short __thiscall ExtraDataList_GetCount();
 };
 struct ExtraDataList : XExtra
 {
@@ -557,7 +557,7 @@ struct Form
 struct Item
 {
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(int);
+    float ItemChange_GetItemHealth(int);
     const char* GetIconFilename(int);
 };
 struct Player
@@ -577,7 +577,7 @@ struct Interface
 {
     Camera* FUN_00704370();
 };
-Interface* FUN_004b7210();
+Interface* InterfaceManager_Instance();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -672,7 +672,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)list.Value(0xfac)->FUN_00a011b0();
             if (DAT_011d9f34 != selectedSlot11)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8610(
+                InterfaceManager_Instance()->FUN_00704370()->FUN_007f8610(
                     0, DAT_011d9f34 < selectedSlot11 ? *DAT_011db2f0.FUN_00403e20() : -*DAT_011db2f0.FUN_00403e20(),
                     *DAT_011db358.FUN_00403e20(), 1);
                 DAT_011d9f34 = selectedSlot11;
@@ -680,7 +680,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             float threshold = DAT_0102f0f8;
             if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 24)
                 threshold = DAT_0101b268;
-            if (DAT_011d9ea8->FUN_004bcdb0(1) >= threshold)
+            if (DAT_011d9ea8->ItemChange_GetItemHealth(1) >= threshold)
                 label->FUN_00a01350(0xfc4, DAT_011d3dcc.FUN_00403df0(), 1);
             else
                 label->FUN_00a01350(0xfc4, DAT_011d1f2c.FUN_00403df0(), 1);
@@ -763,10 +763,10 @@ struct Entry
 {
     ~Entry();
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(bool);
+    float ItemChange_GetItemHealth(bool);
     int FUN_00726070();
     ExtraNode* FUN_00559450();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
     void* FUN_004459e0(int);
 };
 struct EntryListNode
@@ -793,9 +793,9 @@ struct InventoryCheck
 struct ItemLabelSource : InventoryStackRecord
 {
     int FUN_00726070();
-    unsigned char FUN_004bd820();
+    unsigned char ItemChange_GetModSlots();
     const char* GetTargetFullName();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 class Actor;
 class TESAmmo;
@@ -1078,7 +1078,7 @@ class TESFullName
 
 struct ItemObj
 {
-    unsigned char FUN_004bd820();
+    unsigned char ItemChange_GetModSlots();
 };
 extern int DAT_011d9ea4;
 extern int DAT_011d9eb4;
@@ -1105,7 +1105,7 @@ int __cdecl FUN_00408b20(const char*, const char*);
 void __cdecl UpdateCurrentValue();
 int __cdecl FUN_005e58f0(int, void*, void*, int, float*);
 unsigned int __fastcall FUN_0044ddc0(void*);
-int __cdecl FUN_004839c0(int);
+int __cdecl TESForm_GetFormByNumericID(int);
 unsigned int __cdecl FUN_0044a670(const char*);
 
 void __cdecl FUN_007824e0();
@@ -1140,7 +1140,7 @@ void FUN_00782a90()
         if (cn)
             ck = (int)FUN_0044ddc0((void*)cn);
         else
-            ck = FUN_004839c0(0x1f4);
+            ck = TESForm_GetFormByNumericID(0x1f4);
         bn = 0.0f;
         FUN_005e58f0(0x38, g_thePlayer, g_thePlayer, ck, &bn);
         FUN_00406d00(ba, 0x40, "%1.1f", (double)(bl + bn));
@@ -1206,7 +1206,7 @@ void FUN_00782a90()
                             (TESBoundObject*)(void*)((InventoryStackRecord*)*am->FUN_006815c0())->FUN_0044ddc0());
                         as = (int)FUN_0044a670(((SoundHolder*)bb)->FUN_00408da0());
                         FUN_00406d30(bo, 0x80, ((SoundHolder*)bb)->FUN_00408da0());
-                        if (((ItemObj*)*am->FUN_006815c0())->FUN_004bd820())
+                        if (((ItemObj*)*am->FUN_006815c0())->ItemChange_GetModSlots())
                             FUN_00406d50(bo, 0x80, "+");
                         ((InvObj*)(void*)(unsigned int)DAT_011d9ea4)
                             ->lb.FUN_0071a320(*am->FUN_006815c0(), bo, (void*)&FUN_007824e0, 0);

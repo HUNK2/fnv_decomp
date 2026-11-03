@@ -542,8 +542,8 @@ Point9C64& __cdecl FUN_00458620(Point9C64& kOut, const hkVector4_9C64& kIn);
 Point9C64& __cdecl FUN_004a3970(Point9C64& kOut, const hkVector4_9C64& kIn);
 void* __cdecl FUN_004b5950(const void* pvObject);
 WorldObject9C64* __cdecl FUN_004b5a80(void* pvEntry);
-bool __cdecl FUN_005ac750(void* pvForm, ExtraList9C64* pkExtra, unsigned int uiFlag);
-bool __cdecl FUN_0043b300(NiRTTI9C64* pkRTTI, WorldObject9C64* pkObject);
+bool __cdecl Script_SetActionFlag(void* pvForm, ExtraList9C64* pkExtra, unsigned int uiFlag);
+bool __cdecl NiObject_IsKindOf(NiRTTI9C64* pkRTTI, WorldObject9C64* pkObject);
 CollisionObject9C64* __cdecl FUN_004b5260(Node9C64* pkNode);
 bool __cdecl FUN_009c5ba0(PickData9C64* pkPick, Node9C64* pkNode, bool bCheckMotion, bool bUpdate);
 
@@ -716,13 +716,13 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
     if (pkRef && pkWorldObject &&
         (pkWorldObject->GetFilter().GetLayer() == 0x17 || pkWorldObject->GetFilter().GetLayer() == 0x18))
     {
-        FUN_005ac750(pkOwner, pkRef->GetExtraData(), 0x80);
+        Script_SetActionFlag(pkOwner, pkRef->GetExtraData(), 0x80);
         if (pkOwner->GetForm())
-            FUN_005ac750(pkOwner->GetForm(), pkRef->GetExtraData(), 0x100);
+            Script_SetActionFlag(pkOwner->GetForm(), pkRef->GetExtraData(), 0x100);
         return;
     }
     bool bBlocked = false;
-    if (pkWorldObject && (FUN_0043b300(&g_kRTTI9C64, pkWorldObject) || pkWorldObject->GetFilter().GetLayer() == 0x1e))
+    if (pkWorldObject && (NiObject_IsKindOf(&g_kRTTI9C64, pkWorldObject) || pkWorldObject->GetFilter().GetLayer() == 0x1e))
     {
         bBlocked = true;
         Node9C64* pkNode = pkRef ? pkRef->Get3D() : 0;

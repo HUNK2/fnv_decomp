@@ -13,7 +13,7 @@ NiAlphaProperty::NiAlphaProperty()
 extern char const* const g_011f4454_arg1;
 
 // @fnv 0x00a5fc80
-char const* const* __cdecl FUN_00a5fc80()
+char const* const* __cdecl NiSourceTexture_GetRTTI()
 {
     return &g_011f4454_arg1;
 }
@@ -21,7 +21,7 @@ char const* const* __cdecl FUN_00a5fc80()
 extern "C" void* g_011f5ecc;
 
 // @fnv 0x00a950d0
-void* __cdecl FUN_00a950d0()
+void* __cdecl NiSpecularProperty_GetRTTI()
 {
     return &g_011f5ecc;
 }
@@ -113,13 +113,13 @@ class A5F510FlagProperty : public A5F510Property
     }
     virtual void vfunc00();
 
-    A5F510Property* FUN_00a5f510(CloningProcess& kCloning);
+    A5F510Property* NiZBufferProperty_CreateClone(CloningProcess& kCloning);
 
     unsigned short m_usFlags;
 };
 
 // @fnv 0x00a5f510
-A5F510Property* A5F510FlagProperty::FUN_00a5f510(CloningProcess& kCloning)
+A5F510Property* A5F510FlagProperty::NiZBufferProperty_CreateClone(CloningProcess& kCloning)
 {
     if (m_pkClonedTarget)
     {

@@ -6,7 +6,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5d20;
 
 // @fnv 0x00a8f520
-GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
+GlobalObjectO2_00a7b610* __cdecl NiCullingProperty_GetRTTI()
 {
     return &g_011f5d20;
 }
@@ -56,12 +56,12 @@ struct CloningProcess
 };
 struct NiCullingProperty : NiProperty
 {
-    NiCullingProperty* FUN_00a8f530(CloningProcess& kCloning);
+    NiCullingProperty* NiCullingProperty_CreateClone(CloningProcess& kCloning);
     void __thiscall FUN_00a5d7a0(NiCullingProperty* p, CloningProcess& kCloning);
 };
 // Allocates a NiCullingProperty, initialises its vtable and flags, runs the cloning routine, then copies m_flags and returns it.
 // @fnv 0x00a8f530
-NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
+NiCullingProperty* NiCullingProperty::NiCullingProperty_CreateClone(CloningProcess& kCloning)
 {
     NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
     if (p)
@@ -97,11 +97,11 @@ struct NiProperty
 struct NiCullingProperty : NiProperty
 {
     unsigned short m_usFlags;
-    void __thiscall FUN_00a8f650(NiStream&);
+    void __thiscall NiCullingProperty_LoadBinary(NiStream&);
 };
 // Calls NiProperty::LoadBinary then reads 2 bytes from the stream into m_usFlags, advancing the stream position.
 // @fnv 0x00a8f650
-void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
+void __thiscall NiCullingProperty::NiCullingProperty_LoadBinary(NiStream& stream)
 {
     NiProperty::LoadBinary(stream);
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;

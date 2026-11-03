@@ -47,7 +47,7 @@ class NiNode
 {
   public:
     const NiFixedString& GetName() const;
-    void FUN_004902f0(bool);
+    void NiAVObject_SetSelectiveUpdate(bool);
     void FUN_0043fa80(void*);
     void Update(const NiUpdateData&);
 };

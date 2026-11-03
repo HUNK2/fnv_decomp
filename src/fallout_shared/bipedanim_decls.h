@@ -236,8 +236,8 @@ class NiNode : public NiAVObject
     unsigned int FUN_0043b480();
     NiAVObject* FUN_0043b4a0(int);
     void DetachAllChildren();
-    int FUN_00453470();
-    void FUN_004add70();
+    int NiNode_GetChildCount();
+    void NiNode_CompactChildArray();
 };
 class BSFadeNode : public NiNode
 {
@@ -260,7 +260,7 @@ class NiTriBasedGeom : public NiGeometry
     virtual void vfn_dc();
     virtual void vfn_e0();
     virtual void ReplaceModelData(NiGeometryData*);
-    void FUN_004adde0(NiSkinInstance*);
+    void NiGeometry_SetSkinInstance(NiSkinInstance*);
     NiSkinInstance* FUN_0043fad0();
 };
 class TESForm
@@ -352,7 +352,7 @@ class TESBoundObject : public TESForm
 class TESNPC : public TESBoundObject
 {
   public:
-    TESRace* FUN_004ac110();
+    TESRace* TESNPC_GetRace();
     TESRace* GetRace();
     SEX GetSex(bool);
     void GetFaceGenCoords(FaceGenCoord (&)[4]);
@@ -1052,12 +1052,12 @@ class bhkFilter
 {
   public:
     unsigned int value;
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 class bhkWorldObject
 {
   public:
-    bhkShape* FUN_004ae6a0();
+    bhkShape* bhkWorldObject_GetShape();
     bhkFilter FUN_0043b4f0();
 };
 class bhkCollisionObject
@@ -1174,8 +1174,8 @@ extern int DAT_01188b88[3];
 extern const char* DAT_01188c38[5];
 extern TESModel DAT_011c5d10[20];
 extern SettingT<INISettingCollection> DAT_011d5a10, DAT_011d5a44;
-bool FUN_004910d0(NiNode*);
-unsigned int FUN_004af350();
+bool Animation_FindSkinnedNode(NiNode*);
+unsigned int NiMaterialProperty_GetType();
 int FUN_004af340();
 class TaskQueueInterface
 {
@@ -1202,7 +1202,7 @@ class ActorTaskManager
 };
 extern ActorTaskManager DAT_011c5cf0;
 const NiFixedString& FUN_00448a80();
-void FUN_00577e20(NiNode*);
+void TESObjectREFR_AddAddonNodes(NiNode*);
 struct BipedSkinNameMatch
 {
     const char* name;
@@ -1322,7 +1322,7 @@ class LowProcess
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
+    TESHairRaceResult* TESNPC_GetRace();
 };
 class TESSpellList
 {

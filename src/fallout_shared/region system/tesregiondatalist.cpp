@@ -50,12 +50,12 @@ struct NodeTmp
     TESRegionData*& _ref_006815c0();
     BSSimpleList<TESRegionData*>* _ref_00726070();
 };
-void __cdecl FUN_004f24e0(TESRegionData*, unsigned char, unsigned char);
+void __cdecl TESRegionDataImposter_SetImposterVisible(TESRegionData*, unsigned char, unsigned char);
 struct Dummy
 {
     void FUN_004f2480(unsigned char, unsigned char);
 };
-// Walks the region data list from GetName and calls FUN_004f24e0 on each non-null entry with a1 and a2.
+// Walks the region data list from GetName and calls TESRegionDataImposter_SetImposterVisible on each non-null entry with a1 and a2.
 // @fnv 0x004f2480
 void Dummy::FUN_004f2480(unsigned char aucArg1, unsigned char aucArg2)
 {
@@ -63,7 +63,7 @@ void Dummy::FUN_004f2480(unsigned char aucArg1, unsigned char aucArg2)
     while (pcurrent)
     {
         if (((NodeTmp*)pcurrent)->_ref_006815c0())
-            FUN_004f24e0(((NodeTmp*)pcurrent)->_ref_006815c0(), aucArg1, aucArg2);
+            TESRegionDataImposter_SetImposterVisible(((NodeTmp*)pcurrent)->_ref_006815c0(), aucArg1, aucArg2);
         pcurrent = ((NodeTmp*)pcurrent)->_ref_00726070();
     }
 }
@@ -94,16 +94,16 @@ struct ProbeBase
 class FUN_004f33c0_cls
 {
   public:
-    int FUN_004f35b0(unsigned int aValue);
+    int TESRegionDataList_Find(unsigned int aValue);
     void FUN_005ae3d0(ProbeBase** appProbe);
 
-    bool FUN_004f33c0(ProbeBase* apProbe);
+    bool TESRegionDataList_Add(ProbeBase* apProbe);
 };
 
 // @fnv 0x004f33c0
-bool FUN_004f33c0_cls::FUN_004f33c0(ProbeBase* apProbe)
+bool FUN_004f33c0_cls::TESRegionDataList_Add(ProbeBase* apProbe)
 {
-    if (apProbe == 0 || FUN_004f35b0(apProbe->v10()))
+    if (apProbe == 0 || TESRegionDataList_Find(apProbe->v10()))
     {
         return false;
     }

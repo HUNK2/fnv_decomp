@@ -103,11 +103,11 @@ struct TransformOwner
     TransformObj* m_pSource;
 
     void ReleaseObject(TransformObj* pkObj, int iArg);
-    void FUN_00cc85b0(TransformObj* pkObj, int iArg);
+    void hkHingeLimitsConstraintCinfo_CloneData(TransformObj* pkObj, int iArg);
 };
 
 // @fnv 0x00cc85b0
-void TransformOwner::FUN_00cc85b0(TransformObj* pkObj, int iArg)
+void TransformOwner::hkHingeLimitsConstraintCinfo_CloneData(TransformObj* pkObj, int iArg)
 {
     MemContextGuard kGuard(0x10);
     TransformObj* pkSource = m_pSource;
@@ -421,12 +421,12 @@ class Cc6830Self
     int unk00;
     Cc6830Motion* m_pMotionState;
 
-    void FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src);
+    void hkRagdollConstraintCinfo_CloneData(Cc6830Motion* dst, const Cc6830Src* src);
     void ReleaseObject(Cc6830Motion* m, const Cc6830Src* src);
 };
 
 // @fnv 0x00cc6830
-void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
+void Cc6830Self::hkRagdollConstraintCinfo_CloneData(Cc6830Motion* dst, const Cc6830Src* src)
 {
     Cc6830Motion* m = m_pMotionState;
     if (!dst)
@@ -738,11 +738,11 @@ class Cd2Owner
     {
         return this ? m_pShapeCollection : 0;
     }
-    bool FUN_00cd2f10(void* key);
+    bool bhkShapeCollection_CanShare(void* key);
 };
 
 // @fnv 0x00cd2f10
-bool Cd2Owner::FUN_00cd2f10(void* key)
+bool Cd2Owner::bhkShapeCollection_CanShare(void* key)
 {
     __declspec(align(16)) char buffer[512];
     bool ok = FUN_00c84ec0(key);
@@ -1065,12 +1065,12 @@ struct FUN_00cc5f30_cls
     int unk00;
     FUN_00d4f2a0* m_pSrc;
 
-    void FUN_00cc5f30(FUN_00d4f2a0* dst, int a2);
+    void hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2);
     void ReleaseObject(FUN_00d4f2a0* dst, int a2);
 };
 
 // @fnv 0x00cc5f30
-void FUN_00cc5f30_cls::FUN_00cc5f30(FUN_00d4f2a0* dst, int a2)
+void FUN_00cc5f30_cls::hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2)
 {
     FUN_00d4f2a0* src = m_pSrc;
     if (dst == 0)
@@ -2116,14 +2116,14 @@ struct RotationOwner525
 {
     unsigned int unk00, unk04;
     RotationSource525* source;
-    void FUN_00d54ed0(StringArray525*);
-    void FUN_00ccb810(StringArray525*);
+    void bhkHeightFieldShape_GetViewerStrings(StringArray525*);
+    void bhkPlaneShape_GetViewerStrings(StringArray525*);
 };
 // @fnv 0x00ccb810
-void RotationOwner525::FUN_00ccb810(StringArray525* stream)
+void RotationOwner525::bhkPlaneShape_GetViewerStrings(StringArray525* stream)
 {
     MemContextGuard guard(16);
-    FUN_00d54ed0(stream);
+    bhkHeightFieldShape_GetViewerStrings(stream);
     char* value = FUN_00a7d330(DAT_01268670);
     stream->append(value);
     // The SDK quaternion default constructor does not initialize its value.
@@ -2374,7 +2374,7 @@ struct Holder
     int unk10;
     int unk14;
     void FUN_00ccbce0(void* p);
-    CachedObj* FUN_00ccbfa0(bool* created);
+    CachedObj* bhkExtendedMeshShape_CreateCinfo(bool* created);
 };
 
 inline void* AllocAligned(unsigned int size)
@@ -2387,7 +2387,7 @@ inline void* AllocAligned(unsigned int size)
 }
 
 // @fnv 0x00ccbfa0
-CachedObj* Holder::FUN_00ccbfa0(bool* created)
+CachedObj* Holder::bhkExtendedMeshShape_CreateCinfo(bool* created)
 {
     AutoMemContext ctx(0x10);
     bool bCreated = (unk0c == 0);
@@ -2804,10 +2804,10 @@ struct Subject
 {
     int unk00, unk04;
     Body* body;
-    void FUN_00ccf150(ConvexShapeNode*, void*);
+    void bhkConvexTransformShape_BuildDisplayGeometry(ConvexShapeNode*, void*);
 };
 // @fnv 0x00ccf150
-void Subject::FUN_00ccf150(ConvexShapeNode* parent, void* arg)
+void Subject::bhkConvexTransformShape_BuildDisplayGeometry(ConvexShapeNode* parent, void* arg)
 {
     Context context;
     const Transform* src = this && body ? &body->transform : &identity;
@@ -3507,8 +3507,8 @@ class NamedShape
   public:
     unsigned int unk00;
     void WriteLimitedHingeData(Blk* b);
-    void FUN_00c9fc50(NameArr* arr);
-    void FUN_00ccd960(NameArr* arr);
+    void bhkConvexShape_GetViewerStrings(NameArr* arr);
+    void bhkCylinderShape_GetViewerStrings(NameArr* arr);
 };
 
 static void AddName(NameArr* arr, const unsigned int& v)
@@ -3522,10 +3522,10 @@ static void AddName(NameArr* arr, const unsigned int& v)
 }
 
 // @fnv 0x00ccd960
-void NamedShape::FUN_00ccd960(NameArr* arr)
+void NamedShape::bhkCylinderShape_GetViewerStrings(NameArr* arr)
 {
     TlsFlagGuard guard;
-    FUN_00c9fc50(arr);
+    bhkConvexShape_GetViewerStrings(arr);
     unsigned int item = FUN_00a7d330(DAT_01268694);
     AddName(arr, item);
 
@@ -4569,14 +4569,14 @@ class ShapeClonerC97
 {
   public:
     ShapeC97* ReleaseObject(ShapeC97* shape, ShapeCinfoC97* cinfo);
-    ShapeC97* FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo);
+    ShapeC97* hkBallAndSocketConstraintCinfo_CloneData(ShapeC97* dst, ShapeCinfoC97* cinfo);
 
     int unk00;
     ShapeC97* m_pCollisionShape;
 };
 
 // @fnv 0x00cc9790
-ShapeC97* ShapeClonerC97::FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo)
+ShapeC97* ShapeClonerC97::hkBallAndSocketConstraintCinfo_CloneData(ShapeC97* dst, ShapeCinfoC97* cinfo)
 {
     ::MemContextGuard kContext(0x10);
     ShapeC97* src = m_pCollisionShape;
@@ -5445,11 +5445,11 @@ struct CylinderDisplayOwner
     virtual void vf55(void* pkA, void* pkResult, void* pkB, const char* pcName);
 
     void WriteLimitedHingeData(ShapeCinfo* pkInfo);
-    void FUN_00ccd6f0(void* pkA, void* pkB);
+    void bhkCylinderShape_BuildDisplayGeometry(void* pkA, void* pkB);
 };
 
 // @fnv 0x00ccd6f0
-void CylinderDisplayOwner::FUN_00ccd6f0(void* pkA, void* pkB)
+void CylinderDisplayOwner::bhkCylinderShape_BuildDisplayGeometry(void* pkA, void* pkB)
 {
     ::MemContextGuard guard(16);
     ShapeCinfo info;

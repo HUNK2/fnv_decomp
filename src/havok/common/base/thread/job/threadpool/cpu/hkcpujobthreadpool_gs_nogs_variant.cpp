@@ -13,12 +13,12 @@ struct FUN_00d2d330_shell
 {
     void InitializeWorkerThread();
     void FUN_00d2ce50();
-    void FUN_00d2d330(int desired);
+    void hkCpuJobThreadPool_setNumThreads(int desired);
 };
 struct FUN_00d2ce30_shell
 {
     unsigned char m_ucValue;
-    bool FUN_00d2ce30();
+    bool hkCpuJobThreadPool_isProcessing();
 };
 struct FUN_00d2ce90_class
 {
@@ -28,7 +28,7 @@ struct FUN_00d2ce90_class
     unsigned char padding_134[0x08];
     bool m_running;
 
-    void FUN_00d2ce90();
+    void hkCpuJobThreadPool_waitForCompletion();
 };
 int __fastcall FUN_00d04380(void*);
 struct FUN_00d2d380
@@ -45,7 +45,7 @@ struct FUN_00d2d380
 };
 struct FUN_00d2ce40_cls
 {
-    int FUN_00d2ce40();
+    int hkCpuJobThreadPool_getNumThreads();
 };
 class FUN_00d2cf00
 {
@@ -155,7 +155,7 @@ struct ArrBaseD2C
 struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
-    void FUN_00d2ce90();
+    void hkCpuJobThreadPool_waitForCompletion();
     void FUN_00d2cf00();
 };
 

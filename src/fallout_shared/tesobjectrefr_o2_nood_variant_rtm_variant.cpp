@@ -7,7 +7,7 @@
 // to their real unit once identified.
 #include "tesobjectrefr_decls.h"
 GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
+void* DecalData_GetDefaultDecalData();
 void FUN_005743f0();
 void FUN_00575c90(unsigned char value);
 float FUN_005790b0();
@@ -113,9 +113,9 @@ void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
 class bhkViewerObject
 {
   public:
-    void FUN_00c9f480(NiViewerStringsArray* pkStrings);
+    void bhkPhantom_GetViewerStrings(NiViewerStringsArray* pkStrings);
     void FUN_00c9ec00(hkTransform& kTransform);
-    void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
+    void bhkShapePhantom_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 struct Arg_00c9f830
 {
@@ -160,7 +160,7 @@ struct Cls
     char pad[0x20];
     Sub m_20;
     void FUN_00c8d130(__m128* out);
-    Arg* FUN_00cb3200(Arg* arg);
+    Arg* bhkRigidBodyT_GetRotation(Arg* arg);
 };
 struct Arg
 {
@@ -260,7 +260,7 @@ struct ShapeFrame
     virtual void vd0();
     virtual void GetTranslation(__m128*);
     virtual void GetRotation(__m128*);
-    RotationResult* FUN_00cb3310(RotationResult*);
+    RotationResult* bhkRigidBodyT_GetTransform(RotationResult*);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern unsigned long DAT_0126fd98;
@@ -751,7 +751,7 @@ struct PositionOwner
     int unk00;
     int unk04;
     PositionSource* m_pkSource;
-    void FUN_00ca02b0(NiNode* pkParent, int iUnused);
+    void bhkBoxShape_BuildDisplayGeometry(NiNode* pkParent, int iUnused);
 };
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps();
@@ -1389,7 +1389,7 @@ struct C9FA20_Owner
     int m_08;
     C9FA20_Data* m_pData;
     void FUN_00c9f830(C9FA20_Data* data);
-    C9FA20_Data* FUN_00c9fa20(bool* created);
+    C9FA20_Data* bhkAabbPhantom_CreateCinfo(bool* created);
 };
 
 extern "C"
@@ -1579,8 +1579,8 @@ __forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat
 class RigidMotionDAD
 {
   public:
-    void FUN_00c8d1d0(const hkVector4DAD& position, const hkQuaternionDAD& rotation);
-    void FUN_00cb3570(const hkVector4DAD& position, const hkQuaternionDAD& rotation);
+    void bhkRigidBody_SetPosRot(const hkVector4DAD& position, const hkQuaternionDAD& rotation);
+    void bhkRigidBodyT_SetPosRot(const hkVector4DAD& position, const hkQuaternionDAD& rotation);
 
     int unk00;
     int unk04;
@@ -1595,7 +1595,7 @@ class RigidMotionDAD
 };
 
 // @fnv 0x00cb3570
-void RigidMotionDAD::FUN_00cb3570(const hkVector4DAD& position, const hkQuaternionDAD& rotation)
+void RigidMotionDAD::bhkRigidBodyT_SetPosRot(const hkVector4DAD& position, const hkQuaternionDAD& rotation)
 {
     hkVector4DAD newPosition;
     newPosition.SetRotatedDirection(rotation, m_localTranslation);
@@ -1604,5 +1604,5 @@ void RigidMotionDAD::FUN_00cb3570(const hkVector4DAD& position, const hkQuaterni
     hkQuaternionDAD newRotation;
     newRotation.FUN_00c66320(rotation, m_localRotation);
     newRotation.FUN_005611c0();
-    FUN_00c8d1d0(worldPosition, newRotation);
+    bhkRigidBody_SetPosRot(worldPosition, newRotation);
 }

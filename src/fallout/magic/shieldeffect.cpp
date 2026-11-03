@@ -32,11 +32,11 @@ struct ShieldEffect : ValueModifierEffect
     unsigned int pad16;
     unsigned int pad17;
     unsigned int m_uiUnknownValue;
-    void FUN_00828050(ActiveEffect*);
+    void ShieldEffect_CopyData(ActiveEffect*);
 };
 
 // @fnv 0x00828050
-void ShieldEffect::FUN_00828050(ActiveEffect* apDestination)
+void ShieldEffect::ShieldEffect_CopyData(ActiveEffect* apDestination)
 {
     ValueModifierEffect::CopyData(apDestination);
     ShieldEffect* pvme = dynamic_cast<ShieldEffect*>(apDestination);
@@ -47,7 +47,7 @@ void ShieldEffect::FUN_00828050(ActiveEffect* apDestination)
 struct Actor;
 struct LimbConditionEffect
 {
-    unsigned short FUN_00802d90(Actor*);
+    unsigned short ValueModifierEffect_GetSaveSize(Actor*);
 };
 struct TESSaveLoadGame
 {
@@ -63,7 +63,7 @@ struct FUN_008283a0_shell
 unsigned short FUN_008283a0_shell::GetSaveSize(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += ((LimbConditionEffect*)this)->FUN_00802d90(apActor);
+    isize += ((LimbConditionEffect*)this)->ValueModifierEffect_GetSaveSize(apActor);
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x6E)
         isize += 4;
     return isize;
@@ -80,7 +80,7 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct ShieldEffectHelper
 {
-    void FUN_00802db0(Actor*);
+    void ValueModifierEffect_SaveGame(Actor*);
 };
 
 struct ShieldEffect_008283f0 : ShieldEffect
@@ -91,7 +91,7 @@ struct ShieldEffect_008283f0 : ShieldEffect
 // @fnv 0x008283f0
 void ShieldEffect_008283f0::SaveShieldData(Actor* actor)
 {
-    ((ShieldEffectHelper*)this)->FUN_00802db0(actor);
+    ((ShieldEffectHelper*)this)->ValueModifierEffect_SaveGame(actor);
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x6e)
         g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x4c, 4);
 }
@@ -101,7 +101,7 @@ namespace fnv_00828430 {
 struct Actor;
 struct Base00802dd0
 {
-    void FUN_00802dd0(Actor*);
+    void ValueModifierEffect_LoadGame(Actor*);
 };
 struct TESSaveLoadGame
 {
@@ -112,13 +112,13 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00828430_shell : ShieldEffect
 {
-    void FUN_00828430(ActiveEffect* actor);
+    void ShieldEffect_LoadGame(ActiveEffect* actor);
 };
 
 // @fnv 0x00828430
-void FUN_00828430_shell::FUN_00828430(ActiveEffect* pEffect)
+void FUN_00828430_shell::ShieldEffect_LoadGame(ActiveEffect* pEffect)
 {
-    ((Base00802dd0*)this)->FUN_00802dd0((Actor*)pEffect);
+    ((Base00802dd0*)this)->ValueModifierEffect_LoadGame((Actor*)pEffect);
     if ((unsigned char)g_TESSaveLoadGame->FUN_008df040() >= 0x6e)
         g_TESSaveLoadGame->ReadTypedData(&m_uiUnknownValue, 4);
 }
@@ -224,11 +224,11 @@ struct FUN_00827fa0_vtable : ActiveEffect
 
 struct FUN_00827fa0_shell : ShieldEffect
 {
-    ActiveEffect* FUN_00827fa0();
+    ActiveEffect* ShieldEffect_Clone();
 };
 
 // @fnv 0x00827fa0
-ActiveEffect* FUN_00827fa0_shell::FUN_00827fa0()
+ActiveEffect* FUN_00827fa0_shell::ShieldEffect_Clone()
 {
     ShieldEffect* pNewEffect = new ShieldEffectCtor(pad9, pad1, pad2);
     reinterpret_cast<FUN_00827fa0_vtable*>(this)->CopyFrom(pNewEffect);
@@ -263,12 +263,12 @@ FUN_00827f20::FUN_00827f20(void* a, void* b, void* apItem) : EffectBase(a, b, ap
 struct Actor;
 struct FUN_00828120_a
 {
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
     unsigned int FUN_0059bb30();
 };
 struct FUN_00828120_x
 {
-    unsigned char FUN_00403e60();
+    unsigned char EffectSetting_IsFlagSet();
 };
 struct FUN_00828120_y
 {
@@ -281,16 +281,16 @@ struct FUN_00828120_z
 
 struct FUN_00828120_cls : ShieldEffect
 {
-    void FUN_00828120();
+    void ShieldEffect_Start();
 };
 
-// Calls FUN_0082c000, then if a flag check or gModifierZero matches, resolves an Actor and calls FUN_008282e0 with it and pad6.
+// Calls ValueModifierEffect_Start, then if a flag check or gModifierZero matches, resolves an Actor and calls FUN_008282e0 with it and pad6.
 // @fnv 0x00828120
-void FUN_00828120_cls::FUN_00828120()
+void FUN_00828120_cls::ShieldEffect_Start()
 {
     Actor* actor;
-    ((FUN_00828120_a*)this)->FUN_0082c000();
-    if (((FUN_00828120_y*)this->pad2)->FUN_00825c00(2)->FUN_00403e60() || *(float*)&this->pad7 == gModifierZero)
+    ((FUN_00828120_a*)this)->ValueModifierEffect_Start();
+    if (((FUN_00828120_y*)this->pad2)->FUN_00825c00(2)->EffectSetting_IsFlagSet() || *(float*)&this->pad7 == gModifierZero)
     {
         actor = (((FUN_00828120_a*)this)->FUN_0059bb30() != 0)
                     ? ((FUN_00828120_z*)((FUN_00828120_a*)this)->FUN_0059bb30())->FUN_00822b40()
@@ -601,7 +601,7 @@ struct FUN_00828260_cls : ValueModifierEffect
 void FUN_00828260_cls::FUN_00828260()
 {
     ApplyEffect();
-    if (unk0c->FUN_00825c00(2)->FUN_00403e60())
+    if (unk0c->FUN_00825c00(2)->EffectSetting_IsFlagSet())
     {
         Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
         FUN_008282e0(actor, -unk1c);

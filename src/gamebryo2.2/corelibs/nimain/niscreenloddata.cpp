@@ -29,13 +29,13 @@ void NiScreenLODData::UpdateScreenBound(NiBound& bound)
 
 struct FUN_00a95cb0_shell : public NiScreenLODData
 {
-    void* FUN_00a95cb0();
+    void* NiScreenLODData_GetRTTI();
 };
 
 extern "C" void* g_011f5ee8;
 
 // @fnv 0x00a95cb0
-void* FUN_00a95cb0_shell::FUN_00a95cb0()
+void* FUN_00a95cb0_shell::NiScreenLODData_GetRTTI()
 {
     return &g_011f5ee8;
 }
@@ -439,13 +439,13 @@ class A960A0Data : public A960A0Object
     unsigned int m_uiCount;
     int* m_piIndices;
 
-    void FUN_00a960a0(A960A0Stream& kStream);
+    void NiScreenLODData_SaveBinary(A960A0Stream& kStream);
 };
 
 // SaveBinary
 // Saves the base object, both bounding spheres, the index count and each index to the stream.
 // @fnv 0x00a960a0
-void A960A0Data::FUN_00a960a0(A960A0Stream& kStream)
+void A960A0Data::NiScreenLODData_SaveBinary(A960A0Stream& kStream)
 {
     A960A0Object::SaveBinary(kStream);
     m_kBoundA.SaveBinary(kStream);
@@ -918,11 +918,11 @@ struct Obj96270
     int unk24;
     unsigned int m_28;
     float* m_2c;
-    void FUN_00a96270(StrArray* pkStrings);
+    void NiScreenLODData_GetViewerStrings(StrArray* pkStrings);
 };
 // Adds the global string, Bound and World Bound strings, and one formatted proportion string per m_28 entry into pkStrings.
 // @fnv 0x00a96270
-void Obj96270::FUN_00a96270(StrArray* pkStrings)
+void Obj96270::NiScreenLODData_GetViewerStrings(StrArray* pkStrings)
 {
     pkStrings->AddCall(FUN_00a7d330(*(const char**)&g_011f5ee8));
     pkStrings->AddCall(m_08.FUN_00a7fb20("Bound"));
@@ -1027,11 +1027,11 @@ struct WorkerScreen
     float radius;
     unsigned int count;
     float* thresholds;
-    unsigned int FUN_00a95de0(WorkerCamera*, int);
+    unsigned int NiScreenLODData_GetLODLevel(WorkerCamera*, int);
 };
 // Computes a camera-scaled extent from the radius and returns the first threshold value less than or equal to it.
 // @fnv 0x00a95de0
-unsigned int WorkerScreen::FUN_00a95de0(WorkerCamera* camera, int unused)
+unsigned int WorkerScreen::NiScreenLODData_GetLODLevel(WorkerCamera* camera, int unused)
 {
     WorkerPoint delta = position - camera->position;
     float squared = delta.x * delta.x + delta.y * delta.y + delta.z * delta.z;

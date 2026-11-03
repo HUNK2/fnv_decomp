@@ -565,7 +565,7 @@ int __cdecl GetTableValue(int aiIndex)
 
 struct LodShaderBase
 {
-    void __thiscall FUN_00e814b0();
+    void __thiscall NiD3DShader_RecreateRendererData();
 };
 struct FUN_00ba5100_Class
 {
@@ -576,7 +576,7 @@ struct FUN_00ba5100_Class
     void* m_0x80;
     void __thiscall FUN_00ba5100();
 };
-// If m_0x28_flag is set, calls virtual methods 40 and 34 on m_0x7c and m_0x80, then calls FUN_00e814b0 on this.
+// If m_0x28_flag is set, calls virtual methods 40 and 34 on m_0x7c and m_0x80, then calls NiD3DShader_RecreateRendererData on this.
 // @fnv 0x00ba5100
 void __thiscall FUN_00ba5100_Class::FUN_00ba5100()
 {
@@ -585,7 +585,7 @@ void __thiscall FUN_00ba5100_Class::FUN_00ba5100()
         ((void(__thiscall*)(void*))(void*)((*reinterpret_cast<void***>(m_0x7c))[40]))(m_0x7c);
         ((void(__thiscall*)(void*))(void*)((*reinterpret_cast<void***>(m_0x80))[34]))(m_0x80);
     }
-    ((LodShaderBase*)this)->FUN_00e814b0();
+    ((LodShaderBase*)this)->NiD3DShader_RecreateRendererData();
 }
 
 struct NiD3DPass;
@@ -1377,7 +1377,7 @@ void FUN_00bb9660_Class::FUN_00bb9660()
         if (p)
             (*(void(__thiscall**)(void*))(*(int*)p + 0x88))(p);
     }
-    FUN_00e814b0();
+    NiD3DShader_RecreateRendererData();
 }
 
 extern char DAT_01200863;
@@ -2865,7 +2865,7 @@ struct SpawnedObject
 
 // Allocates a SpawnedObject via its operator new and returns the new instance.
 // @fnv 0x00ba8a00
-SpawnedObject* __cdecl FUN_00ba8a00()
+SpawnedObject* __cdecl BSShaderTextureSet_CreateObject()
 {
     SpawnedObject* obj = new SpawnedObject();
     return obj;
@@ -12769,7 +12769,7 @@ struct WorkerObject
 
 struct WorkerTarget
 {
-    void FUN_00439410(WorkerObject*);
+    void NiAVObject_AttachProperty(WorkerObject*);
 };
 extern int DAT_011ae5a8[];
 
@@ -12866,7 +12866,7 @@ void WorkerSource::UpdateWorkerObject(WorkerTarget* target)
             CopyTo(pAs7);
         }
         object->shader = DAT_011ae5a8[type];
-        target->FUN_00439410(object);
+        target->NiAVObject_AttachProperty(object);
     }
 }
 
@@ -13623,7 +13623,7 @@ extern __declspec(thread) int DAT_012722b4;
 
 struct S00baa660_Obj
 {
-    bool FUN_00e80570();
+    bool NiD3DShader_Initialize();
     bool FUN_00baa660();
 };
 
@@ -13643,12 +13643,12 @@ struct S00baa660_Tls
 
 typedef void(__thiscall* S00baa660_VFn)(S00baa660_Obj*);
 
-// If FUN_00e80570 returns true, calls virtual functions at offsets 0x12c, 0x134, and 0x130 on this object.
+// If NiD3DShader_Initialize returns true, calls virtual functions at offsets 0x12c, 0x134, and 0x130 on this object.
 // @fnv 0x00baa660
 bool S00baa660_Obj::FUN_00baa660()
 {
     S00baa660_Tls tls;
-    bool result = FUN_00e80570();
+    bool result = NiD3DShader_Initialize();
     if (result)
     {
         void** vt = *(void***)this;
@@ -13694,7 +13694,7 @@ struct ACSetter
 struct ACDirection
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct ACLight
 {
@@ -13872,7 +13872,7 @@ int ACShader::FUN_00baac10(int a, int b, int c, int d, ACObject* object, int f, 
             pDestDir[1] = pSrcDir[1];
             pDestDir[2] = pSrcDir[2];
             ACDirection& direction = upPair.dir;
-            direction.FUN_004a0c10();
+            direction.NiPoint3_Unitize();
             NiPoint3 color = light->GetAmbient();
             DAT_01200570 = RgbaColor(color.x, color.y, color.z, 1.0f);
             NiPoint3 diffuse = light->GetDiffuse();

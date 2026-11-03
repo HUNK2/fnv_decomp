@@ -659,7 +659,7 @@ struct FUN_0068f0c0_shell : public NavMesh
 
 struct NavMeshTriangle
 {
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
 };
 struct NavMesh_GetTriangle_h
 {
@@ -678,9 +678,9 @@ bool FUN_0068f0c0_shell::FUN_0068f0c0(unsigned short ausTriIndex, int aiEdgeInde
     int iNext;
     unsigned short v1;
     unsigned short v0;
-    v1 = ((NavMesh_GetTriangle_h*)this)->GetTriangle(ausTriIndex)->FUN_005582d0(aiEdgeIndex);
+    v1 = ((NavMesh_GetTriangle_h*)this)->GetTriangle(ausTriIndex)->NavMeshTriangle_GetVert(aiEdgeIndex);
     iNext = (aiEdgeIndex + 1) % 3;
-    v0 = ((NavMesh_GetTriangle_h*)this)->GetTriangle(ausTriIndex)->FUN_005582d0(iNext);
+    v0 = ((NavMesh_GetTriangle_h*)this)->GetTriangle(ausTriIndex)->NavMeshTriangle_GetVert(iNext);
     *pStartVertex = ((NH*)this)->FUN_0068f0a0(v1);
     *pEndVertex = ((NH*)this)->FUN_0068f0a0(v0);
     return true;
@@ -867,7 +867,7 @@ void* FUN_0042fd40_shell::FUN_0042fd40(void* apSource)
 namespace fnv_0068f160 {
 struct NavMeshTriangle
 {
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
 };
 
 struct NavMeshWithGetTriangle
@@ -888,9 +888,9 @@ void NH::GetTriangleVertexPositions(unsigned short ausTriangleIndex, unsigned in
                                     unsigned int* pVertex2)
 {
     NavMeshTriangle* tri = reinterpret_cast<NavMeshWithGetTriangle*>(this)->GetTriangle(ausTriangleIndex);
-    *pVertex0 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->FUN_005582d0(0)));
-    *pVertex1 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->FUN_005582d0(1)));
-    *pVertex2 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->FUN_005582d0(2)));
+    *pVertex0 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->NavMeshTriangle_GetVert(0)));
+    *pVertex1 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->NavMeshTriangle_GetVert(1)));
+    *pVertex2 = reinterpret_cast<unsigned int>(&this->FUN_0068f0a0(tri->NavMeshTriangle_GetVert(2)));
 }
 }  // namespace fnv_0068f160
 
@@ -1919,7 +1919,7 @@ class NavMeshTriangle
     bool IsEdgeFlagSet(int);
     unsigned char FUN_0068f200(int);
     unsigned short FUN_0068f2c0(int);
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
     void ClearFlag(int);
     void SetArrayValue(int, unsigned short);
     bool HasFlags();
@@ -2147,19 +2147,19 @@ bool NavMeshView::Validate(int a0)
     for (unsigned int t4 = 0; t4 < tris.FUN_0044ddc0(); t4++)
     {
         NavMeshTriangle* tri4 = FUN_005582f0((unsigned short)t4);
-        if (tri4->FUN_005582d0(0) == tri4->FUN_005582d0(1))
+        if (tri4->NavMeshTriangle_GetVert(0) == tri4->NavMeshTriangle_GetVert(1))
         {
-            FUN_005b5e40(DAT_0106a770, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->FUN_005582d0(0));
+            FUN_005b5e40(DAT_0106a770, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->NavMeshTriangle_GetVert(0));
             hadError = true;
         }
-        if (tri4->FUN_005582d0(0) == tri4->FUN_005582d0(2))
+        if (tri4->NavMeshTriangle_GetVert(0) == tri4->NavMeshTriangle_GetVert(2))
         {
-            FUN_005b5e40(DAT_0106a708, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->FUN_005582d0(0));
+            FUN_005b5e40(DAT_0106a708, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->NavMeshTriangle_GetVert(0));
             hadError = true;
         }
-        if (tri4->FUN_005582d0(1) == tri4->FUN_005582d0(2))
+        if (tri4->NavMeshTriangle_GetVert(1) == tri4->NavMeshTriangle_GetVert(2))
         {
-            FUN_005b5e40(DAT_0106a6a0, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->FUN_005582d0(1));
+            FUN_005b5e40(DAT_0106a6a0, FUN_0084e3a0(), p.FUN_00559450(), t4, tri4->NavMeshTriangle_GetVert(1));
             hadError = true;
         }
     }
@@ -2196,8 +2196,8 @@ bool NavMeshView::Validate(int a0)
             unsigned int e = edge + 1;
             if (e == 3)
                 e = 0;
-            unsigned short vA = tri6->FUN_005582d0(edge);
-            unsigned short pForm = tri6->FUN_005582d0(e);
+            unsigned short vA = tri6->NavMeshTriangle_GetVert(edge);
+            unsigned short pForm = tri6->NavMeshTriangle_GetVert(e);
             for (int tri3 = 0; tri3 < tris.FUN_0044ddc0(); tri3++)
             {
                 if (tri3 == t6)
@@ -2205,7 +2205,7 @@ bool NavMeshView::Validate(int a0)
                 NavMeshTriangle* tri = FUN_005582f0((unsigned short)tri3);
                 for (int t5 = 0; t5 < 3; t5++)
                 {
-                    if (tri->FUN_005582d0(t5) != pForm)
+                    if (tri->NavMeshTriangle_GetVert(t5) != pForm)
                         continue;
                     unsigned short tIn = (unsigned short)(t5 + 1);
                     if (tIn == 3)
@@ -2214,7 +2214,7 @@ bool NavMeshView::Validate(int a0)
                     {
                         if (e8 == t5)
                             continue;
-                        if (tri->FUN_005582d0(e8) != vA)
+                        if (tri->NavMeshTriangle_GetVert(e8) != vA)
                             continue;
                         if (e8 != tIn)
                         {
@@ -2291,7 +2291,7 @@ bool NavMeshView::Validate(int a0)
                     int q = a + 1;
                     if (q == 3)
                         q = 0;
-                    if (tri8->FUN_005582d0(bIdx) != h->FUN_005582d0(q) || tri8->FUN_005582d0(c) != h->FUN_005582d0(c2))
+                    if (tri8->NavMeshTriangle_GetVert(bIdx) != h->NavMeshTriangle_GetVert(q) || tri8->NavMeshTriangle_GetVert(c) != h->NavMeshTriangle_GetVert(c2))
                     {
                         FUN_005b5e40(DAT_0106a2c8, FUN_0084e3a0(), p.FUN_00559450(), e10, tri8->FUN_0068f2c0(e9));
                         hadError = true;
@@ -2639,7 +2639,7 @@ struct NHc2_b9119
 };
 struct NHc_b9119
 {
-    unsigned short FUN_005582d0();
+    unsigned short NavMeshTriangle_GetVert();
 };
 
 struct FUN_0068efd0_cls
@@ -2651,9 +2651,9 @@ struct FUN_0068efd0_cls
 EdgeT* FUN_0068efd0_cls::FUN_0068efd0(EdgeT* out, unsigned short tri, int idx)
 {
     EdgeT r;
-    r.a = ((NHc2_b9119*)this)->FUN_005582f0(tri, idx)->FUN_005582d0();
+    r.a = ((NHc2_b9119*)this)->FUN_005582f0(tri, idx)->NavMeshTriangle_GetVert();
     int m2 = (idx + 1) % 3;
-    r.b = ((NHc2_b9119*)this)->FUN_005582f0(tri, m2)->FUN_005582d0();
+    r.b = ((NHc2_b9119*)this)->FUN_005582f0(tri, m2)->NavMeshTriangle_GetVert();
     *out = r;
     return out;
 }

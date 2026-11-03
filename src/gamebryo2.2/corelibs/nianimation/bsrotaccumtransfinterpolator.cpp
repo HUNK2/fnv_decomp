@@ -9,7 +9,7 @@ struct NiRTTI
 extern NiRTTI g_011f3ee0;
 
 // @fnv 0x00a43ab0
-NiRTTI* __cdecl FUN_00a43ab0()
+NiRTTI* __cdecl BSRotAccumTransfInterpolator_GetRTTI()
 {
     return &g_011f3ee0;
 }
@@ -192,34 +192,34 @@ void FUN_00a43ac0_Class::UpdateRotValue(int a)
     }
 }
 
-void __cdecl FUN_00a3f7b0();
+void __cdecl NiTransformInterpolator_LoadBinary();
 // @fnv 0x00a43a70
-void __cdecl FUN_00a43a70()
+void __cdecl BSRotAccumTransfInterpolator_LoadBinary()
 {
-    FUN_00a3f7b0();
+    NiTransformInterpolator_LoadBinary();
 }
 
-extern void __cdecl FUN_00a3f870();
+extern void __cdecl NiTransformInterpolator_RegisterStreamables();
 
 // @fnv 0x00a43a80
-void __cdecl FUN_00a43a80()
+void __cdecl BSRotAccumTransfInterpolator_RegisterStreamables()
 {
-    FUN_00a3f870();
+    NiTransformInterpolator_RegisterStreamables();
 }
 
-void __cdecl FUN_00a3f8a0();
+void __cdecl NiTransformInterpolator_SaveBinary();
 // @fnv 0x00a43a90
-void __cdecl FUN_00a43a90()
+void __cdecl BSRotAccumTransfInterpolator_SaveBinary()
 {
-    FUN_00a3f8a0();
+    NiTransformInterpolator_SaveBinary();
 }
 
-extern void FUN_00a3f8d0();
+extern void NiTransformInterpolator_IsEqual();
 
 // @fnv 0x00a43aa0
-void FUN_00a43aa0()
+void BSRotAccumTransfInterpolator_IsEqual()
 {
-    FUN_00a3f8d0();
+    NiTransformInterpolator_IsEqual();
 }
 
 #include <string.h>

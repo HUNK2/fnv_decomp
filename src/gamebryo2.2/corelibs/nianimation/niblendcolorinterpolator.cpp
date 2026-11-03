@@ -11,27 +11,27 @@ struct RgbaColor
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream& kStream);
+    void NiBlendInterpolator_SaveBinary(NiStream& kStream);
 };
 
 struct NiBlendColorInterpolator
 {
     char m_Base[0x30];
     RgbaColor m_kColorValue;
-    void FUN_00a56040(NiStream& kStream);
+    void NiBlendColorInterpolator_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a56040
-void NiBlendColorInterpolator::FUN_00a56040(NiStream& kStream)
+void NiBlendColorInterpolator::NiBlendColorInterpolator_SaveBinary(NiStream& kStream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(kStream);
+    ((FUN_00a37ec0_tgt*)this)->NiBlendInterpolator_SaveBinary(kStream);
     m_kColorValue.SaveBinary(kStream);
 }
 
 extern "C" void* g_011f4074;
 
 // @fnv 0x00a56060
-void* __cdecl FUN_00a56060()
+void* __cdecl NiBlendColorInterpolator_GetRTTI()
 {
     return &g_011f4074;
 }
@@ -122,11 +122,11 @@ struct NiColorA_Compare
 
 struct NiBlendColorInterpolator_shell : public NiBlendInterpolator
 {
-    void FUN_00a56460(NiStream& kStream);
+    void NiBlendColorInterpolator_LoadBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a56460
-void NiBlendColorInterpolator_shell::FUN_00a56460(NiStream& kStream)
+void NiBlendColorInterpolator_shell::NiBlendColorInterpolator_LoadBinary(NiStream& kStream)
 {
     ((NiBlendInterpolator*)this)->LoadBinary(kStream);
     ((NiColorA_Helper*)((char*)this + 0x30))->LoadBinary(kStream);
@@ -203,11 +203,11 @@ struct CloneOwner
 };
 struct FUN_00a56090_shell : NiBlendColorInterpolator
 {
-    void* FUN_00a56090(CloningProcess&);
+    void* NiBlendColorInterpolator_CreateClone(CloningProcess&);
 };
 // Allocates a NiBlendColorInterpolator, initialises it from DAT_011a9430, copies color fields from this, and returns the clone.
 // @fnv 0x00a56090
-void* FUN_00a56090_shell::FUN_00a56090(CloningProcess& kCloning)
+void* FUN_00a56090_shell::NiBlendColorInterpolator_CreateClone(CloningProcess& kCloning)
 {
     NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
     if (pkObject)
@@ -371,7 +371,7 @@ bool FUN_00a56110_shell::GetColorAtTime(float fTime, NiObjectNET* pkTarget, FUN_
     return false;
 }
 
-bool __stdcall FUN_00a36fd0(void* pkObject);
+bool __stdcall NiBlendInterpolator_IsEqual(void* pkObject);
 
 struct NiColorA_shell : RgbaColor
 {
@@ -380,13 +380,13 @@ struct NiColorA_shell : RgbaColor
 
 struct FUN_00a564a0_cls : NiBlendColorInterpolator
 {
-    bool FUN_00a564a0(void* pkOther);
+    bool NiBlendColorInterpolator_IsEqual(void* pkOther);
 };
 
 // @fnv 0x00a564a0
-bool FUN_00a564a0_cls::FUN_00a564a0(void* pkOther)
+bool FUN_00a564a0_cls::NiBlendColorInterpolator_IsEqual(void* pkOther)
 {
-    if (!FUN_00a36fd0(pkOther))
+    if (!NiBlendInterpolator_IsEqual(pkOther))
     {
         return false;
     }
@@ -417,14 +417,14 @@ struct AssignmentMember
 };
 struct FUN_00a564d0_shell
 {
-    void FUN_00a38080(ArraySource* source);
+    void NiBlendInterpolator_GetViewerStrings(ArraySource* source);
     void AppendTwoEntries(ArraySource* source);
 };
-// Calls FUN_00a38080, then appends the result of FUN_00a7d330 and a member lookup from offset 0x30 into the array source, growing it as needed.
+// Calls NiBlendInterpolator_GetViewerStrings, then appends the result of FUN_00a7d330 and a member lookup from offset 0x30 into the array source, growing it as needed.
 // @fnv 0x00a564d0
 void FUN_00a564d0_shell::AppendTwoEntries(ArraySource* pArraySource)
 {
-    FUN_00a38080(pArraySource);
+    NiBlendInterpolator_GetViewerStrings(pArraySource);
     void* result = FUN_00a7d330(g_011f4074);
     unsigned int index = pArraySource->m_usSize;
     if (index >= pArraySource->m_usMaxSize)

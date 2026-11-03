@@ -8,7 +8,7 @@ struct TESObjectCELL
 };
 struct MobileObjectCellAccess
 {
-    bool FUN_004518e0() const;
+    bool TESObjectCELL_HasWater() const;
 };
 struct Sky
 {
@@ -23,13 +23,13 @@ double _DAT_010231b0;
 
 struct FUN_005471e0_shell
 {
-    float FUN_005471e0();
+    float TESObjectCELL_GetWaterHeight();
 };
 
 // @fnv 0x005471e0
-float FUN_005471e0_shell::FUN_005471e0()
+float FUN_005471e0_shell::TESObjectCELL_GetWaterHeight()
 {
-    if (!((MobileObjectCellAccess*)this)->FUN_004518e0() || ((TESObjectCELL*)this)->IsInterior())
+    if (!((MobileObjectCellAccess*)this)->TESObjectCELL_HasWater() || ((TESObjectCELL*)this)->IsInterior())
     {
         return DAT_01015f5c;
     }

@@ -300,7 +300,7 @@ struct FUN_006c0f10_shell : public NavMeshObstacleManager
 struct TESObjectDOOR;
 TESBoundObject* __fastcall _FNV_GetObjectReference(TESObjectREFR*);
 unsigned int __fastcall _FNV_GetFormType(TESBoundObject*);
-bool __fastcall FUN_00518080(TESObjectDOOR*);
+bool __fastcall TESObjectDOOR_IsSlidingDoor(TESObjectDOOR*);
 bhkRigidBody* __fastcall _ref_0084e3a0(TESObjectREFR*);
 
 struct Call_006c0c80
@@ -453,7 +453,7 @@ void FUN_006c0f10_shell::UpdateDoorObstacle(TESObjectREFR* apDoorRef)
     if (_FNV_GetFormType(pbaseObject) == 0x1c)
     {
         TESObjectDOOR* pdoor = (TESObjectDOOR*)pbaseObject;
-        if (!FUN_00518080(pdoor))
+        if (!TESObjectDOOR_IsSlidingDoor(pdoor))
         {
             ((Call_006c0c80*)this)->FUN_006c0c80(apDoorRef);
         }
@@ -1743,7 +1743,7 @@ struct bhkFilter
 {
     bhkFilter();
     unsigned int uiFilterInfo;
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct bhkWorldObject
 {
@@ -1804,7 +1804,7 @@ bool __cdecl RegisterCollisionObstacles(NiAVObject* apObject, Flt* apOwner)
             bhkWorldObject* pWorldObject = pCollision->FUN_006fa820();
             if (pWorldObject)
             {
-                int iLayer = pWorldObject->FUN_0043b4f0().FUN_0043b4d0();
+                int iLayer = pWorldObject->FUN_0043b4f0().CFilter_GetLayer();
                 if (iLayer == 2 || iLayer == 4 || iLayer == 10 || iLayer == 0x14 || iLayer == 0x1c)
                 {
                     GO m_spRegisteredObstacle((int)new FUN_006c23c0);
@@ -3306,7 +3306,7 @@ FUN_006c24d0::~FUN_006c24d0()
 struct FNVNode;
 struct FNVNodeList
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
     FNVNode* func_0x0043b4a0(unsigned int index);
 };
 struct FNVNode
@@ -3318,7 +3318,7 @@ struct FNVNode
 };
 struct FNVType
 {
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct FNVData
 {
@@ -3356,7 +3356,7 @@ bool __cdecl FindNodeData(FNVNode* node, FNVResult* result)
         data = object5->func_0x006fa820();
         if (data)
         {
-            type_2 = data->func_0x0043b4f0(&value7)->FUN_0043b4d0();
+            type_2 = data->func_0x0043b4f0(&value7)->CFilter_GetLayer();
             if (type_2 == 2 || type_2 == 1 || type_2 == 4 || type_2 == 10 || type_2 == 20 || type_2 == 28)
             {
                 result->unk08 = 0;
@@ -3369,7 +3369,7 @@ bool __cdecl FindNodeData(FNVNode* node, FNVResult* result)
     children5 = node->GetChildren();
     if (children5)
     {
-        for (indexVal = 0; indexVal < children5->FUN_00453470(); ++indexVal)
+        for (indexVal = 0; indexVal < children5->NiNode_GetChildCount(); ++indexVal)
         {
             if (children5->func_0x0043b4a0(indexVal))
             {
@@ -3448,7 +3448,7 @@ struct FUN_006c6d40_helper
   public:
     void* FUN_00aa42e0();
 };
-void* __cdecl FUN_00401020();
+void* __cdecl MemoryManager_Instance();
 struct FUN_006c6d40_cls : public FUN_006c6d40_base
 {
   public:
@@ -3457,11 +3457,11 @@ struct FUN_006c6d40_cls : public FUN_006c6d40_base
     void FUN_006b3eb0(unsigned int a, unsigned int b);
     FUN_006c6d40_cls(unsigned int a, unsigned int b, void* p);
 };
-// Sets m_10 to p or a default from FUN_00401020, then calls FUN_006b3eb0 with a and b.
+// Sets m_10 to p or a default from MemoryManager_Instance, then calls FUN_006b3eb0 with a and b.
 // @fnv 0x006c6d40
 FUN_006c6d40_cls::FUN_006c6d40_cls(unsigned int auiParam1, unsigned int auiParam2, void* p)
 {
-    m_10 = p ? p : ((FUN_006c6d40_helper*)FUN_00401020())->FUN_00aa42e0();
+    m_10 = p ? p : ((FUN_006c6d40_helper*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006b3eb0(auiParam1, auiParam2);
 }
 
@@ -4032,7 +4032,7 @@ struct InfoArr_c1190
 };
 struct Kind_c1190
 {
-    bool FUN_005609b0();
+    bool bhkRigidBody_IsActive();
 };
 struct ObsArr_c1190;
 struct Obs_c1190
@@ -4130,7 +4130,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
         Ptr_c1190<Obs_c1190> spObst(spHolder->kObstacles.FUN_00877a30(i));
         ((ObsMap_c1190*)((char*)this + 0xe0))->FUN_006c6920(spObst->m_spKind, spObst);
         FUN_006c1d60(spObst->m_spKind);
-        if (spObst->m_spKind->FUN_005609b0())
+        if (spObst->m_spKind->bhkRigidBody_IsActive())
         {
             FUN_006c1c70(spObst->m_spKind);
         }
@@ -4638,8 +4638,8 @@ struct Mat
     float entries[3][3];
     Mat();
     void DecomposeToEulerAngles(float&, float&, float&);
-    void FUN_00439f50(unsigned int, Vec&);
-    void FUN_004769c0(int, const Vec&);
+    void NiMatrix3_GetCol(unsigned int, Vec&);
+    void NiMatrix3_SetCol(int, const Vec&);
     Mat FUN_004768c0();
     Mat FUN_0043f8d0(const Mat&);
     Vec FUN_004b4500(const Vec&);
@@ -4726,7 +4726,7 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
     obstacle->position = reinterpret_cast<const Vec&>(transform.position);
     Vec axisVectors[3];
     for (unsigned int axis = 0; axis < 3; axis++)
-        transform.rotation.FUN_00439f50(axis, axisVectors[axis]);
+        transform.rotation.NiMatrix3_GetCol(axis, axisVectors[axis]);
     Vec upAxis, sideAxis, forwardAxis;
     if (FUN_00408840(axisVectors[0].z) > FUN_00408840(axisVectors[1].z))
     {
@@ -4766,9 +4766,9 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
     upAxis = DAT_011a9484;
     sideAxis = upAxis.FUN_0053d1a0(forwardAxis);
     forwardAxis = sideAxis.FUN_004b3800(upAxis).FUN_004a0bd0();
-    obstacle->rotation.FUN_004769c0(0, forwardAxis);
-    obstacle->rotation.FUN_004769c0(1, sideAxis);
-    obstacle->rotation.FUN_004769c0(2, upAxis);
+    obstacle->rotation.NiMatrix3_SetCol(0, forwardAxis);
+    obstacle->rotation.NiMatrix3_SetCol(1, sideAxis);
+    obstacle->rotation.NiMatrix3_SetCol(2, upAxis);
     Mat toLocalMat = obstacle->rotation.FUN_004768c0().FUN_0043f8d0(transform.rotation);
     Vec localCorners[8];
     localCorners[0] = toLocalMat.FUN_004b4500(Vec(minimum.x, minimum.y, minimum.z));
@@ -4953,7 +4953,7 @@ struct DebugSceneObject
     DebugSceneObject(unsigned short);
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void AttachProperty(void*);
     void FUN_00a5a040();
     void FUN_00a59c60(const DebugUpdateData&);
@@ -5134,7 +5134,7 @@ void DebugObstacleManager::SetEnabled(bool show)
     {
         if (scene)
         {
-            scene->FUN_004def90();
+            scene->NiNode_RemoveAllChildren();
         }
         else
         {
@@ -5173,7 +5173,7 @@ void DebugObstacleManager::SetEnabled(bool show)
     {
         if (scene)
         {
-            scene->FUN_004def90();
+            scene->NiNode_RemoveAllChildren();
         }
         enabled = false;
     }
@@ -6223,7 +6223,7 @@ namespace s60 {
 struct Form;
 struct Door;
 int __fastcall FUN_00401170(Form* f);
-bool __fastcall FUN_00518080(Door* d);
+bool __fastcall TESObjectDOOR_IsSlidingDoor(Door* d);
 struct Ref
 {
     Form* FUN_007af430();
@@ -6263,7 +6263,7 @@ void Own60::FUN_006c1060(Ref* ref)
     if (FUN_00401170(pForm) == 0x1c)
     {
         Door* door = (Door*)pForm;
-        if (!FUN_00518080(door))
+        if (!TESObjectDOOR_IsSlidingDoor(door))
             FUN_006c0c80(ref);
     }
     m_2c.FUN_00905330(ref);
@@ -6375,7 +6375,7 @@ struct C006c3640
     float time;
     char pad198[8];
     TimerShell timer;
-    void FUN_004538a0(char*);
+    void BSCriticalSection_Enter(char*);
     void FUN_004538c0();
     void FUN_006c47e0();
     void ProcessAddedRefs();
@@ -6393,15 +6393,15 @@ struct C006c3640
     bool FUN_006c44d0();
     bool ClearOwnedObjects();
     void ProcessObstacleTasks();
-    void FUN_006c3640();
+    void NavMeshObstacleManager_Update();
 };
 // @fnv 0x006c3640
-void C006c3640::FUN_006c3640()
+void C006c3640::NavMeshObstacleManager_Update()
 {
     AutoMemHelper mem(0x2e, true, &DAT_0106c3f0, 0x508);
     if (!*((SettingShell*)&DAT_011d73e4)->FUN_00408d60())
         return;
-    FUN_004538a0(&DAT_0106c498);
+    BSCriticalSection_Enter(&DAT_0106c498);
     timer.FUN_00483710();
     bool changed = false;
     time -= ((TimeShell*)&DAT_011f6394)->FUN_0084d030();

@@ -17,7 +17,7 @@ extern GcRefList g_kPendingRefs_011de8bc;
 
 struct GcManager
 {
-    void FUN_00445570(void* pkRef);
+    void ModelLoader_CancelReference(void* pkRef);
     bool FUN_00868250();
     void FUN_004aaf10();
 };
@@ -32,7 +32,7 @@ extern __declspec(thread) bool t_bInLoad;
 
 struct GcBaseForm
 {
-    bool FUN_00549580();
+    bool TESForm_HasTalkedToPC();
 };
 struct GcParentCell
 {
@@ -320,13 +320,13 @@ class GcRef
 
     unsigned int FUN_0084e3a0();
     void FUN_0056fcb0();
-    void FUN_00483c70();
+    void TESForm_RemoveFromDataStructures();
     GcBaseForm* FUN_007af430();
     GcExtra* FUN_00575d70();
     void FUN_00420ba0(int i);
     void FUN_005de0a0(int iFlags, int i);
 };
-GcRef* __cdecl FUN_004839c0(unsigned int auiFormId);
+GcRef* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 static const char s_szLockName[] = "GarbageCollector::Add(TESObjectREFR)";
 extern const char g_szGcEnd[] = "";
@@ -335,7 +335,7 @@ extern const char g_szGcEnd[] = "";
 void __cdecl FUN_00867f90(GcRef* pkRef)
 {
     GcScopedLock kLock(1, s_szLockName);
-    if (FUN_004839c0(pkRef->FUN_0084e3a0()) != pkRef)
+    if (TESForm_GetFormByNumericID(pkRef->FUN_0084e3a0()) != pkRef)
     {
         delete pkRef;
     }
@@ -354,9 +354,9 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
             pkDead->FUN_00420ba0(0);
             pkDead->FUN_005de0a0(0x400, 0);
         }
-        g_pkGcManager_011c3b3c->FUN_00445570(pkRef);
-        pkRef->FUN_00483c70();
-        if (pkRef->FUN_007af430()->FUN_00549580())
+        g_pkGcManager_011c3b3c->ModelLoader_CancelReference(pkRef);
+        pkRef->TESForm_RemoveFromDataStructures();
+        if (pkRef->FUN_007af430()->TESForm_HasTalkedToPC())
         {
             GcExtra* pkExtra = pkRef->FUN_00575d70();
             if (pkExtra && pkExtra->FUN_00586170())

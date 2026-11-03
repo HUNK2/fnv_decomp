@@ -4959,7 +4959,7 @@ unsigned char FUN_006ec4b0_cls::PushItem(void* arg)
 class RecursiveSpinLock
 {
   public:
-    void FUN_0040fbf0(char* name);
+    void BSSpinLock_Lock(char* name);
     void Unlock();
 };
 
@@ -4988,7 +4988,7 @@ struct FUN_006ec900_Class
 bool FUN_006ec900_Class::VisitUntilFound(int aiValue)
 {
     bool found = false;
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < count && !found; ++i)
     {
         found = Visit(i, aiValue);
@@ -5731,7 +5731,7 @@ struct S_00aa42e0_Mgr
 {
     void* __thiscall FUN_00aa42e0();
 };
-S_00aa42e0_Mgr* __cdecl FUN_00401020();
+S_00aa42e0_Mgr* __cdecl MemoryManager_Instance();
 
 struct S_006f2510_Base
 {
@@ -5753,7 +5753,7 @@ struct FUN_006f2510 : S_006f2510_Base
 // @fnv 0x006f2510
 FUN_006f2510::FUN_006f2510(unsigned int a, unsigned int b, void* heap)
 {
-    unk10 = heap ? heap : FUN_00401020()->FUN_00aa42e0();
+    unk10 = heap ? heap : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(a, b);
 }
 
@@ -5819,7 +5819,7 @@ void LOSArray6f29e0::RemoveRange(unsigned int index, unsigned int count, bool sh
 namespace fnv_006f2ca0 {
 extern int DAT_0106c990;
 
-void* __cdecl FUN_00401020();
+void* __cdecl MemoryManager_Instance();
 
 struct FUN_00aa42e0_Obj
 {
@@ -5846,12 +5846,12 @@ struct FUN_006f2ca0_cls : Base_b9887
     FUN_006f2ca0_cls(int a1);
 };
 
-// Sets the vtable pointer, stores the result of FUN_00aa42e0 from FUN_00401020 into m_i10, then calls FUN_0069b940 with a1 twice.
+// Sets the vtable pointer, stores the result of FUN_00aa42e0 from MemoryManager_Instance into m_i10, then calls FUN_0069b940 with a1 twice.
 // @fnv 0x006f2ca0
 FUN_006f2ca0_cls::FUN_006f2ca0_cls(int a1)
 {
     *(void**)this = &DAT_0106c990;
-    m_i10 = ((FUN_00aa42e0_Obj*)FUN_00401020())->FUN_00aa42e0();
+    m_i10 = ((FUN_00aa42e0_Obj*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_0069b940(a1, a1);
 }
 }  // namespace fnv_006f2ca0
@@ -5861,7 +5861,7 @@ struct ObjCls
 {
     void* FUN_00aa42e0();
 };
-extern ObjCls* __cdecl FUN_00401020();
+extern ObjCls* __cdecl MemoryManager_Instance();
 extern int DAT_0106d878;
 struct B31c0
 {
@@ -5877,12 +5877,12 @@ struct FUN_006f2d80 : public B31c0
     void* m_10;
     FUN_006f2d80();
 };
-// Sets the vtable pointer, stores the result of FUN_00aa42e0 from FUN_00401020 in m_10, then calls InitBuffer with 0, 0.
+// Sets the vtable pointer, stores the result of FUN_00aa42e0 from MemoryManager_Instance in m_10, then calls InitBuffer with 0, 0.
 // @fnv 0x006f2d80
 FUN_006f2d80::FUN_006f2d80() : B31c0()
 {
     *(void**)this = &DAT_0106d878;
-    this->m_10 = FUN_00401020()->FUN_00aa42e0();
+    this->m_10 = MemoryManager_Instance()->FUN_00aa42e0();
     ((FUN_006f3320_Class*)this)->InitBuffer(0, 0);
 }
 }  // namespace fnv_006f2d80
@@ -6554,13 +6554,13 @@ struct Helper_00401020
 {
     int FUN_00aa42e0();
 };
-extern "C" Helper_00401020* __cdecl FUN_00401020();
-// Sets the vtable pointer, stores the result of FUN_00401020()->FUN_00aa42e0() in value10, then calls FUN_006b3eb0(0, 0) on this.
+extern "C" Helper_00401020* __cdecl MemoryManager_Instance();
+// Sets the vtable pointer, stores the result of MemoryManager_Instance()->FUN_00aa42e0() in value10, then calls FUN_006b3eb0(0, 0) on this.
 // @fnv 0x006f45c0
 FUN_006f45c0::FUN_006f45c0() : FUN_006f4880()
 {
     baseVptr = (int)&str_0106d91c;
-    value10 = FUN_00401020()->FUN_00aa42e0();
+    value10 = MemoryManager_Instance()->FUN_00aa42e0();
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
 }
 }  // namespace fnv_006f45c0
@@ -7726,13 +7726,13 @@ struct FUN_006ffda0_cls
     int __thiscall FUN_004048e0();
 };
 
-int __cdecl FUN_00401030(int a);
+int __cdecl FormHeap_Free(int a);
 int __cdecl AllocateZeroed(int a, int b);
 
 // @fnv 0x006ffda0
 void FUN_006ffda0_cls::FUN_006ffda0()
 {
-    FUN_00401030(m_i24);
+    FormHeap_Free(m_i24);
     m_i24 = (FUN_00559450() != 0) ? AllocateZeroed(FUN_004048e0() + 1, 1) : 0;
     m_cb29 = 0;
     m_i1c = 0;
@@ -7776,7 +7776,7 @@ class BGSLoadFormBuffer
     void FUN_00864980(void* apDest, unsigned int auiSize);
     unsigned int FUN_008648a0();
 };
-TESForm* FUN_004839c0(unsigned int auiFormID);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormID);
 
 struct LoadedRefPosition
 {
@@ -7816,7 +7816,7 @@ void LoadedRefHolder::FUN_006e23b0(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->FUN_00864980(&m_uiValue1, 4);
     apBuffer->FUN_00864980(&m_kPathOffset, 12);
-    m_pReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(apBuffer->FUN_008648a0()));
+    m_pReference = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(apBuffer->FUN_008648a0()));
     m_kMember.LoadGame(apBuffer);
 }
 
@@ -7924,7 +7924,7 @@ struct TraceRequest
     int unk28;
     int unk2c;
     TraceReset state;
-    void FUN_004a3da0(const TraceVector&);
+    void bhkPickData_SetFrom(const TraceVector&);
     void FUN_004a3eb0(const TraceVector&);
 };
 struct TraceFraction
@@ -7937,7 +7937,7 @@ struct TraceFraction
 };
 struct TraceResult
 {
-    void FUN_0062a290();
+    void hkpClosestRayHitCollector_reset();
     TraceFraction* FUN_00460140();
 };
 struct TraceWorld
@@ -8042,9 +8042,9 @@ bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceV
     TraceVector start3 = from.FUN_00439e90(DAT_011a9484.ApplyScaled(lift2));
     TraceVector end3 = to.FUN_00439e90(DAT_011a9484.ApplyScaled(lift2));
     request->state.FUN_0062a2b0();
-    result->FUN_0062a290();
+    result->hkpClosestRayHitCollector_reset();
     count++;
-    request->FUN_004a3da0(start3);
+    request->bhkPickData_SetFrom(start3);
     request->FUN_004a3eb0(end3);
     if (world->Trace(request))
     {
@@ -8055,8 +8055,8 @@ bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceV
         count++;
         TraceVector extended = end3.FUN_00439ef0(DAT_011a9484.ApplyScaled(distance + height));
         request->state.FUN_0062a2b0();
-        result->FUN_0062a290();
-        request->FUN_004a3da0(end3);
+        result->hkpClosestRayHitCollector_reset();
+        request->bhkPickData_SetFrom(end3);
         request->FUN_004a3eb0(extended);
         if (world->Trace(request))
         {
@@ -8687,7 +8687,7 @@ struct PointP059
     PointP059 operator*(float) const;
     PointP059 FUN_004a0bd0() const;
     bool FUN_004390c0(const PointP059&);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     PointP059 Cross(const PointP059&) const;
     float Dot(const PointP059&) const;
 };
@@ -8749,8 +8749,8 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
         b = *l->FUN_006a7ad0(index + 2) - *l->FUN_006a7ad0(index);
     f.z = 0.0f;
     b.z = 0.0f;
-    f.FUN_004a0c10();
-    b.FUN_004a0c10();
+    f.NiPoint3_Unitize();
+    b.NiPoint3_Unitize();
     PointP059 k = b.Cross(DAT_011a9484);
     PointP059 e = f.Cross(DAT_011a9484);
     float i = f.Dot(k);
@@ -9942,7 +9942,7 @@ FUN_006f2630::FUN_006f2630(unsigned int uiA, unsigned int uiB, Heap6F2* pkHeap)
 }
 
 namespace fnv_006f2b30 {
-extern "C" void* __cdecl FUN_00401020(void);
+extern "C" void* __cdecl MemoryManager_Instance(void);
 
 struct FUN_006cf180
 {
@@ -9971,7 +9971,7 @@ struct FUN_006f2b30 : FUN_006cf180
 // @fnv 0x006f2b30
 FUN_006f2b30::FUN_006f2b30()
 {
-    unk10 = ((FUN_00aa42e0_Obj*)FUN_00401020())->FUN_00aa42e0();
+    unk10 = ((FUN_00aa42e0_Obj*)MemoryManager_Instance())->FUN_00aa42e0();
     ResizeAndConstruct(0, 0);
 }
 }  // namespace fnv_006f2b30
@@ -10985,8 +10985,8 @@ void FUN_006ffcf0::SetPackedFields(long aValue, int aLow, int aHigh, int aMid)
 struct LockEC7E
 {
     int unk00[2];
-    void FUN_0040fbf0(const char* pcName);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(const char* pcName);
+    void BSSpinLock_Unlock();
 };
 
 struct EntryEC7E
@@ -11008,9 +11008,9 @@ class FUN_006ec7e0_C
 // @fnv 0x006ec7e0
 bool FUN_006ec7e0_C::FUN_006ec7e0(void* a1, void* a2, void* a3, bool a4)
 {
-    m_kLock.FUN_0040fbf0(0);
+    m_kLock.BSSpinLock_Lock(0);
     bool bResult = FUN_00449f80(a1, a2, a3, a4)->InsertOrReplaceNode();
-    m_kLock.FUN_0040fba0();
+    m_kLock.BSSpinLock_Unlock();
     return bResult;
 }
 
@@ -11379,7 +11379,7 @@ class FUN_006f2750 : public FUN_006f3140
 // @fnv 0x006f2750
 FUN_006f2750::FUN_006f2750(unsigned int uiA, unsigned int uiB, void* pkHeap)
 {
-    m_pkHeap = pkHeap ? pkHeap : FUN_00401020()->FUN_00aa42e0();
+    m_pkHeap = pkHeap ? pkHeap : MemoryManager_Instance()->FUN_00aa42e0();
     ((AX*)this)->FUN_006b3eb0(uiA, uiB);
 }
 
@@ -11401,12 +11401,12 @@ class LoadHolder6F51
     void FUN_006f5100(BGSLoadFormBuffer* apBuffer);
 };
 
-// Calls FUN_00864980(this, 4) on apBuffer, sets m_pReference via FUN_004839c0 and a dynamic_cast to TESObjectREFR, then calls m_kMember.LoadGame.
+// Calls FUN_00864980(this, 4) on apBuffer, sets m_pReference via TESForm_GetFormByNumericID and a dynamic_cast to TESObjectREFR, then calls m_kMember.LoadGame.
 // @fnv 0x006f5100
 void LoadHolder6F51::FUN_006f5100(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->FUN_00864980(this, 4);
-    m_pReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(apBuffer->FUN_008648a0()));
+    m_pReference = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(apBuffer->FUN_008648a0()));
     m_kMember.LoadGame(apBuffer);
 }
 
@@ -11928,7 +11928,7 @@ struct NiNode
     NiNode(unsigned short);
     static void* operator new(unsigned);
     static void operator delete(void*, unsigned int);
-    void FUN_00546780(bool);
+    void NiAVObject_SetAlwaysDraw(bool);
     NiNode* FUN_009611e0();
 };
 struct Ptr490
@@ -12125,8 +12125,8 @@ FUN_006fc490::FUN_006fc490(Source490* apSource) : first(0), second(0)
             if ((NiNode*)first)
             {
                 second = DAT_011dea10->FUN_00825c00();
-                ((NiNode*)first)->FUN_00546780(true);
-                ((NiNode*)first)->FUN_009611e0()->FUN_00546780(true);
+                ((NiNode*)first)->NiAVObject_SetAlwaysDraw(true);
+                ((NiNode*)first)->FUN_009611e0()->NiAVObject_SetAlwaysDraw(true);
             }
             flag28 = false;
             if (!(NiNode*)DAT_011d86a8 && (NiNode*)first)

@@ -33,7 +33,7 @@ int __thiscall FUN_00a45a90_shell::GetSomeValues(int* piValue1, int* piValue2, c
 extern int g_011f3f18;
 
 // @fnv 0x00a45b30
-int* __cdecl FUN_00a45b30()
+int* __cdecl NiUVController_GetRTTI()
 {
     return &g_011f3f18;
 }
@@ -177,18 +177,18 @@ struct MyStream
 struct Base44
 {
     char _0[0x44];
-    void FUN_00a6d730(MyStream* kStream);
+    void NiTimeController_SaveBinary(MyStream* kStream);
 };
 struct MyCtrl : Base44
 {
     unsigned short m_usValue;
     void* m_pData;
-    void FUN_00a46070(MyStream* kStream);
+    void NiUVController_SaveBinary(MyStream* kStream);
 };
 // @fnv 0x00a46070
-void MyCtrl::FUN_00a46070(MyStream* kStream)
+void MyCtrl::NiUVController_SaveBinary(MyStream* kStream)
 {
-    Base44::FUN_00a6d730(kStream);
+    Base44::NiTimeController_SaveBinary(kStream);
     kStream->m_pBackingStream->Write(&m_usValue, 2);
     kStream->SaveObject(m_pData);
 }
@@ -200,17 +200,17 @@ struct StrArr
 };
 struct BaseCall
 {
-    void FUN_00a6d830(StrArr*);
+    void NiTimeController_GetViewerStrings(StrArr*);
 };
 char* _FUN_00a7d330(const char*);
 struct NiUVController
 {
-    void FUN_00a46150(StrArr*);
+    void NiUVController_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00a46150
-void NiUVController::FUN_00a46150(StrArr* pStrArr)
+void NiUVController::NiUVController_GetViewerStrings(StrArr* pStrArr)
 {
-    ((BaseCall*)this)->FUN_00a6d830(pStrArr);
+    ((BaseCall*)this)->NiTimeController_GetViewerStrings(pStrArr);
     char* s = _FUN_00a7d330((const char*)g_011f3f18);
     unsigned int a = *(unsigned short*)((char*)pStrArr + 0xA);
     unsigned int b = *(unsigned short*)((char*)pStrArr + 8);
@@ -255,17 +255,17 @@ struct NiUVData
 struct BasePad
 {
     char _pad[0x48];
-    bool __thiscall FUN_00a6d0f0(NiStream&);
+    bool __thiscall NiTimeController_RegisterStreamables(NiStream&);
 };
 struct NiUVController : BasePad
 {
     NiUVData* m_pData;
-    bool __thiscall FUN_00a45970(NiStream&);
+    bool __thiscall NiUVController_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00a45970
-bool __thiscall NiUVController::FUN_00a45970(NiStream& kStream)
+bool __thiscall NiUVController::NiUVController_RegisterStreamables(NiStream& kStream)
 {
-    if (!FUN_00a6d0f0(kStream))
+    if (!NiTimeController_RegisterStreamables(kStream))
         return false;
     NiUVData* pkUVData = m_pData;
     if (pkUVData)
@@ -290,11 +290,11 @@ struct NiUVController
     NiTimeController m_TimeController;
     char _pad[0x4B];
     bool m_bUpdateEnabled;
-    void FUN_00a45cf0(NiUpdateData& UpdateData);
+    void NiUVController_Update(NiUpdateData& UpdateData);
 };
 
 // @fnv 0x00a45cf0
-void NiUVController::FUN_00a45cf0(NiUpdateData& UpdateData)
+void NiUVController::NiUVController_Update(NiUpdateData& UpdateData)
 {
     if (!m_TimeController.AdvanceController(UpdateData.fTime))
         m_bUpdateEnabled = 1;
@@ -577,7 +577,7 @@ struct SpawnedObject
 
 // Allocates and default-constructs a SpawnedObject, then returns the new instance.
 // @fnv 0x00a45f50
-SpawnedObject* __cdecl FUN_00a45f50() throw()
+SpawnedObject* __cdecl NiUVController_CreateObject() throw()
 {
     SpawnedObject* p = new SpawnedObject();
     return p;
@@ -606,14 +606,14 @@ struct MyStreamWriter : MyStream
 };
 struct MyUVController : MyCtrl
 {
-    void FUN_00a6d5e0(MyStreamWriter* stream);
+    void NiTimeController_LoadBinary(MyStreamWriter* stream);
     void WriteToStream(MyStreamWriter* stream);
 };
 
 // @fnv 0x00a46020
 void MyUVController::WriteToStream(MyStreamWriter* stream)
 {
-    FUN_00a6d5e0(stream);
+    NiTimeController_LoadBinary(stream);
     stream->Output()->Write(&m_usValue, sizeof(m_usValue));
     stream->FUN_00a645b0();
 }
@@ -699,11 +699,11 @@ class A59A0Node : public A59A0Base
     unsigned short unk46;
     A59A0Pointer<A59A0Object> m_spChild;
 
-    bool FUN_00a459a0(A59A0Base* pkObject);
+    bool NiUVController_IsEqual(A59A0Base* pkObject);
 };
 
 // @fnv 0x00a459a0
-bool A59A0Node::FUN_00a459a0(A59A0Base* pkObject)
+bool A59A0Node::NiUVController_IsEqual(A59A0Base* pkObject)
 {
     A59A0Node* pkOther = (A59A0Node*)pkObject;
     if (!A59A0Base::IsEqual(pkOther))

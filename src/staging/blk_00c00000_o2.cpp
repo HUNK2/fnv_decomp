@@ -1095,7 +1095,7 @@ struct StrArr
 
 struct Caller74690
 {
-    void __thiscall FUN_00a74690(StrArr* value);
+    void __thiscall NiTriShape_GetViewerStrings(StrArr* value);
 };
 
 char* __cdecl FUN_00a7d490(char const* text, unsigned short value);
@@ -1115,11 +1115,11 @@ struct FUN_00c1a740_class
     void __thiscall SetLocalBoundAndInstanceCount(StrArr* value);
 };
 
-// Calls FUN_00a74690, then appends the "pLocalBound" and "instance count" strings to the StrArr, growing it as needed.
+// Calls NiTriShape_GetViewerStrings, then appends the "pLocalBound" and "instance count" strings to the StrArr, growing it as needed.
 // @fnv 0x00c1a740
 void __thiscall FUN_00c1a740_class::SetLocalBoundAndInstanceCount(StrArr* pStrArr)
 {
-    reinterpret_cast<Caller74690*>(this)->FUN_00a74690(pStrArr);
+    reinterpret_cast<Caller74690*>(this)->NiTriShape_GetViewerStrings(pStrArr);
 
     char* text = m_c8.FUN_00a7fb20("pLocalBound");
 
@@ -4404,11 +4404,11 @@ class FUN_00c1a500_cls
     unsigned int m_iCC;
     unsigned int m_iD0;
     float m_fD4;
-    void FUN_00a71d30(unsigned int a1);
+    void NiTriStrips_RenderImmediate(unsigned int a1);
     void UpdateOutput(unsigned int a1);
 };
 
-// Copies m_iC8, m_iCC, m_iD0 and m_fD4 into the output struct at m_pOut20, then calls FUN_00a71d30 when m_wC4 is greater than zero.
+// Copies m_iC8, m_iCC, m_iD0 and m_fD4 into the output struct at m_pOut20, then calls NiTriStrips_RenderImmediate when m_wC4 is greater than zero.
 // @fnv 0x00c1a500
 void FUN_00c1a500_cls::UpdateOutput(unsigned int a1)
 {
@@ -4422,7 +4422,7 @@ void FUN_00c1a500_cls::UpdateOutput(unsigned int a1)
     out->m_i08 = i08;
     if (m_wC4 > 0)
     {
-        FUN_00a71d30(a1);
+        NiTriStrips_RenderImmediate(a1);
     }
 }
 
@@ -4915,7 +4915,7 @@ struct Renderer
 };
 struct TextureGenerator
 {
-    void* FUN_004bc320(unsigned int code);
+    void* BSRenderedTexture_GetTexture(unsigned int code);
 };
 struct ShaderResource
 {
@@ -5039,7 +5039,7 @@ void __stdcall ApplyRendererToShaderPasses(unsigned int opcode, Renderer* render
         if (resource->m_bSlotEnabled && resource->m_generator && options->m_bSlotEnabled > 0)
         {
             DecompPass266* pTertiaryPass = g->m_passes->m_tertiary;
-            pTertiaryPass->m_resource = resource->m_generator->FUN_004bc320(0);
+            pTertiaryPass->m_resource = resource->m_generator->BSRenderedTexture_GetTexture(0);
             pTertiaryPass->FUN_00e7def0(1);
             pTertiaryPass->ApplyPairToState(0);
         }
@@ -12050,7 +12050,7 @@ struct BSShaderPPLightingProperty
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int code);
+    TextureReceiver* BSRenderedTexture_GetTexture(int code);
 };
 struct C0CD80Pass
 {
@@ -12120,7 +12120,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
                 if (item->unkEC && item->m_gen && mgr->unk09 > 0)
                 {
                     DecompPass266* tertiary = g->m_passes->m_tertiary;
-                    tertiary->m_resource = item->m_gen->FUN_004bc320(0);
+                    tertiary->m_resource = item->m_gen->BSRenderedTexture_GetTexture(0);
                     if (DAT_011f91b0 == 3)
                         ((C0CD80Pass*)tertiary)->FUN_00e7def0(1);
                     else

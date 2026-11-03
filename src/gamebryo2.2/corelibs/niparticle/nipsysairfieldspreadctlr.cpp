@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 extern int DAT_012027a0;
-void __stdcall FUN_00c32f60(void* p);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(void* p);
 void* __cdecl FUN_00a7d330(int v);
 
 struct ObjHdr
@@ -18,12 +18,12 @@ struct ObjHdr
     void FUN_0096ae90(unsigned int count, void** out);
 };
 
-// Calls FUN_00c32f60 on p, gets a value from FUN_00a7d330, grows the buffer if unkA >= unk8, then stores the value at index unkA via FUN_0096ae90.
+// Calls NiPSysModifierFloatCtlr_GetViewerStrings on p, gets a value from FUN_00a7d330, grows the buffer if unkA >= unk8, then stores the value at index unkA via FUN_0096ae90.
 // @fnv 0x00c2f490
 void __stdcall AppendElement(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
-    FUN_00c32f60(pObj);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pObj);
     void* pValue = FUN_00a7d330(DAT_012027a0);
     unsigned int count = pObj->unkA;
     if (count >= pObj->unk8)

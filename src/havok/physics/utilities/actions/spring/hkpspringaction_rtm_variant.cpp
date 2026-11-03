@@ -6,7 +6,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpSpringAction.h"
 extern int g_unk01269168;
-int* __cdecl FUN_00cf4ef0();
+int* __cdecl hkpBinaryAction_getClassType();
 void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
 struct hkShape00D4F0
 {
@@ -253,7 +253,7 @@ struct SpringStep
 };
 struct SpringAction : hkpSpringAction
 {
-    void __thiscall FUN_00d4d530(const SpringStep& step);
+    void __thiscall hkpSpringAction_applyAction(const SpringStep& step);
 };
 static __m128 dot3(__m128 a, __m128 b)
 {
@@ -299,7 +299,7 @@ static __m128 broadcast(float v)
     return _mm_load_ps1(&v);
 }
 // @fnv 0x00d4d530
-void SpringAction::FUN_00d4d530(const SpringStep& step)
+void SpringAction::hkpSpringAction_applyAction(const SpringStep& step)
 {
     hkpEntity* a = m_pEntityA;
     hkpEntity* b = m_pEntityB;

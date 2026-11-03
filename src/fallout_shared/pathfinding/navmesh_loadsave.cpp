@@ -26,7 +26,7 @@ void NavMesh::InitItem()
         ((TESForm*)FUN_0068efb0())->SetCollisionDisabled(true);
     if (IsDeleted())
     {
-        bool altered = g_TES->GetActiveCell()->FUN_00460340();
+        bool altered = g_TES->GetActiveCell()->TESForm_GetAltered();
         SetDeletionState(false);
         g_TES->GetActiveCell()->SetAltered(altered);
     }
@@ -527,10 +527,10 @@ struct NavMeshStandIn
 {
     char pad[0x24];
     TESForm* m_pOwningCell;
-    void FUN_00694090(bool abVal);
+    void NavMesh_SetAltered(bool abVal);
 };
 // @fnv 0x00694090
-void NavMeshStandIn::FUN_00694090(bool abVal)
+void NavMeshStandIn::NavMesh_SetAltered(bool abVal)
 {
     ((TESForm*)this)->TESForm::SetAltered(abVal);
     if (abVal && m_pOwningCell)
@@ -544,10 +544,10 @@ struct FUN_00694620_shell : TESForm
 {
     char _pad[0x104 - sizeof(TESForm)];
     TESForm* m_pNavigationMesh;
-    void FUN_00694620(BGSLoadFormBuffer* apLoadGameBuffer);
+    void NavMesh_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x00694620
-void FUN_00694620_shell::FUN_00694620(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_00694620_shell::NavMesh_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert((unsigned int)apLoadGameBuffer);
     if (m_pNavigationMesh != 0)
@@ -809,7 +809,7 @@ struct NavMeshInfoSaveData
 typedef char _sizecheck_EdgeExtraInfoOLD[sizeof(NavMeshInfoSaveData) == 48 ? 1 : -1];
 struct FUN_00692950_shell : public NavMesh
 {
-    bool FUN_00692950(TESFile*);
+    bool NavMesh_Load(TESFile*);
 };
 
 extern "C" void* __cdecl _alloca(unsigned int);
@@ -993,7 +993,7 @@ extern ProcessLists g_011d6ca8;
 
 // Reads a NavMesh record from a TESFile, parsing subrecords, converting old versions, and resolving the parent cell and NavMeshInfo.
 // @fnv 0x00692950
-bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
+bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
 {
     AutoMemHelper tempMemContext(
         0x2e, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMesh_LoadSave.cpp", 0x113);
@@ -1751,12 +1751,12 @@ struct FUN_00693fe0_cls
     void* GetC();
     void* GetD();
 
-    void FUN_00693fe0(unsigned char arg);
+    void NavMesh_SetDelete(unsigned char arg);
 };
 
 // If arg differs from GetA, updates state via Foo and v32 based on GetB(0)->Test(); when arg is non-zero, calls Bar(GetC()) and Fin() on g_mgr->Get(GetD()).
 // @fnv 0x00693fe0
-void FUN_00693fe0_cls::FUN_00693fe0(unsigned char arg)
+void FUN_00693fe0_cls::NavMesh_SetDelete(unsigned char arg)
 {
     bool flag;
     if (arg != GetA())
@@ -1857,7 +1857,7 @@ struct PathingService
     virtual void UnknownVirtual_42();
     virtual void UnknownVirtual_43();
     virtual unsigned char DispatchAction(NavMeshAction* action, unsigned char enabled, unsigned char option);
-    unsigned char FUN_00485be0(unsigned int triangleIndex);
+    unsigned char TESForm_FormIDMatchesWithoutIndex(unsigned int triangleIndex);
 };
 struct NavMeshActionController
 {
@@ -1884,7 +1884,7 @@ unsigned char NavMeshActionController::ProcessNavMeshAction(NavMeshAction* apAct
         case 8:
         case 9: {
             unsigned char valid = 0;
-            if (service->FUN_00485be0(apAction->triangleIndex))
+            if (service->TESForm_FormIDMatchesWithoutIndex(apAction->triangleIndex))
                 valid = 1;
             if (valid)
             {
@@ -2035,7 +2035,7 @@ void FUN_006947e0_cls::FUN_006947e0(FUN_006947e0_node** ppNode, unsigned short* 
 struct Mesh69
 {
     bool FUN_00440da0();
-    void FUN_00484af0(bool);
+    void TESForm_SetDisabled(bool);
     void LinkMatchingEdges();
 };
 namespace Local {
@@ -2058,7 +2058,7 @@ struct Map69
 };
 struct Manager69
 {
-    Map69* FUN_0045af00(unsigned int);
+    Map69* TES_GetNavMeshInfoMap(unsigned int);
 };
 extern Manager69* DAT_011dea10;
 void __cdecl FNV_Warning(const char*, ...);
@@ -2066,7 +2066,7 @@ void __cdecl FNV_Warning(const char*, ...);
 // @fnv 0x00694500
 bool __cdecl FUN_00694500(unsigned int uiNavMeshId, bool disabled)
 {
-    Info69* info = DAT_011dea10->FUN_0045af00(uiNavMeshId)->FUN_00693d70();
+    Info69* info = DAT_011dea10->TES_GetNavMeshInfoMap(uiNavMeshId)->FUN_00693d70();
     if (!info)
     {
         FNV_Warning("DisableNavMesh Script Function: Did not find matching NavMeshInfo for NavMesh ID parameter %08X",
@@ -2084,7 +2084,7 @@ bool __cdecl FUN_00694500(unsigned int uiNavMeshId, bool disabled)
         }
         else if (navMeshPtr.FUN_00559450()->FUN_00440da0() != disabled)
         {
-            navMeshPtr.FUN_00559450()->FUN_00484af0(disabled);
+            navMeshPtr.FUN_00559450()->TESForm_SetDisabled(disabled);
             info->FUN_00693ef0(disabled);
             if (!disabled)
                 navMeshPtr.FUN_00559450()->LinkMatchingEdges();

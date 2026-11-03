@@ -16,11 +16,11 @@ void FUN_00e87a40_This::FUN_00e87a40()
 }
 
 struct FUN_00e87a70_Class {
-    void __thiscall FUN_00e87a70();
+    void __thiscall NiD3DRenderState_SaveShaderState();
 };
 
 // @fnv 0x00e87a70
-void __thiscall FUN_00e87a70_Class::FUN_00e87a70()
+void __thiscall FUN_00e87a70_Class::NiD3DRenderState_SaveShaderState()
 {
     volatile char* p = (volatile char*)this;
     *(int*)(p + 0x10e4) = *(int*)(p + 0x10e0);
@@ -29,31 +29,31 @@ void __thiscall FUN_00e87a70_Class::FUN_00e87a70()
 
 struct FUN_00e888b0_Class
 {
-    int __thiscall FUN_00e888b0();
+    int __thiscall NiD3DRenderState_GetPixelShader();
 };
 
 // @fnv 0x00e888b0
-int __thiscall FUN_00e888b0_Class::FUN_00e888b0()
+int __thiscall FUN_00e888b0_Class::NiD3DRenderState_GetPixelShader()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x10e8);
 }
 
 struct FUN_00e88a50_Class {
-    int __thiscall FUN_00e88a50(int index);
+    int __thiscall NiD3DRenderState_vGetTexture(int index);
 };
 
 // @fnv 0x00e88a50
-int __thiscall FUN_00e88a50_Class::FUN_00e88a50(int index)
+int __thiscall FUN_00e88a50_Class::NiD3DRenderState_vGetTexture(int index)
 {
     return *(int*)((char*)this + 0x10a0 + index * 4);
 }
 
 struct FUN_00e87a50_Class {
-    void __thiscall FUN_00e87a50();
+    void __thiscall NiD3DRenderState_InitShaderState();
 };
 // Sets four consecutive int fields at offsets 0x10e0-0x10ec to 0, 1, 0, 1.
 // @fnv 0x00e87a50
-void __thiscall FUN_00e87a50_Class::FUN_00e87a50()
+void __thiscall FUN_00e87a50_Class::NiD3DRenderState_InitShaderState()
 {
     *(int*)((char*)this + 0x10e0) = 0;
     *(int*)((char*)this + 0x10e4) = 1;
@@ -74,10 +74,10 @@ int __thiscall FUN_00e87ea0_Class::CallVirtualWithFlags(void* pObject)
 }
 
 struct FUN_00e88710_Class {
-    void __thiscall FUN_00e88710(float* a, float* b);
+    void __thiscall NiD3DRenderState_GetCameraNearAndFar(float* a, float* b);
 };
 // @fnv 0x00e88710
-void __thiscall FUN_00e88710_Class::FUN_00e88710(float* a, float* b)
+void __thiscall FUN_00e88710_Class::NiD3DRenderState_GetCameraNearAndFar(float* a, float* b)
 {
     *a = *(float*)((char*)this + 0x78);
     *b = *(float*)((char*)this + 0x7c);
@@ -322,11 +322,11 @@ void __thiscall FUN_00e87af0_This::FUN_00e87af0(void* renderer)
 }
 
 struct FUN_00e886d0_Class {
-    void __thiscall FUN_00e886d0(float a);
+    void __thiscall NiD3DRenderState_SetMaxFogValue(float a);
 };
 // Clamps a to a tiny minimum, stores it at offset 0x88, and stores 1/a - 1 at offset 0x84.
 // @fnv 0x00e886d0
-void __thiscall FUN_00e886d0_Class::FUN_00e886d0(float afValue)
+void __thiscall FUN_00e886d0_Class::NiD3DRenderState_SetMaxFogValue(float afValue)
 {
     if (afValue <= 0.0f)
         afValue = 9.999999747378752e-06f;
@@ -371,19 +371,19 @@ void __thiscall FUN_00e889b0_Class::ClearBlock()
 }
 
 struct FUN_00e88ab0_Class {
-    void __thiscall FUN_00e88ab0(bool b);
+    void __thiscall NiD3DRenderState_SetForceNormalizeNormals(bool b);
 };
 // @fnv 0x00e88ab0
-void __thiscall FUN_00e88ab0_Class::FUN_00e88ab0(bool b)
+void __thiscall FUN_00e88ab0_Class::NiD3DRenderState_SetForceNormalizeNormals(bool b)
 {
     ((char*)this)[0x10f4] = b;
 }
 
 struct FUN_00e88ad0_Class {
-    void __thiscall FUN_00e88ad0(bool v);
+    void __thiscall NiD3DRenderState_SetInternalNormalizeNormals(bool v);
 };
 // @fnv 0x00e88ad0
-void __thiscall FUN_00e88ad0_Class::FUN_00e88ad0(bool v)
+void __thiscall FUN_00e88ad0_Class::NiD3DRenderState_SetInternalNormalizeNormals(bool v)
 {
     *(char*)((char*)this + 0x10f5) = v;
 }
@@ -2107,11 +2107,11 @@ public:
     virtual void v19();
     virtual void v1a(int a, unsigned int b, int c, int d);
 
-    void FUN_00e87c30(FUN_00e87c30_arg* a1);
+    void NiD3DRenderState_ApplyDitherMode(FUN_00e87c30_arg* a1);
 };
 
 // @fnv 0x00e87c30
-void FUN_00e87c30_cls::FUN_00e87c30(FUN_00e87c30_arg* a1)
+void FUN_00e87c30_cls::NiD3DRenderState_ApplyDitherMode(FUN_00e87c30_arg* a1)
 {
     this->v1a(0x1a, a1->unk18 & 1, 0, 0);
 }
@@ -2144,11 +2144,11 @@ struct C00e87ed0 {
     virtual void v24() = 0;
     virtual void v25() = 0;
     virtual void v26(int, int, int, int) = 0;
-    void __thiscall FUN_00e87ed0(void* p);
+    void __thiscall NiD3DRenderState_ApplySpecular(void* p);
 };
 
 // @fnv 0x00e87ed0
-void C00e87ed0::FUN_00e87ed0(void* apData) {
+void C00e87ed0::NiD3DRenderState_ApplySpecular(void* apData) {
     int flag = ((unsigned char*)apData)[0x18] & 1;
     this->v26(0x1d, flag, 0, 0);
 }
@@ -2665,11 +2665,11 @@ struct FUN_00e886b0_cls {
     int m_80;
     int m_84;
     float m_88;
-    float FUN_00e886b0();
+    float NiD3DRenderState_GetMaxFogValue();
 };
 
 // @fnv 0x00e886b0
-float FUN_00e886b0_cls::FUN_00e886b0() {
+float FUN_00e886b0_cls::NiD3DRenderState_GetMaxFogValue() {
     return m_88;
 }
 
@@ -2708,11 +2708,11 @@ struct FUN_00e886c0_cls {
     int m_7c;
     int m_80;
     float m_84;
-    float FUN_00e886c0();
+    float NiD3DRenderState_GetMaxFogFactor();
 };
 
 // @fnv 0x00e886c0
-float FUN_00e886c0_cls::FUN_00e886c0() {
+float FUN_00e886c0_cls::NiD3DRenderState_GetMaxFogFactor() {
     return m_84;
 }
 
@@ -2962,14 +2962,14 @@ struct FUN_00e88830_cls
     unsigned int unk01F0;
     unsigned int unk01F4;
     int m_1f8;
-    void FUN_00e88830(int a1, int unused1, int unused2);
+    void NiD3DRenderState_SetAlphaBlendEnable(int a1, int unused1, int unused2);
 };
 
 typedef void (__stdcall *FUN_00e88830_Slot)(void* self, int code, int value);
 
 // If m_1f8 differs from a1, calls the holder's slot at offset 0xe4 with code 0x1b and a1, then stores a1 in m_1f8.
 // @fnv 0x00e88830
-void FUN_00e88830_cls::FUN_00e88830(int aiValue, int unused1, int unused2)
+void FUN_00e88830_cls::NiD3DRenderState_SetAlphaBlendEnable(int aiValue, int unused1, int unused2)
 {
     if (m_1f8 != aiValue)
     {
@@ -4181,12 +4181,12 @@ struct FUN_00e88870_cls
     int unk10f0;
     int unk10f4;
     RenderStateSink* m_10f8;
-    void FUN_00e88870(int a, bool flag);
+    void NiD3DRenderState_SetPixelShader(int a, bool flag);
 };
 
 // If flag is set, copies m_10e8 into m_10ec; when m_10e8 differs from a, stores a and forwards it to m_10f8.
 // @fnv 0x00e88870
-void FUN_00e88870_cls::FUN_00e88870(int aiValue, bool abCopyCurrent)
+void FUN_00e88870_cls::NiD3DRenderState_SetPixelShader(int aiValue, bool abCopyCurrent)
 {
     if (abCopyCurrent)
         m_10ec = m_10e8;
@@ -5054,14 +5054,14 @@ unsigned int E88980RenderState::GetSamplerStateId(unsigned int uiStage, unsigned
 
 struct FUN_00e88a20_cls
 {
-    void FUN_00e88a20(int a1, int a2);
+    void NiD3DRenderState_vSetTexture(int a1, int a2);
 };
 
 typedef void (__stdcall *FUN_00e88a20_Slot)(void* self, int code, int value);
 
 // If the value at table[a1] differs from a2, stores a2 there and calls the holder's slot callback with (a1, a2).
 // @fnv 0x00e88a20
-void FUN_00e88a20_cls::FUN_00e88a20(int aiIndex, int auiValue)
+void FUN_00e88a20_cls::NiD3DRenderState_vSetTexture(int aiIndex, int auiValue)
 {
     unsigned int* table = (unsigned int*)((char*)this + 0x10a0);
     if (table[aiIndex] != (unsigned int)auiValue)
@@ -5166,14 +5166,14 @@ void __thiscall FUN_00e88a60_Class::ClearSlotByValue(int value)
 }
 
 // @fnv 0x00e88ac0
-char __fastcall FUN_00e88ac0(void* self)
+char __fastcall NiD3DRenderState_GetForceNormalizeNormals(void* self)
 {
     return ((const char*)self)[0x10f4];
 }
 
 class FUN_00e88ae0_cls {
 public:
-    unsigned char FUN_00e88ae0();
+    unsigned char NiD3DRenderState_GetInternalNormalizeNormals();
     int unk0000;
     int unk0004;
     int unk0008;
@@ -6267,7 +6267,7 @@ public:
 };
 
 // @fnv 0x00e88ae0
-unsigned char FUN_00e88ae0_cls::FUN_00e88ae0() {
+unsigned char FUN_00e88ae0_cls::NiD3DRenderState_GetInternalNormalizeNormals() {
     return m_10f5;
 }
 
@@ -8607,7 +8607,7 @@ struct Value {
 };
 struct Item { Item* next; Key* key; Value* value; };
 struct PoolNode { PoolNode* next; PoolNode* prev; void* data; };
-struct LockObj { unsigned int value; void FUN_0040fbf0(char*); };
+struct LockObj { unsigned int value; void BSSpinLock_Lock(char*); };
 extern LockObj DAT_011c5f80;
 extern unsigned int DAT_011c5f84;
 extern PoolNode* DAT_011c5f58;
@@ -8652,7 +8652,7 @@ void Target::FUN_00e8b630() {
   if(head) head->prev=0;
   else tail=0;
   node->data=0;
-  DAT_011c5f80.FUN_0040fbf0(0);
+  DAT_011c5f80.BSSpinLock_Lock(0);
   node->prev=0;
   node->next=DAT_011c5f58;
   --DAT_011c5f84;
@@ -10853,7 +10853,7 @@ struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
 inline SceneLight*& nextLight(PoolNode*& node) { SceneLight*& item=(SceneLight*&)node->data; node=node->next; return item; }
 struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count; void* InsertHead(SceneLight* const*); SceneLight* FUN_004edf00();
- __forceinline void recycle(PoolNode* node) { node->data=0; DAT_011c5f80.FUN_0040fbf0(0); node->prev=0; node->next=DAT_011c5f58; --DAT_011c5f84; DAT_011c5f58=node; if (!DAT_011c5f84) DAT_011c5f80.value=0; }
+ __forceinline void recycle(PoolNode* node) { node->data=0; DAT_011c5f80.BSSpinLock_Lock(0); node->prev=0; node->next=DAT_011c5f58; --DAT_011c5f84; DAT_011c5f58=node; if (!DAT_011c5f84) DAT_011c5f80.value=0; }
  __forceinline SceneLight* remove(PoolNode*& node) { if(node==head) { PoolNode* old=head; head=old->next; if(head) head->prev=0; else tail=0; SceneLight* element=(SceneLight*)old->data; recycle(old); --count; return element; } else if(node==tail) { return FUN_004edf00(); } else { PoolNode* prev=node->prev; PoolNode* next=node->next; if(prev)prev->next=next; if(next)next->prev=prev; SceneLight* element=(SceneLight*)node->data; recycle(node); --count; return element; } }
 };
 extern const float runtimeFloatSettingDefault9;

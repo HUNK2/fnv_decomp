@@ -213,7 +213,7 @@ struct Point3
     float x, y, z;
     Point3 operator-(const Point3& rhs) const;
     double FUN_004a7290();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     double DotProduct(const Point3& rhs);
 };
 struct TriangleInfo
@@ -349,7 +349,7 @@ struct ConfigValue
 extern ConfigValue g_navConfig;
 extern float g_navModifier;
 extern float __cdecl FUN_00404010(float v, float fTargetUpperBound);
-extern MaterialObject* __cdecl FUN_004839c0(unsigned int materialID);
+extern MaterialObject* __cdecl TESForm_GetFormByNumericID(unsigned int materialID);
 // @fnv 0x006aacb0
 unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* output)
 {
@@ -396,7 +396,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                 {
                                                     int materialID =
                                                         connectedMesh->FUN_00699af0(connectedTri)->material;
-                                                    material = FUN_004839c0(materialID);
+                                                    material = TESForm_GetFormByNumericID(materialID);
                                                     if (material)
                                                     {
                                                         void* filterRef;
@@ -443,8 +443,8 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             {
                                                 Point3 vecDirectionB =
                                                     reinterpret_cast<const Point3&>(originPos) - candidatePoint;
-                                                vecDirectionA.FUN_004a0c10();
-                                                vecDirectionB.FUN_004a0c10();
+                                                vecDirectionA.NiPoint3_Unitize();
+                                                vecDirectionB.NiPoint3_Unitize();
                                                 cost *= 1.0f - vecDirectionA.DotProduct(vecDirectionB);
                                                 cost = FUN_00404010(cost, 0.0f);
                                             }
@@ -531,10 +531,10 @@ struct FUN_006ab180_shell
     SeqObj* m_pkFound;
     SeqObj* m_pkClosest;
     float m_fClosest;
-    bool FUN_006ab180(SeqObj* pkObj);
+    bool NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj);
 };
 // @fnv 0x006ab180
-bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
+bool FUN_006ab180_shell::NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj)
 {
     char cLineOfSightValue = ((LOSTarget*)(BSFadeNode*)m_spReferencedObject)
                                  ->GetLOSValue(pkObj->m_kNode.m_pkMesh->FUN_0084e3a0(), pkObj->m_kNode.m_usTriangle);

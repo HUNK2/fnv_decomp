@@ -26,7 +26,7 @@ struct NiGeometryBufferData
     NiVBChip** m_ppkVertexBuffers;
 };
 // @fnv 0x00e951e0
-void __stdcall FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+void __stdcall NiDynamicGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     if (uiStream < pkBuffData->m_uiRegisterStreamCount)
     {

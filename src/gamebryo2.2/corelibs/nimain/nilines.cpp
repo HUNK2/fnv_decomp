@@ -12,7 +12,7 @@ void NiLines::CopyMemberData(NiLines* dest, CloningProcess& process)
 struct NiRenderer;
 struct NiLinesSelf
 {
-    void FUN_00a80610(NiRenderer* pkRenderer);
+    void NiGeometry_RenderImmediate(NiRenderer* pkRenderer);
 };
 struct NiRenderer
 {
@@ -25,9 +25,9 @@ struct NiRenderer
 typedef void(__thiscall* RendererFn)(NiRenderer*, NiLinesSelf*);
 // Calls self's render method, then if the renderer's mode is 1 or 2 and its flag is set, invokes the renderer's virtual function at offset 0x1c4.
 // @fnv 0x00a747a0
-void __fastcall FUN_00a747a0(NiLinesSelf* self, int, NiRenderer* apkRenderer)
+void __fastcall NiLines_RenderImmediate(NiLinesSelf* self, int, NiRenderer* apkRenderer)
 {
-    self->FUN_00a80610(apkRenderer);
+    self->NiGeometry_RenderImmediate(apkRenderer);
     if ((apkRenderer->m_iRendererState == 1 || apkRenderer->m_iRendererState == 2) &&
         apkRenderer->m_bRendererFlagA == true)
     {
@@ -50,12 +50,12 @@ struct NiCombatArray
     void SetAt(unsigned int, ActorCombatGroup*&);
 };
 extern GlobalObjectO2_00a7b610* g_011f4a48;
-void __stdcall FUN_00a80e70(NiCombatArray*);
+void __stdcall NiGeometry_GetViewerStrings(NiCombatArray*);
 ActorCombatGroup* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
 // @fnv 0x00a74830
-void __stdcall FUN_00a74830(NiCombatArray* pkStrings)
+void __stdcall NiLines_GetViewerStrings(NiCombatArray* pkStrings)
 {
-    FUN_00a80e70(pkStrings);
+    NiGeometry_GetViewerStrings(pkStrings);
     ActorCombatGroup* pkGroup = FUN_00a7d330(g_011f4a48);
     unsigned int uiIndex = pkStrings->m_usESize;
     if (uiIndex >= pkStrings->m_usMaxSize)
@@ -155,16 +155,16 @@ NiLines* FUN_00e68810_shell::FUN_00e68810()
     return this;
 }
 
-void __cdecl FUN_00a80470();
+void __cdecl NiGeometry_IsEqual();
 // @fnv 0x00a89770
 void __cdecl FUN_00a89770()
 {
-    FUN_00a80470();
+    NiGeometry_IsEqual();
 }
 
 struct FUN_00a80430_Holder
 {
-    bool FUN_00a80430(NiStream&);
+    bool NiGeometry_RegisterStreamables(NiStream&);
 };
 struct FUN_00a9b190 : FUN_00a80430_Holder
 {
@@ -173,14 +173,14 @@ struct FUN_00a9b190 : FUN_00a80430_Holder
 // @fnv 0x00a9b190
 bool FUN_00a9b190::FUN_00a9b190_Impl(NiStream& s)
 {
-    return FUN_00a80430_Holder::FUN_00a80430(s);
+    return FUN_00a80430_Holder::NiGeometry_RegisterStreamables(s);
 }
 
-void FUN_00a80db0();
+void NiGeometry_SaveBinary();
 // @fnv 0x00a9b1a0
 void __cdecl FUN_00a9b1a0()
 {
-    FUN_00a80db0();
+    NiGeometry_SaveBinary();
 }
 
 void* __cdecl NiAllocBlock(unsigned int size);
@@ -213,12 +213,12 @@ struct __declspec(novtable) LinesCloneObject : NiLinesBaseCtor
 struct LinesCloneSource : NiLines
 {
     void FUN_00a80400(NiLines* result, CloningProcess& process);
-    NiLines* FUN_00a747e0(CloningProcess& process);
+    NiLines* NiLines_CreateClone(CloningProcess& process);
 };
 
 // Allocates a LinesCloneObject, calls FUN_00a80400 with it and process, and returns it as NiLines.
 // @fnv 0x00a747e0
-NiLines* LinesCloneSource::FUN_00a747e0(CloningProcess& process)
+NiLines* LinesCloneSource::NiLines_CreateClone(CloningProcess& process)
 {
     NiLines* result = new LinesCloneObject;
     FUN_00a80400(result, process);

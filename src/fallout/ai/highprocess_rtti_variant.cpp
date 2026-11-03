@@ -533,7 +533,7 @@ struct Actor
     Process* process;
     void FUN_00881680(int);
     ::TESPackage* FUN_009344a0();
-    float FUN_00572380(const Vec&);
+    float TESObjectREFR_GetDistanceFromPoint(const Vec&);
     Cell* FUN_008d6f30();
     bool FUN_008b3bb0();
     Base* FUN_004181e0();
@@ -595,7 +595,7 @@ void Actor::FUN_008db810(Actor* actor)
     Vec unusedSlot11;
     int flagsSlot15 = 513;
     Vec pointSlot13 = package->FUN_009f8300();
-    float distanceSlot14 = actor->FUN_00572380(pointSlot13);
+    float distanceSlot14 = actor->TESObjectREFR_GetDistanceFromPoint(pointSlot13);
     Cell* cell = actor->FUN_008d6f30();
     bool nearSlot19 = false;
     if (cell && cell->FUN_00425fd0())
@@ -639,7 +639,7 @@ void Actor::FUN_008db810(Actor* actor)
             Vec targetSlot6Slot10;
             if (actor->process->GetPathCoordinate(&targetSlot6Slot10))
             {
-                float targetDistanceSlot1 = actor->FUN_00572380(targetSlot6Slot10);
+                float targetDistanceSlot1 = actor->TESObjectREFR_GetDistanceFromPoint(targetSlot6Slot10);
                 if (targetDistanceSlot1 <= DAT_010240c0)
                     flagsSlot15 = 257;
                 SetPath(actor, flagsSlot15, 1);

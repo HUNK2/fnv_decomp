@@ -16,7 +16,7 @@ class FUN_00484d40_Host
 class FUN_004ac110_shell
 {
   public:
-    TESRace* FUN_004ac110();
+    TESRace* TESNPC_GetRace();
 };
 class FUN_009611e0_shell
 {
@@ -31,12 +31,12 @@ class FUN_006141f0_shell
 class FUN_008b70d0_shell
 {
   public:
-    Animation* FUN_008b70d0();
+    Animation* Actor_GetAnimData();
 };
 class FUN_004eaf60_shell
 {
   public:
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
 };
 class FUN_0043c610_shell
 {
@@ -55,8 +55,8 @@ class GlobalObject_0040c150
 };
 extern GlobalObject_0040c150 g_011d2b38, g_011d2718, g_011d3e44;
 extern bool DAT_011c5cb4;
-int __fastcall FUN_005d9f90(char* apRef);
-TESForm* FUN_004839c0(unsigned int auiFormID);
+int __fastcall Character_GetValidBip01Names(char* apRef);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormID);
 void FNV_Warning(const char* apFormat, ...);
 void __cdecl FUN_00a6e8e0(NiNode* apNode, NiControllerManager* apManager);
 void __cdecl ApplyFaceGenTextures(NiNode* apNode, void* apData);
@@ -261,8 +261,8 @@ class NPCModelView
 class FaceRefr
 {
   public:
-    void FUN_005702e0(NiNode* apNode, bool abQueue);
-    NiNode* FUN_0087e060(bool abFlag);
+    void TESObjectREFR_Set3D(NiNode* apNode, bool abQueue);
+    NiNode* Actor_Load3D(bool abFlag);
 };
 class PlayerFace
 {
@@ -293,7 +293,7 @@ class QHeadLocal : public FaceGenPaletteEntry
 {
   public:
     QHeadLocal(TESNPC* apNPC, int aiFlag);
-    void FUN_0043ecb0();
+    void QueuedHead_Run();
     void FUN_0043ed90(Actor* apActor, int aiValue);
 };
 class MiddleHighProcess : public BaseProcess
@@ -302,11 +302,11 @@ class MiddleHighProcess : public BaseProcess
 class TESNPCFace : public TESNPC
 {
   public:
-    void FUN_00609f60(Actor* apActor);
+    void TESNPC_LoadFaceGen(Actor* apActor);
 };
 
 // @fnv 0x00609f60
-void TESNPCFace::FUN_00609f60(Actor* apActor)
+void TESNPCFace::TESNPC_LoadFaceGen(Actor* apActor)
 {
     bool bChanged = false;
     for (unsigned int i = 0; i < 2; i++)
@@ -331,26 +331,26 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
         }
     }
     bool bPrevHadRace = false;
-    if (((FUN_004ac110_shell*)this)->FUN_004ac110())
+    if (((FUN_004ac110_shell*)this)->TESNPC_GetRace())
         bPrevHadRace = false;
     else
         FNV_Warning("MODELS: %s has a bad current race when loading facegen", TESFullName::GetFullName());
     unsigned int uiNewRace;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&uiNewRace, 4);
-    TESRace* pRace = dynamic_cast<TESRace*>(FUN_004839c0(uiNewRace));
+    TESRace* pRace = dynamic_cast<TESRace*>(TESForm_GetFormByNumericID(uiNewRace));
     if (uiNewRace && !pRace)
         FNV_Warning("MODELS: NPC %s could not find race %08X", TESFullName::GetFullName(), uiNewRace);
     if (GetFormRace() != pRace)
         bChanged = true;
     SetFormRace(pRace);
     bool bNowHasRace = false;
-    if (((FUN_004ac110_shell*)this)->FUN_004ac110())
+    if (((FUN_004ac110_shell*)this)->TESNPC_GetRace())
         bNowHasRace = false;
     else
         FNV_Warning("MODELS: %s has a bad new race when loading facegen", TESFullName::GetFullName());
     unsigned int uiNewHairFormID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&uiNewHairFormID, 4);
-    TESHair* pReadHair = dynamic_cast<TESHair*>(FUN_004839c0(uiNewHairFormID));
+    TESHair* pReadHair = dynamic_cast<TESHair*>(TESForm_GetFormByNumericID(uiNewHairFormID));
     if (uiNewHairFormID && !pReadHair)
         FNV_Warning("MODELS: NPC %s could not find hair %08X", TESFullName::GetFullName(), uiNewHairFormID);
     if (m_pHair != pReadHair)
@@ -358,7 +358,7 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
     m_pHair = pReadHair;
     unsigned int uiEyes;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&uiEyes, 4);
-    TESEyes* pCurEyeForm = dynamic_cast<TESEyes*>(FUN_004839c0(uiEyes));
+    TESEyes* pCurEyeForm = dynamic_cast<TESEyes*>(TESForm_GetFormByNumericID(uiEyes));
     if (uiEyes && !pCurEyeForm)
         FNV_Warning("MODELS: NPC %s could not find eyes %08X", TESFullName::GetFullName(), uiEyes);
     if (m_pEyes != pCurEyeForm)
@@ -388,10 +388,10 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
             if (pNode)
             {
                 NiControllerManager* pAnimManager = 0;
-                if (((FUN_008b70d0_shell*)apActor)->FUN_008b70d0() &&
-                    ((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->FUN_008b70d0())->FUN_00496940())
-                    pAnimManager = ((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->FUN_008b70d0())
-                                       ->FUN_00496940()
+                if (((FUN_008b70d0_shell*)apActor)->Actor_GetAnimData() &&
+                    ((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->Actor_GetAnimData())->Animation_GetControllerManager())
+                    pAnimManager = ((ActorAnimData*)((FUN_008b70d0_shell*)apActor)->Actor_GetAnimData())
+                                       ->Animation_GetControllerManager()
                                        ->GetStringAtOffset();
                 NiControllerManager* pkManager = pAnimManager;
                 NiNode* pFace = ((ActorFace*)apActor)->GetFaceRootNode(false);
@@ -408,8 +408,8 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
                 }
             }
             ((NPCFace*)this)->FUN_005dd560();
-            if (FUN_005d9f90((char*)apActor))
-                ((NPCFace*)this)->FUN_00606820(apActor, FUN_005d9f90((char*)apActor));
+            if (Character_GetValidBip01Names((char*)apActor))
+                ((NPCFace*)this)->FUN_00606820(apActor, Character_GetValidBip01Names((char*)apActor));
             if (((ActorFace*)apActor)->GetHeadRootNode(false) && ((ActorFace*)apActor)->GetFaceRootNode(false))
             {
                 FUN_005dd590 kData;
@@ -422,12 +422,12 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
         {
             NiNode* pParent = 0;
             ((NPCFace*)this)->FUN_005dd560();
-            bool bWasFirstPerson = ((FUN_004eaf60_shell*)g_thePlayer)->FUN_004eaf60();
+            bool bWasFirstPerson = ((FUN_004eaf60_shell*)g_thePlayer)->PlayerCharacter_Is3rdPerson();
             ((PlayerFace*)g_thePlayer)->FUN_00950110(false);
             if (pNode && bPrevHadRace != bNowHasRace)
             {
                 pParent = (NiNode*)((FUN_009611e0_shell*)apActor->Get3DSimple())->FUN_009611e0();
-                ((FaceRefr*)apActor)->FUN_005702e0(0, true);
+                ((FaceRefr*)apActor)->TESObjectREFR_Set3D(0, true);
             }
             if (bNowHasRace)
                 ((NPCModelView*)this)->kModel.SetModelFilePath(g_011d2b38.FUN_00403df0());
@@ -438,14 +438,14 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
             if (pParent)
             {
                 DAT_011c5cb4 = true;
-                NiNode* pNew3D = ((FaceRefr*)apActor)->FUN_0087e060(false);
+                NiNode* pNew3D = ((FaceRefr*)apActor)->Actor_Load3D(false);
                 if (!((ActorFace*)apActor)->GetFaceRootNode(false) && !((ActorFace*)apActor)->GetHeadRootNode(false))
                 {
                     TESNPC* m_pActorBaseFormItem = (TESNPC*)((ActorView*)apActor)->GetActorBase();
                     QHeadLocal kHead(m_pActorBaseFormItem, 0);
-                    kHead.FUN_0043ecb0();
+                    kHead.QueuedHead_Run();
                     ((FUN_0043c610_shell*)&kHead)->RunVirtualMethod28();
-                    kHead.FUN_0043ed90(apActor, FUN_005d9f90((char*)apActor));
+                    kHead.FUN_0043ed90(apActor, Character_GetValidBip01Names((char*)apActor));
                 }
                 pParent->AttachChildInAvailableSlot(pNew3D, true);
                 DAT_011c5cb4 = false;
@@ -586,7 +586,7 @@ struct ListT
     NiObjectNET* FUN_0050d100();
     int FUN_00a59d30(int);
     void FUN_00a5b230(int);
-    void FUN_00439410(void*);
+    void NiAVObject_AttachProperty(void*);
 };
 struct PartT;
 struct ElemT
@@ -647,7 +647,7 @@ struct FUN_00a6aa40 : NiMemObject
 };
 struct MgrT
 {
-    void FUN_004568c0(void*, FUN_00633c90*, int, int);
+    void TES_CreateTextureImage(void*, FUN_00633c90*, int, int);
 };
 extern MgrT* DAT_011dea10;
 extern char DAT_0104aac0;
@@ -670,10 +670,10 @@ struct ThisT
 {
     char pad1c4[0x1c4];
     FUN_00633c90 holder;
-    void FUN_0060a950(ParamT*);
+    void TESNPC_SwapEyes(ParamT*);
 };
 // @fnv 0x0060a950
-void ThisT::FUN_0060a950(ParamT* param)
+void ThisT::TESNPC_SwapEyes(ParamT* param)
 {
     FUN_00633c90 a(0);
     FUN_00633c90 eye(0);
@@ -699,7 +699,7 @@ void ThisT::FUN_0060a950(ParamT* param)
             else
                 FUN_00406f60(&p40, &DAT_0104aa80);
             FUN_00633c90 c(0);
-            DAT_011dea10->FUN_004568c0(p40.FUN_00559450(), &c, 0, 0);
+            DAT_011dea10->TES_CreateTextureImage(p40.FUN_00559450(), &c, 0, 0);
             if (c.FUN_00559450())
             {
                 NiObjectNET* x;
@@ -731,10 +731,10 @@ void ThisT::FUN_0060a950(ParamT* param)
                 p44->FUN_0060aeb0(2);
                 if (a.FUN_00559450()->FUN_00a59d30(5))
                     a.FUN_00559450()->FUN_00a5b230(5);
-                a.FUN_00559450()->FUN_00439410(p44);
+                a.FUN_00559450()->NiAVObject_AttachProperty(p44);
                 if (eye.FUN_00559450()->FUN_00a59d30(5))
                     eye.FUN_00559450()->FUN_00a5b230(5);
-                eye.FUN_00559450()->FUN_00439410(p44);
+                eye.FUN_00559450()->NiAVObject_AttachProperty(p44);
             }
         }
         cur = holder.FUN_00559450()->v39(NiFixedString(&DAT_0104aac0));

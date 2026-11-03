@@ -437,10 +437,10 @@ struct FUN_0066c9c0_Class
 {
     T_ a;
     T_ b;
-    void FUN_0066c9c0(T_& x, T_& y, float f);
+    void hkContactPoint_set(T_& x, T_& y, float f);
 };
 // @fnv 0x0066c9c0
-void FUN_0066c9c0_Class::FUN_0066c9c0(T_& x, T_& y, float afValue)
+void FUN_0066c9c0_Class::hkContactPoint_set(T_& x, T_& y, float afValue)
 {
     a.FUN_004a3f10(&x);
     ((T_*)((char*)&a) + 16)->FUN_004a3f10(&y);
@@ -1197,7 +1197,7 @@ struct FUN_006665c0_Entry
     FUN_006665c0_Item* m_item;
 };
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeap_Free(void* p);
 void __cdecl FUN_0044e360(void* p);
 
 struct FUN_006665c0_cls
@@ -1225,7 +1225,7 @@ void FUN_006665c0_cls::FUN_006665c0()
             (void)((pItemCopy != 0) ? pItemCopy->Dispose(1) : 0);
         }
         pEntries = m_08;
-        FUN_00401030(pEntries);
+        FormHeap_Free(pEntries);
     }
     FUN_0044e360(m_04);
 }
@@ -1343,15 +1343,15 @@ struct SpawnedObject
 extern int DAT_011ca278;
 extern int DAT_011dea3c;
 
-int __cdecl FUN_0066dba0(int a);
-float __cdecl FUN_0066dc70(int a);
+int __cdecl ActionPoints_GetAttackAction(int a);
+float __cdecl ActionPoints_GetBaseActionPoints(int a);
 void __cdecl FUN_005e58f0(int a, int b, int c, float* d);
 
 // Returns the object's value if it is ready, otherwise a value derived from its ref pointer, and passes it to FUN_005e58f0.
 // @fnv 0x0066dce0
 float __cdecl GetObjectValue(SpawnedObject* obj)
 {
-    int b = FUN_0066dba0(obj ? obj->GetRefPtr() : 0);
+    int b = ActionPoints_GetAttackAction(obj ? obj->GetRefPtr() : 0);
     float f = 0.0f;
     if (obj != 0 && obj->IsReady())
     {
@@ -1359,7 +1359,7 @@ float __cdecl GetObjectValue(SpawnedObject* obj)
     }
     else
     {
-        f = FUN_0066dc70(b);
+        f = ActionPoints_GetBaseActionPoints(b);
     }
     FUN_005e58f0(0x28, DAT_011dea3c, obj ? (int)obj : DAT_011ca278, &f);
     return f;
@@ -1706,7 +1706,7 @@ class TESForm
 class Actor : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(void* p);
+TESForm* __cdecl TESForm_GetFormByNumericID(void* p);
 struct E640Item
 {
     void __thiscall ResolveActorFormId();
@@ -1719,7 +1719,7 @@ struct E640Cls : DetClassCls
 // @fnv 0x0066e640
 void E640Cls::FUN_0066e640(SaveBufCls* buffer)
 {
-    m_00 = m_00 ? dynamic_cast<Actor*>(FUN_004839c0(m_00)) : 0;
+    m_00 = m_00 ? dynamic_cast<Actor*>(TESForm_GetFormByNumericID(m_00)) : 0;
     SaveNodeCls* n = m_04;
     while (n)
     {
@@ -1798,15 +1798,15 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 }
 
-float __cdecl FUN_0066dc70(int value);
+float __cdecl ActionPoints_GetBaseActionPoints(int value);
 float* __fastcall FUN_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
 
-// Returns FUN_0066dc70(value), multiplied by the value from FUN_00403e20(&DAT_011d5f88) unless unscaled is set.
+// Returns ActionPoints_GetBaseActionPoints(value), multiplied by the value from FUN_00403e20(&DAT_011d5f88) unless unscaled is set.
 // @fnv 0x0066dca0
-float __cdecl FUN_0066dca0(int value, bool unscaled)
+float __cdecl ActionPoints_GetActionPoints(int value, bool unscaled)
 {
-    float baseValue = FUN_0066dc70(value);
+    float baseValue = ActionPoints_GetBaseActionPoints(value);
     if (!unscaled)
     {
         return baseValue * *FUN_00403e20(&DAT_011d5f88);
@@ -1844,7 +1844,7 @@ void DetClassExtended::ClearAndReset()
     while (m_04 && !reinterpret_cast<SaveNodeExtended*>(m_04)->FUN_008256d0())
     {
         SaveItemCls* item = *m_04->FUN_006815c0();
-        FUN_00401030(item);
+        FormHeap_Free(item);
         reinterpret_cast<SaveNodeExtended*>(m_04)->FUN_0063f7b0();
     }
 

@@ -26,11 +26,11 @@ struct NiAVObject
 
 struct FUN_00a5a030_shell : NiAVObject
 {
-    void __thiscall FUN_00a5a030(NiUpdateData& data);
+    void __thiscall NiAVObject_UpdateControllers(NiUpdateData& data);
 };
 
 // @fnv 0x00a5a030
-void __thiscall FUN_00a5a030_shell::FUN_00a5a030(NiUpdateData& data)
+void __thiscall FUN_00a5a030_shell::NiAVObject_UpdateControllers(NiUpdateData& data)
 {
     NiAVObject::UpdateTimeControllers(data, true);
 }
@@ -38,7 +38,7 @@ void __thiscall FUN_00a5a030_shell::FUN_00a5a030(NiUpdateData& data)
 extern char const* const g_011f4428_arg1;
 
 // @fnv 0x00a5a420
-char const* const* __cdecl FUN_00a5a420()
+char const* const* __cdecl NiAVObject_GetRTTI()
 {
     return &g_011f4428_arg1;
 }
@@ -187,11 +187,11 @@ struct NiRenderer
 struct PropHelper
 {
     Prop* GetProperty(unsigned int);
-    void __thiscall FUN_00a59e50(NiRenderer*);
+    void __thiscall NiAVObject_PurgeRendererData(NiRenderer*);
 };
 // Retrieves property 2 and, if present, passes it to the renderer's v61 method.
 // @fnv 0x00a59e50
-void __thiscall PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
+void __thiscall PropHelper::NiAVObject_PurgeRendererData(NiRenderer* apkRenderer)
 {
     Prop* pkProperty = GetProperty(2);
     if (pkProperty)
@@ -253,10 +253,10 @@ struct S59ec0
     char _p1[0x4];
     int m_kNode[3];
     void __thiscall FUN_00a59e70(void* a, CloningProcess& b);
-    void __thiscall FUN_00a59ec0(CloningProcess& b);
+    void __thiscall NiAVObject_ProcessClone(CloningProcess& b);
 };
 // @fnv 0x00a59ec0
-void __thiscall S59ec0::FUN_00a59ec0(CloningProcess& kCloning)
+void __thiscall S59ec0::NiAVObject_ProcessClone(CloningProcess& kCloning)
 {
     ((NiObjectNET*)(void*)this)->NiObjectNET::ProcessClone(kCloning);
     if (m_kNode[2])
@@ -326,10 +326,10 @@ void __thiscall Owner::SetSlot(Param* pParam)
 
 struct FUN_00a59f90_holder
 {
-    void __thiscall FUN_00a59f90(NiUpdateData&, unsigned int);
+    void __thiscall NiAVObject_UpdateDownwardPass(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a59f90
-void __thiscall FUN_00a59f90_holder::FUN_00a59f90(NiUpdateData& kData, unsigned int uiFlags)
+void __thiscall FUN_00a59f90_holder::NiAVObject_UpdateDownwardPass(NiUpdateData& kData, unsigned int uiFlags)
 {
     if (kData.m_bUpdateEnabled)
         ((NiAVObject*)this)->UpdateTimeControllers(kData, true);
@@ -524,11 +524,11 @@ extern int EmptyFS;
 struct NiAVObject
 {
     char _pad_0[1];
-    int FUN_00a59e20(int param);
+    int NiAVObject_GetObjectByName(int param);
 };
 
 // @fnv 0x00a59e20
-int NiAVObject::FUN_00a59e20(int param)
+int NiAVObject::NiAVObject_GetObjectByName(int param)
 {
     int handle = *reinterpret_cast<int*>(param);
     if (handle == EmptyFS)
@@ -709,12 +709,12 @@ struct FUN_00a59d80_cls
     int unk28;
     int unk2C;
     unsigned int m_flags;
-    void __thiscall FUN_00a59d80(void* pArg);
+    void __thiscall NiAVObject_UpdateTransformAndBounds(void* pArg);
 };
 
 // If bit 2 of m_flags is set, calls v46 with pArg and then v47.
 // @fnv 0x00a59d80
-void __thiscall FUN_00a59d80_cls::FUN_00a59d80(void* pArg)
+void __thiscall FUN_00a59d80_cls::NiAVObject_UpdateTransformAndBounds(void* pArg)
 {
     unsigned char flags = (unsigned char)(m_flags >> 2);
     if (flags & 1)
@@ -907,15 +907,15 @@ struct FUN_00a59f00_cls
     FUN_00a59f00_obj* m_1c;
     int m_20;
     FUN_00a59f00_node* m_24;
-    bool __thiscall FUN_00a5c180(void* p);
-    bool __thiscall FUN_00a59f00(void* p);
+    bool __thiscall NiObjectNET_RegisterStreamables(void* p);
+    bool __thiscall NiAVObject_RegisterStreamables(void* p);
 };
 
-// Calls FUN_00a5c180(p); if it succeeds, invokes v21(p) on each node's m_obj and on m_1c, then returns true.
+// Calls NiObjectNET_RegisterStreamables(p); if it succeeds, invokes v21(p) on each node's m_obj and on m_1c, then returns true.
 // @fnv 0x00a59f00
-bool FUN_00a59f00_cls::FUN_00a59f00(void* apArg)
+bool FUN_00a59f00_cls::NiAVObject_RegisterStreamables(void* apArg)
 {
-    if (!FUN_00a5c180(apArg))
+    if (!NiObjectNET_RegisterStreamables(apArg))
     {
         return false;
     }
@@ -943,7 +943,7 @@ struct FUN_00a5a140_cls
     NodeA* m_pFirstNode;
     char _pad_28[0x8];
     unsigned int m_flags;
-    void __thiscall FUN_00a5a140(int unused);
+    void __thiscall NiAVObject_UpdatePropertiesDownward(int unused);
 };
 
 inline DataA* const& GetNextData(NodeA*& pos)
@@ -954,7 +954,7 @@ inline DataA* const& GetNextData(NodeA*& pos)
 }
 
 // @fnv 0x00a5a140
-void __thiscall FUN_00a5a140_cls::FUN_00a5a140(int unused)
+void __thiscall FUN_00a5a140_cls::NiAVObject_UpdatePropertiesDownward(int unused)
 {
     NodeA* pos = m_pFirstNode;
     while (pos != 0)
@@ -1211,12 +1211,12 @@ struct Obj00a5a900 : Base00a5c5b0
     Sub34 unk34;
     NiColor unk58;
     int unk64;
-    void FUN_00a5a900(NiStream& kStream);
+    void NiAVObject_SaveBinary(NiStream& kStream);
 };
 
 // Writes the base data, unk30, unk58, unk34, unk64, the object count and each linked object's link ID, then saves the link ID of unk1c.
 // @fnv 0x00a5a900
-void Obj00a5a900::FUN_00a5a900(NiStream& kStream)
+void Obj00a5a900::NiAVObject_SaveBinary(NiStream& kStream)
 {
     SaveNiObjectLinks(kStream);
     SerializeValue(kStream, unk30);
@@ -1426,7 +1426,7 @@ struct NiPropertyState
 
 struct FUN_0040fbf0_shell
 {
-    void FUN_0040fbf0(char* name);
+    void BSSpinLock_Lock(char* name);
 };
 
 struct FUN_00a5e3a0_Helper
@@ -1500,7 +1500,7 @@ struct FUN_00a5a040_Class
 void FUN_00a5a040_Class::FUN_00a5a040()
 {
     NiPropertyState* ps = 0;
-    ((FUN_0040fbf0_shell*)&DAT_011f42a0)->FUN_0040fbf0(0);
+    ((FUN_0040fbf0_shell*)&DAT_011f42a0)->BSSpinLock_Lock(0);
     if (m18 != 0)
     {
         m18->FUN_00a5e3a0(ps);
@@ -1765,7 +1765,7 @@ inline IndexedElement* const& GetNextIndexed(IndexedNode*& pos)
     pos = pos->next;
     return element;
 }
-void __stdcall FUN_00a5ca80(Stream* stream);
+void __stdcall NiObjectNET_GetViewerStrings(Stream* stream);
 unsigned int __cdecl FUN_00a7d330(unsigned int source);
 unsigned int __cdecl FUN_00a7d370(const char* name, unsigned int value);
 unsigned int __cdecl FUN_00a7d550(const char* name, float value);
@@ -1794,12 +1794,12 @@ struct FUN_00a5ad00_shell
     SerializedField field68;
     SmallField field8C;
     float field98;
-    void FUN_00a5ad00(Stream* stream);
+    void NiAVObject_GetViewerStrings(Stream* stream);
 };
 // @fnv 0x00a5ad00
-void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
+void FUN_00a5ad00_shell::NiAVObject_GetViewerStrings(Stream* stream)
 {
-    FUN_00a5ca80(stream);
+    NiObjectNET_GetViewerStrings(stream);
     stream->Add(FUN_00a7d330(DAT_011f4280));
     union FlagWord
     {
@@ -2212,11 +2212,11 @@ class AVObjectA5A4
         return false;
     }
 
-    void FUN_00a5a450(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
+    void NiAVObject_SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
 };
 
 // @fnv 0x00a5a450
-void AVObjectA5A4::FUN_00a5a450(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
+void AVObjectA5A4::NiAVObject_SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
 {
     bRigid = !HasTransformController() && !GetBit(0x80, 7);
     if (!bSelectiveUpdateTransforms)
@@ -2257,7 +2257,7 @@ struct A5a260CompareBase
     virtual void v20() = 0;
     virtual void v21() = 0;
     virtual void v22() = 0;
-    virtual bool FUN_00a5a260(A5a260CompareBase*) = 0;
+    virtual bool NiAVObject_IsEqual(A5a260CompareBase*) = 0;
 };
 
 struct A5a260CompareField
@@ -2300,17 +2300,17 @@ struct A5a260Object : A5a260CompareBase
     unsigned char unk33;
     A5a260CompareField unk34;
 
-    bool __thiscall FUN_00a5c820(A5a260CompareBase*);
-    bool __thiscall FUN_00a5a260(A5a260CompareBase*);
+    bool __thiscall NiObjectNET_IsEqual(A5a260CompareBase*);
+    bool __thiscall NiAVObject_IsEqual(A5a260CompareBase*);
 };
 
 // Returns false when the flag bit, field comparison, property list, or collision comparison does not match.
 // @fnv 0x00a5a260
-bool __thiscall A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
+bool __thiscall A5a260Object::NiAVObject_IsEqual(A5a260CompareBase* pkObject)
 {
     A5a260Object* other = (A5a260Object*)pkObject;
 
-    if (!FUN_00a5c820(pkObject))
+    if (!NiObjectNET_IsEqual(pkObject))
         return false;
 
     if ((other->unk30 ^ unk30) & 1)
@@ -2335,7 +2335,7 @@ bool __thiscall A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
                 return false;
             if (!property0 && property1)
                 return false;
-            if (property0 && !property0->FUN_00a5a260(property1))
+            if (property0 && !property0->NiAVObject_IsEqual(property1))
                 return false;
         }
     }
@@ -2344,7 +2344,7 @@ bool __thiscall A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
     A5a260CompareBase* collision1 = other->unk1C;
     if (collision0 && collision1)
     {
-        if (!collision0->FUN_00a5a260(collision1))
+        if (!collision0->NiAVObject_IsEqual(collision1))
             return false;
     }
     else if (collision0 != collision1)
@@ -2701,11 +2701,11 @@ struct LoadObject : LoadBase
     Matrix3x3 rotation;
     LoadVector translation;
     float scale;
-    void FUN_00a5a510(LoadStream& stream);
+    void NiAVObject_LoadBinary(LoadStream& stream);
 };
 // Reads flags, translation, rotation, and scale, then handles legacy collision data and version-dependent flag updates.
 // @fnv 0x00a5a510
-void LoadObject::FUN_00a5a510(LoadStream& stream)
+void LoadObject::NiAVObject_LoadBinary(LoadStream& stream)
 {
     FUN_00a5c080(stream);
     if (stream.format < 28)
@@ -2941,7 +2941,7 @@ struct A170Lock
 {
     int m_pOwnerObject;
     int m_uiItemCount;
-    void __thiscall FUN_0040fbf0(unsigned int);
+    void __thiscall BSSpinLock_Lock(unsigned int);
     void Unlock()
     {
         if (--m_uiItemCount == 0)
@@ -2979,7 +2979,7 @@ void FUN_00a5a170_cls::FUN_00a5a170(A170Set* apSource, bool abAllocate, A170Set*
         *apResult = apSource;
         return;
     }
-    DAT_011f42a0.FUN_0040fbf0(0);
+    DAT_011f42a0.BSSpinLock_Lock(0);
     A170Set* result;
     if (abAllocate)
     {

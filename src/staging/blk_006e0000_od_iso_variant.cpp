@@ -1900,7 +1900,7 @@ class FUN_006ec4b0_cls
 class RecursiveSpinLock
 {
   public:
-    void FUN_0040fbf0(char* name);
+    void BSSpinLock_Lock(char* name);
     void Unlock();
 };
 struct FUN_006ec900_Class
@@ -2306,7 +2306,7 @@ struct S_00aa42e0_Mgr
 {
     void* __thiscall FUN_00aa42e0();
 };
-S_00aa42e0_Mgr* __cdecl FUN_00401020();
+S_00aa42e0_Mgr* __cdecl MemoryManager_Instance();
 struct S_006f2510_Base
 {
     int unk04;
@@ -3702,7 +3702,7 @@ struct FUN_006ffda0_cls
     int __thiscall FUN_00559450();
     int __thiscall FUN_004048e0();
 };
-int __cdecl FUN_00401030(int a);
+int __cdecl FormHeap_Free(int a);
 int __cdecl AllocateZeroed(int a, int b);
 class NiTMapBase6E2
 {
@@ -3734,7 +3734,7 @@ class BGSLoadFormBuffer
     void FUN_00864980(void* apDest, unsigned int auiSize);
     unsigned int FUN_008648a0();
 };
-TESForm* FUN_004839c0(unsigned int auiFormID);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormID);
 struct LoadedRefPosition
 {
     float x;
@@ -3841,7 +3841,7 @@ struct TraceRequest
     int unk28;
     int unk2c;
     TraceReset state;
-    void FUN_004a3da0(const TraceVector&);
+    void bhkPickData_SetFrom(const TraceVector&);
     void FUN_004a3eb0(const TraceVector&);
 };
 struct TraceFraction
@@ -3854,7 +3854,7 @@ struct TraceFraction
 };
 struct TraceResult
 {
-    void FUN_0062a290();
+    void hkpClosestRayHitCollector_reset();
     TraceFraction* FUN_00460140();
 };
 struct TraceWorld
@@ -5642,8 +5642,8 @@ struct FUN_006ffcf0
 struct LockEC7E
 {
     int unk00[2];
-    void FUN_0040fbf0(const char* pcName);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(const char* pcName);
+    void BSSpinLock_Unlock();
 };
 struct EntryEC7E
 {

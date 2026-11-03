@@ -38,7 +38,7 @@ Tile* RepairMenu::Create()
     Menu* pExistingMenu;
     Tile* pTile;
     InterfaceManager* pInterface;
-    pInterface = FUN_004b7210();
+    pInterface = InterfaceManager_Instance();
     pExistingMenu = Tile::FindMenuById(FUN_007b5720());
     if (pExistingMenu)
         delete pExistingMenu;
@@ -124,11 +124,11 @@ struct Standin007b6a00
     Tile_Set_Helper* _4c;
     char _50[0x0C];
     Box071ae60 _5c;
-    void FUN_007b6a00(int aiID, Tile* apTarget);
+    void RepairMenu_DoLeave(int aiID, Tile* apTarget);
 };
 // For ID 14, clears tile 0xFA3 on _4c and, when _5c.FUN_0071ae60() returns more than 1, also clears it on _48.
 // @fnv 0x007b6a00
-void Standin007b6a00::FUN_007b6a00(int aiID, Tile* apTarget)
+void Standin007b6a00::RepairMenu_DoLeave(int aiID, Tile* apTarget)
 {
     if (aiID == 14)
     {
@@ -388,15 +388,15 @@ void ResetRepairMenu()
 namespace fnv_007b7020 {
 struct RepairInventory
 {
-    float FUN_004bcdb0(int mode);
+    float ItemChange_GetItemHealth(int mode);
     struct RepairForm* FUN_0044ddc0();
     int GetIconFilename(int mode, int active);
 };
 struct RepairForm
 {
     int FUN_00401170();
-    float FUN_004be060();
-    float FUN_004be180();
+    float TESObjectARMO_GetArmorRating();
+    float TESObjectARMO_GetDamageThreshold();
 };
 struct RepairTile
 {
@@ -458,8 +458,8 @@ extern void __cdecl CompareSortEntries();
 extern void __cdecl PopulateRepairMenu();
 extern bool __cdecl FUN_004b71d0();
 extern void __cdecl FUN_007044c0(int, int, int);
-extern InterfaceManager* __stdcall FUN_004b7210(int);
-extern InterfaceManager* __stdcall FUN_004b7210(int, int);
+extern InterfaceManager* __stdcall InterfaceManager_Instance(int);
+extern InterfaceManager* __stdcall InterfaceManager_Instance(int, int);
 extern int __stdcall FUN_007b5720(int);
 
 // @fnv 0x007b7020
@@ -471,7 +471,7 @@ void __cdecl FUN_007b7020(int target)
         {
             DAT_011da760 = reinterpret_cast<RepairInventory*>(target);
         }
-        float percent = DAT_011da760->FUN_004bcdb0(1) / DAT_01017a40;
+        float percent = DAT_011da760->ItemChange_GetItemHealth(1) / DAT_01017a40;
         reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[4])->FUN_00a012d0(0x1004, percent, 1);
         reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[4])->FUN_00700320(0xfa3, 1);
         RepairForm* form = DAT_011da760->FUN_0044ddc0();
@@ -486,8 +486,8 @@ void __cdecl FUN_007b7020(int target)
         else if (type == 0x18)
         {
             RepairForm* branchForm = form;
-            float low = FUN_00646360((int)branchForm->FUN_004be060(), percent);
-            float maximum = FUN_00646360((int)branchForm->FUN_004be180(), percent);
+            float low = FUN_00646360((int)branchForm->TESObjectARMO_GetArmorRating(), percent);
+            float maximum = FUN_00646360((int)branchForm->TESObjectARMO_GetDamageThreshold(), percent);
             if (maximum > DAT_01012060)
             {
                 reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[5])
@@ -534,7 +534,7 @@ void __cdecl FUN_007b7020(int target)
         if (target && FUN_004b71d0())
         {
             reinterpret_cast<RepairManager*>(
-                FUN_004b7210(reinterpret_cast<RepairList*>(&DAT_011da75c->m_kRepairList)->vf14(1, 0, 0xfc3, 1)))
+                InterfaceManager_Instance(reinterpret_cast<RepairList*>(&DAT_011da75c->m_kRepairList)->vf14(1, 0, 0xfc3, 1)))
                 ->FUN_00715860();
         }
         reinterpret_cast<RepairMenuVirtual*>(DAT_011da75c)
@@ -542,7 +542,7 @@ void __cdecl FUN_007b7020(int target)
         if (target != 0)
         {
             FUN_007044c0(1, 0, 0);
-            reinterpret_cast<RepairManager*>(reinterpret_cast<char*>(FUN_004b7210(6, FUN_007b5720(500))) + 0x4d4)
+            reinterpret_cast<RepairManager*>(reinterpret_cast<char*>(InterfaceManager_Instance(6, FUN_007b5720(500))) + 0x4d4)
                 ->FUN_00718630();
         }
     }
@@ -566,7 +566,7 @@ struct FUN_00a01230_shell
 struct FUN_004bddd0_shell
 {
     float GetHealth(bool abFlag);
-    bool FUN_004bddd0(bool abFlag);
+    bool ItemChange_GetWorn(bool abFlag);
 };
 struct SortEntry_7b
 {
@@ -612,11 +612,11 @@ int CompareSortEntries(SortEntry_7b* apA, SortEntry_7b* apB)
         }
         if (iResult == 0)
         {
-            if (apA->pData->FUN_004bddd0(false))
+            if (apA->pData->ItemChange_GetWorn(false))
             {
                 iResult = -1;
             }
-            else if (apB->pData->FUN_004bddd0(false))
+            else if (apB->pData->ItemChange_GetWorn(false))
             {
                 iResult = 1;
             }
@@ -992,12 +992,12 @@ struct ExtraDataList
     int flags18;
     int flags1c;
     ExtraDataList();
-    short FUN_00418770();
-    void FUN_00412380(ExtraDataList*);
-    void FUN_00419ad0(int);
+    short ExtraDataList_GetCount();
+    void ExtraDataList_DuplicateExtraListForContainer(ExtraDataList*);
+    void ExtraDataList_SetCount(int);
     void SetExtraHealth(float);
-    bool FUN_004126c0(ExtraDataList*, bool, bool);
-    void FUN_00419f80(void*);
+    bool ExtraDataList_CompareListForContainer(ExtraDataList*, bool, bool);
+    void ExtraDataList_SetScriptLocals(void*);
 };
 struct RepairExtraNode
 {
@@ -1015,7 +1015,7 @@ struct RepairInventoryItem : HealthOwner
 };
 struct RepairInventoryChanges
 {
-    RepairInventoryItem* FUN_004bfba0(TESBoundObject*, bool, bool);
+    RepairInventoryItem* InventoryChanges_GetObjectInList(TESBoundObject*, bool, bool);
 };
 RepairInventoryChanges* __cdecl FUN_004bf220(PlayerStub*);
 unsigned int __cdecl FUN_004873d0(TESBoundObject*);
@@ -1039,27 +1039,27 @@ void RepairAction::ApplyRepair(HealthOwner* source)
     else
         repairVal *= FUN_004873d0(((RepairInventoryItem*)DAT_011da760)->FUN_0044ddc0());
     RepairInventoryItem* entryTmp =
-        FUN_004bf220(g_thePlayer)->FUN_004bfba0(((RepairInventoryItem*)DAT_011da760)->FUN_0044ddc0(), true, false);
+        FUN_004bf220(g_thePlayer)->InventoryChanges_GetObjectInList(((RepairInventoryItem*)DAT_011da760)->FUN_0044ddc0(), true, false);
     ExtraDataList* extra7 = ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()
                                 ? ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_006815c0()
                                 : 0;
     ExtraDataList* repairA = new ExtraDataList;
     int count = -1;
     bool found9 = false;
-    count = extra7->FUN_00418770();
-    repairA->FUN_00412380(extra7);
-    repairA->FUN_00419ad0(1);
+    count = extra7->ExtraDataList_GetCount();
+    repairA->ExtraDataList_DuplicateExtraListForContainer(extra7);
+    repairA->ExtraDataList_SetCount(1);
     repairA->SetExtraHealth(repairVal);
     FUN_004d5c60(34);
     ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_0063f7b0();
     if (count > 1)
-        extra7->FUN_00419ad0(count - 1);
+        extra7->ExtraDataList_SetCount(count - 1);
     for (RepairExtraNode* node = entryTmp->FUN_00559450(); node && node->FUN_006815c0(); node = node->FUN_00726070())
     {
-        if (!node->FUN_006815c0()->FUN_004126c0(repairA, true, false) &&
-            !repairA->FUN_004126c0(node->FUN_006815c0(), true, false))
+        if (!node->FUN_006815c0()->ExtraDataList_CompareListForContainer(repairA, true, false) &&
+            !repairA->ExtraDataList_CompareListForContainer(node->FUN_006815c0(), true, false))
         {
-            node->FUN_006815c0()->FUN_00419ad0(node->FUN_006815c0()->FUN_00418770() + 1);
+            node->FUN_006815c0()->ExtraDataList_SetCount(node->FUN_006815c0()->ExtraDataList_GetCount() + 1);
             ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_005ae3d0(node->FUN_006815c0());
             found9 = true;
         }
@@ -1083,7 +1083,7 @@ void RepairAction::ApplyRepair(HealthOwner* source)
     }
     if (found9 || count == 1)
     {
-        repairA->FUN_00419f80(0);
+        repairA->ExtraDataList_SetScriptLocals(0);
         delete repairA;
     }
 }

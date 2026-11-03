@@ -244,7 +244,7 @@ NiObject* __cdecl CreateNewObj();
 NiObject* __cdecl CreateB6AE60Obj();
 NiObject* __cdecl CreateShaderLightingProperty();
 NiObject* __cdecl CreateBlobObj();
-NiObject* __cdecl FUN_00ba8a00();
+NiObject* __cdecl BSShaderTextureSet_CreateObject();
 NiObject* __cdecl FUN_00ba9250();
 NiObject* __cdecl CreateSpawnedObject90();
 NiObject* __cdecl CreateObjectDerived();

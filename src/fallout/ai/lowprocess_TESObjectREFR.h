@@ -20,12 +20,12 @@ class TESObjectREFR : public TESForm
     int IsLocked();
     void Lock();
     void Unlock();
-    void FUN_00564db0(bool);
+    void TESObjectREFR_SetTargeted(bool);
     const NiPoint3* FUN_00430830();
     TESObjectREFR* GetLinkedRef();
     TESForm* GetOwner();
-    bool FUN_00568680();
-    void FUN_00565870();
+    bool TESObjectREFR_IsFurniture();
+    void TESObjectREFR_RunScript();
 
     TESWorldSpace* GetParentWorldSpace();
     const char* GetFullName();
@@ -34,7 +34,7 @@ class TESObjectREFR : public TESForm
     static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
     void SetLocationOnReference(const NiPoint3&);
     void RelocateTo(TESWorldSpace*, TESObjectCELL*, const NiPoint3&, float);
-    void FUN_00575770(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
 
     TESChildCell tESChildCellComponent;  // +0x18
     TESSound* m_pSoundForm;              // +0x1C

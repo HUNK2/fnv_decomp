@@ -1471,18 +1471,18 @@ FUN_00e7ee80_cls::FUN_00e7ee80_cls() : m_bEnableState(false), m_iCount04(0), m_i
 
 struct LodShaderBase
 {
-    void FUN_00e814b0();
+    void NiD3DShader_RecreateRendererData();
 };
 
 struct FUN_00b71b90_class : LodShaderBase
 {
-    void FUN_00be08b0();
+    void NiDX9FragmentShader_RecreateRendererData();
 };
 
 // @fnv 0x00be08b0
-void FUN_00b71b90_class::FUN_00be08b0()
+void FUN_00b71b90_class::NiDX9FragmentShader_RecreateRendererData()
 {
-    FUN_00e814b0();
+    NiD3DShader_RecreateRendererData();
 }
 
 struct Alpha818

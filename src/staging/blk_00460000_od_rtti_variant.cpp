@@ -12,7 +12,7 @@ struct FUN_004600f0_class
 };
 struct FUN_00460fb0_class
 {
-    void* FUN_00460fb0();
+    void* TESDataHandler_GetPerkList();
 };
 struct FUN_00460fd0_class
 {
@@ -52,7 +52,7 @@ struct FUN_0046e880_Class
 };
 struct FUN_0046e8c0_class
 {
-    bool FUN_0046e8c0();
+    bool TESObjectWEAP_IsEmbeddedWeapon();
 };
 struct Arr
 {
@@ -105,7 +105,7 @@ struct P03MM
 {
     void* Allocate(unsigned int);
 };
-P03MM* __cdecl FUN_00401020();
+P03MM* __cdecl MemoryManager_Instance();
 void* __cdecl AllocateProduct(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 struct ActorCombatGroup;
 struct NiTMallocInterface_StandIn
@@ -168,7 +168,7 @@ struct FUN_00476c70_Class
 };
 struct FUN_00476c90_Class
 {
-    unsigned int __thiscall FUN_00476c90();
+    unsigned int __thiscall Sky_GetMode();
 };
 struct FUN_004791f0_holder
 {
@@ -191,22 +191,22 @@ struct FUN_0047b4d0_Class
 };
 struct S47
 {
-    void __thiscall FUN_0047e2a0(int);
-    void __thiscall FUN_0047dea0(short);
+    void __thiscall TESActorBaseData_AddFormChange(int);
+    void __thiscall TESActorBaseData_SetBaseDisposition(short);
 };
 struct FUN_0047ebb0_Class
 {
-    void FUN_005fc970(int, char);
-    void FUN_0047ebb0(int value);
+    void TESFaction_SetFlag(int, char);
+    void TESFaction_SetPCMurdered(int value);
 };
 struct FUN_0047ebd0_Class
 {
-    void __thiscall FUN_005fc970(int b, int a);
-    void __thiscall FUN_0047ebd0(bool value);
+    void __thiscall TESFaction_SetFlag(int b, int a);
+    void __thiscall TESFaction_SetPCAttacked(bool value);
 };
 struct FUN_0047ff50_class
 {
-    void FUN_0047ff50(unsigned short value);
+    void TESAttackDamageForm_SetAttackDamage(unsigned short value);
 };
 extern "C" void __cdecl NiFreeAlias(void*);
 extern void* DAT_0101a364;
@@ -314,7 +314,7 @@ __declspec(thread) TlsBlock462480 g_tls462480;
 extern int __tls_index;
 struct FUN_00462480_Class
 {
-    unsigned char __thiscall FUN_00462480();
+    unsigned char __thiscall BGSSaveLoadGame_GetThreadAllowChanges();
 };
 __declspec(thread) unsigned int TLS_PAD[166];
 struct S69570
@@ -374,7 +374,7 @@ struct MyForm
 {
     unsigned int uiID;
     char _rest[0x14];
-    void FUN_00470650();
+    void FORM_Endian();
 };
 struct Twin_008d0360
 {
@@ -526,7 +526,7 @@ struct FUN_00474a00
 {
     TESForm* GetForm();
 };
-struct FUN_00474a40
+struct BGSAmmoForm_GetAmmoFormList
 {
     ScriptS* GetScript();
 };
@@ -552,13 +552,13 @@ struct NiObject
     virtual void v2();
     virtual NiNode* GetAsNode();
 };
-bool __cdecl FUN_0043b300(GlobalObject_00a7b610*, NiAVObject*);
+bool __cdecl NiObject_IsKindOf(GlobalObject_00a7b610*, NiAVObject*);
 extern GlobalObject_00a7b610 g_01202e8c;
-void __cdecl FUN_00476ec0(NiAVObject*, int);
-void __cdecl FUN_00476ec0(NiAVObject* object, int flag);
+void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(NiAVObject*, int);
+void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(NiAVObject* object, int flag);
 struct FUN_00478130_class
 {
-    void __thiscall FUN_00478130();
+    void __thiscall SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian();
 };
 struct FUN_00462e10_Class
 {
@@ -612,8 +612,8 @@ struct TESAttackDamageForm : public BaseFormComponent
     virtual void v1();
     virtual void v2();
     virtual unsigned short GetDamage();
-    void FUN_0047ff50(unsigned short value);
-    void FUN_0047fe30(BaseFormComponent* apCopyFC);
+    void TESAttackDamageForm_SetAttackDamage(unsigned short value);
+    void TESAttackDamageForm_CopyComponent(BaseFormComponent* apCopyFC);
 };
 struct FUN_0046eb20_Class
 {
@@ -650,8 +650,8 @@ struct FUN_0047bcf0_class
 };
 struct FUN_0047eb90_Class
 {
-    void FUN_005fc970(int, char);
-    void FUN_0047eb90(int value);
+    void TESFaction_SetFlag(int, char);
+    void TESFaction_SetPCAnEnemy(int value);
 };
 class FUN_00462dc0_cls
 {
@@ -744,7 +744,7 @@ struct CollectionItem
     virtual void Unused2();
     virtual ChildRange* GetChildren();
     bool FUN_00c455a0(unsigned char);
-    InstanceData36* FUN_00461130();
+    InstanceData36* NiAVObject_GetWorldRotate();
     InstanceData12* FUN_0045bb80();
 };
 struct ChildRange
@@ -753,7 +753,7 @@ struct ChildRange
     CollectionItem* FUN_0043b4a0(unsigned int);
 };
 extern unsigned char DAT_01202e7c;
-bool __cdecl FUN_0043b300(const void*, CollectionItem*);
+bool __cdecl NiObject_IsKindOf(const void*, CollectionItem*);
 void __cdecl CreateProjectileRef(int, OutputRenderer*, OutputRenderer*, unsigned int, InstanceData12, InstanceData36);
 struct ActorProcessor
 {
@@ -782,9 +782,9 @@ struct Context
 };
 struct Receiver
 {
-    void FUN_004fa6f0(int value);
+    void BGSDebris_SpawnDebris(int value);
 };
-extern unsigned char __cdecl FUN_0043b300(const void* descriptor, Node* node);
+extern unsigned char __cdecl NiObject_IsKindOf(const void* descriptor, Node* node);
 struct Walk
 {
     int WalkTree(Node* node, Receiver* receiver, unsigned int mode, Context* context, void* extra);
@@ -1026,7 +1026,7 @@ struct ManagedSceneHolder
     ManagedSceneEntry* current;
     void EnsureCurrentEntry();
 };
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 struct SpawnedItem_b10003
 {
     unsigned char unk00;
@@ -1040,7 +1040,7 @@ struct SpawnedItem_b10003
     SpawnedItem_b10003();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
 };
 struct FUN_00478e90_This
@@ -1129,10 +1129,10 @@ struct FUN_0047ead0_cls
     FUN_0047ead0_cls* FUN_004181e0(FUN_0047ead0_cls* a, int b);
     int GetFactionRank();
     FUN_0047ead0_cls* FUN_00726070();
-    void FUN_0047ebd0(int v);
-    void FUN_0047ebb0(int v);
-    void FUN_0047eb90(int v);
-    void FUN_0047ead0(int mode);
+    void TESFaction_SetPCAttacked(int v);
+    void TESFaction_SetPCMurdered(int v);
+    void TESFaction_SetPCAnEnemy(int v);
+    void TESActorBaseData_SetPCFactionFlags(int mode);
 };
 extern FUN_0047ead0_cls* DAT_011dea3c;
 struct FUN_0047fe80_class : BaseFormComponent
@@ -1147,7 +1147,7 @@ extern double DAT_01017a40;
 extern const float DAT_01012054;
 struct Standin77900
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
 };
 class PathingRequest
 {
@@ -1198,7 +1198,7 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     DestructionData* data;
     DestructionData* FUN_00726070();
     CopyStage** AllocateSpawnedItemArray(unsigned int count);
-    void FUN_004786e0(BaseFormComponent* source);
+    void BGSDestructibleObjectForm_CopyComponent(BaseFormComponent* source);
 };
 struct NiFixedString_47ab40
 {
@@ -1278,7 +1278,7 @@ struct World_47ab40
     virtual void AddObject(NiNode_47ab40* node, bool a, bool b, int c, int d);
 };
 struct Cell_47ab40;
-World_47ab40* __fastcall FUN_004543c0(Cell_47ab40* cell);
+World_47ab40* __fastcall TESObjectCELL_GetbhkWorld(Cell_47ab40* cell);
 struct TaskQueue_47ab40
 {
     static TaskQueue_47ab40* GetInstance();
@@ -1405,7 +1405,7 @@ struct Ref_47ab40
     virtual NiNode_47ab40* Get3D();
     Cell_47ab40* GetParentCell();
 };
-bool FUN_0047ab40(Ref_47ab40* ref, NamedObject_47ab40* obj);
+bool BGSOpenCloseForm_HandleAnimEndHavok(Ref_47ab40* ref, NamedObject_47ab40* obj);
 class NiUpdateData
 {
   public:
@@ -1728,16 +1728,16 @@ class TESFile
     bool GetOptimizedFile();
     TESRecordHeader* GetRecordHeader();
     bool FUN_00470c70(int, int);
-    bool FUN_00472150(bool);
+    bool TESFile_NextForm(bool);
     bool FUN_00473660();
     TESFile* GetFileByIndex(unsigned int);
     unsigned char FUN_00473250();
     int FUN_004726b0();
     unsigned int GetField25C();
-    bool FUN_00472890(void*, unsigned int);
+    bool TESFile_GetChunkData(void*, unsigned int);
     bool FUN_004726f0();
     bool IsEndianConversionRequired();
-    void FUN_00471130();
+    void TESFile_CloseTES();
 };
 
 // XCLC chunk payload: two dwords swapped by the endian pass plus a trailing bool.
@@ -1783,10 +1783,10 @@ struct TESWorldSpace : TESForm
     virtual ~TESWorldSpace();
 };
 
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 int FindFormEnumIndex(unsigned int);
 int __cdecl FUN_00404dc0(const char*, const char*);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 
 extern "C" char DAT_010186b8[];
 extern DialogueResponse* DAT_011c3f2c;
@@ -1851,7 +1851,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                             if (hdr->fC == 0 && hdr->f8 == (unsigned int)DAT_01187314)
                             {
                                 got = true;
-                                read = f->FUN_00472150(true);
+                                read = f->TESFile_NextForm(true);
                             }
                             else
                             {
@@ -1860,7 +1860,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                         }
                         else
                         {
-                            read = f->FUN_00472150(true);
+                            read = f->TESFile_NextForm(true);
                         }
                         if (read)
                             hdr = f->GetRecordHeader();
@@ -1883,8 +1883,8 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                     w = f;
                                 id &= 0xffffff;
                                 id |= (unsigned int)(unsigned char)w->FUN_00473250() << 24;
-                                result = (int)dynamic_cast<TESWorldSpace*>(FUN_004839c0(id));
-                                read2 = f->FUN_00472150(true);
+                                result = (int)dynamic_cast<TESWorldSpace*>(TESForm_GetFormByNumericID(id));
+                                read2 = f->TESFile_NextForm(true);
                             }
                             else if (hdr->type == (unsigned int)DAT_011872b4)
                             {
@@ -1894,7 +1894,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                     unsigned int len = f->GetField25C() + 1;
                                     char* ptr = (char*)operator new(len);
                                     memset(ptr, 0, len);
-                                    f->FUN_00472890(ptr, 0);
+                                    f->TESFile_GetChunkData(ptr, 0);
                                     if (FUN_00404dc0(ptr, name) == 0)
                                     {
                                         got = true;
@@ -1904,7 +1904,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                             {
                                                 XCLC v;
                                                 memset(&v, 0, sizeof(v));
-                                                f->FUN_00472890(&v, sizeof(v));
+                                                f->TESFile_GetChunkData(&v, sizeof(v));
                                                 if (f->IsEndianConversionRequired())
                                                     v.FUN_00462230();
                                                 *out1 = v.x;
@@ -1921,9 +1921,9 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                             }
                                         }
                                     }
-                                    FUN_00401030(ptr);
+                                    FormHeap_Free(ptr);
                                 }
-                                read2 = f->FUN_00472150(true);
+                                read2 = f->TESFile_NextForm(true);
                             }
                             else
                             {
@@ -1935,7 +1935,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                     case 0:
                                         if (hdr->f8 == (unsigned int)DAT_01187314)
                                         {
-                                            read2 = f->FUN_00472150(true);
+                                            read2 = f->TESFile_NextForm(true);
                                             flag = true;
                                         }
                                         else
@@ -1951,7 +1951,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                     case 1:
                                     case 4:
                                     case 5:
-                                        read2 = f->FUN_00472150(true);
+                                        read2 = f->TESFile_NextForm(true);
                                         flag = true;
                                         break;
                                     case 6:
@@ -1970,7 +1970,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                 hdr = 0;
                         }
                     }
-                    f->FUN_00471130();
+                    f->TESFile_CloseTES();
                     if (!got)
                         result = 0;
                     else

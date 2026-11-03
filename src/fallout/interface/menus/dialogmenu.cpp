@@ -247,7 +247,7 @@ void DialogMenu::LoadTopicsList()
                 MobileObject* actor = 0;
                 if (m_pDialogueSpeaker->IsActor())
                     actor = m_pDialogueSpeaker;
-                else if (m_pDialogueSpeaker->FUN_00574900())
+                else if (m_pDialogueSpeaker->MobileObject_IsTalkingActivator())
                     actor = reinterpret_cast<MobileObject*>(
                         reinterpret_cast<BGSExplosion*>(reinterpret_cast<DialogueItem*>(m_pDialogueSpeaker)
                                                             ->SelectDefaultResponseList()
@@ -345,7 +345,7 @@ void DialogMenu::LoadTopicsList()
 // @fnv 0x00761A20
 Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* alternate)
 {
-    InterfaceManager* pManager = FUN_004b7210();
+    InterfaceManager* pManager = InterfaceManager_Instance();
     Tile* existing = Tile::FindMenuById(1009);
     if (existing)
         return existing;
@@ -409,7 +409,7 @@ Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* a
                 ->vfn_288(reinterpret_cast<Actor*>(speaker), 2);
             speaker->vfn_278(true);
         }
-        DAT_011d9510->m_bPauseRequested = g_thePlayer->FUN_004eaf60();
+        DAT_011d9510->m_bPauseRequested = g_thePlayer->PlayerCharacter_Is3rdPerson();
         if (DAT_011d9510->m_eGoodbyeState != eForceGoodbye)
         {
             g_thePlayer->Show1stPerson(true);
@@ -436,7 +436,7 @@ Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* a
         reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())
             ->Set(Tile::GetTraitID("_ShowSubtitles"), bSubtitles);
         DAT_011d9510->m_pTiles[1]->Set(0xFC4, speaker->GetFullName(), true);
-        if (FUN_005d4a40() && !FUN_004b7210()->tutorial.FUN_00718840(17))
+        if (FUN_005d4a40() && !InterfaceManager_Instance()->tutorial.FUN_00718840(17))
             DAT_011d9510->m_bSuppressDialogueText = true;
         else
             DAT_011d9510->BeginDialogueResponse(false);
@@ -489,7 +489,7 @@ void DialogMenu::UpdateDialog()
         if (m_bSuppressDialogueText && m_fCameraTransitionTime == 0.0)
         {
             m_bSuppressDialogueText =
-                FUN_004b7210()->tutorial.ShowMessage(17, FUN_007620e0(), (unsigned int)DAT_011d3ee0.Float()->f * 1400);
+                InterfaceManager_Instance()->tutorial.ShowMessage(17, FUN_007620e0(), (unsigned int)DAT_011d3ee0.Float()->f * 1400);
             if (!m_bSuppressDialogueText)
             {
                 if (m_pDialogueSpeaker)
@@ -508,7 +508,7 @@ void DialogMenu::UpdateDialog()
                 m_fCameraTransitionTime = 0.0f;
                 m_eDialogState = ePlaySpeech;
             }
-            else if (FUN_004b7210()->tutorial.FUN_00718840(17) && Interface::GetSelectedTargetIndex(Interface::Dialog))
+            else if (InterfaceManager_Instance()->tutorial.FUN_00718840(17) && Interface::GetSelectedTargetIndex(Interface::Dialog))
             {
                 m_fCameraTransitionTime = 0.0f;
                 reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
@@ -897,7 +897,7 @@ void FUN_00764200_shell::SetActive(bool abActive)
     }
 }
 
-void __cdecl FUN_005293f0(void*);
+void __cdecl ImageSpaceModifierInstance_Stop(void*);
 void __cdecl FUN_0083e510();
 struct FUN_00761960 : Menu
 {
@@ -929,7 +929,7 @@ FUN_00761960::~FUN_00761960()
     DAT_011d9514 = false;
     if (DAT_011d9510->m_pDialogueDepthOfFieldModifier)
     {
-        FUN_005293f0(m_pDialogueDepthOfFieldModifier);
+        ImageSpaceModifierInstance_Stop(m_pDialogueDepthOfFieldModifier);
         m_pDialogueDepthOfFieldModifier = 0;
     }
     FUN_0083e510();

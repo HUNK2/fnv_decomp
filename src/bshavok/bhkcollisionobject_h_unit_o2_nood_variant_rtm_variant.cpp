@@ -144,11 +144,11 @@ struct Cls_00c658c0
     int unk08;
     int unk0C;
     Owner_00c658c0* m_pOwnerObject;
-    void FUN_00c658c0();
+    void bhkCollisionObject_ClearVelocities();
 };
 
 // @fnv 0x00c658c0
-void Cls_00c658c0::FUN_00c658c0()
+void Cls_00c658c0::bhkCollisionObject_ClearVelocities()
 {
     Owner_00c658c0* o = m_pOwnerObject;
     if (o)
@@ -418,7 +418,7 @@ struct PhysicsLock
 {
     int owner;
     int count;
-    void FUN_0040fbf0(const char*);
+    void BSSpinLock_Lock(const char*);
     void unlock()
     {
         if (--count == 0)
@@ -454,7 +454,7 @@ struct CollisionSync
     {
         return (flags >> bit) & 1;
     }
-    void FUN_00c65b00();
+    void bhkCollisionObject_NitohkTransform();
 };
 __declspec(noinline) FourFloatVector* Body::FUN_00560e10()
 {
@@ -487,7 +487,7 @@ __declspec(noinline) FourFloatVector* Body::FUN_00560e10()
     return _mm_movemask_ps(_mm_cmpeq_ps(total, DAT_01267e30.quad)) == 15 ? &DAT_01267e30 : p;
 }
 // @fnv 0x00c65b00
-void CollisionSync::FUN_00c65b00()
+void CollisionSync::bhkCollisionObject_NitohkTransform()
 {
 
     FourFloatVector forcedPos;
@@ -522,7 +522,7 @@ void CollisionSync::FUN_00c65b00()
         forcedQ.z = rot.z;
         forcedQ.w = rot.w;
         forcedQ.FUN_005611c0();
-        DAT_01267b80.FUN_0040fbf0(0);
+        DAT_01267b80.BSSpinLock_Lock(0);
         b->vtable->SetGeometryTransform(b, &forcedPos, &forcedQ);
         DAT_01267b80.unlock();
     }
@@ -558,7 +558,7 @@ void CollisionSync::FUN_00c65b00()
             nearQ.z = rot.z;
             nearQ.w = rot.w;
             nearQ.FUN_005611c0();
-            DAT_01267b80.FUN_0040fbf0(0);
+            DAT_01267b80.BSSpinLock_Lock(0);
             b->vtable->SetGeometryTransform(b, &nearPos, &nearQ);
             DAT_01267b80.unlock();
         }
@@ -597,7 +597,7 @@ void CollisionSync::FUN_00c65b00()
         flaggedQ.z = rot.z;
         flaggedQ.w = rot.w;
         flaggedQ.FUN_005611c0();
-        DAT_01267b80.FUN_0040fbf0(0);
+        DAT_01267b80.BSSpinLock_Lock(0);
         b->vtable->SetGeometryTransform(b, &flaggedPos, &flaggedQ);
         DAT_01267b80.unlock();
     }

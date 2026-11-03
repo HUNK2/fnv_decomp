@@ -3955,7 +3955,7 @@ struct Singleton_006a2500
     void* GetHandle();
 };
 
-Singleton_006a2500* FUN_00401020();
+Singleton_006a2500* MemoryManager_Instance();
 
 struct FUN_006a2500_cls : FUN_006a2500_base
 {
@@ -3965,11 +3965,11 @@ struct FUN_006a2500_cls : FUN_006a2500_base
     virtual ~FUN_006a2500_cls();
 };
 
-// Initializes the object by storing the handle from FUN_00401020 and calling FUN_006b3eb0 with zero arguments.
+// Initializes the object by storing the handle from MemoryManager_Instance and calling FUN_006b3eb0 with zero arguments.
 // @fnv 0x006a2500
 FUN_006a2500_cls::FUN_006a2500_cls()
 {
-    m_10 = FUN_00401020()->GetHandle();
+    m_10 = MemoryManager_Instance()->GetHandle();
     FUN_006b3eb0(0, 0);
 }
 
@@ -4205,7 +4205,7 @@ struct Singleton_006a8530
     void* GetHandle();
 };
 
-Singleton_006a8530* FUN_00401020();
+Singleton_006a8530* MemoryManager_Instance();
 
 struct FUN_006a8530_cls : FUN_006a8530_base
 {
@@ -4215,11 +4215,11 @@ struct FUN_006a8530_cls : FUN_006a8530_base
     virtual ~FUN_006a8530_cls();
 };
 
-// Stores the handle from FUN_00401020() in m_10, then calls FUN_006b3eb0(0, 0).
+// Stores the handle from MemoryManager_Instance() in m_10, then calls FUN_006b3eb0(0, 0).
 // @fnv 0x006a8530
 FUN_006a8530_cls::FUN_006a8530_cls()
 {
-    m_10 = FUN_00401020()->GetHandle();
+    m_10 = MemoryManager_Instance()->GetHandle();
     FUN_006b3eb0(0, 0);
 }
 }  // namespace fnv_006a8530
@@ -7039,7 +7039,7 @@ struct MM_6b9590
 {
     void* FUN_00aa42e0();
 };
-MM_6b9590* __cdecl FUN_00401020();
+MM_6b9590* __cdecl MemoryManager_Instance();
 
 struct Base_6b9760
 {
@@ -7058,11 +7058,11 @@ struct FUN_006b9590 : public Base_6b9760
     virtual ~FUN_006b9590();
 };
 
-// Initializes unk10 from FUN_00401020()->FUN_00aa42e0() and calls FUN_006b3eb0 with 0, 0.
+// Initializes unk10 from MemoryManager_Instance()->FUN_00aa42e0() and calls FUN_006b3eb0 with 0, 0.
 // @fnv 0x006b9590
 FUN_006b9590::FUN_006b9590()
 {
-    unk10 = FUN_00401020()->FUN_00aa42e0();
+    unk10 = MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(0, 0);
 }
 }  // namespace fnv_006b9590
@@ -7843,7 +7843,7 @@ struct FnvSingletonHolder
     void* FUN_00aa42e0();
 };
 
-void* FUN_00401020();
+void* MemoryManager_Instance();
 
 struct FUN_006bf7d0 : FnvWorkerBase
 {
@@ -7853,11 +7853,11 @@ struct FUN_006bf7d0 : FnvWorkerBase
     void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
-// Stores a3, or a value obtained from FUN_00401020()->FUN_00aa42e0() when a3 is null, then calls FUN_006b3eb0 with a1 and a2.
+// Stores a3, or a value obtained from MemoryManager_Instance()->FUN_00aa42e0() when a3 is null, then calls FUN_006b3eb0 with a1 and a2.
 // @fnv 0x006bf7d0
 FUN_006bf7d0::FUN_006bf7d0(unsigned int a1, unsigned int a2, void* a3) : FnvWorkerBase()
 {
-    m_pSharedOwner = a3 != 0 ? a3 : ((FnvSingletonHolder*)FUN_00401020())->FUN_00aa42e0();
+    m_pSharedOwner = a3 != 0 ? a3 : ((FnvSingletonHolder*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006b3eb0(a1, a2);
 }
 }  // namespace fnv_006bf7d0
@@ -9346,7 +9346,7 @@ struct TriX
 {
     bool IsEdgeFlagSet(int);
     unsigned short FUN_0068f2c0(int);
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
     void GetPackedFlags(unsigned short, unsigned short*, bool*, bool*);
 };
 struct MeshX
@@ -9441,8 +9441,8 @@ void HostB60::BuildNavMeshEdges()
             if (flagE || flagD)
             {
                 unsigned short vi[2];
-                vi[0] = tri->FUN_005582d0(j);
-                vi[1] = tri->FUN_005582d0((j + 1) % 3);
+                vi[0] = tri->NavMeshTriangle_GetVert(j);
+                vi[1] = tri->NavMeshTriangle_GetVert((j + 1) % 3);
                 VertS* pv[2];
                 unsigned int k;
                 for (k = 0; k < 2; ++k)
@@ -10259,11 +10259,11 @@ struct FUN_006b4220 : FUN_006b4670
     void FUN_006b3eb0(unsigned int a, unsigned int b);
     FUN_006b4220();
 };
-// Initializes m_10 from the handle returned by FUN_00401020 and calls FUN_006b3eb0 with zero arguments.
+// Initializes m_10 from the handle returned by MemoryManager_Instance and calls FUN_006b3eb0 with zero arguments.
 // @fnv 0x006b4220
 FUN_006b4220::FUN_006b4220()
 {
-    m_10 = FUN_00401020()->GetHandle();
+    m_10 = MemoryManager_Instance()->GetHandle();
     FUN_006b3eb0(0, 0);
 }
 
@@ -13266,7 +13266,7 @@ struct DbgObject
     static void operator delete(void* apMem, unsigned int);
     void FUN_004bc450(void* apKey);
     void FUN_0068c9f0(float afValue);
-    void FUN_00439410(DbgObject* apProperty);
+    void NiAVObject_AttachProperty(DbgObject* apProperty);
     void FUN_00a5b230(int aiValue);
     void FUN_0049ed90(int aiValue);
     void FUN_00441130(int aiFlag, int aiValue);
@@ -13418,11 +13418,11 @@ FUN_006a2a20::FUN_006a2a20()
         aspPointAlpha[i].FUN_00559450()->FUN_004bc450(&DAT_011a9b7c);
         aspPointAlpha[i].FUN_00559450()->FUN_0068c9f0(afPointAlpha[i]);
         aspShapes[i].FUN_0066b0d0(CreateOctahedron(DAT_0119cb84, &akColors[i], 1));
-        aspShapes[i].FUN_00559450()->FUN_00439410(aspLineAlpha[i].FUN_00559450());
+        aspShapes[i].FUN_00559450()->NiAVObject_AttachProperty(aspLineAlpha[i].FUN_00559450());
         DbgPtr pStencilProperty = new DbgStencilProperty();
         pStencilProperty.FUN_00559450()->FUN_00441130(0x20, 0);
         aspShapes[i].FUN_00559450()->FUN_00a5b230(3);
-        aspShapes[i].FUN_00559450()->FUN_00439410(pStencilProperty.FUN_00559450());
+        aspShapes[i].FUN_00559450()->NiAVObject_AttachProperty(pStencilProperty.FUN_00559450());
     }
     spAlpha.FUN_0066b0d0(new DbgAlphaProperty());
     spAlpha.FUN_00559450()->FUN_004bc450(&DAT_011a9b7c);

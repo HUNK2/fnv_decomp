@@ -5,7 +5,7 @@
 extern "C" void* g_012026e8;
 
 // @fnv 0x00c2a080
-void* __cdecl FUN_00c2a080()
+void* __cdecl NiPSysInitialRotAngleVarCtlr_GetRTTI()
 {
     return &g_012026e8;
 }
@@ -85,7 +85,7 @@ extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
 
 struct C2A110Base
 {
-    void FUN_00c32f60(C2A110StringArray* pkStrings);
+    void NiPSysModifierFloatCtlr_GetViewerStrings(C2A110StringArray* pkStrings);
 };
 
 struct C2A110Object : C2A110Base
@@ -112,7 +112,7 @@ struct C2A110Object : C2A110Base
 // @fnv 0x00c2a110
 void C2A110Object::AppendRTTIName(C2A110StringArray* pkStrings)
 {
-    C2A110Base::FUN_00c32f60(pkStrings);
+    C2A110Base::NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
 }

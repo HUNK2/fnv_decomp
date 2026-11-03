@@ -10,7 +10,7 @@ ActorPathHandler::PATH_HANDLER_RESULT CallNoPathUpdate(ActorPathHandler* pHandle
 }
 
 // @fnv 0x00405d80
-bool __fastcall FUN_00405d80(int* pThis)
+bool __fastcall EffectItemList_IsHostile(int* pThis)
 {
     return pThis[3] > 0;
 }
@@ -100,7 +100,7 @@ struct EffectItemList_shell
 };
 
 // @fnv 0x004065e0
-int __fastcall FUN_004065e0(EffectItemList_shell* pthis)
+int __fastcall EffectItemList_GetAssociatedSkill(EffectItemList_shell* pthis)
 {
     int eresult = -1;
     EffectItem* peffect = pthis->FindCostliestEffectItem(3, 0);
@@ -132,7 +132,7 @@ int __cdecl FUN_00406d00(char* apString1, int aiSize, const char* apFormat, ...)
 extern unsigned int* g_011d61c8[];
 
 // @fnv 0x00406d70
-bool __cdecl FUN_00406d70(int aiIndex, int aiFlag)
+bool __cdecl ActorValue_GetFlag(int aiIndex, int aiFlag)
 {
     return (g_011d61c8[aiIndex][0x11] & aiFlag) != 0;
 }
@@ -146,10 +146,10 @@ struct LN
 void _FNV_Warning(const char*);
 struct HX
 {
-    EI* FUN_00406ee0(unsigned char);
+    EI* EffectItemList_GetEffectItemByIndex(unsigned char);
 };
 // @fnv 0x00406ee0
-EI* HX::FUN_00406ee0(unsigned char aiIndex)
+EI* HX::EffectItemList_GetEffectItemByIndex(unsigned char aiIndex)
 {
     unsigned char uiCurrentIndex = 0;
     LN* pCurrentElementNext = this ? (LN*)((char*)this + 4) : 0;
@@ -275,11 +275,11 @@ struct EffectItemNode
 
 struct EffectItemList : public EffectItemHeader, public EffectItemNode
 {
-    bool FUN_00405da0();
+    bool EffectItemList_CanBePoison();
 };
 
 // @fnv 0x00405da0
-bool EffectItemList::FUN_00405da0()
+bool EffectItemList::EffectItemList_CanBePoison()
 {
     EffectItemList* pCurrentElementNext = this;
     if (pCurrentElementNext->_ref_008256d0())
@@ -661,7 +661,7 @@ bool EffectListCmp::FUN_00405a00(EffectListCmp* apOther)
     return false;
 }
 
-void* __cdecl FUN_00401000(unsigned int uiSize);
+void* __cdecl FormHeap_Allocate(unsigned int uiSize);
 
 class B5B10ItemCopy
 {
@@ -670,7 +670,7 @@ class B5B10ItemCopy
 
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00401000(uiSize);
+        return FormHeap_Allocate(uiSize);
     }
     static void operator delete(void* pvMem);
 
@@ -913,12 +913,12 @@ struct FaceGenCache
 {
     int unk00;
     FaceGenMap kMap;
-    void FUN_0064fe80(FaceGenLog* apLog);
+    void BSFaceGenModelMap_OutputModelMapContents(FaceGenLog* apLog);
 };
 
 // Iterates the cache map and logs each entry's ref count, key, texture size and data size, warning and optionally adding the line to apLog.
 // @fnv 0x0064fe80
-void FaceGenCache::FUN_0064fe80(FaceGenLog* apLog)
+void FaceGenCache::BSFaceGenModelMap_OutputModelMapContents(FaceGenLog* apLog)
 {
     void* pPos3 = kMap.GetFirstPos();
     const char* pKey2;
@@ -994,7 +994,7 @@ struct Player
 };
 extern Player* _g_thePlayer;
 void ApplyPerkModifiers(int, Player*, ...);
-bool FUN_00406d70(int, int);
+bool ActorValue_GetFlag(int, int);
 float floor(float);
 int TruncateFloatToInt(float);
 const char* ValueEffectName(int);
@@ -1064,7 +1064,7 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
                     pDuration2 /= 60.0;
                     hUnit4 = 'm';
                 }
-                if (FUN_00406d70(iValueVal, 0x200))
+                if (ActorValue_GetFlag(iValueVal, 0x200))
                     kAMagnitude = -kAMagnitude;
                 if (i)
                 {

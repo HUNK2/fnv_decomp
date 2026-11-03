@@ -840,7 +840,7 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
 }
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting327;
-bool __cdecl FUN_0047f060(int);
+bool __cdecl ActorValue_IsSkill(int);
 void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, float* afBase);
 float __cdecl CalcSkillBase(float, float, float);
 struct TESClass
@@ -937,7 +937,7 @@ struct ActorStub
 float __cdecl GetSkillValue(ActorStub* apActor, int aiSkill, bool abCurrent)
 {
     float fResult = 0.0f;
-    if (FUN_0047f060(aiSkill))
+    if (ActorValue_IsSkill(aiSkill))
     {
         int iAttribute = -1;
         GetSkillAttributeAndBase(aiSkill, &iAttribute, &fResult);

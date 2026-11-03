@@ -128,22 +128,22 @@ const char* FUN_006166e0_shell::GetReputationName()
     return $SG5812;
 }
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
 
 struct FUN_006165f0_shell
 {
-    unsigned short __thiscall FUN_006165f0(unsigned int aiFlags);
+    unsigned short __thiscall TESReputation_GetSaveSize(unsigned int aiFlags);
 };
 
 // Returns the save size: the result of GetSaveSize(aiFlags) plus 8 bytes.
 // @fnv 0x006165f0
-unsigned short __thiscall FUN_006165f0_shell::FUN_006165f0(unsigned int aiFlags)
+unsigned short __thiscall FUN_006165f0_shell::TESReputation_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0*)this)->GetSaveSize(aiFlags);
+    isize += ((TESForm_GetSaveSize*)this)->GetSaveSize(aiFlags);
     isize += 4;
     isize += 4;
     return isize;
@@ -156,11 +156,11 @@ struct BGSLoadFormBuffer
 
 struct FUN_006166a0_shell : public TESForm
 {
-    void FUN_006166a0(BGSLoadFormBuffer* buffer);
+    void TESReputation_LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x006166a0
-void FUN_006166a0_shell::FUN_006166a0(BGSLoadFormBuffer* buffer)
+void FUN_006166a0_shell::TESReputation_LoadGame(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
     buffer->ReadTypedData((char*)this + 0x44, 4);
@@ -183,17 +183,17 @@ void* FUN_00615480_shell::FUN_00615480(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M(void);
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010(void);
+    void __thiscall TESFullName_Save(void);
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -201,30 +201,30 @@ struct FUN_0047a240_shell
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
+    void __thiscall TESForm___SaveData(int, int);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M(void);
 };
 unsigned char __cdecl FUN_00401500(void);
-struct FUN_00616470_shell : public FUN_004855a0
+struct FUN_00616470_shell : public TESForm_StartForm
 {
-    void __thiscall FUN_00616470(void);
+    void __thiscall TESReputation_SaveForm(void);
 };
 // @fnv 0x00616470
-void __thiscall FUN_00616470_shell::FUN_00616470()
+void __thiscall FUN_00616470_shell::TESReputation_SaveForm()
 {
     M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    ((FUN_0048e370_obj*)((char*)this + 0x24))->FUN_0048e370(0x4e4f4349);
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
+    ((FUN_0048e370_obj*)((char*)this + 0x24))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x30))->FUN_0047a240(0x4f43494d);
     if (FUN_00401500())
         ((ReputationLimitData*)((char*)this + 0x40))->Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x40), 4);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x40), 4);
     if (FUN_00401500())
         ((ReputationLimitData*)((char*)this + 0x40))->Endian();
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_00615580_shell
@@ -251,11 +251,11 @@ struct FUN_00615580_shell
     char _pad[0x40];
     float m44;
     float m48;
-    void FUN_00615580(int, float);
+    void TESReputation_SetReputationValue(int, float);
 };
 // Stores b into m44 when a equals 1, otherwise into m48, then calls v18 with 2.
 // @fnv 0x00615580
-void FUN_00615580_shell::FUN_00615580(int a, float afValue)
+void FUN_00615580_shell::TESReputation_SetReputationValue(int a, float afValue)
 {
     if (a == 1)
         m44 = afValue;
@@ -309,8 +309,8 @@ struct FUN_006155f0_shell
     int mField_4c;
 
     const char* __thiscall GetSelectedSettingString(void);
-    const char* __thiscall FUN_00616710(void);
-    const char* __thiscall FUN_006167d0(void);
+    const char* __thiscall TESReputation_GetReputationTitle(void);
+    const char* __thiscall TESReputation_GetReputationIcon(void);
     void ShowMessageBox(void);
 };
 
@@ -328,20 +328,20 @@ void FUN_006155f0_shell::ShowMessageBox(void)
 {
     char buffer[0x200];
 
-    _sprintf_s(buffer, 0x200, "%s\n%s", FUN_00616710(), GetSelectedSettingString());
+    _sprintf_s(buffer, 0x200, "%s\n%s", TESReputation_GetReputationTitle(), GetSelectedSettingString());
 
     reinterpret_cast<TutorialState*>(reinterpret_cast<unsigned char*>(_FUN_004b7210()) + 0x4d4)
         ->ShowMessage(0x27, 0, 0x1f4);
 
     if (mField_4c == 1)
     {
-        FUN_00703f10(buffer, FUN_006167d0(), mFNStub.GetFullName(),
+        FUN_00703f10(buffer, TESReputation_GetReputationIcon(), mFNStub.GetFullName(),
                      reinterpret_cast<StartMenu*>(&g_011cbcb0)->GetMenuTitle(), FUN_00615720, 1, 0x17, 0.0f, 0.0f,
                      reinterpret_cast<StartMenu*>(&g_011d38b8)->GetMenuTitle(), 0);
     }
     else
     {
-        FUN_00703f10(buffer, FUN_006167d0(), mFNStub.GetFullName(),
+        FUN_00703f10(buffer, TESReputation_GetReputationIcon(), mFNStub.GetFullName(),
                      reinterpret_cast<StartMenu*>(&g_011cba30)->GetMenuTitle(), FUN_00615720, 1, 0x17, 0.0f, 0.0f,
                      reinterpret_cast<StartMenu*>(&g_011d38b8)->GetMenuTitle(), 0);
     }
@@ -413,8 +413,8 @@ extern ReputationLimit DAT_011cbc70;
 extern ReputationLimit DAT_011cbd68;
 struct ReputationTracker
 {
-    float __thiscall FUN_00616a20();
-    float __thiscall FUN_00616a40();
+    float __thiscall TESReputation_GetPositiveRatio();
+    float __thiscall TESReputation_GetNegativeRatio();
     unsigned char __thiscall GetReputationRank(int kind);
 };
 // @fnv 0x00616950
@@ -424,11 +424,11 @@ unsigned char ReputationTracker::GetReputationRank(int kind)
     unsigned char rank = 0;
     if (kind == 1)
     {
-        value = FUN_00616a20();
+        value = TESReputation_GetPositiveRatio();
     }
     else
     {
-        value = FUN_00616a40();
+        value = TESReputation_GetNegativeRatio();
     }
     if (value >= *DAT_011cba7c.FUN_00403e20() && value < *DAT_011cbc70.FUN_00403e20())
     {
@@ -587,10 +587,10 @@ struct Reputation
     int sound;
     char GetReputationRank(int);
     void ShowMessageBox();
-    void FUN_00615a00(int kind, float amount);
+    void TESReputation_RemoveReputationValue(int kind, float amount);
 };
 // @fnv 0x00615a00
-void Reputation::FUN_00615a00(int kind, float amount)
+void Reputation::TESReputation_RemoveReputationValue(int kind, float amount)
 {
     bool changed = false;
     char oldRank = 0;
@@ -774,10 +774,10 @@ struct RepObject
     int sound;
     char GetRank(int);
     void Play();
-    void FUN_00615fa0(int kind, int amount);
+    void TESReputation_RemoveReputationValueByLevel(int kind, int amount);
 };
 // @fnv 0x00615fa0
-void RepObject::FUN_00615fa0(int kind, int amount)
+void RepObject::TESReputation_RemoveReputationValueByLevel(int kind, int amount)
 {
     bool changed = false;
     char oldRank = 0;
@@ -889,11 +889,11 @@ struct Host615730
     float m_fFirstReputationValue;
     float m_fSecondReputationValue;
     int m_eReputationType;
-    void FUN_00615730(int kind, float delta);
+    void TESReputation_AddReputationValue(int kind, float delta);
 };
 
 // @fnv 0x00615730
-void Host615730::FUN_00615730(int kind, float delta)
+void Host615730::TESReputation_AddReputationValue(int kind, float delta)
 {
     signed char val;
     bool changed;
@@ -947,12 +947,12 @@ extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct ReputationCompareEntry : TESReputation
 {
     ReputationLimitData* FUN_0087eaa0();
-    bool FUN_00485270(TESForm*);
-    bool FUN_00616570(TESForm* other);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESReputation_Compare(TESForm* other);
 };
 
 // @fnv 0x00616570
-bool ReputationCompareEntry::FUN_00616570(TESForm* other)
+bool ReputationCompareEntry::TESReputation_Compare(TESForm* other)
 {
     TESReputation* pOtherReputation = dynamic_cast<TESReputation*>(other);
     if (!pOtherReputation)
@@ -960,7 +960,7 @@ bool ReputationCompareEntry::FUN_00616570(TESForm* other)
     if (_memcmp(&data, static_cast<ReputationCompareEntry*>(pOtherReputation)->FUN_0087eaa0(),
                 sizeof(ReputationLimitData)) != 0)
         return true;
-    if (FUN_00485270(pOtherReputation))
+    if (TESForm_CompareAllComponents(pOtherReputation))
         return true;
     return false;
 }
@@ -969,17 +969,17 @@ extern "C" void* __cdecl _memcpy(void*, const void*, unsigned int);
 
 struct ReputationComponentCopy
 {
-    void FUN_004851b0(TESForm* source);
+    void TESForm_CopyAllComponents(TESForm* source);
 };
 
 struct ReputationCopyReceiver : TESReputation
 {
-    void FUN_00616500(TESForm* source);
+    void TESReputation_CopyFrom(TESForm* source);
 };
 
-// Copies the two reputation values and the data block from source (cast to TESReputation) into this object, then calls FUN_004851b0 with source.
+// Copies the two reputation values and the data block from source (cast to TESReputation) into this object, then calls TESForm_CopyAllComponents with source.
 // @fnv 0x00616500
-void ReputationCopyReceiver::FUN_00616500(TESForm* source)
+void ReputationCopyReceiver::TESReputation_CopyFrom(TESForm* source)
 {
     TESReputation* reputation = dynamic_cast<TESReputation*>(source);
     if (!reputation)
@@ -988,5 +988,5 @@ void ReputationCopyReceiver::FUN_00616500(TESForm* source)
     m_fSecondReputationValue = reputation->m_fSecondReputationValue;
     m_fFirstReputationValue = reputation->m_fFirstReputationValue;
     _memcpy(&data, &reputation->data, sizeof(data));
-    reinterpret_cast<ReputationComponentCopy*>(this)->FUN_004851b0(source);
+    reinterpret_cast<ReputationComponentCopy*>(this)->TESForm_CopyAllComponents(source);
 }

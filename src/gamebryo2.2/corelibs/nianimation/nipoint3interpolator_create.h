@@ -19,7 +19,7 @@ class ImageSpaceModifierInstanceDOF
   public:
     void FUN_005bbd60(bool);
 };
-void FUN_005293f0(ImageSpaceModifierInstanceDOF*);
+void ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstanceDOF*);
 class NiPoint2
 {
   public:
@@ -48,7 +48,7 @@ class VATS
 class LightTarget
 {
   public:
-    class NiAVObject* FUN_004e6540();
+    class NiAVObject* ShadowSceneLight_GetLight();
 };
 class Interface
 {

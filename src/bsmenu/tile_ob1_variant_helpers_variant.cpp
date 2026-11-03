@@ -524,7 +524,7 @@ public:
     ChildPtr<NiNode> m_spNode;
 
     NiNode* GetNode() const { return m_spNode; }
-    TileShaderProperty* FUN_00a0b1f0();
+    TileShaderProperty* Tile_GetShaderProperty();
 };
 static inline NiAVObject* A0B1F0GetChild(NiNode* pkNode, unsigned int uiIndex) {
     if (uiIndex >= pkNode->GetChildren().m_usSize)
@@ -675,7 +675,7 @@ public:
     int unk, unk0C, unkCur, unkValue, uNewnk, unk1C, uTmpnk, unk24, unk28;
     ChildPtr<NiNode> m_spNode;
     NiNode* GetNode() const { return m_spNode; }
-    void FUN_00a0b020();
+    void Tile_ForceTextureRelease();
 };
 extern int DAT_011f32dc;
 extern void* DAT_011f329c[];
@@ -1415,8 +1415,8 @@ public:
 };
 unsigned int __cdecl FUN_0044a670(const char* text);
 unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
-void* __cdecl FUN_00401000(unsigned int size);
-void __cdecl FUN_00401030(void* p);
+void* __cdecl FormHeap_Allocate(unsigned int size);
+void __cdecl FormHeap_Free(void* p);
 void* __cdecl FUN_00401460(void* dst, const void* src, unsigned int size);
 template <> inline void BSStringT<char>::SetLength(unsigned int length)
 {
@@ -1439,7 +1439,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
     unsigned int maxLen = MaxLength();
     if (newLen > maxLen) {
         char* oldString = pString;
-        char* newString = (char*)FUN_00401000(newLen + 1);
+        char* newString = (char*)FormHeap_Allocate(newLen + 1);
         pString = newString;
         if (text)
             FUN_00401460(pString, text, srcLen + 1);
@@ -1447,7 +1447,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
             *pString = 0;
         if (oldString) {
             char* p = oldString;
-            FUN_00401030(p);
+            FormHeap_Free(p);
         }
         SetMaxLength(newLen);
     } else if (newLen) {
@@ -1458,7 +1458,7 @@ template <> inline bool BSStringT<char>::Set(const char* text, unsigned int leng
     } else {
         if (pString) {
             char* p = pString;
-            FUN_00401030(p);
+            FormHeap_Free(p);
         }
         pString = 0;
         newLen = 0;
@@ -1864,8 +1864,8 @@ extern "C" int __cdecl FUN_00ec8d5f(char*, unsigned int, const char*, unsigned i
 extern "C" int __cdecl FUN_00ec65a6(char*, unsigned int, const char*);
 extern "C" char* __cdecl FUN_00ecc5f8(char*, const char*, char**);
 extern "C" unsigned int __cdecl FUN_00ec6130(const char*);
-extern void* __cdecl FUN_00401000(unsigned);
-extern void __cdecl FUN_00401030(void*);
+extern void* __cdecl FormHeap_Allocate(unsigned);
+extern void __cdecl FormHeap_Free(void*);
 extern void* __cdecl FUN_00401460(void*, const void*, unsigned);
 __forceinline void* __cdecl operator new[](unsigned size) { return ((TilePool_ac80*)&DAT_011f6238)->FUN_00aa3e40(size); }
 __forceinline void __cdecl operator delete[](void* data) { DAT_011f6238.FUN_00aa4060(data); }

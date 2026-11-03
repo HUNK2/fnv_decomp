@@ -10,7 +10,7 @@ extern "C"
 }
 
 // @fnv 0x00a60850
-bool __stdcall FUN_00a60850(NiStream& kStream)
+bool __stdcall NiSourceCubeMap_RegisterStreamables(NiStream& kStream)
 {
     return AttachToListener(&kStream);
 }
@@ -19,7 +19,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4454;
 
 // @fnv 0x00a60cb0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a60cb0()
+GlobalObjectO2_00a7b610* __cdecl NiSourceCubeMap_GetRTTI()
 {
     return &g_011f4454;
 }
@@ -58,15 +58,15 @@ struct NiObject;
 
 struct NiSourceCubeMapShell : NiSourceCubeMap
 {
-    bool __thiscall FUN_00a5fae0(NiObject*);
-    bool __thiscall FUN_00a60880(NiObject* pkObject);
+    bool __thiscall NiSourceTexture_IsEqual(NiObject*);
+    bool __thiscall NiSourceCubeMap_IsEqual(NiObject* pkObject);
 };
 
-// Calls FUN_00a5fae0 on pkObject, then compares four fields of this and pkObject and returns true only if all match.
+// Calls NiSourceTexture_IsEqual on pkObject, then compares four fields of this and pkObject and returns true only if all match.
 // @fnv 0x00a60880
-bool __thiscall NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
+bool __thiscall NiSourceCubeMapShell::NiSourceCubeMap_IsEqual(NiObject* pkObject)
 {
-    if (FUN_00a5fae0(pkObject))
+    if (NiSourceTexture_IsEqual(pkObject))
     {
         NiSourceCubeMap* pkTexture = reinterpret_cast<NiSourceCubeMap*>(pkObject);
         if (reinterpret_cast<const unsigned int*>(this)[6] == reinterpret_cast<const unsigned int*>(pkTexture)[6] &&
@@ -375,13 +375,13 @@ class NiSourceCubeMap2 : public NiSourceTexture2
     int unk38;
     int unk3c;
 
-    void FUN_00a60ba0(NiStream& kStream);
+    void NiSourceCubeMap_LinkObject(NiStream& kStream);
     void LinkObjectOld(NiStream& kStream) throw();
     void SetFaces(NiObject* p0, NiObject* p1, NiObject* p2, NiObject* p3, NiObject* p4, NiObject* p5) throw();
 };
 
 // @fnv 0x00a60ba0
-void NiSourceCubeMap2::FUN_00a60ba0(NiStream& kStream)
+void NiSourceCubeMap2::NiSourceCubeMap_LinkObject(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
     {
@@ -1166,11 +1166,11 @@ struct CubeMapLoader : CubeTexBase
     bool m_bIsStatic;
 
     void CreateFaces(char* pc0, char* pc1, char* pc2, char* pc3, char* pc4, char* pc5, int iParam);
-    void FUN_00a612a0(NiStream& kStream);
+    void NiSourceCubeMap_LoadBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a612a0
-void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
+void CubeMapLoader::NiSourceCubeMap_LoadBinary(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
     {
@@ -1210,12 +1210,12 @@ void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
     }
 }
 
-void __cdecl FUN_00a60600();
+void __cdecl NiSourceTexture_SaveBinary();
 
 // @fnv 0x00a60870
-void __cdecl FUN_00a60870()
+void __cdecl NiSourceCubeMap_SaveBinary()
 {
-    FUN_00a60600();
+    NiSourceTexture_SaveBinary();
 }
 
 struct NiGPUProgram;

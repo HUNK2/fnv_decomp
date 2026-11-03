@@ -787,7 +787,7 @@ class TES;
 extern TES* g_TES;
 
 void __cdecl FUN_005a38e0();
-void __fastcall FUN_00455490(TES* pTES);
+void __fastcall TES_RunScripts(TES* pTES);
 
 // @fnv 0x0086f670
 void FUN_0086f670_shell::FUN_0086f670()
@@ -796,7 +796,7 @@ void FUN_0086f670_shell::FUN_0086f670()
     DAT_011df678 = 0;
     DAT_011dea2a = 0;
     FUN_005a38e0();
-    FUN_00455490(g_TES);
+    TES_RunScripts(g_TES);
 }
 
 // @fnv 0x0086f840
@@ -936,8 +936,8 @@ class DebugText
 
 extern GlobalObject2_0040c150 g_011c3ea4;
 
-void* __cdecl FUN_004b7210(void);
-void __cdecl FUN_005aa720(void);
+void* __cdecl InterfaceManager_Instance(void);
+void __cdecl Script_RunDelayedScriptActionsOnReferences(void);
 void __cdecl FUN_007094f0(void);
 void __fastcall FUN_00870680(void*);
 void __fastcall FUN_0087a6f0(TaskQueueInterface*);
@@ -947,7 +947,7 @@ void __fastcall FUN_00a0e770(DebugText*);
 // @fnv 0x00870610
 void FUN_00870610_shell::FUN_00870610()
 {
-    FUN_005aa720();
+    Script_RunDelayedScriptActionsOnReferences();
     if (*g_011c3ea4.Int() > 1)
     {
         FUN_0087a710(TaskQueueInterface::GetSingleton());
@@ -955,7 +955,7 @@ void FUN_00870610_shell::FUN_00870610()
         FUN_0087a6f0(TaskQueueInterface::GetSingleton());
     }
     FUN_007094f0();
-    FUN_00870680(FUN_004b7210());
+    FUN_00870680(InterfaceManager_Instance());
     FUN_00a0e770(DebugText::Instance(true));
 }
 }  // namespace fnv_00870610
@@ -1068,20 +1068,20 @@ bool __fastcall FUN_00871220(char* pObject)
 
 struct NiNode871
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
 };
 struct GO871
 {
     operator NiNode871*() const;
 };
 extern GO871 g_011c7810;
-// Returns false if g_011c7810 is null, otherwise returns whether its FUN_00453470 result is greater than zero.
+// Returns false if g_011c7810 is null, otherwise returns whether its NiNode_GetChildCount result is greater than zero.
 // @fnv 0x00871260
 bool FUN_00871260()
 {
     if (!(NiNode871*)g_011c7810)
         return false;
-    return ((NiNode871*)g_011c7810)->FUN_00453470() > 0;
+    return ((NiNode871*)g_011c7810)->NiNode_GetChildCount() > 0;
 }
 
 namespace fnv_00871a10 {
@@ -1916,7 +1916,7 @@ struct TES
 {
     int FindCellAtPosition(NiPoint3 const*, bool);
     TESWorldSpace* GetHitSound();
-    bool FUN_00451530();
+    bool TES_IsRunningCellTests();
 };
 struct TopicH
 {
@@ -1947,7 +1947,7 @@ void MainStandIn::FUN_0086fbe0()
     if (!DAT_011dea2b && !DAT_011d8907 && !flag7)
     {
         g_TES->FindCellAtPosition(((TopicH*)g_thePlayer)->GetAddTopicList(), true);
-        if (g_TES->FUN_00451530() && !((BGSCameraPath*)g_TES)->GetPrevPath())
+        if (g_TES->TES_IsRunningCellTests() && !((BGSCameraPath*)g_TES)->GetPrevPath())
         {
             if (((RefrHelper*)g_thePlayer)->GetParentWorldSpace() == g_TES->GetHitSound())
             {
@@ -2421,7 +2421,7 @@ struct NiUpdateDataH
 class TES
 {
   public:
-    void FUN_00453550(float afTimeDelta);
+    void TES_UpdateCellAnimations(float afTimeDelta);
     void FUN_004537c0();
 };
 extern TES* g_TES;
@@ -2446,7 +2446,7 @@ void FUN_0086fc60_shell::FUN_0086fc60()
         }
         if (*g_011c3ea4.Int() == 1 && !DAT_011dea2b)
         {
-            g_TES->FUN_00453550(DAT_011dea30);
+            g_TES->TES_UpdateCellAnimations(DAT_011dea30);
         }
         else
         {
@@ -2547,12 +2547,12 @@ struct ProcessLists
 };
 struct MobileObjectCellAccess
 {
-    bool FUN_004518e0() const;
+    bool TESObjectCELL_HasWater() const;
 };
 struct WaterZoneManager
 {
     int m_uiPathPointIndex;
-    void FUN_004e1bc0(BSFaceGenAnimationData* data, ShadowSceneNode* scene);
+    void TESWaterSystem_UpdateWaterSystem(BSFaceGenAnimationData* data, ShadowSceneNode* scene);
     static void FUN_00872930(int index);
 };
 struct TES
@@ -2594,12 +2594,12 @@ void FUN_008727d0_shell::FUN_008727d0()
         int isavemaxaniso = DAT_011a9608;
         DAT_011a9608 = 1;
         if (!FUN_005468f0(11) &&
-            (!g_TES->IsCellInterior() || ((MobileObjectCellAccess*)g_TES->IsCellInterior())->FUN_004518e0()))
+            (!g_TES->IsCellInterior() || ((MobileObjectCellAccess*)g_TES->IsCellInterior())->TESObjectCELL_HasWater()))
         {
             ShadowSceneNode* pscene = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
             bool bwasLightUpdateDisabled = pscene->FUN_005f9ad0();
             pscene->SetCreatureType(1);
-            g_TES->GetActorScale()->FUN_004e1bc0(FUN_00524c90(), pscene);
+            g_TES->GetActorScale()->TESWaterSystem_UpdateWaterSystem(FUN_00524c90(), pscene);
             pscene->SetCreatureType(bwasLightUpdateDisabled);
         }
         else
@@ -2646,11 +2646,11 @@ extern GlobalObjectO2_00a7b610 g_01201f7c;
 class BSFadeNodeCuller
 {
   public:
-    GlobalObjectO2_00a7b610* FUN_00872ef0();
+    GlobalObjectO2_00a7b610* BSFadeNodeCuller_GetRTTI();
 };
 
 // @fnv 0x00872ef0
-GlobalObjectO2_00a7b610* BSFadeNodeCuller::FUN_00872ef0()
+GlobalObjectO2_00a7b610* BSFadeNodeCuller::BSFadeNodeCuller_GetRTTI()
 {
     return &g_01201f7c;
 }
@@ -2998,14 +2998,14 @@ unsigned int __thiscall FUN_00875bd0_Class::FUN_00875bd0(int aiIndex)
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
     void FUN_00876810();
 };
 
 // @fnv 0x00876810
 void FUN_00456630_helper::FUN_00876810()
 {
-    FUN_00456630(0x800);
+    NiAVObject_GetBit(0x800);
 }
 
 namespace fnv_00876830 {
@@ -3316,7 +3316,7 @@ struct FUN_00991600_t
     void FUN_00991600(bool);
 };
 struct GameTimerRecord;
-void FUN_0054ae30();
+void TESObjectCELL_PerformQueuedChildAttaches();
 void FUN_00552570();
 FUN_0086f6a0_mob* FUN_007624d0();
 void FUN_0086f830(float);
@@ -3359,7 +3359,7 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
         ppipboy->FUN_007fa990();
     if (*g_011c3ea4.Int() > 1)
     {
-        FUN_0054ae30();
+        TESObjectCELL_PerformQueuedChildAttaches();
         ((FUN_0087a6d0_shell*)TaskQueueInterface::GetInstance())->FUN_0087a6d0();
         TaskQueueInterface::GetInstance()->FUN_0087a790();
         FUN_00552570();
@@ -4327,16 +4327,16 @@ class NiNode
     void Update(const NiUpdateData& kData);
 };
 struct NiNode_00558310;
-NiAVObject* __fastcall FUN_00558310(NiNode_00558310*);
+NiAVObject* __fastcall BSSceneGraph_GetCameraRoot(NiNode_00558310*);
 unsigned int __cdecl FUN_0045c670();
 struct FUN_0056fa00_S
 {
-    M3 FUN_0056fa00();
+    M3 TESObjectREFR_GetOrientation();
 };
 class TES
 {
   public:
-    GridCell* FUN_00457050(int, int);
+    GridCell* TES_GetGridCell(int, int);
 };
 struct CP_008c48d0
 {
@@ -4350,15 +4350,15 @@ extern GlobalObject_0045cfe0 g_011c63cc;
 extern int g_TES;
 struct FUN_0054cfd0_S
 {
-    bool FUN_0054cfd0(::NiPoint3* apPos, ::NiPoint3* apRot);
+    bool TESObjectCELL_GetCOCPlacementInfo(::NiPoint3* apPos, ::NiPoint3* apRot);
 };
 struct FUN_00548230_S
 {
-    void FUN_00548230(TESObjectREFR* apRef, bool abFlag);
+    void TESObjectCELL_AddReference(TESObjectREFR* apRef, bool abFlag);
 };
 struct FUN_00456520_Class
 {
-    void FUN_00456520();
+    void IOManager_LoadAllQueuedPriorities();
 };
 extern IOManager* DAT_01202d98;
 class AutoMemHelper
@@ -4383,7 +4383,7 @@ struct FUN_00b5cbd0_S
 };
 struct FUN_00565730_S
 {
-    void FUN_00565730();
+    void TESObjectREFR_InitScript();
 };
 struct FUN_00440460_S
 {
@@ -4592,29 +4592,29 @@ void __cdecl FUN_00877260(::NiPoint3 apos)
     if (!pcell)
     {
         pcell = *(TESObjectCELL**)((TES*)g_TES)
-                     ->FUN_00457050((unsigned int)*g_011c63cc.Int() >> 1, (unsigned int)*g_011c63cc.Int() >> 1);
+                     ->TES_GetGridCell((unsigned int)*g_011c63cc.Int() >> 1, (unsigned int)*g_011c63cc.Int() >> 1);
     }
     if (pcell)
     {
-        ((FUN_0054cfd0_S*)pcell)->FUN_0054cfd0(&apos, &rot);
+        ((FUN_0054cfd0_S*)pcell)->TESObjectCELL_GetCOCPlacementInfo(&apos, &rot);
     }
     _g_thePlayer->SetZRotV(rot.z);
     _g_thePlayer->SetPositionV(&apos);
     if (pcell)
     {
-        ((FUN_00548230_S*)pcell)->FUN_00548230((TESObjectREFR*)_g_thePlayer, false);
-        ((FUN_00456520_Class*)DAT_01202d98)->FUN_00456520();
+        ((FUN_00548230_S*)pcell)->TESObjectCELL_AddReference((TESObjectREFR*)_g_thePlayer, false);
+        ((FUN_00456520_Class*)DAT_01202d98)->IOManager_LoadAllQueuedPriorities();
         AutoMemHelper tempMemContext(0x34, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp",
                                      0x2612);
         ((NiAVObject*)((PC_00605d70*)_g_thePlayer)->GetNode(false))->UpdateSceneObject();
         ((FUN_00b5cbd0_S*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))
             ->FUN_00b5cbd0(((PC_00605d70*)_g_thePlayer)->GetNode(false));
     }
-    ((FUN_00565730_S*)_g_thePlayer)->FUN_00565730();
-    ((FUN_00440460_S*)FUN_00558310((NiNode_00558310*)FUN_0045c670()))->FUN_00440460((const V3*)&apos);
-    FUN_00558310((NiNode_00558310*)FUN_0045c670())->SetLocalRotation(((FUN_0056fa00_S*)_g_thePlayer)->FUN_0056fa00());
+    ((FUN_00565730_S*)_g_thePlayer)->TESObjectREFR_InitScript();
+    ((FUN_00440460_S*)BSSceneGraph_GetCameraRoot((NiNode_00558310*)FUN_0045c670()))->FUN_00440460((const V3*)&apos);
+    BSSceneGraph_GetCameraRoot((NiNode_00558310*)FUN_0045c670())->SetLocalRotation(((FUN_0056fa00_S*)_g_thePlayer)->TESObjectREFR_GetOrientation());
     UpdateData.NiUpdateData(0.0f, false, false);
-    ((NiNode*)FUN_00558310((NiNode_00558310*)FUN_0045c670()))->Update(*(NiUpdateData*)&UpdateData);
+    ((NiNode*)BSSceneGraph_GetCameraRoot((NiNode_00558310*)FUN_0045c670()))->Update(*(NiUpdateData*)&UpdateData);
 }
 }  // namespace fnv_00877260
 
@@ -5286,11 +5286,11 @@ extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 struct FUN_00872ed0_shell
 {
-    void FUN_00872ed0(int param_1);
+    void NiCullingProcess_AppendVirtual(int param_1);
 };
 
 // @fnv 0x00872ed0
-void FUN_00872ed0_shell::FUN_00872ed0(int aiUnused)
+void FUN_00872ed0_shell::NiCullingProcess_AppendVirtual(int aiUnused)
 {
     DebugBreak();
 }
@@ -6020,7 +6020,7 @@ class InterfaceManager
   public:
     Tile* FUN_00586150();
 };
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_Instance();
 extern "C" bool s_bAllowDetach;
 void __cdecl FUN_007c6120();
 void __cdecl FUN_007917a0();
@@ -6031,7 +6031,7 @@ bool __cdecl IsStartMenuFlag1Set();
 void __cdecl FUN_00706320(int)
 {
     s_bAllowDetach = true;
-    Tile* root = FUN_004b7210()->FUN_00586150();
+    Tile* root = InterfaceManager_Instance()->FUN_00586150();
     {
         void* position = root->children.GetHeadPos();
         while (position)
@@ -6133,7 +6133,7 @@ struct Receiver86
     void FUN_0086bda0();
     Receiver86* FUN_00460140();
     int* FUN_006815c0();
-    void FUN_00458200(int);
+    void TES_SetWorldSpace(int);
     void ClearIdleAnims();
     void FUN_008a8150(int);
     void FUN_00970d50();
@@ -6144,9 +6144,9 @@ struct Receiver86
     int FUN_008d6f30();
     void FUN_004650a0(int);
     void FUN_00ec1800();
-    void FUN_00456520();
+    void IOManager_LoadAllQueuedPriorities();
     int FUN_0044ddc0();
-    unsigned char FUN_00451530();
+    unsigned char TES_IsRunningCellTests();
     int FUN_00559450();
     Device86* FUN_004dc020();
     void FUN_0086ba10();
@@ -6158,17 +6158,17 @@ struct Receiver86
     unsigned int FUN_0044edb0();
     Receiver86* FUN_004e2190();
     void FUN_00b63620();
-    void FUN_004a4340();
+    void BGSDecalManager_ClearPendingQueries();
     void FUN_008026b0();
     bool FUN_005dc960();
     unsigned char FUN_00678ce0();
     void FUN_008774a0(int);
 
     void FUN_00b012f0(const char*, const char*);
-    void FUN_004a0370();
+    void NiRenderer_LockRenderer();
     void FUN_0086bbd0(void*, int);
     void FUN_0086bae0(void*, int);
-    void FUN_004a03c0();
+    void NiRenderer_UnlockRenderer();
     void FUN_00ec16d0(const char*, int, int, int, int, float);
     void FUN_0086cf20(Receiver86*);
     int FUN_006629f0();
@@ -6209,8 +6209,8 @@ struct Context86
 {
     int previous;
     void FUN_00404eb0(int, bool, void*, int);
-    void FUN_00404f00(int, bool, void*, int);
-    void FUN_00404f70();
+    void AutoMemContext_Enter(int, bool, void*, int);
+    void AutoMemContext_Leave();
     void FUN_00404ee0();
 };
 struct Text86
@@ -6287,7 +6287,7 @@ int __cdecl FUN_0086bcc0(...);
 int __cdecl FUN_00c3a6d0(...);
 int __cdecl FUN_00404eb0(...);
 int __cdecl FUN_00453720(...);
-int __cdecl FUN_00404f70(...);
+int __cdecl AutoMemContext_Leave(...);
 
 int __cdecl FUN_00a61ad0(...);
 int __cdecl FUN_006ff610(...);
@@ -6318,17 +6318,17 @@ int __cdecl FUN_00876d20(...);
 
 int __cdecl FUN_0086d500(...);
 Receiver86* __cdecl FUN_0043c4b0();
-int __cdecl FUN_004a0370(...);
+int __cdecl NiRenderer_LockRenderer(...);
 int __cdecl SUB_005d4a40(...);
 int __cdecl FUN_0086bbd0(...);
 int __cdecl FUN_0086bae0(...);
 int __cdecl FUN_0086d590(...);
 int __cdecl FUN_00702250(...);
-int __cdecl FUN_006519f0(...);
+int __cdecl BSFaceGenManager_InitializeSystem(...);
 int __cdecl FUN_00871c90(...);
 int __cdecl FUN_006a2920(...);
 int __cdecl FUN_0086c010(...);
-int __cdecl FUN_004a03c0(...);
+int __cdecl NiRenderer_UnlockRenderer(...);
 int __cdecl FUN_00866ff0(...);
 int __cdecl FUN_00ec16d0(...);
 int __cdecl FUN_0086cf20(...);
@@ -6347,7 +6347,7 @@ int __cdecl FUN_004deb30(...);
 int __cdecl FUN_00416870(...);
 int __cdecl FUN_00460140(...);
 int __cdecl FUN_006815c0(...);
-int __cdecl FUN_00458200(...);
+int __cdecl TES_SetWorldSpace(...);
 int __cdecl ClearIdleAnims(...);
 int __cdecl FUN_008a8150(...);
 int __cdecl FUN_00970d50(...);
@@ -6363,10 +6363,10 @@ int __cdecl FUN_008d6f30(...);
 int __cdecl FUN_004650a0(...);
 int __cdecl FUN_007053f0(...);
 int __cdecl FUN_00ec1800(...);
-int __cdecl FUN_00456520(...);
+int __cdecl IOManager_LoadAllQueuedPriorities(...);
 int __cdecl FUN_00403d30(...);
 int __cdecl FUN_0044ddc0(...);
-int __cdecl FUN_00451530(...);
+int __cdecl TES_IsRunningCellTests(...);
 int __cdecl FUN_00559450(...);
 int __cdecl FUN_004dc020(...);
 int __cdecl FUN_0086ba10(...);
@@ -6386,7 +6386,7 @@ int __cdecl FUN_00830640(...);
 int __cdecl FUN_004e2190(...);
 int __cdecl FUN_00b63620(...);
 Receiver86* __cdecl FUN_0049fef0();
-int __cdecl FUN_004a4340(...);
+int __cdecl BGSDecalManager_ClearPendingQueries(...);
 Receiver86* __cdecl FUN_00705910();
 int __cdecl FUN_008026b0(...);
 int __cdecl FUN_005dc960(...);
@@ -6423,7 +6423,7 @@ int __cdecl FUN_0086bee0(...);
 int __cdecl FUN_006eb980(...);
 int __cdecl FUN_00651ab0(...);
 int __cdecl FUN_00990ff0(...);
-int __cdecl FUN_00664940(...);
+int __cdecl BSTreeManager_Destroy(...);
 int __cdecl FUN_00526eb0(...);
 int __cdecl FUN_00408de0(...);
 int __cdecl FUN_0086bf10(...);
@@ -6442,7 +6442,7 @@ int __cdecl FUN_004b8cf0(...);
 int __cdecl FUN_00a1c790(...);
 int __cdecl FUN_00aa2170(...);
 int __cdecl FUN_008783c0(...);
-Receiver86* __cdecl FUN_00401020();
+Receiver86* __cdecl MemoryManager_Instance();
 int __cdecl FUN_00aa47c0(...);
 int __cdecl FUN_008784d0(...);
 
@@ -6609,10 +6609,10 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 FUN_0086bd70();
                 memoryContext11.FUN_00404eb0(0x10, 1, &UNK_010829c4, 0x8e0);
                 FUN_00453720();
-                memoryContext11.FUN_00404f70();
-                memoryContext11.FUN_00404f00(0xf, 1, &UNK_010829c4, 0x8e6);
+                memoryContext11.AutoMemContext_Leave();
+                memoryContext11.AutoMemContext_Enter(0xf, 1, &UNK_010829c4, 0x8e6);
                 FUN_00a61ad0();
-                memoryContext11.FUN_00404f70();
+                memoryContext11.AutoMemContext_Leave();
                 FUN_006ff610();
                 argumentCount8 = 0;
                 arguments5 = (unsigned short**)CommandLineToArgvW(GetCommandLineW(), &argumentCount8);
@@ -6670,13 +6670,13 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 FUN_00c3bbe0(&UNK_01082a28);
                 FUN_00c3bc30(&UNK_01082a10);
                 FUN_00c3bc80(&UNK_01082a00);
-                memoryContext11.FUN_00404f00(0x18, 1, &UNK_010829c4, 0x992);
+                memoryContext11.AutoMemContext_Enter(0x18, 1, &UNK_010829c4, 0x992);
                 FUN_0040fbe0();
                 FUN_00aff100()->FUN_0086bda0();
-                memoryContext11.FUN_00404f70();
-                memoryContext11.FUN_00404f00(0x13, 1, &UNK_010829c4, 0x99c);
+                memoryContext11.AutoMemContext_Leave();
+                memoryContext11.AutoMemContext_Enter(0x13, 1, &UNK_010829c4, 0x99c);
                 FUN_00876d20();
-                memoryContext11.FUN_00404f70();
+                memoryContext11.AutoMemContext_Leave();
                 windowClass10.style = 3;
                 windowClass10.procedure = &UNK_0086a0a0;
                 windowClass10.classExtra = 0;
@@ -6699,28 +6699,28 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 globalsAllocation7 = (Receiver86*)operator new(0xa4);
                 newGlobals20 = globalsAllocation7 ? globalsAllocation7->FUN_0086c160(window1, param_1) : 0;
                 _DAT_011dea0c = (unsigned char*)newGlobals20;
-                memoryContext11.FUN_00404f00(0xd, 1, &UNK_010829c4, 0x9f8);
+                memoryContext11.AutoMemContext_Enter(0xd, 1, &UNK_010829c4, 0x9f8);
                 interfaceAllocation2 = (Receiver86*)operator new(8);
                 newInterface17 = interfaceAllocation2 ? interfaceAllocation2->FUN_007005d0() : 0;
                 _DAT_011d8804 = (unsigned int)newInterface17;
-                memoryContext11.FUN_00404f70();
+                memoryContext11.AutoMemContext_Leave();
                 FUN_0040fbe0(&UNK_0108295c);
                 ((Receiver86*)_DAT_011dea0c)->FUN_0086d500();
                 DAT_011f4509 = 1;
-                FUN_0043c4b0()->FUN_004a0370();
+                FUN_0043c4b0()->NiRenderer_LockRenderer();
                 FUN_0043c4b0()->FUN_0086bbd0(&SUB_005d4a40, 0);
                 FUN_0043c4b0()->FUN_0086bae0(&UNK_00872570, 0);
                 FUN_0086bf70();
                 ((Receiver86*)_DAT_011dea0c)->FUN_0086d590();
                 FUN_00702250(1);
-                FUN_006519f0();
+                BSFaceGenManager_InitializeSystem();
                 ((Receiver86*)_DAT_011dea0c)->FUN_00871c90(1);
                 FUN_006a2920();
                 FUN_0086c010();
-                FUN_0043c4b0()->FUN_004a03c0();
+                FUN_0043c4b0()->NiRenderer_UnlockRenderer();
                 FUN_00866ff0();
                 DAT_0126fac4->FUN_00ec16d0(g_011de72c.FUN_00403df0(), 0, -1, 1, 1, 0.0f);
-                memoryContext11.FUN_00404f70();
+                memoryContext11.AutoMemContext_Leave();
                 ((Receiver86*)_DAT_011dea0c)->FUN_0086cf20((Receiver86*)FUN_0045c670());
                 FUN_0086be90(((Receiver86*)FUN_0045c670())->FUN_006629f0());
                 FUN_0086be80(((Receiver86*)FUN_0045c670())->FUN_006629f0());
@@ -6739,7 +6739,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 startupState3 = 0;
                 startupFlags3 = 0;
                 position25.FUN_00416870(_DAT_01018bfc, _DAT_01018bfc, _DAT_0101e704);
-                ((Receiver86*)_DAT_011dea10)->FUN_00458200(*g_dataHandler->FUN_00460140()->FUN_006815c0());
+                ((Receiver86*)_DAT_011dea10)->TES_SetWorldSpace(*g_dataHandler->FUN_00460140()->FUN_006815c0());
                 ((Receiver86*)_DAT_011dea3c)->ClearIdleAnims();
                 g_TESSaveLoadGame->FUN_008a8150(1);
                 FUN_0040fbe0(&UNK_0108293c);
@@ -6766,7 +6766,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 {
                     DAT_0126fac4->FUN_00ec1800();
                 }
-                ((Receiver86*)_DAT_01202d98)->FUN_00456520();
+                ((Receiver86*)_DAT_01202d98)->IOManager_LoadAllQueuedPriorities();
                 FUN_0040fbe0(&UNK_010828fc);
                 FUN_00403d30(&message0, 0, 0x1c);
                 gameWindow3 = ((Receiver86*)_DAT_011dea0c)->FUN_0044ddc0();
@@ -6778,7 +6778,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                         TranslateMessage(&message0);
                         DispatchMessageA(&message0);
                     }
-                    if ((int)GetForegroundWindow() == gameWindow3 || ((Receiver86*)_DAT_011dea10)->FUN_00451530() ||
+                    if ((int)GetForegroundWindow() == gameWindow3 || ((Receiver86*)_DAT_011dea10)->TES_IsRunningCellTests() ||
                         g_011deb30.FUN_00559450() || *g_011deed8.FUN_00408d60())
                     {
                         deviceStatus13 = FUN_0043c4b0()->FUN_004dc020()->TestCooperativeLevel();
@@ -6837,7 +6837,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                             FUN_00832ad0(0);
                             FUN_00453a70()->FUN_00ad7740(1);
                             ((Receiver86*)_DAT_011dea0c)->FUN_004e2190()->FUN_00b63620();
-                            FUN_0049fef0()->FUN_004a4340();
+                            FUN_0049fef0()->BGSDecalManager_ClearPendingQueries();
                             FUN_00705910()->FUN_008026b0();
                             if (FUN_00446e10())
                             {
@@ -6922,7 +6922,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 FUN_00651ab0();
                 FUN_00990ff0();
                 ((Manager86*)FUN_00b00a00())->Stop();
-                FUN_00664940();
+                BSTreeManager_Destroy();
                 FUN_00526eb0();
                 FUN_00408de0();
                 FUN_0086bdd0();
@@ -6948,7 +6948,7 @@ int __stdcall FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned 
                 FUN_00a1c790();
                 FUN_00aa2170();
                 shutdownText46.FUN_008783c0(&UNK_010828ec);
-                FUN_00401020()->FUN_00aa47c0(&shutdownText46, 0);
+                MemoryManager_Instance()->FUN_00aa47c0(&shutdownText46, 0);
                 result5 = 0;
                 shutdownText46.FUN_008784d0();
                 memoryContext11.FUN_00404ee0();
@@ -7339,7 +7339,7 @@ struct TaskInit
     void Activate();
 };
 TaskInit& GetTasks();
-void FUN_00526e10();
+void BGSLoadedReferenceCollection_Create();
 void FUN_00990f20();
 struct InitSetting
 {
@@ -8523,7 +8523,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     CreateTrees(false);
     LogInit("Activating Tasklet Threads...");
     GetTasks().Activate();
-    FUN_00526e10();
+    BGSLoadedReferenceCollection_Create();
     FUN_00990f20();
     memory5.Enter(25, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0xe85);
     scene->Reset();
@@ -8768,24 +8768,24 @@ struct Service
     bool FUN_00701450(bool);
     void FUN_00851d90();
     void FUN_00c3dbf0();
-    void FUN_00457d70(int, int, int);
+    void TES_ShowLoadingMenu(int, int, int);
     void FUN_00b6dd00(Service*, bool);
     void FUN_007011d0(bool);
-    bool FUN_00451530();
+    bool TES_IsRunningCellTests();
     bool FUN_0086ef70();
-    void FUN_004556d0(int);
+    void TES_TestAllCells(int);
     Service* FUN_00559450();
     float FUN_0084d030();
     void FUN_00867a40(float);
     int* FUN_0043d4d0();
-    void FUN_00455640();
-    void FUN_0040fbf0(int);
+    void TES_RunAnimations();
+    void BSSpinLock_Lock(int);
     void FUN_00978550();
     void FUN_009777a0();
     void FUN_0096eb40();
     void FUN_0096e9b0();
     void FUN_008d0600(float, int);
-    void FUN_0040fba0();
+    void BSSpinLock_Unlock();
     void FUN_00878080(bool);
     void FUN_0049fff0();
     void FUN_00712e60(void*);
@@ -8801,7 +8801,7 @@ struct Service
     void FUN_006ebc50();
     void FUN_006a61b0();
     bool* FUN_00408d60();
-    void FUN_006c3640();
+    void NavMeshObstacleManager_Update();
     void FUN_00991500(bool);
     void FUN_008c7990();
     void FUN_008ca300();
@@ -8816,7 +8816,7 @@ bool __cdecl FUN_007050d0();
 bool __cdecl FUN_00703d50();
 void* __cdecl FUN_00707ad0();
 void* __cdecl FUN_00705990();
-Service* __cdecl FUN_004b7210();
+Service* __cdecl InterfaceManager_Instance();
 Service* __cdecl FUN_006ff580();
 bool __cdecl FUN_0086efa0();
 bool __cdecl FUN_0070edf0();
@@ -8855,14 +8855,14 @@ void __cdecl FUN_00b60040();
 void __cdecl RecreateRenderDevice();
 void __cdecl FUN_00703e10();
 void __cdecl FUN_00a29680();
-void __cdecl FUN_005ae270();
-void __cdecl FUN_005a9d60();
+void __cdecl Script_ClearOptimizations();
+void __cdecl ScriptLocals_ClearOptimizations();
 float __cdecl FUN_006da7c0(void*, void*, int, int);
-void __cdecl FUN_006652e0(Service*, bool);
+void __cdecl BSTreeManager_Update(Service*, bool);
 void __cdecl FUN_00b54000(float);
 Service* __cdecl FUN_00450b80(int);
 void __cdecl FUN_008c80e0(bool);
-int __cdecl FUN_0047e040(float);
+int __cdecl TESActorBaseData_GetAlignmentForKarma(float);
 void __cdecl FUN_0070ed20(int);
 void __cdecl FUN_00aa7290(unsigned int);
 extern Service* DAT_011d8804;
@@ -8932,7 +8932,7 @@ void MainLoop::FUN_0086e650()
     DAT_011dea2d = DAT_011d8804->FUN_00701450(true);
     DAT_011dea2e = FUN_00703d50();
     bool differentMenu = FUN_00707ad0() && FUN_00707ad0() != FUN_00705990();
-    if (FUN_004b7210()->FUN_00424940() == 3 && !differentMenu)
+    if (InterfaceManager_Instance()->FUN_00424940() == 3 && !differentMenu)
         FUN_008782b0();
     FUN_0086f940();
     FUN_006ff580()->FUN_006ff860();
@@ -8961,7 +8961,7 @@ void MainLoop::FUN_0086e650()
         if (FUN_0070edf0())
             FUN_0078cfc0();
         else if (FUN_00705ea0())
-            DAT_011dea10->FUN_00457d70(0, 0, 0);
+            DAT_011dea10->TES_ShowLoadingMenu(0, 0, 0);
     }
     FUN_0086efe0();
     FUN_004a0ea0()->FUN_00b6dd00(FUN_00524c90(), DAT_011dea2b);
@@ -8976,14 +8976,14 @@ void MainLoop::FUN_0086e650()
         FUN_00a81a20();
     if (!DAT_011dea2b && !paused)
     {
-        if (DAT_011dea10->FUN_00451530() && !DAT_011dea10->FUN_0086ef70())
-            DAT_011dea10->FUN_004556d0(0);
+        if (DAT_011dea10->TES_IsRunningCellTests() && !DAT_011dea10->FUN_0086ef70())
+            DAT_011dea10->TES_TestAllCells(0);
         DAT_011deb7c.FUN_00559450()->Advance(DAT_011f6394.FUN_0084d030());
         DAT_011de7b8.FUN_00867a40(DAT_011f6394.FUN_0084d030());
         if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
-            DAT_011dea10->FUN_00455640();
+            DAT_011dea10->TES_RunAnimations();
     }
-    DAT_011f11a0.FUN_0040fbf0(0);
+    DAT_011f11a0.BSSpinLock_Lock(0);
     DAT_011e0e80.FUN_00978550();
     if (*DAT_011c3ea4.FUN_0043d4d0() != 1)
     {
@@ -9004,13 +9004,13 @@ void MainLoop::FUN_0086e650()
             DAT_011e0e80.FUN_0096e9b0();
         }
     }
-    DAT_011f11a0.FUN_0040fba0();
+    DAT_011f11a0.BSSpinLock_Unlock();
     FUN_00446ef0()->FUN_00878080(true);
     if (FUN_0086ef60())
         FUN_00a61cd0();
     FUN_00868850();
     FUN_00868d10();
-    FUN_006652e0(FUN_00524c90(), DAT_011dea2b || paused);
+    BSTreeManager_Update(FUN_00524c90(), DAT_011dea2b || paused);
     FUN_0086fbe0();
     if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
         FUN_0086fd70();
@@ -9049,7 +9049,7 @@ void MainLoop::FUN_0086e650()
     if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
     {
         if (*DAT_011d73e4.FUN_00408d60())
-            GetNavMeshObstacleManager()->FUN_006c3640();
+            GetNavMeshObstacleManager()->NavMeshObstacleManager_Update();
         DAT_011f1958->FUN_00991500(DAT_011dea2b || DAT_011dea2d || paused);
     }
     if (FUN_00714a00())
@@ -9058,7 +9058,7 @@ void MainLoop::FUN_0086e650()
         FUN_00871dc0();
     FUN_0057ab70();
     FUN_00b60040();
-    int mode4 = FUN_0047e040((float)DAT_011dea3c->values.Get(23));
+    int mode4 = TESActorBaseData_GetAlignmentForKarma((float)DAT_011dea3c->values.Get(23));
     if (mode4 > 2)
     {
         if (mode4 == 3)
@@ -9088,8 +9088,8 @@ void MainLoop::FUN_0086e650()
         FUN_00703e10();
     }
     FUN_00a29680();
-    FUN_005ae270();
-    FUN_005a9d60();
+    Script_ClearOptimizations();
+    ScriptLocals_ClearOptimizations();
     DAT_011deef8 += DAT_011f6394.FUN_0084d030();
     if (FUN_00702360() || (DAT_011dea3c && DAT_011dea3c->FUN_00950090()) || DAT_011deef8 >= 45.0)
     {
@@ -9394,7 +9394,7 @@ struct ShadowScene
 };
 struct ShadowMap
 {
-    ShadowNode* FUN_004e6540();
+    ShadowNode* ShadowSceneLight_GetLight();
     ShadowNode* FUN_005bf820();
     bool FUN_004e6580();
     void FUN_00b9bb10(float, bool);
@@ -9443,8 +9443,8 @@ struct ShadowBoolSetting
 };
 struct ShadowLock
 {
-    void FUN_0040fbf0(int);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int);
+    void BSSpinLock_Unlock();
 };
 struct ShadowActors
 {
@@ -9471,7 +9471,7 @@ ShadowRenderer* __stdcall FUN_004a0ea0(void*);
 int FUN_0050ea90();
 float FUN_00404010(float, float);
 ShadowNode* FUN_0054f4c0();
-void FUN_004e20b0(bool);
+void BSFadeNode_SetFadeEnabled(bool);
 ShadowTarget* __stdcall FUN_004ea970(int, int);
 struct ShadowActor
 {
@@ -9609,7 +9609,7 @@ struct ShadowActor
     virtual void Slot20C();
     virtual void Slot210();
     virtual int GetState();
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     bool FUN_00950090();
     bool FUN_008c51c0();
     ShadowNode* FUN_00950bb0(int);
@@ -9652,12 +9652,12 @@ void ShadowHost::FUN_00871290()
         {
             void* playerShadow32 = 0;
             int count33 = 0;
-            if ((DAT_011dea3c->FUN_004eaf60() || DAT_011dea3c->FUN_00950090()) && !DAT_011dea3c->FUN_008c51c0())
+            if ((DAT_011dea3c->PlayerCharacter_Is3rdPerson() || DAT_011dea3c->FUN_00950090()) && !DAT_011dea3c->FUN_008c51c0())
             {
                 playerShadow32 = system->FUN_00b5cbd0(DAT_011dea3c->FUN_00950bb0(0));
                 ++count33;
             }
-            DAT_011f1180.FUN_0040fbf0(0);
+            DAT_011f1180.BSSpinLock_Lock(0);
             ShadowActor** actors8 = ((ShadowActors*)&DAT_011e0e80)->FUN_00871a30();
             int actorCount72 = ((ShadowActors*)&DAT_011e0e80)->FUN_00472380();
             for (int i = 0; i < actorCount72 && count33 < limit; ++i)
@@ -9676,7 +9676,7 @@ void ShadowHost::FUN_00871290()
                     }
                 }
             }
-            DAT_011f1180.FUN_0040fba0();
+            DAT_011f1180.BSSpinLock_Unlock();
             system->FUN_00b5cde0(playerShadow32);
             ShadowNode* playerNode50 = DAT_011dea3c->FUN_00950bb0(1);
             if (playerNode50)
@@ -9688,7 +9688,7 @@ void ShadowHost::FUN_00871290()
                 bool playerHidden14 = playerNode50->FUN_00456610();
                 playerNode50->FUN_00450f90(true);
                 ShadowNode* specialNode3 = FUN_0054f4c0();
-                FUN_004e20b0(false);
+                BSFadeNode_SetFadeEnabled(false);
                 bool specialHidden29 = false;
                 if (specialNode3)
                 {
@@ -9700,20 +9700,20 @@ void ShadowHost::FUN_00871290()
                 int rendered62 = 0;
                 while (shadow4)
                 {
-                    if (shadow4->FUN_004e6540() && shadow4->FUN_005bf820())
+                    if (shadow4->ShadowSceneLight_GetLight() && shadow4->FUN_005bf820())
                     {
-                        if (!shadow4->FUN_004e6580() && shadow4->FUN_004e6540()->FUN_00456610())
+                        if (!shadow4->FUN_004e6580() && shadow4->ShadowSceneLight_GetLight()->FUN_00456610())
                         {
                             if (shadow4->FUN_005bf820()->FUN_00456610())
                                 shadow4->FUN_00b9bb10(0.0f, true);
                             else
                             {
                                 if (rendered62 < limit)
-                                    shadow4->FUN_004e6540()->FUN_00450f90(false);
+                                    shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(false);
                                 shadow4->FUN_00b9bb10(0.0f, false);
                             }
                         }
-                        if (rendered62 < limit && !shadow4->FUN_004e6540()->FUN_00456610() &&
+                        if (rendered62 < limit && !shadow4->ShadowSceneLight_GetLight()->FUN_00456610() &&
                             !shadow4->FUN_005bf820()->FUN_00456610())
                         {
                             ShadowBound bounds = *shadow4->FUN_005bf820()->FUN_0043d450();
@@ -9723,7 +9723,7 @@ void ShadowHost::FUN_00871290()
                             {
                                 ++rendered62;
                                 ShadowUpdate update53(0.0f, false, false);
-                                shadow4->FUN_004e6540()->FUN_00a59c60(&update53);
+                                shadow4->ShadowSceneLight_GetLight()->FUN_00a59c60(&update53);
                                 shadow4->UpdateShadow(view8, rendered62 - 1);
                                 shadow4->FUN_00b9fba0();
                                 void* renderer12 = FUN_00450b80(0)->FUN_00454b30();
@@ -9733,10 +9733,10 @@ void ShadowHost::FUN_00871290()
                                 shadow4->FUN_00ba02b0();
                             }
                             else
-                                shadow4->FUN_004e6540()->FUN_00450f90(true);
+                                shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(true);
                         }
                         else
-                            shadow4->FUN_004e6540()->FUN_00450f90(true);
+                            shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(true);
                     }
                     shadow4 = system->FUN_00b5b010();
                 }
@@ -9747,7 +9747,7 @@ void ShadowHost::FUN_00871290()
                 }
                 if (specialNode3)
                     specialNode3->FUN_00450f90(specialHidden29);
-                FUN_004e20b0(true);
+                BSFadeNode_SetFadeEnabled(true);
                 system->FUN_00b5b880(view8);
                 playerNode50->FUN_00450f90(playerHidden14);
             }
@@ -9944,8 +9944,8 @@ struct NiRenderer
     virtual void slot48();
     virtual void slot49();
     virtual RenderSurface* Target();
-    void FUN_004a0370();
-    void FUN_004a03c0();
+    void NiRenderer_LockRenderer();
+    void NiRenderer_UnlockRenderer();
 };
 NiRenderer* FUN_0043c4b0();
 struct MTRenderer
@@ -9996,8 +9996,8 @@ struct InterfaceManager
 {
     Modifier* FUN_00718ab0();
 };
-InterfaceManager* FUN_004b7210();
-Modifier* FUN_005d2860();
+InterfaceManager* InterfaceManager_Instance();
+Modifier* TESImageSpaceModifier_GetGetHit();
 void FUN_00529c90(Modifier*);
 void FUN_005299a0(Modifier*, float, void*);
 bool FUN_00705a00();
@@ -10068,7 +10068,7 @@ struct BSCullingProcess
 };
 struct SceneObject
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
 };
 void* FUN_00450b80(int);
 void FUN_00b6bee0(void*, void*, BSCullingProcess*);
@@ -10128,7 +10128,7 @@ void FUN_00871dc0_class::FUN_00871dc0()
     bool menu = DAT_011ad884;
     DAT_011ad884 = true;
     unk9c = true;
-    FUN_0043c4b0()->FUN_004a0370();
+    FUN_0043c4b0()->NiRenderer_LockRenderer();
     FUN_00a044f0();
     FUN_004ea970()->FUN_00ba2f30();
     if (g_011ded3c.Get())
@@ -10145,8 +10145,8 @@ void FUN_00871dc0_class::FUN_00871dc0()
     }
     else if (DAT_011f9426)
         FUN_00524c90()->FUN_00712e60(DAT_011ad840);
-    Modifier* mem = FUN_004b7210()->FUN_00718ab0();
-    FUN_00529c90(FUN_005d2860());
+    Modifier* mem = InterfaceManager_Instance()->FUN_00718ab0();
+    FUN_00529c90(TESImageSpaceModifier_GetGetHit());
     if (mem)
     {
         FUN_005299a0(mem, 1.0f, 0);
@@ -10162,7 +10162,7 @@ void FUN_00871dc0_class::FUN_00871dc0()
         void* camera = FUN_00707ad0()->FUN_008b6200();
         cull.FUN_0041fd00(camera);
         cull.FUN_004a0fd0(unk98.Get());
-        ((SceneObject*)unk98.Get())->FUN_004a1020(FUN_00450b80(1));
+        ((SceneObject*)unk98.Get())->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(1));
         FUN_00b6bee0(camera, FUN_00707ad0()->GetMenuRoot(), &cull);
         FUN_00b6c0d0(camera, unk98.Get(), 0);
         cull.FUN_004a0fd0(0);
@@ -10178,7 +10178,7 @@ void FUN_00871dc0_class::FUN_00871dc0()
     DAT_011dea29 = true;
     FUN_00524c90()->FUN_00712e60(Rect(0, 1, 1, 0));
     FUN_00a04500();
-    FUN_0043c4b0()->FUN_004a03c0();
+    FUN_0043c4b0()->NiRenderer_UnlockRenderer();
     unk9c = false;
     DAT_011ad884 = menu;
 }
@@ -10375,8 +10375,8 @@ struct AnimDataHelper
 {
     float FUN_006447f0();
     void* FUN_0045bbe0();
-    void* FUN_004a0d10();
-    TransformState* FUN_00461130();
+    void* NiCamera_GetViewPort();
+    TransformState* NiAVObject_GetWorldRotate();
 };
 
 struct NiUpdateData
@@ -10400,7 +10400,7 @@ struct NiNode
     NiPoint3* FUN_0043c490();
     void FUN_00440460(const NiPoint3*);
     void Update(NiUpdateData*);
-    void FUN_00546780(bool);
+    void NiAVObject_SetAlwaysDraw(bool);
 };
 
 struct PlayerObjectHelper
@@ -10437,7 +10437,7 @@ extern VATSHelper DAT_011f2250;
 struct BGSBodyPart
 {
     NiPoint3* FUN_0045bb80();
-    void FUN_004f00e0(const NiPoint3&);
+    void NiAVObject_SetWorldTranslate(const NiPoint3&);
 };
 
 struct FORenderedMenu
@@ -10456,10 +10456,10 @@ MTRenderingSystem_Helper* __cdecl FUN_004ea970();
 
 struct ObjectA0
 {
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(void*);
     void FUN_00712e60(void*);
-    void FUN_004f00e0(const NiPoint3&);
+    void NiAVObject_SetWorldTranslate(const NiPoint3&);
     void FUN_00688430(TransformState*);
     NiPoint3* FUN_0045bb80();
 };
@@ -10627,18 +10627,18 @@ void MainShell::FUN_00874c10()
         NiUpdateData updateData7(0.0f, 0, 0);
         DAT_011de9d1 = 1;
 
-        spObjA0->FUN_00507700(((AnimDataHelper*)pAnimData)->FUN_006447f0());
+        spObjA0->NiCamera_SetMaxFarNearRatio(((AnimDataHelper*)pAnimData)->FUN_006447f0());
         spObjA0->FUN_00a6faf0(((AnimDataHelper*)pAnimData)->FUN_0045bbe0());
-        spObjA0->FUN_00712e60(((AnimDataHelper*)pAnimData)->FUN_004a0d10());
+        spObjA0->FUN_00712e60(((AnimDataHelper*)pAnimData)->NiCamera_GetViewPort());
 
-        TransformState kTransform = *((AnimDataHelper*)pAnimData)->FUN_00461130();
-        spObjA0->FUN_004f00e0(*DAT_011e07d0->FUN_0045bb80() + pt_5c3);
+        TransformState kTransform = *((AnimDataHelper*)pAnimData)->NiAVObject_GetWorldRotate();
+        spObjA0->NiAVObject_SetWorldTranslate(*DAT_011e07d0->FUN_0045bb80() + pt_5c3);
         spObjA0->FUN_00688430(&kTransform);
 
         if (((PlayerHelper*)g_thePlayer)->FUN_007721a0() && !((PlayerHelper*)g_thePlayer)->FUN_008a8870() &&
             !DAT_011f2250.FUN_00525430())
         {
-            spObjA0->FUN_004f00e0(*((PlayerHelper*)g_thePlayer)->FUN_007721a0()->FUN_0045bb80() + pt_5c3);
+            spObjA0->NiAVObject_SetWorldTranslate(*((PlayerHelper*)g_thePlayer)->FUN_007721a0()->FUN_0045bb80() + pt_5c3);
         }
 
         NiPoint3 pt_6c_ = *_pPlayerNode->FUN_0043c490();
@@ -10648,11 +10648,11 @@ void MainShell::FUN_00874c10()
 
         BGSBodyPart* pBodyPart3 =
             ((PlayerHelper*)g_thePlayer)->FUN_00967ae0() ? (pBodyPart3 = FUN_00705990()->FUN_006838b0()) : 0;
-        _pPlayerNode->FUN_00546780(1);
+        _pPlayerNode->NiAVObject_SetAlwaysDraw(1);
 
         if (pBodyPart3)
         {
-            pBodyPart3->FUN_004f00e0(*pBodyPart3->FUN_0045bb80() - pt_5c3);
+            pBodyPart3->NiAVObject_SetWorldTranslate(*pBodyPart3->FUN_0045bb80() - pt_5c3);
         }
 
         FUN_00870790((_Fake_FUN_00870790*)FUN_00450b80(0), *spObjA0->FUN_0045bb80());
@@ -10787,13 +10787,13 @@ struct Scene
     void FUN_0049ed90(int);
     Vec* FUN_0045bb80();
     void* FUN_0045bbe0();
-    void FUN_004f00e0(const Vec&);
+    void NiAVObject_SetWorldTranslate(const Vec&);
     void FUN_00936aa0(bool);
     void FUN_00a29680();
     void* FUN_00b6b260();
     void FUN_00b64570(Scene*, Scene*);
     void FUN_00a59c60(const Update&);
-    void FUN_00546780(int);
+    void NiAVObject_SetAlwaysDraw(int);
     VecRef* FUN_009611e0();
     void FUN_00870790(Vec);
     void FUN_008750e0(Vec);
@@ -11141,7 +11141,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
             Context* context2Slot0 = render2Slot14->FUN_008d80e0();
             Pointer texture2Slot11(texture);
             Vec savedPosSlot10 = *view2Slot10->FUN_0045bb80();
-            view2Slot10->FUN_004f00e0(savedPosSlot10.FUN_00439e90(offset));
+            view2Slot10->NiAVObject_SetWorldTranslate(savedPosSlot10.FUN_00439e90(offset));
             context2Slot0->FUN_004a0fd0(texture2Slot11.FUN_00559450());
             texture2Slot11.FUN_00559450()->FUN_00936aa0(1);
             bool renderedSlot0 = false;
@@ -11162,7 +11162,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
             context2Slot0->FUN_004a0fd0(0);
             texture2Slot11.FUN_00559450()->FUN_00936aa0(0);
             texture2Slot11.FUN_0066b0d0(0);
-            view2Slot10->FUN_004f00e0(savedPosSlot10);
+            view2Slot10->NiAVObject_SetWorldTranslate(savedPosSlot10);
         }
     }
     if (FUN_005b9b00())
@@ -11184,7 +11184,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
     {
         Update update(0.0f, 0, 0);
         aliasSlot0->FUN_00a59c60(update);
-        aliasSlot0->FUN_00546780(0);
+        aliasSlot0->NiAVObject_SetAlwaysDraw(0);
         FUN_00450b80(0)->FUN_00870790(*viewSlot23->FUN_009611e0()->FUN_0043c490());
         FUN_00450b80(0)->FUN_008750e0(DAT_011f426c);
     }
@@ -11383,29 +11383,29 @@ struct Camera876
     T876* FUN_006a9540();
     void FUN_00440460(V876*);
     void FUN_00a59c60(V876*);
-    void FUN_00546780(bool);
+    void NiAVObject_SetAlwaysDraw(bool);
     Camera876* FUN_009611e0();
     Camera876* FUN_006629f0();
     Camera876* FUN_008b6200();
     Camera876* FUN_005585e0();
-    R876* FUN_004a0d10();
+    R876* NiCamera_GetViewPort();
     void FUN_00712e60(R876*);
     Camera876* FUN_0045bb80();
     V876* FUN_004a0bd0(V876*);
     void FUN_004fb0b0(bool);
     void FUN_0041fd00(Camera876*);
     void FUN_004a0fd0(void*);
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
     void FUN_00b63b90(int);
     void FUN_0049ed90(bool);
-    void FUN_00439340(int);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetSrcBlendMode(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
     Camera876* FUN_00a59d30(void*);
     void FUN_00a5a040();
     Camera876* FUN_007fa950();
     void FUN_007fae70(void*);
     Camera876* FUN_00559450();
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 struct Player876
 {
@@ -11606,13 +11606,13 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     i = i ? i : p->FUN_006629f0();
     if (!i)
         i = aa0.FUN_00559450();
-    h = *i->FUN_004a0d10();
+    h = *i->NiCamera_GetViewPort();
     if (DAT_011f9426 && FUN_0043c4b0()->height() == FUN_0043c4b0()->width())
         i->FUN_00712e60(&DAT_011ad840);
     FUN_00b98380(0, 1);
     s->FUN_0041fd00(i);
     s->FUN_004a0fd0(a8c.FUN_00559450());
-    a8c.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
+    a8c.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
     FUN_00b6bee0(i, f, s);
     FUN_00b6c0d0(i, a8c.FUN_00559450(), 0);
     a8c.FUN_00559450()->FUN_00b63b90(6);
@@ -11622,11 +11622,11 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     if (q)
     {
         q->FUN_0049ed90(true);
-        q->FUN_00439340(6);
-        q->FUN_00439390(0);
+        q->NiAlphaProperty_SetSrcBlendMode(6);
+        q->NiAlphaProperty_SetDestBlendMode(0);
         FUN_00707ad0()->FUN_007fa950()->FUN_00a5a040();
     }
-    FUN_00707ad0()->FUN_007fae70(g_011dec64.FUN_00559450()->FUN_004bc320(0));
+    FUN_00707ad0()->FUN_007fae70(g_011dec64.FUN_00559450()->BSRenderedTexture_GetTexture(0));
     s->FUN_0041fd00(i);
     s->FUN_004a0fd0(a98.FUN_00559450());
     FUN_00b97e30(0, 1);
@@ -11650,7 +11650,7 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     if (DAT_011dea3c->FUN_00967ae0())
     {
         f->FUN_00a59c60(&cf);
-        f->FUN_00546780(eb);
+        f->NiAVObject_SetAlwaysDraw(eb);
         if (a && a->FUN_009611e0())
         {
             a->FUN_009611e0()->FUN_00440460(&b.pos);
@@ -11783,7 +11783,7 @@ struct SLDataHandler
 
 struct SLSky
 {
-    void FUN_004ba7d0();
+    void GridCellArray_AttachAllLand3D();
 };
 
 struct SLTES
@@ -11919,7 +11919,7 @@ void __cdecl FUN_00876dd0(const char* apCellName, SLPoint3* apPos)
         if (bLoad7)
         {
             g_pSLTES->LoadArea(apPos, true);
-            g_pSLTES->GetSky()->FUN_004ba7d0();
+            g_pSLTES->GetSky()->GridCellArray_AttachAllLand3D();
         }
     }
 }
@@ -11999,7 +11999,7 @@ struct FUN_008774a0_node
 
 struct FUN_0054ca90_cell
 {
-    void FUN_0054ca90(void* apRef);
+    void TESObjectCELL_RemoveReference(void* apRef);
 };
 
 struct FUN_008774a0_player
@@ -12133,7 +12133,7 @@ struct FUN_007d6bd0_save
 
 struct FUN_004539a0_tes
 {
-    void FUN_004539a0(int a1, int a2);
+    void TES_ClearAllCells(int a1, int a2);
     void FUN_007037c0(int aiValue);
     void FUN_0061cc40(int aiValue);
     void FUN_0045ac80();
@@ -12163,7 +12163,7 @@ struct FUN_00b631d0_obj
 FUN_00ad8780_audio* FUN_00453a70();
 void __cdecl FUN_008324e0(int aiValue);
 FUN_006c09f0_mgr* GetNavMeshObstacleManager();
-void FUN_00868d70(int aiValue);
+void GarbageCollector_ClearAll(int aiValue);
 void FUN_00c459d0(int aiValue);
 FUN_00b631d0_obj* FUN_00b4f5c0();
 void __cdecl FUN_0040fbe0();
@@ -12195,7 +12195,7 @@ void FUN_008774a0_shell::FUN_008774a0(bool abFlag)
     FUN_00453a70()->FUN_00ad8780(-1);
     FUN_008324e0(0);
     if (DAT_011dea3c->FUN_008d6f30())
-        DAT_011dea3c->FUN_008d6f30()->FUN_0054ca90(DAT_011dea3c);
+        DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_RemoveReference(DAT_011dea3c);
 
     FUN_008774a0_node* pNode = DAT_011dea3c->FUN_00950bb0(true);
     FUN_008774a0_node* pRoot = pNode ? pNode->v003() : 0;
@@ -12206,11 +12206,11 @@ void FUN_008774a0_shell::FUN_008774a0(bool abFlag)
     if (pRoot && pRoot->FUN_009611e0())
         pRoot->FUN_009611e0()->v058(pNode);
 
-    DAT_011dea10->FUN_004539a0(0, 0);
+    DAT_011dea10->TES_ClearAllCells(0, 0);
     DAT_011dea10->FUN_007037c0(0x7fffffff);
     DAT_011dea10->FUN_0061cc40(0x7fffffff);
     GetNavMeshObstacleManager()->FUN_006c09f0();
-    FUN_00868d70(0);
+    GarbageCollector_ClearAll(0);
     FUN_00c459d0(0);
     DAT_011dea3c->v115(0, 0);
     DAT_011ddf38->FUN_0084a840();
@@ -12326,7 +12326,7 @@ struct ViewNode
     ViewNode* FUN_0084e3a0();
     void FUN_00b5ba80(ViewNode*, ViewNode*);
     ViewList* FUN_007d6bb0();
-    ViewNode* FUN_00457070();
+    ViewNode* TES_GetCurrentCell();
     ViewNode* FUN_009d9f20();
     unsigned int FUN_00c5b5d0();
     ViewNode* FUN_00c5b5a0(int);
@@ -12358,7 +12358,7 @@ struct MemoryContext
     int unk00;
     MemoryContext(int, bool, const char*, int);
     ~MemoryContext();
-    void FUN_00404f70();
+    void AutoMemContext_Leave();
 };
 struct LocalCull
 {
@@ -12738,7 +12738,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
                     }
                 }
             }
-            ViewNode* extra6 = DAT_011dea10->FUN_00457070()->FUN_009d9f20();
+            ViewNode* extra6 = DAT_011dea10->TES_GetCurrentCell()->FUN_009d9f20();
             if (extra6)
             {
                 for (int extraIndex = 0; extraIndex < extra6->FUN_00c5b5d0(); ++extraIndex)
@@ -12807,7 +12807,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
     if (DAT_011f94b4)
         FUN_00450b80(0)->FUN_00a89af0(process);
     process->FUN_004a0fd0(0);
-    memory7.FUN_00404f70();
+    memory7.AutoMemContext_Leave();
     m_88.FUN_00559450()->m_38 = false;
     m_88.FUN_00559450()->m_3a = false;
     FUN_008746c0();
@@ -12905,7 +12905,7 @@ extern GlobalObject_0045cf30 g_011deadc;
 
 struct ProcObj
 {
-    void FUN_0063a630(void* a, void* b);
+    void Sky_Initialize(void* a, void* b);
     void* FUN_0045cd60();
     void* FUN_004505a0();
 };
@@ -13013,7 +13013,7 @@ void FUN_00877730()
 {
     AutoMemHelper helper8(0x21, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0x26bd);
     FUN_0040fbe0("Initializing Sky...");
-    DAT_011dea20->FUN_0063a630(DAT_011deb34.FUN_00559450(), DAT_011deb00.FUN_00559450());
+    DAT_011dea20->Sky_Initialize(DAT_011deb34.FUN_00559450(), DAT_011deb00.FUN_00559450());
     ((HostV*)g_011deda4.FUN_00559450())->v37(((ModelOps*)(void*)DAT_011dea20->FUN_0045cd60())->FUN_0043b230(), 1);
     ((LightShell*)FUN_00450b80(0))->FUN_00b5aac0((void*)DAT_011dea20->FUN_004505a0());
     DAT_011deb34.FUN_00559450()->FUN_00a5a040();
@@ -13219,7 +13219,7 @@ struct NiAVObject
 };
 struct CamNode
 {
-    NiAVObject* FUN_00558310();
+    NiAVObject* BSSceneGraph_GetCameraRoot();
     NiCamera* GetAnimationData();
 };
 struct CamNodePtr
@@ -13255,7 +13255,7 @@ void __cdecl FUN_00872df0(bool a);
 struct Sky
 {
     void* FUN_0045cd60();
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 struct TES
 {
@@ -13329,10 +13329,10 @@ void* MainX::UpdateCamera()
         static CamWatcher kWatcher;
         kWatcher.FUN_008d6f50(pOverride6 ? pOverride6 : pCamera);
     }
-    ((NiAVObject*)g_011deb34)->FUN_00440460(((CamNode*)g_011deb7c)->FUN_00558310()->FUN_0043c490());
+    ((NiAVObject*)g_011deb34)->FUN_00440460(((CamNode*)g_011deb7c)->BSSceneGraph_GetCameraRoot()->FUN_0043c490());
     NiUpdateData kData5(0.0f, false, false);
     ((NiAVObject*)g_011deb34)->Update(kData5);
-    ((NiAVObject*)g_011deda4)->FUN_00440460(((CamNode*)g_011deb7c)->FUN_00558310()->FUN_0043c490());
+    ((NiAVObject*)g_011deda4)->FUN_00440460(((CamNode*)g_011deb7c)->BSSceneGraph_GetCameraRoot()->FUN_0043c490());
     NiUpdateData kData2(0.0f, false, false);
     ((NiAVObject*)g_011deda4)->Update(kData2);
     if (DAT_011f9fc0)
@@ -13345,7 +13345,7 @@ void* MainX::UpdateCamera()
     DAT_011f94a5 = 0;
     void* pResult = 0;
     if (g_TES->FUN_008d8520() && g_TES->FUN_008d8520()->FUN_0045cd60() &&
-        (g_TES->FUN_008d8520()->FUN_00476c90() == 3 || g_TES->FUN_008d8520()->FUN_00476c90() == 2))
+        (g_TES->FUN_008d8520()->Sky_GetMode() == 3 || g_TES->FUN_008d8520()->Sky_GetMode() == 2))
     {
         pResult = g_TES->FUN_008d8520()->FUN_0045cd60();
     }
@@ -13496,10 +13496,10 @@ struct PlayerContext86
 };
 struct Core86
 {
-    void FUN_004a0370();
+    void NiRenderer_LockRenderer();
     void FUN_005585e0();
     int FUN_004e9530();
-    void FUN_004a03c0();
+    void NiRenderer_UnlockRenderer();
 };
 struct Input86
 {
@@ -13513,10 +13513,10 @@ struct Topic86
 };
 struct Engine86
 {
-    void FUN_00457d70(int, int, int);
+    void TES_ShowLoadingMenu(int, int, int);
     int FUN_005f36f0();
     Engine86* FUN_004fd3e0();
-    const char* FUN_00548210();
+    const char* TESWorldSpace_GetCanopyShadowTextureName();
     Topic86* FUN_0044ddc0();
     void FUN_004baf10();
 };
@@ -13642,7 +13642,7 @@ extern void __cdecl FUN_00a29680();
 extern void __cdecl FUN_00c458f0();
 extern void __cdecl FUN_00878660();
 extern int __cdecl FUN_0040fbe0(...);
-extern void __cdecl FUN_004a03c0();
+extern void __cdecl NiRenderer_UnlockRenderer();
 extern float __cdecl FUN_00450820();
 extern void __cdecl FUN_00702840();
 extern void __cdecl RenderOrFallback(int, int);
@@ -13671,7 +13671,7 @@ extern int __cdecl FUN_00559450_unused();
 void Main86::FUN_0086ff70()
 {
     Core86* core = reinterpret_cast<Core86*>(FUN_0043c4b0());
-    core->FUN_004a0370();
+    core->NiRenderer_LockRenderer();
     if (DAT_011d890a)
     {
         DAT_011d890a = 0;
@@ -13693,7 +13693,7 @@ void Main86::FUN_0086ff70()
     {
         if (!DAT_011def04)
         {
-            DAT_011dea10->FUN_00457d70(0, 0, 0);
+            DAT_011dea10->TES_ShowLoadingMenu(0, 0, 0);
             FUN_0040fbe0();
             reinterpret_cast<Extra86*>(&DAT_011e0e80)->FUN_0096cfa0();
         }
@@ -13722,7 +13722,7 @@ void Main86::FUN_0086ff70()
     {
         if (!DAT_011dea10->FUN_005f36f0())
         {
-            if (DAT_011dea10->FUN_004fd3e0()->FUN_00548210()[0] && DAT_011dea10->FUN_0044ddc0())
+            if (DAT_011dea10->FUN_004fd3e0()->TESWorldSpace_GetCanopyShadowTextureName()[0] && DAT_011dea10->FUN_0044ddc0())
             {
                 DAT_011dea10->FUN_0044ddc0();
                 if ((unsigned char)FUN_008705c0())
@@ -13792,7 +13792,7 @@ void Main86::FUN_0086ff70()
         eventState = 0;
     }
     reinterpret_cast<Resource86*>(DAT_011deb7c.FUN_00559450())->FUN_00c51f20();
-    core->FUN_004a03c0();
+    core->NiRenderer_UnlockRenderer();
     if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
         FUN_008c80e0(0);
 }
@@ -14137,13 +14137,13 @@ struct CellGrid_ML
 struct WorldAudio_ML
 {
     void ReleaseWaterResources(int, int);
-    void FUN_004e65d0();
+    void TESWaterSystem_EnableWaterSystem();
 };
 class TES_ML
 {
   public:
     CellGrid_ML* FUN_0044ddc0();
-    GridCell_ML* FUN_00457050(int, int);
+    GridCell_ML* TES_GetGridCell(int, int);
     WorldAudio_ML* FUN_0070ec90();
 };
 class OSGlobals_ML
@@ -14200,7 +14200,7 @@ bool __cdecl FUN_00872570(bool active)
             {
                 for (int y = 0; y < count; ++y)
                 {
-                    CellUpdate_ML* cell = MainLoopGlobals::DAT_011dea10->FUN_00457050(x, y)->cell;
+                    CellUpdate_ML* cell = MainLoopGlobals::DAT_011dea10->TES_GetGridCell(x, y)->cell;
                     if (cell)
                     {
                         void* object;
@@ -14237,7 +14237,7 @@ bool __cdecl FUN_00872570(bool active)
         if (MainLoopGlobals::DAT_011dea10->FUN_0070ec90() && FUN_005d2a40())
         {
             MainLoopGlobals::DAT_011dea10->FUN_0070ec90()->ReleaseWaterResources(1, 0);
-            MainLoopGlobals::DAT_011dea10->FUN_0070ec90()->FUN_004e65d0();
+            MainLoopGlobals::DAT_011dea10->FUN_0070ec90()->TESWaterSystem_EnableWaterSystem();
         }
     }
     return true;
@@ -14732,14 +14732,14 @@ struct CellCalls
     bool IsInterior();
     bool FUN_00550200(const NiPoint3& position);
     TESWorldSpace* FUN_0054ddd0();
-    bool FUN_00450fb0();
-    bool FUN_00450ff0();
+    bool TESObjectCELL_IsLoaded();
+    bool TESObjectCELL_IsAttached();
     void AddReference(TESObjectREFR*, bool);
     BGSAcousticSpace* GetAcousticSpace();
 };
 struct DataHandlerCalls
 {
-    TESObjectCELL* FUN_00461bc0(float x, float y, TESWorldSpace*, bool);
+    TESObjectCELL* TESDataHandler_GetCellFromWorldCoord(float x, float y, TESWorldSpace*, bool);
 };
 struct Receiver86;
 extern Receiver86* g_dataHandler;
@@ -14747,8 +14747,8 @@ class WorldUpdateCalls
 {
   public:
     void FUN_00452580(const NiPoint3&, bool);
-    bool FUN_00451530();
-    void FUN_00457d70(int, int, int);
+    bool TES_IsRunningCellTests();
+    void TES_ShowLoadingMenu(int, int, int);
 };
 extern unsigned int _DAT_011dea10;
 struct TimeGlobal
@@ -14815,17 +14815,17 @@ void PlayerUpdateState::FUN_0086f940()
             {
                 TESObjectCELL* destination =
                     reinterpret_cast<DataHandlerCalls*>(g_dataHandler)
-                        ->FUN_00461bc0(position.x, position.y, reinterpret_cast<CellCalls*>(cell)->FUN_0054ddd0(),
+                        ->TESDataHandler_GetCellFromWorldCoord(position.x, position.y, reinterpret_cast<CellCalls*>(cell)->FUN_0054ddd0(),
                                        true);
                 if (destination)
                 {
-                    if (!reinterpret_cast<CellCalls*>(destination)->FUN_00450fb0() &&
-                        !reinterpret_cast<CellCalls*>(destination)->FUN_00450ff0())
+                    if (!reinterpret_cast<CellCalls*>(destination)->TESObjectCELL_IsLoaded() &&
+                        !reinterpret_cast<CellCalls*>(destination)->TESObjectCELL_IsAttached())
                     {
                         reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->FUN_00452580(position, true);
-                        if (reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->FUN_00451530())
+                        if (reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->TES_IsRunningCellTests())
                         {
-                            reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->FUN_00457d70(0, 0, 0);
+                            reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->TES_ShowLoadingMenu(0, 0, 0);
                         }
                     }
                     FUN_0086fba0(1);
@@ -14882,23 +14882,23 @@ struct ResourceObject
     ResourceObject* FUN_006629f0();
     void FUN_00712e60(void*);
     void FUN_0070b760(int);
-    void FUN_004a1020(void*);
-    ResourceObject* FUN_00558310();
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
+    ResourceObject* BSSceneGraph_GetCameraRoot();
     void FUN_00a5a040();
     void FUN_00a59c60(void*);
     void AssignFixedString(const NiFixedString&);
     void FUN_005468d0(int);
     void FUN_005467c0(int);
-    void FUN_00546780(int);
+    void NiAVObject_SetAlwaysDraw(int);
     void SetDepthParams(float);
     void FUN_0049ed90(int);
-    void FUN_00439410(void*);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_AttachProperty(void*);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_004bc450(void*);
     void FUN_005b8fc0(int);
     void FUN_0060aeb0(int);
     void FUN_004f3200(int);
-    int FUN_004bc320(int);
+    int BSRenderedTexture_GetTexture(int);
     void FUN_0086e3f0(int, int, int);
     void FUN_0086e420(int, float, float, float, float);
     void FUN_0086e4b0();
@@ -14993,7 +14993,7 @@ struct InputObject : ModuleRoot
     InputObject* FUN_00a75650();
     InputObject* FUN_00a6aa40();
     void FUN_005468d0(int);
-    void FUN_00546780(int);
+    void NiAVObject_SetAlwaysDraw(int);
     void FUN_005467c0(int);
     void AssignFixedString(const NiFixedString&);
     void FUN_004bc450(void*);
@@ -15101,11 +15101,11 @@ extern void FUN_00b55540(int, void*);
 extern void FUN_004dc5c0();
 extern void FUN_004dc650();
 
-extern void FUN_004bc1f0();
+extern void NiAVObject_SetTranslate();
 extern void* FUN_00b4f5c0();
 extern unsigned char FUN_0086e600();
 extern void UpdateTerrainLODMaxRange();
-extern int FUN_004bc320(int);
+extern int BSRenderedTexture_GetTexture(int);
 extern DataObject* FUN_0043c4b0();
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 struct FUN_00b5e0f0 : NiMemObject
@@ -15618,11 +15618,11 @@ void RenderSystem::FUN_0086d590()
     DAT_011deb7c.FUN_00559450()->FUN_006629f0()->FUN_00712e60(&DAT_011ad840);
     ((ResourceObject*)p)->FUN_0070b760(0);
     FUN_00b4f2f0(0, p);
-    this->resource88.FUN_00559450()->FUN_004a1020(p);
-    this->resource8c.FUN_00559450()->FUN_004a1020(p);
-    this->resource90.FUN_00559450()->FUN_004a1020(p);
-    this->resource94.FUN_00559450()->FUN_004a1020(p);
-    this->resource98.FUN_00559450()->FUN_004a1020((void*)FUN_00450b80(1));
+    this->resource88.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource8c.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource90.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource94.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource98.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode((void*)FUN_00450b80(1));
     FUN_0086e500(0);
     FUN_0086e510(0);
     unsigned int f = (FUN_0086e540() == 1 ? 1u : 0u);
@@ -15652,7 +15652,7 @@ void RenderSystem::FUN_0086d590()
     p->virtual_f8(0, DAT_011deb34.FUN_00559450());
 
     DAT_011deda4.FUN_0066b0d0((InputObject*)new FUN_00a5ecb0(0));
-    DAT_011deda4.FUN_00559450()->FUN_00546780(1);
+    DAT_011deda4.FUN_00559450()->NiAVObject_SetAlwaysDraw(1);
     DAT_011deda4.FUN_00559450()->FUN_005467c0(1);
     DAT_011deda4.FUN_00559450()->AssignFixedString(NiFixedString(str_0101fe78));
     p->virtual_f8(1, DAT_011deda4.FUN_00559450());
@@ -15665,26 +15665,26 @@ void RenderSystem::FUN_0086d590()
 
     // s is the active scene parent; a is its tree child.
     InputObject* s = (InputObject*)new FUN_00a5ecb0(0);
-    s->FUN_00546780(1);
+    s->NiAVObject_SetAlwaysDraw(1);
     s->FUN_005467c0(1);
     s->AssignFixedString(NiFixedString(str_01082c78));
     DAT_011dea14->virtual_dc(s, 1);
 
     DAT_011ad808 = *DAT_011dedc8.FUN_00403e20();
     s = (InputObject*)new FUN_00a5ecb0(0);
-    s->FUN_00546780(1);
+    s->NiAVObject_SetAlwaysDraw(1);
     s->FUN_005467c0(1);
     s->AssignFixedString(NiFixedString(str_01082c68));
     DAT_011dea14->virtual_dc(s, 1);
 
     DAT_011dea1c = (int)(InputObject*)new FUN_00a5ecb0(0);
-    ((InputObject*)DAT_011dea1c)->FUN_00546780(1);
+    ((InputObject*)DAT_011dea1c)->NiAVObject_SetAlwaysDraw(1);
     ((InputObject*)DAT_011dea1c)->FUN_005467c0(1);
     ((InputObject*)DAT_011dea1c)->AssignFixedString(NiFixedString(str_01082c5c));
     DAT_011dea14->virtual_dc((InputObject*)DAT_011dea1c, 1);
 
     InputObject* a = (InputObject*)new FUN_00a5ecb0(0);
-    a->FUN_00546780(1);
+    a->NiAVObject_SetAlwaysDraw(1);
     a->FUN_005467c0(1);
     a->AssignFixedString(NiFixedString(str_01082c50));
     s->virtual_dc(a, 1);
@@ -15692,7 +15692,7 @@ void RenderSystem::FUN_0086d590()
     (FUN_0086e630)((NiNode*)a);
 
     DAT_011dea18 = (int)(InputObject*)new FUN_00a5ecb0(0);
-    ((InputObject*)DAT_011dea18)->FUN_00546780(1);
+    ((InputObject*)DAT_011dea18)->NiAVObject_SetAlwaysDraw(1);
     ((InputObject*)DAT_011dea18)->FUN_005467c0(1);
     ((InputObject*)DAT_011dea18)->AssignFixedString(NiFixedString(str_01082c40));
     p->virtual_f8(3, ((InputObject*)DAT_011dea18));
@@ -15701,7 +15701,7 @@ void RenderSystem::FUN_0086d590()
     DAT_011ded58.FUN_00559450()->AssignFixedString(NiFixedString(str_01082c28));
     p->virtual_f8(5, DAT_011ded58.FUN_00559450());
 
-    DAT_011deb7c.FUN_00559450()->FUN_00558310()->FUN_004bc1f0(0.0f, 0.0f, DAT_0101e704);
+    DAT_011deb7c.FUN_00559450()->BSSceneGraph_GetCameraRoot()->NiAVObject_SetTranslate(0.0f, 0.0f, DAT_0101e704);
     DAT_011deb7c.FUN_00559450()->FUN_00a5a040();
     NiUpdateData i(0.0f, false, false);
     DAT_011deb7c.FUN_00559450()->FUN_00a59c60(&i);
@@ -15717,12 +15717,12 @@ void RenderSystem::FUN_0086d590()
         DAT_011dec94.FUN_00559450()->FUN_0086e460(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
         InputObject* p = (InputObject*)new FUN_00a75650();
         p->FUN_004bc450((void*)&DAT_011a9b7c);
-        DAT_011dec94.FUN_00559450()->FUN_00439410(p);
+        DAT_011dec94.FUN_00559450()->NiAVObject_AttachProperty(p);
         InputObject* h = (InputObject*)new FUN_00a6aa40();
-        h->FUN_005b8fc0(DAT_011ded3c.FUN_00559450()->FUN_004bc320(0));
+        h->FUN_005b8fc0(DAT_011ded3c.FUN_00559450()->BSRenderedTexture_GetTexture(0));
         h->FUN_0060aeb0(0);
         h->FUN_004f3200(0);
-        DAT_011dec94.FUN_00559450()->FUN_00439410(h);
+        DAT_011dec94.FUN_00559450()->NiAVObject_AttachProperty(h);
         DAT_011dec94.FUN_00559450()->FUN_00a5a040();
         NiUpdateData i(0.0f, false, false);
         DAT_011dec94.FUN_00559450()->FUN_00a59c60(&i);
@@ -15833,7 +15833,7 @@ void FUN_004eced0(unsigned int);
 void FUN_00714a60(int);
 struct S00875bf0_BSA_
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
 };
 class ShadowSceneNode;
 struct S00875bf0_FaceNode875
@@ -15896,7 +15896,7 @@ void S00875bf0_Shell875::FUN_00875bf0()
                                                                   : (S00875bf0_Cam875*)face->GetAnimationData();
         scene->FUN_0041fd00(camera);
         scene->FUN_004a0fd0(this->scene.FUN_00559450());
-        ((S00875bf0_BSA_*)this->scene.FUN_00559450())->FUN_004a1020(FUN_00450b80(0));
+        ((S00875bf0_BSA_*)this->scene.FUN_00559450())->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
         if (DAT_011f9426 &&
             (!((S00875bf0_Render875*)FUN_0043c4b0())->v51() ||
              ((S00875bf0_Render875*)FUN_0043c4b0())->v51() == ((S00875bf0_Render875*)FUN_0043c4b0())->v50()))

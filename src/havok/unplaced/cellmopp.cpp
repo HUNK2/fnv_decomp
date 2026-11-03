@@ -467,8 +467,8 @@ struct FUN_00622730_S : public B006815c0
 
 struct FUN_005610f0_Class
 {
-    void FUN_005610f0(NiPoint3* pos);
-    void FUN_00561150(FUN_00622730_S* rot);
+    void bhkRigidBody_SetPosition(NiPoint3* pos);
+    void bhkRigidBody_SetRotation(FUN_00622730_S* rot);
 };
 
 struct FUN_0056d2c0_Class
@@ -509,8 +509,8 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
                 NiPoint3 kPos = *pPos;
                 kPos.x += _offsetX;
                 kPos.y += offsetY2;
-                pObj4->FUN_005610f0(&kPos);
-                pObj4->FUN_00561150(&kRot);
+                pObj4->bhkRigidBody_SetPosition(&kPos);
+                pObj4->bhkRigidBody_SetRotation(&kRot);
                 _offsetX += 2048.0;
             }
             offsetY2 += 2048.0;

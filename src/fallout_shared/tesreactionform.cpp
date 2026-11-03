@@ -128,7 +128,7 @@ void TESReactionForm::InitItem(TESForm* form)
 
 struct FUN_0048c1b0_shell : public TESReactionForm
 {
-    int FUN_0048c1b0(TESForm*);
+    int TESReactionForm_GetFightReaction(TESForm*);
 };
 
 struct GROUP_REACTION_dummy
@@ -143,7 +143,7 @@ void* __fastcall _ref_00726070(void* pList);
 
 // Searches the reaction list for a matching form and returns its fight reaction, or 0 if not found.
 // @fnv 0x0048c1b0
-int FUN_0048c1b0_shell::FUN_0048c1b0(TESForm* apForm)
+int FUN_0048c1b0_shell::TESReactionForm_GetFightReaction(TESForm* apForm)
 {
     if (apForm != 0)
     {
@@ -178,7 +178,7 @@ struct Args_0048bfc0
     int aiReaction;
 };
 // @fnv 0x0048bfc0
-void __fastcall FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
+void __fastcall TESReactionForm_SetReaction(BaseProcess* self, Args_0048bfc0 args)
 {
     if (!args.apForm)
         return;
@@ -414,11 +414,11 @@ struct ReactionAccess
 };
 struct ReactionCompare : TESReactionForm
 {
-    bool FUN_0048be40(BaseFormComponent*);
+    bool TESReactionForm_CompareComponent(BaseFormComponent*);
 };
 // Compares this reaction form's list against another TESReactionForm's list entry by entry, returning true when they differ or the other list is longer.
 // @fnv 0x0048be40
-bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
+bool ReactionCompare::TESReactionForm_CompareComponent(BaseFormComponent* component)
 {
     TESReactionForm* right = dynamic_cast<TESReactionForm*>(component);
     if (!right)
@@ -479,11 +479,11 @@ class C0B0Owner
 {
   public:
     C0B0List* GetList();
-    void FUN_0048c0b0(C0B0Form* pkForm, int iDelta);
+    void TESReactionForm_ModReaction(C0B0Form* pkForm, int iDelta);
 };
 
 // @fnv 0x0048c0b0
-void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
+void C0B0Owner::TESReactionForm_ModReaction(C0B0Form* pkForm, int iDelta)
 {
     if (!pkForm || !iDelta)
         return;
@@ -523,11 +523,11 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
 struct FUN_0048c220_shell
 {
     void* FUN_00717e50();
-    void FUN_0048c220(TESForm* apForm, int aiReaction);
+    void TESReactionForm_SetFightReaction(TESForm* apForm, int aiReaction);
 };
 // If apForm is non-null, updates the matching list entry's reaction or appends a new entry when aiReaction is non-zero.
 // @fnv 0x0048c220
-void FUN_0048c220_shell::FUN_0048c220(TESForm* apForm, int aiReaction)
+void FUN_0048c220_shell::TESReactionForm_SetFightReaction(TESForm* apForm, int aiReaction)
 {
     if (apForm == 0)
     {
@@ -578,12 +578,12 @@ struct ActorPackageContext
 struct FUN_0048c2e0_shell : BaseProcess
 {
     ActorPackageContext* FUN_00717e50();
-    unsigned short FUN_0048c2e0(unsigned int flags);
+    unsigned short TESReactionForm_GetSaveSize(unsigned int flags);
 };
 void __cdecl FUN_0040fbe0(const char*, ...);
 // Computes the serialized size of the package data when flag bit 4 is set, adding fixed fields and per-entry sizes, and logs the result.
 // @fnv 0x0048c2e0
-unsigned short FUN_0048c2e0_shell::FUN_0048c2e0(unsigned int flags)
+unsigned short FUN_0048c2e0_shell::TESReactionForm_GetSaveSize(unsigned int flags)
 {
     unsigned short count = 0;
     if ((flags & 4) != 0)
@@ -640,7 +640,7 @@ extern const char str_0101d4c8[];
 extern const char str_010153a0[];
 extern const char str_0101536c[];
 extern const char str_01015318[];
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl FUN_0040fbe0(const char*, ...);
 int Warning(const char*, ...);
 
@@ -691,7 +691,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
             ObjC400* kObj = DAT_011de45c->FUN_004fd3e0();
             if (kObj)
             {
-                TESForm* form = FUN_004839c0(kObj->formID);
+                TESForm* form = TESForm_GetFormByNumericID(kObj->formID);
                 FUN_0040fbe0(str_010153a0, endPos2 - startPos, kObj->formID, form->GetEditorID(),
                              *(int*)((char*)kObj + 5), 1403, str_0101d4c8);
             }
@@ -908,11 +908,11 @@ struct FUN_0048c9d0_Class
     int unk00;
     FUN_0048c9d0_ListNode list;
 
-    void FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer);
+    void TESReactionForm_SaveGame(FUN_0048c9d0_SaveBuffer* buffer);
 };
 
 // @fnv 0x0048c9d0
-void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
+void FUN_0048c9d0_Class::TESReactionForm_SaveGame(FUN_0048c9d0_SaveBuffer* buffer)
 {
     void* item;
     FUN_0048c9d0_ListNode* cursor;

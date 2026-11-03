@@ -221,7 +221,7 @@ const char* GraphicsRenderer::GetD3DFormatName(_D3DFORMAT format) {
 extern "C" void* g_011f4430;
 
 // @fnv 0x00a5f200
-void* __cdecl FUN_00a5f200()
+void* __cdecl NiVertexColorProperty_GetRTTI()
 {
     return &g_011f4430;
 }
@@ -229,13 +229,13 @@ void* __cdecl FUN_00a5f200()
 extern "C" int g_011f443c;
 
 // @fnv 0x00a5f4f0
-int __cdecl FUN_00a5f4f0()
+int __cdecl NiZBufferProperty_GetRTTI()
 {
     return (int)&g_011f443c;
 }
 
 // @fnv 0x00a5f500
-int __cdecl FUN_00a5f500()
+int __cdecl NiZBufferProperty_Type()
 {
     return 0xb;
 }
@@ -271,11 +271,11 @@ unsigned char FUN_00e695f0_shell::FUN_00e695f0()
 
 struct FUN_00e69600_shell
 {
-    unsigned int __thiscall FUN_00e69600();
+    unsigned int __thiscall NiDX9Renderer_GetDefaultRenderTargetGroup();
 };
 
 // @fnv 0x00e69600
-unsigned int __thiscall FUN_00e69600_shell::FUN_00e69600()
+unsigned int __thiscall FUN_00e69600_shell::NiDX9Renderer_GetDefaultRenderTargetGroup()
 {
     return reinterpret_cast<unsigned int*>(this)[0x221];
 }
@@ -480,7 +480,7 @@ void* __thiscall FUN_00e72e50_shell::FUN_00e72e50() {
 extern "C" void* g_0126f0f0;
 
 // @fnv 0x00e757b0
-void* __cdecl FUN_00e757b0()
+void* __cdecl NiDX9Renderer_GetRTTI()
 {
     return &g_0126f0f0;
 }
@@ -510,11 +510,11 @@ unsigned int NiDX9Renderer::FUN_00e757d0()
 
 namespace fnv_00e75810 {
 struct NiDX9Renderer {
-    void* __thiscall FUN_00e75810();
+    void* __thiscall NiDX9Renderer_GetCurrentRenderTargetGroup();
 };
 
 // @fnv 0x00e75810
-void* __thiscall NiDX9Renderer::FUN_00e75810()
+void* __thiscall NiDX9Renderer::NiDX9Renderer_GetCurrentRenderTargetGroup()
 {
     return *(void**)(this + 0x888);
 }
@@ -545,11 +545,11 @@ float FUN_00e75830_shell::GetSomeFloat()
 struct FUN_00e75840_shell {
     unsigned int pad[0x5e0/4];
     unsigned int color;
-    void FUN_00e75840(float* param);
+    void NiDX9Renderer_SetBackgroundColor(float* param);
 };
 
 // @fnv 0x00e75840
-void __thiscall FUN_00e75840_shell::FUN_00e75840(float* afColor)
+void __thiscall FUN_00e75840_shell::NiDX9Renderer_SetBackgroundColor(float* afColor)
 {
     double f = (double)afColor[0];
     double r = f * 255.0;
@@ -654,7 +654,7 @@ unsigned int NiDX9Renderer::FUN_00e75a30()
 extern "C" void* g_01270900;
 
 // @fnv 0x00e766f0
-void* __cdecl FUN_00e766f0()
+void* __cdecl NiShaderDeclaration_GetRTTI()
 {
     return &g_01270900;
 }
@@ -859,11 +859,11 @@ struct Dev
 };
 struct RendererHolder
 {
- int __thiscall FUN_00e698a0(int a1, int a2, int a3, int a4);
+ int __thiscall NiDX9Renderer_DrawIndexedPrimitive_TRIANGLELIST(int a1, int a2, int a3, int a4);
 };
 // Forwards the four arguments to the Dev at offset 0x288, calling DrawIndexedPrimitive with primitive type 4 and returns its result.
 // @fnv 0x00e698a0
-int __thiscall RendererHolder::FUN_00e698a0(int a1, int aiVertexCount, int a3, int aiPrimitiveCount)
+int __thiscall RendererHolder::NiDX9Renderer_DrawIndexedPrimitive_TRIANGLELIST(int a1, int aiVertexCount, int a3, int aiPrimitiveCount)
 {
  Dev* dev = *(Dev**)((char*)this + 0x288);
  return dev->DrawIndexedPrimitive(4, a1, 0, aiVertexCount, a3, aiPrimitiveCount);
@@ -895,10 +895,10 @@ void FUN_00e69970_shell::ClearShader(void* pkShader)
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e68ef0(void*, void*);
-struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
+struct StandIn_e6dc40 { bool NiDX9Renderer_CreateSourceTextureRendererData(void*); };
 // Locks the critical section at this+0x180, reads the int at a1+0x24, computes it via FUN_00e68ef0 if zero, unlocks, and returns it.
 // @fnv 0x00e6dc40
-bool StandIn_e6dc40::FUN_00e6dc40(void* a1)
+bool StandIn_e6dc40::NiDX9Renderer_CreateSourceTextureRendererData(void* a1)
 {
 	EnterCriticalSection((void*)((char*)this + 0x180));
 	int v = *(int*)((char*)a1 + 0x24);
@@ -927,10 +927,10 @@ bool Stand_00e6dc80::CreateVertexBufferIfNeeded(Param_00e6dc80* pParam, unsigned
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e8abf0(void*, void*);
-struct FUN_00e6dcc0_shell { bool __thiscall FUN_00e6dcc0(void*); };
+struct FUN_00e6dcc0_shell { bool __thiscall NiDX9Renderer_CreateSourceCubeMapRendererData(void*); };
 // Locks the critical section at this+0x180, returns true if a1+0x24 is nonzero, otherwise calls FUN_00e8abf0(a1, this) and unlocks before returning its result.
 // @fnv 0x00e6dcc0
-bool __thiscall FUN_00e6dcc0_shell::FUN_00e6dcc0(void* a1)
+bool __thiscall FUN_00e6dcc0_shell::NiDX9Renderer_CreateSourceCubeMapRendererData(void* a1)
 {
 	EnterCriticalSection((void*)((char*)this + 0x180));
 	if (*(int*)((char*)a1 + 0x24) != 0)
@@ -4585,14 +4585,14 @@ public:
     FUN_00e6de70_D* m_288;
     char unk028c[0x6f5 - 0x28c];
     unsigned char m_6f5;
-    bool __thiscall FUN_00e6de70(FUN_00e6de70_A* a1);
+    bool __thiscall NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1);
 };
 
 const char* __cdecl GetHResultName(int code);
 void __cdecl FUN_00a29680(const char* fmt, const char* text);
 
 // @fnv 0x00e6de70
-bool __thiscall FUN_00e6de70_cls::FUN_00e6de70(FUN_00e6de70_A* a1)
+bool __thiscall FUN_00e6de70_cls::NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1)
 {
     if (a1 == 0) {
         return false;
@@ -13735,7 +13735,7 @@ extern NiRTTI g_011f5b70;
 extern NiRTTI g_011f4a40;
 extern NiRTTI g_011f4a20;
 
-bool __cdecl FUN_0043b300(const NiRTTI* pkRTTI, NiAVObject* pkObject);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* pkRTTI, NiAVObject* pkObject);
 void __cdecl FUN_00a29680(const char* format, const char* message);
 struct PG_Preparer { bool Prepare(NiGeometryGroup* c, NiGeometryData* d, NiSkinInstance* e, bool f, unsigned int g, unsigned int h); };
 
@@ -13898,11 +13898,11 @@ struct PG_Renderer {
     bool FUN_00e72c20_s(PG_GeomFull* p, int z);
     bool FUN_00e72aa0_s(PG_GeomFull* p, PG_Data* d, NiSkinInstance* s, unsigned int t, unsigned int a, unsigned int b);
     bool FUN_00e72980_s(PG_GeomFull* p, PG_Data* d, unsigned int n, unsigned int v, void* q, void* r, unsigned int c, unsigned int t);
-    bool FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3, unsigned int a4);
+    bool NiDX9Renderer_PrecacheGeometry(PG_GeomFull* p, unsigned int a2, unsigned int a3, unsigned int a4);
 };
 
 // @fnv 0x00e73f60
-bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3, unsigned int auiTechnique)
+bool PG_Renderer::NiDX9Renderer_PrecacheGeometry(PG_GeomFull* p, unsigned int a2, unsigned int a3, unsigned int auiTechnique)
 {
     if (!PG_IsKindOf(g_011f5b70, p))
         return false;
@@ -13925,12 +13925,12 @@ bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3,
     bool bResult = false;
     if (bPrecached) {
         bResult = FUN_00e72aa0_s(p, pData, pSkinInstance, uiTech, a2, a3);
-    } else if (FUN_0043b300(&g_011f4a40, (NiAVObject*)p)) {
+    } else if (NiObject_IsKindOf(&g_011f4a40, (NiAVObject*)p)) {
         unsigned int usActive = pData->GetActiveVertexQuantity();
         unsigned int usVerts = pData->m_usVertices;
         void* m_pkDeltas = pData->FUN_00a7b850_s();
         bResult = FUN_00e72980_s(p, pData, usActive, usVerts, m_pkDeltas, 0, 1, uiTech);
-    } else if (FUN_0043b300(&g_011f4a20, (NiAVObject*)p)) {
+    } else if (NiObject_IsKindOf(&g_011f4a20, (NiAVObject*)p)) {
         unsigned int usActive = pData->GetActiveVertexQuantity();
         unsigned int usVerts = pData->m_usVertices;
         void* m_pkDeltas = pData->FUN_00a75f10_s();
@@ -14961,11 +14961,11 @@ struct ResolveRenderer {
  unsigned int unk8f8;
  unsigned int unk8fc;
  BoundCache cache;
- bool FUN_00e74dc0();
+ bool NiDX9Renderer_EndUsingRenderTargetGroup();
 };
 // For each bound in the collection, copies surface data to the device and adds cache-enabled bounds to the cache list, then clears the collection.
 // @fnv 0x00e74dc0
-bool ResolveRenderer::FUN_00e74dc0() {
+bool ResolveRenderer::NiDX9Renderer_EndUsingRenderTargetGroup() {
  if(!disabled) {
   for(unsigned int uiIndex=0;uiIndex<collection->Count();++uiIndex) {
    BSMultiBound* object=collection->Get(uiIndex);
@@ -17157,10 +17157,10 @@ struct FUN_00e759c0_cls {
     unsigned char unk5e1;
     unsigned char unk5e2;
     unsigned char unk5e3;
-    void FUN_00e759c0(float* out);
+    void NiDX9Renderer_GetBackgroundColor(float* out);
 };
 // @fnv 0x00e759c0
-void FUN_00e759c0_cls::FUN_00e759c0(float* out) {
+void FUN_00e759c0_cls::NiDX9Renderer_GetBackgroundColor(float* out) {
     double k = 1.0f / 255.0f;
     out[3] = (float)(k * unk5e3);
     out[0] = (float)(k * unk5e2);
@@ -17346,7 +17346,7 @@ struct E6F310Device {
     virtual long __stdcall SetViewport(const void*);
 };
 struct E6F310Renderer {
-    void FUN_00e6f310(NiRectF* pkRect, unsigned int uiFlags);
+    void NiDX9Renderer_Do_ClearBuffer(NiRectF* pkRect, unsigned int uiFlags);
     int unk000;
     int unk004;
     int unk008;
@@ -17899,7 +17899,7 @@ struct E6F310Renderer {
     E6F310Target* m_pkTarget;
 };
 // @fnv 0x00e6f310
-void E6F310Renderer::FUN_00e6f310(NiRectF* pkRect, unsigned int uiFlags)
+void E6F310Renderer::NiDX9Renderer_Do_ClearBuffer(NiRectF* pkRect, unsigned int uiFlags)
 {
     if (!uiFlags || m_bSkip || !m_pkTarget)
         return;
@@ -17936,7 +17936,7 @@ void E6F310Renderer::FUN_00e6f310(NiRectF* pkRect, unsigned int uiFlags)
 
 class NiRTTI;
 class NiAVObject;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* type, NiAVObject* obj);
 extern const NiRTTI g_011f4a88;
 extern const NiRTTI g_011f4a70;
 
@@ -17982,9 +17982,9 @@ void __stdcall ApplyPacketUpdate(PacketObj* pPacketObj, PacketTarget* target, in
         if (!(mask & 0x20))
             ((PacketTarget*)target->unk08)->Release();
     } else if (!(mask & 0x10)) {
-        if (FUN_0043b300(&g_011f4a88, (NiAVObject*)pPacketObj))
+        if (NiObject_IsKindOf(&g_011f4a88, (NiAVObject*)pPacketObj))
             pPacketObj->SetA(pPacketObj->unk40, 0);
-        else if (FUN_0043b300(&g_011f4a70, (NiAVObject*)pPacketObj))
+        else if (NiObject_IsKindOf(&g_011f4a70, (NiAVObject*)pPacketObj))
             pPacketObj->SetB(pPacketObj->unk44, pPacketObj->unk48, 0);
     }
 }
@@ -18221,7 +18221,7 @@ void* FUN_00a75f10(); void* FUN_00a7b850();
  __forceinline bool IsKindOfType(const NiRTTI* type) {const NiRTTI* r = GetRTTI(); while(r) {if(r==type) return true;r=r->m_pBaseRTTI;} return false;}
 
 };
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };
@@ -18831,7 +18831,7 @@ bool Renderer108::PrepareGeometryPacket(Packet108* packet, NiAVObject* source, G
   activeTriangles = 0;
   stripCount = 1;
   indexCount = (unsigned short)triangles * 3;
- } else if (FUN_0043b300(&DAT_011f4a70,source)) {
+ } else if (NiObject_IsKindOf(&DAT_011f4a70,source)) {
   stripLengths = source->GetNumberOfVertices();
   triangles = source->triangles;
   indices = source->FUN_00a75f10();
@@ -19026,10 +19026,10 @@ public:
     TargetX* m_pDefaultRenderTargetGroup;
     TargetX* m_pCurrentRenderTargetGroup;
     TargetX* m_pkCurrOnscreenRenderTargetGroup;
-    bool FUN_00e6eea0(TargetX* pkTarget, unsigned int uiClearMode);
+    bool NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigned int uiClearMode);
 };
 // @fnv 0x00e6eea0
-bool RendX::FUN_00e6eea0(TargetX* pkTarget, unsigned int uiClearMode)
+bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigned int uiClearMode)
 {
     if (!m_bDeviceLost) {
     FUN_00e7cc50((int*)m_pDirect3DDevice, 1);
@@ -19090,11 +19090,11 @@ public:
     DevX* m_pDirect3DDevice;
     char pad2[0x6fc - 0x28c];
     bool m_bDeviceLost;
-    bool FUN_00e6f6e0(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
+    bool NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
 };
 // Copies a source surface to a destination surface via StretchRect, validating device, renderer data, pixel formats, and surfaces.
 // @fnv 0x00e6f6e0
-bool RendX::FUN_00e6f6e0(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY)
+bool RendX::NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY)
 {
     if (m_bDeviceLost)
         return false;
@@ -19992,12 +19992,12 @@ public:
             m_630 = 0;
         }
     }
-    void FUN_00e711e0();
+    void NiDX9Renderer_Do_EndBatch();
 };
 
 // Calls callbacks for entries in the list, masks object flags, releases the shader, and clears the list.
 // @fnv 0x00e711e0
-void S00e711e0_Owner::FUN_00e711e0()
+void S00e711e0_Owner::NiDX9Renderer_Do_EndBatch()
 {
     S00e711e0_Entry* head = m_620;
     if (head == 0 || m_6fc != 0) goto L_end;
@@ -24641,11 +24641,11 @@ struct Sub74 { void FUN_00e8b560(); };
 class Rend74 { public:
     char pad0[0x288]; Dev74* m_pDirect3DDevice; char pad1[0x8c8-0x28c]; Sub74* m_8c8; char pad2[0x900-0x8cc]; List74 m_kList;
     bool HandleDeviceLost(); void FUN_00e74120();
-    bool FUN_00e74f40();
+    bool NiDX9Renderer_Do_BeginFrame();
 };
 // If HandleDeviceLost is true, calls recovery methods and BeginScene; on success it empties m_kList, then returns true.
 // @fnv 0x00e74f40
-bool Rend74::FUN_00e74f40()
+bool Rend74::NiDX9Renderer_Do_BeginFrame()
 {
     if (HandleDeviceLost()) {
         FUN_00e74120();
@@ -26656,10 +26656,10 @@ struct CameraRenderer18 {
     float proj[4][4];
     D3DMATRIX_Custom viewProj;
     float inverse[4][4];
-    void FUN_00e6c780(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const FrustumView*, const NiRect_Custom*);
+    void NiDX9Renderer_Do_SetCameraData(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const FrustumView*, const NiRect_Custom*);
 };
 // @fnv 0x00e6c780
-void CameraRenderer18::FUN_00e6c780(const NiPoint3* position, const NiPoint3* direction, const NiPoint3* up, const NiPoint3* right, const FrustumView* frustum, const NiRect_Custom* viewport)
+void CameraRenderer18::NiDX9Renderer_Do_SetCameraData(const NiPoint3* position, const NiPoint3* direction, const NiPoint3* up, const NiPoint3* right, const FrustumView* frustum, const NiRect_Custom* viewport)
 {
     if (disabled) return;const FrustumView* f=frustum;
 
@@ -31713,10 +31713,10 @@ struct LineRenderer {
     LineRenderState* m_pCurrentRenderState;
     LineVBManager* m_pShaderStreamInfo;
     LineIBManager* m_pRenderTargetGroup;
-    void FUN_00e70be0(LineGeometry* pkLines);
+    void NiDX9Renderer_Do_RenderLines(LineGeometry* pkLines);
 };
 // @fnv 0x00e70be0
-void LineRenderer::FUN_00e70be0(LineGeometry* pkLines)
+void LineRenderer::NiDX9Renderer_Do_RenderLines(LineGeometry* pkLines)
 {
     if (m_bDeviceLost)
         return;
@@ -32754,12 +32754,12 @@ struct Se745_StandinRenderer {
     unsigned char m_6fc;
 
     bool FUN_00e72c20(Se745_Src* a1, int a2);
-    void FUN_00e745a0(Se745_Src* a1);
+    void NiDX9Renderer_Do_RenderShapeAlt(Se745_Src* a1);
 };
 
 // Draws geometry strips or primitives via m_pDirectInputDevice, selecting indexed or non-indexed paths based on animation state and buffer flags.
 // @fnv 0x00e745a0
-void Se745_StandinRenderer::FUN_00e745a0(Se745_Src* apSrc) {
+void Se745_StandinRenderer::NiDX9Renderer_Do_RenderShapeAlt(Se745_Src* apSrc) {
     if (this->m_6fc)
         return;
 
@@ -33232,7 +33232,7 @@ struct ScrDX9Renderer {
     int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C;
     int unk880;
     ScrTargetGroup* m_pDefaultRenderTargetGroup;
-    NiPixelData* FUN_00e6f4e0(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget);
+    NiPixelData* NiDX9Renderer_TakeScreenShot(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget);
 };
 
 enum ScrAllocationTag { ScrAllocatePixels };
@@ -33240,7 +33240,7 @@ __forceinline void* operator new(unsigned int size, ScrAllocationTag) { return N
 
 // Locks a render target surface, copies the pixel rows into a new NiPixelData buffer, and returns it.
 // @fnv 0x00e6f4e0
-NiPixelData* ScrDX9Renderer::FUN_00e6f4e0(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget)
+NiPixelData* ScrDX9Renderer::NiDX9Renderer_TakeScreenShot(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget)
 {
     if (m_bDeviceLost)
         return 0;
@@ -34323,7 +34323,7 @@ struct RendererE70140 {
 
     void FUN_00e69ea0(unsigned int, unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 
-    void FUN_00e70140(SceneArg* input);
+    void NiDX9Renderer_RenderParticles(SceneArg* input);
 
 };
 
@@ -34354,7 +34354,7 @@ static __forceinline bool FillIndices(ParticleGeometry* a, IndexBuffer* data, un
 
 // Draws particle geometry by setting up vertex/index buffers, applying material and transform, then issuing DrawIndexedPrimitive calls per overlay command.
 // @fnv 0x00e70140
-void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
+void RendererE70140::NiDX9Renderer_RenderParticles(SceneArg* apSceneArg)
 {
     if ((unsigned char)disabled) return;
     if ((gate->flags[6] & 1) && (gate->aux->m3c <= 0.0f)) return;

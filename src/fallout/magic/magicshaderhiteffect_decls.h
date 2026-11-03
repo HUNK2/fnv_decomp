@@ -612,7 +612,7 @@ class Actor : public TESObjectREFR
 class PlayerCharacter : public Actor
 {
   public:
-    int FUN_00490f80();
+    int PlayerCharacter_GetInventory3D();
     MagicShaderHitEffect* GetField6A4();
     NiNode* GetNode(bool);
     BipedAnim* GetBipedAnimation(bool);
@@ -630,7 +630,7 @@ class BipedAnim
 class EffectSetting
 {
   public:
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
 };
 class ActiveEffect
 {
@@ -692,7 +692,7 @@ class TESEffectShader : public TESForm
     BGSTESTexture* GetFieldAt164();
     float FUN_008d01e0();
     float FUN_00644930();
-    float FUN_00567470();
+    float TESCreature_GetBaseScale();
     ParticleShaderProperty* CreateParticleShaderProperty(NiAVObject*, NiAVObject*, NiSourceTexture*, float);
     void FUN_00507810(NiAVObject*, ParticleShaderProperty*);
     BSShaderPPLightingProperty::TextureEffectData* CreateEffectData(NiAVObject*, NiSourceTexture*, NiSourceTexture*);

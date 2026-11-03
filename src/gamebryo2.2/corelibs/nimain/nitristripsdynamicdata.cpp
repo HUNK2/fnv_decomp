@@ -4,12 +4,12 @@
 
 struct NiTriStripsDynamicData
 {
-    void FUN_00a923c0(unsigned short& usStrips, const unsigned short*& pusStripLengths,
+    void NiTriStripsDynamicData_GetStripData(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                       const unsigned short*& pusTriList, unsigned int& uiStripLengthSum);
 };
 
 // @fnv 0x00a923c0
-void NiTriStripsDynamicData::FUN_00a923c0(unsigned short& usStrips, const unsigned short*& pusStripLengths,
+void NiTriStripsDynamicData::NiTriStripsDynamicData_GetStripData(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                                           const unsigned short*& pusTriList, unsigned int& uiStripLengthSum)
 {
     usStrips = 1;
@@ -51,18 +51,18 @@ bool NiTriStripsDynamicData::IsEqualDynamic(NiObject* pkObject)
 extern "C" void* g_011f5e8c;
 
 // @fnv 0x00a92470
-void* __cdecl FUN_00a92470()
+void* __cdecl NiTriStripsDynamicData_GetRTTI()
 {
     return &g_011f5e8c;
 }
 
 struct FUN_00a92480_shell
 {
-    void __thiscall FUN_00a92480(short value);
+    void __thiscall NiTriStripsDynamicData_SetActiveVertexCount(short value);
 };
 
 // @fnv 0x00a92480
-void __thiscall FUN_00a92480_shell::FUN_00a92480(short value)
+void __thiscall FUN_00a92480_shell::NiTriStripsDynamicData_SetActiveVertexCount(short value)
 {
     *(short*)((char*)this + 0x50) = value;
 }
@@ -81,7 +81,7 @@ extern int DAT_0109fc54;
 
 // Allocates a 0x54-byte BSFadeNode, runs its constructor, zeroes the two ushort fields at offsets 0x50 and 0x52, sets the vtable, and returns the object or null.
 // @fnv 0x00a923f0
-void* __cdecl FUN_00a923f0()
+void* __cdecl NiTriStripsDynamicData_CreateObject()
 {
     void* pNode = BSFadeNode::operator new(0x54);
     if (pNode)
@@ -342,12 +342,12 @@ struct DynStripsData : NiTriStripsData
 {
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    void FUN_00a924d0(NiStream& stream);
+    void NiTriStripsDynamicData_LoadBinary(NiStream& stream);
 };
 
 // Loads the base NiTriStripsData from the stream, then reads the active vertex and triangle counts.
 // @fnv 0x00a924d0
-void DynStripsData::FUN_00a924d0(NiStream& stream)
+void DynStripsData::NiTriStripsDynamicData_LoadBinary(NiStream& stream)
 {
     NiTriStripsData::LoadBinary(stream);
     ReadBinaryValue(stream, m_usActiveVertices);
@@ -427,12 +427,12 @@ struct A92590TriShapeData : A92590Base
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
 
-    void FUN_00a92590(A92590StringArray* pkStrings);
+    void NiTriStripsDynamicData_GetViewerStrings(A92590StringArray* pkStrings);
 };
 
 // Appends the RTTI name and the active vertex and triangle counts to the viewer string array.
 // @fnv 0x00a92590
-void A92590TriShapeData::FUN_00a92590(A92590StringArray* pkStrings)
+void A92590TriShapeData::NiTriStripsDynamicData_GetViewerStrings(A92590StringArray* pkStrings)
 {
     A92590Base::GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
@@ -456,7 +456,7 @@ struct NiStreamBufferStandin
 
 // Stand-in for NiTriStripsDynamicData (the pack's FUN_00a92340): the base
 // subobject occupies 0x00-0x4F, the two active counts are the shorts at
-// +0x50 and +0x52.  FUN_00a76340 is the base-class save routine (declared
+// +0x50 and +0x52.  NiTriStripsData_SaveBinary is the base-class save routine (declared
 // only, never defined, so the call target comes from the original bytes).
 struct NiTriStripsStandin
 {
@@ -482,14 +482,14 @@ struct NiTriStripsStandin
     int unk4C;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    void __thiscall FUN_00a76340(unsigned int);
-    void __thiscall FUN_00a92530(void*);
+    void __thiscall NiTriStripsData_SaveBinary(unsigned int);
+    void __thiscall NiTriStripsDynamicData_SaveBinary(void*);
 };
 
 // @fnv 0x00a92530
-void __thiscall NiTriStripsStandin::FUN_00a92530(void* stream)
+void __thiscall NiTriStripsStandin::NiTriStripsDynamicData_SaveBinary(void* stream)
 {
-    this->FUN_00a76340((unsigned int)stream);
+    this->NiTriStripsData_SaveBinary((unsigned int)stream);
     NiStreamBufferStandin* pBuffer = *(NiStreamBufferStandin**)((char*)stream + 0x250);
     int written;
     {
@@ -532,10 +532,10 @@ struct TriStrips_A923B0
     unsigned int unk4c;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    unsigned short FUN_00a923b0() const;
+    unsigned short NiTriStripsDynamicData_GetActiveTriangleCount() const;
 };
 // @fnv 0x00a923b0
-unsigned short TriStrips_A923B0::FUN_00a923b0() const
+unsigned short TriStrips_A923B0::NiTriStripsDynamicData_GetActiveTriangleCount() const
 {
     return m_usActiveTriangles;
 }

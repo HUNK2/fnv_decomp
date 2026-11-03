@@ -15,7 +15,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5e5c;
 // Returns the address of the global object g_011f5e5c.
 // @fnv 0x00a8ff70
-GlobalObjectO2_00a7b610* __cdecl FUN_00a8ff70()
+GlobalObjectO2_00a7b610* __cdecl NiScreenGeometry_GetRTTI()
 {
     return &g_011f5e5c;
 }
@@ -28,7 +28,7 @@ struct BSFadeNode
 extern void* DAT_0109f81c;
 
 // @fnv 0x00a8ff80
-void* __cdecl FUN_00a8ff80()
+void* __cdecl NiScreenGeometry_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xc4);
     if (p)
@@ -45,7 +45,7 @@ extern GlobalObjectO2_00a7b610 g_011f5e64;
 
 // Returns the address of the global object g_011f5e64.
 // @fnv 0x00a8ffb0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a8ffb0()
+GlobalObjectO2_00a7b610* __cdecl NiScreenPolygon_GetRTTI()
 {
     return &g_011f5e64;
 }
@@ -64,7 +64,7 @@ struct BSFadeNode
 extern int DAT_0109f914;
 
 // @fnv 0x00a8ffc0
-void* __cdecl FUN_00a8ffc0()
+void* __cdecl NiScreenPolygon_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x1c);
     if (p)
@@ -107,7 +107,7 @@ void* __thiscall NiScreenGeometry::FUN_00a90040(unsigned int flags)
 extern "C" void* g_011f5e54;
 
 // @fnv 0x00a90ab0
-void* __cdecl FUN_00a90ab0()
+void* __cdecl NiScreenGeometryData_GetRTTI()
 {
     return &g_011f5e54;
 }
@@ -118,7 +118,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5e6c;
 
 // @fnv 0x00a91690
-GlobalObjectO2_00a7b610* FUN_00a91690()
+GlobalObjectO2_00a7b610* NiScreenSpaceCamera_GetRTTI()
 {
     return &g_011f5e6c;
 }
@@ -213,11 +213,11 @@ struct FakeProp
 };
 struct MyStand : NiObject
 {
-    bool FUN_00a900c0(NiStream&);
+    bool NiScreenPolygon_RegisterStreamables(NiStream&);
 };
 // Calls NiObject::RegisterStreamables, then registers streamables on 7 objects reached through the pointer at this+8, returning false if the base call fails.
 // @fnv 0x00a900c0
-bool MyStand::FUN_00a900c0(NiStream& stream)
+bool MyStand::NiScreenPolygon_RegisterStreamables(NiStream& stream)
 {
     if (!NiObject::RegisterStreamables(stream))
         return false;
@@ -303,7 +303,7 @@ struct StrArr
 };
 struct Caller74690
 {
-    void __thiscall FUN_00a74690(StrArr*);
+    void __thiscall NiTriShape_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 struct Outer913a0 : Caller74690
@@ -314,7 +314,7 @@ struct Outer913a0 : Caller74690
 // @fnv 0x00a913a0
 void __thiscall Outer913a0::AppendGlobalString(StrArr* pkStrings)
 {
-    FUN_00a74690(pkStrings);
+    NiTriShape_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330(*(const char**)&g_011f5e5c);
     unsigned int uiSize = pkStrings->GetSize();
     unsigned int uiMax = pkStrings->GetAlloc();
@@ -331,18 +331,18 @@ struct StrArr
 };
 struct BaseCam
 {
-    void __thiscall FUN_00a71920(StrArr*);
+    void __thiscall NiCamera_GetViewerStrings(StrArr*);
 };
 struct Cam : BaseCam
 {
-    void __thiscall FUN_00a91890(StrArr*);
+    void __thiscall NiScreenSpaceCamera_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 // Calls the base implementation, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it if needed.
 // @fnv 0x00a91890
-void __thiscall Cam::FUN_00a91890(StrArr* pkStrings)
+void __thiscall Cam::NiScreenSpaceCamera_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a71920(pkStrings);
+    NiCamera_GetViewerStrings(pkStrings);
     char* tmp = _FUN_00a7d330(*(const char**)&g_011f5e6c);
     unsigned int sz = *(unsigned short*)((char*)pkStrings + 0xa);
     if (sz >= *(unsigned short*)((char*)pkStrings + 8))
@@ -392,7 +392,7 @@ struct NiScreenSpaceCamera
 };
 
 // @fnv 0x00a91ee0
-BSFadeNode* FUN_00a91ee0()
+BSFadeNode* NiScreenSpaceCamera_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x134);
     if (p)
@@ -518,11 +518,11 @@ struct FUN_00a90d70_poly : NiObject
     NiColor* m_pkVertex;
     NiPoint2* m_pkTexture;
     RgbaColor* m_pkColor;
-    void FUN_00a90d70(NiStream& kStream);
+    void NiScreenPolygon_LoadBinary(NiStream& kStream);
 };
 // Loads vertex count, vertex colors, and optional texture and color arrays from the stream, then reads the stream link.
 // @fnv 0x00a90d70
-void FUN_00a90d70_poly::FUN_00a90d70(NiStream& kStream)
+void FUN_00a90d70_poly::NiScreenPolygon_LoadBinary(NiStream& kStream)
 {
     ((NiObjLB*)this)->LoadBinary(kStream);
 
@@ -581,7 +581,7 @@ struct FUN_00a90a50_class
 };
 
 // @fnv 0x00a90b20
-void* __cdecl FUN_00a90b20()
+void* __cdecl NiScreenGeometryData_CreateObject()
 {
     FUN_00a90a50_class* object = static_cast<FUN_00a90a50_class*>(A51BF0Base::operator new(0x70));
 
@@ -681,7 +681,7 @@ struct S_00a90100_Array
 };
 struct S_00a90100_Base
 {
-    void __thiscall FUN_00a59ec0(S_00a90100_Stream&);
+    void __thiscall NiAVObject_ProcessClone(S_00a90100_Stream&);
 };
 struct S_00a90100 : S_00a90100_Base
 {
@@ -759,11 +759,11 @@ struct S_00a90100 : S_00a90100_Base
     S_00a90100_Array m_kB;
     void __thiscall LinkChildren(S_00a90100_Stream& kStream);
 };
-// Calls the base FUN_00a59ec0, then links every non-null child in m_kA and m_kB to kStream.
+// Calls the base NiAVObject_ProcessClone, then links every non-null child in m_kA and m_kB to kStream.
 // @fnv 0x00a90100
 void __thiscall S_00a90100::LinkChildren(S_00a90100_Stream& kStream)
 {
-    FUN_00a59ec0(kStream);
+    NiAVObject_ProcessClone(kStream);
     for (unsigned int i = 0; i < m_kA.GetSize(); i++)
     {
         S_00a90100_Child* p = m_kA.GetAt(i);
@@ -1613,11 +1613,11 @@ class NiPSysOwnerA90
 {
   public:
     void CopyMemberData(NiPSysBaseA90* pkDest, void* pvProcess);
-    NiPSysBaseA90* FUN_00a90070(void* pvProcess);
+    NiPSysBaseA90* NiScreenGeometry_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00a90070
-NiPSysBaseA90* NiPSysOwnerA90::FUN_00a90070(void* pvProcess)
+NiPSysBaseA90* NiPSysOwnerA90::NiScreenGeometry_CreateClone(void* pvProcess)
 {
     NiPSysDerivedA90* pkClone = new NiPSysDerivedA90;
     CopyMemberData(pkClone, pvProcess);
@@ -1830,11 +1830,11 @@ struct FUN_00a90f70_poly : NiObject
     SvPoint2* m_pkTexture;
     SvColorA* m_pkColor;
     void LinkObject(SaveStream&);
-    void FUN_00a90f70(SaveStream& kStream);
+    void NiScreenPolygon_SaveBinary(SaveStream& kStream);
 };
 // Links the object then writes vertex count, vertex colors, optional texture and color arrays, and property link IDs to the stream.
 // @fnv 0x00a90f70
-void FUN_00a90f70_poly::FUN_00a90f70(SaveStream& kStream)
+void FUN_00a90f70_poly::NiScreenPolygon_SaveBinary(SaveStream& kStream)
 {
     LinkObject(kStream);
     SaveStream& s = kStream;
@@ -1903,14 +1903,14 @@ struct HostA90
     unsigned short unk68;
     unsigned short m_us6A;
     unsigned short m_usElements;
-    void FUN_00a7bbe0(SaveStream&);
-    void FUN_00a90b40(SaveStream&);
+    void NiTriShapeData_SaveBinary(SaveStream&);
+    void NiScreenGeometryData_SaveBinary(SaveStream&);
 };
 // Serializes the host's flag, element count and each element's polygon/vertex/color/texture data to the save stream.
 // @fnv 0x00a90b40
-void HostA90::FUN_00a90b40(SaveStream& stream)
+void HostA90::NiScreenGeometryData_SaveBinary(SaveStream& stream)
 {
-    FUN_00a7bbe0(stream);
+    NiTriShapeData_SaveBinary(stream);
     char cByte = m_b58;
     stream.m_pkOut->BinaryWrite(&cByte, 1);
     unsigned int ItemUpdateArray = m_us6A;
@@ -1985,20 +1985,20 @@ void __cdecl DestroyGlobalPool()
     DestroyPool(DAT_011f5e50);
 }
 
-void __cdecl FUN_00a71450();
+void __cdecl NiCamera_LoadBinary();
 
 // @fnv 0x00a90000
-void __cdecl FUN_00a90000()
+void __cdecl NiScreenSpaceCamera_LoadBinary()
 {
-    FUN_00a71450();
+    NiCamera_LoadBinary();
 }
 
-void FUN_00a716c0();
+void NiCamera_SaveBinary();
 
 // @fnv 0x00a90020
-void FUN_00a90020()
+void NiScreenSpaceCamera_SaveBinary()
 {
-    FUN_00a716c0();
+    NiCamera_SaveBinary();
 }
 
 extern "C" void __cdecl IsEqualTo();
@@ -2089,12 +2089,12 @@ class CameraA91F : public NiCameraA91F
     ArrayAA91F m_kArrayA;
     ArrayBA91F m_kArrayB;
 
-    void FUN_00a91f00(NiStream& kStream);
+    void NiScreenSpaceCamera_LinkObject(NiStream& kStream);
 };
 
 // Calls the base stream routine, re-adds the original elements of both arrays, then calls FUN_00a2e620 on each.
 // @fnv 0x00a91f00
-void CameraA91F::FUN_00a91f00(NiStream& kStream)
+void CameraA91F::NiScreenSpaceCamera_LinkObject(NiStream& kStream)
 {
     FUN_00a711d0(kStream);
     unsigned int ItemUpdateArray = m_kArrayA.m_usSize;
@@ -2331,11 +2331,11 @@ class PolyScreenPolygon : public PolyObject
     PolyPoint3* m_pkVertex;
     PolyPoint2* m_pkTexture;
     PolyColorA* m_pkColor;
-    bool FUN_00a906e0(PolyObject* pObject);
+    bool NiScreenPolygon_IsEqual(PolyObject* pObject);
 };
 // Returns true when IsSameAs succeeds and the vertex counts, vertex values, optional texture and color values, and seven property pointers match.
 // @fnv 0x00a906e0
-bool PolyScreenPolygon::FUN_00a906e0(PolyObject* pObject)
+bool PolyScreenPolygon::NiScreenPolygon_IsEqual(PolyObject* pObject)
 {
     if (!PolyObject::IsSameAs(pObject))
         return false;
@@ -2711,7 +2711,7 @@ template <class T> inline void Load91950(LoadStream91950& s, T& p)
 struct LoadBase91950
 {
     void ReadBinary(NiStream&);
-    void FUN_00a7b940(NiStream&);
+    void NiTriShapeData_LoadBinary(NiStream&);
 };
 struct Element91950;
 struct Array91950
@@ -2783,17 +2783,17 @@ struct Host91950 : LoadBase91950
     bool m58;
     int m5c;
     Array91950 m60;
-    void FUN_00a91950(LoadStream91950& stream);
+    void NiScreenGeometryData_LoadBinary(LoadStream91950& stream);
 };
 void* __cdecl FUN_00aa1070(unsigned int);
 // Reads host data from a load stream, dispatching on version, then loads a flag, legacy fields, and an array of vertex/color/texture elements into m60.
 // @fnv 0x00a91950
-void Host91950::FUN_00a91950(LoadStream91950& stream)
+void Host91950::NiScreenGeometryData_LoadBinary(LoadStream91950& stream)
 {
     if (Version91950(stream) < 0x0a00010f)
         this->ReadBinary(stream);
     else
-        this->FUN_00a7b940(stream);
+        this->NiTriShapeData_LoadBinary(stream);
     unsigned char flag;
     Load91950(stream, flag);
     this->m58 = flag != 0;

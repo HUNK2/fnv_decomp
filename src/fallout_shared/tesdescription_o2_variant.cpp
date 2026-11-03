@@ -73,7 +73,7 @@ extern int DAT_011c5490;
 void __cdecl WriteDescChunk(void*, int);
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
 
 // Adjustor thunk: the secondary-base (+0x3c) vtable entry for an override defined on the derived class.

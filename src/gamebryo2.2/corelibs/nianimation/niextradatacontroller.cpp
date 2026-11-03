@@ -52,11 +52,11 @@ struct StreamVTable
 };
 struct FUN_00a57100_Caller
 {
-    bool FUN_00a57100(NiStream&);
+    bool NiExtraDataController_RegisterStreamables(NiStream&);
 };
 // Calls the base RegisterInterpolatorStreamables on kStream; if it succeeds, calls kStream's f8 on this+0x38 and returns true, otherwise false.
 // @fnv 0x00a57100
-bool FUN_00a57100_Caller::FUN_00a57100(NiStream& kStream)
+bool FUN_00a57100_Caller::NiExtraDataController_RegisterStreamables(NiStream& kStream)
 {
     if (!((BaseFake*)this)->RegisterInterpolatorStreamables(kStream))
         return false;
@@ -71,7 +71,7 @@ struct NiTimeController : NiObjectNET
 };
 struct FakeController : NiTimeController
 {
-    void FUN_00a57330(NiObjectNET*);
+    void NiExtraDataController_SetTarget(NiObjectNET*);
 };
 struct RefObj
 {
@@ -81,7 +81,7 @@ struct RefObj
 };
 // Releases the object at offset 0x3c, calls NiTimeController::SetTarget, and refreshes extra data if offset 0x2c is set.
 // @fnv 0x00a57330
-void FakeController::FUN_00a57330(NiObjectNET* pkTarget)
+void FakeController::NiExtraDataController_SetTarget(NiObjectNET* pkTarget)
 {
     RefObj* p = *(RefObj**)((char*)this + 0x3c);
     if (p)
@@ -119,11 +119,11 @@ char* __cdecl FUN_00a7d5e0(char const* lhs, char const* rhs);
 
 struct FUN_00a57420_Shell : public NiExtraDataController
 {
-    void FUN_00a57420(NiTPrimitiveArray<char*>* strings);
+    void NiExtraDataController_GetViewerStrings(NiTPrimitiveArray<char*>* strings);
 };
 
 // @fnv 0x00a57420
-void FUN_00a57420_Shell::FUN_00a57420(NiTPrimitiveArray<char*>* strings)
+void FUN_00a57420_Shell::NiExtraDataController_GetViewerStrings(NiTPrimitiveArray<char*>* strings)
 {
     StrArr* array = strings;
 
@@ -165,11 +165,11 @@ struct FUN_00a57150_cls
     void* m_3c;
 
     void FUN_00a38f50(void* arg);
-    void FUN_00a57150(void* arg);
+    void NiExtraDataController_ProcessClone(void* arg);
 };
 
 // @fnv 0x00a57150
-void FUN_00a57150_cls::FUN_00a57150(void* arg)
+void FUN_00a57150_cls::NiExtraDataController_ProcessClone(void* arg)
 {
     void* src = arg;
     FUN_00a38f50(src);

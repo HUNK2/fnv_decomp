@@ -5,7 +5,7 @@
 struct Actor;
 struct FUN_00806da0_shell
 {
-    unsigned short FUN_00806da0(Actor* apActor);
+    unsigned short AssociatedItemEffect_GetSaveSize(Actor* apActor);
 };
 struct ActiveEffect
 {
@@ -14,7 +14,7 @@ struct ActiveEffect
 
 // Returns the ActiveEffect save size for apActor plus 4 bytes.
 // @fnv 0x00806da0
-unsigned short FUN_00806da0_shell::FUN_00806da0(Actor* apActor)
+unsigned short FUN_00806da0_shell::AssociatedItemEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short isize = 0;
     isize += ((ActiveEffect*)this)->GetSaveSize(apActor);
@@ -35,11 +35,11 @@ struct AssociatedItemEffect
 {
     char _pad0[0x48];
     unsigned int _p48;
-    void FUN_00806e30(Actor* apActor);
+    void AssociatedItemEffect_LoadGame(Actor* apActor);
 };
 // Calls LoadGame on the effect, reads a 4-byte form ID from the save game, and stores it in _p48.
 // @fnv 0x00806e30
-void AssociatedItemEffect::FUN_00806e30(Actor* apActor)
+void AssociatedItemEffect::AssociatedItemEffect_LoadGame(Actor* apActor)
 {
     unsigned int iformID;
     ((ActiveEffect_LoadGame_Helper*)this)->LoadGame(apActor);
@@ -58,11 +58,11 @@ struct InitLoadGameHelper
 struct AssociatedItemEffect : ActiveEffect
 {
     TESForm* m_pAssociatedForm;
-    void __thiscall FUN_00806e70(Actor* apActor);
+    void __thiscall AssociatedItemEffect_InitLoadGame(Actor* apActor);
 };
 // Calls InitLoadGame on this, then replaces the TESForm pointer at offset 0x48 with the result of _ref_004839c0 if it is non-null.
 // @fnv 0x00806e70
-void __thiscall AssociatedItemEffect::FUN_00806e70(Actor* apActor)
+void __thiscall AssociatedItemEffect::AssociatedItemEffect_InitLoadGame(Actor* apActor)
 {
     ((InitLoadGameHelper*)this)->InitLoadGame(apActor);
     TESForm* form = *(TESForm**)((char*)this + 0x48);
@@ -89,10 +89,10 @@ struct AssociatedItemEffect
 {
     unsigned char _pad[0x48];
     TESForm* m_pAssociatedForm;
-    void __thiscall FUN_00806de0(Actor* apActor);
+    void __thiscall AssociatedItemEffect_SaveGame(Actor* apActor);
 };
 // @fnv 0x00806de0
-void __thiscall AssociatedItemEffect::FUN_00806de0(Actor* apActor)
+void __thiscall AssociatedItemEffect::AssociatedItemEffect_SaveGame(Actor* apActor)
 {
     ((ActiveEffect_SaveGame_helper*)this)->SaveGame(apActor);
     unsigned int iformID = 0;
@@ -220,12 +220,12 @@ struct AssociatedItemBaseCopyCall
 
 struct AssociatedItemCopyEntry : ::AssociatedItemEffect
 {
-    void FUN_00806d50(::ActiveEffect* target);
+    void AssociatedItemEffect_CopyData(::ActiveEffect* target);
 };
 
 // Calls the base routine with target, obtains an AssociatedItemEffect from target, and copies _p48 into it.
 // @fnv 0x00806d50
-void AssociatedItemCopyEntry::FUN_00806d50(::ActiveEffect* target)
+void AssociatedItemCopyEntry::AssociatedItemEffect_CopyData(::ActiveEffect* target)
 {
     reinterpret_cast<AssociatedItemBaseCopyCall*>(this)->FUN_00804090(target);
     ::AssociatedItemEffect* destination =

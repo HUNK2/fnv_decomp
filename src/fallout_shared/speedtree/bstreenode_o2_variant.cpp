@@ -24,7 +24,7 @@ struct BSTreeNode : NiNode
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -59,7 +59,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -78,7 +78,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 struct FUN_0066da50_t
 {
@@ -149,10 +149,10 @@ struct S_00c8c390
 {
     char _0[8];
     Mid14* p8;
-    bool FUN_00c8c390(NiStream*);
+    bool bhkTransformShape_RegisterStreamables(NiStream*);
 };
 // @fnv 0x00c8c390
-bool S_00c8c390::FUN_00c8c390(NiStream* arStream)
+bool S_00c8c390::bhkTransformShape_RegisterStreamables(NiStream* arStream)
 {
     if (this)
     {
@@ -337,10 +337,10 @@ struct S00cb7750
     int _08;
     int _0C;
     Inner00cb7750* m_10;
-    void __thiscall FUN_00cb7750();
+    void __thiscall bhkSPCollisionObject_hktoNiTransform();
 };
 // @fnv 0x00cb7750
-void __thiscall S00cb7750::FUN_00cb7750()
+void __thiscall S00cb7750::bhkSPCollisionObject_hktoNiTransform()
 {
     if (m_10 && m_10->m_08)
     {
@@ -364,7 +364,7 @@ struct BSFadeNode
     }
 };
 // @fnv 0x00c87fc0
-BSFadeNode* FUN_00c87fc0()
+BSFadeNode* bhkPCollisionObject_CreateObject()
 {
     return new BSFadeNode;
 }
@@ -390,7 +390,7 @@ struct NewObjA : BSFadeNode
     }
 };
 // @fnv 0x00cb7640
-void* FUN_00cb7640()
+void* bhkSPCollisionObject_CreateObject()
 {
     return new NewObjA;
 }
@@ -426,14 +426,14 @@ struct NiCollisionObject
 };
 struct LegacyLinker : NiCollisionObject
 {
-    void FUN_00c6bb70(NiStream*);
-    void FUN_00c87f80(NiStream*);
+    void bhkNiCollisionObject_LinkObject(NiStream*);
+    void bhkPCollisionObject_LinkObject(NiStream*);
 };
 // @fnv 0x00c87f80
-void LegacyLinker::FUN_00c87f80(NiStream* stream)
+void LegacyLinker::bhkPCollisionObject_LinkObject(NiStream* stream)
 {
     if (stream->version >= 0x15)
-        FUN_00c6bb70(stream);
+        bhkNiCollisionObject_LinkObject(stream);
     else
         NiCollisionObject::LinkObject(*stream);
 }
@@ -505,18 +505,18 @@ struct C8C330Owner
     virtual void vfunc0B0();
     virtual C8C330Child* GetOrCreateChild(bool* pbCreated);
 
-    void FUN_00c84cc0(C8C330Node* pkNode);
-    void FUN_00c8c330(C8C330Node* pkNode);
+    void bhkShape_LinkObject(C8C330Node* pkNode);
+    void bhkTransformShape_LinkObject(C8C330Node* pkNode);
 };
 
 // @fnv 0x00c8c330
-void C8C330Owner::FUN_00c8c330(C8C330Node* pkNode)
+void C8C330Owner::bhkTransformShape_LinkObject(C8C330Node* pkNode)
 {
     bool bCreated;
     C8C330Child* pkChild = GetOrCreateChild(&bCreated);
     C8C330Source* pkSource = pkNode->FUN_00a63430();
     pkChild->m_uiFilterValue = pkSource ? pkSource->m_uiFilterValue : 0;
-    FUN_00c84cc0(pkNode);
+    bhkShape_LinkObject(pkNode);
 }
 
 typedef unsigned int C8CA60size_t;
@@ -571,11 +571,11 @@ struct C8CA60Owner
     C8CA60Child* m_pkChild;
 
     void FUN_00c8c410(C8CA60Child* pkChild);
-    C8CA60Child* FUN_00c8ca60(bool* pbCreated);
+    C8CA60Child* bhkTransformShape_CreateCinfo(bool* pbCreated);
 };
 
 // @fnv 0x00c8ca60
-C8CA60Child* C8CA60Owner::FUN_00c8ca60(bool* pbCreated)
+C8CA60Child* C8CA60Owner::bhkTransformShape_CreateCinfo(bool* pbCreated)
 {
     C8CA60AllocTagScope kScope(0x10);
     *pbCreated = (m_pkChild == 0);
@@ -683,8 +683,8 @@ struct Object
 {
     unsigned int unk00, unk04;
     State* state;
-    void FUN_00c851c0(StrArr*);
-    void FUN_00c8cb20(StrArr*);
+    void bhkShape_GetViewerStrings(StrArr*);
+    void bhkTransformShape_GetViewerStrings(StrArr*);
     Component* getComponent()
     {
         if (this)
@@ -703,10 +703,10 @@ struct Object
     }
 };
 // @fnv 0x00c8cb20
-void Object::FUN_00c8cb20(StrArr* output)
+void Object::bhkTransformShape_GetViewerStrings(StrArr* output)
 {
     AutoMemContext task;
-    FUN_00c851c0(output);
+    bhkShape_GetViewerStrings(output);
     output->append(FUN_00a7d330(*(void**)&g_012681b4));
     const NativeTransform* world = this && state ? &state->world : &DAT_01268370;
     NiTransform transform;
@@ -785,11 +785,11 @@ struct CB7800Object : CB7800Base
 {
     static CB7800RTTI ms_kRTTI;
 
-    void FUN_00cb7800(CB7800StringArray* pkStrings);
+    void bhkSPCollisionObject_AddViewerStrings(CB7800StringArray* pkStrings);
 };
 
 // @fnv 0x00cb7800
-void CB7800Object::FUN_00cb7800(CB7800StringArray* pkStrings)
+void CB7800Object::bhkSPCollisionObject_AddViewerStrings(CB7800StringArray* pkStrings)
 {
     CB7800AllocTagScope kScope(0x10);
     CB7800Base::GetViewerStrings(pkStrings);
@@ -916,11 +916,11 @@ struct S_00cb79d0
     virtual void v047();
     virtual void v048();
     virtual void v049(S_00cb79d0_Base* obj, int arg);
-    S_00cb79d0_C* FUN_00cb79d0(int arg);
+    S_00cb79d0_C* bhkMultiSphereShape_CreateClone(int arg);
 };
 
 // @fnv 0x00cb79d0
-S_00cb79d0_C* S_00cb79d0::FUN_00cb79d0(int arg)
+S_00cb79d0_C* S_00cb79d0::bhkMultiSphereShape_CreateClone(int arg)
 {
     FUN_00c876f0();
     S_00cb79d0_C* obj = new S_00cb79d0_C;
@@ -1147,11 +1147,11 @@ struct TlsGuard_t
 struct FUN_00c88210_cls
 {
     void __thiscall FUN_00c6ba30(BSFadeNode* node, unsigned int flags);
-    BSFadeNode* FUN_00c88210(unsigned int flags);
+    BSFadeNode* bhkPCollisionObject_CreateClone(unsigned int flags);
 };
 
 // @fnv 0x00c88210
-BSFadeNode* FUN_00c88210_cls::FUN_00c88210(unsigned int flags)
+BSFadeNode* FUN_00c88210_cls::bhkPCollisionObject_CreateClone(unsigned int flags)
 {
     TlsGuard_t guard;
     BSFadeNode* node = new BSFadeNode;
@@ -1210,11 +1210,11 @@ class FUN_00c882c0_cls
 {
   public:
     void C882C0BaseGetViewerStrings(BC882C0StringArray* pkArray);
-    void FUN_00c882c0(BC882C0StringArray* pkArray);
+    void bhkPCollisionObject_AddViewerStrings(BC882C0StringArray* pkArray);
 };
 
 // @fnv 0x00c882c0
-void FUN_00c882c0_cls::FUN_00c882c0(BC882C0StringArray* pkArray)
+void FUN_00c882c0_cls::bhkPCollisionObject_AddViewerStrings(BC882C0StringArray* pkArray)
 {
     BC882C0AllocTagScope kScope(0x10);
     C882C0BaseGetViewerStrings(pkArray);
@@ -1576,11 +1576,11 @@ struct S_00caaf40
     virtual void vfn_bc();
     virtual void vfn_c0();
     virtual void vfn_c4(S_00caaf40_Obj* o, int a);
-    S_00caaf40_Obj* FUN_00caaf40(int a);
+    S_00caaf40_Obj* bhkCapsuleShape_CreateClone(int a);
 };
 
 // @fnv 0x00caaf40
-S_00caaf40_Obj* S_00caaf40::FUN_00caaf40(int a)
+S_00caaf40_Obj* S_00caaf40::bhkCapsuleShape_CreateClone(int a)
 {
     S_00caaf40_Ctx ctx(0x10);
     FUN_00c876f0();
@@ -1591,7 +1591,7 @@ S_00caaf40_Obj* S_00caaf40::FUN_00caaf40(int a)
 }
 
 namespace fnv_00cab000 {
-// FUN_00cab000 - bhkCapsuleShape::FUN_00cab000 (vtable slot 46 of .?AVbhkCapsuleShape@@)
+// bhkCapsuleShape_CreateCinfo - bhkCapsuleShape::bhkCapsuleShape_CreateCinfo (vtable slot 46 of .?AVbhkCapsuleShape@@)
 //
 // The function is a __thiscall member with one 4-byte stack argument (a bool* out flag).
 // It runs under the per-thread recursion guard that lives in the thread-local block at
@@ -1846,11 +1846,11 @@ struct BhkCap_00cab000
     int unk08;
     int unk0c;
     void FUN_00caade0(BhkAllocObj* p);
-    int FUN_00cab000(bool* out);
+    int bhkCapsuleShape_CreateCinfo(bool* out);
 };
 
 // @fnv 0x00cab000
-int BhkCap_00cab000::FUN_00cab000(bool* out)
+int BhkCap_00cab000::bhkCapsuleShape_CreateCinfo(bool* out)
 {
     TlsGuard_t guard;
 
@@ -2225,14 +2225,14 @@ extern int DAT_0126832c;
 char* FUN_00a7d330(int s);
 struct S_00cab8c0_Owner
 {
-    void FUN_00c9fc50(S_00cab8c0_Arr* a);
-    void FUN_00cab8c0(S_00cab8c0_Arr* a);
+    void bhkConvexShape_GetViewerStrings(S_00cab8c0_Arr* a);
+    void bhkCapsuleShape_GetViewerStrings(S_00cab8c0_Arr* a);
 };
 // @fnv 0x00cab8c0
-void S_00cab8c0_Owner::FUN_00cab8c0(S_00cab8c0_Arr* a)
+void S_00cab8c0_Owner::bhkCapsuleShape_GetViewerStrings(S_00cab8c0_Arr* a)
 {
     S_00cab8c0_Ctx guard(0x10);
-    FUN_00c9fc50(a);
+    bhkConvexShape_GetViewerStrings(a);
     char* s = FUN_00a7d330(DAT_0126832c);
     unsigned idx = a->m_uiItemCount;
     if (idx >= a->m_iElementCount)
@@ -2456,11 +2456,11 @@ struct SpawnedFade
 struct FUN_00cb76a0_cls
 {
     void __thiscall FUN_00c657f0(void* obj, unsigned int arg);
-    void* FUN_00cb76a0(unsigned int arg);
+    void* bhkSPCollisionObject_CreateClone(unsigned int arg);
 };
 
 // @fnv 0x00cb76a0
-void* FUN_00cb76a0_cls::FUN_00cb76a0(unsigned int arg)
+void* FUN_00cb76a0_cls::bhkSPCollisionObject_CreateClone(unsigned int arg)
 {
     TlsGuard_t guard;
     SpawnedFade* obj = new SpawnedFade;
@@ -2513,7 +2513,7 @@ struct FUN_00cb7790_state
 {
     unsigned int owner;
     unsigned int depth;
-    void __thiscall FUN_0040fbf0(int);
+    void __thiscall BSSpinLock_Lock(int);
 };
 extern FUN_00cb7790_state DAT_01267b80;
 
@@ -2524,11 +2524,11 @@ struct FUN_00cb7790_class
     FUN_00cb7790_node* node;
     unsigned int unk0C;
     FUN_00cb7790_receiver* receiver;
-    void __thiscall FUN_00cb7790();
+    void __thiscall bhkSPCollisionObject_NitohkTransform();
 };
 
 // @fnv 0x00cb7790
-void FUN_00cb7790_class::FUN_00cb7790()
+void FUN_00cb7790_class::bhkSPCollisionObject_NitohkTransform()
 {
     FUN_00cb7790_receiver* target = receiver;
     FUN_00cb7790_node* source = node;
@@ -2538,7 +2538,7 @@ void FUN_00cb7790_class::FUN_00cb7790()
         if (target && target->object)
         {
             Buf00cb7750 transform = source->transform;
-            DAT_01267b80.FUN_0040fbf0(0);
+            DAT_01267b80.BSSpinLock_Lock(0);
             target->FUN_0056df20(&transform);
             if (--DAT_01267b80.depth == 0)
                 DAT_01267b80.owner = 0;
@@ -2546,7 +2546,7 @@ void FUN_00cb7790_class::FUN_00cb7790()
     }
 }
 
-// FUN_00cb7920 - factory for a bhkMultiSphereShape.
+// bhkMultiSphereShape_CreateObject - factory for a bhkMultiSphereShape.
 //
 // The shape is allocated with the class' own operator new, the base
 // constructor is run on it and the vtable pointer of the object is moved
@@ -2598,7 +2598,7 @@ void* __cdecl opnew(unsigned int);
 void __cdecl opdelete(void*);
 
 // @fnv 0x00cb7920
-Node* FUN_00cb7920()
+Node* bhkMultiSphereShape_CreateObject()
 {
     Node* p = (Node*)opnew(0x14);
     {
@@ -2668,8 +2668,8 @@ struct Shader
     virtual void f43();
     virtual void f44();
     virtual int* f45(struct Pass** pass);
-    void FUN_00c84d00(struct Pass* pass);
-    void FUN_00cb7b20(struct Pass* pass);
+    void bhkShape_LoadBinary(struct Pass* pass);
+    void bhkMultiSphereShape_LoadBinary(struct Pass* pass);
 };
 
 struct Pass
@@ -2682,10 +2682,10 @@ void FUN_00cf0930(int* a, int b, int* c);
 void FUN_00cf0f40(Pass* pass, int* b);
 
 // @fnv 0x00cb7b20
-void Shader::FUN_00cb7b20(Pass* pass)
+void Shader::bhkMultiSphereShape_LoadBinary(Pass* pass)
 {
     Pass* p = pass;
-    FUN_00c84d00(p);
+    bhkShape_LoadBinary(p);
     int* data = f45(&pass);
     if (*((char*)p + 0x1e5) != 1)
     {
@@ -3081,7 +3081,7 @@ struct CbArr8150
     }
 };
 
-extern "C" unsigned char __stdcall FUN_00c84dc0(void* a1);
+extern "C" unsigned char __stdcall bhkShape_IsEqual(void* a1);
 extern "C" unsigned char __cdecl FUN_00cf08c0(int* pA, void** pB);
 
 struct FUN_00cb8150_cls
@@ -3089,14 +3089,14 @@ struct FUN_00cb8150_cls
     int unk00;
     void FUN_00cb7c60(CbArr8150* p);
 
-    unsigned char FUN_00cb8150(void* a1);
+    unsigned char bhkMultiSphereShape_IsEqual(void* a1);
 };
 
 // @fnv 0x00cb8150
-unsigned char FUN_00cb8150_cls::FUN_00cb8150(void* a1)
+unsigned char FUN_00cb8150_cls::bhkMultiSphereShape_IsEqual(void* a1)
 {
     FUN_00cb8150_cls* other = (FUN_00cb8150_cls*)a1;
-    unsigned char r = FUN_00c84dc0(a1);
+    unsigned char r = bhkShape_IsEqual(a1);
     if (r != 0)
     {
         CbArr8150 a;
@@ -3343,10 +3343,10 @@ struct S_00cb8330_cls
     int unk04;
     int unk08;
     S_00cb8330_Obj* m_0c;
-    void FUN_00cb8330(bool bFree);
+    void bhkMultiSphereShape_KillCinfo(bool bFree);
 };
 // @fnv 0x00cb8330
-void S_00cb8330_cls::FUN_00cb8330(bool bFree)
+void S_00cb8330_cls::bhkMultiSphereShape_KillCinfo(bool bFree)
 {
     TlsGuard guard;
     if (bFree)
@@ -3601,12 +3601,12 @@ struct FUN_00cb8010_cls
     virtual void vB0();
     virtual OwnerB* v45(unsigned char* pFlag);
 
-    void __thiscall FUN_00c84d50(A1Owner* a1);
-    void __thiscall FUN_00cb8010(A1Owner* a1);
+    void __thiscall bhkShape_SaveBinary(A1Owner* a1);
+    void __thiscall bhkMultiSphereShape_SaveBinary(A1Owner* a1);
 };
 
 // @fnv 0x00cb8010
-void __thiscall FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
+void __thiscall FUN_00cb8010_cls::bhkMultiSphereShape_SaveBinary(A1Owner* a1)
 {
     unsigned int flagSlot;
     OwnerB* p = this->v45((unsigned char*)&flagSlot);
@@ -3629,7 +3629,7 @@ void __thiscall FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
         void* r = this->v42();
         FUN_00cf0930(p, r, &p->m04);
     }
-    this->FUN_00c84d50(a1);
+    this->bhkShape_SaveBinary(a1);
     FUN_00cf0cf0(a1, &tmp);
     this->v41(flagSlot);
     if (*(unsigned char*)&flagSlot == 0 && a1->m1E4 != 1)
@@ -4025,18 +4025,18 @@ struct FUN_00c8c1e0_cls
     virtual void v44()
     {}
     virtual FUN_00c8c1e0_rec* GetRec(FUN_00c8c1e0_arg*& a);
-    void FUN_00c84d00(FUN_00c8c1e0_arg* a);
-    void FUN_00c8c1e0(FUN_00c8c1e0_arg* a1);
+    void bhkShape_LoadBinary(FUN_00c8c1e0_arg* a);
+    void bhkTransformShape_LoadBinary(FUN_00c8c1e0_arg* a1);
 };
 
 // @fnv 0x00c8c1e0
-void FUN_00c8c1e0_cls::FUN_00c8c1e0(FUN_00c8c1e0_arg* a1)
+void FUN_00c8c1e0_cls::bhkTransformShape_LoadBinary(FUN_00c8c1e0_arg* a1)
 {
     FUN_00c8c1e0_rec* r;
     FUN_00c8c1e0_arg* volatile* pa = &a1;
     FUN_00c8c1e0_arg* a = *pa;
     a->FUN_00a645b0();
-    FUN_00c84d00(a);
+    bhkShape_LoadBinary(a);
     r = GetRec(a1);
     r->m04 = 0;
     if (a->m1E5 != 1)
@@ -4294,8 +4294,8 @@ struct C8C260Shader
     int unk04;
     C8C260Link* m_link;
 
-    void FUN_00c84d50(C8C260Renderer* pkRenderer);
-    void FUN_00c8c260(C8C260Renderer* pkRenderer);
+    void bhkShape_SaveBinary(C8C260Renderer* pkRenderer);
+    void bhkTransformShape_SaveBinary(C8C260Renderer* pkRenderer);
 };
 
 inline void* C8C260GetTarget(C8C260Shader* p)
@@ -4304,13 +4304,13 @@ inline void* C8C260GetTarget(C8C260Shader* p)
 }
 
 // @fnv 0x00c8c260
-void C8C260Shader::FUN_00c8c260(C8C260Renderer* pkRenderer)
+void C8C260Shader::bhkTransformShape_SaveBinary(C8C260Renderer* pkRenderer)
 {
     pkRenderer->SetTarget(C8C260GetTarget(this));
     bool bCreated;
     C8C260Block* pkBlock = GetBlock(&bCreated);
     C8C260Prepare(pkBlock, pkRenderer);
-    FUN_00c84d50(pkRenderer);
+    bhkShape_SaveBinary(pkRenderer);
     C8C260Prepare(pkBlock, pkRenderer);
 }
 
@@ -4805,11 +4805,11 @@ struct FUN_00c8c4d0_cls
     virtual void v47();
     virtual void v48();
     virtual void v49(SpawnedObject* obj, int a1);
-    SpawnedObject* FUN_00c8c4d0(int a1);
+    SpawnedObject* bhkTransformShape_CreateClone(int a1);
 };
 
 // @fnv 0x00c8c4d0
-SpawnedObject* FUN_00c8c4d0_cls::FUN_00c8c4d0(int a1)
+SpawnedObject* FUN_00c8c4d0_cls::bhkTransformShape_CreateClone(int a1)
 {
     TlsGuard_t guard;
     FUN_00c876f0();
@@ -4870,11 +4870,11 @@ struct S_00cb8270
 
     void FUN_00cb7c60(S_00cb8270_Array*);
 
-    S_00cb8270_Array* FUN_00cb8270(bool& outCreated);
+    S_00cb8270_Array* bhkMultiSphereShape_CreateCinfo(bool& outCreated);
 };
 
 // @fnv 0x00cb8270
-S_00cb8270_Array* S_00cb8270::FUN_00cb8270(bool& outCreated)
+S_00cb8270_Array* S_00cb8270::bhkMultiSphereShape_CreateCinfo(bool& outCreated)
 {
     AutoMemContext memContext(0x10);
 
@@ -4895,21 +4895,21 @@ S_00cb8270_Array* S_00cb8270::FUN_00cb8270(bool& outCreated)
 
 struct CollisionStreamLoader : NiCollisionObject
 {
-    void __thiscall FUN_00c6c330(NiStream& stream);
+    void __thiscall bhkNiCollisionObject_LoadBinary(NiStream& stream);
     void __thiscall FUN_00a80fd0(NiStream& stream);
 };
 
 struct LegacyCollisionLoader : CollisionStreamLoader
 {
-    void __thiscall FUN_00c87f60(NiStream& stream);
+    void __thiscall bhkPCollisionObject_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00c87f60
-void __thiscall LegacyCollisionLoader::FUN_00c87f60(NiStream& stream)
+void __thiscall LegacyCollisionLoader::bhkPCollisionObject_LoadBinary(NiStream& stream)
 {
     if (stream.version >= 0x15)
     {
-        FUN_00c6c330(stream);
+        bhkNiCollisionObject_LoadBinary(stream);
     }
     else
     {

@@ -131,7 +131,7 @@ struct TESPackage
 {
     static TESPackage* CreatePackageForType(int);
     void SetPackageType(int);
-    void FUN_00671d30(LocationDescriptor*);
+    void TESPackage_SetPackageLocation(LocationDescriptor*);
     void SetTargetFromReference(TESObjectREFR*);
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
@@ -546,7 +546,7 @@ void TESObjectREFR::FUN_008984c0()
 
     LocationDescriptor* package = new LocationDescriptor;
     package->FUN_0067f3c0(this);
-    packageLocation->FUN_00671d30(package);
+    packageLocation->TESPackage_SetPackageLocation(package);
 
     delete package;
 
@@ -954,13 +954,13 @@ struct BipedView
 };
 struct EffectView
 {
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
     float GetModifierValue();
     float FUN_004a40e0();
     float FUN_00598040();
     float FUN_009a9350();
     bool CallMemberAtOffset54();
-    bool FUN_004a4140();
+    bool BGSImpactData_GetAlphaBlending();
     unsigned int GetNextFromSubobject();
 };
 struct ProjectileView : EffectView
@@ -973,7 +973,7 @@ struct EffectList
 };
 struct WeaponView
 {
-    bool FUN_004c0c30();
+    bool TESObjectWEAP_IsRangedWeapon();
 };
 struct InventoryView
 {
@@ -1114,7 +1114,7 @@ struct ProcessView
 };
 struct AppliedEffect
 {
-    void FUN_004a3fe0(FUN_004a37b0*, int, char);
+    void TESObjectCELL_AddDecal(FUN_004a37b0*, int, char);
 };
 struct FUN_004a37b0
 {
@@ -1169,7 +1169,7 @@ class TESActorBase
 class TESCreature : public TESActorBase
 {
   public:
-    bool FUN_005fbf20() const;
+    bool TESCreature_IsHumanoidCreature() const;
 };
 struct BaseData
 {
@@ -1525,9 +1525,9 @@ struct SpellActor
     ProcessView* FUN_008d8520();
     NiPoint3 GetNodePosition(bool);
     BipedView* FUN_00950b00(bool, bool);
-    bool FUN_004eaf60();
-    AnimView* FUN_00950a10();
-    AnimView* FUN_008b70d0();
+    bool PlayerCharacter_Is3rdPerson();
+    AnimView* PlayerCharacter_GetAnimData();
+    AnimView* Actor_GetAnimData();
     AppliedEffect* FUN_008d6f30();
     void FUN_0088fb00(float, HitSource*, SpellActor*);
 };
@@ -1561,7 +1561,7 @@ unsigned int FUN_00944460(int, int);
 void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target)
 {
     TESCreature* creature5 = dynamic_cast<TESCreature*>(FUN_004181e0());
-    if (((creature5 && creature5->FUN_005fbf20()) || isCreature()) && *DAT_011df7f8.FUN_00408d60())
+    if (((creature5 && creature5->TESCreature_IsHumanoidCreature()) || isCreature()) && *DAT_011df7f8.FUN_00408d60())
         return;
     bool specialTmp = hit->node && ((ValueView*)((char*)hit->node + 0xa4))->get(55) > 0 ? true : false;
     int index7 = -1;
@@ -1579,7 +1579,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
         NodeView* node2;
         node2 = process ? node2 = process->getNode(mode()) : 0;
         WeaponView* weapon = owner->weapon() ? owner->weapon()->FUN_0044ddc0() : 0;
-        if (node2 && weapon && !weapon->FUN_004c0c30() && distance > FUN_00404010(1.0f, *DAT_011df748.FUN_00403e20()))
+        if (node2 && weapon && !weapon->TESObjectWEAP_IsRangedWeapon() && distance > FUN_00404010(1.0f, *DAT_011df748.FUN_00403e20()))
         {
             NodeView* other_2 = 0;
             NiPoint3 point, playerNormal4, FlushUsageData;
@@ -1588,13 +1588,13 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
             {
                 NodeView* bipedNode5 = DAT_011dea3c->FUN_00950b00(true, true)->FUN_004ab230();
                 point = (node2->FUN_0045bb80() - GetNodePosition(true)).FUN_0053d280(2.0f);
-                other_2 = DAT_011dea3c->FUN_004eaf60() ? bipedNode5 : node2;
-                node2 = DAT_011dea3c->FUN_004eaf60() ? node2 : bipedNode5;
+                other_2 = DAT_011dea3c->PlayerCharacter_Is3rdPerson() ? bipedNode5 : node2;
+                node2 = DAT_011dea3c->PlayerCharacter_Is3rdPerson() ? node2 : bipedNode5;
                 Bound bound = node2->FUN_0043d450();
                 scale = bound.FUN_0084d030() / node2->FUN_008d01e0();
                 NiPoint3 origin6 = bound.FUN_006815c0() - node2->FUN_0045bb80();
                 int h = 0;
-                AnimView* s = DAT_011dea3c->FUN_00950a10();
+                AnimView* s = DAT_011dea3c->PlayerCharacter_GetAnimData();
                 if (s)
                 {
                     AnimSequence* sequence = s->FUN_00491040(4);
@@ -1620,7 +1620,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
             }
             else
             {
-                AnimView* s = FUN_008b70d0();
+                AnimView* s = Actor_GetAnimData();
                 if (s && s->FUN_00491040(4))
                 {
                     int h = s->FUN_00491040(4)->FUN_0048f7f0()->FUN_008905f0();
@@ -1629,7 +1629,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
             }
             char randomIndex2 = (char)(int)FUN_00406cc0(FUN_00476b70(0.0f, 4.0f));
             float global = FUN_004a4240();
-            float size = FUN_00476b70(_projectile->FUN_004a40a0(), _projectile->GetModifierValue());
+            float size = FUN_00476b70(_projectile->BGSImpactData_GetDecalMinWidth(), _projectile->GetModifierValue());
             NiPoint3 normal9;
             if (this == DAT_011dea3c)
                 normal9 = playerNormal4;
@@ -1653,7 +1653,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
             data.f58 = _projectile->FUN_009a9350();
             data.f77 = 1;
             data.f74 = _projectile->CallMemberAtOffset54();
-            data.f75 = _projectile->FUN_004a4140();
+            data.f75 = _projectile->BGSImpactData_GetAlphaBlending();
             data.color =
                 NiPoint3((unsigned char)(_projectile->GetNextFromSubobject() & 0xff) / 255.0,
                          (unsigned char)(((unsigned short)_projectile->GetNextFromSubobject() >> 8) & 0xff) / 255.0,
@@ -1664,9 +1664,9 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
                 data.minSize *= 1.5;
                 data.maxSize *= 1.5;
             }
-            FUN_008d6f30()->FUN_004a3fe0(&data, 1, 0);
+            FUN_008d6f30()->TESObjectCELL_AddDecal(&data, 1, 0);
             data.node = other_2;
-            FUN_008d6f30()->FUN_004a3fe0(&data, 1, 0);
+            FUN_008d6f30()->TESObjectCELL_AddDecal(&data, 1, 0);
         }
     }
 }
@@ -1794,12 +1794,12 @@ struct FnvActorProxy
     virtual int vfn_01D0();
 
     FnvHolder* FUN_008d6f30();
-    void FUN_00572230();
+    void TESObjectREFR_MarkAsPickedUp();
 };
 
 struct FnvHolder
 {
-    void FUN_0054ca90(FnvActorProxy* a1);
+    void TESObjectCELL_RemoveReference(FnvActorProxy* a1);
 };
 
 void __cdecl FUN_00c6a270(int a, int b, int c, int d);
@@ -1817,12 +1817,12 @@ void __cdecl FUN_00892460(FnvActorProxy* a1, unsigned char a2)
         FUN_00867f90(a1);
         if (holder != 0)
         {
-            holder->FUN_0054ca90(a1);
+            holder->TESObjectCELL_RemoveReference(a1);
         }
     }
     else
     {
-        a1->FUN_00572230();
+        a1->TESObjectREFR_MarkAsPickedUp();
     }
 }
 

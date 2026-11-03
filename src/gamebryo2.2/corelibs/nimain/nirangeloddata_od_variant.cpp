@@ -8,7 +8,7 @@ struct GlobalObjectO2_00a7b610
 {
 };
 extern GlobalObjectO2_00a7b610 g_011f5ef8;
-GlobalObjectO2_00a7b610* __cdecl FUN_00a976f0();
+GlobalObjectO2_00a7b610* __cdecl NiRangeLODData_GetRTTI();
 struct NiPoint3
 {
     float x, y, z;

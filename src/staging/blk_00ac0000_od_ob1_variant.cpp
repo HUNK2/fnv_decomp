@@ -182,7 +182,7 @@ struct FUN_00ac1120_Class
 struct FUN_00ac52b0_class
 {
     void FUN_00ac52b0(int a, int b, int c);
-    void FUN_00ac5370(int a, int b, int c);
+    void FutBinaryFileC_read(int a, int b, int c);
 };
 unsigned __int64 __cdecl __time64(unsigned __int64*);
 void __cdecl FUN_00ecada6(unsigned int);
@@ -653,7 +653,7 @@ struct FgBinaryFile
     int unk38;
     int unk3C;
     FgBinaryStream* m_pBinaryStream;
-    bool FUN_00ac5cf0(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
+    bool BSFaceGenBinaryFile_read(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
 };
 extern int DAT_010a2480;
 class FUN_00ac5e90_Target
@@ -947,7 +947,7 @@ struct FUN_00acb1a0_cls
     void ResetListSentinel();
 };
 extern int DAT_010a30fc;
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 class Sub_00acb6b0
 {
   public:
@@ -1162,7 +1162,7 @@ struct FUN_00acde90_class
 {
     void __thiscall FUN_00acde90();
 };
-void __cdecl FUN_00401030(void* apMemory);
+void __cdecl FormHeap_Free(void* apMemory);
 struct FUN_00acdff0_prim
 {
     int unk00;
@@ -1411,7 +1411,7 @@ struct FUN_00ad0550_cls
     void* m_24;
     void Initialize();
 };
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 int __cdecl FUN_00ec36a6();
 struct FUN_00ac9da0_Class
 {
@@ -1798,7 +1798,7 @@ struct S_00ad53d0_bad : S_00ad53d0_exc
     __forceinline S_00ad53d0_bad(const char* what) throw() : S_00ad53d0_exc(what)
     {}
 };
-void* __cdecl FUN_00401000(unsigned int);
+void* __cdecl FormHeap_Allocate(unsigned int);
 // @fnv 0x00ad53d0
 void* __cdecl FUN_00ad53d0(unsigned int n)
 {
@@ -1810,7 +1810,7 @@ void* __cdecl FUN_00ad53d0(unsigned int n)
     {
         throw S_00ad53d0_bad(0);
     }
-    return FUN_00401000(n * 0x38);
+    return FormHeap_Allocate(n * 0x38);
 }
 
 struct PoolX
@@ -32043,7 +32043,7 @@ struct TreeNode00acf0b0
     {
         FUN_00ad5490();
         if (flags & 1)
-            FUN_00401030(this);
+            FormHeap_Free(this);
         Dead11();
     }
 };
@@ -32056,7 +32056,7 @@ void FUN_00acb1a0_cls::FUN_00acf0b0(void* p)
         FUN_00acf0b0(node->m_08);
         node = node->m_00;
         ((TreeNode00acf0b0*)p)->Destroy(0);
-        FUN_00401030(p);
+        FormHeap_Free(p);
     }
 }
 
@@ -33366,11 +33366,11 @@ struct C43B0
 
     void FUN_00ac5430();
     bool FUN_00ac52b0(void* pv, unsigned int size, unsigned int count);
-    bool FUN_00ac43b0(Str43B0 name);
+    bool FutBinaryFileC_openForRead(Str43B0 name);
 };
 
 // @fnv 0x00ac43b0
-bool C43B0::FUN_00ac43b0(Str43B0 name)
+bool C43B0::FutBinaryFileC_openForRead(Str43B0 name)
 {
     FUN_00ac5430();
     m_file = fopen(name._Myptr(), "rb");
@@ -37665,7 +37665,7 @@ String* __cdecl FUN_00ad6690(String* _First, String* _Last, String* _Dest)
 }  // namespace fnv_00ad6690
 
 namespace fnv_00ad6e20 {
-void FUN_00401030(void* p);
+void FormHeap_Free(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -37674,7 +37674,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeap_Free(p);
 }
 struct VBQ
 {
@@ -38909,7 +38909,7 @@ struct SBQ_acbb80 : basic_streambufB610
     }
     void deallocate(char* p, unsigned int)
     {
-        FUN_00401030(p);
+        FormHeap_Free(p);
     }
     int FUN_00acbb80(int _Meta);
 };
@@ -41002,7 +41002,7 @@ struct S5540_Stream
     void* m_40;
     S5540_File* m_44;
     bool FUN_00ac5e00(char* buf, unsigned int len, bool flag);
-    bool FUN_00ac5540(S5540_String name, bool flag);
+    bool BSFaceGenBinaryFile_LoadFile(S5540_String name, bool flag);
 };
 
 // These dead inline locals retain the scratch space of the original STL
@@ -41022,7 +41022,7 @@ static __forceinline void HeaderCleanupScratch()
 }
 
 // @fnv 0x00ac5540
-bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
+bool S5540_Stream::BSFaceGenBinaryFile_LoadFile(S5540_String name, bool flag)
 {
     int archive = 1;
     if (flag)

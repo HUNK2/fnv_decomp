@@ -5,7 +5,7 @@
 extern "C" void* g_011f5ebc;
 
 // @fnv 0x00a94820
-void* __cdecl FUN_00a94820()
+void* __cdecl NiStringsExtraData_GetRTTI()
 {
     return &g_011f5ebc;
 }
@@ -23,7 +23,7 @@ struct BSFadeNode
 extern int DAT_010a0134;
 
 // @fnv 0x00a94930
-void* __cdecl FUN_00a94930()
+void* __cdecl NiStringsExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)
@@ -239,12 +239,12 @@ struct StringsExtraDataViewer : ExtraDataViewerBase
 {
     unsigned int m_uiSize;
     char** m_ppcValue;
-    void FUN_00a94ae0(ViewerStringArray* apViewerStrings);
+    void NiStringsExtraData_GetViewerStrings(ViewerStringArray* apViewerStrings);
 };
 
 // Appends the base viewer strings, the m_uiSize value and one formatted string per m_ppcValue entry to the viewer string array.
 // @fnv 0x00a94ae0
-void StringsExtraDataViewer::FUN_00a94ae0(ViewerStringArray* pViewerStrings)
+void StringsExtraDataViewer::NiStringsExtraData_GetViewerStrings(ViewerStringArray* pViewerStrings)
 {
     ExtraDataViewerBase::GetViewerStrings(pViewerStrings);
     pViewerStrings->Add(FUN_00a7d330((const char*)g_011f5ebc));
@@ -303,11 +303,11 @@ struct CloneObject
 struct CloneSource
 {
     void CopyStringsExtraData(CloneObject* pDest, void* pCloning);
-    CloneObject* FUN_00a94990(void* pCloning);
+    CloneObject* NiStringsExtraData_CreateClone(void* pCloning);
 };
 
 // @fnv 0x00a94990
-CloneObject* CloneSource::FUN_00a94990(void* pCloning)
+CloneObject* CloneSource::NiStringsExtraData_CreateClone(void* pCloning)
 {
     CloneObject* p = new CloneObject;
     CopyStringsExtraData(p, pCloning);
@@ -524,14 +524,14 @@ class NiExtraDataA949
 class NiStringsExtraDataA949 : public NiExtraDataA949
 {
   public:
-    void FUN_00a949f0(NiStreamA949& kStream);
+    void NiStringsExtraData_SaveBinary(NiStreamA949& kStream);
 
     unsigned int m_uiSize;
     char** m_ppcValue;
 };
 
 // @fnv 0x00a949f0
-void NiStringsExtraDataA949::FUN_00a949f0(NiStreamA949& kStream)
+void NiStringsExtraDataA949::NiStringsExtraData_SaveBinary(NiStreamA949& kStream)
 {
     NiExtraDataA949::SaveBinary(kStream);
     A949SaveBinary(kStream, m_uiSize);

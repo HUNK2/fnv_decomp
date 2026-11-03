@@ -5,7 +5,7 @@
 extern "C" char __stdcall FUN_00a57c10(void* a);
 
 // @fnv 0x00a4cf50
-char __stdcall FUN_00a4cf50(void* pThis)
+char __stdcall NiLightDimmerController_IsEqual(void* pThis)
 {
     return FUN_00a57c10(pThis) != 0;
 }
@@ -35,7 +35,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3fa0;
 
 // @fnv 0x00a4cf90
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
+GlobalObjectO2_00a7b610* __cdecl NiLightDimmerController_GetRTTI()
 {
     return &g_011f3fa0;
 }
@@ -54,7 +54,7 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00a4d0d0
-void* FUN_00a4d0d0()
+void* NiLightDimmerController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x38);
     if (p)
@@ -79,12 +79,12 @@ template <typename T, typename A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+void __stdcall NiFloatInterpController_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00a4d100
-void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void __stdcall NiLightDimmerController_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pszStr = FUN_00a7d330(*(const char**)&g_011f3fa0);
     unsigned int uIdx = pkStrings->m_iElementCount;
     if (uIdx >= pkStrings->m_pRayCursor)
@@ -250,7 +250,7 @@ void NiLightDimmerControllerW::UpdateDimmer(const float& fTime)
 extern void FUN_00a57c70();
 
 // @fnv 0x00a4cf40
-void FUN_00a4cf40()
+void NiLightDimmerController_LoadBinary()
 {
     FUN_00a57c70();
 }

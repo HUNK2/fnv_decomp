@@ -292,7 +292,7 @@ struct TESFile
 typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005ec370_shell : public BGSQuestObjective
 {
-    void FUN_005ec370(TESFile*);
+    void BGSQuestObjective_Load(TESFile*);
 };
 
 extern "C" void* __cdecl _alloca(unsigned int);
@@ -302,7 +302,7 @@ struct S_005ec440
 };
 // Reads chunks from apFile: stores the QOBJ chunk's int in iIndex, and on the NNAM chunk passes its data (or null) to FUN_005ec440, then returns.
 // @fnv 0x005ec370
-void FUN_005ec370_shell::FUN_005ec370(TESFile* apFile)
+void FUN_005ec370_shell::BGSQuestObjective_Load(TESFile* apFile)
 {
     int chunkid;
     while ((chunkid = apFile->ReadCurrentForm()) != 0)
@@ -471,7 +471,7 @@ struct FUN_00485910_shell
 };
 struct FUN_004856f0_shell
 {
-    static void __cdecl FUN_004856f0(int, const char*, unsigned int);
+    static void __cdecl TESForm_AddChunkArray(int, const char*, unsigned int);
 };
 struct FUN_005ec310_shell
 {
@@ -493,7 +493,7 @@ struct FUN_005ec280_shell
 void FUN_005ec280_shell::FUN_005ec280()
 {
     FUN_00485910_shell::FUN_00485910(0x4a424f51, ((BSSimpleList<RegionObjectEntry*>*)this)->GetNext());
-    FUN_004856f0_shell::FUN_004856f0(0x4d414e4e, ((FUN_005ec330_shell*)this)->GetPromptText(),
+    FUN_004856f0_shell::TESForm_AddChunkArray(0x4d414e4e, ((FUN_005ec330_shell*)this)->GetPromptText(),
                                      ((FUN_005ec310_shell*)this)->GetLength() + 1);
     BSSimpleList<RegionObjectEntry*>* list = ((BGSQuestObjective*)this)->GetTargetList();
     while (list && !list->IsEmpty())
@@ -592,17 +592,17 @@ struct PlayerCharacter : Obj_009529d0
 
 extern PlayerCharacter* _g_thePlayer;
 
-int __fastcall FUN_005cbb50(char*);
+int __fastcall PlayerCharacter_GetActiveQuest(char*);
 void __cdecl FUN_0077a480(void*);
 void __cdecl FUN_0077a5b0(char const*, int, int);
 
 struct FUN_005ec5d0_shell : BGSQuestObjective
 {
-    void FUN_005ec5d0(QUEST_OBJECTIVE_STATE);
+    void BGSQuestObjective_SetState(QUEST_OBJECTIVE_STATE);
 };
 
 // @fnv 0x005ec5d0
-void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
+void FUN_005ec5d0_shell::BGSQuestObjective_SetState(QUEST_OBJECTIVE_STATE aeNewState)
 {
     TESQuest* powner = reinterpret_cast<TESQuest*>(reinterpret_cast<BSAudio*>(this)->GetAudioBackendData());
 
@@ -615,7 +615,7 @@ void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
             if (!powner->GetCompleted())
             {
                 powner->SetEnabled(true);
-                if (!FUN_005cbb50(reinterpret_cast<char*>(_g_thePlayer)))
+                if (!PlayerCharacter_GetActiveQuest(reinterpret_cast<char*>(_g_thePlayer)))
                 {
                     reinterpret_cast<Obj_009529d0*>(_g_thePlayer)->FUN_009529d0(reinterpret_cast<int>(powner));
                 }

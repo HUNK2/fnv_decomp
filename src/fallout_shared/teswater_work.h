@@ -35,7 +35,7 @@ template <class T> class BSSimpleList
 class LoadedAreaBound
 {
   public:
-    void FUN_00628da0();
+    void LoadedAreaBound_Clear();
     void FUN_006271b0(TESObjectCELL*, void*);
 };
 class BGSSaveLoadGame
@@ -286,7 +286,7 @@ class TES
     TESObjectCELL* IsCellInterior();
     TESObjectCELL* GetDetailedActorPathHandler();
     void RefreshWorldState(int, int, int);
-    void FUN_004515a0(const NiPoint3*, bool);
+    void TES_InitGridCells(const NiPoint3*, bool);
     unsigned int GetInteriorBufferCount(bool);
     void SetTESActive(bool);
     TESObjectCELL* FindCellByGridCoordinates(int, int);
@@ -336,7 +336,7 @@ class ThreeByThreeMatrix
 class NiNode
 {
   public:
-    const ThreeByThreeMatrix& FUN_00461130() const;
+    const ThreeByThreeMatrix& NiAVObject_GetWorldRotate() const;
     const NiPoint3& FUN_0045bb80() const;
 };
 class TESBoundObject

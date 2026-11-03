@@ -477,7 +477,7 @@ struct MemoryPool
     int unk1c;
     int unk20;
     int unk24;
-    void FUN_0040fbf0(char*);
+    void BSSpinLock_Lock(char*);
     void FUN_00aa7260();
 };
 extern MemoryPool* DAT_011f67b8[];
@@ -821,7 +821,7 @@ struct FUN_00aa7300_pool
 {
     int m_00;
     int m_04;
-    void FUN_0040fbf0(const char* name);
+    void BSSpinLock_Lock(const char* name);
 };
 class FUN_00aa7300_cls
 {
@@ -3366,7 +3366,7 @@ extern const char DAT_010a27f4[];
 struct MatrixPoolLock
 {
     unsigned int owner, count, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    void FUN_0040fbf0(const char*);
+    void BSSpinLock_Lock(const char*);
 };
 struct MatrixPool
 {
@@ -3388,7 +3388,7 @@ struct MatrixPool
     {
         if (!pointer)
             return;
-        lock.FUN_0040fbf0(DAT_010a27f4);
+        lock.BSSpinLock_Lock(DAT_010a27f4);
         FUN_00aa6e00(pointer);
         unsigned int page = ((unsigned int)pointer - begin) >> 12;
         --pageCounts[page];
@@ -6399,7 +6399,7 @@ struct FUN_00ac5490 : FUN_00aaaa80
             m40 = 0;
         }
     }
-    unsigned char FUN_00ac5540(std::Str s, int z)
+    unsigned char BSFaceGenBinaryFile_LoadFile(std::Str s, int z)
     {
         int mode = z ? 0x100 : 1;
         ReaderRef reference(readerDirectory ? readerDirectory->Find(s._Myptr()) : 0);
@@ -6439,7 +6439,7 @@ struct FUN_00ac5490 : FUN_00aaaa80
         return m40 != 0;
     }
     unsigned char FUN_00ac5e00(void* buf, int a, int b);
-    unsigned char FUN_00ac5cf0(void* buf, int a, int b);
+    unsigned char BSFaceGenBinaryFile_read(void* buf, int a, int b);
     unsigned char FUN_00ac5c70(void* buf, int n);
 };
 static const char signatureText[] = "FREGM002";
@@ -6451,7 +6451,7 @@ unsigned char __cdecl FUN_00aafc80(const std::Str& pStr, int* pOut, Arr28* pA, A
     unsigned short* _res;
     {
         FUN_00ac5490 obj4((std::Str(signatureText)));
-        if (!obj4.FUN_00ac5540(pStr, 0))
+        if (!obj4.BSFaceGenBinaryFile_LoadFile(pStr, 0))
         {
             return 0;
         }
@@ -6472,7 +6472,7 @@ unsigned char __cdecl FUN_00aafc80(const std::Str& pStr, int* pOut, Arr28* pA, A
             {
                 Elem28* e = &(*pA)[p2];
                 (*pA)[p2].arr.resize(hdr.f0);
-                if (!obj4.FUN_00ac5cf0(&val, 4, 1))
+                if (!obj4.BSFaceGenBinaryFile_read(&val, 4, 1))
                     return 0;
                 (*pA)[p2].f = val;
                 if (!obj4.FUN_00ac5c70(_res, hdr.f0 * 3))
@@ -6508,7 +6508,7 @@ unsigned char __cdecl FUN_00aafc80(const std::Str& pStr, int* pOut, Arr28* pA, A
             {
                 Elem28* e = &(*pB)[p2];
                 e->arr.resize(hdr.f0);
-                if (!obj4.FUN_00ac5cf0(&val, 4, 1))
+                if (!obj4.BSFaceGenBinaryFile_read(&val, 4, 1))
                     return 0;
                 e->f = val;
                 if (!obj4.FUN_00ac5c70(_res, hdr.f0 * 3))
@@ -17920,12 +17920,12 @@ struct FUN_00ac5490 : FUN_00aaaa80
         ClearHolders();
     }
     void ClearHolders();
-    bool FUN_00ac5540(TriString, int);
+    bool BSFaceGenBinaryFile_LoadFile(TriString, int);
     bool FUN_00ac5e00(void*, unsigned int, unsigned int);
-    bool FUN_00ac5cf0(void*, unsigned int, unsigned int);
+    bool BSFaceGenBinaryFile_read(void*, unsigned int, unsigned int);
     template <class T> bool read(T& value)
     {
-        return FUN_00ac5cf0(&value, sizeof(T), 1);
+        return BSFaceGenBinaryFile_read(&value, sizeof(T), 1);
     }
 };
 struct IteratorAuxiliary;
@@ -18201,7 +18201,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
     TriHeader triHeader;
     fnv_zlib_memset(&triHeader, 0, 56);
     FUN_00ac5490 reader("FRTRI003");
-    if (!reader.FUN_00ac5540(filename, 0))
+    if (!reader.BSFaceGenBinaryFile_LoadFile(filename, 0))
         return false;
     if (!reader.FUN_00ac5e00(&triHeader, 1, 56))
         return false;
@@ -18214,11 +18214,11 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
     geometry->morphs.resize(triHeader.morphs);
     geometry->partitions.resize(triHeader.partitions);
     if (triHeader.vertices + triHeader.extraVertices &&
-        !reader.FUN_00ac5cf0(&geometry->vertices[0], 12, triHeader.vertices + triHeader.extraVertices))
+        !reader.BSFaceGenBinaryFile_read(&geometry->vertices[0], 12, triHeader.vertices + triHeader.extraVertices))
         return false;
-    if (triHeader.triangles && !reader.FUN_00ac5cf0(&geometry->triangles[0], 12, triHeader.triangles))
+    if (triHeader.triangles && !reader.BSFaceGenBinaryFile_read(&geometry->triangles[0], 12, triHeader.triangles))
         return false;
-    if (triHeader.quads && !reader.FUN_00ac5cf0(&geometry->quads[0], 16, triHeader.quads))
+    if (triHeader.quads && !reader.BSFaceGenBinaryFile_read(&geometry->quads[0], 16, triHeader.quads))
         return false;
     unsigned int item;
     unsigned int accumulated;
@@ -18232,7 +18232,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (materialLength)
         {
             FUN_00aba0d0 materialBytes(materialLength);
-            if (!reader.FUN_00ac5cf0(&materialBytes[0], 1, materialLength))
+            if (!reader.BSFaceGenBinaryFile_read(&materialBytes[0], 1, materialLength))
                 return false;
             if (materialLength > 1)
             {
@@ -18258,7 +18258,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (shapeLength)
         {
             FUN_00aba0d0 shapeBytes(shapeLength);
-            if (!reader.FUN_00ac5cf0(&shapeBytes[0], 1, shapeLength))
+            if (!reader.BSFaceGenBinaryFile_read(&shapeBytes[0], 1, shapeLength))
                 return false;
             if (shapeLength > 1)
             {
@@ -18277,7 +18277,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (!triHeader.texcoords)
         {
             geometry->texcoords.resize(triHeader.vertices);
-            if (triHeader.vertices && !reader.FUN_00ac5cf0(&geometry->texcoords[0], 8, triHeader.vertices))
+            if (triHeader.vertices && !reader.BSFaceGenBinaryFile_read(&geometry->texcoords[0], 8, triHeader.vertices))
                 return false;
             geometry->textureTriangles.FUN_00ab9cd0();
             geometry->textureQuads.FUN_00ab9dc0();
@@ -18285,13 +18285,13 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         else
         {
             geometry->texcoords.resize(triHeader.texcoords);
-            if (triHeader.texcoords && !reader.FUN_00ac5cf0(&geometry->texcoords[0], 8, triHeader.texcoords))
+            if (triHeader.texcoords && !reader.BSFaceGenBinaryFile_read(&geometry->texcoords[0], 8, triHeader.texcoords))
                 return false;
             geometry->textureTriangles.resize(triHeader.triangles);
-            if (triHeader.triangles && !reader.FUN_00ac5cf0(&geometry->textureTriangles[0], 12, triHeader.triangles))
+            if (triHeader.triangles && !reader.BSFaceGenBinaryFile_read(&geometry->textureTriangles[0], 12, triHeader.triangles))
                 return false;
             geometry->textureQuads.resize(triHeader.quads);
-            if (triHeader.quads && !reader.FUN_00ac5cf0(&geometry->textureQuads[0], 16, triHeader.quads))
+            if (triHeader.quads && !reader.BSFaceGenBinaryFile_read(&geometry->textureQuads[0], 16, triHeader.quads))
                 return false;
         }
     }
@@ -18303,7 +18303,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (morphLength)
         {
             FUN_00aba0d0 morphBytes(morphLength);
-            if (!reader.FUN_00ac5cf0(&morphBytes[0], 1, morphLength))
+            if (!reader.BSFaceGenBinaryFile_read(&morphBytes[0], 1, morphLength))
                 return false;
             if (morphLength > 1)
             {
@@ -18321,7 +18321,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         for (unsigned int vertex = 0; vertex < triHeader.vertices; vertex++)
         {
             ShortPoint displacement;
-            if (!reader.FUN_00ac5cf0(&displacement, 2, 3))
+            if (!reader.BSFaceGenBinaryFile_read(&displacement, 2, 3))
                 return false;
             geometry->morphs[item].points[vertex] =
                 Point3(displacement.x * morphScale, displacement.y * morphScale, displacement.z * morphScale);
@@ -18336,7 +18336,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (partitionCount)
         {
             FUN_00aba0d0 partitionBytes(partitionCount);
-            if (!reader.FUN_00ac5cf0(&partitionBytes[0], 1, partitionCount))
+            if (!reader.BSFaceGenBinaryFile_read(&partitionBytes[0], 1, partitionCount))
                 return false;
             if (partitionCount > 1)
             {
@@ -18351,7 +18351,7 @@ bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
         if (!reader.read(partitionCount))
             return false;
         geometry->partitions[item].indices.resize(partitionCount);
-        if (partitionCount && !reader.FUN_00ac5cf0(&geometry->partitions[item].indices[0], 4, partitionCount))
+        if (partitionCount && !reader.BSFaceGenBinaryFile_read(&geometry->partitions[item].indices[0], 4, partitionCount))
             return false;
         accumulated += partitionCount;
     }
@@ -21644,9 +21644,9 @@ struct FUN_00ac5490 : ImageReaderTypes::FUN_00aaaa80
     VirtualFile* unk40;
     LoadedFile* unk44;
 
-    bool FUN_00ac5540(ReaderString, int);
+    bool BSFaceGenBinaryFile_LoadFile(ReaderString, int);
     bool FUN_00ac5e00(void*, unsigned int, unsigned int);
-    bool FUN_00ac5cf0(void*, unsigned int, unsigned int);
+    bool BSFaceGenBinaryFile_read(void*, unsigned int, unsigned int);
     inline void ClearHolders()
     {
         if (unk44)
@@ -21780,7 +21780,7 @@ struct ImageHeader
 bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Images* first, Images* second)
 {
     FUN_00ac5490 stream3((ReaderString(&DAT_010a2d3c)));
-    if (!stream3.FUN_00ac5540(filename, 0))
+    if (!stream3.BSFaceGenBinaryFile_LoadFile(filename, 0))
         return false;
     ImageHeader kHeader;
     if (!stream3.FUN_00ac5e00(&kHeader, 1, 56))
@@ -21797,7 +21797,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
     unsigned int i3, j2, k;
     for (i3 = 0; i3 < kHeader.count1; i3++)
     {
-        if (!stream3.FUN_00ac5cf0(&(*first)[i3], 4, 1))
+        if (!stream3.BSFaceGenBinaryFile_read(&(*first)[i3], 4, 1))
             return false;
         (*first)[i3].m4 = kHeader.width;
         (*first)[i3].m8 = kHeader.height;
@@ -21808,7 +21808,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
             unsigned char* row = &((TextureChannel&)(*first)[i3].m10[j2])[size7 - rowSize];
             for (k = 0; k < kHeader.height; k++)
             {
-                if (!stream3.FUN_00ac5cf0(row, stride6, kHeader.width))
+                if (!stream3.BSFaceGenBinaryFile_read(row, stride6, kHeader.width))
                     return false;
                 row -= kHeader.width + padding3;
             }
@@ -21817,7 +21817,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
     second->resize(kHeader.count2);
     for (i3 = 0; i3 < kHeader.count2; i3++)
     {
-        if (!stream3.FUN_00ac5cf0(&(*second)[i3], 4, 1))
+        if (!stream3.BSFaceGenBinaryFile_read(&(*second)[i3], 4, 1))
             return false;
         (*second)[i3].m4 = kHeader.width;
         (*second)[i3].m8 = kHeader.height;
@@ -21828,7 +21828,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
             unsigned char* row = ((TextureChannel&)(*second)[i3].m10[j2]).FUN_0065cc70(size7 - rowSize);
             for (k = 0; k < kHeader.height; k++)
             {
-                if (!stream3.FUN_00ac5cf0(row, stride6, kHeader.width))
+                if (!stream3.BSFaceGenBinaryFile_read(row, stride6, kHeader.width))
                     return false;
                 row -= kHeader.width + padding3;
             }

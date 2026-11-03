@@ -5329,7 +5329,7 @@ struct Controller : ControllerBase {
 
 // Allocates and returns a new Controller object.
 // @fnv 0x00a359d0
-ControllerBase* FUN_00a359d0()
+ControllerBase* BSMultiTargetTreadTransfController_CreateObject()
 {
     return new Controller;
 }

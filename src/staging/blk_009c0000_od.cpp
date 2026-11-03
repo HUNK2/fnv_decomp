@@ -656,7 +656,7 @@ struct Vector3
 {
     float x, y, z;
     void __thiscall FUN_00439ef0(Vector3* dest, void* context);
-    void __thiscall FUN_004a0c10();
+    void __thiscall NiPoint3_Unitize();
 };
 struct OrientationSource
 {
@@ -684,7 +684,7 @@ void OrientationObject::SetOrientationFromDirection(Vector3 aDirection)
     Vector3 c;
     aDirection.FUN_00439ef0(&c, ((GetContextFn*)vtable)[125](this));
     Vector3 b = c;
-    b.FUN_004a0c10();
+    b.NiPoint3_Unitize();
     float e = ((GetAngleFn*)vtable)[175](this, 0);
     float d = FUN_00931d70();
     float a = FUN_004181e0()->FUN_00966980();
@@ -2811,7 +2811,7 @@ struct ImpPoint
     ImpPoint(float afX, float afY, float afZ);
     ImpPoint FUN_00439ef0(const ImpPoint& arOther) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float DotProduct(const ImpPoint& arOther) const;
 };
 
@@ -2917,13 +2917,13 @@ struct ImpImpact
     char pad00[0x18];
     ImpTexture kTexture;
     void* FUN_006733e0();
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
     float GetModifierValue();
     float GetNestedValue();
-    unsigned char FUN_004a4140();
+    unsigned char BGSImpactData_GetAlphaBlending();
     unsigned char CallMemberAtOffset54();
-    unsigned char FUN_004a4100();
-    unsigned char FUN_004a41e0();
+    unsigned char BGSImpactData_GetIsParallax();
+    unsigned char BGSImpactData_GetDecalParallaxPasses();
     float FUN_004a41c0();
     float FUN_004a40e0();
     float FUN_009a9350();
@@ -2937,13 +2937,13 @@ struct ImpImpact
 
 struct ImpImpactSet
 {
-    ImpImpact* FUN_00522ba0(int aiMaterial);
+    ImpImpact* TESObjectWEAP_GetImpactData(int aiMaterial);
 };
 
 struct ImpSurface
 {
     void* FUN_00559450();
-    void* FUN_0043b540();
+    void* hkpCollidable_getCollisionFilterInfo();
 };
 
 struct ImpHit
@@ -2977,7 +2977,7 @@ struct ImpDecal
 
 struct ImpCell
 {
-    void* FUN_004543c0();
+    void* TESObjectCELL_GetbhkWorld();
 };
 
 struct ImpMaterialSet
@@ -3102,7 +3102,7 @@ struct ImpSkin
 {
     int iData;
     ImpSkin(void* apObject);
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct ImpAttach
@@ -3155,12 +3155,12 @@ struct ImpDecalParams
 
 struct ImpDecalManager
 {
-    void FUN_004a3fe0(ImpDecalParams* apParams, int a2, int a3);
+    void TESObjectCELL_AddDecal(ImpDecalParams* apParams, int a2, int a3);
 };
 
 struct ImpDecalSystem
 {
-    ImpDecalManager* FUN_004519d0(ImpPoint kPosOut);
+    ImpDecalManager* TES_GetCellForPoint(ImpPoint kPosOut);
 };
 
 struct ImpShooterProcess
@@ -3265,16 +3265,16 @@ extern char DAT_011f4a20;
 ImpCamera* FUN_00524c90();
 bool FUN_00525420();
 bool __cdecl FUN_004b61d0(ImpPoint kPosOut, ImpCamera* apCamera, float afRadius);
-void __cdecl FUN_005ac750(void* apOwner, ImpExtraList* apExtra, int aiFlags);
+void __cdecl Script_SetActionFlag(void* apOwner, ImpExtraList* apExtra, int aiFlags);
 float __cdecl FUN_00476b70(float afMin, float afMax);
 ImpDecal* __cdecl FUN_00622a70(float afSize, int aiFlags);
 float __cdecl FUN_004a4240();
 float __cdecl FUN_00406cc0(float afValue);
-ImpMaterial* __cdecl FUN_004a3a40(void* apObject);
+ImpMaterial* __cdecl bhkShape_Getbhk(void* apObject);
 void* __cdecl FUN_004b59f0(ImpSurface* apSurface);
 ImpAttachHandle __cdecl FUN_00c85ef0(void* apObject, void* apType);
 ImpAttach* __cdecl FUN_00c7fa90(ImpSurface* apSurface);
-void* __cdecl FUN_0056f930(ImpAttach* apAttach);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(ImpAttach* apAttach);
 bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
 ImpPoint __cdecl FUN_004a3760(float afScale, const ImpPoint& arPoint);
 void __cdecl FUN_006890b0(ImpCell* apCell, float afSize, const char* apTexture, ImpPoint kWorldPosition, ImpPoint kPos,
@@ -3398,28 +3398,28 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
     {
         if (apTarget)
         {
-            FUN_005ac750(this, apTarget->FUN_005d43c0(), 0x80);
+            Script_SetActionFlag(this, apTarget->FUN_005d43c0(), 0x80);
             if (pImpacts)
-                FUN_005ac750(pImpacts, apTarget->FUN_005d43c0(), 0x100);
+                Script_SetActionFlag(pImpacts, apTarget->FUN_005d43c0(), 0x100);
         }
         int iMaterial = aiMaterial;
-        ImpImpact* pImpactTmp = pImpacts ? pImpacts->FUN_00522ba0(iMaterial) : 0;
+        ImpImpact* pImpactTmp = pImpacts ? pImpacts->TESObjectWEAP_GetImpactData(iMaterial) : 0;
         if (pImpactTmp)
         {
             void* m_pDecalData = pImpactTmp->FUN_006733e0();
             if (m_pDecalData)
             {
                 ImpPoint kNormal = *apNormal;
-                kNormal.FUN_004a0c10();
+                kNormal.NiPoint3_Unitize();
                 ImpPoint kPosOut = *apPos;
                 if (m_fLifetime == 0.0)
-                    m_fLifetime = FUN_00476b70(pImpactTmp->FUN_004a40a0(), pImpactTmp->GetModifierValue());
+                    m_fLifetime = FUN_00476b70(pImpactTmp->BGSImpactData_GetDecalMinWidth(), pImpactTmp->GetModifierValue());
                 ImpDecal* pNewDecal = FUN_00622a70(m_fLifetime, 1);
                 pNewDecal->FUN_006233c0(0);
                 pNewDecal->FUN_004a1a10(8, 0);
                 pNewDecal->FUN_004a1a10(0x1d, 0);
                 ImpCell* pCellPtr = FUN_008d6f30();
-                void* pCellNode = pCellPtr ? pCellPtr->FUN_004543c0() : 0;
+                void* pCellNode = pCellPtr ? pCellPtr->TESObjectCELL_GetbhkWorld() : 0;
                 if (pCellNode)
                 {
                     pNewDecal->FUN_006231a0(pCellNode);
@@ -3438,7 +3438,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             int iMaterialIndex = kResultsVal.FUN_00413f40()->FUN_0062e150(i)->iMaterialIndex;
                             if (iMaterialIndex != -1)
                             {
-                                ImpMaterial* pMaterial = FUN_004a3a40(pSurfaceInfo->FUN_00559450());
+                                ImpMaterial* pMaterial = bhkShape_Getbhk(pSurfaceInfo->FUN_00559450());
                                 if (!pMaterial)
                                     continue;
                                 ImpMaterialSet* pSet = pMaterial->FUN_vtcc();
@@ -3447,7 +3447,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             }
                             else
                             {
-                                ImpMaterial* pSingle = FUN_004a3a40(pSurfaceInfo->FUN_00559450());
+                                ImpMaterial* pSingle = bhkShape_Getbhk(pSurfaceInfo->FUN_00559450());
                                 if (!pSingle)
                                     continue;
                                 iSurfaceMaterialCur = pSingle->FUN_006205a0();
@@ -3455,7 +3455,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             if (iSurfaceMaterialCur == aiMaterial && pSurfaceInfo != pLastSurface)
                             {
                                 pLastSurface = pSurfaceInfo;
-                                bool bHasAnimation = ImpSkin(pSurfaceInfo->FUN_0043b540()).FUN_004a3a20() == 1;
+                                bool bHasAnimation = ImpSkin(pSurfaceInfo->hkpCollidable_getCollisionFilterInfo()).CFilter_GetGroup() == 1;
                                 ImpAttach* pAttach = 0;
                                 if (bHasAnimation)
                                 {
@@ -3471,11 +3471,11 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 {
                                     pAttach = FUN_00c7fa90(pSurfaceInfo);
                                 }
-                                void* pGeometryRef = FUN_0056f930(pAttach);
+                                void* pGeometryRef = TESObjectREFR_FindReferenceFor3D(pAttach);
                                 if (!bHasAnimation &&
                                     (!pGeometryRef || !IsAcousticSpaceFormTypeAllowed(pGeometryRef, 1)))
                                     continue;
-                                ImpDecalManager* pManager = DAT_011dea10->FUN_004519d0(*apPos);
+                                ImpDecalManager* pManager = DAT_011dea10->TES_GetCellForPoint(*apPos);
                                 ImpDecalParams kParamsCur;
                                 kParamsCur.kPosOut = kPosOut;
                                 kParamsCur.kNormal = kNormal;
@@ -3486,11 +3486,11 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 kParamsCur.m_pDecalData = m_pDecalData;
                                 kParamsCur.fPathHeading = fPathHeading;
                                 kParamsCur.m_ucClipIdentifier = m_ucClipIdentifier;
-                                kParamsCur.ucFlagC = pImpactTmp->FUN_004a4140();
+                                kParamsCur.ucFlagC = pImpactTmp->BGSImpactData_GetAlphaBlending();
                                 kParamsCur.ucFlagB = pImpactTmp->CallMemberAtOffset54();
-                                kParamsCur.ucFlagA = pImpactTmp->FUN_004a4100();
+                                kParamsCur.ucFlagA = pImpactTmp->BGSImpactData_GetIsParallax();
                                 kParamsCur.fParallax = pImpactTmp->FUN_004a41c0();
-                                kParamsCur.ucFlagD = pImpactTmp->FUN_004a41e0();
+                                kParamsCur.ucFlagD = pImpactTmp->BGSImpactData_GetDecalParallaxPasses();
                                 kParamsCur.m_fShininess = pImpactTmp->FUN_004a40e0();
                                 kParamsCur.m_fSpecularStrength = pImpactTmp->FUN_009a9350();
                                 kParamsCur.kColor = ImpPoint(
@@ -3500,7 +3500,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                     (unsigned char)((pImpactTmp->GetNextFromSubobject() >> 16) & 0xff) / 255.0);
                                 if (iSurfaceMaterialCur == 3)
                                     kParamsCur.ucSkinned = 1;
-                                pManager->FUN_004a3fe0(&kParamsCur, 1, 0);
+                                pManager->TESObjectCELL_AddDecal(&kParamsCur, 1, 0);
                             }
                         }
                     }
@@ -3519,24 +3519,24 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                     {
                     case 0:
                         kWorldPosition = *apNormal;
-                        kWorldPosition.FUN_004a0c10();
+                        kWorldPosition.NiPoint3_Unitize();
                         break;
                     case 1:
                         kWorldPosition = kRotationBasis.FUN_004a0bd0();
-                        kWorldPosition.FUN_004a0c10();
+                        kWorldPosition.NiPoint3_Unitize();
                         break;
                     case 2: {
                         ImpPoint kForward = kRotationBasis.FUN_004a0bd0();
-                        kForward.FUN_004a0c10();
+                        kForward.NiPoint3_Unitize();
                         ImpPoint kSurface = *apNormal;
-                        kSurface.FUN_004a0c10();
+                        kSurface.NiPoint3_Unitize();
                         kWorldPosition =
                             FUN_004a3760(2.0 * kSurface.DotProduct(kForward), kSurface).FUN_00439ef0(kForward);
                         break;
                     }
                     default:
                         kWorldPosition = *apNormal;
-                        kWorldPosition.FUN_004a0c10();
+                        kWorldPosition.NiPoint3_Unitize();
                     }
                     FUN_006890b0(FUN_008d6f30(), pImpactTmp->FUN_00508100(), pTexture, kWorldPosition, *apPos, 1.0f, 7,
                                  0);

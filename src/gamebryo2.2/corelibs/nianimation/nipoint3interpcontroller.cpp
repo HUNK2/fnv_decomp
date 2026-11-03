@@ -17,7 +17,7 @@ struct NiPoint3InterpolatorStandIn
 typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
 
 // @fnv 0x00a57c20
-void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
+void* __fastcall NiPoint3InterpController_CreatePoseInterpolator(void* self, int, unsigned short usIndex)
 {
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
@@ -30,7 +30,7 @@ void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
 
 extern const char* const g_011f3f88_arg1;
 // @fnv 0x00a57ca0
-const char* const* FUN_00a57ca0()
+const char* const* NiPoint3InterpController_GetRTTI()
 {
     return &g_011f3f88_arg1;
 }
@@ -77,13 +77,13 @@ template <class T, class A> struct NiTArray
 };
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CombatGroupArray;
 extern const char* const g_011f3f88_arg1;
-void __stdcall FUN_00a390a0(CombatGroupArray* a);
+void __stdcall NiSingleInterpController_GetViewerStrings(CombatGroupArray* a);
 ActorCombatGroup* __cdecl FUN_00a7d330(const char* s);
 
 // @fnv 0x00a57d10
-void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
+void __stdcall NiPoint3InterpController_GetViewerStrings(CombatGroupArray* pCombatGroups)
 {
-    FUN_00a390a0(pCombatGroups);
+    NiSingleInterpController_GetViewerStrings(pCombatGroups);
     ActorCombatGroup* pGroup = FUN_00a7d330(g_011f3f88_arg1);
     unsigned int uiIndex = *(unsigned short*)((char*)pCombatGroups + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)pCombatGroups + 8))
@@ -94,7 +94,7 @@ void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
 extern unsigned int DAT_011f404c;
 
 // @fnv 0x00a532c0
-unsigned int* __cdecl FUN_00a532c0()
+unsigned int* __cdecl NiBoolInterpolator_GetRTTI()
 {
     return &DAT_011f404c;
 }

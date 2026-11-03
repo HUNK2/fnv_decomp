@@ -714,7 +714,7 @@ struct MeshSource
     MeshCell* FUN_0059bb30();
     unsigned int GetArrFlags();
     const MeshPoint& FUN_0068f0a0(unsigned short);
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
 };
 struct NavMeshReference
 {
@@ -789,7 +789,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                     NavMeshReference reference;
                     if (link->info.pointer->FUN_00690860(reference))
                     {
-                        if (reference.FUN_00559450()->FUN_00440d80())
+                        if (reference.FUN_00559450()->TESForm_GetDelete())
                             add3 = false;
                         else if (isPreferred)
                         {

@@ -408,11 +408,11 @@ struct S0058b4a0
 {
     unsigned char _pad[0x28];
     unsigned char _flag;
-    bool FUN_0058b4a0();
+    bool BGSCameraPath_GetZoomDefault();
 };
 // Returns true when neither bit 0 nor bit 1 of _flag is set, otherwise false.
 // @fnv 0x0058b4a0
-bool S0058b4a0::FUN_0058b4a0()
+bool S0058b4a0::BGSCameraPath_GetZoomDefault()
 {
     if (_flag & 1 || _flag & 2)
         return false;
@@ -450,12 +450,12 @@ struct TESConditionSave
     void ProcessItems();
 };
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -469,7 +469,7 @@ struct BSSimpleList_shell
 
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
+    void __thiscall TESForm___SaveData(int, int);
 };
 
 bool _FUN_00401500();
@@ -478,11 +478,11 @@ void _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_0058ac10_shell : public BGSCameraPath
 {
-    void FUN_0058ac10();
+    void BGSCameraPath_SaveForm();
 };
 
 // @fnv 0x0058ac10
-void FUN_0058ac10_shell::FUN_0058ac10()
+void FUN_0058ac10_shell::BGSCameraPath_SaveForm()
 {
     BSSimpleList_shell* pShotList;
     IdentifierHistoryEntry ids;
@@ -492,7 +492,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
         BGSCameraShot* pshot;
         unsigned int shotFormID;
 
-        reinterpret_cast<FUN_004855a0*>(this)->M();
+        reinterpret_cast<TESForm_StartForm*>(this)->M();
         reinterpret_cast<TESConditionSave*>(GetConditions())->ProcessItems();
 
         memset(&ids, 0, 8);
@@ -521,7 +521,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
         if (_FUN_00401500())
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
 
-        reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<int>(&data), 1);
+        reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(reinterpret_cast<int>(&data), 1);
 
         if (_FUN_00401500())
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
@@ -537,7 +537,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
         }
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 void* __cdecl __memcpy(void*, const void*, unsigned int);
@@ -587,12 +587,12 @@ struct ConditionCompareStub
 
 struct CameraPathCompare : BGSCameraPath
 {
-    bool FUN_0058a750(TESForm* form);
+    bool BGSCameraPath_Compare(TESForm* form);
 };
 
 // Compares this camera path against another form's camera path: base form, conditions, a data byte, and shot lists; returns true if any differ.
 // @fnv 0x0058a750
-bool CameraPathCompare::FUN_0058a750(TESForm* form)
+bool CameraPathCompare::BGSCameraPath_Compare(TESForm* form)
 {
     BGSCameraPath* pathForm = dynamic_cast<BGSCameraPath*>(form);
     if (!pathForm)
@@ -727,12 +727,12 @@ struct CameraPathClone : public BGSCameraPath
     TESForm* CreateBaseClone(bool abPersist, CameraPathMap* apMap);
     void SetParentPath(BGSCameraPath* apParent);
     void SetPrevPathForm(BGSCameraPath* apPrev);
-    TESForm* FUN_0058a870(bool abPersist, CameraPathMap* apMap);
+    TESForm* BGSCameraPath_CreateDuplicateForm(bool abPersist, CameraPathMap* apMap);
 };
 
 // Clones the base camera path, remaps its parent and previous paths through apMap, and copies the child form array when present.
 // @fnv 0x0058a870
-TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
+TESForm* CameraPathClone::BGSCameraPath_CreateDuplicateForm(bool abPersist, CameraPathMap* apMap)
 {
     CameraPathClone* pClone_ =
         static_cast<CameraPathClone*>(dynamic_cast<BGSCameraPath*>(CreateBaseClone(abPersist, apMap)));
@@ -775,18 +775,18 @@ struct CameraFlag
 };
 struct CameraPath : FUN_0058b600_shell
 {
-    bool __thiscall FUN_00440d80();
+    bool __thiscall TESForm_GetDelete();
     CameraResponse* __thiscall FUN_00500940(unsigned int context, unsigned int flags);
     CameraFlag* __thiscall FUN_00891170();
     CameraPath* __thiscall GetCameraPathAt(unsigned int index);
-    CameraPath* __thiscall FUN_0058b510(unsigned int context, unsigned int flags);
+    CameraPath* __thiscall BGSCameraPath_GetCameraPathToPlay(unsigned int context, unsigned int flags);
 };
 
 // @fnv 0x0058b510
-CameraPath* CameraPath::FUN_0058b510(unsigned int context, unsigned int flags)
+CameraPath* CameraPath::BGSCameraPath_GetCameraPathToPlay(unsigned int context, unsigned int flags)
 {
     CameraPath* result = 0;
-    if (!FUN_00440d80())
+    if (!TESForm_GetDelete())
     {
         if (FUN_00500940(context, flags)->FUN_00680c30())
         {
@@ -802,7 +802,7 @@ CameraPath* CameraPath::FUN_0058b510(unsigned int context, unsigned int flags)
                 {
                     CameraPath* child = GetCameraPathAt(i);
                     if (child != 0)
-                        descendant = child->FUN_0058b510(context, flags);
+                        descendant = child->BGSCameraPath_GetCameraPathToPlay(context, flags);
                     if (descendant != 0)
                         break;
                 }

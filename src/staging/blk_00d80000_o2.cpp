@@ -9,7 +9,7 @@
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6d0
-void __cdecl FUN_00d9f6d0(int* p)
+void __cdecl finishLoadedObject_hkpSimulation(int* p)
 {
     if (p)
         *p = (int)&DAT_010cc4f4;
@@ -1073,7 +1073,7 @@ struct TargetData {
 
 struct FUN_00d53200_class {
     int unk00;
-    void FUN_00c8a230(NiStream&) throw();
+    void hkConstraintCinfo_LoadBinary(NiStream&) throw();
 };
 
 struct Derived_00d53200 : public FUN_00d53200_class {
@@ -1084,7 +1084,7 @@ struct Derived_00d53200 : public FUN_00d53200_class {
 // @fnv 0x00d86520
 void Derived_00d53200::ReadFromStream(NiStream& stream)
 {
-    FUN_00c8a230(stream);
+    hkConstraintCinfo_LoadBinary(stream);
     TargetData* p = unk04;
     stream.BinaryRead(p->unk1c);
     stream.BinaryRead(p->unk20);
@@ -1291,7 +1291,7 @@ struct Record {
     unsigned int words70;
 };
 
-void __stdcall FUN_00c8a280(DataStream* stream);
+void __stdcall hkConstraintCinfo_SaveBinary(DataStream* stream);
 
 struct DataOwner {
     unsigned int unknown00;
@@ -1304,7 +1304,7 @@ struct DataOwner {
 void DataOwner::ReadRecord(DataStream* stream)
 {
     Record* destination = record;
-    FUN_00c8a280(stream);
+    hkConstraintCinfo_SaveBinary(stream);
     BinaryReader* reader = stream->input;
     reader->BinaryRead(&destination->header, 4);
     reader = stream->input;
@@ -2130,7 +2130,7 @@ struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d9f6b0
-void __cdecl FUN_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
+void __cdecl cleanupLoadedObject_hkpSimulation(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
 {
     object->Invoke(0);
 }
@@ -2446,12 +2446,12 @@ struct FUN_00d86470_cls {
     int unk00;
     FUN_00dee750* m_04;
 
-    unsigned int FUN_00d86470();
+    unsigned int hkPointToPathConstraintCinfo_CreateData();
 };
 
 // Inside an AutoMemContext scope, allocates a FUN_00dee750 into m_04 if it is null, and returns 0xb0.
 // @fnv 0x00d86470
-unsigned int FUN_00d86470_cls::FUN_00d86470()
+unsigned int FUN_00d86470_cls::hkPointToPathConstraintCinfo_CreateData()
 {
     AutoMemContext ctx;
     if (m_04 == 0) {

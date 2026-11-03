@@ -91,8 +91,8 @@ struct S86870
     virtual void d43() = 0;
     virtual void d44() = 0;
     virtual void* GetLink(char* p) = 0;
-    void FUN_00c87670(NiStream* s);
-    void FUN_00c86870(NiStream* s);
+    void bhkSerializable_LinkObject(NiStream* s);
+    void bhkUnaryAction_LinkObject(NiStream* s);
 };
 template <class T> struct NiTMallocInterface
 {
@@ -109,8 +109,8 @@ template <class T, class A> struct NiTPrimitiveArray
 };
 extern const char* const g_0126811c_arg1;
 char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall FUN_00c878c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-void __stdcall FUN_00c87be0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p);
+void __stdcall bhkSerializable_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+void __stdcall bhkAction_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p);
 short __cdecl FindIndexByKey(void* apSkeleton, const char* apName, int aiUnk);
 struct ArmTarget_S
 {
@@ -267,7 +267,7 @@ class FUN_00c868f0_cls
     int unk04;
     FUN_00c868f0_inner* m_08;
     bool FUN_00ba87d0(FUN_00c868f0_cls* other);
-    unsigned char FUN_00c868f0(FUN_00c868f0_cls* other);
+    unsigned char bhkUnaryAction_IsEqual(FUN_00c868f0_cls* other);
 };
 extern __declspec(thread) unsigned int threadContext;
 inline unsigned int& currentAllocationMode()
@@ -386,8 +386,8 @@ struct Wrapper86b80
     int unk04;
     HkObject86b80* m_pObject;
 
-    void FUN_00c87be0(StringArray* arr);
-    void FUN_00c86b80(StringArray* arr);
+    void bhkAction_GetViewerStrings(StringArray* arr);
+    void bhkUnaryAction_GetViewerStrings(StringArray* arr);
 };
 extern int DAT_01268124;
 class FUN_00c86cb0_base
@@ -680,7 +680,7 @@ class FUN_00c878c0_cls
 {
   public:
     void AddDebugStrings(BC878C0StringArray* pkArray);
-    void FUN_00c878c0(BC878C0StringArray* pkArray);
+    void bhkSerializable_GetViewerStrings(BC878C0StringArray* pkArray);
 };
 extern int DAT_01268154;
 struct FUN_00c877b0
@@ -1253,7 +1253,7 @@ class FUN_00c868b0_cls
     int unk00, unk04;
     C868_L2* m_08;
     void SaveSerializeData(C868_Iface* a1);
-    void FUN_00c868b0(C868_Iface* a1);
+    void bhkUnaryAction_SaveBinary(C868_Iface* a1);
 };
 extern int DAT_01268154;
 extern int DAT_01268118;
@@ -1292,7 +1292,7 @@ class RefObjC86D : public TESObjectDoorController
         DAT_01268124++;
     }
 };
-RefObjC86D* __cdecl FUN_00c86de0();
+RefObjC86D* __cdecl bhkMouseSpringAction_CreateObject();
 void FUN_00c876f0();
 void FUN_00c87700();
 void* __cdecl FUN_00aa13e0(unsigned int bytes);
@@ -1328,7 +1328,7 @@ class AllocatedNode
 class FUN_00c87010_cls : public FUN_00c86800_Class
 {
   public:
-    AllocatedNode* FUN_00c87010(FUN_00c86800_Table* p);
+    AllocatedNode* bhkMouseSpringAction_CreateClone(FUN_00c86800_Table* p);
 };
 
 #include <xmmintrin.h>

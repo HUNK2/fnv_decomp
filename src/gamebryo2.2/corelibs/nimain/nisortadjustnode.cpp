@@ -5,7 +5,7 @@
 extern "C" void* g_011f5ed8;
 
 // @fnv 0x00a95310
-void* __cdecl FUN_00a95310()
+void* __cdecl NiSortAdjustNode_GetRTTI()
 {
     return &g_011f5ed8;
 }
@@ -45,7 +45,7 @@ inline void* __cdecl operator new(unsigned int, void* p) throw()
 inline void __cdecl operator delete(void*, void*) throw()
 {}
 // @fnv 0x00a952a0
-void* __cdecl FUN_00a952a0()
+void* __cdecl NiSortAdjustNode_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xB0);
     if (p)
@@ -74,10 +74,10 @@ class NiNode
 };
 struct TargetCls : public NiNode
 {
-    void __thiscall FUN_00a95410(NiStream&);
+    void __thiscall NiSortAdjustNode_LinkObject(NiStream&);
 };
 // @fnv 0x00a95410
-void __thiscall TargetCls::FUN_00a95410(NiStream& stream)
+void __thiscall TargetCls::NiSortAdjustNode_LinkObject(NiStream& stream)
 {
     ReadChildListFromStream(stream);
     if (stream.m_uiNifVersion < 0x14000004)
@@ -105,7 +105,7 @@ struct NiStream
 };
 struct MyBase
 {
-    void FUN_00a5e880(NiStream&);
+    void NiNode_SaveBinary(NiStream&);
 };
 struct MyNode
 {
@@ -117,24 +117,24 @@ struct MyNode
 // @fnv 0x00a954b0
 void MyNode::WriteToStream(NiStream& stream)
 {
-    ((MyBase*)this)->FUN_00a5e880(stream);
+    ((MyBase*)this)->NiNode_SaveBinary(stream);
     stream._250->Write(&_ac);
 }
 
 struct MyOther;
 struct CompareBase
 {
-    bool FUN_00a5e600(MyOther* other);
+    bool NiNode_IsEqual(MyOther* other);
 };
 struct MyOther : CompareBase
 {
-    unsigned char FUN_00a952e0(MyOther* other);
+    unsigned char NiSortAdjustNode_IsEqual(MyOther* other);
 };
-// Calls FUN_00a5e600(other); if that succeeds, returns whether the int at offset 0xac matches between this and other.
+// Calls NiNode_IsEqual(other); if that succeeds, returns whether the int at offset 0xac matches between this and other.
 // @fnv 0x00a952e0
-unsigned char MyOther::FUN_00a952e0(MyOther* other)
+unsigned char MyOther::NiSortAdjustNode_IsEqual(MyOther* other)
 {
-    unsigned char result = FUN_00a5e600(other);
+    unsigned char result = NiNode_IsEqual(other);
     if (!result)
         return result;
     return (unsigned char)(*(int*)((char*)this + 0xac) == *(int*)((char*)other + 0xac));
@@ -205,11 +205,11 @@ struct S_00a953b0_Sort : S_00a953b0_Node
         m_ac = 0;
     }
     virtual void v0();
-    S_00a953b0_Node* FUN_00a953b0(void* process);
+    S_00a953b0_Node* NiSortAdjustNode_CreateClone(void* process);
 };
 
 // @fnv 0x00a953b0
-S_00a953b0_Node* S_00a953b0_Sort::FUN_00a953b0(void* process)
+S_00a953b0_Node* S_00a953b0_Sort::NiSortAdjustNode_CreateClone(void* process)
 {
     S_00a953b0_Sort* p = new S_00a953b0_Sort;
     CopyMemberData(p, process);
@@ -436,11 +436,11 @@ struct S_00a95440_Node
 struct S_00a95440_SortAdjustNode : S_00a95440_Node
 {
     int m_iSortAdjust;
-    void FUN_00a95440(S_00a95440_Stream& kStream);
+    void NiSortAdjustNode_LoadBinary(S_00a95440_Stream& kStream);
 };
 
 // @fnv 0x00a95440
-void S_00a95440_SortAdjustNode::FUN_00a95440(S_00a95440_Stream& kStream)
+void S_00a95440_SortAdjustNode::NiSortAdjustNode_LoadBinary(S_00a95440_Stream& kStream)
 {
     S_00a95440_Node::LoadBinary(kStream);
     int eMode;
@@ -562,7 +562,7 @@ void FUN_00a95350_cls::UpdateItemFlags(FUN_00a95350_Arg* pArg)
 void __cdecl FUN_00a5dce0();
 // Calls FUN_00a5dce0.
 // @fnv 0x00a95290
-void __cdecl FUN_00a95290()
+void __cdecl NiSortAdjustNode_ProcessClone()
 {
     FUN_00a5dce0();
 }

@@ -115,8 +115,8 @@ struct TESPackage
     void SetPackageType(int);
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
-    void FUN_00671d30(LocationDescriptor*);
-    void FUN_00672fc0(PackageTargetRecord*);
+    void TESPackage_SetPackageLocation(LocationDescriptor*);
+    void TESPackage_SetPackageTarget(PackageTargetRecord*);
     void SetProcedureType(PACKAGE_PROCEDURE_TYPE);
     PackageTargetRecord* GetTarget();
 };
@@ -149,10 +149,10 @@ FUN_009f9250::FUN_009f9250(TESObjectREFR* apRef, int aiUnk88, int aiUnk8c, int a
     LocationDescriptor* ploc;
     ploc = new LocationDescriptor;
     ploc->FUN_0067f3c0(apRef);
-    FUN_00671d30(ploc);
+    TESPackage_SetPackageLocation(ploc);
     delete ploc;
     pTarget = new PackageTargetRecord;
-    FUN_00672fc0(pTarget);
+    TESPackage_SetPackageTarget(pTarget);
     delete pTarget;
     SetProcedureType((PACKAGE_PROCEDURE_TYPE)0x14);
     GetTarget()->SetTargetKind(0);
@@ -979,7 +979,7 @@ unsigned short FUN_009f19f0_shell::GetSaveSize()
 
 struct FUN_006797c0_shell
 {
-    void FUN_006797c0(void*);
+    void TESPackage_AppendSaveLoadFormBuffer(void*);
 };
 
 struct SaveFormIDHelper
@@ -1014,7 +1014,7 @@ void FUN_009f2380_shell::SaveExtraData(BGSSaveFormBuffer* apSaveGameBuffer)
     unsigned int isaveGameCount;
     TESObjectREFR* pCurrentElementNext;
 
-    this->FUN_006797c0(apSaveGameBuffer);
+    this->TESPackage_AppendSaveLoadFormBuffer(apSaveGameBuffer);
 
     apSaveGameBuffer->SaveData((void*)((char*)this + 0x80), 1, 0);
     apSaveGameBuffer->SaveData((void*)((char*)this + 0x81), 1, 0);
@@ -1064,12 +1064,12 @@ struct TESPackage_LoadGameHelper
 
 struct FUN_009f24d0_shell
 {
-    void FUN_009f24d0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FleePackage_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // Calls LoadGame, reads several fields from the buffer, then reads a count and loads that many TESObjectREFR forms into the list at offset 0x98.
 // @fnv 0x009f24d0
-void FUN_009f24d0_shell::FUN_009f24d0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009f24d0_shell::FleePackage_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<TESPackage_LoadGameHelper*>(this)->LoadGame(apLoadGameBuffer);
 
@@ -1246,7 +1246,7 @@ struct FUN_009f1210_ref
     virtual void M138();
     virtual bool M139(int a);
     bool FUN_005653d0();
-    float FUN_005723b0(FUN_009f1210_ref* apRef, int a2, int a3);
+    float TESObjectREFR_GetDistanceFromReference(FUN_009f1210_ref* apRef, int a2, int a3);
     bool FUN_00440da0();
 };
 extern const float DAT_01016970;
@@ -1276,7 +1276,7 @@ FUN_009f1210_ref* FUN_009f1210_cls::FindNearestRef(FUN_009f1210_ref* apRef)
     {
         cand = *nodeB->_ref_006815c0();
         nodeB = nodeB->FUN_00726070();
-        d2 = cand->FUN_005723b0(apRef, 0, 0);
+        d2 = cand->TESObjectREFR_GetDistanceFromReference(apRef, 0, 0);
         if (cand->FUN_00440da0() || cand->M139(0))
         {
             RemoveRef(cand);
@@ -1433,8 +1433,8 @@ struct AvoidedReference
     virtual void slot137();
     virtual void slot138();
     virtual bool IsDead(int);
-    bool FUN_00440d80();
-    bool FUN_00493bb0();
+    bool TESForm_GetDelete();
+    bool Actor_IsInCombat();
 };
 extern AvoidedReference* DAT_011dea3c;
 struct AvoidedList
@@ -1513,10 +1513,10 @@ void AvoidancePackage::RemoveInvalidAvoidedReferences(AvoidanceContext* context)
     {
         AvoidedReference* reference6 = current->FUN_006815c0();
         AvoidedReference* actor = reference6->IsActor() ? reference6 : 0;
-        bool remove4 = reference6->IsDead(0) || reference6->FUN_00440d80();
+        bool remove4 = reference6->IsDead(0) || reference6->TESForm_GetDelete();
         if (!remove4 && actor && timed)
         {
-            remove4 = (!actor->FUN_00493bb0() && actor != DAT_011dea3c) ||
+            remove4 = (!actor->Actor_IsInCombat() && actor != DAT_011dea3c) ||
                       (context && FUN_00435dd0() - context->GetLastTime(actor, 0) > limit2);
         }
         if (remove4)
@@ -1806,17 +1806,17 @@ struct DoorAccess
 };
 struct ReferenceAccess
 {
-    bool FUN_00440d80();
-    bool FUN_004077c0();
+    bool TESForm_GetDelete();
+    bool TESForm_GetTemporary();
     bool FUN_00440da0();
     void* FUN_007af430();
     void* FUN_00568e50();
     bool FUN_00575d10();
-    float FUN_005723b0(ReferenceAccess*, int, int);
-    DoorAccess* FUN_00569160();
+    float TESObjectREFR_GetDistanceFromReference(ReferenceAccess*, int, int);
+    DoorAccess* TESObjectREFR_GetLock();
     bool FUN_005785e0(ReferenceAccess*, bool);
     bool FUN_00891db0(TESObjectREFR*, int, int, int, int*);
-    NiPoint3 const& FUN_00568fa0();
+    NiPoint3 const& TESObjectREFR_GetLinkedDoorTeleportPosition();
 };
 class PathingLocation
 {
@@ -1844,8 +1844,8 @@ bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
                 float fTargetDistance;
                 {
                     int iAccessResult;
-                    if (!reference || ((ReferenceAccess*)reference)->FUN_00440d80() ||
-                        ((ReferenceAccess*)reference)->FUN_004077c0() || ((ReferenceAccess*)reference)->FUN_00440da0())
+                    if (!reference || ((ReferenceAccess*)reference)->TESForm_GetDelete() ||
+                        ((ReferenceAccess*)reference)->TESForm_GetTemporary() || ((ReferenceAccess*)reference)->FUN_00440da0())
                         return false;
                     iAccessResult = 0;
                     pActor = (ReferenceAccess*)context;
@@ -1858,18 +1858,18 @@ bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
                     m_fUnknownValue2 = DAT_011f2f1c && ((ReferenceAccess*)DAT_011f2f1c)->FUN_00575d10()
                                            ? runtimeFloatSettingDefault1070
                                            : runtimeFloatSettingDefault142;
-                    fDistance = ((ReferenceAccess*)reference)->FUN_005723b0(pActor, 0, 0);
-                    fTargetDistance = ((ReferenceAccess*)reference)->FUN_005723b0((ReferenceAccess*)DAT_011f2f1c, 0, 0);
+                    fDistance = ((ReferenceAccess*)reference)->TESObjectREFR_GetDistanceFromReference(pActor, 0, 0);
+                    fTargetDistance = ((ReferenceAccess*)reference)->TESObjectREFR_GetDistanceFromReference((ReferenceAccess*)DAT_011f2f1c, 0, 0);
                     if (fTargetDistance > m_fUnknownValue2 || fTargetDistance > fDistance)
                     {
-                        DoorAccess* door = ((ReferenceAccess*)reference)->FUN_00569160();
+                        DoorAccess* door = ((ReferenceAccess*)reference)->TESObjectREFR_GetLock();
                         if (door && door->FUN_005021a0() && !((ReferenceAccess*)reference)->FUN_005785e0(pActor, true))
                         {
                             if (!door->destination || !pActor->FUN_00891db0(door->destination, 0, 1, 0, &iAccessResult))
                                 return false;
                         }
                         PathingLocation actorLocation((TESObjectREFR*)pActor);
-                        PathingLocation referenceLocation(((ReferenceAccess*)reference)->FUN_00568fa0(), reference);
+                        PathingLocation referenceLocation(((ReferenceAccess*)reference)->TESObjectREFR_GetLinkedDoorTeleportPosition(), reference);
                         if (!CallWithNullArgs(&actorLocation, &referenceLocation, 0))
                             return false;
                         DAT_011f2f10 = (int)reference;
@@ -2082,12 +2082,12 @@ struct FleeLoadPackage
     void BaseLoadGame();
     void ReadTypedData(void* apBuffer, int aiSize);
     void ReadFormIdentifier(unsigned int* apFormID, int aiSize);
-    void FUN_009f1e80();
+    void FleePackage_InitLoadGameTES();
 };
 
 // Loads the package's avoided-ref list, targets, flags, value and position from the save buffer, validating the BLOK header and block size.
 // @fnv 0x009f1e80
-void FleeLoadPackage::FUN_009f1e80()
+void FleeLoadPackage::FleePackage_InitLoadGameTES()
 {
     unsigned short usCount4;
     unsigned int uiRefA7;
@@ -2252,12 +2252,12 @@ struct FleePackageLG : public FleePackageBase
     TESObjectREFR* pRefA0;
     TESObjectREFR* pRefA4;
 
-    void FUN_009f25f0(void* apBuffer);
+    void FleePackage_InitLoadGame(void* apBuffer);
 };
 
 // Calls the base InitLoadGame, re-resolves pRefA0/pRefA4 and the AvoidedRefList entries via _ref_004839c0, removing entries that no longer resolve.
 // @fnv 0x009f25f0
-void FleePackageLG::FUN_009f25f0(void* apBuffer)
+void FleePackageLG::FleePackage_InitLoadGame(void* apBuffer)
 {
     FleePackageBase::InitLoadGame(apBuffer);
     pRefA0 = pRefA0 ? dynamic_cast<TESObjectREFR*>(_ref_004839c0((unsigned int)pRefA0)) : 0;

@@ -14,7 +14,7 @@ NiPSysPositionModifier::NiPSysPositionModifier()
 extern "C" void* g_012026b8;
 
 // @fnv 0x00c28b90
-void* __cdecl FUN_00c28b90()
+void* __cdecl NiPSysPositionModifier_GetRTTI()
 {
     return &g_012026b8;
 }
@@ -48,7 +48,7 @@ struct StrArr
 };
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 struct Holder00c28cb0 : Base00c319e0
 {
@@ -57,7 +57,7 @@ struct Holder00c28cb0 : Base00c319e0
 // @fnv 0x00c28cb0
 void Holder00c28cb0::AppendString(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
+    NiPSysModifier_GetViewerStrings(pkStrings);
     char* pcStr = FUN_00a7d330((const char*)g_012026b8);
     unsigned int uiIdx = pkStrings->_sa;
     if (uiIdx >= pkStrings->_s8)
@@ -213,11 +213,11 @@ class BC28C60GravityModifier : public BC28C60Modifier
     virtual ~BC28C60GravityModifier();
 
     void CopyMemberData(BC28C60GravityModifier* pkDest, BC28C60CloningProcess& kCloning);
-    BC28C60GravityModifier* FUN_00c28c60(BC28C60CloningProcess& kCloning);
+    BC28C60GravityModifier* NiPSysPositionModifier_CreateClone(BC28C60CloningProcess& kCloning);
 };
 
 // @fnv 0x00c28c60
-BC28C60GravityModifier* BC28C60GravityModifier::FUN_00c28c60(BC28C60CloningProcess& kCloning)
+BC28C60GravityModifier* BC28C60GravityModifier::NiPSysPositionModifier_CreateClone(BC28C60CloningProcess& kCloning)
 {
     BC28C60GravityModifier* pkClone = new BC28C60GravityModifier;
     CopyMemberData(pkClone, kCloning);
@@ -229,25 +229,25 @@ class NiPSysModifier
 {
   public:
     void LoadBinary(NiStream& stream);
-    void FUN_00c28b50(NiStream& a1);
+    void NiPSysPositionModifier_LoadBinary(NiStream& a1);
 };
 // @fnv 0x00c28b50
-void NiPSysModifier::FUN_00c28b50(NiStream& a1)
+void NiPSysModifier::NiPSysPositionModifier_LoadBinary(NiStream& a1)
 {
     LoadBinary(a1);
 }
 
-void __cdecl FUN_00c31830();
+void __cdecl NiPSysModifier_IsEqual();
 // @fnv 0x00c28b80
-void __cdecl FUN_00c28b80()
+void __cdecl NiPSysPositionModifier_IsEqual()
 {
-    FUN_00c31830();
+    NiPSysModifier_IsEqual();
 }
 
-void __cdecl FUN_00c31950();
+void __cdecl NiPSysModifier_SaveBinary();
 
 // @fnv 0x00c28b70
-void __cdecl FUN_00c28b70()
+void __cdecl NiPSysPositionModifier_SaveBinary()
 {
-    FUN_00c31950();
+    NiPSysModifier_SaveBinary();
 }

@@ -210,7 +210,7 @@ struct CellFile
     void* FUN_00467bb0();
     int FUN_004726b0();
     unsigned int GetField25C();
-    void FUN_00472890(void*, unsigned int);
+    void TESFile_GetChunkData(void*, unsigned int);
     void ReadChunkInt(void*);
     bool FUN_00401680();
     bool FUN_004726f0();
@@ -404,7 +404,7 @@ struct CellExtra
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     void LoadExtraData(CellFile*, CellForm*);
     FUN_0058efd0* FUN_0041c460();
-    void FUN_0041c390(FUN_0058efd0*);
+    void ExtraDataList_SetImpactSwap(FUN_0058efd0*);
 };
 struct CellString
 {
@@ -465,17 +465,17 @@ struct CellLoader : CellForm, CellFullName
     unsigned int lightingTemplate, lightingInheritance;
     void CallWithThis(CellFile*);
     CellExtra* GetExtraDataList();
-    void FUN_00547440(float);
+    void TESObjectCELL_SetWaterHeight(float);
     void ResetCellData();
     bool FUN_00425fd0();
     void SetInteriorDataValue(void*);
     CellExterior* FUN_005445d0();
-    CellInterior* FUN_00544600();
+    CellInterior* TESObjectCELL_GetInteriorData();
     void FUN_00484ab0(bool);
-    bool FUN_005422d0(CellFile* file);
+    bool TESObjectCELL_Load(CellFile* file);
 };
 // @fnv 0x005422d0
-bool CellLoader::FUN_005422d0(CellFile* file)
+bool CellLoader::TESObjectCELL_Load(CellFile* file)
 {
     unsigned char formTypeSlot15 = file->FUN_00472660();
     if (formTypeSlot15 != 0x39)
@@ -492,7 +492,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         case 0x44494445:  // EDID
         {
             char* editorId = (char*)_alloca(file->GetField25C());
-            file->FUN_00472890(editorId, 512);
+            file->TESFile_GetChunkData(editorId, 512);
             SetEditorId(editorId);
             break;
         }
@@ -598,7 +598,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
             if (!imageSpace)
             {
                 imageSpace = new ::FUN_0058efd0;
-                GetExtraDataList()->FUN_0041c390(imageSpace);
+                GetExtraDataList()->ExtraDataList_SetImpactSwap(imageSpace);
             }
             imageSpace->FUN_0058f180(file);
             break;
@@ -616,7 +616,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
             if (textSize)
             {
                 char* text = (char*)_alloca(textSize);
-                file->FUN_00472890(text, textSize);
+                file->TESFile_GetChunkData(text, textSize);
                 name.FUN_00489100(text);
             }
             break;
@@ -635,11 +635,11 @@ bool CellLoader::FUN_005422d0(CellFile* file)
                 flags = (unsigned char)oldFlags;
             }
             else
-                file->FUN_00472890(&flags, 1);
+                file->TESFile_GetChunkData(&flags, 1);
             if (!(flags & 1))
                 flags |= 2;
             if ((flags & 1) && (flags & 0x80))
-                FUN_00547440(DAT_01016970);
+                TESObjectCELL_SetWaterHeight(DAT_01016970);
             if (!DAT_011c3f2c->FUN_00542d20())
                 flags &= ~0x40;
             ResetCellData();
@@ -654,7 +654,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
             {
                 if (file->FUN_00401680() && file->GetField25C() != 12)
                     exterior->FUN_00462230();
-                file->FUN_00472890(exterior, 12);
+                file->TESFile_GetChunkData(exterior, 12);
                 if (file->FUN_00401680())
                     exterior->FUN_00462230();
             }
@@ -662,12 +662,12 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         }
         case 0x4c4c4358:  // XCLL
         {
-            CellInterior* interior = FUN_00544600();
+            CellInterior* interior = TESObjectCELL_GetInteriorData();
             if (interior)
             {
                 if (file->FUN_00401680() && file->GetField25C() != 44)
                     interior->SwapBytes();
-                file->FUN_00472890(interior, 44);
+                file->TESFile_GetChunkData(interior, 44);
                 if (file->FUN_00401680())
                     interior->SwapBytes();
             }

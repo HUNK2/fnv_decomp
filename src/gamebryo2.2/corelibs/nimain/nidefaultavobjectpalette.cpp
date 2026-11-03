@@ -496,11 +496,11 @@ inline void* FirstPos(const NiTFixedStringMap_NiAVObject___& m)
 
 struct PaletteShell : public NiDefaultAVObjectPalette
 {
-    void FUN_00a6e5b0(CloningProcess& kCloning);
+    void NiDefaultAVObjectPalette_ProcessClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00a6e5b0
-void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
+void PaletteShell::NiDefaultAVObjectPalette_ProcessClone(CloningProcess& kCloning)
 {
     ((NiObjectCloneBase*)this)->ProcessClone(kCloning);
 
@@ -539,7 +539,7 @@ void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
 bool __stdcall FUN_00a84c70(void*);
 
 // @fnv 0x00a6e540
-bool __stdcall FUN_00a6e540(void* p)
+bool __stdcall NiDefaultAVObjectPalette_RegisterStreamables(void* p)
 {
     return FUN_00a84c70(p);
 }
@@ -598,10 +598,10 @@ class FUN_00a6e7b0_class
     int unk04;
     PaletteMap m_map;
     bool FUN_00a88a50(FUN_00a6e7b0_class* other);
-    bool FUN_00a6e7b0(FUN_00a6e7b0_class* other);
+    bool NiDefaultAVObjectPalette_IsEqual(FUN_00a6e7b0_class* other);
 };
 // @fnv 0x00a6e7b0
-bool FUN_00a6e7b0_class::FUN_00a6e7b0(FUN_00a6e7b0_class* other)
+bool FUN_00a6e7b0_class::NiDefaultAVObjectPalette_IsEqual(FUN_00a6e7b0_class* other)
 {
     if (!FUN_00a88a50(other))
         return false;
@@ -644,7 +644,7 @@ struct StreamSaveShell : public NiStream
 
 struct PaletteSaveShell : public NiDefaultAVObjectPalette
 {
-    void FUN_00a6e6c0(NiStream& kStream);
+    void NiDefaultAVObjectPalette_SaveBinary(NiStream& kStream);
     void FUN_00a724d0(NiStream& kStream);
 };
 
@@ -657,7 +657,7 @@ template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue,
 }
 
 // @fnv 0x00a6e6c0
-void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
+void PaletteSaveShell::NiDefaultAVObjectPalette_SaveBinary(NiStream& kStream)
 {
     FUN_00a724d0(kStream);
 
@@ -774,11 +774,11 @@ struct PaletteHashViewer
 };
 struct NiDefaultAVObjectPaletteViewer : public NiDefaultAVObjectPalette
 {
-    void FUN_00a6ed90(ViewerStrings* pkStrings);
+    void NiDefaultAVObjectPalette_GetViewerStrings(ViewerStrings* pkStrings);
 };
 // Adds a formatted scene-name line and object-map keys to pkStrings, decrementing non-sentinel key handles.
 // @fnv 0x00a6ed90
-void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
+void NiDefaultAVObjectPaletteViewer::NiDefaultAVObjectPalette_GetViewerStrings(ViewerStrings* pkStrings)
 {
     ((PaletteBaseViewer*)this)->GetViewerStrings(pkStrings);
     char* pcRTTI = FUN_00a7d330(g_011f4a04);
@@ -959,11 +959,11 @@ struct Palette
     int refs;
     Map map;
     void __thiscall CloneBase(void*);
-    void __thiscall FUN_00a6eb60(void*);
+    void __thiscall NiDefaultAVObjectPalette_LinkObject(void*);
 };
 // Clones the base object, then renames palette entries whose key differs from the object name by moving them in the map under the new key.
 // @fnv 0x00a6eb60
-void Palette::FUN_00a6eb60(void* apDest)
+void Palette::NiDefaultAVObjectPalette_LinkObject(void* apDest)
 {
     CloneBase(apDest);
     Map changes;

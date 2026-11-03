@@ -102,7 +102,7 @@ struct FUN_005fc420_shell
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* apForm);
+    bool TESForm_CompareAllComponents(TESForm* apForm);
 };
 
 // @fnv 0x005fc420
@@ -111,7 +111,7 @@ bool FUN_005fc420_shell::IsNotEqual(TESForm* apCompare)
     TESEyes* pcomp = dynamic_cast<TESEyes*>(apCompare);
     if (pcomp == 0)
         return true;
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcomp))
         return true;
     if (reinterpret_cast<FUN_005fc4d0_shell*>(pcomp)->IsFlagSet() !=
         reinterpret_cast<FUN_005fc4d0_shell*>(this)->IsFlagSet())
@@ -141,46 +141,46 @@ void* Holder::ReleaseIfFlagged(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     char _pad[0x18];
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct S_00487010
 {
     char _pad[0x0C];
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_0048e370_obj
 {
     char _pad[0x0C];
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
-struct FUN_005fc1d0_Obj : FUN_00485680, FUN_004855a0
+struct FUN_005fc1d0_Obj : TESForm_CloseForm, TESForm_StartForm
 {
     S_00487010 s;
     FUN_0048e370_obj t;
     char cFlags;
-    void FUN_005fc1d0();
+    void TESEyes_SaveForm();
 };
 // @fnv 0x005fc1d0
-void FUN_005fc1d0_Obj::FUN_005fc1d0()
+void FUN_005fc1d0_Obj::TESEyes_SaveForm()
 {
-    FUN_004855a0::M();
-    s.FUN_00487010();
-    t.FUN_0048e370(0x4E4F4349);
+    TESForm_StartForm::M();
+    s.TESFullName_Save();
+    t.TESTexture_Save(0x4E4F4349);
     FUN_004858f0(0x41544144, cFlags);
-    FUN_00485680::M();
+    TESForm_CloseForm::M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm* apForm);
+    void TESForm_CopyAllComponents(TESForm* apForm);
 };
 struct FUN_005fc550_shell
 {
@@ -200,7 +200,7 @@ void FUN_005fc3a0_shell::CopyFromEyes(TESForm* apCopy)
     TESEyes* eyes = dynamic_cast<TESEyes*>(apCopy);
     if (!eyes)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
     ((FUN_005fc4f0_shell*)this)->SetFlag(((FUN_005fc4d0_shell*)eyes)->IsFlagSet());
     ((FUN_005fc550_shell*)this)->FUN_005fc550(((FUN_005fc530_shell*)eyes)->IsNotFlag2Set());
     ((FUN_005fc5b0_shell*)this)->FUN_005fc5b0(((FUN_005fc590_shell*)eyes)->IsFlag4Clear());
@@ -210,7 +210,7 @@ struct TESNPC;
 struct TESHairRaceResult;
 struct TESHairCanBeNPCData
 {
-    TESHairRaceResult* FUN_004ac110();
+    TESHairRaceResult* TESNPC_GetRace();
 };
 struct LH
 {
@@ -226,7 +226,7 @@ struct TESActorBase
 };
 struct TESNPC : public TESActorBase
 {
-    TESHairCanBeNPCData* FUN_004ac110();
+    TESHairCanBeNPCData* TESNPC_GetRace();
 };
 struct FUN_005fc5f0_shell : public TESEyes
 {
@@ -236,10 +236,10 @@ struct FUN_005fc5f0_shell : public TESEyes
 bool FUN_005fc5f0_shell::CanBeNPC(TESNPC* npc)
 {
     bool result = false;
-    if (npc && npc->FUN_004ac110())
+    if (npc && npc->TESNPC_GetRace())
     {
         TESNPC* race = (TESNPC*)this;
-        if (((LH*)((TESDataHandler*)npc->FUN_004ac110())->GetBGSRecipeCategoryList())->IsInList(race))
+        if (((LH*)((TESDataHandler*)npc->TESNPC_GetRace())->GetBGSRecipeCategoryList())->IsInList(race))
         {
             switch (npc->GetSex())
             {

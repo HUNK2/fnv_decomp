@@ -72,7 +72,7 @@ bool BSFaceGenModel::LoadModelMesh(const char* egmPath, const char* nifPath, con
                                     .
                                     operator NiAVObject*());
                     ((NiTriBasedGeom*)((const NiPointer<NiAVObject>&)m_pGeometryModel->m_pRenderedNodeEntry).operator->())
-                        ->FUN_004902f0(true);
+                        ->NiAVObject_SetSelectiveUpdate(true);
                 }
                 root->UpdateSceneObject();
                 NiUpdateData update(0.0f, false, false);
@@ -203,13 +203,13 @@ void* FUN_00659b20_thiscall::FUN_00659b20(unsigned int flags)
 
 struct FUN_00659c70_shell : public BSFaceGenModel
 {
-    bool FUN_00659c70(char*, char*, char*, char*, int, bool);
+    bool BSFaceGenModel_LoadModel(char*, char*, char*, char*, int, bool);
 };
 
 bool __cdecl FUN_0043faf0(void);
 
 // @fnv 0x00659c70
-bool FUN_00659c70_shell::FUN_00659c70(char* apEGMFilename, char* apNIFFilename, char* apTRIFilename,
+bool FUN_00659c70_shell::BSFaceGenModel_LoadModel(char* apEGMFilename, char* apNIFFilename, char* apTRIFilename,
                                       char* apEGTFilename, int aeHairPart, bool abIsAccessory)
 {
     bool breturn = false;
@@ -549,7 +549,7 @@ FUN_0065a4c0::FUN_0065a4c0()
 
 struct FUN_0065a910_shell : public BSFaceGenModel
 {
-    bool FUN_0065a910(void*, void*);
+    bool BSFaceGenModel_ApplyCoordinateToNewMesh(void*, void*);
 };
 
 struct FUN_0065bbc0_h
@@ -565,7 +565,7 @@ struct NP_0081c630
     NP_0081c630& operator=(void*);
 };
 // @fnv 0x0065a910
-bool FUN_0065a910_shell::FUN_0065a910(void* apCoord, void* aspReturnMesh)
+bool FUN_0065a910_shell::BSFaceGenModel_ApplyCoordinateToNewMesh(void* apCoord, void* aspReturnMesh)
 {
     if (!apCoord)
         return false;
@@ -801,11 +801,11 @@ char* __cdecl FUN_0040ab30(char*, int);
 struct FUN_0065a840_t : public BSFaceGenModel
 {
     const char* GetFloatValue();
-    void FUN_0065a840();
+    void BSFaceGenModel_ForceLoadModelTexture();
 };
 
 // @fnv 0x0065a840
-void FUN_0065a840_t::FUN_0065a840()
+void FUN_0065a840_t::BSFaceGenModel_ForceLoadModelTexture()
 {
     if (!m_kTextureSlots)
     {
@@ -952,7 +952,7 @@ struct FileSizeInfo
     FileSizeInfo(const char* apcPath, AccessMode aeAccessMode, OpenMode aeOpenMode, bool abSynchronousNoBuffer);
     ~FileSizeInfo();
     ErrorCode FUN_00559450();
-    ErrorCode FUN_0065c290(unsigned __int64& auiSize);
+    ErrorCode BSSystemFile_GetSize(unsigned __int64& auiSize);
     static ErrorCode GetFileSize(const char* apcPath, unsigned __int64& auiSize);
 };
 
@@ -964,7 +964,7 @@ FileSizeInfo::ErrorCode FileSizeInfo::GetFileSize(const char* apcPath, unsigned 
     FileSizeInfo File(apcPath, AM_READ, OM_NONE, false);
     eError = File.FUN_00559450();
     if (eError == BSSF_OK)
-        eError = File.FUN_0065c290(auiSize);
+        eError = File.BSSystemFile_GetSize(auiSize);
     else
         auiSize = 0;
     return eError;
@@ -990,11 +990,11 @@ struct FUN_00659c40
 };
 struct FUN_0065c400_t : public BSFaceGenModel
 {
-    void FUN_0065c400();
+    void BSFaceGenModel_KillTextureData();
 };
 
 // @fnv 0x0065c400
-void FUN_0065c400_t::FUN_0065c400()
+void FUN_0065c400_t::BSFaceGenModel_KillTextureData()
 {
     if (m_kTextureSlots)
     {
@@ -1153,7 +1153,7 @@ FUN_0065c6a0::~FUN_0065c6a0()
 }
 }  // namespace fnv_0065c6a0
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 
 struct Cls_659ab0
 {
@@ -1161,13 +1161,13 @@ struct Cls_659ab0
     void* FUN_00659ab0(unsigned int flags);
 };
 
-// Calls FUN_00659710, then if bit 0 of flags is set calls FUN_00401030 on this, and returns this.
+// Calls FUN_00659710, then if bit 0 of flags is set calls FormHeap_Free on this, and returns this.
 // @fnv 0x00659ab0
 void* Cls_659ab0::FUN_00659ab0(unsigned int flags)
 {
     FUN_00659710();
     if (flags & 1)
-        FUN_00401030(this);
+        FormHeap_Free(this);
     return this;
 }
 
@@ -1267,21 +1267,21 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
     if (!apCoordinate)
         return false;
 
-    FUN_00652140();
-    if (!FUN_00651f70(this))
+    BSFaceGenManager_LockFaceGenAccess();
+    if (!BSFaceGenManager_LoadEGMData(this))
     {
         if (!m_pGeometryModel->m_pModelData)
         {
             if (!m_pGeometryModel->m_kEGMFileName.Length())
             {
-                FUN_00652190();
+                BSFaceGenManager_UnlockFaceGenAccess();
                 return false;
             }
             m_pGeometryModel->m_pModelData = new FaceGenMorphData(m_pGeometryModel->m_kEGMFileName.String());
         }
         if (!m_pGeometryModel->m_pModelData)
         {
-            FUN_00652190();
+            BSFaceGenManager_UnlockFaceGenAccess();
             return false;
         }
     }
@@ -1313,7 +1313,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
     }
     else
     {
-        FUN_00652190();
+        BSFaceGenManager_UnlockFaceGenAccess();
         return false;
     }
 
@@ -1432,7 +1432,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
     if (apGeometry->FUN_0049ec60() && apGeometry->FUN_005495f0()->FUN_00457b80() != 0x4000)
         apGeometry->FUN_005495f0()->SetDirtyFlags(1);
     apGeometry->FUN_005495f0()->FUN_00a673d0();
-    FUN_00652190();
+    BSFaceGenManager_UnlockFaceGenAccess();
     return true;
 }
 

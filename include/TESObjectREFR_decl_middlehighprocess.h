@@ -13,7 +13,7 @@ class TESWorldSpace;
 class TESObjectREFR : public TESForm
 {
   public:
-    float FUN_005723b0(TESObjectREFR* ref, int a, int b);  // declared for the original code (decl_variants.py)
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR* ref, int a, int b);  // declared for the original code (decl_variants.py)
 
   public:
     TESChildCell tESChildCellComponent;  // +0x18

@@ -109,14 +109,14 @@ class TESDataHandler
     bool LoadPluginFiles(bool);
     void MarkGameSettingsLoaded();
     void ReportDataHandlerError(int);
-    void FUN_00464d30(bool);
+    void TESDataHandler_DisableAssignFormIDs(bool);
     bool FUN_00467780(TESFile*, bool);
     void FUN_00464d50(TESForm*);
     void FUN_00464d70(TESForm*);
     void SetField638(TESForm*);
     BSSimpleList<TESForm*>* FUN_00436aa0();
     BSSimpleList<TESForm*>* FUN_00624700();
-    BSSimpleList<TESForm*>* FUN_004612e0();
+    BSSimpleList<TESForm*>* TESDataHandler_GetTopicList();
     BSSimpleList<TESForm*>* FUN_004077e0();
     BSSimpleList<TESForm*>* FUN_0041d8a0();
     BSSimpleList<TESForm*>* FUN_0087eaa0();
@@ -125,7 +125,7 @@ class TESDataHandler
     BSSimpleList<TESForm*>* FUN_004ea950();
     BSSimpleList<TESForm*>* GetOffsetPtr();
     BSSimpleList<TESForm*>* FUN_0045a330();
-    BSSimpleList<TESForm*>* FUN_004a0d10();
+    BSSimpleList<TESForm*>* NiCamera_GetViewPort();
     bool ConstructObject(TESFile*, bool, TESForm*, bool);
     static bool LoadForm(TESForm*, TESFile*);
     void AddTopic(TESTopic*);

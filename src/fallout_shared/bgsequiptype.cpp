@@ -53,7 +53,7 @@ extern int DAT_011c4b54[14];
 
 // Returns DAT_011c4b54[a1] when a1 is between 0 and 13, otherwise returns 0.
 // @fnv 0x00479510
-int __cdecl FUN_00479510(int aiIndex)
+int __cdecl BGSEquipType_GetEquipTypeIcon(int aiIndex)
 {
     int iValue = 0;
     if (aiIndex > -1 && aiIndex < 14)
@@ -74,14 +74,14 @@ struct BGSMenuIcon
     const char* __thiscall GetFullName(void);
 };
 
-extern BGSMenuIcon* __cdecl FUN_00479510(int);
+extern BGSMenuIcon* __cdecl BGSEquipType_GetEquipTypeIcon(int);
 extern const char $SG5812[];
 
 // Looks up the BGSMenuIcon for aeType and returns its full name, or a fallback string when none exists.
 // @fnv 0x00479540
 const char* __cdecl GetMenuIconName(int aeType)
 {
-    BGSMenuIcon* picon = FUN_00479510(aeType);
+    BGSMenuIcon* picon = BGSEquipType_GetEquipTypeIcon(aeType);
     if (picon)
         return reinterpret_cast<FNStub*>(picon + 0x18)->GetFullName();
     return $SG5812;
@@ -90,7 +90,7 @@ const char* __cdecl GetMenuIconName(int aeType)
 
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 struct S_004036b0
 {
@@ -107,7 +107,7 @@ struct FUN_00403660_shell
 // @fnv 0x00403660
 float FUN_00403660_shell::GetValue(int)
 {
-    if (((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(1))
+    if (((FUN_004029d0_shell*)((char*)this - 0x3c))->AlchemyItem_IsFlagSet(1))
     {
         return (float)((S_004036b0*)((char*)this - 0x3c))->FUN_004036b0();
     }
@@ -171,11 +171,11 @@ struct LookupObject
 };
 struct QueryObject
 {
-    bool __thiscall FUN_004793d0(int);
+    bool __thiscall BGSEquipType_CompareComponent(int);
     int __thiscall FUN_00726070();
 };
 // @fnv 0x004793d0
-bool __thiscall QueryObject::FUN_004793d0(int argument)
+bool __thiscall QueryObject::BGSEquipType_CompareComponent(int argument)
 {
     void* found = FUN_00ec43fb(argument, 0, DAT_01183040, DAT_01183290, 0);
     if (found == 0)

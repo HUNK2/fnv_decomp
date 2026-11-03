@@ -28,7 +28,7 @@ union __declspec(align(16)) xM128
 };
 struct xFilter
 {
-    unsigned int FUN_004a3a20();
+    unsigned int CFilter_GetGroup();
     unsigned int m_uiFilterValue;
 };
 struct xCell;
@@ -196,12 +196,12 @@ struct xCharCtl
     void FUN_00810610(bool);
     void FUN_008105e0(bool);
     void FUN_00810640(xActor*);
-    void FUN_0057b1d0(float);
+    void bhkCharacterController_SetWaterHeight(float);
     xWorld* FUN_00621ad0();
     void FUN_00c70c90(xWorld*);
     void* FUN_00810660();
     void FUN_00c6d7a0(void*);
-    void FUN_005620e0(xP3*);
+    void bhkCharacterController_SetPosition(xP3*);
     xFilter FUN_0070c440();
     int m_auiShapeKeys[0x197];
 };
@@ -539,7 +539,7 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
         CI.SetPointer(new xShape(0.1f, true));
         CI.FUN_00810530(false);
         if (apOther)
-            CI.FUN_00810590(6, apOther->FUN_00931ed0().FUN_004a3a20());
+            CI.FUN_00810590(6, apOther->FUN_00931ed0().CFilter_GetGroup());
         else
             CI.FUN_00810590(6, xFUN_008cddb0());
         CI.SetAssociatedActorValue(6);
@@ -553,9 +553,9 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
     if (CTL)
     {
         if (CELL && WORLD)
-            CTL->FUN_0057b1d0(xFUN_005471e0(CELL));
+            CTL->bhkCharacterController_SetWaterHeight(xFUN_005471e0(CELL));
         else
-            CTL->FUN_0057b1d0(xg_1015f5c);
+            CTL->bhkCharacterController_SetWaterHeight(xg_1015f5c);
         xWorld* PREV = CTL->FUN_00621ad0();
         CTL->FUN_00c70c90(WORLD);
         void* NODE = FUN_1d0();
@@ -582,11 +582,11 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
         }
         if (WORLD)
         {
-            CTL->FUN_005620e0(&POS);
+            CTL->bhkCharacterController_SetPosition(&POS);
             if (ADD)
             {
                 xFilter FILTER = CTL->FUN_0070c440();
-                unsigned int LAYER = FILTER.FUN_004a3a20();
+                unsigned int LAYER = FILTER.CFilter_GetGroup();
                 WORLD->FUN_d0(NODE, 1, 0, LAYER, 0);
             }
             else

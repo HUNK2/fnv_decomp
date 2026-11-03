@@ -178,8 +178,8 @@ class TESObjectREFR : public TESForm
     virtual void Set3D(NiNode* node, bool queue);
     virtual NiNode* GetNiNode();
     TESForm* FUN_007af430();
-    bool FUN_005651e0();
-    bool FUN_0056b250();
+    bool TESObjectREFR_HasTemp3D();
+    bool TESObjectREFR_Is3DHighPriority();
 };
 class DoorCell
 {
@@ -261,7 +261,7 @@ class TESWorldSpace;
 class TESObjectCELL
 {
   public:
-    void FUN_005571a0(bool active);  // declared for the original code (decl_variants.py)
+    void TESObjectCELL_QueueReferences(bool active);  // declared for the original code (decl_variants.py)
   public:
     char padToExtraData[0x24];
     unsigned char field24;
@@ -299,7 +299,7 @@ class TESObjectCELL
     void SetLightingTemplate(void* value);
     int GetCellStandValue();
     InteriorCellData* GetInteriorData();
-    bool FUN_00558b80(int mask);
+    bool TESObjectCELL_GetLightingTemplateInheritanceFlag(int mask);
     CellLightingTemplate* GetLightingTemplate();
     float GetInteriorLightValue();
     BSSimpleList<TESObjectREFR*>* FUN_009604f0();
@@ -307,7 +307,7 @@ class TESObjectCELL
     void ClearCellReferenceList();
     NiAVObject* GetCellChildAt(int index);
     NiAVObject* GetDynamicNode();
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
     BGSEncounterZone* FindEncounterZone() const;
 };
 

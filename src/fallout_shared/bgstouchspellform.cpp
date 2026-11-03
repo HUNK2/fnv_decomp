@@ -70,7 +70,7 @@ BGSTouchSpellForm* __fastcall FUN_0047bd10(BGSTouchSpellForm* pThis)
 
 struct FUN_0047bdd0_shell : public BGSTouchSpellForm
 {
-    void FUN_0047bdd0(BaseFormComponent*);
+    void BGSTouchSpellForm_CopyComponent(BaseFormComponent*);
 };
 
 struct TESRaceForm
@@ -87,7 +87,7 @@ struct TESActorBaseData
 };
 unsigned int __fastcall _ref_00726070(void*);
 // @fnv 0x0047bdd0
-void FUN_0047bdd0_shell::FUN_0047bdd0(BaseFormComponent* apCopyFC)
+void FUN_0047bdd0_shell::BGSTouchSpellForm_CopyComponent(BaseFormComponent* apCopyFC)
 {
     BGSTouchSpellForm* pCopy = dynamic_cast<BGSTouchSpellForm*>(apCopyFC);
     if (!pCopy)

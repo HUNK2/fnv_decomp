@@ -22,13 +22,13 @@ void BSTempEffectDebris::SetIsForegroundEffect(bool foregroundElement)
 
 struct FUN_0050e620_S
 {
-    void FUN_004405d0(unsigned char);
+    void IOTask_SetPriority(unsigned char);
     void FUN_0050e620(unsigned char p);
 };
 // @fnv 0x0050e620
 void FUN_0050e620_S::FUN_0050e620(unsigned char p)
 {
-    FUN_004405d0(p);
+    IOTask_SetPriority(p);
 }
 
 void __fastcall FUN_0061bcf0(void* param_1);
@@ -453,7 +453,7 @@ struct ScenePointer : MemberPtr
 };
 struct ModelService
 {
-    SceneObject* FUN_00447080(int, int, bool, bool, bool, bool);
+    SceneObject* ModelLoader_LoadFile(int, int, bool, bool, bool, bool);
 };
 struct QueueService
 {
@@ -482,7 +482,7 @@ struct DebrisEffect : FUN_00682c40
 void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool abUseQueue)
 {
     FUN_007e6580(false);
-    SceneObject* update = g_011c3b3c->FUN_00447080(m_1c, 0, true, false, false, false);
+    SceneObject* update = g_011c3b3c->ModelLoader_LoadFile(m_1c, 0, true, false, false, false);
     if (abUseQueue)
     {
         if (g_011dea10)
@@ -714,8 +714,8 @@ class BSFaceGenKeyframe
 
     double GetTime();
     double FUN_00621b00();
-    bool FUN_006828a0(float fArg);
-    bool FUN_006830a0(float fArg);
+    bool BSTempEffect_Update(float fArg);
+    bool BSTempEffectDebris_Update(float fArg);
 
     unsigned int unk04;
     float unk08;
@@ -731,9 +731,9 @@ class BSFaceGenKeyframe
 void __cdecl FUN_00b6bb30(void* pForm, float fValue);
 
 // @fnv 0x006830a0
-bool BSFaceGenKeyframe::FUN_006830a0(float fArg)
+bool BSFaceGenKeyframe::BSTempEffectDebris_Update(float fArg)
 {
-    bool result5 = FUN_006828a0(fArg);
+    bool result5 = BSTempEffect_Update(fArg);
     if (byte21)
     {
         result5 = false;
@@ -775,7 +775,7 @@ struct WorldFade
 struct WorldFilter
 {
     unsigned int iFilter;
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
     WorldFilter();
 };
 struct WorldActor
@@ -908,7 +908,7 @@ struct WorldCell;
 extern const void* const DAT_011f9140;
 WorldFade* FUN_00653270(const void* pkRTTI, WorldNode* pkObj);
 unsigned int FUN_004a8b00(WorldObj* pkObj);
-WorldHavok* __fastcall FUN_004543c0(WorldCell* pkCell);
+WorldHavok* __fastcall TESObjectCELL_GetbhkWorld(WorldCell* pkCell);
 void FUN_00c6a3d0(WorldObj* pkObj, int iFilter, int a, int b);
 struct FUN_00683190_shell
 {
@@ -984,13 +984,13 @@ void FUN_00683190_shell::AttachCollisionObject(WorldActor* pkActor)
             WorldCell* pkCell = FUN_0084e3a0();
             if (pkCell)
             {
-                WorldHavok* pkWorld = FUN_004543c0(pkCell);
+                WorldHavok* pkWorld = TESObjectCELL_GetbhkWorld(pkCell);
                 if (pkWorld)
                 {
                     if (pkActor && pkActor->IsCollidable())
                     {
                         WorldActor* pkCollider = pkActor;
-                        FUN_00c6a3d0(pkObj, pkCollider->FUN_00931ed0().FUN_004a3a20(), 1, 1);
+                        FUN_00c6a3d0(pkObj, pkCollider->FUN_00931ed0().CFilter_GetGroup(), 1, 1);
                     }
                     pkWorld->AddObject(pkObj, pk3D);
                 }

@@ -333,7 +333,7 @@ struct OutputData : RefObject
     static void operator delete(void*);
     OutputData();
 
-    void FUN_00439410(int);
+    void NiAVObject_AttachProperty(int);
 
     void FUN_00a67260(void*);
 

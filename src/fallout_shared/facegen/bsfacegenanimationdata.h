@@ -8,7 +8,7 @@
 class RotationValues
 {
   public:
-    float FUN_005dd4e0(unsigned int index);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned int index);
     char storage[0x34];
 };
 class MiddleHighProcess
@@ -164,16 +164,16 @@ void BSFaceGenAnimationData::SetModified(bool value)
 // @fnv 0x006499e0
 float BSFaceGenAnimationData::GetExpressionWeight(BS_FACEGEN_EXPRESSION expression)
 {
-    return expression < BS_FACEGEN_EXPRESSION_BS_FG_EXPRESSION_COUNT ? expressionValues.FUN_005dd4e0(expression) : 0.0f;
+    return expression < BS_FACEGEN_EXPRESSION_BS_FG_EXPRESSION_COUNT ? expressionValues.BSFaceGenKeyframeMultiple_GetQuantity(expression) : 0.0f;
 }
 // @fnv 0x00649aa0
 float BSFaceGenAnimationData::GetPhonemeWeight(BS_FACEGEN_PHONEME phoneme)
 {
-    return phoneme < BS_FACEGEN_PHONEME_BS_FG_PHONEME_COUNT ? phonemeValues.FUN_005dd4e0(phoneme) : 0.0f;
+    return phoneme < BS_FACEGEN_PHONEME_BS_FG_PHONEME_COUNT ? phonemeValues.BSFaceGenKeyframeMultiple_GetQuantity(phoneme) : 0.0f;
 }
 // @fnv 0x00649b10
 float BSFaceGenAnimationData::GetCustomMorphWeight(BS_FACEGEN_CUSTOM_MORPH morph)
 {
-    return morph < BS_FACEGEN_CUSTOM_MORPH_BS_FG_CUSTOM_MORPH_COUNT ? customMorphValues.FUN_005dd4e0(morph) : 0.0f;
+    return morph < BS_FACEGEN_CUSTOM_MORPH_BS_FG_CUSTOM_MORPH_COUNT ? customMorphValues.BSFaceGenKeyframeMultiple_GetQuantity(morph) : 0.0f;
 }
 #endif

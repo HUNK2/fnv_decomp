@@ -155,18 +155,18 @@ struct NiObject;
 
 struct FUN_00a344f0_shell
 {
-    NiObject* __thiscall FUN_00a344f0(CloningProcess*);
+    NiObject* __thiscall NiControllerSequence_CreateClone(CloningProcess*);
 };
 
 struct FUN_004eec20_shell
 {
-    NiObject* __thiscall FUN_004eec20(CloningProcess* arCloneData);
+    NiObject* __thiscall BSAnimGroupSequence_CreateClone(CloningProcess* arCloneData);
 };
 
 // @fnv 0x004eec20
-NiObject* __thiscall FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
+NiObject* __thiscall FUN_004eec20_shell::BSAnimGroupSequence_CreateClone(CloningProcess* arCloneData)
 {
-    return ((FUN_00a344f0_shell*)this)->FUN_00a344f0(arCloneData);
+    return ((FUN_00a344f0_shell*)this)->NiControllerSequence_CreateClone(arCloneData);
 }
 
 struct NiTPrimitiveArray_char_ptr;
@@ -174,21 +174,21 @@ struct BSAnimGroupSequence;
 
 struct FUN_00a34540_shell : BSAnimGroupSequence
 {
-    void FUN_00a34540(NiTPrimitiveArray_char_ptr* pkStrings);
+    void NiControllerSequence_GetViewerStrings(NiTPrimitiveArray_char_ptr* pkStrings);
 };
 
-void FUN_00a34540_shell::FUN_00a34540(NiTPrimitiveArray_char_ptr* pkStrings)
+void FUN_00a34540_shell::NiControllerSequence_GetViewerStrings(NiTPrimitiveArray_char_ptr* pkStrings)
 {}
 
 struct FUN_004eec40_shell : BSAnimGroupSequence
 {
-    void FUN_004eec40(NiTPrimitiveArray_char_ptr* pkStrings);
+    void BSAnimGroupSequence_GetViewerStrings(NiTPrimitiveArray_char_ptr* pkStrings);
 };
 
 // @fnv 0x004eec40
-void FUN_004eec40_shell::FUN_004eec40(NiTPrimitiveArray_char_ptr* pkStrings)
+void FUN_004eec40_shell::BSAnimGroupSequence_GetViewerStrings(NiTPrimitiveArray_char_ptr* pkStrings)
 {
-    ((FUN_00a34540_shell*)this)->FUN_00a34540(pkStrings);
+    ((FUN_00a34540_shell*)this)->NiControllerSequence_GetViewerStrings(pkStrings);
 }
 
 struct TaskQueueInterface
@@ -862,7 +862,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
         if (sequence->GetThreadID())
         {
             result2 = true;
-            if (sequence->FUN_00639aa0() == -DAT_01023850)
+            if (sequence->NiControllerSequence_GetOffset() == -DAT_01023850)
                 result2 = false;
             else if (sequence->GetScale() < sequence->FUN_00508100())
                 result2 = false;

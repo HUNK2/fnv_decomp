@@ -71,7 +71,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(BGSLoadFo
             {
                 LogWarning(DAT_0107f938, m_pWorldReferenceInfo->GetFormID(), kRefData.m_uiBaseFormID,
                            pBound ? pBound->FUN_00440e30() : DAT_01015890);
-                m_pWorldReferenceInfo->FUN_0046a010(0);
+                m_pWorldReferenceInfo->TESForm_SetStillLoading(0);
                 g_BGSSaveLoadGame->DeleteForm(m_pWorldReferenceInfo);
                 ((TESRecipe*)apBuffer)->SetSkill(0);
                 return eType;
@@ -461,8 +461,8 @@ struct ReferenceAccess
     virtual void SetFormID(unsigned int, bool);
     TESBoundObject* FUN_007af430();
     ExtraDataList* FUN_005d43c0();
-    void FUN_00575690(TESBoundObject*);
-    void FUN_00565480(bool);
+    void TESObjectREFR_SetObjectReference(TESBoundObject*);
+    void TESObjectREFR_SetRefPersists(bool);
 };
 struct DataHandlerAccess
 {
@@ -470,7 +470,7 @@ struct DataHandlerAccess
 };
 struct SaveLoadAccess
 {
-    void FUN_0084a880(TESForm*);
+    void BGSSaveLoadGame_ClearForm(TESForm*);
 };
 struct ProjectileAccess
 {
@@ -478,7 +478,7 @@ struct ProjectileAccess
 };
 struct ExtraAccess
 {
-    TESBoundObject* FUN_004216f0();
+    TESBoundObject* ExtraDataList_GetLevCreaOriginalBase();
 };
 struct FUN_009abf30 : TESObjectREFR
 {
@@ -548,8 +548,8 @@ struct FUN_009abf30 : TESObjectREFR
     unsigned int unkfc;
     unsigned int unk100;
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
-TESObjectREFR* __cdecl FUN_00564480(unsigned char, bool);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
+TESObjectREFR* __cdecl TESObjectREFR_CreateReference(unsigned char, bool);
 void __cdecl FUN_00845cc0(const char*, ...);
 extern const char DAT_0107fa20[];
 extern const char DAT_0107f9b8[];
@@ -562,10 +562,10 @@ TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementDat
         unsigned char flags;
         {
             if (!form)
-                form = FUN_004839c0(formID);
+                form = TESForm_GetFormByNumericID(formID);
             if (((DataHandlerAccess*)g_dataHandler)->FUN_00469860(data->m_uiBaseFormID))
                 data->m_uiBaseFormID = 0;
-            TESBoundObject* bound = dynamic_cast<TESBoundObject*>(FUN_004839c0(data->m_uiBaseFormID));
+            TESBoundObject* bound = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(data->m_uiBaseFormID));
             if (!bound)
             {
                 FUN_00845cc0(DAT_0107fa20, data->m_uiBaseFormID, formID);
@@ -583,14 +583,14 @@ TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementDat
                         TESBoundObject* current = ref->FUN_007af430();
                         if (current != bound)
                         {
-                            if (!ref->IsActor() || ((ExtraAccess*)ref->FUN_005d43c0())->FUN_004216f0() != bound)
+                            if (!ref->IsActor() || ((ExtraAccess*)ref->FUN_005d43c0())->ExtraDataList_GetLevCreaOriginalBase() != bound)
                                 remove = true;
                         }
                     }
                 }
                 if (remove)
                 {
-                    ((SaveLoadAccess*)g_BGSSaveLoadGame)->FUN_0084a880(form);
+                    ((SaveLoadAccess*)g_BGSSaveLoadGame)->BGSSaveLoadGame_ClearForm(form);
                     form = 0;
                 }
             }
@@ -622,8 +622,8 @@ TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementDat
                     if (flags & 3)
                     {
                         if (!created)
-                            created = FUN_00564480((unsigned char)type, true);
-                        ((ReferenceAccess*)created)->FUN_00575690(bound);
+                            created = TESObjectREFR_CreateReference((unsigned char)type, true);
+                        ((ReferenceAccess*)created)->TESObjectREFR_SetObjectReference(bound);
                         ((ReferenceAccess*)created)->SetFormID(formID, true);
                         form = created;
                     }
@@ -634,10 +634,10 @@ TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementDat
             if (form && (flags & 2))
             {
                 ReferenceAccess* deleted = (ReferenceAccess*)form;
-                deleted->FUN_00565480(true);
+                deleted->TESObjectREFR_SetRefPersists(true);
             }
             if (form)
-                ((TESObjectREFR*)form)->FUN_0046a010(1);
+                ((TESObjectREFR*)form)->TESForm_SetStillLoading(1);
         }
     }
     return form;
@@ -671,7 +671,7 @@ struct FUN_00853570_shell
 
 struct FUN_00546af0_shell
 {
-    unsigned int FUN_00546af0();
+    unsigned int TESObjectCELL_GetDetachTime();
 };
 
 struct TESObjectCELL_Accessor : public TESObjectCELL
@@ -813,7 +813,7 @@ struct StandaloneREFR
     NiPoint3* FUN_00430830();
     TESBoundObject* GetObjectReference();
     bool FUN_005653d0();
-    void FUN_00562de0(BGSSaveFormBuffer*);
+    void TESObjectREFR_SaveHavokData(BGSSaveFormBuffer*);
     TESObjectCELL* GetParentCell();
     unsigned int GetFormID();
     ExtraDataList* GetExtraData();
@@ -822,7 +822,7 @@ struct StandaloneREFR
 class MobileObject
 {
   public:
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
 };
 
 struct S_00422b90
@@ -850,7 +850,7 @@ struct BGSChangeFlags_s
 };
 
 TESWorldSpace* __fastcall FUN_00575d70(StandaloneREFR*);
-TESBoundObject* __fastcall FUN_004216f0(ExtraDataList*);
+TESBoundObject* __fastcall ExtraDataList_GetLevCreaOriginalBase(ExtraDataList*);
 
 struct ExteriorCellCharData
 {
@@ -917,7 +917,7 @@ INITIAL_DATA_TYPE __cdecl FUN_0084eb80(BGSSaveFormBuffer* apFile, TESForm* apFor
                            ->FUN_00846c90(cell->FUN_0054ddd0()->GetFormID());
         data.cellX = (char)cell->FUN_00544c30();
         data.cellY = (char)cell->FUN_00544c60();
-        data.detachTime = ((FUN_00546af0_shell*)cell)->FUN_00546af0();
+        data.detachTime = ((FUN_00546af0_shell*)cell)->TESObjectCELL_GetDetachTime();
         apFile->SaveData(&data, sizeof(data), 0);
         break;
     }
@@ -928,13 +928,13 @@ INITIAL_DATA_TYPE __cdecl FUN_0084eb80(BGSSaveFormBuffer* apFile, TESForm* apFor
                            ->FUN_00846c90(cell->FUN_0054ddd0()->GetFormID());
         data.cellX = cell->FUN_00544c30();
         data.cellY = cell->FUN_00544c60();
-        *(unsigned int*)&data.detachTimeLow = ((FUN_00546af0_shell*)cell)->FUN_00546af0();
+        *(unsigned int*)&data.detachTimeLow = ((FUN_00546af0_shell*)cell)->TESObjectCELL_GetDetachTime();
         apFile->SaveData(&data, sizeof(data), 0);
         break;
     }
     case INITIAL_DATA_TYPE_INITIAL_DATA_INTERIOR_CELL: {
         TESObjectCELL_Accessor* pCell = (TESObjectCELL_Accessor*)apForm;
-        unsigned int detachTime = ((FUN_00546af0_shell*)pCell)->FUN_00546af0();
+        unsigned int detachTime = ((FUN_00546af0_shell*)pCell)->TESObjectCELL_GetDetachTime();
         apFile->SaveData(&detachTime, sizeof(detachTime), 0);
         break;
     }
@@ -983,7 +983,7 @@ INITIAL_DATA_TYPE __cdecl FUN_0084eb80(BGSSaveFormBuffer* apFile, TESForm* apFor
         TESBoundObject* baseObject3 = pRefr->GetObjectReference();
         if (pRefr->IsActor() && ((BGSChangeFlags_s*)&eChangeFlags)->Test(0x40000))
         {
-            TESBoundObject* boundObj4 = FUN_004216f0(pRefr->GetExtraData());
+            TESBoundObject* boundObj4 = ExtraDataList_GetLevCreaOriginalBase(pRefr->GetExtraData());
             if (boundObj4)
             {
                 baseObject3 = boundObj4;
@@ -998,7 +998,7 @@ INITIAL_DATA_TYPE __cdecl FUN_0084eb80(BGSSaveFormBuffer* apFile, TESForm* apFor
         if (pRefr->vfn_fc())
         {
             StandaloneREFR* aTalkingRef = pRefr;
-            if (((MobileObject*)aTalkingRef)->FUN_00574900())
+            if (((MobileObject*)aTalkingRef)->MobileObject_IsTalkingActivator())
             {
                 createdRefData.flags |= 4;
             }
@@ -1064,7 +1064,7 @@ INITIAL_DATA_TYPE __cdecl FUN_0084eb80(BGSSaveFormBuffer* apFile, TESForm* apFor
             unsigned int offsetBefore6;
             unsigned int bookmark8 = apFile->FUN_00865f20();
             offsetBefore6 = apFile->FUN_0084e3a0();
-            pRefr->FUN_00562de0(apFile);
+            pRefr->TESObjectREFR_SaveHavokData(apFile);
             unsigned int offsetAfter = apFile->FUN_0084e3a0();
             apFile->FUN_00865ff0(offsetAfter - offsetBefore6, bookmark8);
         }

@@ -121,11 +121,11 @@ struct RegionPoint
 
 struct FUN_004a40a0_Class
 {
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
 };
 
 // @fnv 0x004a40a0
-float FUN_004a40a0_Class::FUN_004a40a0()
+float FUN_004a40a0_Class::BGSImpactData_GetDecalMinWidth()
 {
     return ((RegionPoint*)((char*)this + 0x54))->GetX();
 }
@@ -146,32 +146,32 @@ float FUN_004a40c0_Class::GetModifierValue()
 
 struct FUN_004a4120_class
 {
-    char FUN_004a4120();
+    char DecalData_GetIsParallax();
 };
 
 // @fnv 0x004a4120
-char FUN_004a4120_class::FUN_004a4120()
+char FUN_004a4120_class::DecalData_GetIsParallax()
 {
     return (((const unsigned char*)this)[0x1d] & 1) != 0;
 }
 
 struct FUN_004a4160_Class
 {
-    bool FUN_004a4160();
+    bool DecalData_GetAlphaBlending();
 };
 
 // @fnv 0x004a4160
-bool FUN_004a4160_Class::FUN_004a4160()
+bool FUN_004a4160_Class::DecalData_GetAlphaBlending()
 {
     return reinterpret_cast<unsigned char*>(this)[0x1d] & 2;
 }
 
 struct FUN_004a41a0_Class
 {
-    bool FUN_004a41a0();
+    bool DecalData_GetAlphaTesting();
 };
 // @fnv 0x004a41a0
-bool FUN_004a41a0_Class::FUN_004a41a0()
+bool FUN_004a41a0_Class::DecalData_GetAlphaTesting()
 {
     return ((unsigned char*)this)[0x1d] & 4;
 }
@@ -679,12 +679,12 @@ extern double g_d100;
 
 struct FUN_004be080_Class
 {
-    float FUN_004be080();
+    float TESObjectARMO_GetCalculatedArmorRating();
 };
 
 // Returns the unsigned short at offset 0x178 divided by g_d100, cast to float.
 // @fnv 0x004be080
-float FUN_004be080_Class::FUN_004be080()
+float FUN_004be080_Class::TESObjectARMO_GetCalculatedArmorRating()
 {
     return (float)((double)*(unsigned short*)((char*)this + 0x178) / g_d100);
 }
@@ -1057,11 +1057,11 @@ void* __thiscall FUN_004b9980_Class::FUN_004b9980(unsigned int flags)
 
 struct FUN_004a0e50_Class
 {
-    bool __thiscall FUN_004a0e50();
+    bool __thiscall NiRenderer_GetInsideFrameState();
 };
 // Returns true when the int at offset 0x200 of this object equals 1 or 2.
 // @fnv 0x004a0e50
-bool __thiscall FUN_004a0e50_Class::FUN_004a0e50()
+bool __thiscall FUN_004a0e50_Class::NiRenderer_GetInsideFrameState()
 {
     return *(int*)((char*)this + 0x200) == 1 || *(int*)((char*)this + 0x200) == 2;
 }
@@ -1521,17 +1521,17 @@ struct FUN_004b0da0_Class
     void* a;
     void* b;
     int c;
-    void __thiscall FUN_004b0eb0();
+    void __thiscall BSCloneReserver_MakeClones();
     FUN_004b0da0_Class* __thiscall FUN_004b0da0(void* a, void* b);
 };
-// Stores the two given pointers into the object, resets the counter to zero, calls FUN_004b0eb0, and returns this.
+// Stores the two given pointers into the object, resets the counter to zero, calls BSCloneReserver_MakeClones, and returns this.
 // @fnv 0x004b0da0
 FUN_004b0da0_Class* __thiscall FUN_004b0da0_Class::FUN_004b0da0(void* pFirst, void* pSecond)
 {
     this->a = pFirst;
     this->b = pSecond;
     this->c = 0;
-    FUN_004b0eb0();
+    BSCloneReserver_MakeClones();
     return this;
 }
 
@@ -1582,11 +1582,11 @@ struct FUN_004b0eb0_class
 {
     void* f0;
     void* f4;
-    void __thiscall FUN_004b0eb0();
+    void __thiscall BSCloneReserver_MakeClones();
 };
 // If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls AddKeyedItems with f0 and f4.
 // @fnv 0x004b0eb0
-void __thiscall FUN_004b0eb0_class::FUN_004b0eb0()
+void __thiscall FUN_004b0eb0_class::BSCloneReserver_MakeClones()
 {
     if (f0 && f4)
         ((FUN_004b0910_This*)GetOrCreateInstance(1))->AddKeyedItems(f0, f4);
@@ -1645,7 +1645,7 @@ FUN_004b0fc0_Struct* __thiscall FUN_004b0fc0_Struct::FUN_004b0fc0(unsigned short
 }
 
 // @fnv 0x004b12d0
-int __cdecl FUN_004b12d0(char* pcString)
+int __cdecl IsStringFloat(char* pcString)
 {
     char bDotSeen = 0;
     char c = *pcString;
@@ -1758,7 +1758,7 @@ void* __thiscall Holder_004b9db0::FUN_004b9db0(unsigned int flags)
 
 struct FUN_00418630_Class
 {
-    void* FUN_00418630();
+    void* ExtraDataList_GetOriginalReference();
 };
 struct FUN_00418600_Class
 {
@@ -1781,7 +1781,7 @@ void __thiscall FUN_004bcbd0_Class::ProcessNodes()
     while (node && *node->_ref_006815c0())
     {
         FUN_004bcbd0_Node* item = (FUN_004bcbd0_Node*)*node->_ref_006815c0();
-        if (item && ((FUN_00418630_Class*)item)->FUN_00418630())
+        if (item && ((FUN_00418630_Class*)item)->ExtraDataList_GetOriginalReference())
             ((FUN_00418600_Class*)item)->FUN_00418600();
         node = node->GetNext();
     }
@@ -2329,7 +2329,7 @@ struct FUN_004ed900_cls
 };
 
 // @fnv 0x004a42a0
-void __cdecl FUN_004a42a0()
+void __cdecl BGSDecalManager_RemoveAllDecals()
 {
     DAT_011c57e4 = 0;
     DAT_011c57e8 = 0;
@@ -2700,7 +2700,7 @@ Obj2_cls* __cdecl FUN_00450b80(int a);
 void __cdecl FUN_00c69ee0(Ref_cls* p, int a, int b);
 
 // @fnv 0x004ab0c0
-void __cdecl FUN_004ab0c0(Ref_cls* apRef)
+void __cdecl BipedAnim_RunBiped3DDetach(Ref_cls* apRef)
 {
     Vt_cls* v;
     if (apRef == 0)
@@ -2772,7 +2772,7 @@ struct FUN_00658930_cls
     unsigned int GetShortAtOffsetA();
 };
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeap_Free(void* p);
 
 struct Guard_b9135
 {
@@ -2802,7 +2802,7 @@ FUN_004b0480_cls::~FUN_004b0480_cls()
     {
         void* p = ((FUN_004b07e0_Class*)((char*)this + 8))->PopElement();
         void* q = p;
-        FUN_00401030(q);
+        FormHeap_Free(q);
     }
 }
 
@@ -2846,12 +2846,12 @@ struct FUN_004b0ef0_cls
     int unk00;
     int unk04;
     int unk08;
-    void FUN_004b0ef0();
+    void BSCloneReserver_DecRefCount();
 };
 
 // Calls FUN_004019a0 on unk08; if it returns 0, calls FUN_004b0f40(1) on this as a FUN_004b0f40_Holder.
 // @fnv 0x004b0ef0
-void FUN_004b0ef0_cls::FUN_004b0ef0()
+void FUN_004b0ef0_cls::BSCloneReserver_DecRefCount()
 {
     if (FUN_004019a0(&unk08) == 0)
     {
@@ -3035,7 +3035,7 @@ struct FUN_006815c0
 struct FUN_004b4910_Source
 {
     unsigned short FUN_00456650();
-    int FUN_00461130();
+    int NiAVObject_GetWorldRotate();
     int FUN_0049ec60();
 };
 
@@ -3051,7 +3051,7 @@ FUN_006815c0* __cdecl CreateElementArray(FUN_004b4910_Source* source)
         return 0;
     }
     elements = new FUN_006815c0[source->FUN_00456650()];
-    FUN_004b4a10(source->FUN_00456650(), source->FUN_0049ec60(), (int)elements, source->FUN_00461130());
+    FUN_004b4a10(source->FUN_00456650(), source->FUN_0049ec60(), (int)elements, source->NiAVObject_GetWorldRotate());
     return elements;
 }
 
@@ -3622,7 +3622,7 @@ struct NiTriShape : NiMemObjectAllocation
     unsigned int unkC0;
     NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short,
                unsigned short*);
-    void FUN_00439410(NiObject*);
+    void NiAVObject_AttachProperty(NiObject*);
 };
 void __cdecl FUN_00b57e30(NiTriShape*, int, int);
 // Builds an octahedron NiTriShape from six vertices and 24 indices around a given size and color, optionally attaching a lighting property.
@@ -3672,7 +3672,7 @@ NiTriShape* __cdecl CreateOctahedron(float size, const FUN_004a7800* color, bool
     if (lighting)
     {
         BSShaderLightingProperty* property = new BSShaderLightingProperty;
-        vertices->FUN_00439410((NiObject*)property);
+        vertices->NiAVObject_AttachProperty((NiObject*)property);
         FUN_00b57e30(vertices, 0, 0);
     }
     return vertices;
@@ -3780,7 +3780,7 @@ struct Mesh87
     Mesh87(int, Vec87*, void*, Color87*, void*, int, int, int, unsigned short*);
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void FUN_00439410(Extra87*);
+    void NiAVObject_AttachProperty(Extra87*);
 };
 void* operator new[](unsigned int);
 void operator delete[](void*);
@@ -3887,7 +3887,7 @@ Mesh87* CreateBoxMesh(const Vec87& aCorner0, const Vec87& aCorner1, const Vec87&
     if (extra)
     {
         Extra87* data = new Extra87;
-        mesh1->FUN_00439410(data);
+        mesh1->NiAVObject_AttachProperty(data);
         FUN_00b57e30(mesh1, 0, 0);
     }
     return mesh1;
@@ -3993,12 +3993,12 @@ struct FUN_00a746e0 : NiMemObject
     unsigned int unkBC;
     unsigned int unkC0;
     FUN_00a746e0(unsigned short, FUN_006815c0*, FUN_004a7800*, void*, unsigned int, unsigned int, bool*);
-    void FUN_00439410(BSShaderLightingProperty*);
+    void NiAVObject_AttachProperty(BSShaderLightingProperty*);
 };
 void FUN_00b57e30(FUN_00a746e0*, unsigned int, unsigned int);
 
 // @fnv 0x004b3890
-FUN_00a746e0* __cdecl FUN_004b3890(const FUN_006815c0& aStartVertex, const FUN_004a7800& startColor,
+FUN_00a746e0* __cdecl MakeLine(const FUN_006815c0& aStartVertex, const FUN_004a7800& startColor,
                                    const FUN_006815c0& aEndVertex, const FUN_004a7800& endColor, bool addShader)
 {
     FUN_006815c0* vertices = new FUN_006815c0[2];
@@ -4016,7 +4016,7 @@ FUN_00a746e0* __cdecl FUN_004b3890(const FUN_006815c0& aStartVertex, const FUN_0
     if (addShader)
     {
         BSShaderLightingProperty* shader = new BSShaderLightingProperty;
-        connections->FUN_00439410(shader);
+        connections->NiAVObject_AttachProperty(shader);
         FUN_00b57e30(connections, 0, 0);
     }
     return connections;
@@ -4045,21 +4045,21 @@ struct List4a4
 };
 struct Renderer4a4;
 Renderer4a4* FUN_0043c4b0();
-void __fastcall FUN_004a0370(Renderer4a4* p);
-void __fastcall FUN_004a03c0(Renderer4a4* p);
+void __fastcall NiRenderer_LockRenderer(Renderer4a4* p);
+void __fastcall NiRenderer_UnlockRenderer(Renderer4a4* p);
 struct Owner4a4
 {
     void* pad[2];
     List4a4 m_kNode;
-    void FUN_004a4340();
+    void BGSDecalManager_ClearPendingQueries();
 };
 
 // @fnv 0x004a4340
-void Owner4a4::FUN_004a4340()
+void Owner4a4::BGSDecalManager_ClearPendingQueries()
 {
     if (m_kNode.FUN_0044ddc0() > 0)
     {
-        FUN_004a0370(FUN_0043c4b0());
+        NiRenderer_LockRenderer(FUN_0043c4b0());
         void* pos = m_kNode.FUN_00559450();
         while (pos)
         {
@@ -4073,7 +4073,7 @@ void Owner4a4::FUN_004a4340()
                 pkEntry->m_pQuery = 0;
             }
         }
-        FUN_004a03c0(FUN_0043c4b0());
+        NiRenderer_UnlockRenderer(FUN_0043c4b0());
     }
 }
 
@@ -4103,7 +4103,7 @@ struct Target004a4d40
 extern void* __cdecl FUN_004a5100(float value, NiColorA004a4d40* color);
 
 // @fnv 0x004a4d40
-void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
+void* __cdecl BGSPrimitive_Copy(Target004a4d40* pTarget)
 {
     {
         void* bResult = 0;
@@ -4190,11 +4190,11 @@ struct ExtraAB
 struct BipedAB
 {
     AVObjAB* FUN_004ab230(int iIndex);
-    void FUN_004ab130(AVObjAB* pkObject);
+    void BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(AVObjAB* pkObject);
 };
 
 // @fnv 0x004ab130
-void BipedAB::FUN_004ab130(AVObjAB* pkObject)
+void BipedAB::BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(AVObjAB* pkObject)
 {
     if (!pkObject)
         return;
@@ -4218,7 +4218,7 @@ void BipedAB::FUN_004ab130(AVObjAB* pkObject)
         if (pkNode)
         {
             for (unsigned int i = 0; i < pkNode->FUN_0043b480(); i++)
-                FUN_004ab130(pkNode->FUN_0043b4a0(i));
+                BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(pkNode->FUN_0043b4a0(i));
         }
     }
 }
@@ -4241,11 +4241,11 @@ struct AGList : AGNode
 struct AGOwner
 {
     AGList* m_pEntries;
-    void* FUN_004bcd10();
+    void* ItemChange_RemoveLeveledItemExtra();
 };
 
 // @fnv 0x004bcd10
-void* AGOwner::FUN_004bcd10()
+void* AGOwner::ItemChange_RemoveLeveledItemExtra()
 {
     AGNode* pNode = m_pEntries;
     void* pResult = 0;

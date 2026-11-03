@@ -5,7 +5,7 @@
 extern "C" void* g_011f3f98;
 
 // @fnv 0x00a4cd30
-void* __cdecl FUN_00a4cd30()
+void* __cdecl NiLookAtController_GetRTTI()
 {
     return &g_011f3f98;
 }
@@ -41,7 +41,7 @@ struct StrArr
 };
 struct BaseStub
 {
-    void FUN_00a6d830(StrArr*);
+    void NiTimeController_GetViewerStrings(StrArr*);
 };
 char* _FUN_00a7d330(const char*);
 struct Holder : NiLookAtController
@@ -52,7 +52,7 @@ struct Holder : NiLookAtController
 // @fnv 0x00a4cef0
 void Holder::AppendString(StrArr* pkStrings)
 {
-    ((BaseStub*)this)->FUN_00a6d830(pkStrings);
+    ((BaseStub*)this)->NiTimeController_GetViewerStrings(pkStrings);
     char* s = _FUN_00a7d330((const char*)g_011f3f98);
     unsigned int sz = *(unsigned short*)((char*)pkStrings + 0xa);
     if (sz >= *(unsigned short*)((char*)pkStrings + 8))
@@ -85,11 +85,11 @@ struct NiLookAtController : NiTimeController
 {
     char _pad[0x34];
     NiAVObject* m_pkLookAt;
-    void FUN_00a4c840(NiStream&);
+    void NiLookAtController_LinkObject(NiStream&);
 };
 
 // @fnv 0x00a4c840
-void NiLookAtController::FUN_00a4c840(NiStream& stream)
+void NiLookAtController::NiLookAtController_LinkObject(NiStream& stream)
 {
     NiTimeController::LinkObject(stream);
     m_pkLookAt = static_cast<NiAVObject*>(stream.GetLoadedObject());
@@ -102,7 +102,7 @@ struct NiStream
 };
 struct TCReg
 {
-    bool __thiscall FUN_00a6d0f0(NiStream&);
+    bool __thiscall NiTimeController_RegisterStreamables(NiStream&);
 };
 struct FakeAV
 {
@@ -133,12 +133,12 @@ struct S00a4c860
 {
     char _p[0x38];
     FakeAV* m;
-    bool __thiscall FUN_00a4c860(NiStream&);
+    bool __thiscall NiLookAtController_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00a4c860
-bool __thiscall S00a4c860::FUN_00a4c860(NiStream& s)
+bool __thiscall S00a4c860::NiLookAtController_RegisterStreamables(NiStream& s)
 {
-    if (!((TCReg*)this)->FUN_00a6d0f0(s))
+    if (!((TCReg*)this)->NiTimeController_RegisterStreamables(s))
         return false;
     if (m)
         m->v21(s);
@@ -319,7 +319,7 @@ struct StreamLayout
 };
 struct BaseLoad
 {
-    void FUN_00a6d5e0(NiStream&);
+    void NiTimeController_LoadBinary(NiStream&);
 };
 struct StreamFinish
 {
@@ -341,12 +341,12 @@ struct LookAt : BaseLoad
     unsigned int unk2c;
     unsigned int unk30;
     unsigned short flags;
-    void FUN_00a4ce20(NiStream& stream);
+    void NiLookAtController_LoadBinary(NiStream& stream);
 };
 // @fnv 0x00a4ce20
-void LookAt::FUN_00a4ce20(NiStream& stream)
+void LookAt::NiLookAtController_LoadBinary(NiStream& stream)
 {
-    BaseLoad::FUN_00a6d5e0(stream);
+    BaseLoad::NiTimeController_LoadBinary(stream);
     StreamLayout& streamLayout = reinterpret_cast<StreamLayout&>(stream);
     if (streamLayout.version < 0x0a000102)
     {
@@ -621,7 +621,7 @@ struct StreamObj
 // The base class that owns the shared stream handling.
 struct Base44
 {
-    void FUN_00a6d730(StreamObj* stream);
+    void NiTimeController_SaveBinary(StreamObj* stream);
 };
 
 // The look-at data that is handed to the callback.
@@ -630,7 +630,7 @@ struct LookAtData
     unsigned int unk000;
 };
 
-// The controller that owns FUN_00a4cea0: the look-at data object sits at
+// The controller that owns NiLookAtController_SaveBinary: the look-at data object sits at
 // +0x34 and the renderer data pointer at +0x38.
 struct Ctl : Base44
 {
@@ -649,13 +649,13 @@ struct Ctl : Base44
     unsigned int unk030;
     LookAtData m34;
     FakeAV* m38;
-    void FUN_00a4cea0(StreamObj* stream);
+    void NiLookAtController_SaveBinary(StreamObj* stream);
 };
 
 // @fnv 0x00a4cea0
-void Ctl::FUN_00a4cea0(StreamObj* stream)
+void Ctl::NiLookAtController_SaveBinary(StreamObj* stream)
 {
-    Base44::FUN_00a6d730(stream);
+    Base44::NiTimeController_SaveBinary(stream);
     Handler* handler = stream->m250;
     {
         // The out-value is kept in an inner block on purpose: that way the
@@ -722,7 +722,7 @@ struct Clone_a4c : public FUN_00a6d220
     {
         return (m_34 & usMask) >> usPos;
     }
-    Clone_a4c* FUN_00a4cd60(void* pkCloning);
+    Clone_a4c* NiLookAtController_CreateClone(void* pkCloning);
     union
     {
         unsigned short m_34;
@@ -737,7 +737,7 @@ struct Clone_a4c : public FUN_00a6d220
 
 // Allocates a Clone_a4c, copies the base data via FUN_00a6cfe0, then copies m_34, bit 1, field 6 and m_38, and returns the clone.
 // @fnv 0x00a4cd60
-Clone_a4c* Clone_a4c::FUN_00a4cd60(void* pkCloning)
+Clone_a4c* Clone_a4c::NiLookAtController_CreateClone(void* pkCloning)
 {
     Clone_a4c* pkClone = new Clone_a4c;
     FUN_00a6cfe0(pkClone, pkCloning);
@@ -816,15 +816,15 @@ struct Eq4c
     unsigned int unk[14];
     EqAV4c* m_spObj;
 
-    bool FUN_00a6cc80(Eq4c* other);
-    bool FUN_00a4c890(Eq4c* other);
+    bool NiTimeController_IsEqual(Eq4c* other);
+    bool NiLookAtController_IsEqual(Eq4c* other);
 };
 
-// Compares this object with other via FUN_00a6cc80, checks m_spObj presence matches, and delegates to m_spObj->IsEqual.
+// Compares this object with other via NiTimeController_IsEqual, checks m_spObj presence matches, and delegates to m_spObj->IsEqual.
 // @fnv 0x00a4c890
-bool Eq4c::FUN_00a4c890(Eq4c* other)
+bool Eq4c::NiLookAtController_IsEqual(Eq4c* other)
 {
-    if (!FUN_00a6cc80(other))
+    if (!NiTimeController_IsEqual(other))
         return false;
     if ((m_spObj && !other->m_spObj) || (!m_spObj && other->m_spObj))
         return false;
@@ -871,7 +871,7 @@ struct S00a4c8e0_Pt
     {
         return S00a4c8e0_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
 };
 struct S00a4c8e0_Mat
 {
@@ -999,7 +999,7 @@ void S00a4c8e0_Ctl::Update(float time)
     }
     else
     {
-        at.FUN_004a0c10();
+        at.NiPoint3_Unitize();
         S00a4c8e0_Pt up;
         float d;
         if (at.z < 1.001f && at.z > 0.9990000128746033)
@@ -1013,7 +1013,7 @@ void S00a4c8e0_Ctl::Update(float time)
             d = at.z;
         }
         up -= at * d;
-        up.FUN_004a0c10();
+        up.NiPoint3_Unitize();
         if (!GetFlip())
             at = -at;
         S00a4c8e0_Pt right = up.Cross(at);

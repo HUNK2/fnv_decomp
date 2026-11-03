@@ -81,14 +81,14 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     int iX;
     int iY;
     int iLevel;
-    bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
+    bool BGSTerrainChunkLoadTask_GetDescription(char* apDescription, unsigned int aiBufferSize);
 };
 
 extern int _sprintf_s(char*, unsigned int, const char*, ...);
 
 // Formats the chunk's X, Y and level into apDescription using _sprintf_s and returns true.
 // @fnv 0x006fc400
-bool BGSTerrainChunkLoadTask::FUN_006fc400(char* apDescription, unsigned int aiBufferSize)
+bool BGSTerrainChunkLoadTask::BGSTerrainChunkLoadTask_GetDescription(char* apDescription, unsigned int aiBufferSize)
 {
     _sprintf_s(apDescription, aiBufferSize, "Terrain LOD Task for chunk ( %i, %i ) at level ( %i )", this->iX, this->iY,
                this->iLevel);
@@ -541,7 +541,7 @@ struct ModelLoader
 
 struct FUN_0043cc60_shell
 {
-    int FUN_0043cc60();
+    int IOTask_GetIOTaskPriority();
 };
 
 struct FUN_006fbbd0_virtual
@@ -581,7 +581,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     g_modelLoader->QueueModelFilePath(pdiffuseTextureFileName,
-                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60(),
+                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->IOTask_GetIOTaskPriority(),
                                       reinterpret_cast<QueuedFile*>(this));
 
     BuildLodNormalTexturePath(
@@ -590,7 +590,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     g_modelLoader->QueueModelFilePath(pnormalTextureFileName,
-                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60(),
+                                      reinterpret_cast<FUN_0043cc60_shell*>(this)->IOTask_GetIOTaskPriority(),
                                       reinterpret_cast<QueuedFile*>(this));
 
     *reinterpret_cast<bool*>(reinterpret_cast<unsigned char*>(this) + 0x30) = true;
@@ -789,7 +789,7 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
+    void BSMultiBoundAABB_SetHalfExtents(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {
@@ -833,7 +833,7 @@ void Target006fac::FUN_006facb0()
             s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
             eb.z = 0.0f;
             p->position(s);
-            p->FUN_00439680(eb);
+            p->BSMultiBoundAABB_SetHalfExtents(eb);
             r14.FUN_0066b0d0(new FUN_00c46970);
             f = new BSMultiBound;
             f->FUN_004addc0(p);
@@ -842,7 +842,7 @@ void Target006fac::FUN_006facb0()
             s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
             eb.z = 0.0f;
             p->position(s);
-            p->FUN_00439680(eb);
+            p->BSMultiBoundAABB_SetHalfExtents(eb);
             r18.FUN_0066b0d0(new FUN_00c46970);
             f = new BSMultiBound;
             f->FUN_004addc0(p);

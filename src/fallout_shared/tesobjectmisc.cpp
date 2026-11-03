@@ -127,46 +127,46 @@ bool TESObjectMISC::Load(TESFile* file)
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int aiFlags);
+    void TESForm_SaveGame(unsigned int aiFlags);
     void FUN_0048e9e0(unsigned int aiFlags);
-    void FUN_0051b070(unsigned int aiFlags);
+    void TESObjectMISC_SaveGame(unsigned int aiFlags);
 };
 
-// Calls FUN_00484c20 with aiFlags, then calls FUN_0048e9e0 with aiFlags on the object at this+0x74.
+// Calls TESForm_SaveGame with aiFlags, then calls FUN_0048e9e0 with aiFlags on the object at this+0x74.
 // @fnv 0x0051b070
-void FUN_0051b070_shell::FUN_0051b070(unsigned int aiFlags)
+void FUN_0051b070_shell::TESObjectMISC_SaveGame(unsigned int aiFlags)
 {
-    FUN_00484c20(aiFlags);
+    TESForm_SaveGame(aiFlags);
     reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x74)->FUN_0048e9e0(aiFlags);
 }
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int aiFlags);
 };
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int aiFlags);
 };
 
 struct FUN_0051b020_shell
 {
-    unsigned short __thiscall FUN_0051b020(unsigned int aiFlags);
+    unsigned short __thiscall TESObjectMISC_GetSaveSize(unsigned int aiFlags);
 };
 
 // Returns the sum of GetSaveSize(aiFlags) for this object and the sub-object at offset 0x74.
 // @fnv 0x0051b020
-unsigned short __thiscall FUN_0051b020_shell::FUN_0051b020(unsigned int aiFlags)
+unsigned short __thiscall FUN_0051b020_shell::TESObjectMISC_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0*)this)->GetSaveSize(aiFlags);
-    isize += ((FUN_0048e9b0*)((char*)this + 0x74))->GetSaveSize(aiFlags);
+    isize += ((TESForm_GetSaveSize*)this)->GetSaveSize(aiFlags);
+    isize += ((TESValueForm_GetSaveSize*)((char*)this + 0x74))->GetSaveSize(aiFlags);
     return isize;
 }
 
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 
 struct TESValueFormStub
@@ -184,7 +184,7 @@ struct FUN_0051b0a0_shell
 // @fnv 0x0051b0a0
 void FUN_0051b0a0_shell::LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<TESFormStub*>(this)->TESFormStub::FUN_00484c50(aiFlags,
+    reinterpret_cast<TESFormStub*>(this)->TESFormStub::TESForm_LoadGame2(aiFlags,
                                                                     reinterpret_cast<unsigned int>(apLoadGameBuffer));
     reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)
         ->TESValueFormStub::FUN_0048ea10(aiFlags, reinterpret_cast<unsigned int>(apLoadGameBuffer));
@@ -210,11 +210,11 @@ void* TargetHolder::ReleaseIfFlagged(unsigned int flags)
 
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -222,7 +222,7 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct FUN_0047a240_shell
 {
@@ -234,48 +234,48 @@ struct FUN_0047b560_holder
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 void FUN_00485910(unsigned int, unsigned int);
 struct FUN_0051ae80_shell
 {
-    void FUN_0051ae80();
+    void TESObjectMISC_SaveForm();
 };
 // @fnv 0x0051ae80
-void FUN_0051ae80_shell::FUN_0051ae80()
+void FUN_0051ae80_shell::TESObjectMISC_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x84))->FUN_00477f20();
+    ((S_0048cca0*)((char*)this + 0x68))->TESScriptableForm_Save();
+    ((S_00477f20*)((char*)this + 0x84))->BGSDestructibleObjectForm_Save();
     ((FUN_0047b560_holder*)((char*)this + 0x9c))->LogFormIDs();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     if (*(unsigned int*)((char*)this + 0xa8))
     {
         unsigned int formID = ((TESForm**)((char*)this + 0xa8))[0]->GetFormID();
         FUN_00485910(0x4d414e52, formID);
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm*);
+    void __thiscall TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_008cdd90_shell
 {
@@ -283,16 +283,16 @@ struct FUN_008cdd90_shell
 };
 struct FUN_0051af50_shell
 {
-    void __thiscall FUN_0051af50(TESForm* apCopy);
+    void __thiscall TESObjectMISC_CopyFrom(TESForm* apCopy);
 };
 // @fnv 0x0051af50
-void __thiscall FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
+void __thiscall FUN_0051af50_shell::TESObjectMISC_CopyFrom(TESForm* apCopy)
 {
     TESObjectMISC* pmisc = dynamic_cast<TESObjectMISC*>(apCopy);
     if (!pmisc)
         return;
     ((TESObjectMISC*)this)->FUN_009db930(((FUN_008cdd90_shell*)pmisc)->FUN_008cdd90());
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 struct BGSSaveFormBuffer;
@@ -326,11 +326,11 @@ struct TESValueFormLoadGame
 };
 struct FUN_0051b100_owner
 {
-    void __thiscall FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer);
+    void __thiscall TESObjectMISC_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // Loads the form from the buffer, then loads the value form at offset 0x74 from the same buffer.
 // @fnv 0x0051b100
-void __thiscall FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer)
+void __thiscall FUN_0051b100_owner::TESObjectMISC_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<TESFormBufferAccess*>(this)->LoadGame(apLoadGameBuffer);
     reinterpret_cast<TESValueFormLoadGame*>((char*)this + 0x74)->LoadGame(apLoadGameBuffer);
@@ -338,21 +338,21 @@ void __thiscall FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBu
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_0051afb0_shell : public FUN_008cdd90_shell
 {
-    bool FUN_0051afb0(TESForm* apCompare);
+    bool TESObjectMISC_Compare(TESForm* apCompare);
 };
 // @fnv 0x0051afb0
-bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
+bool FUN_0051afb0_shell::TESObjectMISC_Compare(TESForm* apCompare)
 {
     TESObjectMISC* pcomp = dynamic_cast<TESObjectMISC*>(apCompare);
     if (!pcomp)
         return true;
     if (FUN_008cdd90() != ((FUN_008cdd90_shell*)pcomp)->FUN_008cdd90())
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270((TESForm*)pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents((TESForm*)pcomp))
         return true;
     return false;
 }

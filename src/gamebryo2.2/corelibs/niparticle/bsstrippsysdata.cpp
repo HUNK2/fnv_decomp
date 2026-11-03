@@ -16,7 +16,7 @@ short __thiscall FUN_00c25dd0_shell::FUN_00c25dd0()
 extern "C" void* g_01202680;
 
 // @fnv 0x00c25ee0
-void* __cdecl FUN_00c25ee0()
+void* __cdecl BSStripPSysData_GetRTTI()
 {
     return &g_01202680;
 }
@@ -109,11 +109,11 @@ struct BSStripPSysData
 };
 struct FUN_00c25cd0_shell : BSStripPSysData
 {
-    bool __thiscall FUN_00c25cd0(NiObject* pkObject);
+    bool __thiscall BSStripPSysData_IsEqual(NiObject* pkObject);
 };
 // Compares the base fields and then usMaxPointCount, fStartCapSize, fEndCapSize and bDoZPrePass against another BSStripPSysData, returning true if all match.
 // @fnv 0x00c25cd0
-bool __thiscall FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
+bool __thiscall FUN_00c25cd0_shell::BSStripPSysData_IsEqual(NiObject* pkObject)
 {
     BSStripPSysData* pkDest = (BSStripPSysData*)pkObject;
     if (IsEqual(pkObject) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&
@@ -657,14 +657,14 @@ class FUN_00c26570_cls
     unsigned int m_84;
     unsigned int m_88;
     unsigned int m_8C;
-    void FUN_00c25560(StreamOwner* a1);
-    void FUN_00c26570(StreamOwner* a1);
+    void NiPSysData_SaveBinary(StreamOwner* a1);
+    void BSStripPSysData_SaveBinary(StreamOwner* a1);
 };
 
 // @fnv 0x00c26570
-void FUN_00c26570_cls::FUN_00c26570(StreamOwner* apOwner)
+void FUN_00c26570_cls::BSStripPSysData_SaveBinary(StreamOwner* apOwner)
 {
-    FUN_00c25560(apOwner);
+    NiPSysData_SaveBinary(apOwner);
     StreamCtx* s = apOwner->m_250;
     {
         unsigned int n = 2;
@@ -707,7 +707,7 @@ struct FUN_00c25f40_cls
     unsigned short m50;
     char _52[0x2a];
     FUN_00c25f40_rec* m7c;
-    void FUN_00c24cc0(unsigned short a);
+    void NiPSysData_RemoveParticle(unsigned short a);
     void* PopRecord(unsigned int a);
 };
 
@@ -734,7 +734,7 @@ void* FUN_00c25f40_cls::PopRecord(unsigned int auiIndex)
     }
     unsigned short last = m50;
     last--;
-    FUN_00c24cc0(idx);
+    NiPSysData_RemoveParticle(idx);
     if (idx != last)
     {
         FUN_00c25f40_rec* cur = (FUN_00c25f40_rec*)((char*)m7c + off);
@@ -802,15 +802,15 @@ struct FUN_00c26630_cls
     unsigned short m80, unk82;
     float m84, m88;
     unsigned char m8c;
-    void FUN_00c255b0(struct ArrHdr* a);
-    void FUN_00c26630(void* p);
+    void NiPSysData_GetViewerStrings(struct ArrHdr* a);
+    void BSStripPSysData_GetViewerStrings(void* p);
 };
-// Calls FUN_00c255b0 on the array, then appends entries built from g_01202680, m80, m84, m88 and m8c via the FUN_00a7d3xx/d4xx/d5xx helpers.
+// Calls NiPSysData_GetViewerStrings on the array, then appends entries built from g_01202680, m80, m84, m88 and m8c via the FUN_00a7d3xx/d4xx/d5xx helpers.
 // @fnv 0x00c26630
-void FUN_00c26630_cls::FUN_00c26630(void* pArray)
+void FUN_00c26630_cls::BSStripPSysData_GetViewerStrings(void* pArray)
 {
     ArrHdr* a = (ArrHdr*)pArray;
-    FUN_00c255b0(a);
+    NiPSysData_GetViewerStrings(a);
     pArray = FUN_00a7d330(g_01202680);
     a->Add(pArray);
     pArray = FUN_00a7d490(str_010be5ec, m80);
@@ -874,7 +874,7 @@ struct S_00c26410_Base
     int unk70;
     int unk74;
     int unk78;
-    void FUN_00c25340(S_00c26410_Stream* pkStream);
+    void NiPSysData_LoadBinary(S_00c26410_Stream* pkStream);
 };
 
 struct S_00c26410_Bin
@@ -1079,14 +1079,14 @@ struct FUN_00c26410_cls : S_00c26410_Mid
     float m_84;
     float m_88;
     unsigned char m_8C;
-    void FUN_00c26410(S_00c26410_Stream* pkStream);
+    void BSStripPSysData_LoadBinary(S_00c26410_Stream* pkStream);
 };
 
 // Reads m_80, m_84, m_88, m_8C from pkStream, allocates m_7C with m_08 elements, and initializes each element's fields from m_80 and DAT_01015f5c.
 // @fnv 0x00c26410
-void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
+void FUN_00c26410_cls::BSStripPSysData_LoadBinary(S_00c26410_Stream* pkStream)
 {
-    FUN_00c25340(pkStream);
+    NiPSysData_LoadBinary(pkStream);
     S_BinRead(pkStream->m_pkBin, &m_80, 2);
     S_BinRead(pkStream->m_pkBin, &m_84, 4);
     S_BinRead(pkStream->m_pkBin, &m_88, 4);
@@ -1129,12 +1129,12 @@ struct StripCloneC263 : S_00c26000_Strip
         return FUN_00aa13e0(size);
     }
 
-    StripCloneC263* FUN_00c263b0(S_00c26000_Proc& cloning);
+    StripCloneC263* BSStripPSysData_CreateClone(S_00c26000_Proc& cloning);
 };
 
 // Allocates a new StripCloneC263 and copies the source strip into it via CloneStrip, returning the new object.
 // @fnv 0x00c263b0
-StripCloneC263* StripCloneC263::FUN_00c263b0(S_00c26000_Proc& cloning)
+StripCloneC263* StripCloneC263::BSStripPSysData_CreateClone(S_00c26000_Proc& cloning)
 {
     StripCloneC263* result = new StripCloneC263;
     CloneStrip(result, &cloning);

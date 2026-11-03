@@ -82,7 +82,7 @@ void* __thiscall NiShaderInstanceDescriptor::FUN_00e8d370(unsigned int mode)
 extern "C" void* g_01270918;
 
 // @fnv 0x00e8d530
-void* __cdecl FUN_00e8d530()
+void* __cdecl NiFragmentShaderInstanceDescriptor_GetRTTI()
 {
     return &g_01270918;
 }
@@ -93,7 +93,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_0126f9d8;
 
 // @fnv 0x00e8d580
-GlobalObjectO2_00a7b610* __cdecl FUN_00e8d580()
+GlobalObjectO2_00a7b610* __cdecl NiDX9FragmentShader_GetRTTI()
 {
     return &g_0126f9d8;
 }
@@ -454,12 +454,12 @@ void __cdecl FUN_00e8d300()
     FUN_00a8f3f0();
 }
 
-__declspec(noreturn) void __cdecl FUN_00e805f0();
+__declspec(noreturn) void __cdecl NiD3DShader_PostProcessPipeline();
 
 // @fnv 0x00e8d310
-void __cdecl FUN_00e8d310()
+void __cdecl NiDX9FragmentShader_PostProcessPipeline()
 {
-    FUN_00e805f0();
+    NiD3DShader_PostProcessPipeline();
 }
 
 void __cdecl FUN_00e80580();
@@ -561,16 +561,16 @@ NiD3DShaderConstantMap* __stdcall GetOrCreateShaderConstantMap(unsigned int auiS
 
 struct ShaderStandIn
 {
-    unsigned int __thiscall FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int __thiscall NiD3DShader_PreProcessPipeline(void*, void*, void*, void*, void*, void*, void*);
 };
 struct FUN_00bd16e0_shell : ShaderStandIn
 {
-    unsigned int __thiscall FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
+    unsigned int __thiscall NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
 };
 // @fnv 0x00bd16e0
-unsigned int __thiscall FUN_00bd16e0_shell::FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
+unsigned int __thiscall FUN_00bd16e0_shell::NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 {
-    return FUN_00e81170(a, b, c, d, e, f, g);
+    return NiD3DShader_PreProcessPipeline(a, b, c, d, e, f, g);
 }
 
 // Object cached in BSShaderBloodSplatter+0x30; receives SetNodeValue / RemoveNodeByKey as this.

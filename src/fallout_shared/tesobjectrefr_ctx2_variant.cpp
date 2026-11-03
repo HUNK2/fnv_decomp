@@ -3,7 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 #include "tesobjectrefr_decls.h"
 GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
+void* DecalData_GetDefaultDecalData();
 void FUN_005743f0();
 void FUN_00575c90(unsigned char value);
 float FUN_005790b0();
@@ -186,10 +186,10 @@ struct RefLoad
     ExtraLoad* Extra();
     void Mark(int);
     unsigned int ID();
-    bool FUN_0055af90(LoadFile* file);
+    bool TESObjectREFR_Load(LoadFile* file);
 };
 // @fnv 0x0055af90
-bool RefLoad::FUN_0055af90(LoadFile* file)
+bool RefLoad::TESObjectREFR_Load(LoadFile* file)
 {
     int chunkID = 0;
     TransformLoad initial4;

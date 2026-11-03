@@ -19,7 +19,7 @@ bool MagicModelHitEffect::Init()
         if (this->pTarget->GetNiNode())
         {
             if (this->pTarget == reinterpret_cast<TESObjectREFR*>(g_thePlayer))
-                this->b3rdPerson = g_thePlayer->FUN_004eaf60();
+                this->b3rdPerson = g_thePlayer->PlayerCharacter_Is3rdPerson();
 
             if (this->pFilename)
             {
@@ -336,7 +336,7 @@ struct Flt
 {
     operator unsigned int() const;
 };
-unsigned short __cdecl FUN_0055fdb0(NiControllerManager*);
+unsigned short __cdecl TESObjectREFR_GetControllerManagerSaveSize(NiControllerManager*);
 struct FUN_0081d0b0_t
 {
     unsigned short GetSaveSize(ActiveEffect* apEffect, TESObjectREFR* apTarget);
@@ -354,7 +354,7 @@ unsigned short FUN_0081d0b0_t::FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREF
             &DAT_011f36ac, (NiProperty*)((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))->GetControllers());
         if (pmanager)
         {
-            isize += FUN_0055fdb0(pmanager);
+            isize += TESObjectREFR_GetControllerManagerSaveSize(pmanager);
         }
     }
     return isize;
@@ -656,22 +656,22 @@ struct BGSSaveGameBuffer
 };
 struct FUN_0081be80_s
 {
-    void FUN_0081be80(BGSSaveFormBuffer*);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 struct Flt
 {
     operator unsigned int();
 };
-void __cdecl FUN_00563f30(NiControllerManager*, BGSSaveGameBuffer*, float);
+void __cdecl TESObjectREFR_SaveControllerManager(NiControllerManager*, BGSSaveGameBuffer*, float);
 struct FUN_0081d800_t
 {
-    void FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer);
+    void MagicModelHitEffect_SaveGameBGS(BGSSaveGameBuffer* apSaveGameBuffer);
 };
 // @fnv 0x0081d800
-void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
+void FUN_0081d800_t::MagicModelHitEffect_SaveGameBGS(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
-    ((FUN_0081be80_s*)this)->FUN_0081be80((BGSSaveFormBuffer*)apSaveGameBuffer);
+    ((FUN_0081be80_s*)this)->MagicHitEffect_SaveGameBGS((BGSSaveFormBuffer*)apSaveGameBuffer);
     apSaveGameBuffer->SaveGameString(*(const char**)((char*)this + 0x2c), 0);
     pmanager = 0;
     if (*(Flt*)((char*)this + 0x30))
@@ -685,7 +685,7 @@ void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
             Actor_0081d800* pactor = apSaveGameBuffer->GetActor();
             Animation* panim = pactor ? pactor->GetAnimation() : 0;
             float ftime = panim ? panim->FUN_00453700() : -1.0f;
-            FUN_00563f30(pmanager, apSaveGameBuffer, -1.0f);
+            TESObjectREFR_SaveControllerManager(pmanager, apSaveGameBuffer, -1.0f);
         }
         unsigned int uiFormIdAfter = ((TESForm*)apSaveGameBuffer)->GetFormID();
         ((BGSSaveFormBuffer*)apSaveGameBuffer)->FUN_00865ff0(uiFormIdAfter - uiFormIdBefore, uiStartPosition);
@@ -811,11 +811,11 @@ struct FUN_0081d5d0_Class
     char pad20[0x0c];
     const char* unk2c;
 
-    unsigned short __thiscall FUN_0081d5d0();
+    unsigned short __thiscall MagicModelHitEffect_GetSaveSize();
 };
 
 // @fnv 0x0081d5d0
-unsigned short __thiscall FUN_0081d5d0_Class::FUN_0081d5d0()
+unsigned short __thiscall FUN_0081d5d0_Class::MagicModelHitEffect_GetSaveSize()
 {
     unsigned short usSize = 0;
 
@@ -909,12 +909,12 @@ struct FUN_0081d640_cls
     int unk28;
     unsigned int m_2c;
 
-    void FUN_0081d640();
+    void MagicModelHitEffect_SaveGameTES();
 };
 
 // Reads the key of the object at m_1c, adds it to g_mgr, queries m_2c for a flag, sets it, and calls v53(0, m_1c).
 // @fnv 0x0081d640
-void FUN_0081d640_cls::FUN_0081d640()
+void FUN_0081d640_cls::MagicModelHitEffect_SaveGameTES()
 {
     unsigned int uiKey = ((FUN_0081d640_target*)m_1c)->GetKey();
     g_mgr->Add(&uiKey, 4);
@@ -1000,7 +1000,7 @@ class B81D920Base
 class FUN_0081d920_cls : public B81D920Base
 {
   public:
-    void FUN_0081d920(B81D920LoadBuffer* pkBuffer);
+    void MagicModelHitEffect_LoadGameBGS(B81D920LoadBuffer* pkBuffer);
 
     int unk00;
     int unk04;
@@ -1020,7 +1020,7 @@ class FUN_0081d920_cls : public B81D920Base
 };
 
 // @fnv 0x0081d920
-void FUN_0081d920_cls::FUN_0081d920(B81D920LoadBuffer* pkBuffer)
+void FUN_0081d920_cls::MagicModelHitEffect_LoadGameBGS(B81D920LoadBuffer* pkBuffer)
 {
     B81D920Base::LoadGame(pkBuffer);
     m_pcName = pkBuffer->LoadString(0);
@@ -1283,11 +1283,11 @@ class FUN_0081cc70_cls : public MagicModelHitEffect
 {
   public:
     bool UpdateMagicHitEffect(float afTime);
-    bool FUN_0081cc70(float afTime);
+    bool MagicModelHitEffect_Update(float afTime);
 };
 
 // @fnv 0x0081cc70
-bool FUN_0081cc70_cls::FUN_0081cc70(float afTime)
+bool FUN_0081cc70_cls::MagicModelHitEffect_Update(float afTime)
 {
     if (pTarget == 0 || ((FUN_0081cc70_refvt*)pTarget)->s116() == 0 || !UpdateMagicHitEffect(afTime))
     {
@@ -1374,7 +1374,7 @@ void Shell505::UpdateHitEffectNode()
     Node505* node = 0;
     if (pTarget == reinterpret_cast<TESObjectREFR*>(g_thePlayer))
     {
-        b3rdPerson = g_thePlayer->FUN_004eaf60();
+        b3rdPerson = g_thePlayer->PlayerCharacter_Is3rdPerson();
         node = reinterpret_cast<Player505*>(g_thePlayer)->FUN_00950bb0(false);
     }
     else
@@ -1573,7 +1573,7 @@ extern SaveManagerLocal* DAT_011de45c;
 extern const float DAT_01012054;
 void* __cdecl FUN_00653270(const NiRTTI*, NiTimeController*);
 void __cdecl FUN_0055ffa0(void*, NiAVObject*, float);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 struct Candidate : MagicModelHitEffect
 {
     void FUN_008d05e0(EffectLocal*, TESObjectREFR*, int);
@@ -1619,7 +1619,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
         }
     }
     DAT_011de45c->FUN_00600ab0(saved);
-    FUN_00401030(const_cast<char*>(previous));
+    FormHeap_Free(const_cast<char*>(previous));
     Update(0.0f);
 }
 
@@ -1811,9 +1811,9 @@ void FUN_0081d9f0_shell::LoadMagicModelHitEffect(BGSLoadGameBuffer* apBuffer)
 
 struct FUN_0081bd80_shell
 {
-    void FUN_0081bd80(ActiveEffect*, TESObjectREFR*);
+    void MagicHitEffect_SaveGame(ActiveEffect*, TESObjectREFR*);
 };
-unsigned short __cdecl FUN_0055fdb0(NiControllerManager*);
+unsigned short __cdecl TESObjectREFR_GetControllerManagerSaveSize(NiControllerManager*);
 void __cdecl FUN_0055fe70(NiControllerManager*, float);
 struct TESSaveLoadGame
 {
@@ -1899,21 +1899,21 @@ struct TES
 
 struct FUN_0081d150_t
 {
-    void FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    void MagicModelHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget);
 };
 
 // Calls the base helper, passes a 16-bit value to g_TESSaveLoadGame, and may update a controller manager using an actor's animation time.
 // @fnv 0x0081d150
-void FUN_0081d150_t::FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarget)
+void FUN_0081d150_t::MagicModelHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
-    ((FUN_0081bd80_shell*)this)->FUN_0081bd80(apEffect, apTarget);
+    ((FUN_0081bd80_shell*)this)->MagicHitEffect_SaveGame(apEffect, apTarget);
     NiControllerManager* pmanager = 0;
     if ((unsigned int)*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)FUN_00653270(
             &DAT_011f36ac, (NiProperty*)((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))->GetControllers());
     unsigned short usState = 0;
     if (pmanager)
-        usState = FUN_0055fdb0(pmanager);
+        usState = TESObjectREFR_GetControllerManagerSaveSize(pmanager);
     g_TESSaveLoadGame->FUN_008579b0(&usState, 2);
     if (usState)
     {
@@ -1949,11 +1949,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_0081d2a0_t
 {
     void SaveLoad(ActiveEffect* apEffect, TESObjectREFR* apTarget);
-    void FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    void MagicModelHitEffect_LoadGame(ActiveEffect* apEffect, TESObjectREFR* apTarget);
 };
 // Calls SaveLoad, queues the effect model for loading if present, and reads a size-prefixed buffer from the save stream into the object.
 // @fnv 0x0081d2a0
-void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarget)
+void FUN_0081d2a0_t::MagicModelHitEffect_LoadGame(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     unsigned short isize;
     char* pbuffer;
@@ -1989,13 +1989,13 @@ TESForm* GetFormByID(unsigned int aiID);
 
 struct FUN_0081d6c0_shell : public MagicModelHitEffect
 {
-    bool FUN_0081d6c0();
+    bool MagicModelHitEffect_LoadGameTES();
 };
 
 // MagicModelHitEffect::LoadGame (vB4)
 // Validates a form ID and target cell, reads a string, then calls LoadGame, InitLoadGame and FinishLoadGameTES on the target.
 // @fnv 0x0081d6c0
-bool FUN_0081d6c0_shell::FUN_0081d6c0()
+bool FUN_0081d6c0_shell::MagicModelHitEffect_LoadGameTES()
 {
     bool bSuccess = true;
     unsigned int iformID;

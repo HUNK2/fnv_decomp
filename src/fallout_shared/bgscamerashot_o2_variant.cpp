@@ -18,7 +18,7 @@ struct FUN_0058c2e0_shell
     int field_0x14;
     int field_0x18;
     int field_0x1c;
-    void FUN_0058c2e0();
+    void BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
 };
 void _Deallocate(void*);
 struct FUN_0058be60_host
@@ -29,7 +29,7 @@ struct FUN_0058be60_host
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_0058bfc0_shell
 {

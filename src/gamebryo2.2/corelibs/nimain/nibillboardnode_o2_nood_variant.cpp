@@ -77,7 +77,7 @@ class BillboardNode : public FUN_00a5ecb0
     }
 };
 // @fnv 0x00a7e770
-BillboardNode* FUN_00a7e770()
+BillboardNode* NiBillboardNode_CreateObject()
 {
     return new BillboardNode;
 }

@@ -6,11 +6,11 @@
 class ScriptLoader : public Script
 {
   public:
-    bool FUN_005ab9f0(TESFile* file);
+    bool Script_Load(TESFile* file);
 };
 
 // @fnv 0x005ab9f0
-bool ScriptLoader::FUN_005ab9f0(TESFile* file)
+bool ScriptLoader::Script_Load(TESFile* file)
 {
     ScriptVariableInfo* chunk = 0;
     unsigned int reference;

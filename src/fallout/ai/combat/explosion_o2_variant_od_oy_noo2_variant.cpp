@@ -18,7 +18,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void __thiscall Explosion_SetActorCause(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -254,8 +254,8 @@ struct FUN_00cbc650_cls
     virtual void v2B();
     virtual void v2C();
     virtual FUN_00cbc650_obj* vGet(FUN_00cbc650_obj* volatile* pp);
-    void FUN_00c86790(FUN_00cbc650_obj* a);
-    void FUN_00cbc650(FUN_00cbc650_obj* volatile a1);
+    void bhkUnaryAction_LoadBinary(FUN_00cbc650_obj* a);
+    void bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1);
 };
 struct FUN_00cbc6a0_Data
 {
@@ -290,7 +290,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf19();
     virtual void vf20();
     virtual void vf21();
-    virtual void FUN_00cbc6a0(unsigned char* arg);
+    virtual void bhkLiquidAction_SaveBinary(unsigned char* arg);
     virtual void vf23();
     virtual void vf24();
     virtual void vf25();
@@ -314,7 +314,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf43();
     virtual void vf44();
     virtual FUN_00cbc6a0_Data* vf45(int* value);
-    void __thiscall FUN_00c868b0(unsigned char* arg);
+    void __thiscall bhkUnaryAction_SaveBinary(unsigned char* arg);
 };
 extern __declspec(thread) int g_memoryContext;
 void __cdecl FUN_00c876f0();
@@ -360,7 +360,7 @@ struct FUN_00cbc550_class
 struct FUN_00cbca20_class
 {
     void __thiscall FUN_00c86800(FUN_00cbc550_class* obj, int flags);
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    FUN_00cbc550_class* __thiscall bhkLiquidAction_CreateClone(int flags);
 };
 
 #include <xmmintrin.h>
@@ -670,18 +670,18 @@ struct __declspec(align(16)) Query810
     unsigned unk0a8;
     unsigned unk0ac;
     Query810();
-    void FUN_004a3f70(unsigned);
-    void FUN_004a3da0(const Vec810&);
+    void bhkPickData_SetFilter(unsigned);
+    void bhkPickData_SetFrom(const Vec810&);
     void FUN_004a3eb0(const Vec810&);
-    void FUN_004a3fb0(Snapshot810*);
+    void bhkPickData_SetAllCollector(Snapshot810*);
     HitContainer810* FUN_008cdd90();
 };
 struct Filter810
 {
     unsigned value;
     Filter810(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(void*);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(void*);
 };
 struct Setting810
 {
@@ -759,7 +759,7 @@ struct World810
 };
 struct Cell810
 {
-    World810* FUN_004543c0();
+    World810* TESObjectCELL_GetbhkWorld();
 };
 struct Process810
 {
@@ -990,7 +990,7 @@ struct Host810
 void __cdecl FUN_00c82870(int, unsigned __int64);
 void* __cdecl FUN_005dbe10();
 void __cdecl FUN_005b5e40(const char*);
-void* __cdecl FUN_004b3890(const Vec810&, const Color810&, const Vec810&, const Color810&, int);
+void* __cdecl MakeLine(const Vec810&, const Color810&, const Vec810&, const Color810&, int);
 struct Debug810
 {
     void FUN_00458e20(void*, float);
@@ -1007,7 +1007,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
         body = pPlayer->FUN_00950bb0(0);
     if (!body || !body->FUN_004b2960())
         return false;
-    World810* world = actor->FUN_008d6f30() ? actor->FUN_008d6f30()->FUN_004543c0() : 0;
+    World810* world = actor->FUN_008d6f30() ? actor->FUN_008d6f30()->TESObjectCELL_GetbhkWorld() : 0;
     if (!world)
         return false;
     unsigned mask = 0x26206;
@@ -1037,18 +1037,18 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
     }
     Query810 query;
     Filter810 filter(0);
-    filter.FUN_004a39f0(39);
+    filter.CFilter_SetLayer(39);
     Actor810* checkActor = actor->v100() ? actor : 0;
     if (checkActor && checkActor->FUN_009306d0())
-        filter.FUN_0059ce80(checkActor->FUN_009306d0()->FUN_00819250());
+        filter.CFilter_SetGroup(checkActor->FUN_009306d0()->FUN_00819250());
     else
-        filter.FUN_0059ce80(FUN_005dbe10());
+        filter.CFilter_SetGroup(FUN_005dbe10());
     pos = array.ApplyScaled(*DAT_011d1344.FUN_00403e20());
-    query.FUN_004a3f70(filter.value);
-    query.FUN_004a3da0(pos);
+    query.bhkPickData_SetFilter(filter.value);
+    query.bhkPickData_SetFrom(pos);
     query.FUN_004a3eb0(points[0]);
     Snapshot810 snapshot;
-    query.FUN_004a3fb0(&snapshot);
+    query.bhkPickData_SetAllCollector(&snapshot);
     bool blocked = false;
     world->vc8(&query);
     for (int i = 0; !blocked && i < query.FUN_008cdd90()->FUN_00460140()->FUN_00726070(); i++)
@@ -1069,7 +1069,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
     if (*DAT_011d0a78.FUN_0043d4d0() > 0)
     {
         Color810 color = blocked ? Color810(1, 0, 0, 1) : Color810(0, 1, 0, 1);
-        void* line = FUN_004b3890(pos, color, points[0], color, 1);
+        void* line = MakeLine(pos, color, points[0], color, 1);
         DAT_011dea10->FUN_00458e20(line, 25.0f);
     }
     if (multiple && blocked)
@@ -1078,7 +1078,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
         {
             blocked = false;
             Snapshot810 snapshot;
-            query.FUN_004a3fb0(&snapshot);
+            query.bhkPickData_SetAllCollector(&snapshot);
             query.FUN_004a3eb0(points[i]);
             world->vc8(&query);
             for (int j = 0; !blocked && j < query.FUN_008cdd90()->FUN_00460140()->FUN_00726070(); j++)
@@ -1104,7 +1104,7 @@ struct Vec3
     double FUN_00457990() const;
     void Subtract(const Vec3& o);
     bool FUN_004390c0(const Vec3* o) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float DotProduct(const Vec3& o) const;
 };
 
@@ -1257,8 +1257,8 @@ struct Shape
 struct Drawer
 {
     void FUN_00458e20(Shape* s, float t);
-    int FUN_00457880(const Vec3* p);
-    struct Mgr* FUN_004519d0(Vec3 p);
+    int TES_GetLandMaterialType(const Vec3* p);
+    struct Mgr* TES_GetCellForPoint(Vec3 p);
 };
 extern Drawer* g_drawer;
 
@@ -1301,20 +1301,20 @@ struct Params
 
 struct Mgr
 {
-    void FUN_004a3fe0(Params* p, int a, int b);
+    void TESObjectCELL_AddDecal(Params* p, int a, int b);
 };
 
 struct Wrap4
 {
     int v;
     Wrap4* FUN_008c71b0(void* o);
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct RefObj
 {
     virtual void vf00();
-    void* FUN_0043b540();
+    void* hkpCollidable_getCollisionFilterInfo();
     void* FUN_00559450();
 };
 
@@ -1463,13 +1463,13 @@ struct Weap
     NameHolder unk18;
     void* FUN_006733e0();
     float GetModifierValue();
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
     float GetNestedValue();
-    char FUN_004a4140();
+    char BGSImpactData_GetAlphaBlending();
     char CallMemberAtOffset54();
-    char FUN_004a4100();
+    char BGSImpactData_GetIsParallax();
     float FUN_004a41c0();
-    char FUN_004a41e0();
+    char BGSImpactData_GetDecalParallaxPasses();
     float FUN_004a40e0();
     float FUN_009a9350();
     unsigned int GetNextFromSubobject();
@@ -1506,7 +1506,7 @@ struct Picker
 
 struct Proc2
 {
-    Picker* FUN_004543c0();
+    Picker* TESObjectCELL_GetbhkWorld();
 };
 
 struct Big4c0
@@ -1759,10 +1759,10 @@ struct __declspec(align(16)) Big570
     unsigned int unkA8;
     unsigned int unkAC;
     Big570();
-    void FUN_004a3da0(const Vec3* p);
+    void bhkPickData_SetFrom(const Vec3* p);
     void FUN_007f68a0(const Vec3* p);
-    void FUN_004a3f70(void* p);
-    void FUN_004a3fb0(Big4c0* p);
+    void bhkPickData_SetFilter(void* p);
+    void bhkPickData_SetAllCollector(Big4c0* p);
     HitHolder* FUN_008cdd90();
 };
 
@@ -1788,11 +1788,11 @@ extern "C" void __cdecl FUN_009b2e00(void* a, int b);
 extern "C" void __cdecl FUN_00458620(Vec3* out, const Vec3* in);
 extern "C" void __cdecl FUN_004a3970(Vec3* out, const Vec3* in);
 extern "C" Shape* __cdecl CreateOctahedron(float r, const Color4* c, int a);
-extern "C" Shape* __cdecl FUN_004b3890(const Vec3* a, const Color4* c, const Vec3* b, const Color4* c2, int f);
+extern "C" Shape* __cdecl MakeLine(const Vec3* a, const Color4* c, const Vec3* b, const Color4* c2, int f);
 Vec3 __cdecl FUN_004a3760(float f, const Vec3& v);
 extern "C" void* __cdecl FUN_004b5820(void* p);
-extern "C" Proc* __cdecl FUN_0056f930(void* p);
-extern "C" Owner* __cdecl FUN_004a3a40(void* p);
+extern "C" Proc* __cdecl TESObjectREFR_FindReferenceFor3D(void* p);
+extern "C" Owner* __cdecl bhkShape_Getbhk(void* p);
 extern "C" PlayerX* __cdecl FUN_00524c90();
 extern "C" bool __cdecl FUN_00525420();
 extern "C" bool __cdecl FUN_004b61d0(Vec3 p, PlayerX* pl, float f);
@@ -2191,7 +2191,7 @@ void ProjCls::FUN_009ae6e0()
                 s->FUN_00a5a040();
                 s->FUN_00440460(&a);
                 g_drawer->FUN_00458e20(s, g_f3);
-                s = FUN_004b3890(&a, &c, &a.FUN_00439e90(b.ApplyScaled(g_f3)), &c, 1);
+                s = MakeLine(&a, &c, &a.FUN_00439e90(b.ApplyScaled(g_f3)), &c, 1);
                 g_drawer->FUN_00458e20(s, g_f3);
             }
         }
@@ -2203,7 +2203,7 @@ void ProjCls::FUN_009ae6e0()
             if (e.unk48)
             {
                 void* r = FUN_004b5820(e.unk48);
-                Proc* u = FUN_0056f930(r);
+                Proc* u = TESObjectREFR_FindReferenceFor3D(r);
                 if (!u || !((ProjVt*)u)->IsDead())
                 {
                     Vec3 pos;
@@ -2219,16 +2219,16 @@ void ProjCls::FUN_009ae6e0()
                         v.Subtract(dir.ApplyScaled(g_f5));
                         w = dir.ApplyScaled(g_f6);
                     }
-                    p.FUN_004a3da0(&v);
+                    p.bhkPickData_SetFrom(&v);
                     p.FUN_007f68a0(&w);
                     Hand4 h4;
-                    p.FUN_004a3f70(unkA0.FUN_00559450()->FUN_0043b4f0(&h4)->p);
-                    p.FUN_004a3fb0(&q);
+                    p.bhkPickData_SetFilter(unkA0.FUN_00559450()->FUN_0043b4f0(&h4)->p);
+                    p.bhkPickData_SetAllCollector(&q);
                     int target = 0x24;
                     bool found = false;
-                    if (FUN_008d6f30()->FUN_004543c0())
+                    if (FUN_008d6f30()->TESObjectCELL_GetbhkWorld())
                     {
-                        Picker* pk = FUN_008d6f30()->FUN_004543c0();
+                        Picker* pk = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                         if (((PickVt*)pk)->Pick(&p))
                         {
                             bool stop = false;
@@ -2238,7 +2238,7 @@ void ProjCls::FUN_009ae6e0()
                                 HitInfo h;
                                 h.FUN_00696c30(p.FUN_008cdd90()->FUN_00460140()->GetEntryAt(k));
                                 void* r2 = FUN_004b5820(h.unk50);
-                                Proc* u2 = FUN_0056f930(r2);
+                                Proc* u2 = TESObjectREFR_FindReferenceFor3D(r2);
                                 if (r == r2)
                                 {
                                     found = true;
@@ -2247,14 +2247,14 @@ void ProjCls::FUN_009ae6e0()
                                         last = h.unk20[m];
                                     Wrap4 wr;
                                     bool isActor =
-                                        wr.FUN_008c71b0(((RefObj*)h.unk50)->FUN_0043b540())->FUN_004a3a20() == 1;
+                                        wr.FUN_008c71b0(((RefObj*)h.unk50)->hkpCollidable_getCollisionFilterInfo())->CFilter_GetGroup() == 1;
                                     if (isActor)
                                     {
-                                        target = g_drawer->FUN_00457880(&pos);
+                                        target = g_drawer->TES_GetLandMaterialType(&pos);
                                     }
                                     else
                                     {
-                                        Owner* ow = FUN_004a3a40(h.unk50->FUN_00559450());
+                                        Owner* ow = bhkShape_Getbhk(h.unk50->FUN_00559450());
                                         if (ow)
                                             target = ow->FUN_00c84f10(last);
                                     }
@@ -2279,7 +2279,7 @@ void ProjCls::FUN_009ae6e0()
                             s->FUN_00a5a040();
                             s->FUN_00440460(&unkE8);
                             g_drawer->FUN_00458e20(s, g_f3);
-                            s = FUN_004b3890(&unkE8, &c, &unkE8.FUN_00439e90(unkF4.ApplyScaled(g_f8)), &c, 1);
+                            s = MakeLine(&unkE8, &c, &unkE8.FUN_00439e90(unkF4.ApplyScaled(g_f8)), &c, 1);
                             g_drawer->FUN_00458e20(s, g_f3);
                         }
                         done = true;
@@ -2294,13 +2294,13 @@ void ProjCls::FUN_009ae6e0()
                             void* proj = wt->FUN_006733e0();
                             if (proj)
                             {
-                                float spd = FUN_00476b70(wt->FUN_004a40a0(), wt->GetModifierValue());
+                                float spd = FUN_00476b70(wt->BGSImpactData_GetDecalMinWidth(), wt->GetModifierValue());
                                 Query* qq = FUN_00622a70(spd, 1);
                                 qq->FUN_006233c0(0);
                                 qq->FUN_004a1a10(8, 0);
                                 qq->FUN_004a1a10(0x1d, 0);
                                 Proc2* p2 = FUN_008d6f30();
-                                Picker* t = p2 ? p2->FUN_004543c0() : 0;
+                                Picker* t = p2 ? p2->TESObjectCELL_GetbhkWorld() : 0;
                                 if (t)
                                 {
                                     qq->FUN_006231a0(t);
@@ -2318,7 +2318,7 @@ void ProjCls::FUN_009ae6e0()
                                             int idx = nl.FUN_00413f40()->FUN_0062e150(k)->unk0C;
                                             if (idx != -1)
                                             {
-                                                Owner* ow = FUN_004a3a40(ref->FUN_00559450());
+                                                Owner* ow = bhkShape_Getbhk(ref->FUN_00559450());
                                                 if (!ow)
                                                     continue;
                                                 Owner* o2 = ((PickVt*)ow)->GetOwner();
@@ -2327,7 +2327,7 @@ void ProjCls::FUN_009ae6e0()
                                             }
                                             else
                                             {
-                                                Owner* ow = FUN_004a3a40(ref->FUN_00559450());
+                                                Owner* ow = bhkShape_Getbhk(ref->FUN_00559450());
                                                 if (!ow)
                                                     continue;
                                                 id = ow->FUN_006205a0();
@@ -2336,7 +2336,7 @@ void ProjCls::FUN_009ae6e0()
                                             {
                                                 Wrap4 wr;
                                                 bool isActor =
-                                                    wr.FUN_008c71b0(ref->FUN_0043b540())->FUN_004a3a20() == 1;
+                                                    wr.FUN_008c71b0(ref->hkpCollidable_getCollisionFilterInfo())->CFilter_GetGroup() == 1;
                                                 Sub* node = 0;
                                                 if (isActor)
                                                 {
@@ -2353,10 +2353,10 @@ void ProjCls::FUN_009ae6e0()
                                                 {
                                                     node = FUN_00c7fa90(ref);
                                                 }
-                                                Proc* u3 = FUN_0056f930(node);
+                                                Proc* u3 = TESObjectREFR_FindReferenceFor3D(node);
                                                 if (!isActor && (!u3 || !IsAcousticSpaceFormTypeAllowed(u3, 1)))
                                                     continue;
-                                                Mgr* mg = g_drawer->FUN_004519d0(pos);
+                                                Mgr* mg = g_drawer->TES_GetCellForPoint(pos);
                                                 Params prm;
                                                 prm.unk00 = unkE8;
                                                 prm.unk0C = unkF4;
@@ -2367,11 +2367,11 @@ void ProjCls::FUN_009ae6e0()
                                                 prm.unk30 = proj;
                                                 prm.unk44 = fade;
                                                 prm.unk70 = cc;
-                                                prm.unk75 = wt->FUN_004a4140();
+                                                prm.unk75 = wt->BGSImpactData_GetAlphaBlending();
                                                 prm.unk74 = wt->CallMemberAtOffset54();
-                                                prm.unk73 = wt->FUN_004a4100();
+                                                prm.unk73 = wt->BGSImpactData_GetIsParallax();
                                                 prm.unk4C = wt->FUN_004a41c0();
-                                                prm.unk76 = wt->FUN_004a41e0();
+                                                prm.unk76 = wt->BGSImpactData_GetDecalParallaxPasses();
                                                 prm.unk54 = wt->FUN_004a40e0();
                                                 prm.unk58 = wt->FUN_009a9350();
                                                 Color3 col;
@@ -2383,7 +2383,7 @@ void ProjCls::FUN_009ae6e0()
                                                             g_d255),
                                                     (float)(((unsigned char)(((wt->GetNextFromSubobject()) >> 16) & 0xff)) /
                                                             g_d255));
-                                                mg->FUN_004a3fe0(&prm, 1, 0);
+                                                mg->TESObjectCELL_AddDecal(&prm, 1, 0);
                                             }
                                         }
                                     }
@@ -2400,23 +2400,23 @@ void ProjCls::FUN_009ae6e0()
                                     {
                                     case 0:
                                         dv = dir;
-                                        dv.FUN_004a0c10();
+                                        dv.NiPoint3_Unitize();
                                         break;
                                     case 1:
                                         dv = ((SelfVt*)this)->GetPos()->FUN_00439ef0(pos);
-                                        dv.FUN_004a0c10();
+                                        dv.NiPoint3_Unitize();
                                         break;
                                     case 2: {
                                         Vec3 a = ((SelfVt*)this)->GetPos()->FUN_00439ef0(pos);
-                                        a.FUN_004a0c10();
+                                        a.NiPoint3_Unitize();
                                         Vec3 b = dir;
-                                        b.FUN_004a0c10();
+                                        b.NiPoint3_Unitize();
                                         dv = FUN_004a3760((float)(b.DotProduct(a) * g_dmul), b).FUN_00439ef0(a);
                                         break;
                                     }
                                     default:
                                         dv = dir;
-                                        dv.FUN_004a0c10();
+                                        dv.NiPoint3_Unitize();
                                         break;
                                     }
                                     FUN_006890b0(FUN_008d6f30(), wt->FUN_00508100(), name, dv, pos, 1.0f, 7, 0);

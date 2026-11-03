@@ -700,7 +700,7 @@ class TESGlobal;
 struct BGSReconstructFormsInAllFilesMap
 {
   public:
-    void FUN_00843630(TESGlobal*, int);
+    void BGSReconstructFormsInAllFilesMap_AddForm(TESGlobal*, int);
 };
 struct BGSSaveLoadGame
 {
@@ -723,7 +723,7 @@ struct ListStub
     TESGlobal** _ref_006815c0();
     ListStub* _ref_00726070();
 };
-// Iterates the data handler's TESGlobal list and calls FUN_00843630 on each global through the save-load reconstruct map.
+// Iterates the data handler's TESGlobal list and calls BGSReconstructFormsInAllFilesMap_AddForm on each global through the save-load reconstruct map.
 // @fnv 0x0084ced0
 void ReconstructAllGlobals()
 {
@@ -735,7 +735,7 @@ void ReconstructAllGlobals()
     {
         TESGlobal* pglobal;
         pglobal = *((ListStub*)pGlobalList)->_ref_006815c0();
-        pReconstructMap->FUN_00843630(pglobal, 0);
+        pReconstructMap->BGSReconstructFormsInAllFilesMap_AddForm(pglobal, 0);
         pGlobalList = (BSSimpleList<TESGlobal*>*)((ListStub*)pGlobalList)->_ref_00726070();
     }
 }
@@ -920,7 +920,7 @@ class LLD_PlayerCharacter : public TESObjectREFR
 class LLD_Cell
 {
   public:
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
     void RemoveReference(TESObjectREFR*);
 };
 struct LLD_WorldSpaceHelper
@@ -928,7 +928,7 @@ struct LLD_WorldSpaceHelper
     bool IsFlag8Set();
     bool ContainsPoint(LLD_Point3*);
     LLD_Cell* GetCellAtGridPosition(int, int);
-    LLD_Cell* FUN_00585b30(int, int);
+    LLD_Cell* TESWorldSpace_LoadCell(int, int);
 };
 struct LLD_TESHelper
 {
@@ -937,15 +937,15 @@ struct LLD_TESHelper
     void SetCurrentGridY(int);
     int FindCellAtPosition(const LLD_Point3*, bool);
     void RefreshWorldState(int, TESForm*, int);
-    void FUN_00454450(LLD_Point3*);
-    void FUN_004539a0(bool, int);
+    void TES_LeaveInterior(LLD_Point3*);
+    void TES_ClearAllCells(bool, int);
 };
 class LLD_DataHandler
 {
   public:
     BSSimpleList<LLD_Quest*>* GetTESQuestList();
     LLD_Cell* GetOrCreateCell(int, int, TESWorldSpace*, bool);
-    LLD_Cell* FUN_00461330(int, int, int, TESWorldSpace*);
+    LLD_Cell* TESDataHandler_NewCell(int, int, int, TESWorldSpace*);
 };
 class LLD_SaveLoadGame
 {
@@ -963,7 +963,7 @@ int __cdecl TruncateFloatToInt(float);
 void __cdecl FUN_0084cbd0(const char*, ...);
 char* __cdecl FUN_00ec7750(const char*, const char*);
 unsigned int __cdecl FUN_00ec8d08(const char*, char**, int);
-void __cdecl FUN_00868d70(int);
+void __cdecl GarbageCollector_ClearAll(int);
 void __cdecl FUN_00c459d0(int);
 class PlayerCharacter;
 extern PlayerCharacter* g_thePlayer;
@@ -1027,13 +1027,13 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
                 icellX = TruncateFloatToInt(playerLocation.x) >> 12;
                 icellY = TruncateFloatToInt(playerLocation.y) >> 12;
                 pcell = ((LLD_DataHandler*)g_dataHandler)->GetOrCreateCell(icellX, icellY, pworld, false);
-                if (!pcell || !pcell->FUN_00545cb0())
+                if (!pcell || !pcell->TESObjectCELL_Get3D())
                 {
                     if (((LLD_PlayerCharacter*)g_thePlayer)->GetParentCell())
                         ((LLD_PlayerCharacter*)g_thePlayer)
                             ->GetParentCell()
                             ->RemoveReference((LLD_PlayerCharacter*)g_thePlayer);
-                    ((LLD_TESHelper*)g_TES)->FUN_00454450(&centerGridLocation);
+                    ((LLD_TESHelper*)g_TES)->TES_LeaveInterior(&centerGridLocation);
                     pcell = ((LLD_DataHandler*)g_dataHandler)->GetOrCreateCell(icellX, icellY, pworld, true);
                 }
                 if (pcell)
@@ -1096,21 +1096,21 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
             {
                 LLD_Cell* pcell = ((LLD_WorldSpaceHelper*)pworld)->GetCellAtGridPosition(-18, 0);
                 if (!pcell)
-                    pcell = ((LLD_WorldSpaceHelper*)pworld)->FUN_00585b30(-18, 0);
+                    pcell = ((LLD_WorldSpaceHelper*)pworld)->TESWorldSpace_LoadCell(-18, 0);
                 if (!pcell)
                     pcell = ((LLD_WorldSpaceHelper*)pworld)->GetCellAtGridPosition(0, 0);
                 if (!pcell)
-                    pcell = ((LLD_WorldSpaceHelper*)pworld)->FUN_00585b30(0, 0);
+                    pcell = ((LLD_WorldSpaceHelper*)pworld)->TESWorldSpace_LoadCell(0, 0);
                 if (!pcell)
-                    pcell = ((LLD_DataHandler*)g_dataHandler)->FUN_00461330(0, 0, 0, pworld);
+                    pcell = ((LLD_DataHandler*)g_dataHandler)->TESDataHandler_NewCell(0, 0, 0, pworld);
                 if (pcell)
                     ((LLD_PlayerCharacter*)g_thePlayer)->FUN_0093db60(0, pcell);
             }
         }
     }
 
-    ((LLD_TESHelper*)g_TES)->FUN_004539a0(true, 0);
-    FUN_00868d70(0);
+    ((LLD_TESHelper*)g_TES)->TES_ClearAllCells(true, 0);
+    GarbageCollector_ClearAll(0);
     FUN_00c459d0(0);
 }
 

@@ -4,7 +4,7 @@
 extern const void* g_01202728;
 
 // @fnv 0x00c2b360
-const void* __cdecl FUN_00c2b360()
+const void* __cdecl NiPSysEmitterSpeedCtlr_GetRTTI()
 {
     return &g_01202728;
 }
@@ -57,12 +57,12 @@ struct StrArr
     unsigned short _pad2;
     unsigned short m_usGrowBy;
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const void*);
 // @fnv 0x00c2b3d0
-void __stdcall FUN_00c2b3d0(StrArr* pkStrings)
+void __stdcall NiPSysEmitterSpeedCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_01202728);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -84,12 +84,12 @@ struct FUN_00c2b380_cls
     unsigned int unk04;
     unsigned int unk08;
     void FUN_00c32de0(void* obj, unsigned int a1);
-    void* FUN_00c2b380(unsigned int a1);
+    void* NiPSysEmitterSpeedCtlr_CreateClone(unsigned int a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor and sets its vtable, then passes it to FUN_00c32de0 with a1 and returns it.
 // @fnv 0x00c2b380
-void* FUN_00c2b380_cls::FUN_00c2b380(unsigned int a1)
+void* FUN_00c2b380_cls::NiPSysEmitterSpeedCtlr_CreateClone(unsigned int a1)
 {
     FUN_00c2b380_cls* p = (FUN_00c2b380_cls*)FUN_00aa13e0(0x40);
     if (p != 0)

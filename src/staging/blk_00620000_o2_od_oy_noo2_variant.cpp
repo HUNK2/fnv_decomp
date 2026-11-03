@@ -31,7 +31,7 @@ struct __declspec(align(16)) CollisionTransform
     float yx, yy, yz, yw;
     float zx, zy, zz, zw;
     float tx, ty, tz, tw;
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
 };
 struct __declspec(align(16)) CollisionInfo
 {
@@ -46,8 +46,8 @@ struct CollisionFilter
 {
     unsigned int value;
     CollisionFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
     void* FUN_00559450() const;
 };
 class FUN_0056e2d0 : public NiMemObject
@@ -79,17 +79,17 @@ void CollisionPair::FUN_00620930(float radius, unsigned int filter)
     CollisionInfo secondInfo;
     CollisionFilter firstFilter(0);
     CollisionFilter secondFilter(0);
-    firstFilter.FUN_004a39f0(35);
-    firstFilter.FUN_0059ce80(filter);
-    secondFilter.FUN_004a39f0(35);
-    secondFilter.FUN_0059ce80(FUN_005dbe10());
+    firstFilter.CFilter_SetLayer(35);
+    firstFilter.CFilter_SetGroup(filter);
+    secondFilter.CFilter_SetLayer(35);
+    secondFilter.CFilter_SetGroup(FUN_005dbe10());
     firstInfo.filter = firstFilter.FUN_00559450();
     firstInfo.shape = sphere->FUN_004ae750();
-    firstInfo.transform.FUN_0056e120();
+    firstInfo.transform.bhkTransform_setIdentity();
     first = new FUN_0056e2d0(&firstInfo);
     secondInfo.filter = secondFilter.FUN_00559450();
     secondInfo.shape = sphere->FUN_004ae750();
-    secondInfo.transform.FUN_0056e120();
+    secondInfo.transform.bhkTransform_setIdentity();
     second = new FUN_0056e2d0(&secondInfo);
 }
 
@@ -477,11 +477,11 @@ class WorkOwner
     int unk2C;
     int unk30;
     WorkList list;
-    void FUN_0062fc70(WorkItem* item);
-    void FUN_00631370(WorkActor* actor, bool checkDist, bool skip);
+    void TESWaterListener_RemoveReferenceFromZone(WorkItem* item);
+    void TESWaterListener_HandleQueuedRemovals(WorkActor* actor, bool checkDist, bool skip);
 };
 // @fnv 0x00631370
-void WorkOwner::FUN_00631370(WorkActor* actor, bool checkDist, bool skip)
+void WorkOwner::TESWaterListener_HandleQueuedRemovals(WorkActor* actor, bool checkDist, bool skip)
 {
     void* it = list.FUN_00559450();
     void* next = 0;
@@ -493,7 +493,7 @@ void WorkOwner::FUN_00631370(WorkActor* actor, bool checkDist, bool skip)
             WorkItem* item = list.AddEight(it);
             if (!item->actor->IsValid())
             {
-                FUN_0062fc70(item);
+                TESWaterListener_RemoveReferenceFromZone(item);
                 list.RemoveNode(&it);
                 delete item;
             }
@@ -509,7 +509,7 @@ void WorkOwner::FUN_00631370(WorkActor* actor, bool checkDist, bool skip)
                 if (match)
                 {
                     if (!skip)
-                        FUN_0062fc70(item);
+                        TESWaterListener_RemoveReferenceFromZone(item);
                     list.RemoveNode(&it);
                     delete item;
                 }
@@ -713,7 +713,7 @@ class ImpactHandler620
 };
 
 void* __cdecl FUN_004b5820(void* pvBody);
-void* __cdecl FUN_0056f930(void* pvObject);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvObject);
 TESObjectREFR620* __cdecl FUN_004b59f0(void* pvForm);
 void* __cdecl FUN_004b5a80(const void* pvRef);
 
@@ -731,8 +731,8 @@ ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void*
 {
     void* pvObjA = FUN_004b5820(pkInfo->m_pvBodyA);
     void* pvObjB = FUN_004b5820(pkInfo->m_pvBodyB);
-    void* pvRefA = FUN_0056f930(pvObjA);
-    void* pvRefB = FUN_0056f930(pvObjB);
+    void* pvRefA = TESObjectREFR_FindReferenceFor3D(pvObjA);
+    void* pvRefB = TESObjectREFR_FindReferenceFor3D(pvObjB);
     void* pvSourceBody = pvRefA == pvSource ? pkInfo->m_pvBodyA : (pvRefB == pvSource ? pkInfo->m_pvBodyB : 0);
     void* pvTargetBody = pvRefA == pvTarget ? pkInfo->m_pvBodyA : (pvRefB == pvTarget ? pkInfo->m_pvBodyB : 0);
     ImpactHandler620* pkHandler = FindHandler(pvSource, pvSourceBody);
@@ -1396,14 +1396,14 @@ namespace fnv_00622d60 {
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
     unsigned int FUN_00559450();
     unsigned int m_uiFilterValue;
 };
 struct xCinfoSub
 {
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
     int m_q[12];
 };
 struct __declspec(align(16)) xCinfo
@@ -1455,11 +1455,11 @@ void xCaster::FUN_00622d60(float afRadius, unsigned int auiLayer)
     xShape* SHAPE = new xShape(afRadius, true);
     xCinfo CINFO;
     xFilter FILTER(0);
-    FILTER.FUN_004a39f0(0x27);
-    FILTER.FUN_0059ce80(auiLayer);
+    FILTER.CFilter_SetLayer(0x27);
+    FILTER.CFilter_SetGroup(auiLayer);
     CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
     CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
-    CINFO.m_20.FUN_0056e120();
+    CINFO.m_20.bhkTransform_setIdentity();
     m_3a0.FUN_0066b0d0(new xBody(&CINFO));
     m_3a0->FUN_00622f20("DecalCaster");
     __int64 KEY = 0xfffffd471fe3f637;
@@ -1721,11 +1721,11 @@ struct Filter
 {
     int value;
     Filter(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct FilterData
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 struct ObjArray
 {
@@ -1781,7 +1781,7 @@ struct Scrap
 Node* FUN_004b59f0(Node*);
 Node* FUN_004b5950(Node*);
 Node* FUN_004b5a80(Node*);
-Ref* FUN_0062b4e0(void*);
+Ref* GetCdBodyRef(void*);
 struct Owner
 {
     int unk00, unk04;
@@ -1793,8 +1793,8 @@ struct Owner
     bool FUN_006281d0(Cell*, int, FUN_00437c10*);
     void BuildWalls(Cell*, FUN_00437c10*);
     void FUN_006286f0();
-    void FUN_00628da0();
-    void FUN_006295e0(Ref*);
+    void LoadedAreaBound_Clear();
+    void LoadedAreaBound_WarpActor(Ref*);
     void MoveToDestination(Node*, ObjArray*);
     void FUN_006271b0(Cell*, int);
 };
@@ -1813,7 +1813,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
     if (!next)
     {
         cell = next;
-        FUN_00628da0();
+        LoadedAreaBound_Clear();
         return;
     }
     unsigned short mask = 1;
@@ -1846,12 +1846,12 @@ void Owner::FUN_006271b0(Cell* next, int flag)
             {
                 if (interior)
                 {
-                    Filter filter(((FilterData*)first.FUN_00629ab0(j)->FUN_00460140())->FUN_0043b540());
-                    Ref* ref = FUN_0062b4e0(first.FUN_00629ab0(j)->FUN_00460140());
-                    if (filter.FUN_0043b4d0() == 30 && ref && ref->IsValid())
+                    Filter filter(((FilterData*)first.FUN_00629ab0(j)->FUN_00460140())->hkpCollidable_getCollisionFilterInfo());
+                    Ref* ref = GetCdBodyRef(first.FUN_00629ab0(j)->FUN_00460140());
+                    if (filter.CFilter_GetLayer() == 30 && ref && ref->IsValid())
                     {
                         Ref* r = ref;
-                        FUN_006295e0(r);
+                        LoadedAreaBound_WarpActor(r);
                     }
                 }
             }
@@ -1861,7 +1861,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                 Node* node = second.FUN_00629ab0(j);
                 if (seen.FUN_00629f10(&node, 0, -1) == -1)
                 {
-                    Ref* ref = FUN_0062b4e0(node->FUN_00460140());
+                    Ref* ref = GetCdBodyRef(node->FUN_00460140());
                     if (node && node->FUN_00517670() != 4 && node->FUN_00517670() != 5 && node->FUN_00517670() != 7)
                     {
                         Node* other = FUN_004b5a80(node);
@@ -2918,7 +2918,7 @@ class SmoothListV
 extern SmoothListV g_kSmoothListV;
 
 // @fnv 0x0062a7e0
-void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef)
+void __cdecl TESArrowTargetListener_AddArrowTarget(const hkVector4V& kTarget, void* pvRef)
 {
     NodeV* pkNode = pvRef ? FUN_0043b610(pvRef) : 0;
     BodyV* pkBody = pkNode ? pkNode->GetBody() : 0;
@@ -3126,7 +3126,7 @@ class SmoothListV
 extern SmoothListV g_kSmoothListV;
 
 // @fnv 0x0062ab60
-void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
+void __cdecl TESArrowTargetListener_RemoveArrowTarget(const hkVector4V& kTarget, void* pvRef)
 {
     SmoothEntryV* pkEntry = 0;
     if (!g_kSmoothListV.IsEmpty())
@@ -3204,7 +3204,7 @@ struct Vector62BAE0
 {
     Vector62BAE0();
     void Set(float fX, float fY, float fZ, float fW);
-    void FUN_00553f70(void* pkRotation);
+    void hkVector4_add4(void* pkRotation);
     __m128 m_vComponents;
 };
 struct Point62BAE0
@@ -3249,7 +3249,7 @@ void __cdecl FUN_0062bae0(Object62BAE0* pkObject, Point62BAE0* pkPoint, bool bLo
                 Vector62BAE0 kVector;
                 kVector.Set(pkPoint->FUN_00560d30(0), pkPoint->FUN_00560d30(1), pkPoint->FUN_00560d30(2), 0.0f);
                 if (!bLocal)
-                    kVector.FUN_00553f70(pkWorldObject->FUN_00560e10());
+                    kVector.hkVector4_add4(pkWorldObject->FUN_00560e10());
                 pkWorldObject->FUN_005617c0(kVector);
             }
         }
@@ -3275,14 +3275,14 @@ struct xAutoMem
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
     unsigned int FUN_00559450();
     unsigned int m_uiFilterValue;
 };
 struct xCinfoSub
 {
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
     int m_q[12];
 };
 struct __declspec(align(16)) xCinfo
@@ -3321,21 +3321,21 @@ struct xCaster
     xPtr m_iWordAt00;
     bool m_iWordAt04;
     unsigned int m_8;
-    void FUN_00631ab0(float afRadius, unsigned int auiLayer);
+    void ViewCaster_Init(float afRadius, unsigned int auiLayer);
 };
 // @fnv 0x00631ab0
-void xCaster::FUN_00631ab0(float afRadius, unsigned int auiLayer)
+void xCaster::ViewCaster_Init(float afRadius, unsigned int auiLayer)
 {
     xAutoMem MEM(0x10, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x49);
     xShape* SHAPE = new xShape(afRadius, true);
     xCinfo CINFO;
     xFilter FILTER(0);
-    FILTER.FUN_004a39f0(0x28);
-    FILTER.FUN_0059ce80(auiLayer);
+    FILTER.CFilter_SetLayer(0x28);
+    FILTER.CFilter_SetGroup(auiLayer);
     m_8 = auiLayer;
     CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
     CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
-    CINFO.m_20.FUN_0056e120();
+    CINFO.m_20.bhkTransform_setIdentity();
     m_iWordAt00.FUN_0066b0d0(new xBody(&CINFO));
     m_iWordAt04 = true;
 }

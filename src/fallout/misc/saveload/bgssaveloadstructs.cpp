@@ -201,14 +201,14 @@ void FUN_008535e0()
 struct FUN_00853670_shell
 {
     unsigned char m0;
-    void __thiscall FUN_00853670(int);
+    void __thiscall BGSSaveLoadFormInfo_SetFormType(int);
 };
 extern unsigned char DAT_011de360[];
 extern unsigned int DAT_011de3e0;
 char const* __cdecl GetStringForByte(unsigned char);
 void __cdecl _fnv_call_845cc0(char const*, ...);
 // @fnv 0x00853670
-void __thiscall FUN_00853670_shell::FUN_00853670(int formType)
+void __thiscall FUN_00853670_shell::BGSSaveLoadFormInfo_SetFormType(int formType)
 {
     unsigned char type = DAT_011de360[formType];
     if (type >= DAT_011de3e0)
@@ -786,7 +786,7 @@ struct BGSSaveLoadGame
 {
     SavedEntryMap* FUN_00559450();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 bool __cdecl FUN_0084bcd0(unsigned int, SavedBuffer*);
 struct SavedStats
 {
@@ -815,7 +815,7 @@ void SavedStats::LoadStats()
         }
         else
         {
-            TESForm* form = FUN_004839c0(entryId);
+            TESForm* form = TESForm_GetFormByNumericID(entryId);
             if (form)
             {
                 SetupResponse(form, pEntry->topic, &map);

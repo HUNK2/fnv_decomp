@@ -152,14 +152,14 @@ int BGSIdleCollection::GetPickType()
 }
 
 extern int DAT_0101abd8;
-void __fastcall FUN_0047b540(void* pThis);
+void __fastcall BGSPickupPutdownSounds_InitializeDataComponent(void* pThis);
 
 // @fnv 0x00479790
 void* __fastcall FUN_00479790(BaseFormComponent* pThis)
 {
     pThis->BaseFormComponent::BaseFormComponent();
     *(int**)pThis = &DAT_0101abd8;
-    FUN_0047b540(pThis);
+    BGSPickupPutdownSounds_InitializeDataComponent(pThis);
     return pThis;
 }
 
@@ -184,7 +184,7 @@ extern "C" void* DAT_0101abd8;
 
 struct FUN_004797c0_shell
 {
-    void FUN_00479810();
+    void BGSIdleCollection_ClearDataComponent();
     void FUN_004797c0();
 };
 
@@ -192,7 +192,7 @@ struct FUN_004797c0_shell
 void FUN_004797c0_shell::FUN_004797c0()
 {
     *reinterpret_cast<void**>(this) = &DAT_0101abd8;
-    FUN_00479810();
+    BGSIdleCollection_ClearDataComponent();
 }
 }  // namespace fnv_004797c0
 
@@ -229,10 +229,10 @@ struct StandIn
     unsigned char _c5;
     char _pad6[2];
     void* _p8;
-    void FUN_00479810();
+    void BGSIdleCollection_ClearDataComponent();
 };
 // @fnv 0x00479810
-void StandIn::FUN_00479810()
+void StandIn::BGSIdleCollection_ClearDataComponent()
 {
     void* idleArray = _p8;
     _Deallocate(idleArray);
@@ -250,11 +250,11 @@ struct __memcpyHelper
 };
 struct FUN_00479850_shell : BGSIdleCollection
 {
-    void FUN_00479850(BaseFormComponent* apCopyFC);
+    void BGSIdleCollection_CopyComponent(BaseFormComponent* apCopyFC);
 };
 // Copies the idle count, reallocates and copies the idle form array from apCopyFC, and copies the extra field.
 // @fnv 0x00479850
-void FUN_00479850_shell::FUN_00479850(BaseFormComponent* apCopyFC)
+void FUN_00479850_shell::BGSIdleCollection_CopyComponent(BaseFormComponent* apCopyFC)
 {
     BGSIdleCollection* pSource = dynamic_cast<BGSIdleCollection*>(apCopyFC);
     if (!pSource)
@@ -281,7 +281,7 @@ struct FUN_004799f0_shell : BaseFormComponent
     unsigned char m_ucPickType;   // +0x05
     TESForm** m_ppIdleForms;      // +0x08
     float m_fIdleChance;          // +0x0c
-    void FUN_004799f0();
+    void BGSIdleCollection_Save();
 };
 
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
@@ -290,7 +290,7 @@ void __cdecl _FUN_00485710(unsigned int, unsigned int*, unsigned int);
 extern "C" void* __cdecl _alloca(unsigned int);
 
 // @fnv 0x004799f0
-void FUN_004799f0_shell::FUN_004799f0()
+void FUN_004799f0_shell::BGSIdleCollection_Save()
 {
     unsigned int isize3;
     unsigned int* parray;

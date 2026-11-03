@@ -459,21 +459,21 @@ void FUN_00512810_holder::FUN_00512810()
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_005128e0_obj
 {
-    void FUN_005128e0(TESForm* apCopy);
+    void TESObjectARMA_CopyFrom(TESForm* apCopy);
 };
-// If apCopy is a TESObjectARMO, copies 0xc bytes at offset 0x178 from apCopy into this and calls FUN_004851b0(apCopy).
+// If apCopy is a TESObjectARMO, copies 0xc bytes at offset 0x178 from apCopy into this and calls TESForm_CopyAllComponents(apCopy).
 // @fnv 0x005128e0
-void FUN_005128e0_obj::FUN_005128e0(TESForm* apCopy)
+void FUN_005128e0_obj::TESObjectARMA_CopyFrom(TESForm* apCopy)
 {
     TESObjectARMO* parmo = dynamic_cast<TESObjectARMO*>(apCopy);
     if (parmo == 0)
         return;
     __memcpy((char*)this + 0x178, (char*)apCopy + 0x178, 0xc);
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 struct FUN_004855a0_shell
@@ -482,7 +482,7 @@ struct FUN_004855a0_shell
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_00480610_shell
 {
@@ -490,11 +490,11 @@ struct FUN_00480610_shell
 };
 struct FUN_00479350_shell
 {
-    void FUN_00479350();
+    void BGSEquipType_Save();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 struct FUN_00485680_shell
 {
@@ -504,16 +504,16 @@ bool __cdecl FUN_00401500();
 void __cdecl AppendChunk(unsigned int size, void* apDest, unsigned int flags);
 struct FUN_00512840_shell
 {
-    void FUN_00512840();
+    void TESObjectARMA_SaveForm();
 };
 // @fnv 0x00512840
-void FUN_00512840_shell::FUN_00512840()
+void FUN_00512840_shell::TESObjectARMA_SaveForm()
 {
     ((FUN_004855a0_shell*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((FUN_00480610_shell*)((char*)this + 0x70))->InitBipedModel();
-    ((FUN_00479350_shell*)((char*)this + 0x154))->FUN_00479350();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00479350_shell*)((char*)this + 0x154))->BGSEquipType_Save();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     if (FUN_00401500())
         ((ArmorData*)((char*)this + 0x178))->FUN_00535aa0();
     AppendChunk(0x4d414e44, (char*)this + 0x178, 0xc);
@@ -525,19 +525,19 @@ void FUN_00512840_shell::FUN_00512840()
 extern int __cdecl _memcmp(const void* a, const void* b, unsigned int n);
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct ArmaCompare : TESObjectARMA
 {
-    bool FUN_00512940(TESForm* apCompare);
+    bool TESObjectARMA_Compare(TESForm* apCompare);
 };
 // @fnv 0x00512940
-bool ArmaCompare::FUN_00512940(TESForm* apCompare)
+bool ArmaCompare::TESObjectARMA_Compare(TESForm* apCompare)
 {
     TESObjectARMA* pcomp = dynamic_cast<TESObjectARMA*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     if (_memcmp(&data, &pcomp->data, sizeof(data)))
         return true;

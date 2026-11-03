@@ -5,11 +5,11 @@
 struct CreditsMenu
 {
     virtual ~CreditsMenu();  // polymorphic: its RTTI is used (rtti_fix.py)
-    int FUN_0075f1c0();
+    int CreditsMenu_GetClass();
 };
 
 // @fnv 0x0075f1c0
-int CreditsMenu::FUN_0075f1c0()
+int CreditsMenu::CreditsMenu_GetClass()
 {
     return 0x417;
 }
@@ -322,8 +322,8 @@ struct Menu
 };
 struct GlobalView
 {
-    void FUN_004a0370();
-    void FUN_004a03c0();
+    void NiRenderer_LockRenderer();
+    void NiRenderer_UnlockRenderer();
 };
 extern SM7d6* DAT_011daac0;
 Menu* __cdecl FUN_00a09030(int);
@@ -339,7 +339,7 @@ void __cdecl FUN_0075f600()
         Screen* screen = menu->FUN_00a03c90();
         if (screen != 0)
         {
-            FUN_004bc3f0()->FUN_004a0370();
+            FUN_004bc3f0()->NiRenderer_LockRenderer();
             if (screen->input.FUN_0052aa80(0))
             {
                 if (screen->input.FUN_00559450()->FUN_009611e0() != 0)
@@ -351,7 +351,7 @@ void __cdecl FUN_0075f600()
             screen->input.FUN_0066b0d0(0);
             menu->FUN_00700320(0x1772, 1);
             screen->FUN_00a1d910();
-            FUN_004bc3f0()->FUN_004a03c0();
+            FUN_004bc3f0()->NiRenderer_UnlockRenderer();
         }
         DAT_011daac0->FUN_0075f6f0(0x2000000, 1);
     }
@@ -466,11 +466,11 @@ struct CreditsMenuX
     float m_fPackageValue;
     unsigned int uiLineIndex;
 
-    void FUN_0075f910();
+    void CreditsMenu_Update();
 };
 
 // @fnv 0x0075f910
-void CreditsMenuX::FUN_0075f910()
+void CreditsMenuX::CreditsMenu_Update()
 {
     InputManager* pInput5 = g_osGlobals->GetInputManager();
     if (FUN_00702680(0x3e9, 0))
@@ -744,7 +744,7 @@ struct CreditShape : CreditMemObject
                 unsigned short* apTriList);
     char data[0xc4];
     void AssignFixedString(const CreditFixedString& arName);
-    void FUN_00439410(void* apProperty);
+    void NiAVObject_AttachProperty(void* apProperty);
     CreditGeometryData* GetSourceFilesFromForm(int aiFlags, CreditVertex* apVertices);
 };
 
@@ -808,8 +808,8 @@ struct CreditNode : CreditMemObject
     virtual void v36();
     virtual void AttachChildInAvailableSlot(CreditShape* apChild, bool abFirstAvail);
     char data[0xa8];
-    void FUN_004bc1f0(float afX, float afY, float afZ);
-    void FUN_00439410(void* apProperty);
+    void NiAVObject_SetTranslate(float afX, float afY, float afZ);
+    void NiAVObject_AttachProperty(void* apProperty);
 };
 
 struct CreditTextureSource
@@ -865,11 +865,11 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
         iX -= aiWidth / 2;
     else if (iAlignment == 4)
         iX -= aiWidth;
-    pNodeCur->FUN_004bc1f0((float)iX, 0.0f, (float)iY);
+    pNodeCur->NiAVObject_SetTranslate((float)iX, 0.0f, (float)iY);
 
     CreditProperty* pProperty = new CreditProperty();
     pProperty->FUN_0049ed90(1);
-    pNodeCur->FUN_00439410(pProperty);
+    pNodeCur->NiAVObject_AttachProperty(pProperty);
 
     CreditShape* pShapeCur = new CreditShape(4, pVerticesTmp, 0, 0, pTexCoordsRef, 1, 0, 2, pTriList);
     pNodeCur->AttachChildInAvailableSlot(pShapeCur, true);
@@ -883,12 +883,12 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
     CreditTextureEffect* pEffectInfo = new CreditTextureEffect(0);
     pEffectInfo->FUN_00bb7a10(pTextureOld);
     pEffectInfo->FUN_00821600(afScroll);
-    pShapeCur->FUN_00439410(pEffectInfo);
+    pShapeCur->NiAVObject_AttachProperty(pEffectInfo);
 
     CreditAlphaProperty* pAlpha = new CreditAlphaProperty();
     pAlpha->FUN_004bc450(&DAT_011a9b7c);
     pAlpha->FUN_004534f0(&DAT_011a9b7c);
-    pShapeCur->FUN_00439410(pAlpha);
+    pShapeCur->NiAVObject_AttachProperty(pAlpha);
 
     pShapeCur->GetSourceFilesFromForm(4, pVerticesTmp)->ComputeBoundingSphere();
     FUN_00b57e30(pNodeCur, 0, true);
@@ -1222,7 +1222,7 @@ struct CreditGlobal
 };
 extern CreditInputManager* DAT_011dea0c;
 extern CreditPlayer* DAT_011dea3c;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 int FUN_004b7220();
 const char* FUN_004b7650(int);
 void FUN_00406d50(char*, unsigned int, const char*);
@@ -1482,8 +1482,8 @@ struct CreditSceneNode
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     void FUN_00440460(const CreditPoint&);
-    void FUN_00439410(CreditMaterial*);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_AttachProperty(CreditMaterial*);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00a29680();
     void FUN_00a59c60(const CreditUpdate&);
 };
@@ -1528,7 +1528,7 @@ struct CreditFont
 };
 struct CreditFontManager
 {
-    CreditFont* FUN_005bd5c0();
+    CreditFont* FontManager_GetFont();
 };
 CreditFontManager* __stdcall FUN_005bd5b0(int);
 struct CreditBackgrounds
@@ -1571,7 +1571,7 @@ struct CreditMenu
 void CreditMenu::FUN_0075fb90()
 {
     CreditInput* input9 = DAT_011dea0c->FUN_00877720();
-    BGSPerk* perk3 = dynamic_cast<BGSPerk*>(FUN_004839c0(0xed568));
+    BGSPerk* perk3 = dynamic_cast<BGSPerk*>(TESForm_GetFormByNumericID(0xed568));
     bool wacky = input9->FUN_00a24180(0x1d, 0) || input9->FUN_00a24180(0x9d, 0) || DAT_011dea3c->HasPerk(perk3, 0);
     if (DAT_011c3f3c && reinterpret_cast<CreditGlobal*>(DAT_011c3f3c)->FUN_00526ac0() == 2.0)
         wacky = true;
@@ -1608,12 +1608,12 @@ void CreditMenu::FUN_0075fb90()
     }
     root.FUN_0066b0d0(new CreditSceneNode(0));
     root.FUN_00559450()->FUN_00440460(CreditPoint(0.0f, 0.0f, -1020.0f));
-    FUN_004bc3f0()->FUN_004a0370();
+    FUN_004bc3f0()->NiRenderer_LockRenderer();
     tile->FUN_0056c7f0()->Attach(root.FUN_00559450(), true);
     CreditMaterial* material6 = new CreditMaterial;
     material6->FUN_0049ed90(true);
-    root.FUN_00559450()->FUN_00439410(material6);
-    CreditFont* face8 = FUN_005bd5b0(font)->FUN_005bd5c0();
+    root.FUN_00559450()->NiAVObject_AttachProperty(material6);
+    CreditFont* face8 = FUN_005bd5b0(font)->FontManager_GetFont();
     CreditString token_10;
     while (cursor < length)
     {
@@ -1671,7 +1671,7 @@ void CreditMenu::FUN_0075fb90()
                     break;
                 case 'F':
                     font = buffer[cursor + 2] - '1';
-                    face8 = FUN_005bd5b0(font)->FUN_005bd5c0();
+                    face8 = FUN_005bd5b0(font)->FontManager_GetFont();
                     break;
                 case 'C':
                     color.r = FUN_00eca6d3(&buffer[cursor + 2]) / 255.0;
@@ -1700,7 +1700,7 @@ void CreditMenu::FUN_0075fb90()
                 unsigned int options = 0x500;
                 CreditSceneNode* text =
                     face8->FUN_00a12460(0.0f, 0.0f, 0.0f, token_10, &options, align, color, true, true);
-                text->FUN_004bc1f0((float)x, 0.0f, (float)y);
+                text->NiAVObject_SetTranslate((float)x, 0.0f, (float)y);
                 root.FUN_00559450()->Attach(text, true);
                 y -= (int)face8->FUN_00759450();
                 height += (int)face8->FUN_00759450();
@@ -1717,7 +1717,7 @@ void CreditMenu::FUN_0075fb90()
     root.FUN_00559450()->FUN_00a29680();
     CreditUpdate update(0.0f, 0, 0);
     root.FUN_00559450()->FUN_00a59c60(update);
-    FUN_004bc3f0()->FUN_004a03c0();
+    FUN_004bc3f0()->NiRenderer_UnlockRenderer();
 }
 
 extern "C" const char DAT_0119f49c;
@@ -1818,7 +1818,7 @@ struct CreditsCreateInterface
     bool FUN_007023a0();
 };
 
-CreditsCreateInterface* __cdecl FUN_004b7210();
+CreditsCreateInterface* __cdecl InterfaceManager_Instance();
 float __cdecl FUN_00a01530();
 int __cdecl FUN_0075f5f0();
 void __cdecl FNV_Warning(const char* apFmt, ...);
@@ -1836,7 +1836,7 @@ bool __cdecl FUN_0075f2a0()
     if (pOldMenu5)
         delete pOldMenu5;
 
-    CreditsCreateInterface* pIM = CreditsCreateDetail::FUN_004b7210();
+    CreditsCreateInterface* pIM = CreditsCreateDetail::InterfaceManager_Instance();
     float fSafeZoneVal = CreditsCreateDetail::FUN_00a01530();
     CreditsCreateTile* pTileX = pIM->FUN_00586150()->ReadFile("Data\\Menus\\Options\\credits_menu.xml");
     CreditsCreateMenu* pMenu6 = pTileX->GetMenu();

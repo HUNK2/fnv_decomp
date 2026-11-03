@@ -107,24 +107,24 @@ bool TESClimate::Load(TESFile* file)
 
 struct FUN_0052b260_shell : public TESClimate
 {
-    void FUN_0052b260(bool);
+    void TESClimate_SetUsesMasser(bool);
 };
 
 // Sets or clears bit 0x80 of the byte at offset 0x55 on this TESClimate based on abUses.
 // @fnv 0x0052b260
-void FUN_0052b260_shell::FUN_0052b260(bool abUses)
+void FUN_0052b260_shell::TESClimate_SetUsesMasser(bool abUses)
 {
     abUses ? *(unsigned char*)((char*)this + 0x55) |= 0x80 : *(unsigned char*)((char*)this + 0x55) &= ~0x80;
 }
 
 struct FUN_0052b2c0_shell : public TESClimate
 {
-    void FUN_0052b2c0(bool);
+    void TESClimate_SetUsesSecunda(bool);
 };
 
 // Sets or clears bit 0x40 in the byte at offset 0x55 of this TESClimate based on abUses.
 // @fnv 0x0052b2c0
-void FUN_0052b2c0_shell::FUN_0052b2c0(bool abUses)
+void FUN_0052b2c0_shell::TESClimate_SetUsesSecunda(bool abUses)
 {
     abUses ? *(unsigned char*)((char*)this + 0x55) |= 0x40 : *(unsigned char*)((char*)this + 0x55) &= ~0x40;
 }
@@ -147,34 +147,34 @@ void* FUN_0052ab50_shell::FUN_0052ab50(unsigned int flags)
 
 struct FUN_0052ac50_shell : public TESClimate
 {
-    void FUN_0052ac50(unsigned int);
+    void TESClimate_SetMoonPhaseDays(unsigned int);
 };
 
 int __cdecl MinInt(int, int);
 // @fnv 0x0052ac50
-void FUN_0052ac50_shell::FUN_0052ac50(unsigned int auiDays)
+void FUN_0052ac50_shell::TESClimate_SetMoonPhaseDays(unsigned int auiDays)
 {
     *(unsigned char*)((char*)this + 0x55) =
         (*(unsigned char*)((char*)this + 0x55) & 0xC0) | MinInt(auiDays, 0xFFFFFF3F);
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_004891d0_obj
 {
     void WriteToBuffer(unsigned int, unsigned int);
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl WriteWeatherList(unsigned int);
 struct FUN_0052ae80_shell
 {
@@ -183,19 +183,19 @@ struct FUN_0052ae80_shell
 // @fnv 0x0052ae80
 void FUN_0052ae80_shell::Init()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     ((void(__thiscall*)(void*, unsigned int))WriteWeatherList)((char*)this + 0x30, 0x54534c57);
     int i = 0;
     for (; i < 2; ++i)
-        ((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))->FUN_0048e370(0x4d414e46 + i);
+        ((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))->TESTexture_Save(0x4d414e46 + i);
     ((FUN_004891d0_obj*)((char*)this + 0x18))->WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    FUN_004856f0(0x4d414e54, (char*)this + 0x50, 6);
-    ((FUN_00485680*)this)->M();
+    TESForm_AddChunkArray(0x4d414e54, (char*)this + 0x50, 6);
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
     bool IsClimateDifferent(TESForm* form);
 };
 
@@ -221,7 +221,7 @@ bool FUN_005e79a0_t::IsClimateDifferent(TESForm* apCompare)
     if (!i)
         return true;
 
-    if (this->FUN_00485270(i))
+    if (this->TESForm_CompareAllComponents(i))
         return true;
 
     for (iIndex = 0; iIndex < 2; ++iIndex)
@@ -273,8 +273,8 @@ FUN_0052ab80::~FUN_0052ab80()
 class ClimateCopy : public TESClimate
 {
   public:
-    void FUN_004851b0(TESForm*);
-    void FUN_0052af10(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
+    void TESClimate_CopyFrom(TESForm*);
 };
 
 class WeatherListCopy : public TESWeatherList
@@ -285,14 +285,14 @@ class WeatherListCopy : public TESWeatherList
 
 // Copies climate data from a source TESForm into this ClimateCopy, including weather list, sun textures, stars model, and time settings.
 // @fnv 0x0052af10
-void ClimateCopy::FUN_0052af10(TESForm* source)
+void ClimateCopy::TESClimate_CopyFrom(TESForm* source)
 {
     TESClimate* climate;
     climate = dynamic_cast<TESClimate*>(source);
     if (!climate)
         return;
 
-    FUN_004851b0(climate);
+    TESForm_CopyAllComponents(climate);
     static_cast<WeatherListCopy&>(weatherList).CopyWeatherList(&climate->weatherList, false);
 
     {

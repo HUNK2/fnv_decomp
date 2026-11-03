@@ -11,7 +11,7 @@ typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 extern NiMemObject g_01202548;
 
 // @fnv 0x00c22af0
-NiMemObject* __cdecl FUN_00c22af0()
+NiMemObject* __cdecl NiPSysGravityModifier_GetRTTI()
 {
     return &g_01202548;
 }
@@ -19,7 +19,7 @@ NiMemObject* __cdecl FUN_00c22af0()
 extern "C" void* g_01202790;
 
 // @fnv 0x00c2e540
-void* __cdecl FUN_00c2e540()
+void* __cdecl NiPSysBombModifier_GetRTTI()
 {
     return &g_01202790;
 }
@@ -62,11 +62,11 @@ struct NiPSysGravityModifier : NiPSysModifier
     bool m_bFieldFlag;
     void* operator new(unsigned int);
     NiPSysGravityModifier* InitDefaults();
-    NiPSysGravityModifier* FUN_00c22b00(CloningProcess&);
+    NiPSysGravityModifier* NiPSysGravityModifier_CreateClone(CloningProcess&);
 };
 // Allocates and constructs a copy of this gravity modifier, copies its fields, runs the base clone step with process, and returns the clone.
 // @fnv 0x00c22b00
-NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& process)
+NiPSysGravityModifier* NiPSysGravityModifier::NiPSysGravityModifier_CreateClone(CloningProcess& process)
 {
     NiPSysGravityModifier* clone = static_cast<NiPSysGravityModifier*>(operator new(0x40));
     if (clone)
@@ -392,14 +392,14 @@ struct FNVSubproperty
 };
 struct FNVSerializer
 {
-    void FUN_00c31950(FNVStreamArchive*);
+    void NiPSysModifier_SaveBinary(FNVStreamArchive*);
     void WriteToStream(FNVStreamArchive*);
 };
 // Writes a header, a subproperty, and five 4-byte values plus one 1-byte value from this object to the stream writer.
 // @fnv 0x00c237c0
 void FNVSerializer::WriteToStream(FNVStreamArchive* stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     typedef void(__thiscall * HeaderWriter)(FNVStreamArchive*, unsigned int);
     HeaderWriter pHeaderWriter = reinterpret_cast<HeaderWriter>((*reinterpret_cast<void***>(stream))[12]);
     pHeaderWriter(stream, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x18));
@@ -489,7 +489,7 @@ struct NiPSysGravityModifierImpl
     float m_fTurbulenceScale;
     bool m_bFieldFlag;
 
-    void FUN_00c319e0(NiViewerStringsArray* pkStrings);
+    void NiPSysModifier_GetViewerStrings(NiViewerStringsArray* pkStrings);
     void AddViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
@@ -497,7 +497,7 @@ struct NiPSysGravityModifierImpl
 // @fnv 0x00c238c0
 void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
+    NiPSysModifier_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_kGravityModifierRTTI_01202548.m_pcName));
     const char* pcGravityObjName;
     if (m_pkGravityObject)
@@ -573,7 +573,7 @@ struct FUN_00c235f0_cls
     float m_38;
     char m_3c;
 
-    bool FUN_00c31830(FUN_00c235f0_cls* o);
+    bool NiPSysModifier_IsEqual(FUN_00c235f0_cls* o);
     bool FUN_00439090(void* p);
     bool IsEqual(FUN_00c235f0_cls* o);
 };
@@ -582,7 +582,7 @@ struct FUN_00c235f0_cls
 // @fnv 0x00c235f0
 bool FUN_00c235f0_cls::IsEqual(FUN_00c235f0_cls* apOther)
 {
-    if (FUN_00c31830(apOther))
+    if (NiPSysModifier_IsEqual(apOther))
     {
         if ((m_18 && !apOther->m_18) || (!m_18 && apOther->m_18))
             return false;
@@ -714,7 +714,7 @@ inline VectorC22 operator*(float scale, const VectorC22& point)
     return VectorC22(point.x * scale, point.y * scale, point.z * scale);
 }
 
-__declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
+__declspec(noinline) void __fastcall NiPoint3_Unitize(VectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)
@@ -909,12 +909,12 @@ struct EffectC22
         return result;
     }
 
-    void FUN_00c22b70(float elapsed, EmitterC22* emitter);
+    void NiPSysGravityModifier_Update(float elapsed, EmitterC22* emitter);
 };
 
 // Moves each active particle in the emitter by applying force, decay, and turbulence based on the effect's movement type and elapsed time.
 // @fnv 0x00c22b70
-void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
+void EffectC22::NiPSysGravityModifier_Update(float elapsed, EmitterC22* emitter)
 {
 
     if (!emitter->GetActiveCount() || !directionSource)
@@ -941,7 +941,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
     else
         vForceDirection = pForm.rotation.FUN_004b4500(&location);
 
-    FUN_004a0c10(&vForceDirection);
+    NiPoint3_Unitize(&vForceDirection);
 
     unsigned short j;
     j = emitter->GetActiveCount();
@@ -1102,7 +1102,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->Z();
 
-                FUN_004a0c10(&vForceDirection);
+                NiPoint3_Unitize(&vForceDirection);
 
                 float s = (elapsed - pParticle->activeTime) * fSourceStrength;
                 pParticle->GetPosition() += vForceDirection * s;
@@ -1126,7 +1126,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->Z();
 
-                FUN_004a0c10(&vForceDirection);
+                NiPoint3_Unitize(&vForceDirection);
 
                 VectorC22 vOffset;
 

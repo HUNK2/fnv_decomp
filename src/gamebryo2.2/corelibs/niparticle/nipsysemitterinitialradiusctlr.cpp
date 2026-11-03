@@ -5,7 +5,7 @@
 extern "C" void* g_01202748;
 
 // @fnv 0x00c2b750
-void* __cdecl FUN_00c2b750()
+void* __cdecl NiPSysEmitterInitialRadiusCtlr_GetRTTI()
 {
     return &g_01202748;
 }
@@ -54,13 +54,13 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330(g_01202748) to pkStrings, growing it via SetSize when full and storing it with SetAt.
 // @fnv 0x00c2b820
-void __stdcall FUN_00c2b820(StrArr* pkStrings)
+void __stdcall NiPSysEmitterInitialRadiusCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330((const char*)g_01202748);
     unsigned int uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usMaxSize)
@@ -93,11 +93,11 @@ class NiPSysOwnerC2B
 {
   public:
     void CopyMemberData(NiPSysBaseC2B* pkDest, void* pvProcess);
-    NiPSysBaseC2B* FUN_00c2b780(void* pvProcess);
+    NiPSysBaseC2B* NiPSysEmitterInitialRadiusCtlr_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00c2b780
-NiPSysBaseC2B* NiPSysOwnerC2B::FUN_00c2b780(void* pvProcess)
+NiPSysBaseC2B* NiPSysOwnerC2B::NiPSysEmitterInitialRadiusCtlr_CreateClone(void* pvProcess)
 {
     NiPSysDerivedC2B* pkClone = new NiPSysDerivedC2B;
     CopyMemberData(pkClone, pvProcess);

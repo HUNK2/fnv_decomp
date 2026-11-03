@@ -64,12 +64,12 @@ void NiPSysCollider::LinkObject(NiStream& stream)
 
 struct FUN_00c327e0_shell : public NiPSysCollider
 {
-    void* FUN_00c327e0();
+    void* NiPSysCollider_GetRTTI();
 };
 
 extern const char* const g_012026a0_arg1;
 // @fnv 0x00c327e0
-void* FUN_00c327e0_shell::FUN_00c327e0()
+void* FUN_00c327e0_shell::NiPSysCollider_GetRTTI()
 {
     return (void*)&g_012026a0_arg1;
 }
@@ -426,12 +426,12 @@ class NiPSysColliderStandin
     // Implemented elsewhere: tests the collider against the given name.
     bool CheckCollision(const char* aName);
 
-    bool FUN_00c32680(const char* aName);
+    bool NiPSysCollider_RegisterStreamables(const char* aName);
 };
 
 // Calls CheckCollision(aName); if it passes, invokes v021(aName) on m_pNext when present, and returns whether the check passed.
 // @fnv 0x00c32680
-bool NiPSysColliderStandin::FUN_00c32680(const char* aName)
+bool NiPSysColliderStandin::NiPSysCollider_RegisterStreamables(const char* aName)
 {
     if (!CheckCollision(aName))
     {
@@ -492,11 +492,11 @@ class C326B0Modifier : public C326B0Object
     C326B0Object* m_pkSecond;
     C326B0Object* m_pkThird;
 
-    bool FUN_00c326b0(C326B0Object* pkObject);
+    bool NiPSysCollider_IsEqual(C326B0Object* pkObject);
 };
 
 // @fnv 0x00c326b0
-bool C326B0Modifier::FUN_00c326b0(C326B0Object* pkObject)
+bool C326B0Modifier::NiPSysCollider_IsEqual(C326B0Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -796,13 +796,13 @@ class C32900Controller : public C32900Base
     C32900Object* m_pkSecond;
     C32900Object* m_pkThird;
 
-    void FUN_00c32900(C32900Stream& kStream);
+    void NiPSysCollider_SaveBinary(C32900Stream& kStream);
 };
 
 // SaveBinary
 // Saves the base data, type, two flags and the three object link IDs to the stream.
 // @fnv 0x00c32900
-void C32900Controller::FUN_00c32900(C32900Stream& kStream)
+void C32900Controller::NiPSysCollider_SaveBinary(C32900Stream& kStream)
 {
     C32900Base::SaveBinary(kStream);
     C32900SaveBinary(kStream, m_iType);

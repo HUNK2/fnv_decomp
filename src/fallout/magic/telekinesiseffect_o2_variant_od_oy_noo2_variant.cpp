@@ -27,11 +27,11 @@ struct Actor
 };
 struct ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short __thiscall ValueModifierEffect_GetSaveSize(Actor* apActor);
 };
 struct TelekinesisEffect : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_0082b190(Actor* apActor);
+    unsigned short __thiscall TelekinesisEffect_GetSaveSize(Actor* apActor);
 };
 struct FUN_008df040_shell
 {
@@ -40,8 +40,8 @@ struct FUN_008df040_shell
 extern FUN_008df040_shell* g_TESSaveLoadGame;
 struct FUN_0082a670_shell
 {
-    void __thiscall FUN_0082a670();
-    void __thiscall FUN_0082c000();
+    void __thiscall TelekinesisEffect_Start();
+    void __thiscall ValueModifierEffect_Start();
     void __thiscall StartTelekinesisEffect();
 };
 void* __cdecl FUN_00703390();

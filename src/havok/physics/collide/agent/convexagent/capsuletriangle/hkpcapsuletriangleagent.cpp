@@ -248,7 +248,7 @@ struct Buffer_d3b260 {
 
 
 struct Agent_d3b260 {
-    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
+    void hkpCapsuleTriangleAgent_processCollision(int b, int a, int c, Buffer_d3b260* buf);
     void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
 };
 
@@ -257,7 +257,7 @@ void Agent_d3b260::FUN_00d3b260(int a, int b, int c, Buffer_d3b260* apBuffer)
 {
     float dist = apBuffer->m_fHitFraction;
     Elem_d3b260* e = apBuffer->m_kRayEnd;
-    FUN_00d3ad70(b, a, c, apBuffer);
+    hkpCapsuleTriangleAgent_processCollision(b, a, c, apBuffer);
     for (; e < apBuffer->m_kRayEnd; e++)
     {
         hkVector4 w;
@@ -367,11 +367,11 @@ void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
 extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp { const void* vt; unsigned char flag; unsigned int a4; };
 struct CallbackHost_d3b160 {
-    void FUN_00d3a620(void*, void*, void*, void*);
+    void hkpCapsuleTriangleAgent_getPenetrations(void*, void*, void*, void*);
     void FUN_00d3b160(void*, void*, void*, unsigned int);
 };
 
-// Builds a temporary object holding a4 and a cleared flag with a vtable, then calls FUN_00d3a620 with a2, a1, a3 and that object.
+// Builds a temporary object holding a4 and a cleared flag with a vtable, then calls hkpCapsuleTriangleAgent_getPenetrations with a2, a1, a3 and that object.
 // @fnv 0x00d3b160
 void CallbackHost_d3b160::FUN_00d3b160(void* a1, void* a2, void* a3, unsigned int a4)
 {
@@ -379,7 +379,7 @@ void CallbackHost_d3b160::FUN_00d3b160(void* a1, void* a2, void* a3, unsigned in
     t.a4 = a4;
     t.flag = 0;
     t.vt = &DAT_010ce81c;
-    FUN_00d3a620(a2, a1, a3, &t);
+    hkpCapsuleTriangleAgent_getPenetrations(a2, a1, a3, &t);
 }
 
 struct __declspec(align(16)) Vec4 {
@@ -727,12 +727,12 @@ struct CapsuleTriangleAgent {
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
+    void hkpCapsuleTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
 };
 
 // Transforms capsule and triangle vertices into world space, tests for intersection, and reports a hit to the collector if found.
 // @fnv 0x00d3a620
-void CapsuleTriangleAgent::FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector)
+void CapsuleTriangleAgent::hkpCapsuleTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector)
 {
     volatile DWORD tick;
     ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
@@ -844,10 +844,10 @@ struct CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject {
-    void FUN_00d39ef0(void*, void*, unsigned int, CpuCallData*);
+    void hkpCapsuleTriangleAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3b1e0(void*, void*, unsigned int, unsigned int);
 };
-// Builds a CpuCallData from fourth, DAT_0104da48 and &DAT_010ce7fc, then calls FUN_00d39ef0 with second, first, third and that data.
+// Builds a CpuCallData from fourth, DAT_0104da48 and &DAT_010ce7fc, then calls hkpCapsuleTriangleAgent_getClosestPoints with second, first, third and that data.
 // @fnv 0x00d3b1e0
 void CpuObject::FUN_00d3b1e0(void* first, void* second, unsigned int third, unsigned int fourth)
 {
@@ -855,7 +855,7 @@ void CpuObject::FUN_00d3b1e0(void* first, void* second, unsigned int third, unsi
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d39ef0(second, first, third, &data);
+    hkpCapsuleTriangleAgent_getClosestPoints(second, first, third, &data);
 }
 }  // namespace fnv_00d3b1e0
 
@@ -911,10 +911,10 @@ struct ContactResults { ContactRecord points[3]; };
 void __cdecl FUN_00cd6520(hkVector4*,float,hkVector4*,float,void*,float,int,ContactResults*,CacheRecord*);
 struct CollisionAgent {
     unsigned int unk00,unk04,unk08,unk0c,unk10,cache14;
-    void FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output);
+    void hkpCapsuleTriangleAgent_getClosestPoints(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output);
 };
 // @fnv 0x00d39ef0
-void CollisionAgent::FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output) {
+void CollisionAgent::hkpCapsuleTriangleAgent_getClosestPoints(const BodyRecord& a,const BodyRecord& b,const CollisionInput& input,Collector* output) {
     {
         MonitorStream* stream=(MonitorStream*)TlsGetValue(DAT_0126835c);
         if(stream->cursor < stream->end) {

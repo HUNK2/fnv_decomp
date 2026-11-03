@@ -84,11 +84,11 @@ FUN_004fe260::FUN_004fe260()
     SetFormType(0x21);
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M(void);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M(void);
 };
@@ -99,16 +99,16 @@ struct S_0048a520
 
 struct FUN_004fe520_shell
 {
-    void FUN_004fe520(void);
+    void BGSStaticCollection_SaveForm(void);
 };
 
 // Calls M on this, then ProcessAndFreeData on the object at offset 0x30 with three tags, then M on this again.
 // @fnv 0x004fe520
-void __thiscall FUN_004fe520_shell::FUN_004fe520(void)
+void __thiscall FUN_004fe520_shell::BGSStaticCollection_SaveForm(void)
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     ((S_0048a520*)((char*)this + 0x30))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct Dummy
@@ -129,20 +129,20 @@ void* Dummy::FUN_004fe2e0(unsigned int flags)
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_004fe5a0_t
 {
-    void FUN_004fe5a0(TESForm*);
+    void BGSStaticCollection_CopyFrom(TESForm*);
 };
-// Casts apCopy to BGSStaticCollection and, if the cast succeeds, forwards it to FUN_004851b0.
+// Casts apCopy to BGSStaticCollection and, if the cast succeeds, forwards it to TESForm_CopyAllComponents.
 // @fnv 0x004fe5a0
-void FUN_004fe5a0_t::FUN_004fe5a0(TESForm* apCopy)
+void FUN_004fe5a0_t::BGSStaticCollection_CopyFrom(TESForm* apCopy)
 {
     BGSStaticCollection* pcopy = dynamic_cast<BGSStaticCollection*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
 }
 
 struct FUN_004fe310 : B1_4fe, B2_4fe
@@ -160,23 +160,23 @@ FUN_004fe310::~FUN_004fe310()
 class FormComponentComparison : public TESForm
 {
   public:
-    bool FUN_00485270(TESForm* other);
+    bool TESForm_CompareAllComponents(TESForm* other);
 };
 
 class StaticCollectionComparison : public BGSStaticCollection
 {
   public:
-    bool FUN_004fe5e0(TESForm* other);
+    bool BGSStaticCollection_Compare(TESForm* other);
 };
 
-// Returns true if other is not a BGSStaticCollection or FUN_00485270 returns true for the collection.
+// Returns true if other is not a BGSStaticCollection or TESForm_CompareAllComponents returns true for the collection.
 // @fnv 0x004fe5e0
-bool StaticCollectionComparison::FUN_004fe5e0(TESForm* other)
+bool StaticCollectionComparison::BGSStaticCollection_Compare(TESForm* other)
 {
     BGSStaticCollection* collection = dynamic_cast<BGSStaticCollection*>(other);
     if (!collection)
         return true;
-    if (static_cast<FormComponentComparison*>(static_cast<TESForm*>(this))->FUN_00485270(collection))
+    if (static_cast<FormComponentComparison*>(static_cast<TESForm*>(this))->TESForm_CompareAllComponents(collection))
         return true;
     return false;
 }

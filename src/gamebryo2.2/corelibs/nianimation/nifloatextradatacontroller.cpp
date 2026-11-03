@@ -67,7 +67,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3e6c;
 
 // @fnv 0x00a41230
-const GlobalObjectO2_00a7b610* __cdecl FUN_00a41230()
+const GlobalObjectO2_00a7b610* __cdecl NiFloatExtraDataController_GetRTTI()
 {
     return &g_011f3e6c;
 }
@@ -119,7 +119,7 @@ static void* Init(void* p)
 }
 
 // @fnv 0x00a41280
-void* __fastcall FUN_00a41280(CopyHelper* self, int edx, void* kCloning)
+void* __fastcall NiFloatExtraDataController_CreateClone(CopyHelper* self, int edx, void* kCloning)
 {
     void* pMemory = BSFadeNode::operator new(0x40);
     void* pkObject = pMemory ? Init(pMemory) : 0;
@@ -143,13 +143,13 @@ struct ArrHelper
     void SetSize(unsigned int n);
     void SetAt(unsigned int i, ActorCombatGroup*& v);
 };
-void __stdcall FUN_00a57420(ArrHelper* a);
+void __stdcall NiExtraDataController_GetViewerStrings(ArrHelper* a);
 ActorCombatGroup* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* g);
 
 // @fnv 0x00a41380
 void __stdcall AppendGlobalObject(ArrHelper* pkStrings)
 {
-    FUN_00a57420(pkStrings);
+    NiExtraDataController_GetViewerStrings(pkStrings);
     ActorCombatGroup* v = FUN_00a7d330(g_011f3e6c);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)

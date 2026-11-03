@@ -5,7 +5,7 @@
 extern "C" const void* g_012026a0;
 
 // @fnv 0x00c281f0
-const void* __cdecl FUN_00c281f0()
+const void* __cdecl NiPSysSphericalCollider_GetRTTI()
 {
     return &g_012026a0;
 }
@@ -37,10 +37,10 @@ struct NiPSysCollider
 struct NiPSysSphericalCollider : NiPSysCollider
 {
     float m_fBoundRadius;
-    void FUN_00c28070(NiStream&);
+    void NiPSysSphericalCollider_LoadBinary(NiStream&);
 };
 // @fnv 0x00c28070
-void NiPSysSphericalCollider::FUN_00c28070(NiStream& kStream)
+void NiPSysSphericalCollider::NiPSysSphericalCollider_LoadBinary(NiStream& kStream)
 {
     NiPSysCollider::LoadBinary(kStream);
     kStream.ResetStreamState();
@@ -362,14 +362,14 @@ struct SphericalColliderReader : NiPSysCollider
     {
         return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x30);
     }
-    void FUN_00c32900(NiStream& stream);
+    void NiPSysCollider_SaveBinary(NiStream& stream);
     void ReadSphericalCollider(NiStream& stream);
 };
 // Reads the base collider data, then reads the link id and radius float from the stream.
 // @fnv 0x00c280c0
 void SphericalColliderReader::ReadSphericalCollider(NiStream& stream)
 {
-    FUN_00c32900(stream);
+    NiPSysCollider_SaveBinary(stream);
     StreamView& reader = reinterpret_cast<StreamView&>(stream);
     reader.ReadObject(linkId());
     reader.Input()->ReadFloat(radius());
@@ -550,10 +550,10 @@ struct ColliderInfo
     InfoName* info;
     float radius;
     void AppendProperties(StrArr*);
-    void FUN_00c282d0(StrArr* strings);
+    void NiPSysSphericalCollider_GetViewerStrings(StrArr* strings);
 };
 // @fnv 0x00c282d0
-void ColliderInfo::FUN_00c282d0(StrArr* strings)
+void ColliderInfo::NiPSysSphericalCollider_GetViewerStrings(StrArr* strings)
 {
     AppendProperties(strings);
     strings->Add(FUN_00a7d330(g_012026a0));
@@ -591,7 +591,7 @@ struct FUN_00c27ae0_obj
 
 struct FUN_00c27ae0_base
 {
-    bool FUN_00c326b0(FUN_00c27ae0_base* pkObject);
+    bool NiPSysCollider_IsEqual(FUN_00c27ae0_base* pkObject);
 };
 
 struct FUN_00c27ae0_cls : FUN_00c27ae0_base
@@ -609,14 +609,14 @@ struct FUN_00c27ae0_cls : FUN_00c27ae0_base
     int unk28;
     FUN_00c27ae0_obj* m_pkColliderObject;
     float m_fBoundRadius;
-    bool FUN_00c27ae0(FUN_00c27ae0_cls* pkObject);
+    bool NiPSysSphericalCollider_IsEqual(FUN_00c27ae0_cls* pkObject);
 };
 
 // Returns false if the base comparison, collider-object comparison, or bound-radius comparison fails.
 // @fnv 0x00c27ae0
-bool FUN_00c27ae0_cls::FUN_00c27ae0(FUN_00c27ae0_cls* pkObject)
+bool FUN_00c27ae0_cls::NiPSysSphericalCollider_IsEqual(FUN_00c27ae0_cls* pkObject)
 {
-    if (!FUN_00c326b0(pkObject))
+    if (!NiPSysCollider_IsEqual(pkObject))
         return false;
 
     FUN_00c27ae0_cls* pkDest = pkObject;
@@ -745,7 +745,7 @@ struct NiPoint3U : NiPoint3
         NiPoint3::operator=(p);
         return *this;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     static NiPoint3U Cross(const NiPoint3& a, const NiPoint3& b)
     {
         const float& az = a.z;
@@ -800,7 +800,7 @@ void PlanarColliderUpdate::Update()
         center = NiPoint3_ZERO;
         rotation = DAT_011a9448;
         NiPoint3U normal = NiPoint3U::Cross(axis1, axis2);
-        static_cast<NiPoint3U&>(normal).FUN_004a0c10();
+        static_cast<NiPoint3U&>(normal).NiPoint3_Unitize();
         float w = width;
         float h = height;
         if (node)
@@ -813,7 +813,7 @@ void PlanarColliderUpdate::Update()
             center = reinterpret_cast<const NiPoint3&>(relative.translation);
             rotation = reinterpret_cast<const ColliderMatrix&>(relative.m00);
             static_cast<NiPoint3&>(normal) = rotation * normal;
-            static_cast<NiPoint3U&>(normal).FUN_004a0c10();
+            static_cast<NiPoint3U&>(normal).NiPoint3_Unitize();
             w *= relative.scale;
             h *= relative.scale;
             cachedNode = nodeWorld;

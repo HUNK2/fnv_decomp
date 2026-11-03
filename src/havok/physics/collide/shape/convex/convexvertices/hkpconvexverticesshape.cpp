@@ -8,11 +8,11 @@ struct FUN_00d58d60_t
 {
     char pad[0x40];
     float* m;
-    void FUN_00d58d60(float* out);
+    void hkpConvexVerticesShape_getFirstVertex(float* out);
 };
 
 // @fnv 0x00d58d60
-void FUN_00d58d60_t::FUN_00d58d60(float* out)
+void FUN_00d58d60_t::hkpConvexVerticesShape_getFirstVertex(float* out)
 {
     float* p = m;
     out[0] = p[0];
@@ -586,12 +586,12 @@ typedef hkUint16 hkpVertexId;
 class hkpConvexVerticesShapeImpl : public hkpConvexVerticesShape
 {
 public:
-    void FUN_00d59060(const hkpVertexId* ids, int numIds, Vector4WithInt24W* verticesOut) const;
+    void hkpConvexVerticesShape_convertVertexIdsToVerticesImpl(const hkpVertexId* ids, int numIds, Vector4WithInt24W* verticesOut) const;
 };
 
 // Copies numIds rotated vertex positions from m_kRotatedVertices into verticesOut, packing each vertexId into the w field.
 // @fnv 0x00d59060
-void hkpConvexVerticesShapeImpl::FUN_00d59060(const hkpVertexId* ids, int numIds, Vector4WithInt24W* verticesOut) const
+void hkpConvexVerticesShapeImpl::hkpConvexVerticesShape_convertVertexIdsToVerticesImpl(const hkpVertexId* ids, int numIds, Vector4WithInt24W* verticesOut) const
 {
     int i = numIds - 1;
     __assume(i >= 0);
@@ -792,12 +792,12 @@ struct MatchShape : public hkpShape
     int m_rotatedCapacity;
     int m_iStridedVertexCount;
 
-    void FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const;
+    void hkpConvexVerticesShape_getSupportingVertexImpl(const MatchVector& direction, MatchVector& supportingVertexOut) const;
 };
 
 // Finds the vertex with the maximum dot product against direction and writes its position and index to supportingVertexOut.
 // @fnv 0x00d58ee0
-void MatchShape::FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const
+void MatchShape::hkpConvexVerticesShape_getSupportingVertexImpl(const MatchVector& direction, MatchVector& supportingVertexOut) const
 {
     const hkFourTransposedPointsQ* fv = m_kRotatedVertices;
     static const MatchVector minusMax(-3.40282e+38f);

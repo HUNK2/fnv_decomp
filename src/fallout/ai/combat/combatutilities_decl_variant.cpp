@@ -177,7 +177,7 @@ struct PathingRequest
 };
 struct Standin77900
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
 };
 float __cdecl ComputeExplosionDamageFalloff(float, float, float);
 bool __cdecl IsExplosionRadiusValid(PathingRequest* apExplosion);
@@ -901,7 +901,7 @@ struct S_9a64d0_Ref
 };
 struct S_9a64d0_Actor : S_9a64d0_Ref
 {
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
 };
 struct S_9a64d0_Setting
 {
@@ -1059,7 +1059,7 @@ struct S_009a68b0_Pt
     S_009a68b0_Pt FUN_00439ef0(S_009a68b0_Pt* other);
     S_009a68b0_Pt FUN_00439e90(S_009a68b0_Pt* other);
     S_009a68b0_Pt* FUN_00439180(float f);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct S_009a68b0_Z
 {
@@ -2585,7 +2585,7 @@ struct TrajVec
 };
 struct TrajWeapon
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
     float FUN_006a78f0();
 };
 struct TrajActor
@@ -2698,7 +2698,7 @@ class GlobalObject_0044f440
     float* Float();
 };
 extern GlobalObject_0044f440 g_011f1c24;
-NiAVObject* __cdecl FUN_004b3890(const DebugPoint& kStart, const RgbaColor& kStartColor, const DebugPoint& kEnd,
+NiAVObject* __cdecl MakeLine(const DebugPoint& kStart, const RgbaColor& kStartColor, const DebugPoint& kEnd,
                                  const RgbaColor& kEndColor, bool bArg);
 NiAVObject* __cdecl CreateOctahedron(float fRadius, const RgbaColor& kColor, bool bArg);
 void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int bScaled, float fScale,
@@ -3055,7 +3055,7 @@ struct SightFilter
 {
     unsigned int bits;
     SightFilter(int bits);
-    void FUN_004a39f0(int layer);
+    void CFilter_SetLayer(int layer);
 };
 struct __declspec(align(16)) SightRayInput
 {
@@ -3097,9 +3097,9 @@ struct __declspec(align(16)) BhkPickData
     unsigned int collectorMode;
     bool enabled;
     BhkPickData();
-    void FUN_0059ceb0(hkpClosestRayHitCollector* collector);
-    void FUN_004a3f70(SightFilter filter);
-    void FUN_004a3da0(const NiPoint3& start);
+    void bhkPickData_SetClosestCollector(hkpClosestRayHitCollector* collector);
+    void bhkPickData_SetFilter(SightFilter filter);
+    void bhkPickData_SetFrom(const NiPoint3& start);
     void FUN_004a3eb0(const NiPoint3& end);
 };
 struct SightCell
@@ -3186,7 +3186,7 @@ class GlobalObject_0045d260
 extern GlobalObject_0045d260 g_011f1c7c;
 float __cdecl GetScaleOrHeightDelta(SightReference* source, int mode);
 float __cdecl FUN_009a8460(SightReference* target, int mode, bool flag);
-SightReference* __cdecl FUN_0056f930(void* hit);
+SightReference* __cdecl TESObjectREFR_FindReferenceFor3D(void* hit);
 // @fnv 0x009a7940
 bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const NiPoint3& from, const NiPoint3& to,
                           int unused, int requestedLayer)
@@ -3208,11 +3208,11 @@ bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const 
         filter = mobile->FUN_00931ed0();
     }
     hkpClosestRayHitCollector collector(layer, &filter);
-    ray.FUN_0059ceb0(&collector);
+    ray.bhkPickData_SetClosestCollector(&collector);
     filter = source->FUN_00931ed0();
-    filter.FUN_004a39f0(layer);
-    ray.FUN_004a3f70(filter);
-    ray.FUN_004a3da0(start);
+    filter.CFilter_SetLayer(layer);
+    ray.bhkPickData_SetFilter(filter);
+    ray.bhkPickData_SetFrom(start);
     ray.FUN_004a3eb0(end);
     void* hit = source->FUN_008d6f30()->FUN_00553ee0(&ray);
     if (!hit)
@@ -3220,7 +3220,7 @@ bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const 
         g_011f1c7c.IsInCombat();
         return true;
     }
-    SightReference* hitRef = FUN_0056f930(hit);
+    SightReference* hitRef = TESObjectREFR_FindReferenceFor3D(hit);
     if (target && hitRef == target)
     {
         g_011f1c7c.IsInCombat();

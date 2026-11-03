@@ -258,7 +258,7 @@ void FUN_008d1670_cls::UpdateDoorSpawn(unsigned int unkArg)
 namespace fnv_008d1720 {
 extern int DAT_011f4280;
 
-void __cdecl FUN_0043b300(int* apTarget, void* apValue);
+void __cdecl NiObject_IsKindOf(int* apTarget, void* apValue);
 
 struct FUN_008d1720_cls
 {
@@ -275,13 +275,13 @@ struct FUN_008d1720_cls
     int unk28;
     void* m_pIntegerData;
 
-    void FUN_008d1720();
+    void BSPlayerDistanceCheckController_TargetIsRequiredType();
 };
 
 // @fnv 0x008d1720
-void FUN_008d1720_cls::FUN_008d1720()
+void FUN_008d1720_cls::BSPlayerDistanceCheckController_TargetIsRequiredType()
 {
-    FUN_0043b300(&DAT_011f4280, m_pIntegerData);
+    NiObject_IsKindOf(&DAT_011f4280, m_pIntegerData);
 }
 }  // namespace fnv_008d1720
 

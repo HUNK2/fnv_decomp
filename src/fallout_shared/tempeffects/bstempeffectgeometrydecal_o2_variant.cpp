@@ -10,7 +10,7 @@ struct NiRTTI
 extern const NiRTTI g_011d6b04;
 struct BSTempEffectGeometryDecal
 {
-    const NiRTTI* FUN_006838a0() const;
+    const NiRTTI* BSTempEffectGeometryDecal_GetRTTI() const;
 };
 extern unsigned char* DAT_011f5b04;
 unsigned char* FUN_00683a60();

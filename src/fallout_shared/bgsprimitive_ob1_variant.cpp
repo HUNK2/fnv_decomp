@@ -20,7 +20,7 @@ class ColorPair
 class ColorPropertyBase
 {
   public:
-    bool FUN_00c4fa80(const ColorPropertyBase* pkOther);
+    bool BSMultiBoundShape_IsEqual(const ColorPropertyBase* pkOther);
 };
 
 class ColorProperty : public ColorPropertyBase
@@ -32,13 +32,13 @@ class ColorProperty : public ColorPropertyBase
     ColorPair m_kPrimaryColor;  // +0x0c
     ColorPair m_kColorB;        // +0x18
 
-    bool FUN_00c38090(const ColorPropertyBase* pkObject);
+    bool BSMultiBoundAABB_IsEqual(const ColorPropertyBase* pkObject);
 };
 
 // @fnv 0x00c38090
-bool ColorProperty::FUN_00c38090(const ColorPropertyBase* pkObject)
+bool ColorProperty::BSMultiBoundAABB_IsEqual(const ColorPropertyBase* pkObject)
 {
-    bool bEqual = FUN_00c4fa80(pkObject);
+    bool bEqual = BSMultiBoundShape_IsEqual(pkObject);
     if (bEqual)
     {
         const ColorProperty* pkOther = (const ColorProperty*)pkObject;
@@ -89,11 +89,11 @@ class CenteredPointBounds
     int unk08;
     Pt m_kCenter;
     Pt m_kExtent;
-    bool FUN_00c38a20(const Pt& kPoint);
+    bool BSMultiBoundAABB_GetPointWithin(const Pt& kPoint);
 };
 
 // @fnv 0x00c38a20
-bool CenteredPointBounds::FUN_00c38a20(const Pt& kPoint)
+bool CenteredPointBounds::BSMultiBoundAABB_GetPointWithin(const Pt& kPoint)
 {
     Pt kDiff = kPoint - m_kCenter;
     return !(PtAbs(kDiff.x) - m_kExtent.x > 0.01f) && !(PtAbs(kDiff.y) - m_kExtent.y > 0.01f) &&
@@ -148,13 +148,13 @@ struct C_00c36580
     Obj_00a598f0 unk24;
 
     void __thiscall AddPropertyNames(int value);
-    void __thiscall FUN_00c36580(Obj_0096a610* value);
+    void __thiscall BSMultiBoundOBB_GetViewerStrings(Obj_0096a610* value);
 };
 
 int __cdecl FUN_00a7d330(int value);
 
 // @fnv 0x00c36580
-void __thiscall C_00c36580::FUN_00c36580(Obj_0096a610* value)
+void __thiscall C_00c36580::BSMultiBoundOBB_GetViewerStrings(Obj_0096a610* value)
 {
     AddPropertyNames((int)value);
 
@@ -354,11 +354,11 @@ struct Bound
         out[7] = center - axisX - axisY - axisZ;
     }
 
-    void FUN_00c38b00(Geometry*, Geometry*, Color);
+    void BSMultiBoundAABB_CreateDebugGeometry(Geometry*, Geometry*, Color);
 };
 
 // @fnv 0x00c38b00
-void Bound::FUN_00c38b00(Geometry* lines, Geometry* triangles, Color color)
+void Bound::BSMultiBoundAABB_CreateDebugGeometry(Geometry* lines, Geometry* triangles, Color color)
 {
 
     Point3 corners[8];
@@ -629,7 +629,7 @@ class BSMultiBoundShape
         }
     }
 
-    int FUN_00c369b0(struct BSMultiBound* p);
+    int BSMultiBoundOBB_CheckBSBound(struct BSMultiBound* p);
 };
 
 template <class T> class MyPtr
@@ -659,7 +659,7 @@ struct BSMultiBound
 };
 
 // @fnv 0x00c369b0
-int BSMultiBoundShape::FUN_00c369b0(BSMultiBound* p)
+int BSMultiBoundShape::BSMultiBoundOBB_CheckBSBound(BSMultiBound* p)
 {
     int v = p->GetShape()->v8c();
     if (v == 1)
@@ -739,10 +739,10 @@ struct C37050_Frustum
 struct C37050_Bound
 {
     void FUN_00c37a00(C37050_Point* corners);
-    bool FUN_00c37050(const C37050_Frustum& frustum);
+    bool BSMultiBoundOBB_CompletelyWithinFrustum(const C37050_Frustum& frustum);
 };
 // @fnv 0x00c37050
-bool C37050_Bound::FUN_00c37050(const C37050_Frustum& frustum)
+bool C37050_Bound::BSMultiBoundOBB_CompletelyWithinFrustum(const C37050_Frustum& frustum)
 {
     C37050_Point corners[8];
     FUN_00c37a00(corners);
@@ -818,10 +818,10 @@ struct FrustQ
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     float m_fTolX, m_fTolY, m_fTolZ;
     void GetPlanes(PlaneQ* p);
-    bool FUN_00c378c0(const Pt3Q& kPt);
+    bool BSMultiBoundOBB_GetPointWithin(const Pt3Q& kPt);
 };
 // @fnv 0x00c378c0
-bool FrustQ::FUN_00c378c0(const Pt3Q& kPt)
+bool FrustQ::BSMultiBoundOBB_GetPointWithin(const Pt3Q& kPt)
 {
     PlaneQ akPlanes3[3];
     DeadQ6();
@@ -941,11 +941,11 @@ struct Prim
                AbsPoint(delta.z) - m_radii.z <= 0.01;
     }
     void FUN_00c37a00(Vec3* arr);
-    int FUN_00c384f0(Param* arg);
+    int BSMultiBoundAABB_CheckBSBound(Param* arg);
 };
 
 // @fnv 0x00c384f0
-int Prim::FUN_00c384f0(Param* arg)
+int Prim::BSMultiBoundAABB_CheckBSBound(Param* arg)
 {
     int mode_2 = arg->GetBV()->v35();
     if (mode_2 == 1)
@@ -1043,11 +1043,11 @@ struct OccShape
         m_pkDeltas[6] = kTargetCenter - vX - vY + vZ;
         m_pkDeltas[7] = kTargetCenter - vX - vY - vZ;
     }
-    bool FUN_00c387f0(Frustum6* pkPlanes);
+    bool BSMultiBoundAABB_WithinFrustum(Frustum6* pkPlanes);
 };
 
 // @fnv 0x00c387f0
-bool OccShape::FUN_00c387f0(Frustum6* pkPlanes)
+bool OccShape::BSMultiBoundAABB_WithinFrustum(Frustum6* pkPlanes)
 {
     Pt3 kVerts[8];
     bool bFlat = (m_fGlyphWidthInPixels == 0.0);
@@ -1153,10 +1153,10 @@ struct FUN_00c4f8e0
 struct C4F390_Owner
 {
     void CopyFields(FUN_00c4f8e0* clone, CloningProcess& cloning);
-    FUN_00c4f8e0* FUN_00c4f390(CloningProcess& cloning);
+    FUN_00c4f8e0* BSPortal_CreateClone(CloningProcess& cloning);
 };
 // @fnv 0x00c4f390
-FUN_00c4f8e0* C4F390_Owner::FUN_00c4f390(CloningProcess& cloning)
+FUN_00c4f8e0* C4F390_Owner::BSPortal_CreateClone(CloningProcess& cloning)
 {
     FUN_00c4f8e0* clone = new FUN_00c4f8e0;
     CopyFields(clone, cloning);
@@ -1374,10 +1374,10 @@ class BSMultiBoundSphere : public BSMultiBoundShape
   public:
     BoundPoint center;
     float radius;
-    int FUN_00c4ff60(BSMultiBound*);
+    int BSMultiBoundSphere_CheckBSBound(BSMultiBound*);
 };
 // @fnv 0x00c4ff60
-int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
+int BSMultiBoundSphere::BSMultiBoundSphere_CheckBSBound(BSMultiBound* other)
 {
     int type = other->GetShape()->GetShapeType();
     if (type == 1)
@@ -1457,11 +1457,11 @@ struct C50380_Sphere
     C50380_Point m_kCenter;
     float m_fBoundRadius;
 
-    bool __thiscall FUN_00c50380(C50380_Point* other);
+    bool __thiscall BSMultiBoundSphere_GetPointWithin(C50380_Point* other);
 };
 
 // @fnv 0x00c50380
-bool __thiscall C50380_Sphere::FUN_00c50380(C50380_Point* other)
+bool __thiscall C50380_Sphere::BSMultiBoundSphere_GetPointWithin(C50380_Point* other)
 {
     float fDist = other->FUN_00439ef0(m_kCenter).FUN_00457990();
     return (fDist < m_fBoundRadius) ? true : false;
@@ -1987,11 +1987,11 @@ struct OrientedBox
         vertices[7] = center - axisX - axisY - axisZ;
     }
 
-    bool FUN_00c36f20(Frustum*);
+    bool BSMultiBoundOBB_WithinFrustum(Frustum*);
 };
 
 // @fnv 0x00c36f20
-bool OrientedBox::FUN_00c36f20(Frustum* frustum)
+bool OrientedBox::BSMultiBoundOBB_WithinFrustum(Frustum* frustum)
 {
     Point3 vertices[8];
     bool flat = (extents.z == 0.0);

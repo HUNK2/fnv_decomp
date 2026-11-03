@@ -296,7 +296,7 @@ struct FloatSetting
 extern FloatSetting g_setting_011d6ef0;
 
 struct TESForm;
-extern "C" TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
+extern "C" TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 struct DoorCheckSource
 {
@@ -360,7 +360,7 @@ bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* p
                 else
                 {
                     unsigned int uiFormIDOut = *pMesh5->FUN_00699af0(usTriZ);
-                    TESForm* pForm2 = FUN_004839c0(uiFormIDOut);
+                    TESForm* pForm2 = TESForm_GetFormByNumericID(uiFormIDOut);
                     if (pForm2)
                     {
                         DoorCheck kCheck_2(pForm2);
@@ -675,11 +675,11 @@ struct FUN_006aa470_cls
     char pad20a8[0x20cc - 0x20a8];
     NiPoint3 m_kTargetPos;
 
-    bool FUN_006aa470(NavData6aa4* pkData);
+    bool NavMeshSearchHide_IsGoalNode(NavData6aa4* pkData);
 };
 
 // @fnv 0x006aa470
-bool FUN_006aa470_cls::FUN_006aa470(NavData6aa4* pkData)
+bool FUN_006aa470_cls::NavMeshSearchHide_IsGoalNode(NavData6aa4* pkData)
 {
     NavList6aa4* pkList = pkData->FUN_00413f40();
     NavInfo6aa4* pkInfo7 = pkList->FUN_006a78d0();

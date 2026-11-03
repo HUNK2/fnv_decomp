@@ -60,11 +60,11 @@ struct FUN_00827de0_shell : TESForm
 {
     char _pad[0x48];
     ScriptLocalsCall* m_pScriptLocals;
-    void FUN_00827de0(Actor* apActor);
+    void ScriptEffect_Revert(Actor* apActor);
 };
 // Reverts the form, then if a script-locals call object is set, invokes its FUN_005a9d00 method.
 // @fnv 0x00827de0
-void FUN_00827de0_shell::FUN_00827de0(Actor* apActor)
+void FUN_00827de0_shell::ScriptEffect_Revert(Actor* apActor)
 {
     TESForm::Revert((unsigned int)apActor);
     if (m_pScriptLocals)
@@ -192,10 +192,10 @@ struct FUN_005a94f0_shell
 };
 struct FUN_00827c20_shell : ActiveEffect
 {
-    unsigned short FUN_00827c20(Actor* apActor);
+    unsigned short ScriptEffect_GetSaveSize(Actor* apActor);
 };
 // @fnv 0x00827c20
-unsigned short FUN_00827c20_shell::FUN_00827c20(Actor* apActor)
+unsigned short FUN_00827c20_shell::ScriptEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short usSaveSize = 0;
     usSaveSize += ((ScriptEffect_GetSaveSize_Helper*)this)->GetSaveSize(apActor);
@@ -232,11 +232,11 @@ struct FUN_00827880_CopyFrom
 
 struct FUN_00827880_shell : ScriptEffect
 {
-    ActiveEffect* FUN_00827880();
+    ActiveEffect* ScriptEffect_Clone();
 };
 
 // @fnv 0x00827880
-ActiveEffect* FUN_00827880_shell::FUN_00827880()
+ActiveEffect* FUN_00827880_shell::ScriptEffect_Clone()
 {
     ScriptEffect* pEffect =
         new FUN_00827a40_shell(*reinterpret_cast<MagicCaster**>(reinterpret_cast<unsigned char*>(this) + 0x28),
@@ -260,11 +260,11 @@ struct TargetContext
 struct ScriptEffectShell : ScriptEffect
 {
     TargetContext* FUN_0059bb30();
-    void FUN_00827ac0();
+    void ScriptEffect_Start();
 };
 // If pScript is set, gets its ScriptLocals and passes the actor from the target context to ScriptExtended::RunScriptOnTarget.
 // @fnv 0x00827ac0
-void ScriptEffectShell::FUN_00827ac0()
+void ScriptEffectShell::ScriptEffect_Start()
 {
     if (pScript != 0)
     {
@@ -275,7 +275,7 @@ void ScriptEffectShell::FUN_00827ac0()
 
 struct FUN_008050d0_shell
 {
-    void FUN_008050d0(BGSLoadFormBuffer*);
+    void ActiveEffect_SaveGame(BGSLoadFormBuffer*);
 };
 
 struct FUN_008579b0_shell
@@ -296,7 +296,7 @@ struct FUN_00827ca0_shell : ScriptEffect
 // @fnv 0x00827ca0
 void FUN_00827ca0_shell::LoadScriptEffect(BGSLoadFormBuffer* apBuffer)
 {
-    ((FUN_008050d0_shell*)this)->FUN_008050d0(apBuffer);
+    ((FUN_008050d0_shell*)this)->ActiveEffect_SaveGame(apBuffer);
     unsigned short count = 0;
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x2a)
     {
@@ -343,11 +343,11 @@ struct FUN_005a9950_stub
 
 struct FUN_00827d30_class : ScriptEffect
 {
-    void FUN_00827d30(Actor* apActor);
+    void ScriptEffect_LoadGame(Actor* apActor);
 };
 
 // @fnv 0x00827d30
-void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
+void FUN_00827d30_class::ScriptEffect_LoadGame(Actor* apActor)
 {
     ((ActiveEffect_LoadGame_Helper*)this)->LoadGame(apActor);
     unsigned short flag = 0;
@@ -379,7 +379,7 @@ void FUN_00827d30_class::FUN_00827d30(Actor* apActor)
 struct Actor
 {
     void FUN_00865e50(bool* pValue, int a, int b);
-    void FUN_005a9db0(Actor* apActor);
+    void ScriptLocals_SaveGame(Actor* apActor);
 };
 
 struct S_00827e10_Foo : TESForm
@@ -404,21 +404,21 @@ struct S_00827e10_Foo : TESForm
     int unk48;
     Actor* unk4c;
 
-    void FUN_00806230(Actor* apActor);
-    void FUN_00827e10(Actor* apActor);
+    void ActiveEffect_SaveGameBGS(Actor* apActor);
+    void ScriptEffect_SaveGameBGS(Actor* apActor);
 };
 
-// Calls FUN_00806230, passes a bool derived from unk4c to the actor, and if it stays true calls FUN_005a9db0 on unk4c.
+// Calls ActiveEffect_SaveGameBGS, passes a bool derived from unk4c to the actor, and if it stays true calls ScriptLocals_SaveGame on unk4c.
 // @fnv 0x00827e10
-void S_00827e10_Foo::FUN_00827e10(Actor* apActor)
+void S_00827e10_Foo::ScriptEffect_SaveGameBGS(Actor* apActor)
 {
-    this->FUN_00806230(apActor);
+    this->ActiveEffect_SaveGameBGS(apActor);
 
     bool bValue = this->unk4c;
     apActor->FUN_00865e50(&bValue, 1, 0);
 
     if (bValue)
-        this->unk4c->FUN_005a9db0(apActor);
+        this->unk4c->ScriptLocals_SaveGame(apActor);
 }
 
 class TESObjectCELL;

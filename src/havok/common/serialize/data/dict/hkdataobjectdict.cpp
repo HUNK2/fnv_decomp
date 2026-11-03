@@ -255,10 +255,10 @@ struct FUN_00dc9530_StandIn
     int m_0c;
     int m_10;
     int m_14;
-    char FUN_00dc9530(int a);
+    char hkDataObjectDict_isValid(int a);
 };
 // @fnv 0x00dc9530
-char FUN_00dc9530_StandIn::FUN_00dc9530(int a)
+char FUN_00dc9530_StandIn::hkDataObjectDict_isValid(int a)
 {
     return a < m_14 ? 1 : 0;
 }
@@ -318,11 +318,11 @@ struct FUN_00dca2b0_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    __int64 __thiscall FUN_00dca2b0(int index);
+    __int64 __thiscall IntArrayImplementation_asInt64(int index);
 };
 
 // @fnv 0x00dca2b0
-__int64 FUN_00dca2b0_Class::FUN_00dca2b0(int index)
+__int64 FUN_00dca2b0_Class::IntArrayImplementation_asInt64(int index)
 {
     return m_iThirdValue[index];
 }
@@ -1050,7 +1050,7 @@ struct FUN_00dc8a00_Array
     virtual void FUN_00dc8a00_0() = 0;
     virtual void FUN_00dc8a00_1() = 0;
     virtual void FUN_00dc8a00_2() = 0;
-    virtual void FUN_00dc8a00(int value) = 0;
+    virtual void ArrayOfTuplesImplementation_reserve(int value) = 0;
 };
 
 struct FUN_00dc8a00_class
@@ -1059,13 +1059,13 @@ struct FUN_00dc8a00_class
     FUN_00dc8a00_Array* m_p20;
     int m_24;
 
-    void FUN_00dc8a00(int value);
+    void ArrayOfTuplesImplementation_reserve(int value);
 };
 
 // @fnv 0x00dc8a00
-void FUN_00dc8a00_class::FUN_00dc8a00(int value)
+void FUN_00dc8a00_class::ArrayOfTuplesImplementation_reserve(int value)
 {
-    m_p20->FUN_00dc8a00(m_24 * value);
+    m_p20->ArrayOfTuplesImplementation_reserve(m_24 * value);
 }
 
 struct FUN_00dc8a20_impl
@@ -1090,11 +1090,11 @@ struct FUN_00dc8a20_class
     FUN_00dc8a20_impl* m_20;
     int m_24;
 
-    void FUN_00dc8a20(int value);
+    void ArrayOfTuplesImplementation_setSize(int value);
 };
 
 // @fnv 0x00dc8a20
-void FUN_00dc8a20_class::FUN_00dc8a20(int value)
+void FUN_00dc8a20_class::ArrayOfTuplesImplementation_setSize(int value)
 {
     m_20->FUN_00dc8a20_4(value * m_24);
 }
@@ -1113,7 +1113,7 @@ struct FUN_00dc8a40_Inner
     int m24;
     int m28;
     int m2c;
-    virtual int FUN_00dc8a40();
+    virtual int ArrayOfTuplesImplementation_getSize();
     virtual int FUN_00dc8a40_b();
     virtual int FUN_00dc8a40_c();
     virtual int FUN_00dc8a40_d();
@@ -1126,11 +1126,11 @@ struct FUN_00dc8a40_Class
     char m_data[0x20];
     FUN_00dc8a40_Inner* m_p20;
     int m_24;
-    int FUN_00dc8a40();
+    int ArrayOfTuplesImplementation_getSize();
 };
 
 // @fnv 0x00dc8a40
-int FUN_00dc8a40_Class::FUN_00dc8a40()
+int FUN_00dc8a40_Class::ArrayOfTuplesImplementation_getSize()
 {
     int r = m_p20->FUN_00dc8a40_f();
     return r / m_24;
@@ -1201,12 +1201,12 @@ void __cdecl _FUN_00c908c0(void* alloc, void* ptr, int size, int align);
 
 struct VecArrayImplementation
 {
-    void FUN_00dc9b20(int n);
+    void VecArrayImplementation_reserve(int n);
 };
 
 // Ensures the array's capacity (low 30 bits of the third int at offset 0xc) is at least elementSize*n, doubling or growing it via the memory router's allocator.
 // @fnv 0x00dc9b20
-void VecArrayImplementation::FUN_00dc9b20(int aiCount)
+void VecArrayImplementation::VecArrayImplementation_reserve(int aiCount)
 {
     int size = *(int*)((char*)this + 0x18) * aiCount;
     int* p = (int*)((char*)this + 0xc);
@@ -1381,10 +1381,10 @@ struct FUN_00dca280_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    int __thiscall FUN_00dca280(int index);
+    int __thiscall IntArrayImplementation_asInt(int index);
 };
 // @fnv 0x00dca280
-int __thiscall FUN_00dca280_Class::FUN_00dca280(int index)
+int __thiscall FUN_00dca280_Class::IntArrayImplementation_asInt(int index)
 {
     return (int)m_iThirdValue[index];
 }
@@ -2217,11 +2217,11 @@ struct FUN_00dc9b00_cls
     int m_14;
     int m_18;
     int m_1c;
-    int FUN_00dc9b00();
+    int VecArrayImplementation_getSize();
 };
 
 // @fnv 0x00dc9b00
-int FUN_00dc9b00_cls::FUN_00dc9b00()
+int FUN_00dc9b00_cls::VecArrayImplementation_getSize()
 {
     return m_10 / m_18;
 }
@@ -6001,12 +6001,12 @@ struct FUN_00dcba40_class
     int m_0c;
     int m_10;
     int FUN_00dcba40(int* out, int a, int b);
-    int FUN_00dcbbf0(int a);
+    int hkDataObjectDict_asArray(int a);
 };
 
 // Calls FUN_00dcba40 with a and 0x10, then returns the int at index out[1]*4+2 in the array at m_10.
 // @fnv 0x00dcbbf0
-int FUN_00dcba40_class::FUN_00dcbbf0(int a)
+int FUN_00dcba40_class::hkDataObjectDict_asArray(int a)
 {
     int out[2];
     FUN_00dcba40(out, a, 0x10);
@@ -7781,7 +7781,7 @@ class ClassADA0
     virtual void v1c();
     virtual void v20();
     virtual int GetMemberBase() const;
-    int FUN_00dcada0(const char* pcName) const;
+    int hkDataClassDict_getMemberIndexByName(const char* pcName) const;
 
     int unk04;
     int unk08;
@@ -7798,7 +7798,7 @@ class ClassADA0
 
 // Searches the class hierarchy for a member by name and returns its computed index, or -1 if not found.
 // @fnv 0x00dcada0
-int ClassADA0::FUN_00dcada0(const char* pcName) const
+int ClassADA0::hkDataClassDict_getMemberIndexByName(const char* pcName) const
 {
     RegistryADA0* pkRegistry = m_pkHolder->m_pkRegistry;
     const char* pcPooled = pcName ? pkRegistry->GetPooled(pcName) : 0;
@@ -8363,12 +8363,12 @@ struct Builder_dc7c
 {
     int unk00, unk04;
     Registry_dc7c* m_registry;
-    Node_dc7c* FUN_00dc7c40(RefCounted_dc7c* const& parent);
+    Node_dc7c* hkDataWorldDict_newObject(RefCounted_dc7c* const& parent);
 };
 
 // Allocates a Node_dc7c under parent, registers it in the registry's NameMap by name, and sets it as the head node if the registry is empty.
 // @fnv 0x00dc7c40
-Node_dc7c* Builder_dc7c::FUN_00dc7c40(RefCounted_dc7c* const& parent)
+Node_dc7c* Builder_dc7c::hkDataWorldDict_newObject(RefCounted_dc7c* const& parent)
 {
     Node_dc7c* node = new Node_dc7c(parent);
     node->RetainReference();
@@ -9986,7 +9986,7 @@ void hkDataWorldDictTrackerDCA::FUN_00dca890(hkDataObjectImplDCA* pkObject) thro
 }
 
 namespace fnv_00dc95d0 {
-// FUN_00dc95d0: string-table lookup + registered-entry scan.
+// hkDataObjectDict_hasMember: string-table lookup + registered-entry scan.
 
 struct FUN_00d874d0_s
 {
@@ -10054,7 +10054,7 @@ struct Ctx_dc95d0
     ChainA_dc95d0* m_0c;
     Entry_dc95d0* m_10;
     int m_14;
-    int FUN_00dc95d0(void const* key);
+    int hkDataObjectDict_hasMember(void const* key);
 };
 
 extern "C" void* FUN_00cb1410(void const* key);
@@ -10078,7 +10078,7 @@ inline void* Intern_dc95d0(Holder_dc95d0* holder, const void* key)
 
 // Interns the key via Intern_dc95d0 and returns 1 if the interned value matches any entry key in the m_10 array, else 0.
 // @fnv 0x00dc95d0
-int Ctx_dc95d0::FUN_00dc95d0(void const* key)
+int Ctx_dc95d0::hkDataObjectDict_hasMember(void const* key)
 {
     void* value = Intern_dc95d0(m_0c->m_0c->m_08, key);
     int count = m_14;

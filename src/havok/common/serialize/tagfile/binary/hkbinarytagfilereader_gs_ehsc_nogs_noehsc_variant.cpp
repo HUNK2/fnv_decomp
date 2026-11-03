@@ -266,7 +266,7 @@ struct FUN_00dc5d50_Local
     void FUN_00dc6e50(unsigned int);
     void FreeAllBlocks();
 };
-unsigned int __stdcall FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c);
+unsigned int __stdcall hkBinaryTagfileReader_load(unsigned int a, unsigned int b, unsigned int c);
 
 struct hkDataObjectImpl;
 

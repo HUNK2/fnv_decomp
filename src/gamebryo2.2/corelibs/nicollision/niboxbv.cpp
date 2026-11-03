@@ -1678,7 +1678,7 @@ struct NormalVec
         z -= a.z;
         return *this;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 extern "C" NormalVec FNV_NiPoint3Zero;
 extern const float DAT_0104da4c;
@@ -1736,7 +1736,7 @@ NormalVec BoxNormal::FUN_00ea3a60(int iXSide, int iYSide, int iZSide, NormalVec 
         }
     }
     if (iNumAxes != 1)
-        kNormal.FUN_004a0c10();
+        kNormal.NiPoint3_Unitize();
     return kNormal;
 }
 
@@ -2000,7 +2000,7 @@ class ReworkPoint
     {
         return ReworkPoint(-x, -y, -z);
     }
-    void __thiscall FUN_004a0c10()
+    void __thiscall NiPoint3_Unitize()
     {
         float length = (float)sqrt(x * x + y * y + z * z);
         if (length > 1e-6)
@@ -3397,7 +3397,7 @@ bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint
     {
 
         normal1 = vTriNormal;
-        normal1.FUN_004a0c10();
+        normal1.NiPoint3_Unitize();
         normal0 = -normal1;
     }
 
@@ -3438,7 +3438,7 @@ class SweepPoint
     {
         return x * x + y * y + z * z;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float& operator[](int i)
     {
         float* base = &x;
@@ -4603,7 +4603,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         if (NiAbs(fNormalSqrLength - 1.0) > DAT_0104da4c)
         {
             if (fNormalSqrLength > DAT_0104da4c)
-                normal0.FUN_004a0c10();
+                normal0.NiPoint3_Unitize();
             else
                 normal0 = reinterpret_cast<const SweepPoint&>(DAT_011a946c);
         }

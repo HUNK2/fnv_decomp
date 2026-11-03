@@ -265,13 +265,13 @@ struct BGSAddonNode
 };
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_0068a810_shell
 {
     int GetField4C();
 };
-// Casts apCopy to BGSAcousticSpace, copies its sound, index, region and environment fields into this, then calls FUN_004851b0.
+// Casts apCopy to BGSAcousticSpace, copies its sound, index, region and environment fields into this, then calls TESForm_CopyAllComponents.
 // @fnv 0x0058a120
 void FUN_0058a120_shell::CopyFromAcousticSpace(TESForm* apCopy)
 {
@@ -287,15 +287,15 @@ void FUN_0058a120_shell::CopyFromAcousticSpace(TESForm* apCopy)
     ((BGSAddonNode*)this)->SetIndex(((BGSAddonNode*)pcopy)->GetIndex());
     SetRegion(((TESTopicInfo*)pcopy)->GetParentQuest());
     SetListenerID((CELL_ENVIRO_TYPE)((FUN_0068a810_shell*)pcopy)->GetField4C());
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -309,16 +309,16 @@ void _FUN_00485910(int, int);
 
 struct FUN_00589f70_shell
 {
-    void FUN_00589f70();
+    void BGSAcousticSpace_SaveForm();
 };
 
 // @fnv 0x00589f70
-void FUN_00589f70_shell::FUN_00589f70()
+void FUN_00589f70_shell::BGSAcousticSpace_SaveForm()
 {
     unsigned int questFormID;
     unsigned int formID;
 
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     questFormID = 0;
     if (reinterpret_cast<CP_008c48d0*>(this)->GetPrevPath() != 0)
@@ -376,13 +376,13 @@ void FUN_00589f70_shell::FUN_00589f70()
         _FUN_00485910(0x4d414e49, 0);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 namespace fnv_0058a220 {
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct P09AS
@@ -405,7 +405,7 @@ bool FUN_0058a220_shell::IsNotEqual(TESForm* apCompare)
     if (static_cast<unsigned char>(GetByteAtOffset48(this)) != static_cast<unsigned char>(GetByteAtOffset48(pcomp)))
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcomp))
         return true;
 
     if (reinterpret_cast<CP_008c48d0*>(this)->GetPrevPath() != reinterpret_cast<CP_008c48d0*>(pcomp)->GetPrevPath())

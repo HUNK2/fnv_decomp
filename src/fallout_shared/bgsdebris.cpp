@@ -50,7 +50,7 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
     {
         DebrisModelEntry* data = new DebrisModelEntry;
         data->chance = chance;
-        data->FUN_004fa670(path);
+        data->BGSDebrisData_SetFileName(path);
         data->flags = flags;
         InsertDebrisIfValid(data);
         return data;
@@ -212,7 +212,7 @@ bool __fastcall InsertDebrisIfValid(char* self, DArg aDebrisArg)
 
 struct FUN_004fa670_shell : public DebrisModelEntry
 {
-    void FUN_004fa670(char*);
+    void BGSDebrisData_SetFileName(char*);
 };
 
 void* __cdecl operator new(unsigned int);
@@ -225,7 +225,7 @@ class TaskQueueInterface
 };
 
 // @fnv 0x004fa670
-void FUN_004fa670_shell::FUN_004fa670(char* apFileName)
+void FUN_004fa670_shell::BGSDebrisData_SetFileName(char* apFileName)
 {
     if (*(char**)((char*)this + 4))
     {
@@ -289,7 +289,7 @@ void* S_004f9d60::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 
 struct BGSDebris_shell : BGSDebris
@@ -304,7 +304,7 @@ void BGSDebris_shell::CopyFromDebris(TESForm* source)
     if (!debris2)
         return;
     ClearData();
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(debris2);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(debris2);
     BSSimpleList<DebrisModelEntry*>* list = debris2->GetDataList();
     while (list)
     {
@@ -361,11 +361,11 @@ struct DNode2
 };
 struct BGSDebris_shell2 : BGSDebris
 {
-    void FUN_004fa6f0(void* a1, Vec3* pos, unsigned int count, float scale);
+    void BGSDebris_SpawnDebris(void* a1, Vec3* pos, unsigned int count, float scale);
 };
 
 // @fnv 0x004fa6f0
-void BGSDebris_shell2::FUN_004fa6f0(void* a1, Vec3* apPosition, unsigned int count, float scale)
+void BGSDebris_shell2::BGSDebris_SpawnDebris(void* a1, Vec3* apPosition, unsigned int count, float scale)
 {
     if (!a1)
         return;
@@ -419,20 +419,20 @@ struct DebrisEntry4fa
 };
 
 int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
-void __cdecl FUN_004856f0(unsigned int uiType, void* pvData, unsigned int uiSize);
+void __cdecl TESForm_AddChunkArray(unsigned int uiType, void* pvData, unsigned int uiSize);
 
 struct FUN_004fa1a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
     DNode* FUN_00409140();
-    void FUN_00485680();
+    void TESForm_CloseForm();
     void WriteDebrisEntries();
 };
 
 // @fnv 0x004fa1a0
 void FUN_004fa1a0_shell::WriteDebrisEntries()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     DNode* pkNode = FUN_00409140();
     while (pkNode)
     {
@@ -448,13 +448,13 @@ void FUN_004fa1a0_shell::WriteDebrisEntries()
             pcCur += BSStringLength(pkData->pcPath) + 1;
             *pcCur = pkData->cFlags;
             pcCur++;
-            FUN_004856f0('ATAD', pTmpcBuffer, uiSize);
+            TESForm_AddChunkArray('ATAD', pTmpcBuffer, uiSize);
             delete pTmpcBuffer;
             pkData->kModel.FUN_008d0600('TDOM', (int)pkData->pcPath);
         }
         pkNode = pkNode->FUN_00726070();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 int __cdecl FUN_00408b20(char const*, char const*);
@@ -469,12 +469,12 @@ struct DebrisListNode
 struct BGSDebris_cmp : BGSDebris
 {
     DebrisListNode* DataListHead();
-    bool FUN_004fa390(TESForm* form);
+    bool BGSDebris_Compare(TESForm* form);
 };
 
 // Compares this debris list against another BGSDebris's list, returning true if counts, entries, chance, path or flags differ.
 // @fnv 0x004fa390
-bool BGSDebris_cmp::FUN_004fa390(TESForm* form)
+bool BGSDebris_cmp::BGSDebris_Compare(TESForm* form)
 {
     BGSDebris_cmp* other7 = (BGSDebris_cmp*)dynamic_cast<BGSDebris*>(form);
     if (!other7)

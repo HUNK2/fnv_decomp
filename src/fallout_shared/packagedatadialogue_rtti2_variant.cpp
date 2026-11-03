@@ -174,7 +174,7 @@ struct FUN_0067b7d0_shell
     unsigned char field18;
     unsigned int field1c;
 
-    void FUN_0067b7d0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void TESDialoguePackageData_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 struct DialogueTargetComparison : LocationDescriptor
@@ -191,11 +191,11 @@ struct DialoguePackageComparison : TESDialoguePackageData
     unsigned char m_bThirdFlag;
     int m_iTrailingValue;
 
-    bool FUN_0067b470(void*);
+    bool TESDialoguePackageData_Compare(void*);
 };
 
 // @fnv 0x0067b470
-bool DialoguePackageComparison::FUN_0067b470(void* object)
+bool DialoguePackageComparison::TESDialoguePackageData_Compare(void* object)
 {
     DialoguePackageComparison* other = reinterpret_cast<DialoguePackageComparison*>(
         dynamic_cast< ::TESDialoguePackageData*>(static_cast< ::TESPackageData*>(object)));

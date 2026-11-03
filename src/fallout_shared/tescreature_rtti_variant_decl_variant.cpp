@@ -10,12 +10,12 @@
 
 #include <string.h>
 // @fnv 0x005f9b90
-bool TESCreature::FUN_005f9b90(TESForm* otherForm)
+bool TESCreature::TESCreature_Compare(TESForm* otherForm)
 {
     TESCreature* other = dynamic_cast<TESCreature*>(otherForm);
     if (!other)
         return true;
-    if (FUN_00485270(other))
+    if (TESForm_CompareAllComponents(other))
         return true;
     if (memcmp(&dataPadding, other->GetOffset12C(), 4))
         return true;
@@ -23,7 +23,7 @@ bool TESCreature::FUN_005f9b90(TESForm* otherForm)
         return true;
     if (FUN_00821640() != other->FUN_00821640())
         return true;
-    if (FUN_00567470() != other->FUN_00567470())
+    if (TESCreature_GetBaseScale() != other->TESCreature_GetBaseScale())
         return true;
     if (FUN_00821660() != other->FUN_00821660())
         return true;

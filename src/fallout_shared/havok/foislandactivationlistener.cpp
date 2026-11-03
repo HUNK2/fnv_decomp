@@ -230,7 +230,7 @@ struct FUN_004b4cf0_shell
 
 struct FUN_004769c0_shell
 {
-    void FUN_004769c0(unsigned int i, float* p);
+    void NiMatrix3_SetCol(unsigned int i, float* p);
 };
 
 // @fnv 0x00624b10
@@ -241,7 +241,7 @@ FUN_004769c0_shell* FUN_00624b10(FUN_004769c0_shell* dest, FUN_004b4cf0_shell* s
     for (unsigned int i = 0; i < 3; i++)
     {
         SetNiPoint3FromHkVector4(vec, *src->FUN_004b4cf0(i));
-        dest->FUN_004769c0(i, (float*)&vec);
+        dest->NiMatrix3_SetCol(i, (float*)&vec);
     }
 
     return dest;
@@ -284,7 +284,7 @@ struct FUN_005609f0_shell
 
 struct Type8
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 
 struct ArgType
@@ -297,7 +297,7 @@ struct CF845
 {
     int m_val;
     CF845(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 
 class NiRTTI;
@@ -562,11 +562,11 @@ struct Type1
 };
 
 Type1* __cdecl FUN_004b5a50(void*);
-Type3* __cdecl FUN_0056f930(Type2*);
+Type3* __cdecl TESObjectREFR_FindReferenceFor3D(Type2*);
 bool __cdecl FUN_008c7aa0();
-void __cdecl FUN_0054abd0(Type3*, Type5*);
+void __cdecl TESObjectCELL_QueueAttachChild(Type3*, Type5*);
 void* __cdecl FUN_004b5a80(void*);
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
+bool __cdecl NiObject_IsKindOf(const NiRTTI*, void*);
 
 struct FUN_00624340_shell
 {
@@ -593,7 +593,7 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         {
             varC6 = FUN_004b5a50(apArg);
             _var8 = varC6 ? varC6->FUN_0044ddc0() : 0;
-            kVar4 = _var8 ? FUN_0056f930(_var8) : 0;
+            kVar4 = _var8 ? TESObjectREFR_FindReferenceFor3D(_var8) : 0;
             if (kVar4 && !kVar4->vfunc_100())
             {
                 varX = kVar4->FUN_008d6f30();
@@ -602,7 +602,7 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
                 {
                     if (FUN_008c7aa0())
                     {
-                        FUN_0054abd0(kVar4, var5);
+                        TESObjectCELL_QueueAttachChild(kVar4, var5);
                     }
                     else
                     {
@@ -617,15 +617,15 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         }
         else
         {
-            if (CF845(apArg->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 0x14)
+            if (CF845(apArg->FUN_00460140()->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() == 0x14)
             {
                 var2 = FUN_004b5a50(apArg);
                 var1C8 = var2 ? var2->FUN_0044ddc0() : 0;
-                var18 = var1C8 ? FUN_0056f930(var1C8) : 0;
+                var18 = var1C8 ? TESObjectREFR_FindReferenceFor3D(var1C8) : 0;
                 if (var18 && !var18->vfunc_100())
                 {
                     varVal = FUN_004b5a80(apArg);
-                    if (varVal && FUN_0043b300(&DAT_012681c0, varVal))
+                    if (varVal && NiObject_IsKindOf(&DAT_012681c0, varVal))
                     {
                         var3 = (Type7*)varVal;
                         var3->vfunc_e4(4);
@@ -653,9 +653,9 @@ struct SceneObject
     Geometry* FUN_008d6f30();
 };
 Geometry* __cdecl FUN_004b5a50(void* object);
-SceneObject* __cdecl FUN_0056f930(Geometry* object);
+SceneObject* __cdecl TESObjectREFR_FindReferenceFor3D(Geometry* object);
 bool __cdecl FUN_008c7aa0();
-void __cdecl FUN_0054abd0(SceneObject* object, Geometry* geometry);
+void __cdecl TESObjectCELL_QueueAttachChild(SceneObject* object, Geometry* geometry);
 void __cdecl FUN_00624560();
 struct FUN_00624580_Class
 {
@@ -674,7 +674,7 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
         pEntry = *count->FUN_00629ab0(sceneObject);
         Geometry* handle = FUN_004b5a50(pEntry);
         Geometry* geometry = handle ? handle->FUN_0044ddc0() : 0;
-        SceneObject* parent = geometry ? FUN_0056f930(geometry) : 0;
+        SceneObject* parent = geometry ? TESObjectREFR_FindReferenceFor3D(geometry) : 0;
         if (parent)
         {
             typedef unsigned char(__thiscall * Predicate)(SceneObject*);
@@ -689,7 +689,7 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
                 if (target)
                 {
                     if (FUN_008c7aa0())
-                        FUN_0054abd0(parent, target);
+                        TESObjectCELL_QueueAttachChild(parent, target);
                     else
                         reinterpret_cast<Dispatch>((*reinterpret_cast<void***>(target))[55])(
                             reinterpret_cast<SceneObject*>(target),

@@ -18,7 +18,7 @@ class MemoryManager
   public:
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* FUN_00401020();
+MemoryManager* MemoryManager_Instance();
 #pragma pack(push, 4)
 class FindTriangleForLocationFilter
 {

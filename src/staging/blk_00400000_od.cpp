@@ -193,11 +193,11 @@ int __thiscall FUN_00409130_Class::FUN_00409130()
 
 struct FUN_00409700_Class
 {
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
 };
 
 // @fnv 0x00409700
-bool FUN_00409700_Class::FUN_00409700()
+bool FUN_00409700_Class::TESObjectBOOK_GetScroll()
 {
     return (((const unsigned char*)this)[0xc0] & 1) ? true : false;
 }
@@ -338,11 +338,11 @@ struct BaseExtraList
 
 struct FUN_0041af30_shell : BaseExtraList
 {
-    void FUN_0041af30();
+    void ExtraDataList_RemovePoison();
 };
 
 // @fnv 0x0041af30
-void FUN_0041af30_shell::FUN_0041af30()
+void FUN_0041af30_shell::ExtraDataList_RemovePoison()
 {
     RemoveExtra(0x3f);
 }
@@ -431,10 +431,10 @@ void* BSExtraData::FUN_0040ecd0(unsigned int flags)
 
 struct FUN_00401270_Class
 {
-    bool __thiscall FUN_00401270(int, int, int, int, int);
+    bool __thiscall TESForm_Activate(int, int, int, int, int);
 };
 // @fnv 0x00401270
-bool __thiscall FUN_00401270_Class::FUN_00401270(int a, int b, int c, int d, int e)
+bool __thiscall FUN_00401270_Class::TESForm_Activate(int a, int b, int c, int d, int e)
 {
     return 0;
 }
@@ -720,10 +720,10 @@ struct RecursiveSpinLock
 {
     unsigned int* pCount;
     unsigned int count;
-    void __thiscall FUN_0040fba0();
+    void __thiscall BSSpinLock_Unlock();
 };
 // @fnv 0x0040fba0
-void __thiscall RecursiveSpinLock::FUN_0040fba0()
+void __thiscall RecursiveSpinLock::BSSpinLock_Unlock()
 {
     Interface::PrintDebugMessage();
     --count;
@@ -863,11 +863,11 @@ FUN_00411ea0::~FUN_00411ea0()
 struct BaseExtraList_0041af50
 {
     void __thiscall RemoveExtra(unsigned char);
-    void __thiscall FUN_0041af50();
+    void __thiscall ExtraDataList_RemoveScript();
 };
 
 // @fnv 0x0041af50
-void __thiscall BaseExtraList_0041af50::FUN_0041af50()
+void __thiscall BaseExtraList_0041af50::ExtraDataList_RemoveScript()
 {
     RemoveExtra(0xd);
 }
@@ -929,15 +929,15 @@ struct Setting405c
     int FUN_00810fd0();
     bool HasFlag2();
     int FUN_00586150();
-    bool FUN_00403e60(unsigned int uiFlag);
+    bool EffectSetting_IsFlagSet(unsigned int uiFlag);
 };
 
 struct Item405c
 {
     Setting405c* FUN_00825c00();
     int FUN_0084e3a0();
-    int FUN_004044d0();
-    int FUN_00404390();
+    int EffectItem_GetDuration();
+    int EffectItem_GetMagnitude();
 };
 
 struct ListNode405c
@@ -955,11 +955,11 @@ struct ListBase405c
 
 struct EffectList405c : public ListBase405c, public ListNode405c
 {
-    float FUN_00405c00(int iArchetype, int m_eRange, int m_eAssociatedActorValue);
+    float EffectItemList_GetEffectScore(int iArchetype, int m_eRange, int m_eAssociatedActorValue);
 };
 
 // @fnv 0x00405c00
-float EffectList405c::FUN_00405c00(int iArchetype, int m_eRange, int m_eAssociatedActorValue)
+float EffectList405c::EffectItemList_GetEffectScore(int iArchetype, int m_eRange, int m_eAssociatedActorValue)
 {
     float fTotal = 0.0f;
     EffectList405c* pkList = this;
@@ -974,8 +974,8 @@ float EffectList405c::FUN_00405c00(int iArchetype, int m_eRange, int m_eAssociat
                 (m_eRange == 3 || pkItem->FUN_0084e3a0() == m_eRange))
             {
                 float m_fElapsedTime =
-                    pkItem->FUN_00404390() * (pkItem->FUN_004044d0() > 0 ? pkItem->FUN_004044d0() : 1);
-                if (!pkSetting->FUN_00403e60(4))
+                    pkItem->EffectItem_GetMagnitude() * (pkItem->EffectItem_GetDuration() > 0 ? pkItem->EffectItem_GetDuration() : 1);
+                if (!pkSetting->EffectSetting_IsFlagSet(4))
                     fTotal += m_fElapsedTime;
                 else
                     fTotal -= m_fElapsedTime;
@@ -1120,11 +1120,11 @@ struct EffectItemListBase4056
 
 struct EffectItemList4056 : public EffectItemListBase4056, public EffectItemNode4056
 {
-    void FUN_004056d0();
+    void EffectItemList_Save();
 };
 
 // @fnv 0x004056d0
-void EffectItemList4056::FUN_004056d0()
+void EffectItemList4056::EffectItemList_Save()
 {
     EffectItemList4056* pkList = this;
     while (pkList)
@@ -1249,7 +1249,7 @@ class TESBipedModelForm : public BaseFormComponent
 };
 struct ItemExtraList
 {
-    bool FUN_00418b10();
+    bool ExtraDataList_GetCanNotWear();
 };
 // Returns false if object or effect is null; otherwise checks object form type, effect flag bits and extra list; true for form type 43.
 // @fnv 0x00409720
@@ -1267,7 +1267,7 @@ bool __cdecl FUN_00409720(TESBoundObject* object, ItemExtraList* extra, EffectSe
     case 41:
         if (!effect->IsFlagSet(0x20))
             return false;
-        if (extra && extra->FUN_00418b10())
+        if (extra && extra->ExtraDataList_GetCanNotWear())
             return false;
         break;
     case 24:
@@ -1280,7 +1280,7 @@ bool __cdecl FUN_00409720(TESBoundObject* object, ItemExtraList* extra, EffectSe
             return false;
         if (effect->IsFlagSet(0x100))
             return false;
-        if (extra && extra->FUN_00418b10())
+        if (extra && extra->ExtraDataList_GetCanNotWear())
             return false;
         {
             TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(object);
@@ -1333,7 +1333,7 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
     if (timer1 == 0 || timer2 == 0)
         return false;
 
-    if (timer1->FUN_00825c00()->FUN_00403e60(0x20000) && timer2->FUN_00825c00()->FUN_00403e60(0x20000))
+    if (timer1->FUN_00825c00()->EffectSetting_IsFlagSet(0x20000) && timer2->FUN_00825c00()->EffectSetting_IsFlagSet(0x20000))
     {
         TESForm* interval1 = reinterpret_cast<AssociatedForm40df*>(timer1->FUN_00825c00())->FUN_005f5f80();
         TESForm* interval2 = reinterpret_cast<AssociatedForm40df*>(timer2->FUN_00825c00())->FUN_005f5f80();
@@ -1348,7 +1348,7 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
         }
     }
 
-    if (timer1->FUN_00825c00()->FUN_00403e60(0x10000) && timer2->FUN_00825c00()->FUN_00403e60(0x10000))
+    if (timer1->FUN_00825c00()->EffectSetting_IsFlagSet(0x10000) && timer2->FUN_00825c00()->EffectSetting_IsFlagSet(0x10000))
         return true;
 
     return false;

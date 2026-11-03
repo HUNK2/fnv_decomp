@@ -291,7 +291,7 @@ struct PackedFormID
 };
 struct BGSFormInfo
 {
-    void __thiscall FUN_00853670(unsigned int a);
+    void __thiscall BGSSaveLoadFormInfo_SetFormType(unsigned int a);
 };
 struct BGSSaveFormBuffer
 {
@@ -311,7 +311,7 @@ void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChan
 {
     ((PackedFormID*)((char*)this + 0x14))->WriteFormIDBytes(aiFormID);
     ((unsigned int*)((char*)this + 0x17))[0] = aiChangeFlags;
-    ((BGSFormInfo*)((char*)this + 0x1b))->FUN_00853670(aeFormType);
+    ((BGSFormInfo*)((char*)this + 0x1b))->BGSSaveLoadFormInfo_SetFormType(aeFormType);
     ((unsigned char*)this + 0x1c)[0] = acVersion;
 }
 }  // namespace fnv_00865ad0

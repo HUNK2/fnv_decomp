@@ -882,7 +882,7 @@ void ActorPackageSaver::SavePackage(BGSSaveFormBuffer* apBuffer)
 
 class TESForm;
 class TESPackage;
-TESForm* __cdecl FUN_004839c0(unsigned int id);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 struct Manager
 {
     virtual void slot00();
@@ -998,7 +998,7 @@ void Owner::FUN_008c64d0(unsigned a, unsigned auiUnused)
             if (a & 0)
             {
                 Manager* pManager = manager;
-                FUN_008c6080(dynamic_cast<TESPackage*>(FUN_004839c0((unsigned)pManager)), 0);
+                FUN_008c6080(dynamic_cast<TESPackage*>(TESForm_GetFormByNumericID((unsigned)pManager)), 0);
             }
             else
             {

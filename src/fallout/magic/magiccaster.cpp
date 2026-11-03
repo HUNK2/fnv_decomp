@@ -106,10 +106,10 @@ void MagicCaster::RemoveCastingArt()
     if (actor)
     {
         effect = actor->GetMagicNode();
-        if (effect && (unsigned int)effect->FUN_00453470() > 0)
+        if (effect && (unsigned int)effect->NiNode_GetChildCount() > 0)
         {
             hadNode = true;
-            effect->FUN_004def90();
+            effect->NiNode_RemoveAllChildren();
         }
         if (apTargetLight)
         {
@@ -138,7 +138,7 @@ struct bhkFilter
 {
     int v;
     bhkFilter();
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 struct bhkWorldObject
 {
@@ -157,7 +157,7 @@ struct S819
 // @fnv 0x00819250
 int S819::FUN_00819250()
 {
-    return ((bhkWorldObject*)s) ? ((bhkWorldObject*)s)->FUN_0043b4f0().FUN_004a3a20() : 0;
+    return ((bhkWorldObject*)s) ? ((bhkWorldObject*)s)->FUN_0043b4f0().CFilter_GetGroup() : 0;
 }
 
 struct MagicCaster_shell : MagicCaster
@@ -185,13 +185,13 @@ float FUN_008153a0_shell::FUN_008153a0(bool abJustArmor, float afUseThisFatigue)
 
 struct FUN_00818cb0_shell
 {
-    bool __thiscall FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength, MagicItem::CannotCastReason* apReason,
+    bool __thiscall MagicCaster_CheckCast(MagicItem* apSpell, float* afEffectStrength, MagicItem::CannotCastReason* apReason,
                                  bool abUseBaseMagicka);
 };
 
 // Initializes the optional effect strength to 1.0 and the reason to 0, then returns true.
 // @fnv 0x00818cb0
-bool __thiscall FUN_00818cb0_shell::FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength,
+bool __thiscall FUN_00818cb0_shell::MagicCaster_CheckCast(MagicItem* apSpell, float* afEffectStrength,
                                                  MagicItem::CannotCastReason* apReason, bool abUseBaseMagicka)
 {
     if (afEffectStrength)
@@ -653,11 +653,11 @@ struct FUN_00815670_cls
     virtual void Unk_0F(void);
     virtual void Unk_10(ChildCell* target);
     void FUN_00815d00(float a1, int a2, bool a3, float a4, int a5);
-    void FUN_00815670(RefShell* ref, bool flag);
+    void MagicCaster_CastAddiction(RefShell* ref, bool flag);
 };
 
 // @fnv 0x00815670
-void FUN_00815670_cls::FUN_00815670(RefShell* ref, bool flag)
+void FUN_00815670_cls::MagicCaster_CastAddiction(RefShell* ref, bool flag)
 {
     if (ref->child.Unk_06() == 10)
     {
@@ -1867,14 +1867,14 @@ void Caster::ApplyAreaEffect(Magic* magic, Item* item, int enabled, Vec pos, Tar
 
 struct P142EffectSetting
 {
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
 };
 class EffectItem
 {
   public:
     int FUN_0084e3a0();
     P142EffectSetting* GetEffectSetting();
-    float FUN_00403f00();
+    float EffectItem_GetRawCost();
 };
 class ActiveEffect
 {
@@ -1897,7 +1897,7 @@ struct P142Prefix
 struct P142EffectList : P142Prefix, P142Node
 {
     EffectItem* FindCostliestEffectItem(int, int);
-    int FUN_004065e0(int, float);
+    int EffectItemList_GetAssociatedSkill(int, float);
 };
 struct P142Spell : TESFullName, P142EffectList
 {
@@ -2199,7 +2199,7 @@ struct P142Ref
     virtual void NotifySpell(int);
     P142Caster* FUN_009185e0();
     P142Ref* FUN_004fd400();
-    int FUN_004086a0();
+    int EffectSetting_GetProjectileType();
 };
 struct P142Caster : MagicCaster
 {
@@ -2250,7 +2250,7 @@ void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 positio
                     if ((ref && !modifier && spell->GetSpellType() == 0) || spell->GetSpellType() == 5)
                     {
                         modifier = true;
-                        ref->NotifySpell(spell->FUN_004065e0(1, 0.0f));
+                        ref->NotifySpell(spell->EffectItemList_GetAssociatedSkill(1, 0.0f));
                     }
                 }
             }
@@ -2260,17 +2260,17 @@ void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 positio
         }
         targets = static_cast<P142EffectList*>(targets->FUN_00726070());
     }
-    bool primary = source->FUN_004fd400()->FUN_004086a0() == 3;
+    bool primary = source->FUN_004fd400()->EffectSetting_GetProjectileType() == 3;
     EffectItem* secondary = spell->FindCostliestEffectItem(2, 1);
     if (!primary)
     {
         if (secondary)
             FUN_00817b90(position, flags, spell, secondary, &special, effectiveness, magnitude);
-        else if (target && target->IsActor() && notified && notified->GetEffectSetting()->FUN_00403e60(0x20000000))
+        else if (target && target->IsActor() && notified && notified->GetEffectSetting()->EffectSetting_IsFlagSet(0x20000000))
         {
             Actor* actor = (Actor*)target;
             if (CheckHealthDamageKill(actor, spell))
-                ApplyExplosion(actor, position, notified, notified->FUN_00403f00());
+                ApplyExplosion(actor, position, notified, notified->EffectItem_GetRawCost());
         }
     }
     special.RemoveAll();
@@ -2286,7 +2286,7 @@ struct EffectSettingOps : EffectSetting
 {
     bool FUN_00403e80();
     int FUN_00586150();
-    bool FUN_00403e60(unsigned int flag);
+    bool EffectSetting_IsFlagSet(unsigned int flag);
 };
 struct EffectItemOps
 {
@@ -2314,7 +2314,7 @@ struct Recipient : MagicTarget
 };
 struct EffectDuration
 {
-    bool FUN_00405d80();
+    bool EffectItemList_IsHostile();
 };
 struct EffectSpec
 {
@@ -2336,7 +2336,7 @@ bool CasterOps::CheckHealthDamageKill(Recipient* pRecipient, EffectSpec* pEffect
     if (!pRecipient || !pEffectSpec || !pRecipient->GetActor() || !pRecipient->GetActor()->IsActor() ||
         !pRecipient->GetActor()->GetNiNode())
         return false;
-    if (pEffectSpec->data.FUN_00405d80())
+    if (pEffectSpec->data.EffectItemList_IsHostile())
     {
         Actor* sourceActor = FUN_00815410();
         HealthRef* actor = pRecipient->GetActor();
@@ -2354,7 +2354,7 @@ bool CasterOps::CheckHealthDamageKill(Recipient* pRecipient, EffectSpec* pEffect
                     value = setting->FUN_00586150();
                 else
                     value = effect->FUN_0084e3a0()->FUN_00403ea0();
-                if (value == 16 && setting->FUN_00403e60(4) && !setting->FUN_00403e60(2))
+                if (value == 16 && setting->EffectSetting_IsFlagSet(4) && !setting->EffectSetting_IsFlagSet(2))
                 {
                     float magnitude = effect->GetFloatAtOffset1C();
                     if (effect->FUN_007df1f0() > 0.0)
@@ -2401,7 +2401,7 @@ struct TransformNode
 };
 struct ExplosionNode
 {
-    TransformNode* FUN_00461130(NiTransform*);
+    TransformNode* NiAVObject_GetWorldRotate(NiTransform*);
 };
 class ExplosionActor;
 class ExplosionProcess
@@ -3004,11 +3004,11 @@ class ExplosionActor
     ExplosionValues values;
     float GetFatigueRatio();
     ExplosionProcess* FUN_008d8520();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 struct ExplosionEffect
 {
-    int FUN_00404420();
+    int EffectItem_GetArea();
 };
 struct ExplosionCaster
 {
@@ -3036,7 +3036,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
     // Displacement used to calculate the distance.
     NiPoint3 p = ((ExplosionPoint&)s).FUN_00439ef0(origin);
     h = ((ExplosionPoint&)p).FUN_00457990();
-    i = ComputeBlastPower((int)strength, (int)(effect->FUN_00404420() * *originalRuntimeFloatSetting1112.Float()), h,
+    i = ComputeBlastPower((int)strength, (int)(effect->EffectItem_GetArea() * *originalRuntimeFloatSetting1112.Float()), h,
                           target->values.FUN_0066ef20(10), target->values.FUN_0066ef20(11), target->GetFatigueRatio());
     if (i > *originalRuntimeFloatSetting1131.Float())
         i = *originalRuntimeFloatSetting1131.Float();
@@ -3055,7 +3055,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
             if (node)
             {
                 NiTransform transform;
-                node->FUN_00461130(&transform)->FUN_004b4880();
+                node->NiAVObject_GetWorldRotate(&transform)->FUN_004b4880();
                 localOrigin = transform.FUN_00524c40(origin);
                 localPosition = transform.FUN_00524c40(s);
             }
@@ -3063,7 +3063,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
         }
     }
     if (i > 0.0 && FUN_005b6f70())
-        DebugLog("An explosion of %.1f magnitude hits %.20s!", i, target->FUN_0055d520());
+        DebugLog("An explosion of %.1f magnitude hits %.20s!", i, target->TESObjectREFR_GetFullName());
 }
 }  // namespace fnv_00818310
 
@@ -3897,7 +3897,7 @@ bool RayObj::FUN_008190d0(Vec3 from, RayRef* ref)
 class AlchemyItem : public MagicItem
 {
   public:
-    bool FUN_004029d0(unsigned int);
+    bool AlchemyItem_IsFlagSet(unsigned int);
 };
 class EnchantmentItem : public MagicItem
 {
@@ -3933,15 +3933,15 @@ extern Object* DAT_011dea3c;
 extern Point DAT_011f426c;
 struct EffectSettings
 {
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
     float FUN_00639b20();
 };
 struct Effect
 {
     EffectSettings* FUN_00825c00();
     int FUN_0084e3a0();
-    int FUN_00404420();
-    float FUN_00403f00();
+    int EffectItem_GetArea();
+    float EffectItem_GetRawCost();
     bool FUN_00404710();
     int FUN_00403ea0();
 };
@@ -3968,11 +3968,11 @@ struct UnsignedIntegerValue
 };
 struct EffectList : UnsignedIntegerValue, EffectLink
 {
-    bool FUN_00405da0();
+    bool EffectItemList_CanBePoison();
     bool FUN_00405fe0();
     bool HasNonDetrimentalEffect();
     Effect* FindCostliestEffectItem(int, bool);
-    void* FUN_004065e0(bool);
+    void* EffectItemList_GetAssociatedSkill(bool);
 };
 struct NameView
 {
@@ -4035,7 +4035,7 @@ struct MagicAccessor
 };
 struct Node
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
     void FUN_00440490(float);
 };
 struct ModelInstance
@@ -4454,7 +4454,7 @@ struct Target
 };
 struct Loader
 {
-    void FUN_00445300(const char*, bool, int);
+    void ModelLoader_ReleaseModel(const char*, bool, int);
 };
 extern Loader* DAT_011c3b3c;
 extern const char DAT_0107acfc[];
@@ -4515,7 +4515,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
     Object* casterActorSlot25 = FUN_00815410();
     Target* target6 = 0;
     bool potion = spellB->GetSpellType() == 7;
-    bool touchPotionSlot30 = potion && reinterpret_cast<MagicView*>(spellB)->FUN_00405da0();
+    bool touchPotionSlot30 = potion && reinterpret_cast<MagicView*>(spellB)->EffectItemList_CanBePoison();
     AlchemyItem* alchemy2 = potion ? dynamic_cast<AlchemyItem*>(spellB) : 0;
     if (reinterpret_cast<MagicView*>(spellB)->FUN_00405fe0() || touchPotionSlot30)
     {
@@ -4546,7 +4546,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
     }
     bool releaseModel = false;
     Node* magicNode = GetMagicNode();
-    if (magicNode && magicNode->FUN_00453470() > 0 && !source)
+    if (magicNode && magicNode->NiNode_GetChildCount() > 0 && !source)
         releaseModel = true;
     Object* aTargetObject = target6 ? target6->GetObject() : 0;
     bool didTarget2 = false;
@@ -4586,11 +4586,11 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 {
                     EffectSettings* _settings = active->FUN_007df1d0();
                     float magnitude = 0, _duration = 0;
-                    if (!_settings->FUN_00403e60(0x80) && !_settings->FUN_00403e60(0x100))
+                    if (!_settings->EffectSetting_IsFlagSet(0x80) && !_settings->EffectSetting_IsFlagSet(0x100))
                         ComputeDerivedValues(&magnitude, &_duration, _cost, power, 6, 0, 0, 0, 0, 0);
-                    else if (!_settings->FUN_00403e60(0x80) && _settings->FUN_00403e60(0x100))
+                    else if (!_settings->EffectSetting_IsFlagSet(0x80) && _settings->EffectSetting_IsFlagSet(0x100))
                         ComputeScaledResult(&_duration, _cost, power, 6, 0, 0, 0, 0, 0);
-                    else if (_settings->FUN_00403e60(0x80) && !_settings->FUN_00403e60(0x100))
+                    else if (_settings->EffectSetting_IsFlagSet(0x80) && !_settings->EffectSetting_IsFlagSet(0x100))
                         ComputeSettingAdjustedValue(&magnitude, _cost, power, 6, 0, 0, 0, 0, 0);
                     _duration = FUN_004bd510(_duration, 1.0f);
                     magnitude = FUN_004bd510(magnitude, 1.0f);
@@ -4604,21 +4604,21 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                     active->FUN_00804bc0(Effectiveness(false, 0) * multiplier);
                 break;
             case 7: {
-                if (alchemy2 && alchemy2->FUN_004029d0(4))
+                if (alchemy2 && alchemy2->AlchemyItem_IsFlagSet(4))
                 {
                     float potency = casterActorSlot25->AttachSubObject() * multiplier;
                     if (casterActorSlot25->IsCharacter() && active->FUN_0084e3a0()->FUN_00403ea0() == 16)
                         FUN_005e58f0(12, casterActorSlot25, &potency);
                     active->FUN_00804bc0(potency);
                 }
-                if (alchemy2 && alchemy2->FUN_004029d0(2) && active->FUN_0084e3a0()->FUN_00403ea0() != 54)
+                if (alchemy2 && alchemy2->AlchemyItem_IsFlagSet(2) && active->FUN_0084e3a0()->FUN_00403ea0() != 54)
                 {
                     float foodPower = casterActorSlot25->FUN_008bec80() * multiplier;
                     if (casterActorSlot25->IsCharacter() && active->FUN_0084e3a0()->FUN_00403ea0() == 16)
                         FUN_005e58f0(12, casterActorSlot25, &foodPower);
                     active->FUN_00804bc0(foodPower);
                 }
-                else if (alchemy2 && alchemy2->FUN_004029d0(2) && active->FUN_0084e3a0()->FUN_00403ea0() == 54)
+                else if (alchemy2 && alchemy2->AlchemyItem_IsFlagSet(2) && active->FUN_0084e3a0()->FUN_00403ea0() == 54)
                 {
                     float modifier = 1.0f;
                     FUN_005e58f0(44, casterActorSlot25, &modifier);
@@ -4651,7 +4651,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 {
                     if (FUN_00817940(target6, DAT_011f426c, spellB, active, false))
                         didTarget2 = true;
-                    if (effect->FUN_00404420() > 0 && aTargetObject)
+                    if (effect->EffectItem_GetArea() > 0 && aTargetObject)
                     {
                         bool blocked = false;
                         ApplyAreaEffect(spellB, active, aTargetObject->FUN_008d6f30(), *aTargetObject->GetPosition(),
@@ -4662,7 +4662,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 }
                 else if (!touchPotionSlot30 && spellFormSlot1 &&
                          reinterpret_cast<SpellView*>(spellFormSlot1)->FUN_0040e210(0x80) &&
-                         effect->FUN_00404420() > 0 && casterActorSlot25)
+                         effect->EffectItem_GetArea() > 0 && casterActorSlot25)
                 {
                     bool blockedCaster = false;
                     ApplyAreaEffect(spellB, active, casterActorSlot25->FUN_008d6f30(),
@@ -4703,7 +4703,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 instance2->FUN_00689920(DAT_0102054c);
                 if (instance2->FUN_00490e40())
                 {
-                    float areaScale = areaEffect7->FUN_00404420() * *DAT_011d1bbc.FUN_00403e20();
+                    float areaScale = areaEffect7->EffectItem_GetArea() * *DAT_011d1bbc.FUN_00403e20();
                     if (areaScale > *DAT_011d1acc.FUN_00403e20())
                         areaScale = *DAT_011d1acc.FUN_00403e20();
                     else if (areaScale < *DAT_011d15a4.FUN_00403e20())
@@ -4712,20 +4712,20 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 }
             }
         }
-        else if (areaTarget3->IsActor() && aTouchEffect && aTouchEffect->FUN_00825c00()->FUN_00403e60(0x20000000))
+        else if (areaTarget3->IsActor() && aTouchEffect && aTouchEffect->FUN_00825c00()->EffectSetting_IsFlagSet(0x20000000))
         {
             ActorView* actor = reinterpret_cast<ActorView*>(areaTarget3);
             if (CheckHealthDamageKill(static_cast<TargetPart*>(actor), spellB))
-                ApplyExplosion(actor, position, aTouchEffect, aTouchEffect->FUN_00403f00());
+                ApplyExplosion(actor, position, aTouchEffect, aTouchEffect->EffectItem_GetRawCost());
         }
     }
     contextSlot12.FUN_00470470();
     if (reinterpret_cast<MagicView*>(spellB)->HasNonDetrimentalEffect())
         CastAimEffect();
     else if (didTarget2 && casterActorSlot25 && (spellB->GetSpellType() == 0 || spellB->GetSpellType() == 5))
-        casterActorSlot25->UseSkill(reinterpret_cast<MagicView*>(spellB)->FUN_004065e0(true), 0);
+        casterActorSlot25->UseSkill(reinterpret_cast<MagicView*>(spellB)->EffectItemList_GetAssociatedSkill(true), 0);
     if (releaseModel && artSlot15 && artSlot15->model.FUN_0048cee0() > 0)
-        DAT_011c3b3c->FUN_00445300(artSlot15->model.GetModelFilePath(), false, 1);
+        DAT_011c3b3c->ModelLoader_ReleaseModel(artSlot15->model.GetModelFilePath(), false, 1);
     SetSpell(0);
     SetMagicTarget(0);
     FUN_00818af0(0, 0);

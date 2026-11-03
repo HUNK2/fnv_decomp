@@ -1,6 +1,6 @@
 
 // src/fallout_shared/tesobjectcell_rtti_variant_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x005434d0: the skeleton of src/fallout_shared/tesobjectcell_rtti_variant.cpp
-// with declarations corrected to what the original code does (tesobjectcell_packet_rtti_variant.h: public: virtual ~TESObjectCELL(); -> public: virtual ~TESObjectCELL(); virtual void Vir; tesobjectcell_packet_rtti_variant.h: TESObjectCELL += bool FUN_005434d0(struct FormGroupQuery* group); bool IsFormTypeBelowThreshold(struct FormGroupQuery* group); unsigned int FUN_00544). Move the function to its real unit once
+// with declarations corrected to what the original code does (tesobjectcell_packet_rtti_variant.h: public: virtual ~TESObjectCELL(); -> public: virtual ~TESObjectCELL(); virtual void Vir; tesobjectcell_packet_rtti_variant.h: TESObjectCELL += bool TESObjectCELL_SavesBefore(struct FormGroupQuery* group); bool IsFormTypeBelowThreshold(struct FormGroupQuery* group); unsigned int FUN_00544). Move the function to its real unit once
 // that unit declares it this way.
 
 // src/fallout_shared/tesobjectcell_rtti_variant.cpp - RTTI variant unit created 2026-10-24 by rtti_variants.py for paused functions whose original code needs
@@ -167,21 +167,21 @@ class RefView : public TESObjectREFR
     virtual void Unk_24c();  // +0x24c
 
     void* FUN_007af430();
-    bool FUN_00564e60();
+    bool TESObjectREFR_GetVisibleDistant();
     bool FUN_00440da0();  // GetDisabled
     class RefExtra* FUN_005d43c0();
     CellView* FUN_008d6f30();  // GetParentCell
-    bool FUN_005656d0();
-    bool FUN_0056a250();
+    bool TESObjectREFR_HasScript();
+    bool TESObjectREFR_IsActivatingChildren();
     bool FUN_00437b90();
-    void FUN_005728c0(int iValue);
+    void TESObjectREFR_AddLight(int iValue);
     bool FUN_00548700();
     bool IsFlag20000000Set();
 };
 class RefExtra
 {
   public:
-    void FUN_0041d390(CellView* pkCell);
+    void ExtraDataList_SetPersistentCell(CellView* pkCell);
 };
 struct RefList
 {
@@ -193,7 +193,7 @@ extern RefList DAT_011ca144;
 class CellNavHandler
 {
   public:
-    void FUN_00587d10(RefView* pkRef);
+    void TESWorldSpace_AddToPersistentRefData(RefView* pkRef);
 };
 class CellDataHandler
 {
@@ -204,8 +204,8 @@ extern CellDataHandler* DAT_011c3f2c;
 class CellTES
 {
   public:
-    bool FUN_004511e0(CellView* pkCell, int iValue);
-    int FUN_00458be0(CellView* pkCell, int iA, int iB);
+    bool TES_IsCellLoaded(CellView* pkCell, int iValue);
+    int TES_GetCellPriority(CellView* pkCell, int iA, int iB);
 };
 extern CellTES* DAT_011dea10;
 class CellPlayer
@@ -224,7 +224,7 @@ extern CellSaveLoad* DAT_011de45c;
 class CellModelLoader
 {
   public:
-    void FUN_00444850(RefView* pkRef, int iCell);
+    void ModelLoader_QueueReference(RefView* pkRef, int iCell);
 };
 extern CellModelLoader* DAT_011c3b3c;
 class CellProcessLists
@@ -353,18 +353,18 @@ class CellView
 
     bool FUN_005516c0();
     void FUN_00541ac0();  // CellRefLockEnter
-    void FUN_00541ae0();  // CellRefLockLeave
+    void TESObjectCELL_CellRefLockLeave();  // CellRefLockLeave
     RefList* FUN_009604f0();
     CellNavHandler* FUN_0054ddd0();
-    void FUN_0054ca90(RefView* pkRef);  // RemoveReference
-    bool FUN_00450ff0();
-    bool FUN_004523c0();
+    void TESObjectCELL_RemoveReference(RefView* pkRef);  // RemoveReference
+    bool TESObjectCELL_IsAttached();
+    bool TESObjectCELL_IsAttaching();
     void FUN_00545560(RefView* pkRef);
     void FUN_005455c0(RefView* pkRef);
-    void FUN_00548880(RefView* pkRef, bool bArg);
-    bool FUN_00548720();
+    void TESObjectCELL_AttachReference3D(RefView* pkRef, bool bArg);
+    bool TESObjectCELL_IsLoading();
     bool FUN_00425fd0();  // IsInterior
-    void FUN_00548230(RefView* pkRef, bool bArg);
+    void TESObjectCELL_AddReference(RefView* pkRef, bool bArg);
 };
 class TESForm
 {
@@ -381,7 +381,7 @@ class TESBoundObject : public TESObject
 class TESObjectDOOR : public TESBoundObject
 {
   public:
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
     bool HasEntry(TESForm* destination);
 };
 class ReferenceList
@@ -401,22 +401,22 @@ class ReferenceList
 ReferenceList* __fastcall FUN_009604f0(TESObjectCELL* cell);
 TESObjectCELL* __fastcall FUN_005f36f0(TESWorldSpace* world);
 TESBoundObject* __fastcall FUN_007af430(TESObjectREFR* reference);
-bool __fastcall FUN_00440d80(const TESObjectREFR* reference);
+bool __fastcall TESForm_GetDelete(const TESObjectREFR* reference);
 bool __fastcall FUN_00440da0(TESObjectREFR* reference);
-bool __fastcall FUN_00477ba0(TESObjectREFR* reference);
+bool __fastcall TESForm_GetDestroyed(TESObjectREFR* reference);
 void* __fastcall FUN_00568e50(TESObjectREFR* reference);
-void __fastcall FUN_00541ae0(TESObjectCELL* cell);
+void __fastcall TESObjectCELL_CellRefLockLeave(TESObjectCELL* cell);
 unsigned int __cdecl GetRandomNumberInRange(int low, int high);
-TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void* context);
+TESObjectREFR* __cdecl TESObjectCELL_PickRandomTeleportDoorInSpace(TESForm* source, TESForm* destination, void* context);
 
 struct FormGroupQuery
 {
     unsigned int tag, unk04, value, kind;
 };
 extern unsigned int DAT_01187020;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 // @fnv 0x005434d0
-bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
+bool TESObjectCELL::TESObjectCELL_SavesBefore(FormGroupQuery* group)
 {
 
     bool matched = false;
@@ -433,7 +433,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
 
         case 2:
 
-            if (IsCellInterior() && FUN_005441b0() < group->value)
+            if (IsCellInterior() && TESObjectCELL_GetGroupBlockKey() < group->value)
 
                 matched = true;
 
@@ -441,7 +441,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
 
         case 3:
 
-            if (IsCellInterior() && FUN_00544210() < group->value)
+            if (IsCellInterior() && TESObjectCELL_GetGroupSubBlockKey() < group->value)
 
                 matched = true;
 
@@ -451,7 +451,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
         case 8:
         case 9: {
 
-            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(FUN_004839c0(group->value));
+            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(TESForm_GetFormByNumericID(group->value));
 
             if (cell)
 
@@ -468,7 +468,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
                 if (FUN_005516c0())
                     matched = true;
 
-                else if (FUN_005441b0() < group->value)
+                else if (TESObjectCELL_GetGroupBlockKey() < group->value)
                     matched = true;
             }
             else
@@ -484,7 +484,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
                 if (FUN_005516c0())
                     matched = true;
 
-                else if (FUN_00544210() < group->value)
+                else if (TESObjectCELL_GetGroupSubBlockKey() < group->value)
                     matched = true;
             }
             else
@@ -497,7 +497,7 @@ bool TESObjectCELL::FUN_005434d0(FormGroupQuery* group)
             if (!IsCellInterior())
             {
 
-                TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(FUN_004839c0(group->value));
+                TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(TESForm_GetFormByNumericID(group->value));
 
                 if (world)
 

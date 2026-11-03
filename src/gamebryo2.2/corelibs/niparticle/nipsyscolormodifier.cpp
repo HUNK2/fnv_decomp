@@ -12,7 +12,7 @@ void NiPSysColorModifier::LoadBinary(NiStream& kStream)
 extern "C" void* g_01202778;
 
 // @fnv 0x00c2d170
-void* __cdecl FUN_00c2d170()
+void* __cdecl NiPSysColorModifier_GetRTTI()
 {
     return &g_01202778;
 }
@@ -46,10 +46,10 @@ struct Fake00c2d0d0
 };
 struct FUN_00c2d0d0_Class : NiPSysColorModifier
 {
-    bool FUN_00c2d0d0(NiObject* pkObject);
+    bool NiPSysColorModifier_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00c2d0d0
-bool FUN_00c2d0d0_Class::FUN_00c2d0d0(NiObject* pkObject)
+bool FUN_00c2d0d0_Class::NiPSysColorModifier_IsEqual(NiObject* pkObject)
 {
     NiPSysColorModifier* pkDest;
     Fake00c2d0d0* pSrc;
@@ -97,11 +97,11 @@ struct C8C330Node
 struct FUN_00c2d1c0_Class : NiPSysColorModifier
 {
     void SetColorData(NiObject* pkObject);
-    void FUN_00c2d1c0(NiStream& kStream);
+    void NiPSysColorModifier_LinkObject(NiStream& kStream);
 };
 
 // @fnv 0x00c2d1c0
-void FUN_00c2d1c0_Class::FUN_00c2d1c0(NiStream& kStream)
+void FUN_00c2d1c0_Class::NiPSysColorModifier_LinkObject(NiStream& kStream)
 {
     NiPSysModifier::LinkObject(kStream);
     SetColorData(reinterpret_cast<C8C330Node*>(&kStream)->FUN_00a63430());
@@ -117,20 +117,20 @@ char* _FUN_00a7d330(void*);
 
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 
 extern void* _g_01202778;
 
 struct FUN_00c2d2a0_Class : NiPSysColorModifier
 {
-    void FUN_00c2d2a0(StrArr* pkStrings);
+    void NiPSysColorModifier_GetViewerStrings(StrArr* pkStrings);
 };
 
 // @fnv 0x00c2d2a0
-void FUN_00c2d2a0_Class::FUN_00c2d2a0(StrArr* pkStrings)
+void FUN_00c2d2a0_Class::NiPSysColorModifier_GetViewerStrings(StrArr* pkStrings)
 {
-    ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
+    ((Base00c319e0*)this)->NiPSysModifier_GetViewerStrings(pkStrings);
     char* str = _FUN_00a7d330(_g_01202778);
     unsigned int idx = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int size = *(unsigned short*)((char*)pkStrings + 8);

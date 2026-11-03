@@ -763,7 +763,7 @@ class Script
     void SetOwnerQuest(TESQuest*);                                       // @ref 0x0087ce80 SetOwnerQuest@Script
 };
 void FUN_005c0740(TESObjectREFR*, unsigned char, float);  // @ref 0x005c0740 FUN_005c0740
-void FUN_005c0b10(TESObjectREFR*, unsigned char, float);  // @ref 0x005c0b10 FUN_005c0b10
+void Script_SetAngleBase(TESObjectREFR*, unsigned char, float);  // @ref 0x005c0b10 Script_SetAngleBase
 void FUN_005d3c20(TESObjectREFR*, float);                 // @ref 0x005d3c20 FUN_005d3c20
 void FUN_005d4c20(TESObjectREFR*, float);                 // @ref 0x005d4c20 FUN_005d4c20
 void UpdateSceneGraph(NiAVObject*);                       // @ref 0x005526f0 UpdateSceneGraph
@@ -927,7 +927,7 @@ class TESWaterListener
 class bhkCharacterController
 {
   public:
-    void FUN_005620e0(void*);  // @ref 0x005620e0 FUN_005620e0
+    void bhkCharacterController_SetPosition(void*);  // @ref 0x005620e0 bhkCharacterController_SetPosition
     void FUN_0080fb00(void*);  // @ref 0x0080fb00 FUN_0080fb00
     float FUN_005d10f0();      // @ref 0x005d10f0 FUN_005d10f0
     void FUN_0087cee0();       // @ref 0x0087cee0 FUN_0087cee0
@@ -1008,5 +1008,5 @@ class QuestStage
     unsigned char GetIndex();
 };
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 #endif

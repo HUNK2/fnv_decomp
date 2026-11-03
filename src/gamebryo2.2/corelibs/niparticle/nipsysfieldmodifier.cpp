@@ -5,7 +5,7 @@
 extern char const* const g_01202688_arg1;
 
 // @fnv 0x00c320f0
-char const* const* __cdecl FUN_00c320f0()
+char const* const* __cdecl NiPSysFieldModifier_GetRTTI()
 {
     return &g_01202688_arg1;
 }
@@ -75,11 +75,11 @@ struct C32060EmitterModifier : C32060Modifier
     bool m_bFlag;
     float m_fC;
 
-    bool FUN_00c32060(C32060Object* pkObject);
+    bool NiPSysFieldModifier_IsEqual(C32060Object* pkObject);
 };
 
 // @fnv 0x00c32060
-bool C32060EmitterModifier::FUN_00c32060(C32060Object* pkObject)
+bool C32060EmitterModifier::NiPSysFieldModifier_IsEqual(C32060Object* pkObject)
 {
     if (!C32060Modifier::IsEqual(pkObject))
         return false;
@@ -520,15 +520,15 @@ struct NiPSysFieldModifierImpl
     bool m_bEnableMaxDistance;
     float m_fDistanceLimit;
 
-    void __thiscall FUN_00c31950(NiStream& kStream);
-    void __thiscall FUN_00c321f0(NiStream& kStream);
+    void __thiscall NiPSysModifier_SaveBinary(NiStream& kStream);
+    void __thiscall NiPSysFieldModifier_SaveBinary(NiStream& kStream);
 };
 
-// Calls FUN_00c31950, then writes the link ID and the float, float, bool and float fields to the stream.
+// Calls NiPSysModifier_SaveBinary, then writes the link ID and the float, float, bool and float fields to the stream.
 // @fnv 0x00c321f0
-void NiPSysFieldModifierImpl::FUN_00c321f0(NiStream& kStream)
+void NiPSysFieldModifierImpl::NiPSysFieldModifier_SaveBinary(NiStream& kStream)
 {
-    FUN_00c31950(kStream);
+    NiPSysModifier_SaveBinary(kStream);
     kStream.SaveLinkID(m_pkFieldObject);
     SerializeValue(kStream, m_fInfluence);
     SerializeValue(kStream, m_fFieldAttenuation);
@@ -562,7 +562,7 @@ struct S_00c322b0_Base
     int unk0C;
     int unk10;
     int unk14;
-    void FUN_00c319e0(S_00c322b0_Arr* a);
+    void NiPSysModifier_GetViewerStrings(S_00c322b0_Arr* a);
 };
 extern const char* DAT_012027e0;
 char* __cdecl FUN_00a7d330(const char* s);
@@ -576,7 +576,7 @@ struct S_00c322b0 : S_00c322b0_Base
     float m20;
     unsigned char m24;
     float m28;
-    void FUN_00c322b0(S_00c322b0_Arr* a);
+    void NiPSysFieldModifier_GetViewerStrings(S_00c322b0_Arr* a);
 };
 __forceinline void S_00c322b0_Add(S_00c322b0_Arr* a, char* s)
 {
@@ -586,9 +586,9 @@ __forceinline void S_00c322b0_Add(S_00c322b0_Arr* a, char* s)
     a->FUN_0096ae90(i, s);
 }
 // @fnv 0x00c322b0
-void S_00c322b0::FUN_00c322b0(S_00c322b0_Arr* a)
+void S_00c322b0::NiPSysFieldModifier_GetViewerStrings(S_00c322b0_Arr* a)
 {
-    FUN_00c319e0(a);
+    NiPSysModifier_GetViewerStrings(a);
     S_00c322b0_Add(a, FUN_00a7d330(DAT_012027e0));
     S_00c322b0_Add(a, FUN_00a7d5e0("Field Object", m18 ? m18->name : "None"));
     S_00c322b0_Add(a, FUN_00a7d550("Magnitude", m1c));

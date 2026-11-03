@@ -366,7 +366,7 @@ class TESBoundObject : public TESForm
 class TESNPC : public TESBoundObject
 {
   public:
-    void FUN_0060a950(TESEyes*);
+    void TESNPC_SwapEyes(TESEyes*);
 };
 class P01ObjA
 {
@@ -1111,11 +1111,11 @@ class ActiveEffect
 };
 struct FUN_00826be0_shell : public ActiveEffect
 {
-    void FUN_00826be0(float);
+    void ReanimateEffect_Update(float);
 };
 
 // @fnv 0x00826be0
-void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
+void FUN_00826be0_shell::ReanimateEffect_Update(float afSecondsElapsed)
 {
     Actor* ptarget =
         ((BSThread*)this)->GetThreadID() ? ((MagicTarget*)((BSThread*)this)->GetThreadID())->GetOwnerActor() : 0;
@@ -1199,7 +1199,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                     Creature::SetNodeFlagsRecursive(pNode, 4, true, false, true);
                 TESNPC* pnpc = dynamic_cast<TESNPC*>((TESBoundObject*)((P01ObjA*)ptarget)->GetNext());
                 if (pnpc)
-                    pnpc->FUN_0060a950(DAT_011cb600);
+                    pnpc->TESNPC_SwapEyes(DAT_011cb600);
                 BSFaceGenAnimationData* pFaceGenAnimData = ptarget->GetActorFaceGenData();
                 if (pFaceGenAnimData)
                     pFaceGenAnimData->Unk_36(false, false);
@@ -1506,7 +1506,7 @@ void FUN_0067fa00_shell::FUN_0067fa00()
     }
 }
 
-int __cdecl FUN_004839c0(int value);
+int __cdecl TESForm_GetFormByNumericID(int value);
 
 struct FUN_0067fb20_holder
 {
@@ -1518,7 +1518,7 @@ struct FUN_0067fb20_holder
     void UpdateStoredValue();
 };
 
-// For status 0-4, replaces storedValue with the result of FUN_004839c0(storedValue); other statuses do nothing.
+// For status 0-4, replaces storedValue with the result of TESForm_GetFormByNumericID(storedValue); other statuses do nothing.
 // @fnv 0x0067fb20
 void FUN_0067fb20_holder::UpdateStoredValue()
 {
@@ -1530,7 +1530,7 @@ void FUN_0067fb20_holder::UpdateStoredValue()
     case 3:
     case 4: {
         int originalValue = storedValue;
-        storedValue = FUN_004839c0(originalValue);
+        storedValue = TESForm_GetFormByNumericID(originalValue);
         break;
     }
     default:
@@ -1678,14 +1678,14 @@ void OwnQ::FUN_0067faa0()
 }
 }  // namespace fnv_0067faa0
 
-TESForm* FUN_004839c0(unsigned int formID);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 
 struct FUN_0067fc50_shell : LocationDescriptor
 {
     void ResolveObject(int unused);
 };
 
-// For PLT_REFERENCE, PLT_CELL, PLT_CURRLOC, PLT_EDITORLOC, or PLT_OBJECT, resolves non-null pObject through FUN_004839c0.
+// For PLT_REFERENCE, PLT_CELL, PLT_CURRLOC, PLT_EDITORLOC, or PLT_OBJECT, resolves non-null pObject through TESForm_GetFormByNumericID.
 // @fnv 0x0067fc50
 void FUN_0067fc50_shell::ResolveObject(int unused)
 {
@@ -1696,6 +1696,6 @@ void FUN_0067fc50_shell::ResolveObject(int unused)
     case PLT_CURRLOC:
     case PLT_EDITORLOC:
     case PLT_OBJECT:
-        pObject = pObject ? FUN_004839c0(reinterpret_cast<unsigned int>(pObject)) : 0;
+        pObject = pObject ? TESForm_GetFormByNumericID(reinterpret_cast<unsigned int>(pObject)) : 0;
     }
 }

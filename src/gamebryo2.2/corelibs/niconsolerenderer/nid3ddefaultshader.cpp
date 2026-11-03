@@ -103,7 +103,7 @@ struct RendererFake
 };
 struct BaseFake
 {
-    unsigned int FUN_00e805f0(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int NiD3DShader_PostProcessPipeline(void*, void*, void*, void*, void*, void*, void*);
 };
 struct FakeShader
 {
@@ -111,14 +111,14 @@ struct FakeShader
     RendererFake* m_pOwnerShader;
     char _pad1[0x2c];
     unsigned int m_uiOld;
-    unsigned int FUN_00e7c580(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int NiD3DDefaultShader_PostProcessPipeline(void*, void*, void*, void*, void*, void*, void*);
 };
-// Calls Set(0x89, m_uiOld, 0, 0) on the renderer, then forwards all arguments to FUN_00e805f0 and returns its result.
+// Calls Set(0x89, m_uiOld, 0, 0) on the renderer, then forwards all arguments to NiD3DShader_PostProcessPipeline and returns its result.
 // @fnv 0x00e7c580
-unsigned int FakeShader::FUN_00e7c580(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
+unsigned int FakeShader::NiD3DDefaultShader_PostProcessPipeline(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     m_pOwnerShader->Set(0x89, m_uiOld, 0, 0);
-    return ((BaseFake*)this)->FUN_00e805f0(a1, a2, a3, a4, a5, a6, a7);
+    return ((BaseFake*)this)->NiD3DShader_PostProcessPipeline(a1, a2, a3, a4, a5, a6, a7);
 }
 
 extern void NiFree(void*);
@@ -780,17 +780,17 @@ struct S_00e7c720_Shader
     int unk44;
     int unk48;
     unsigned int unk4c;
-    unsigned int FUN_00e81170(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
-    unsigned int FUN_00e7c720(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
+    unsigned int NiD3DShader_PreProcessPipeline(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
+    unsigned int NiD3DDefaultShader_PreProcessPipeline(void*, void*, void*, S_00e7c720_State*, void*, void*, void*);
 };
-// Calls f02 on unk1c, invokes ApplyRenderModes on unk18->unk8c8 with a5 and a4->unk14, runs FUN_00e81170, stores unk1c->f27(0x89) in unk4c and returns its result.
+// Calls f02 on unk1c, invokes ApplyRenderModes on unk18->unk8c8 with a5 and a4->unk14, runs NiD3DShader_PreProcessPipeline, stores unk1c->f27(0x89) in unk4c and returns its result.
 // @fnv 0x00e7c720
-unsigned int S_00e7c720_Shader::FUN_00e7c720(void* apArg1, void* apArg2, void* apArg3, S_00e7c720_State* apState,
+unsigned int S_00e7c720_Shader::NiD3DDefaultShader_PreProcessPipeline(void* apArg1, void* apArg2, void* apArg3, S_00e7c720_State* apState,
                                              void* apArg5, void* apArg6, void* apArg7)
 {
     unk1c->f02(apState);
     unk18->unk8c8->ApplyRenderModes(apArg5, apState->unk14, 0);
-    unsigned int r = FUN_00e81170(apArg1, apArg2, apArg3, apState, apArg5, apArg6, apArg7);
+    unsigned int r = NiD3DShader_PreProcessPipeline(apArg1, apArg2, apArg3, apState, apArg5, apArg6, apArg7);
     unk4c = unk1c->f27(0x89);
     return r;
 }

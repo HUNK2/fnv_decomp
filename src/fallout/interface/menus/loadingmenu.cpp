@@ -90,7 +90,7 @@ void LoadingMenu::UpdateLoadingScreenThread()
 void LoadingMenu::SetLoadingScreenVisible(int visible)
 {
     NiGeometry* object;
-    RgbaColor* pColors = reinterpret_cast<NiGeometryData*>(FUN_004b7210())->GetColors();
+    RgbaColor* pColors = reinterpret_cast<NiGeometryData*>(InterfaceManager_Instance())->GetColors();
     NiNode* node = pColors ? pColors->FUN_0056c7f0() : 0;
     object = 0;
     // object is deliberately initialized after obtaining the node.
@@ -99,7 +99,7 @@ void LoadingMenu::SetLoadingScreenVisible(int visible)
         object = reinterpret_cast<NiGeometry*>(node->FUN_0045bc00(0));
         if (object)
         {
-            NiProperty* property = object->GetProperty(FUN_004af350());
+            NiProperty* property = object->GetProperty(NiMaterialProperty_GetType());
             if (property)
                 property->FUN_0068c9f0((float)visible);
         }
@@ -466,7 +466,7 @@ class TESForm_Ex
 
 TESForm_Ex** __fastcall _ref_006815c0(void*);
 void* __fastcall _ref_00726070(void*);
-bool __fastcall FUN_004077c0(const void*);
+bool __fastcall TESForm_GetTemporary(const void*);
 void __fastcall FUN_00470470(void*);
 
 // @fnv 0x0078a940
@@ -474,7 +474,7 @@ void __fastcall FUN_0078a940(char* this_ptr)
 {
     for (void* pIter = this_ptr + 0x1d0; pIter && *_ref_006815c0(pIter); pIter = _ref_00726070(pIter))
     {
-        if (FUN_004077c0(*_ref_006815c0(pIter)))
+        if (TESForm_GetTemporary(*_ref_006815c0(pIter)))
         {
             delete *_ref_006815c0(pIter);
         }
@@ -754,7 +754,7 @@ class TaskThreadManager
 
 NiRenderer* __cdecl FUN_0043c4b0(void);
 RecursiveLock* __cdecl FUN_00713d70(void);
-bool __fastcall FUN_0044b130(RecursiveLock*);
+bool __fastcall BSCriticalSection_TryLock(RecursiveLock*);
 int __fastcall FUN_0078d1d0(RecursiveLock*);
 bool __cdecl BSSpinLockGlobalTryLock(void);
 void __cdecl FUN_00452530(void);
@@ -786,7 +786,7 @@ void __cdecl FUN_0078d080(void)
 {
     FUN_0043c4b0()->StartScene();
     RecursiveLock* pTileCritSect = FUN_00713d70();
-    if (!FUN_0044b130(pTileCritSect))
+    if (!BSCriticalSection_TryLock(pTileCritSect))
     {
         FUN_0043c4b0()->FinishScene();
         return;
@@ -821,7 +821,7 @@ void __cdecl FUN_0078d080(void)
     }
 
     DAT_011c70f8 = true;
-    reinterpret_cast<InterfaceManager_Helper*>(FUN_004b7210())->RenderMenu(0, 0);
+    reinterpret_cast<InterfaceManager_Helper*>(InterfaceManager_Instance())->RenderMenu(0, 0);
     DAT_011c70f8 = false;
 
     reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())->FUN_00ba2fa0();
@@ -1201,8 +1201,8 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         (*(Tile**)((char*)this + 4))->Set(0xfad, TileH::GetInterfaceScale(), true);
     }
 
-    if (((FUN_00424940_shell*)FUN_004b7210())->FUN_00424940() != 3)
-        ((FUN_0041fd00_shell*)FUN_004b7210())->FUN_0041fd00(2);
+    if (((FUN_00424940_shell*)InterfaceManager_Instance())->FUN_00424940() != 3)
+        ((FUN_0041fd00_shell*)InterfaceManager_Instance())->FUN_0041fd00(2);
 
     HUDMainMenu::UpdateVisibilityState(5);
     HUDMainMenu::UpdateTargetReference(0, false, false);
@@ -3022,7 +3022,7 @@ Tile* __cdecl CreateLoadingMenuTile(TESForm* form, bool refresh, bool visible)
         return menu;
     }
     DAT_011da0c8 = true;
-    LoadingMenuCreateTile* existing = reinterpret_cast<LoadingMenuCreateProvider*>(FUN_004b7210())
+    LoadingMenuCreateTile* existing = reinterpret_cast<LoadingMenuCreateProvider*>(InterfaceManager_Instance())
                                           ->FUN_00586150()
                                           ->ReadFile("Data\\Menus\\loading_menu.xml");
     DAT_011da0c8 = false;
@@ -3508,7 +3508,7 @@ struct PerkEntryX : BGSPerkEntry
 {
     void* FUN_005f36f0();
     int FUN_0078bc60();
-    int FUN_005a7130();
+    int TESLoadScreen_GetLoadScreenTypeDataType();
 };
 struct LoadingMenuX : LoadingMenu
 {
@@ -3539,7 +3539,7 @@ void LoadingMenuX::FUN_0078bb60(BGSPerkEntry* entry)
     {
         int x = ((PerkEntryX*)entry)->FUN_0078bc60();
         FUN_0078b9b0(x);
-        switch (((PerkEntryX*)entry)->FUN_005a7130())
+        switch (((PerkEntryX*)entry)->TESLoadScreen_GetLoadScreenTypeDataType())
         {
         case 4:
             ApplySettings(x);
@@ -4130,8 +4130,8 @@ int FUN_0070ede0();
 S00788ab0_MenuTileQuery* FUN_00a09030(int);
 void FUN_0078cfc0();
 void FUN_0078d020();
-void __fastcall FUN_004a0370(char*);
-void __fastcall FUN_004a03c0(char*);
+void __fastcall NiRenderer_LockRenderer(char*);
+void __fastcall NiRenderer_UnlockRenderer(char*);
 struct S00788ab0_OSQuery
 {
     bool FUN_00678ce0();
@@ -4191,15 +4191,15 @@ void S00788ab0_LoadingSetup::FUN_00788ab0(int aiExtraCandidates)
         ((S00788ab0_LoadingMenu*)this)->ApplyLoadingScreenTexture(0);
         FUN_0078abd0();
         ((LoadingResetTileState*)this)->FUN_00458080((TileIndex)3, false);
-        FUN_004a0370((char*)FUN_0043c4b0());
+        NiRenderer_LockRenderer((char*)FUN_0043c4b0());
         if (!((S00788ab0_VisibleTile*)m_pTiles[11])->IsVisible())
         {
             m_pTiles[11]->Set(4003, 1);
             ((S00788ab0_LoadingMenu*)this)->FUN_0078a230();
         }
-        ((S00788ab0_InterfaceQuery*)FUN_004b7210())->GetParent()->Set(4003, 0);
+        ((S00788ab0_InterfaceQuery*)InterfaceManager_Instance())->GetParent()->Set(4003, 0);
         FUN_00a04200(true);
-        FUN_004a03c0((char*)FUN_0043c4b0());
+        NiRenderer_UnlockRenderer((char*)FUN_0043c4b0());
         DAT_011a0295 = true;
         FUN_0078d020();
     }

@@ -70,10 +70,10 @@ template <class T> struct PoolAllocatorBase
 };
 struct FUN_0045cee0_shell
 {
-    void __thiscall FUN_0045cee0(void*);
+    void __thiscall NiTPointerAllocator_Deallocate(void*);
 };
 // @fnv 0x0045cee0
-void __thiscall FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
+void __thiscall FUN_0045cee0_shell::NiTPointerAllocator_Deallocate(void* pkItem)
 {
     g_011c5f80.Lock(0);
     PoolAllocatorBase<unsigned int>::LinkedListEntry* pkNode =

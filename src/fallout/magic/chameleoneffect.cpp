@@ -661,8 +661,8 @@ struct FUN_0080b0c0_cls
     int unk40;
     int unk44;
     int m_48;
-    void FUN_0082cd10(FUN_0080b0c0_arg* a);
-    void FUN_0080b0c0(FUN_0080b0c0_arg* a1);
+    void ValueModifierEffect_FinishInitLoadGame(FUN_0080b0c0_arg* a);
+    void ChameleonEffect_FinishInitLoadGame(FUN_0080b0c0_arg* a1);
 };
 
 float __cdecl FUN_00404010(float a, float b);
@@ -672,9 +672,9 @@ float __cdecl GetOriginalRuntimeFloatSetting9();
 float __cdecl LinearInterpolate(float a, float b, float c, float d, float e);
 
 // @fnv 0x0080b0c0
-void FUN_0080b0c0_cls::FUN_0080b0c0(FUN_0080b0c0_arg* a1)
+void FUN_0080b0c0_cls::ChameleonEffect_FinishInitLoadGame(FUN_0080b0c0_arg* a1)
 {
-    FUN_0082cd10(a1);
+    ValueModifierEffect_FinishInitLoadGame(a1);
     if (FUN_005b9b00())
     {
         a1->At0x41c(1.0f);
@@ -1152,7 +1152,7 @@ struct EffectOwner
 struct MyActiveEffect : ChamActiveEffect
 {
     EffectOwner* FUN_0059bb30();
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
     void UpdateChameleonEffect();
 };
 
@@ -1160,7 +1160,7 @@ struct MyActiveEffect : ChamActiveEffect
 void MyActiveEffect::UpdateChameleonEffect()
 {
     MyChamActor* q = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    FUN_0082c000();
+    ValueModifierEffect_Start();
     if (q != 0)
     {
         if (FUN_005b9b00())

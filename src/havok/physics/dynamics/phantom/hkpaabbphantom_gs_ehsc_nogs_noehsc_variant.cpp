@@ -6,7 +6,7 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpAabbPhantom.h"
-int __cdecl FUN_00cf2460();
+int __cdecl hkpAabbPhantom_getType();
 struct hkBoolXcf24d0
 {
     char m_cBooleanValue;
@@ -92,7 +92,7 @@ struct PresentFlag
 struct FUN_00cf2a60_t : hkpAabbPhantom
 {
     void NotifyAll(hkpCollidable* collidable, PresentFlag wasPresent);
-    void FUN_00cf2a60(hkpCollidable* collidable);
+    void hkpAabbPhantom_removeOverlappingCollidable(hkpCollidable* collidable);
 };
 class hkClassCF2A;
 extern const hkClassCF2A DAT_0126902c;

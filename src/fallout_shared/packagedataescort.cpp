@@ -69,10 +69,10 @@ struct TESEscortPackageData
     void* base;
     LocationDescriptor* m_pPackageTarget;
     int m_iValue;
-    void FUN_0067bec0();
+    void TESEscortPackageData_Save();
 };
 // @fnv 0x0067bec0
-void TESEscortPackageData::FUN_0067bec0()
+void TESEscortPackageData::TESEscortPackageData_Save()
 {
     IntegerData valueBlock;
     memset(&valueBlock, 0, 4);

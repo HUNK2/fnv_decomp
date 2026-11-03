@@ -112,10 +112,10 @@ struct PatrolLoadShell
     bool bFlag2C;
     int unk30;
     int unk34;
-    void FUN_009f34e0(LoadBuf* apBuffer);
+    void PatrolActorPackageData_LoadGame(LoadBuf* apBuffer);
 };
 // @fnv 0x009f34e0
-void PatrolLoadShell::FUN_009f34e0(LoadBuf* apBuffer)
+void PatrolLoadShell::PatrolActorPackageData_LoadGame(LoadBuf* apBuffer)
 {
     apBuffer->ReadDataBlock(&iState, 4);
     iState = (iState >= 0 && iState <= 2) ? iState : 0;
@@ -138,7 +138,7 @@ struct ExtraHolder;
 
 struct PatrolRef : public TESObjectREFR
 {
-    void FUN_00564db0(bool);
+    void TESObjectREFR_SetTargeted(bool);
     ExtraHolder* FUN_005d43c0();
 };
 TESForm* LookupFormByID9f3610(unsigned int);
@@ -314,11 +314,11 @@ struct PatrolData9f3610
 
     bool SetPatrolRefIndex(unsigned int);
     void SelectClosestPatrolPoint(void*);
-    void FUN_009f3610(PatrolLoadBuf* apBuf);
+    void PatrolActorPackageData_InitLoadGame(PatrolLoadBuf* apBuf);
 };
 
 // @fnv 0x009f3610
-void PatrolData9f3610::FUN_009f3610(PatrolLoadBuf* apBuf)
+void PatrolData9f3610::PatrolActorPackageData_InitLoadGame(PatrolLoadBuf* apBuf)
 {
     bool bAnyRemoved = false;
     unsigned int ItemUpdateArray = kRefs.GetSize();
@@ -331,7 +331,7 @@ void PatrolData9f3610::FUN_009f3610(PatrolLoadBuf* apBuf)
                  : 0;
         if (rRef)
         {
-            rRef->FUN_00564db0(true);
+            rRef->TESObjectREFR_SetTargeted(true);
         }
         else
         {

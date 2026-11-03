@@ -92,11 +92,11 @@ struct FUN_00da2e60_cls
     void* m_vft;  // +0x00
     char m_auiShapeKeys[0x1c];
     int m_pSocket;  // +0x20
-    int FUN_00da2e60(int, int);
+    int hkBsdSocket_write(int, int);
 };
 
 // @fnv 0x00da2e60
-int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
+int FUN_00da2e60_cls::hkBsdSocket_write(int a, int b)
 {
     int r;
     if (m_pSocket != -1)
@@ -145,11 +145,11 @@ struct FUN_00da2f90_cls
 {
     char m_auiShapeKeys[0x20];
     int m_pSocket;
-    bool FUN_00da2f90(int a, int b, int c);
+    bool hkBsdSocket_asyncSelect(int a, int b, int c);
 };
 extern "C" int __stdcall FUN_00ee6d7a(int, int, int, int);
 // @fnv 0x00da2f90
-bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
+bool FUN_00da2f90_cls::hkBsdSocket_asyncSelect(int aiArg1, int aiArg2, int c)
 {
     return FUN_00ee6d7a(m_pSocket, aiArg1, aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
 }
@@ -369,12 +369,12 @@ struct SocketConnector
     int unk1c;
     int socket;
     int FUN_00da2de0();
-    int FUN_00da2ec0(const char* host, int port);
+    int hkBsdSocket_connect(const char* host, int port);
 };
 
 // Resolves the host to an IPv4 address, ensures a socket exists, and calls the connection routine with the address and port.
 // @fnv 0x00da2ec0
-int SocketConnector::FUN_00da2ec0(const char* host, int port)
+int SocketConnector::hkBsdSocket_connect(const char* host, int port)
 {
     IPv4SocketAddress target;
     FUN_00cb1280(&target, 0, sizeof(target));
@@ -491,12 +491,12 @@ class hkBsdSocketDA30
     unsigned int m_pSocket;
 
     int FUN_00da2de0() throw();
-    int FUN_00da30d0(int iPort) throw();
+    int hkBsdSocket_listen(int iPort) throw();
 };
 
 // Binds the socket to the given port, sets it to listen with backlog 2, and logs the host name and port.
 // @fnv 0x00da30d0
-int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
+int hkBsdSocketDA30::hkBsdSocket_listen(int iPort) throw()
 {
     if (FUN_00da2de0() != 0)
         return 1;

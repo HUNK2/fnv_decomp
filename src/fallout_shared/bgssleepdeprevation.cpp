@@ -121,7 +121,7 @@ bool BGSSleepDeprevationStage::Load(TESFile* file)
             reinterpret_cast<TESForm*>(this)->readOBNDSubRecord(file);
             break;
         case 0x41544144:
-            reinterpret_cast<BGSDehydrationStage*>(this)->FUN_004861f0(
+            reinterpret_cast<BGSDehydrationStage*>(this)->TESForm_LoadData(
                 file, reinterpret_cast<BGSDehydrationStage*>(this)->FUN_00500940(8));
             break;
         }
@@ -262,7 +262,7 @@ FUN_004021a0::~FUN_004021a0()
 namespace fnv_004022b0 {
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(BGSSleepDeprevationStage*);
+    void TESForm_CopyAllComponents(BGSSleepDeprevationStage*);
 };
 struct HF
 {
@@ -279,7 +279,7 @@ void FUN_004022b0_Host::CopyFromSleepDeprivationStage(TESForm* apCopy)
     BGSSleepDeprevationStage* pcopy = dynamic_cast<BGSSleepDeprevationStage*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(((HF*)this)->FUN_00500940(), ((HF*)pcopy)->FUN_00500940(), 8);
 }
 }  // namespace fnv_004022b0
@@ -289,18 +289,18 @@ extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int uiS
 class B402310Stage
 {
   public:
-    bool FUN_00485270(BGSSleepDeprevationStage* pkOther);
+    bool TESForm_CompareAllComponents(BGSSleepDeprevationStage* pkOther);
     void* GetData();
-    bool FUN_00402310(TESForm* pkForm);
+    bool BGSSleepDeprevationStage_Compare(TESForm* pkForm);
 };
 
 // @fnv 0x00402310
-bool B402310Stage::FUN_00402310(TESForm* pkForm)
+bool B402310Stage::BGSSleepDeprevationStage_Compare(TESForm* pkForm)
 {
     BGSSleepDeprevationStage* pkOther = dynamic_cast<BGSSleepDeprevationStage*>(pkForm);
     if (!pkOther)
         return true;
-    if (FUN_00485270(pkOther))
+    if (TESForm_CompareAllComponents(pkOther))
         return true;
     if (memcmp(GetData(), reinterpret_cast<B402310Stage*>(pkOther)->GetData(), 8))
         return true;

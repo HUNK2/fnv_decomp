@@ -34,10 +34,10 @@ void Unknown::FUN_00a360d0()
 
 struct FakeTransformController : NiSingleInterpController
 {
-    void FUN_00a36190(NiStream&);
+    void NiTransformController_LoadBinary(NiStream&);
 };
 // @fnv 0x00a36190
-void FakeTransformController::FUN_00a36190(NiStream& kStream)
+void FakeTransformController::NiTransformController_LoadBinary(NiStream& kStream)
 {
     NiSingleInterpController::LoadBinary(kStream);
     if (*(unsigned int*)((char*)&kStream + 0xD8) < 0x0A010068)
@@ -47,7 +47,7 @@ void FakeTransformController::FUN_00a36190(NiStream& kStream)
 extern int g_011f371c;
 
 // @fnv 0x00a36480
-int* __cdecl FUN_00a36480()
+int* __cdecl NiBlendAccumTransformInterpolator_GetRTTI()
 {
     return &g_011f371c;
 }
@@ -70,7 +70,7 @@ void* __thiscall S_00a36490::FUN_00a36490(unsigned int flag)
 extern "C" void* g_011f36ec;
 
 // @fnv 0x00a36580
-void* __cdecl FUN_00a36580()
+void* __cdecl NiTransformController_GetRTTI()
 {
     return &g_011f36ec;
 }
@@ -86,13 +86,13 @@ struct StrArr
     unsigned short m_usPad;
     unsigned short m_usGrowBy;
 };
-void __stdcall FUN_00a390a0(StrArr*);
+void __stdcall NiSingleInterpController_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 extern const char* g_011f36ec;
 // @fnv 0x00a36840
-void __stdcall FUN_00a36840(StrArr* pkStrings)
+void __stdcall NiTransformController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a390a0(pkStrings);
+    NiSingleInterpController_GetViewerStrings(pkStrings);
     char* pszString = FUN_00a7d330(g_011f36ec);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -124,11 +124,11 @@ struct S00a36100
     char _pad[0x2c];
     NiAVObject* m_spReferencedObject;
 
-    NiTransformInterpolator* FUN_00a36100(unsigned short usIndex);
+    NiTransformInterpolator* NiTransformController_CreatePoseInterpolator(unsigned short usIndex);
 };
 
 // @fnv 0x00a36100
-NiTransformInterpolator* S00a36100::FUN_00a36100(unsigned short usIndex)
+NiTransformInterpolator* S00a36100::NiTransformController_CreatePoseInterpolator(unsigned short usIndex)
 {
     NiAVObject* pkTarget = m_spReferencedObject;
     NiQuaternion kRotate;
@@ -435,7 +435,7 @@ class NiTransformInitB
 };
 
 // @fnv 0x00a36620
-void* __stdcall FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
+void* __stdcall NiTransformController_CreateBlendInterpolator(int a1, int a2, unsigned char a3, float a4, int a5)
 {
     void* obj;
     if (a3 != 0)
@@ -541,7 +541,7 @@ struct Flags_00a36680
 
 struct TransformCtl_t : NiTimeController
 {
-    void FUN_00a36680(UpdData_00a36680&);
+    void NiTransformController_Update(UpdData_00a36680&);
     unsigned short GetField(unsigned short uMask, unsigned short uPos) const
     {
         return (*(const unsigned short*)((const char*)this + 8) & uMask) >> uPos;
@@ -553,7 +553,7 @@ struct TransformCtl_t : NiTimeController
 };
 
 // @fnv 0x00a36680
-void TransformCtl_t::FUN_00a36680(UpdData_00a36680& UpdateData)
+void TransformCtl_t::NiTransformController_Update(UpdData_00a36680& UpdateData)
 {
     Interp_00a36680*& spInterp = *(Interp_00a36680**)((char*)this + 0x34);
     if (GetManagerControlled())

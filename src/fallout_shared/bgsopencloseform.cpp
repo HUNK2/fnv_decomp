@@ -109,7 +109,7 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
                     NiUpdateData data(inactive->FUN_00759450(), true, false);
                     ref->GetNiNode_v()->Update(data);
                     controller->StopSequence(inactive, 0.0f);
-                    ref->FUN_00578a30(active->GetName());
+                    ref->TESObjectREFR_SetLastFinishedSequence(active->GetName());
                     FUN_00c6bd00(ref->GetNiNode_v(), true);
                 }
                 else
@@ -126,9 +126,9 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
         else
         {
             if (open)
-                ref->FUN_00578a30(DAT_01011f30);
+                ref->TESObjectREFR_SetLastFinishedSequence(DAT_01011f30);
             else
-                ref->FUN_00578a30(g_011d22b0_arg1);
+                ref->TESObjectREFR_SetLastFinishedSequence(g_011d22b0_arg1);
         }
         if (immediate && *((ProcessLists*)&g_011d7188)->GetLifeStateControlFlag() &&
             ref->GetObjectReference()->GetFormType() == ENUM_FORM_ID_DOOR_ID && ref->GetNiNode_v() &&

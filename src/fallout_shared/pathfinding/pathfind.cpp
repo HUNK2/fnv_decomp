@@ -184,7 +184,7 @@ struct MemoryManager
 {
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 struct PathBuilderDetailedPathMeshes
 {
     PathBuilderDetailedPathMeshes();
@@ -205,7 +205,7 @@ struct FUN_006c6c60 : public PathBuilderDetailedPathMeshes
 // @fnv 0x006c6c60
 FUN_006c6c60::FUN_006c6c60()
 {
-    heap = FUN_00401020()->GetGeneralAllocator();
+    heap = MemoryManager_Instance()->GetGeneralAllocator();
     ((HZ*)this)->FUN_0042fcb0(0, 0);
 }
 
@@ -1132,7 +1132,7 @@ struct TESForm
 struct CP_008c48d0
 {
     CP_008c48d0* GetPrevPath();
-    int FUN_0054dc00(int value, float distance, TESSound* sound);
+    int TESObjectCELL_FindTeleportDoorsForLocation(int value, float distance, TESSound* sound);
 };
 
 // @fnv 0x006d9350
@@ -1159,7 +1159,7 @@ int __cdecl FUN_006d9350(void* form, int value, float distance, TESSound* sound)
     if (path == 0)
         return 0;
 
-    return path->FUN_0054dc00(value, distance, sound);
+    return path->TESObjectCELL_FindTeleportDoorsForLocation(value, distance, sound);
 }
 
 struct _Mem_2064
@@ -1325,7 +1325,7 @@ struct MemoryManager
 {
     ScrapHeapBuffer* GetGeneralAllocator();
 };
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 
 class D1B0Base
 {
@@ -1352,7 +1352,7 @@ class FUN_006ad1b0 : public D1B0Base
 // @fnv 0x006ad1b0
 FUN_006ad1b0::FUN_006ad1b0(unsigned int uiSize, unsigned int ItemUpdateArray, ScrapHeapBuffer* pkHeap)
 {
-    m_pkHeap = pkHeap ? pkHeap : FUN_00401020()->GetGeneralAllocator();
+    m_pkHeap = pkHeap ? pkHeap : MemoryManager_Instance()->GetGeneralAllocator();
     Init(uiSize, ItemUpdateArray);
 }
 }  // namespace fnv_006ad1b0
@@ -2802,7 +2802,7 @@ struct Vec3
     Vec3 operator+(const Vec3& other) const;
     Vec3 operator*(float amount) const;
     Vec3 Cross(const Vec3& other) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float FUN_004a7290() const;
     float DotProduct(const Vec3* other) const;
     bool FUN_004390c0(const Vec3* other);
@@ -3051,7 +3051,7 @@ unsigned int __cdecl FindNearbyTriangles(GeometrySource* geometry, OutputList* o
                     boundaryPoint6 = *endpoints[0] + transformed11 * DAT_01016248;
                     movement_ = transformed11.Cross(endPoint7);
                     movement_.z = 0;
-                    movement_.FUN_004a0c10();
+                    movement_.NiPoint3_Unitize();
                     finalPosition4 = boundaryPoint6 - movement_ * (float)geometry->GetFloatAtOffset68();
                     final2D21.x = finalPosition4.x;
                     final2D21.y = finalPosition4.y;
@@ -5430,7 +5430,7 @@ class P110Data
     unsigned int FUN_006d8990();
     void ClampNonPositiveTextChars();
     NiPoint3 GetDest();
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     const NiPointer<NavMesh>& FUN_006d89b0(unsigned int);
     bool GetMapValue(unsigned int, unsigned int&);
     char GetByteAt(int);
@@ -5494,7 +5494,7 @@ bool __cdecl MarkReachableTriangles(P110Location* location, P110DataPtr* data, b
         data->FUN_00559450()->ClampNonPositiveTextChars();
     NiPoint3 center = location->FUN_005c3420();
     NiPoint3 radius = data->FUN_00559450()->GetDest();
-    float originMesh = data->FUN_00559450()->FUN_00639aa0();
+    float originMesh = data->FUN_00559450()->NiControllerSequence_GetOffset();
     originTriangle = originMesh * originMesh;
     NiPoint3 origin = NiPoint3::ZERO;
     if (angle >= 0.0)
@@ -6426,11 +6426,11 @@ struct FUN_006db290_cls : public FUN_006db290_base
     void* m_pNavMesh;
 };
 
-// Stores navMesh, or a default nav mesh obtained from FUN_00401020, then calls FUN_006b3eb0 with a1 and a2.
+// Stores navMesh, or a default nav mesh obtained from MemoryManager_Instance, then calls FUN_006b3eb0 with a1 and a2.
 // @fnv 0x006db290
 FUN_006db290_cls::FUN_006db290_cls(unsigned int a1, unsigned int a2, void* navMesh)
 {
-    m_pNavMesh = navMesh != 0 ? navMesh : ((FUN_006db290_mm*)FUN_00401020())->FUN_00aa42e0();
+    m_pNavMesh = navMesh != 0 ? navMesh : ((FUN_006db290_mm*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006b3eb0(a1, a2);
 }
 

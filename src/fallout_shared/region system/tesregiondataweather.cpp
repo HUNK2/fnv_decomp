@@ -64,10 +64,10 @@ struct S004f51c0
 {
     char pad[8];
     A00582380 lst;
-    void FUN_004f51c0();
+    void TESRegionDataWeather_Save();
 };
 // @fnv 0x004f51c0
-void S004f51c0::FUN_004f51c0()
+void S004f51c0::TESRegionDataWeather_Save()
 {
     ((A004f14c0*)this)->WriteSaveData();
     lst.WriteWeatherList(0x54574452);
@@ -81,10 +81,10 @@ struct FUN_004f5140_shell
 };
 struct FUN_004f5260_shell
 {
-    void* __thiscall FUN_004f5260();
+    void* __thiscall TESRegionDataWeather_CreateCopy();
 };
 // @fnv 0x004f5260
-void* FUN_004f5260_shell::FUN_004f5260()
+void* FUN_004f5260_shell::TESRegionDataWeather_CreateCopy()
 {
     FUN_004f5140_shell* pdata = new FUN_004f5140_shell(this);
     return pdata;
@@ -146,7 +146,7 @@ struct RegionWeather
     bool FUN_004f1540();
     unsigned char FUN_005bb4d0();
     void FUN_004f15a0(int);
-    bool FUN_004f15c0(unsigned char);
+    bool TESRegionData_SetPriority(unsigned char);
     void MergeWeather(RegionWeather*, int);
 };
 double _floor(float);
@@ -159,7 +159,7 @@ void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
     if (disabled)
     {
         FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        TESRegionData_SetPriority(other->FUN_005bb4d0());
         list.CopyWeatherList(&other->list, 0);
     }
     else if (other->disabled)
@@ -171,7 +171,7 @@ void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
         if (other->FUN_004f1540() && other->FUN_005bb4d0() > FUN_005bb4d0())
         {
             FUN_004f15a0(other->FUN_004f1540());
-            FUN_004f15c0(other->FUN_005bb4d0());
+            TESRegionData_SetPriority(other->FUN_005bb4d0());
             list.CopyWeatherList(&other->list, 0);
         }
         return;
@@ -179,7 +179,7 @@ void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
     else if (other->FUN_004f1540())
     {
         FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        TESRegionData_SetPriority(other->FUN_005bb4d0());
         list.CopyWeatherList(&other->list, 0);
     }
     else
@@ -188,6 +188,6 @@ void RegionWeather::MergeWeather(RegionWeather* apOther, int enabled)
         float weight = FUN_005bb4d0() * FUN_005bb4d0() + (100 - FUN_005bb4d0()) * other->FUN_005bb4d0();
         weight += (100 - other->FUN_005bb4d0()) * FUN_005bb4d0() + other->FUN_005bb4d0() * other->FUN_005bb4d0();
         weight *= 0.004999999888241291;
-        FUN_004f15c0((unsigned char)_floor(weight));
+        TESRegionData_SetPriority((unsigned char)_floor(weight));
     }
 }

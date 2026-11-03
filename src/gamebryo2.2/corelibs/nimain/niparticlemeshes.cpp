@@ -28,13 +28,13 @@ NiParticleMeshes::NiParticleMeshes()
 
 struct FUN_00a98ec0_shell : public NiParticleMeshes
 {
-    void* FUN_00a98ec0();
+    void* NiParticleMeshes_GetRTTI();
 };
 
 extern NiRTTI* g_011f5f14;
 
 // @fnv 0x00a98ec0
-void* FUN_00a98ec0_shell::FUN_00a98ec0()
+void* FUN_00a98ec0_shell::NiParticleMeshes_GetRTTI()
 {
     return &g_011f5f14;
 }
@@ -61,16 +61,16 @@ class NiRenderer;
 class NiParticleMeshesData;
 struct HackBase
 {
-    void FUN_00a809b0(NiRenderer*);
+    void NiGeometry_PurgeRendererData(NiRenderer*);
 };
 struct FUN_00a99090_shell : public NiParticleMeshes
 {
-    void FUN_00a99090(NiRenderer* pkRenderer);
+    void NiParticleMeshes_PurgeRendererData(NiRenderer* pkRenderer);
 };
 // @fnv 0x00a99090
-void FUN_00a99090_shell::FUN_00a99090(NiRenderer* pkRenderer)
+void FUN_00a99090_shell::NiParticleMeshes_PurgeRendererData(NiRenderer* pkRenderer)
 {
-    ((HackBase*)this)->FUN_00a809b0(pkRenderer);
+    ((HackBase*)this)->NiGeometry_PurgeRendererData(pkRenderer);
     NiParticleMeshesData* pkPMData = *(NiParticleMeshesData**)((char*)this + 0xb8);
     if (pkPMData)
     {
@@ -100,7 +100,7 @@ template <class T, class A> struct NiTPrimitiveArray
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > StrArr2;
 struct Caller
 {
-    void FUN_00a9b2e0(StrArr2*);
+    void NiParticles_GetViewerStrings(StrArr2*);
     void AppendString(StrArr2*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
@@ -109,7 +109,7 @@ extern const char* const g_011f5f14_arg1;
 // @fnv 0x00a990c0
 void Caller::AppendString(StrArr2* pkStrings)
 {
-    FUN_00a9b2e0(pkStrings);
+    NiParticles_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_011f5f14_arg1);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMax;
@@ -168,10 +168,10 @@ struct NiNode
 };
 struct FUN_00a99000_shell
 {
-    void FUN_00a99000(bool&, bool, bool&);
+    void NiParticleMeshes_SetSelectiveUpdateFlags(bool&, bool, bool&);
 };
 // @fnv 0x00a99000
-void FUN_00a99000_shell::FUN_00a99000(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
+void FUN_00a99000_shell::NiParticleMeshes_SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
 {
     ((FUN_00a808f0_shell*)this)->UpdateSelectiveUpdateFlags(&bSelectiveUpdate, true, &bRigid);
     NiNode* pkParticlesContainer = *(NiNode**)((char*)*(void**)((char*)this + 0xb8) + 0x70);
@@ -308,15 +308,15 @@ struct S_00a98e30
     int unkC0;
     float unkC4;
     bool unkC8;
-    void FUN_00a59f90(S_00a98e30_Val* p, int x);
-    void FUN_00a98e30(S_00a98e30_Val* p, int x);
+    void NiAVObject_UpdateDownwardPass(S_00a98e30_Val* p, int x);
+    void NiParticleMeshes_UpdateDownwardPass(S_00a98e30_Val* p, int x);
 };
 // @fnv 0x00a98e30
-void S_00a98e30::FUN_00a98e30(S_00a98e30_Val* apVal, int x)
+void S_00a98e30::NiParticleMeshes_UpdateDownwardPass(S_00a98e30_Val* apVal, int x)
 {
     unkC4 = apVal->f;
     unkC8 = apVal->b;
-    FUN_00a59f90(apVal, x);
+    NiAVObject_UpdateDownwardPass(apVal, x);
 }
 
 struct S_00a98e50_UpdateData

@@ -9,7 +9,7 @@
 void FUN_00c31260();
 
 // @fnv 0x00c31290
-void* __cdecl FUN_00c31290()
+void* __cdecl NiPSysModifierCtlr_GetRTTI()
 {
     return &DAT_012027c8;
 }

@@ -309,7 +309,7 @@ void FUN_00482040_shell::ScaleEntryCounts(int aiMult)
 namespace fnv_00482090 {
 struct FUN_00482090_shell : public TESContainer
 {
-    void FUN_00482090(float);
+    void TESContainer_ApplyHealthPercentToContainer(float);
 };
 
 class NiPoint3;
@@ -329,7 +329,7 @@ struct ContainerItemExtra_helper
 
 // Walks the container's item list, creating each item's extra data if missing, applies afHealthPerc to it, and deletes extras that become default.
 // @fnv 0x00482090
-void FUN_00482090_shell::FUN_00482090(float afHealthPerc)
+void FUN_00482090_shell::TESContainer_ApplyHealthPercentToContainer(float afHealthPerc)
 {
     void* pCurrentElementNext = (void*)&((TeleportableReference*)this)->GetPosition();
     while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
@@ -438,7 +438,7 @@ struct TESLevFormStub : public TESLevPad, public TESLeveledList
 
 // Returns apForm cast to TESLeveledList when its form type is 0x34, 0x2C, 0x2D or 0x4C, otherwise null.
 // @fnv 0x00487be0
-TESLeveledList* __cdecl FUN_00487be0(TESForm* apForm)
+TESLeveledList* __cdecl TESLeveledList_GetFormAsLeveledList(TESForm* apForm)
 {
     TESLeveledList* pLeveledList = 0;
     if (apForm)
@@ -576,7 +576,7 @@ struct FUN_0084e3a0_shell
 };
 
 // @fnv 0x00481f10
-bool __cdecl FUN_00481f10(TESObject* pObj)
+bool __cdecl TESContainer_IsGold(TESObject* pObj)
 {
     if (pObj && ((FUN_0084e3a0_shell*)pObj)->FUN_0084e3a0() == 0xF)
         return true;
@@ -612,11 +612,11 @@ struct ContainerObjectNew
 };
 struct FUN_004818e0_t : public TESContainer
 {
-    InventoryItemEntry* FUN_004818e0(TESObject* apObj, int aiCount, ContainerItemExtra* apExtra);
+    InventoryItemEntry* TESContainer_AddObject(TESObject* apObj, int aiCount, ContainerItemExtra* apExtra);
 };
 // Finds a container entry matching apObj and apExtra, adds aiCount to its count, or creates a new entry and prepends it to the list.
 // @fnv 0x004818e0
-InventoryItemEntry* FUN_004818e0_t::FUN_004818e0(TESObject* apObj, int aiCount, ContainerItemExtra* apExtra)
+InventoryItemEntry* FUN_004818e0_t::TESContainer_AddObject(TESObject* apObj, int aiCount, ContainerItemExtra* apExtra)
 {
     if (!apObj || !aiCount)
         return 0;
@@ -897,7 +897,7 @@ struct ExtraDataList
 };
 struct FUN_00419ad0_shell
 {
-    void FUN_00419ad0(unsigned short);
+    void ExtraDataList_SetCount(unsigned short);
 };
 struct TESHealthForm
 {
@@ -905,7 +905,7 @@ struct TESHealthForm
 };
 struct Fn40ea20
 {
-    void FUN_0040ea20(ExtraDataList*, TESHealthForm*);
+    void ContainerItemExtra_AddToExtraDataList(ExtraDataList*, TESHealthForm*);
 };
 struct TESForm
 {
@@ -956,10 +956,10 @@ void FUN_00482770_shell::AddLeveledItemsToChanges(int aiLevItemIndex, InventoryC
                 bhadChanges = true;
                 ExtraDataList* pextra = new ExtraDataList();
                 pextra->SetLeveledItemIndex(aiLevItemIndex);
-                ((FUN_00419ad0_shell*)pextra)->FUN_00419ad0(pcont->count);
+                ((FUN_00419ad0_shell*)pextra)->ExtraDataList_SetCount(pcont->count);
                 if (pcont->extra)
                     ((Fn40ea20*)pcont->extra)
-                        ->FUN_0040ea20(pextra, TESHealthForm::GetFormAsHealthForm((TESForm*)pcont->object));
+                        ->ContainerItemExtra_AddToExtraDataList(pextra, TESHealthForm::GetFormAsHealthForm((TESForm*)pcont->object));
                 ((FUN_004c29a0_t*)apChanges)->FUN_004c29a0(pcont->object, pextra, pcont->count);
             }
             pCurrentElementNext = pCurrentElementNext->GetNext();
@@ -1012,7 +1012,7 @@ void FUN_00481b40_shell::FUN_00481b40()
 
 struct ObjectReference
 {
-    bool __thiscall FUN_00440d80();
+    bool __thiscall TESForm_GetDelete();
 };
 struct ContainerNode
 {
@@ -1024,10 +1024,10 @@ double __cdecl FUN_0048ebc0(void*, unsigned char);
 struct FUN_00481e10_shell
 {
     ContainerNode* __thiscall FUN_00717e50();
-    float __thiscall FUN_00481e10(unsigned char);
+    float __thiscall TESContainer_GetContainerWeight(unsigned char);
 };
 // @fnv 0x00481e10
-float __thiscall FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
+float __thiscall FUN_00481e10_shell::TESContainer_GetContainerWeight(unsigned char flag)
 {
     ContainerNode* node;
     float sum = 0.0f;
@@ -1038,7 +1038,7 @@ float __thiscall FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
     {
         InventoryItemEntry* entry = *node->FUN_006815c0();
         node = node->FUN_00726070();
-        if (reinterpret_cast<ObjectReference*>(entry->object)->FUN_00440d80())
+        if (reinterpret_cast<ObjectReference*>(entry->object)->TESForm_GetDelete())
             continue;
         sum = static_cast<float>((double)FUN_00ec7d40(entry->count) * FUN_0048ebc0(entry->object, flag) + sum);
     }
@@ -1088,7 +1088,7 @@ class TESObjectREFR
     unsigned unk64;
     TESObjectREFR();
     void FUN_00484490();
-    void FUN_00574fa0(TESForm*, ExtraDataList*, int);
+    void TESObjectREFR_AddBoundObjectItem(TESForm*, ExtraDataList*, int);
 };
 class Actor : public TESObjectREFR
 {
@@ -1196,21 +1196,21 @@ class ExtraDataList
   public:
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     ExtraDataList();
-    void FUN_00419ad0(unsigned short);
-    Script* FUN_00418800();
-    void FUN_00419ed0(Script*);
-    void FUN_00419f80(ScriptLocals*);
-    ScriptLocals* FUN_00418830();
+    void ExtraDataList_SetCount(unsigned short);
+    Script* ExtraDataList_GetScript();
+    void ExtraDataList_SetScript(Script*);
+    void ExtraDataList_SetScriptLocals(ScriptLocals*);
+    ScriptLocals* ExtraDataList_GetScriptLocals();
 };
 class Script
 {
   public:
     ScriptLocals* FUN_005abf60();
-    void FUN_005ac1e0(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
+    void Script_Run(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
 };
 struct ItemExtra
 {
-    void FUN_0040ea20(ExtraDataList*, void*);
+    void ContainerItemExtra_AddToExtraDataList(ExtraDataList*, void*);
 };
 struct Item
 {
@@ -1229,18 +1229,18 @@ struct SettingString
 };
 extern SettingString DAT_011d4e7c, DAT_011d3114;
 extern Actor* DAT_011dea3c;
-Script* FUN_004826d0(TESForm*);
+Script* TESScriptableForm_GetFormScript(TESForm*);
 void* GetHealthForm(TESForm*);
-const char* FUN_00482720(TESForm*);
+const char* TESFullName_GetFullName(TESForm*);
 int FUN_00406f60(BSStringT<char>*, const char*, ...);
 bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 struct ContainerOperation
 {
     Node* FUN_00717e50();
-    void FUN_004821a0(TESObjectREFR*, bool);
+    void TESContainer_AddContainerToReference(TESObjectREFR*, bool);
 };
 // @fnv 0x004821a0
-void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
+void ContainerOperation::TESContainer_AddContainerToReference(TESObjectREFR* target, bool silent)
 {
     if (target)
     {
@@ -1252,7 +1252,7 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
             Item* item = *node->FUN_006815c0();
             if (item)
             {
-                Script* script = FUN_004826d0(item->form);
+                Script* script = TESScriptableForm_GetFormScript(item->form);
                 int count = item->count;
                 actor = item;
                 if (script)
@@ -1261,22 +1261,22 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
                     {
                         ExtraDataList* extra = 0;
                         extra = new ExtraDataList;
-                        extra->FUN_00419ad0(1);
-                        if (extra && !extra->FUN_00418800())
+                        extra->ExtraDataList_SetCount(1);
+                        if (extra && !extra->ExtraDataList_GetScript())
                         {
-                            extra->FUN_00419ed0(script);
-                            extra->FUN_00419f80(script->FUN_005abf60());
+                            extra->ExtraDataList_SetScript(script);
+                            extra->ExtraDataList_SetScriptLocals(script->FUN_005abf60());
                             TESObjectREFR* ref = new TESObjectREFR;
                             ref->FUN_00484490();
-                            script->FUN_005ac1e0(ref, extra->FUN_00418830(), 0, false);
+                            script->Script_Run(ref, extra->ExtraDataList_GetScriptLocals(), 0, false);
                             delete ref;
                             if (item->extra)
-                                item->extra->FUN_0040ea20(extra, GetHealthForm(item->form));
+                                item->extra->ContainerItemExtra_AddToExtraDataList(extra, GetHealthForm(item->form));
                         }
                         if (last)
                             last->AddItem(item->form, extra, 1);
                         else
-                            target->FUN_00574fa0(item->form, extra, 1);
+                            target->TESObjectREFR_AddBoundObjectItem(item->form, extra, 1);
                     }
                 }
                 else
@@ -1285,13 +1285,13 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
                     if (item->extra)
                     {
                         data = new ExtraDataList;
-                        data->FUN_00419ad0((unsigned short)item->count);
-                        item->extra->FUN_0040ea20(data, GetHealthForm(item->form));
+                        data->ExtraDataList_SetCount((unsigned short)item->count);
+                        item->extra->ContainerItemExtra_AddToExtraDataList(data, GetHealthForm(item->form));
                     }
                     if (last)
                         last->AddItem(item->form, data, item->count);
                     else
-                        target->FUN_00574fa0(item->form, data, item->count);
+                        target->TESObjectREFR_AddBoundObjectItem(item->form, data, item->count);
                 }
             }
             node = node->FUN_00726070();
@@ -1300,10 +1300,10 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
         {
             BSStringT<char> text;
             if (actor->count > 1)
-                FUN_00406f60(&text, "%i %s%s %s", actor->count, FUN_00482720(actor->form), DAT_011d3114.FUN_00403df0(),
+                FUN_00406f60(&text, "%i %s%s %s", actor->count, TESFullName_GetFullName(actor->form), DAT_011d3114.FUN_00403df0(),
                              DAT_011d4e7c.FUN_00403df0());
             else
-                FUN_00406f60(&text, "%s %s", FUN_00482720(actor->form), DAT_011d4e7c.FUN_00403df0());
+                FUN_00406f60(&text, "%s %s", TESFullName_GetFullName(actor->form), DAT_011d4e7c.FUN_00403df0());
             switch (actor->form->FUN_00401170())
             {
             case 25:
@@ -1390,13 +1390,13 @@ FUN_00482910_rec* FUN_00482910_cls::FindBestRecord(FUN_00482910_obj* pScorer)
 
 struct FUN_00481d10_shell : TESContainer
 {
-    bool FUN_00481d10(BaseFormComponent* other);
+    bool TESContainer_CompareComponent(BaseFormComponent* other);
 };
 void* __fastcall _ref_00717e50(void*);
 int __fastcall _ref_005ae380(void*);
 // Compares this container's entries against another TESContainer's entries, returning true when they differ or the counts do not match.
 // @fnv 0x00481d10
-bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
+bool FUN_00481d10_shell::TESContainer_CompareComponent(BaseFormComponent* other)
 {
     TESContainer* otherContainer = dynamic_cast<TESContainer*>(other);
     if (otherContainer == 0)
@@ -1766,8 +1766,8 @@ struct RecipeActorForm
     int FUN_00575610(void* item);
     void FUN_0088d7d0(void* item, int count, void* extra, bool a4, bool a5, bool a6);
     RecipeProcess* FUN_008d8520();
-    bool FUN_004c0bf0();
-    void FUN_00574fa0(void* item, int extra, int count);
+    bool TESObjectWEAP_IsThrownWeapon();
+    void TESObjectREFR_AddBoundObjectItem(void* item, int extra, int count);
 };
 
 struct RecipeListBox
@@ -1850,14 +1850,14 @@ struct GameSettingStr
 
 struct WeaponFormOps
 {
-    void* FUN_00525980(void* actor);
+    void* TESObjectWEAP_GetCurrentAmmo(void* actor);
 };
 
 struct RecipeContainerOps : TESContainer
 {
-    void FUN_004818e0(TESForm* form, int count, ContainerItemExtra* extra);
-    void FUN_00482090(float health);
-    void FUN_004821a0(void* target, int a2);
+    void TESContainer_AddObject(TESForm* form, int count, ContainerItemExtra* extra);
+    void TESContainer_ApplyHealthPercentToContainer(float health);
+    void TESContainer_AddContainerToReference(void* target, int a2);
 };
 
 struct RecipeStringOps : BSStringT<char>
@@ -1876,7 +1876,7 @@ extern const char str_0101c140[];
 
 int __cdecl FUN_005f5950(int a1, int a2, void* a3, int a4, int a5, int a6, int a7);
 void __cdecl FUN_004d5e10(int statId, int delta);
-const char* __cdecl FUN_00482720(void* form);
+const char* __cdecl TESFullName_GetFullName(void* form);
 int __cdecl FUN_00406f60(BSStringT<char>* outStr, const char* fmt, ...);
 bool __cdecl QueueUIMessage(const char* msg, int emotion, const char* iconPath, const char* soundName, float duration,
                             bool instant);
@@ -1936,7 +1936,7 @@ void CraftRecipe(int count)
                                     if (actor != 0 && actor->FUN_008a1710() != 0)
                                     {
                                         isCurrentAmmo =
-                                            (((WeaponFormOps*)actor->FUN_008a1710())->FUN_00525980(_g_thePlayer) ==
+                                            (((WeaponFormOps*)actor->FUN_008a1710())->TESObjectWEAP_GetCurrentAmmo(_g_thePlayer) ==
                                              (*node->FUN_006815c0())->FUN_00726070());
                                     }
                                     if (itemForm->FUN_00401170() == 0x28)
@@ -1977,9 +1977,9 @@ void CraftRecipe(int count)
                                 if (itemForm->FUN_00401170() == 0x28)
                                 {
                                     RecipeActorForm* weapForm = itemForm;
-                                    if (weapForm->FUN_004c0bf0())
+                                    if (weapForm->TESObjectWEAP_IsThrownWeapon())
                                     {
-                                        DAT_011d8e90->crafterRef->FUN_00574fa0(itemForm, 0, compQty * count);
+                                        DAT_011d8e90->crafterRef->TESObjectREFR_AddBoundObjectItem(itemForm, 0, compQty * count);
                                     }
                                     else
                                     {
@@ -1987,10 +1987,10 @@ void CraftRecipe(int count)
                                         if (itemForm != 0)
                                         {
                                             ((RecipeContainerOps*)&tempCont1)
-                                                ->FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
+                                                ->TESContainer_AddObject((TESForm*)itemForm, compQty * count, 0);
                                         }
-                                        ((RecipeContainerOps*)&tempCont1)->FUN_00482090(DAT_01030ff0);
-                                        ((RecipeContainerOps*)&tempCont1)->FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                        ((RecipeContainerOps*)&tempCont1)->TESContainer_ApplyHealthPercentToContainer(DAT_01030ff0);
+                                        ((RecipeContainerOps*)&tempCont1)->TESContainer_AddContainerToReference(DAT_011d8e90->crafterRef, 0);
                                     }
                                 }
                                 else if (itemForm->FUN_00401170() == 0x18 || itemForm->FUN_00401170() == 0x1a)
@@ -1999,24 +1999,24 @@ void CraftRecipe(int count)
                                     if (itemForm != 0)
                                     {
                                         ((RecipeContainerOps*)&tempCont2)
-                                            ->FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
+                                            ->TESContainer_AddObject((TESForm*)itemForm, compQty * count, 0);
                                     }
-                                    ((RecipeContainerOps*)&tempCont2)->FUN_00482090(DAT_01030ff0);
-                                    ((RecipeContainerOps*)&tempCont2)->FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                    ((RecipeContainerOps*)&tempCont2)->TESContainer_ApplyHealthPercentToContainer(DAT_01030ff0);
+                                    ((RecipeContainerOps*)&tempCont2)->TESContainer_AddContainerToReference(DAT_011d8e90->crafterRef, 0);
                                 }
                                 else
                                 {
-                                    DAT_011d8e90->crafterRef->FUN_00574fa0(itemForm, 0, compQty * count);
+                                    DAT_011d8e90->crafterRef->TESObjectREFR_AddBoundObjectItem(itemForm, 0, compQty * count);
                                 }
                                 BSStringT<char> msgStr;
                                 if (compQty * count > 1)
                                 {
-                                    FUN_00406f60(&msgStr, str_0101c178, compQty * count, FUN_00482720(itemForm),
+                                    FUN_00406f60(&msgStr, str_0101c178, compQty * count, TESFullName_GetFullName(itemForm),
                                                  DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0());
                                 }
                                 else
                                 {
-                                    FUN_00406f60(&msgStr, str_01012058, FUN_00482720(itemForm),
+                                    FUN_00406f60(&msgStr, str_01012058, TESFullName_GetFullName(itemForm),
                                                  DAT_011d4e7c.FUN_00403df0());
                                 }
                                 QueueUIMessage(((RecipeStringOps*)&msgStr)->FUN_00559450(), 0, str_0101c140,
@@ -2076,7 +2076,7 @@ extern unsigned char DAT_01183254;
 extern "C" void* __cdecl FNV_DynamicCast(void*, long, void*, void*, int);
 // Dynamic-casts apForm to TESScriptableForm and returns its script, or null if the cast fails.
 // @fnv 0x004826d0
-Script* FUN_004826d0(TESForm* apForm)
+Script* TESScriptableForm_GetFormScript(TESForm* apForm)
 {
     TESScriptableForm* pSF =
         static_cast<TESScriptableForm*>(FNV_DynamicCast(apForm, 0, &DAT_01183028, &DAT_01183254, 0));

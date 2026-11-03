@@ -423,11 +423,11 @@ int FUN_00595cf0_shell::FUN_00595cf0()
 
 struct FUN_00595d10_shell : public PlayerCharacter
 {
-    void* FUN_00595d10();
+    void* PlayerCharacter_GetListofPerceivedActors();
 };
 
 // @fnv 0x00595d10
-void* FUN_00595d10_shell::FUN_00595d10()
+void* FUN_00595d10_shell::PlayerCharacter_GetListofPerceivedActors()
 {
     return *(void**)((char*)this + 0xd48);
 }
@@ -453,7 +453,7 @@ struct TESClimate
 };
 
 // @fnv 0x00595ea0
-float __fastcall FUN_00595ea0(char* apThis)
+float __fastcall Sky_GetSunriseBegin(char* apThis)
 {
     if ((*(unsigned int*)(apThis + 0x118) & 0x100) && *(TESClimate**)(apThis + 0xc))
     {
@@ -514,7 +514,7 @@ struct TESClimate
 };
 
 // @fnv 0x00595f50
-float __fastcall FUN_00595f50(Sky* pThis)
+float __fastcall Sky_GetSunriseEnd(Sky* pThis)
 {
     if ((*(unsigned int*)((char*)pThis + 0x118) & 0x200) && *(TESClimate**)((char*)pThis + 0xc))
     {
@@ -535,7 +535,7 @@ struct TESClimate
 
 // If the 0x400 flag is set and a TESClimate is present, stores its value for index 2 divided by 6.0 in DAT_011ca9f0 and clears the flag; returns DAT_011ca9f0.
 // @fnv 0x00595fc0
-float __fastcall FUN_00595fc0(char* pThis)
+float __fastcall Sky_GetSunsetBegin(char* pThis)
 {
     if ((*(unsigned int*)(pThis + 0x118) & 0x400) && *(TESClimate**)(pThis + 0xc))
     {
@@ -558,10 +558,10 @@ struct FUN_00596030_cls
     Inner* inner;
     char pad1[0x118 - 0x10];
     unsigned int flags;
-    float FUN_00596030();
+    float Sky_GetSunsetEnd();
 };
 // @fnv 0x00596030
-float FUN_00596030_cls::FUN_00596030()
+float FUN_00596030_cls::Sky_GetSunsetEnd()
 {
     if ((flags & 0x800) && inner)
     {
@@ -724,13 +724,13 @@ FUN_005960a0::~FUN_005960a0()
 
 struct MLCFormSaver
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
 };
 
 struct MLCFullNameSaver : public TESFullName
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 
 struct MLCFormID
@@ -782,8 +782,8 @@ struct MLCSaver : public TESForm, public MLCFullNameSaver
 // @fnv 0x00596790
 void MLCSaver::SaveToStream()
 {
-    ((MLCFormSaver*)this)->FUN_004855a0();
-    MLCFullNameSaver::FUN_00487010();
+    ((MLCFormSaver*)this)->TESForm_StartForm();
+    MLCFullNameSaver::TESFullName_Save();
     FUN_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
     SaveChunkFloat(CHUNK_ID_NAM2_ID, m_fLowerWeightThreshold);
     SaveChunkFloat(CHUNK_ID_NAM3_ID, m_fUpperWeightThreshold);
@@ -864,7 +864,7 @@ void MLCSaver::SaveToStream()
         FUN_00485910(0x4d414e52, auiFormId);
     }
     FUN_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
-    ((MLCFormSaver*)this)->FUN_00485680();
+    ((MLCFormSaver*)this)->TESForm_CloseForm();
 }
 
 struct ListOps
@@ -873,15 +873,15 @@ struct ListOps
 };
 struct FormOps
 {
-    bool FUN_00485270(TESForm* apOther);
+    bool TESForm_CompareAllComponents(TESForm* apOther);
 };
 struct FUN_00596d70_shell : public MediaLocationController
 {
-    bool FUN_00596d70(TESForm* apForm);
+    bool MediaLocationController_Compare(TESForm* apForm);
 };
 // Compares this MediaLocationController with apForm: returns true if apForm is not one, or if any flag, faction, field or media list differs; false if all match.
 // @fnv 0x00596d70
-bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
+bool FUN_00596d70_shell::MediaLocationController_Compare(TESForm* apForm)
 {
     MediaLocationController* pOther = dynamic_cast<MediaLocationController*>(apForm);
     if (!pOther)
@@ -906,7 +906,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
         return true;
     if (m_uiLongDelay != pOther->m_uiLongDelay)
         return true;
-    if (reinterpret_cast<FormOps*>(this)->FUN_00485270(pOther))
+    if (reinterpret_cast<FormOps*>(this)->TESForm_CompareAllComponents(pOther))
         return true;
     if (pOther->m_kMediaSetList1.GetItem() && m_kMediaSetList1.GetItem() &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList1)->FUN_005ae380() ==
@@ -1081,9 +1081,9 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
 
 struct ObjT
 {
-    float FUN_00595f50();
-    float FUN_00595fc0();
-    float FUN_00596030();
+    float Sky_GetSunriseEnd();
+    float Sky_GetSunsetBegin();
+    float Sky_GetSunsetEnd();
 };
 struct GlobT
 {
@@ -1091,7 +1091,7 @@ struct GlobT
 };
 extern GlobT* DAT_011dea10;
 extern double DAT_01034200;
-float __fastcall FUN_00595ea0(char* apThis);
+float __fastcall Sky_GetSunriseBegin(char* apThis);
 float __fastcall GetFieldEC(const char* pThis);
 
 struct ThisT
@@ -1141,8 +1141,8 @@ bool ThisT::IsWithinRange()
     p = DAT_011dea10->FUN_008d8520();
     if (FUN_00595e80())
     {
-        return (p != 0) ? (((FUN_00595ea0((char*)p) + p->FUN_00595f50()) / 2.0 <= GetFieldEC((const char*)p)) &&
-                           (GetFieldEC((const char*)p) <= (p->FUN_00595fc0() + p->FUN_00596030()) / 2.0))
+        return (p != 0) ? (((Sky_GetSunriseBegin((char*)p) + p->Sky_GetSunriseEnd()) / 2.0 <= GetFieldEC((const char*)p)) &&
+                           (GetFieldEC((const char*)p) <= (p->Sky_GetSunsetBegin() + p->Sky_GetSunsetEnd()) / 2.0))
                         : true;
     }
     else
@@ -1195,7 +1195,7 @@ struct ThisCls
     BSSimpleList<MediaSet*> m_kMediaSetList4;
     BSSimpleList<MediaSet*> m_kMediaSetList5;
     BSSimpleList<MediaSet*> m_kMediaSetList6;
-    void FUN_004851b0(MediaLocationController* apSrc);
+    void TESForm_CopyAllComponents(MediaLocationController* apSrc);
     void CopyFromMediaLocationController(TESForm* apForm);
 };
 
@@ -1207,7 +1207,7 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
     MediaLocationController* pSrc = dynamic_cast<MediaLocationController*>(apForm);
     if (pSrc == 0)
         return;
-    FUN_004851b0(pSrc);
+    TESForm_CopyAllComponents(pSrc);
     iFlags = pSrc->iFlags;
     m_fLowerWeightThreshold = pSrc->m_fLowerWeightThreshold;
     m_fUpperWeightThreshold = pSrc->m_fUpperWeightThreshold;

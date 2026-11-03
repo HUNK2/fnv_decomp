@@ -5,7 +5,7 @@
 extern const void* g_011f5ee0;
 
 // @fnv 0x00a955f0
-const void* __cdecl FUN_00a955f0()
+const void* __cdecl NiScreenTexture_GetRTTI()
 {
     return &g_011f5ee0;
 }
@@ -44,11 +44,11 @@ struct NiScreenTexture : NiObject
 {
     char _pad[16];
     NiTexturingProperty* m_pTexturingProperty;
-    bool FUN_00a954f0(NiStream&);
+    bool NiScreenTexture_RegisterStreamables(NiStream&);
 };
 // Calls NiObject::RegisterStreamables on the stream, then registers the texturing property's streamables; returns false if the base call fails.
 // @fnv 0x00a954f0
-bool NiScreenTexture::FUN_00a954f0(NiStream& kStream)
+bool NiScreenTexture::NiScreenTexture_RegisterStreamables(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
         return false;
@@ -355,11 +355,11 @@ struct ScreenTex_shell
     unsigned int m_uiElementCount;
     unsigned int m_uiAllocatedCapacity;
     NiObject* m_pTexturingProperty;
-    void FUN_00a95a90(NiStream& kStream);
+    void NiScreenTexture_SaveBinary(NiStream& kStream);
 };
 // Links the object to the stream, writes the rect count, then serializes each rect's shorts and color, and saves the link ID.
 // @fnv 0x00a95a90
-void ScreenTex_shell::FUN_00a95a90(NiStream& kStream)
+void ScreenTex_shell::NiScreenTexture_SaveBinary(NiStream& kStream)
 {
     ((RendererDataBase_s*)this)->LinkObject(kStream);
     unsigned int uiNumRects = m_uiAllocatedCapacity;
@@ -496,7 +496,7 @@ struct SpawnedObject
 };
 
 // @fnv 0x00a958b0
-SpawnedObject* __cdecl FUN_00a958b0()
+SpawnedObject* __cdecl NiScreenTexture_CreateObject()
 {
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x20);
     if (p != 0)
@@ -934,12 +934,12 @@ struct ScreenTextureClone : ScreenTextureBase
 
 struct ScreenHost : ScreenCopy
 {
-    ScreenTextureClone* FUN_00a95c10(void* cloning);
+    ScreenTextureClone* NiScreenTexture_CreateClone(void* cloning);
 };
 
 // Allocates a ScreenTextureClone, copies the source ScreenCopy into it via CopyTo, and returns the new object.
 // @fnv 0x00a95c10
-ScreenTextureClone* ScreenHost::FUN_00a95c10(void* apSource)
+ScreenTextureClone* ScreenHost::NiScreenTexture_CreateClone(void* apSource)
 {
     ScreenTextureClone* object = new ScreenTextureClone;
     CopyTo(reinterpret_cast<ScreenCopy*>(object), apSource);

@@ -174,7 +174,7 @@ struct Buffer_d3b260
 };
 struct Agent_d3b260
 {
-    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
+    void hkpCapsuleTriangleAgent_processCollision(int b, int a, int c, Buffer_d3b260* buf);
     void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
 };
 struct __declspec(align(16)) FourWord
@@ -237,7 +237,7 @@ struct FUN_00d3b160_tmp
 };
 struct CallbackHost_d3b160
 {
-    void FUN_00d3a620(void*, void*, void*, void*);
+    void hkpCapsuleTriangleAgent_getPenetrations(void*, void*, void*, void*);
     void FUN_00d3b160(void*, void*, void*, unsigned int);
 };
 struct __declspec(align(16)) Vec4
@@ -495,7 +495,7 @@ struct CapsuleTriangleAgent
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
+    void hkpCapsuleTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
 };
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 struct ContactNormalSetter : Contact
@@ -607,7 +607,7 @@ void __cdecl FUN_00cd6520(hkVector4*, float, hkVector4*, float, void*, float, in
 struct CollisionAgent
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, cache14;
-    void FUN_00d39ef0(const BodyRecord& a, const BodyRecord& b, const CollisionInput& input, Collector* output);
+    void hkpCapsuleTriangleAgent_getClosestPoints(const BodyRecord& a, const BodyRecord& b, const CollisionInput& input, Collector* output);
 };
 
 typedef void(__cdecl* FnA_d3a280)(void*, void*, void*, CallbackState*);

@@ -1301,7 +1301,7 @@ void DummyPointerMap::SetAtCoordinates(unsigned int, short x, short y, unsigned 
 
 struct FUN_00544210_shell
 {
-    unsigned int FUN_00544210();
+    unsigned int TESObjectCELL_GetGroupSubBlockKey();
 };
 
 struct DummyPointerMap
@@ -1338,7 +1338,7 @@ void FUN_00841460_shell::FUN_00841460(FUN_00544210_shell* param1, unsigned int p
 void SetAtHelper::GetOrCreateAndDispatch(FUN_00544210_shell* pKeySource, unsigned int param2, unsigned int param3,
                                          unsigned int param4)
 {
-    unsigned int uiKey = pKeySource->FUN_00544210();
+    unsigned int uiKey = pKeySource->TESObjectCELL_GetGroupSubBlockKey();
     unsigned int uiEntry = 0;
 
     if (!this->GetAt(uiKey, uiEntry))
@@ -1353,7 +1353,7 @@ void SetAtHelper::GetOrCreateAndDispatch(FUN_00544210_shell* pKeySource, unsigne
 namespace fnv_008418b0 {
 void* operator new(unsigned int);
 
-int __cdecl FUN_005442c0(int, int);
+int __cdecl TESObjectCELL_CalcExtGroupSubBlockKey(int, int);
 
 struct FUN_00841340
 {
@@ -1385,7 +1385,7 @@ struct FUN_008418b0_shell : public DummyPointerMap
 void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, unsigned int arg3, unsigned int arg4,
                                           unsigned int arg5, unsigned int arg6)
 {
-    unsigned int key = FUN_005442c0(arg2, arg3);
+    unsigned int key = TESObjectCELL_CalcExtGroupSubBlockKey(arg2, arg3);
     FUN_00841340* value = 0;
 
     if (!GetAt(key, value))
@@ -1689,12 +1689,12 @@ struct MapCallProxy
 
 struct FUN_00843630_shell : BGSReconstructFormsInAllFilesMap
 {
-    void FUN_00843630(TESForm*, unsigned int);
+    void BGSReconstructFormsInAllFilesMap_AddForm(TESForm*, unsigned int);
 };
 
 // Adds apForm to the per-file map keyed by its TESFile, creating the entry if missing, then increments iCount; logs an error when the form has no file.
 // @fnv 0x00843630
-void FUN_00843630_shell::FUN_00843630(TESForm* apForm, unsigned int aiFlags)
+void FUN_00843630_shell::BGSReconstructFormsInAllFilesMap_AddForm(TESForm* apForm, unsigned int aiFlags)
 {
     BGSReconstructFormsInFileMap* pformsInFileMap;
     TESFile* pfile;
@@ -1806,7 +1806,7 @@ void* __cdecl operator new(unsigned int);
 
 struct FUN_005441b0_S
 {
-    unsigned int FUN_005441b0(void);
+    unsigned int TESObjectCELL_GetGroupBlockKey(void);
 };
 
 struct FUN_00565450_shell
@@ -1873,7 +1873,7 @@ struct FUN_00565450_shell
     virtual bool v59() = 0;
     virtual bool FUN_00841b20_virtual() = 0;
 
-    bool FUN_00565450(void);
+    bool TESObjectREFR_GetPersistFlagValue(void);
 };
 
 struct FUN_00841190
@@ -1919,7 +1919,7 @@ void FUN_00841b20_shell::ProcessEntry(FUN_005441b0_S* first, FUN_00565450_shell*
     {
         FUN_00565450_shell* shell = second;
 
-        if (shell->FUN_00565450())
+        if (shell->TESObjectREFR_GetPersistFlagValue())
         {
             if (!form)
                 form = new FUN_00841190();
@@ -1929,7 +1929,7 @@ void FUN_00841b20_shell::ProcessEntry(FUN_005441b0_S* first, FUN_00565450_shell*
         }
     }
 
-    unsigned int key = first->FUN_005441b0();
+    unsigned int key = first->TESObjectCELL_GetGroupBlockKey();
     unsigned int value = 0;
 
     if (!reinterpret_cast<DummyPointerMap*>(this)->GetAt(key, value))
@@ -2411,7 +2411,7 @@ FUN_00841a60::~FUN_00841a60()
 
 struct FormWithSaveCheck : TESForm
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
 };
 struct ReconstructEntry
 {
@@ -2442,7 +2442,7 @@ void SaveLoadDispatcher::ReconstructFormEntry(int value, int formID, int context
     int handle3;
     FormWithSaveCheck* referenceForm;
     ReconstructEntry* entry7;
-    if (form != 0 && form->GetIsReference() && (referenceForm = form, referenceForm->FUN_00565450()))
+    if (form != 0 && form->GetIsReference() && (referenceForm = form, referenceForm->TESObjectREFR_GetPersistFlagValue()))
     {
         if (helper10 == 0)
             helper10 = (ReconstructEntry*)new FUN_00841190;
@@ -2804,7 +2804,7 @@ struct SceneNode
 };
 struct ObjectBaseView
 {
-    bool FUN_00549580() const;
+    bool TESForm_HasTalkedToPC() const;
 };
 struct ReferenceView;
 struct EnableState
@@ -2817,8 +2817,8 @@ struct WorldSpaceView
 };
 struct ActorBaseView
 {
-    void FUN_005f9e00(ReferenceView*, bool, bool, bool);
-    void FUN_006047c0(ReferenceView*, bool, bool, bool, bool);
+    void TESCreature_InitDefaultWorn(ReferenceView*, bool, bool, bool);
+    void TESNPC_InitDefaultWorn(ReferenceView*, bool, bool, bool, bool);
 };
 struct ProcessView
 {
@@ -2993,7 +2993,7 @@ struct ReferenceView : ExtendedForm
     virtual void InitializeProcess();
     float FUN_00567400();
     float FUN_00598040();
-    void FUN_00567490(float);
+    void TESObjectREFR_SetScale(float);
     ObjectBaseView* FUN_007af430();
     bool FUN_00440da0();
     WorldSpaceView* FUN_00575d70();
@@ -3038,8 +3038,8 @@ void ReconstructionWorker::ReconstructForm(ReconstructDataView* data)
         ReferenceView* reference = (ReferenceView*)data->pForm;
         SceneNode* sceneNode = reference->GetSceneNode();
         if (sceneNode && sceneNode->GetFloatAt64() != reference->FUN_00567400())
-            reference->FUN_00567490(reference->FUN_00598040());
-        if (data->FUN_00461580(8) && reference->FUN_007af430()->FUN_00549580() && reference->FUN_00440da0())
+            reference->TESObjectREFR_SetScale(reference->FUN_00598040());
+        if (data->FUN_00461580(8) && reference->FUN_007af430()->TESForm_HasTalkedToPC() && reference->FUN_00440da0())
         {
             WorldSpaceView* world = reference->FUN_00575d70();
             if (world)
@@ -3071,12 +3071,12 @@ void ReconstructionWorker::ReconstructForm(ReconstructDataView* data)
                     if (actor->IsCreature())
                     {
                         ActorBaseView* creatureBase = actor->FUN_004181e0();
-                        creatureBase->FUN_005f9e00(actor, true, true, true);
+                        creatureBase->TESCreature_InitDefaultWorn(actor, true, true, true);
                     }
                     else
                     {
                         ActorBaseView* npcBase = actor->FUN_004181e0();
-                        npcBase->FUN_006047c0(actor, true, true, false, true);
+                        npcBase->TESNPC_InitDefaultWorn(actor, true, true, false, true);
                     }
                 }
             }
@@ -3227,18 +3227,18 @@ struct RebuildFile
 
     void ResetFileState(bool);
     RebuildHeader* FUN_00462270();
-    void FUN_00472150(bool);
+    void TESFile_NextForm(bool);
     void FUN_00473660();
     bool FUN_00471ca0();
 
     unsigned int FUN_004726b0();
-    void FUN_00472890(void*, unsigned int);
+    void TESFile_GetChunkData(void*, unsigned int);
     bool FUN_00401680();
     bool FUN_004726f0();
     void SkipCurrentForm();
 
     unsigned int FUN_00467bb0();
-    void FUN_004723a0(RebuildForm*);
+    void TESFile_SetOffset(RebuildForm*);
 };
 
 struct RebuildMap
@@ -3290,7 +3290,7 @@ void ResolveFormID(unsigned int*, RebuildFile*);
 
 unsigned int PackShortPair(unsigned short, unsigned short);
 
-RebuildForm* FUN_004839c0(unsigned int);
+RebuildForm* TESForm_GetFormByNumericID(unsigned int);
 
 void* FUN_00403d30(void*, int, unsigned int);
 
@@ -3331,7 +3331,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
     RebuildHeader* pData7 = file->FUN_00462270();
 
     while (pData7->type == DAT_01187014)
-        file->FUN_00472150(true);
+        file->TESFile_NextForm(true);
 
     RebuildMap* world8 = 0;
 
@@ -3377,7 +3377,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 {
 
                     if (worlds)
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
                     else
                         file->FUN_00473660();
@@ -3388,7 +3388,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                     if (defaultMap)
                     {
                         world8 = defaultMap;
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
                     }
 
                     else
@@ -3417,7 +3417,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                         if (cached && world8->HasFlagInAnyFile(5))
                             queued3.ConstructAndForward(pData7->formId4, 0);
 
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
                     }
                     else
                         file->FUN_00473660();
@@ -3432,7 +3432,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 case 4:
 
                     if (world8->FUN_00853130(pData7->label, &block3))
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
                     else
                         file->FUN_00473660();
@@ -3446,7 +3446,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 case 5:
 
                     if (block3->FUN_00853130(pData7->label, &subBlock))
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
                     else
                         file->FUN_00473660();
@@ -3472,7 +3472,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                         }
 
                         if (persistent || temp)
-                            file->FUN_00472150(true);
+                            file->TESFile_NextForm(true);
 
                         else
                             file->FUN_00473660();
@@ -3485,7 +3485,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 case 8:
 
                     if (recordC->FUN_00452420(2))
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
                     else
                         file->FUN_00473660();
@@ -3495,7 +3495,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 case 9:
 
                     if (recordC->FUN_00452420(4))
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
                     else
                         file->FUN_00473660();
@@ -3510,7 +3510,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
             {
 
                 if (FUN_00853130(pData7->label, &recordC))
-                    file->FUN_00472150(true);
+                    file->TESFile_NextForm(true);
 
                 else
                     file->FUN_00473660();
@@ -3521,7 +3521,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
             idA = pData7->group;
 
-            file->FUN_00472150(true);
+            file->TESFile_NextForm(true);
         }
         else if (pData7->type == DAT_011872b4)
         {
@@ -3548,7 +3548,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                         if (type3 == 0x434c4358)
                         {
 
-                            file->FUN_00472890(&coords9, 12);
+                            file->TESFile_GetChunkData(&coords9, 12);
 
                             if (file->FUN_00401680())
                                 coords9.FUN_00462230();
@@ -3573,9 +3573,9 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
                         DAT_011c3f2c->FUN_00467bd0(file, 0, 0, false);
 
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
 
-                        RebuildForm* form = FUN_004839c0(formId4);
+                        RebuildForm* form = TESForm_GetFormByNumericID(formId4);
 
                         if (form)
                         {
@@ -3590,10 +3590,10 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                         ++restoredA;
                     }
                     else
-                        file->FUN_00472150(true);
+                        file->TESFile_NextForm(true);
                 }
                 else
-                    file->FUN_00472150(true);
+                    file->TESFile_NextForm(true);
             }
             else
             {
@@ -3604,7 +3604,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
                 DAT_011c3f30 = 0;
 
-                file->FUN_00472150(true);
+                file->TESFile_NextForm(true);
             }
         }
         else if (pData7->type == DAT_011873c8)
@@ -3626,7 +3626,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                     pData7->type = 0;
             }
             else
-                file->FUN_00472150(true);
+                file->TESFile_NextForm(true);
         }
         else
         {
@@ -3641,14 +3641,14 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
             {
 
                 if (formId4 && (!DAT_011c3f30 || DAT_011c3f30->FUN_0084e3a0() != formId4))
-                    DAT_011c3f30 = FUN_004839c0(formId4);
+                    DAT_011c3f30 = TESForm_GetFormByNumericID(formId4);
 
                 DAT_011c3f2c->FUN_00467bd0(file, 0, item.form, true);
 
-                file->FUN_00472150(true);
+                file->TESFile_NextForm(true);
 
                 if (!item.form)
-                    item.form = FUN_004839c0(id);
+                    item.form = TESForm_GetFormByNumericID(id);
 
                 if (item.form)
                     output->FUN_00843270(&item);
@@ -3660,7 +3660,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
                 ++restoredA;
             }
             else
-                file->FUN_00472150(true);
+                file->TESFile_NextForm(true);
         }
 
         if (groupEndA && groupEndA <= file->FUN_00467bb0())
@@ -3676,7 +3676,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
         if (result.FUN_005ca4f0())
         {
 
-            file->FUN_004723a0(result.form);
+            file->TESFile_SetOffset(result.form);
 
             unsigned int sizeXA = 0;
 
@@ -3689,7 +3689,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
                 sizeXA = pData7->sizeXA;
 
-                file->FUN_00472150(true);
+                file->TESFile_NextForm(true);
             }
             else
                 sizeXA = pData7->sizeXA;

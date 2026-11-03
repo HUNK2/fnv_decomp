@@ -7,7 +7,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202690;
 
 // @fnv 0x00c27130
-GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
+GlobalObjectO2_00a7b610* __cdecl NiPSysUpdateCtlr_GetRTTI()
 {
     return &g_01202690;
 }
@@ -15,7 +15,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
 extern char const* const g_011dfe40_arg1;
 
 // @fnv 0x00a6d280
-char const* const& __cdecl FUN_00a6d280()
+char const* const& __cdecl NiTimeController_GetRTTI()
 {
     return g_011dfe40_arg1;
 }
@@ -54,12 +54,12 @@ struct FUN_00c27160_cls
     float m_14;
     float m_18;
     void FUN_00a6cfe0(void* obj, unsigned int a1);
-    void* FUN_00c27160(unsigned int a1);
+    void* NiPSysUpdateCtlr_CreateClone(unsigned int a1);
 };
 
 // Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
 // @fnv 0x00c27160
-void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
+void* FUN_00c27160_cls::NiPSysUpdateCtlr_CreateClone(unsigned int a1)
 {
     FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
     if (p != 0)
@@ -77,7 +77,7 @@ void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
     return p;
 }
 
-// Reconstruction of FUN_00c27290.
+// Reconstruction of NiPSysUpdateCtlr_SetTarget.
 //
 // thiscall member: `this` in ecx, one 4-byte stack argument (the callee
 // pops it, so the body ends with `ret 4`).
@@ -131,13 +131,13 @@ struct FnvNode
     FnvNode* f30;   // +0x30
     virtual void v0();
     virtual void v1();
-    void __thiscall FUN_00c27290(FnvNode* arg);
+    void __thiscall NiPSysUpdateCtlr_SetTarget(FnvNode* arg);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00c27290
-void FnvNode::FUN_00c27290(FnvNode* pTarget)
+void FnvNode::NiPSysUpdateCtlr_SetTarget(FnvNode* pTarget)
 {
     ((FnvTarget*)this)->SetTarget(pTarget);
 
@@ -175,7 +175,7 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 
-void __stdcall FUN_00a6d830(StrArr*);
+void __stdcall NiTimeController_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 
 struct GlobalObjectO2_00a7b610
@@ -185,9 +185,9 @@ struct GlobalObjectO2_00a7b610
 
 // Appends the string returned by FUN_00a7d330(g_01202690.m_pcName) to pkStrings, growing it via SetSize when full and storing at index m_usSize.
 // @fnv 0x00c27300
-void __stdcall FUN_00c27300(StrArr* pkStrings)
+void __stdcall NiPSysUpdateCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
+    NiTimeController_GetViewerStrings(pkStrings);
     char* str = FUN_00a7d330(g_01202690.m_pcName);
     unsigned int size = pkStrings->m_usSize;
     if (size >= pkStrings->m_usAlloc)
@@ -468,7 +468,7 @@ struct SpawnedController
     float m_24;
     float m_28;
     SpawnedOwner* m_2C;
-    void FUN_00c271c0(const float* pos);
+    void NiPSysUpdateCtlr_Update(const float* pos);
 };
 
 struct KindRtti
@@ -505,7 +505,7 @@ __forceinline bool StaticIsKindOf(const KindRtti* rtti, SpawnedItem* obj)
 }
 
 // @fnv 0x00c271c0
-void SpawnedController::FUN_00c271c0(const float* apPosition)
+void SpawnedController::NiPSysUpdateCtlr_Update(const float* apPosition)
 {
     unsigned short flags = m_08;
     m_14 = g_01015f5c;

@@ -359,12 +359,12 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     virtual BGSBodyPartData* GetBodyPartData();
     virtual void C97();
     virtual TESCombatStyle* GetCombatStyle();
-    bool FUN_005f9b90(TESForm* otherForm);
-    bool FUN_00485270(TESCreature* other);
+    bool TESCreature_Compare(TESForm* otherForm);
+    bool TESForm_CompareAllComponents(TESCreature* other);
     const void* GetOffset12C();
     bool FUN_005f9ad0();
     float FUN_00821640();
-    float FUN_00567470();
+    float TESCreature_GetBaseScale();
     float FUN_00821660();
     int FUN_009c0070();
     CreatureSoundCollection* GetCreatureSounds();

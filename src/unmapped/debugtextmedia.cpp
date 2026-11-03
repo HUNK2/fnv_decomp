@@ -46,7 +46,7 @@ class Handle
     Handle(char* name, int a, int b, bool c);
     ~Handle();
     int FUN_00559450();
-    void FUN_0065c290(int* pair);
+    void BSSystemFile_GetSize(int* pair);
     int FUN_008526d0(int v);
     void* file;
     int mode;
@@ -284,7 +284,7 @@ void ThisCls::FUN_00852080(int unused)
                     {
                         kPair1a12.low = 0;
                         kPair1a12.high = 0;
-                        handle20.FUN_0065c290(&kPair1a12.low);
+                        handle20.BSSystemFile_GetSize(&kPair1a12.low);
                         val4a8 = (int)new SaveData("SaveData", 0, kPair1a12.low);
                         info8 = ((InfoLike*)(void*)val4a8)->FUN_0068efb0();
                         pair2a.low = 0;

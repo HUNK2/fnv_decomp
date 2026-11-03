@@ -37,7 +37,7 @@ void* __fastcall FUN_00a75c20(char* pObject)
 
 struct FUN_00a75c70_shell : public NiDirectionalLight
 {
-    void* FUN_00a75c70();
+    void* NiDirectionalLight_GetRTTI();
 };
 
 struct GlobalObjectO2_00a7b610
@@ -48,7 +48,7 @@ struct GlobalObjectO2_00a7b610
 GlobalObjectO2_00a7b610 g_011f4a68;
 
 // @fnv 0x00a75c70
-void* FUN_00a75c70_shell::FUN_00a75c70()
+void* FUN_00a75c70_shell::NiDirectionalLight_GetRTTI()
 {
     return &g_011f4a68;
 }
@@ -84,7 +84,7 @@ struct NiUpdateData
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00a75cb0_shell : public NiDirectionalLight
 {
-    void FUN_00a75cb0(NiUpdateData*);
+    void NiDirectionalLight_UpdateWorldData(NiUpdateData*);
 };
 
 struct NiAVObject
@@ -94,7 +94,7 @@ struct NiAVObject
 
 // Calls NiAVObject::UpdateWorldData, copies three floats from offsets 0x68/0x74/0x80 to 0xf0/0xf4/0xf8, and increments the int at 0xa8.
 // @fnv 0x00a75cb0
-void FUN_00a75cb0_shell::FUN_00a75cb0(NiUpdateData* UpdateData)
+void FUN_00a75cb0_shell::NiDirectionalLight_UpdateWorldData(NiUpdateData* UpdateData)
 {
     ((NiAVObject*)this)->UpdateWorldData(*UpdateData);
     char* p = reinterpret_cast<char*>(this);
@@ -131,10 +131,10 @@ extern GlobalObjectO2_00a7b610 g_011f4a68;
 char* _FUN_00a7d330(const char*);
 struct LightDerived : BaseLight
 {
-    void FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+    void NiDirectionalLight_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 // @fnv 0x00a75d70
-void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apArray)
+void LightDerived::NiDirectionalLight_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apArray)
 {
     AppendEffectProperties(apArray);
     char* s = _FUN_00a7d330(g_011f4a68.p);
@@ -163,12 +163,12 @@ void* __fastcall FUN_00a75c20(char* pObject);
 
 struct FUN_00a75cf0_impl : public NiDirectionalLight
 {
-    NiObject* FUN_00a75cf0(CloningProcess* kCloning);
+    NiObject* NiDirectionalLight_CreateClone(CloningProcess* kCloning);
 };
 
 // Allocates a NiDirectionalLight, initializes it via FUN_00a75c20, copies member data and m_kWorldDir from the source, and returns the new object.
 // @fnv 0x00a75cf0
-NiObject* FUN_00a75cf0_impl::FUN_00a75cf0(CloningProcess* kCloning)
+NiObject* FUN_00a75cf0_impl::NiDirectionalLight_CreateClone(CloningProcess* kCloning)
 {
     NiDirectionalLight* pkObject = (NiDirectionalLight*)FUN_00aa13e0(sizeof(NiDirectionalLight));
 

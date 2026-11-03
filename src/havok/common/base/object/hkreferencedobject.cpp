@@ -667,13 +667,13 @@ struct FUN_00ca9ce0_class
 {
     int unk00;
     DeviceOwner* m_pOwnerObject;
-    void FUN_00c8a230(InputObject*);
+    void hkConstraintCinfo_LoadBinary(InputObject*);
     void ProcessInput(InputObject*);
 };
 // @fnv 0x00ca9ce0
 void FUN_00ca9ce0_class::ProcessInput(InputObject* input)
 {
-    FUN_00c8a230(input);
+    hkConstraintCinfo_LoadBinary(input);
     DeviceOwner* owner = m_pOwnerObject;
     Resource* resource = FUN_00cf4af0(input);
     owner->FUN_00ca9b40(resource);
@@ -1258,7 +1258,7 @@ class FUN_00d53200_class
 {
   public:
     virtual ~FUN_00d53200_class();
-    void FUN_00c8a230(NiStream& kStream);
+    void hkConstraintCinfo_LoadBinary(NiStream& kStream);
 };
 
 hkShapeCC4* __cdecl FUN_00cf4af0(NiStream& kStream) throw();
@@ -1268,14 +1268,14 @@ class bhkWorldObjectCC4 : public FUN_00d53200_class
   public:
     hkpWorldObjectCC4* m_pPointer;
 
-    void FUN_00cc4e10(NiStream& kStream);
+    void hkBreakableConstraintCinfo_LoadBinary(NiStream& kStream);
 };
 
 // Reads a shape, attaches it to the hkpWorldObject, and deserializes its layer and flags from the stream.
 // @fnv 0x00cc4e10
-void bhkWorldObjectCC4::FUN_00cc4e10(NiStream& kStream)
+void bhkWorldObjectCC4::hkBreakableConstraintCinfo_LoadBinary(NiStream& kStream)
 {
-    FUN_00c8a230(kStream);
+    hkConstraintCinfo_LoadBinary(kStream);
     hkpWorldObjectCC4* pkObject = m_pPointer;
     hkShapeCC4* pkShape = FUN_00cf4af0(kStream);
     pkObject->FUN_00cc49b0(pkShape);

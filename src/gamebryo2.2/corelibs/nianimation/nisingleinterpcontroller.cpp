@@ -43,13 +43,13 @@ void* __fastcall FUN_00a2f8c0(void* pThis)
 
 struct FUN_00a38e20_shell : public NiSingleInterpController
 {
-    void* FUN_00a38e20();
+    void* NiSingleInterpController_GetRTTI();
 };
 
 extern const char* const g_011f36ec_arg1;
 
 // @fnv 0x00a38e20
-void* FUN_00a38e20_shell::FUN_00a38e20()
+void* FUN_00a38e20_shell::NiSingleInterpController_GetRTTI()
 {
     return const_cast<void*>(static_cast<const void*>(&g_011f36ec_arg1));
 }
@@ -109,13 +109,13 @@ NiInterpolator* __thiscall FUN_00a38e30_shell::FUN_00a38e30(unsigned short usInd
 
 struct FUN_00a2f8e0_shell : public NiInterpController
 {
-    void* FUN_00a2f8e0();
+    void* NiInterpController_GetRTTI();
 };
 
 extern const char* const g_011f36bc_arg1;
 
 // @fnv 0x00a2f8e0
-void* FUN_00a2f8e0_shell::FUN_00a2f8e0()
+void* FUN_00a2f8e0_shell::NiInterpController_GetRTTI()
 {
     return (void*)&g_011f36bc_arg1;
 }
@@ -182,10 +182,10 @@ struct FUN_00a38df0_shell
     void* m_pe4;
     void* m_pe8;
     void* m_p1e8;
-    void FUN_00a38df0();
+    void NiSingleInterpController_TargetIsRequiredType();
 };
 // @fnv 0x00a38df0
-void FUN_00a38df0_shell::FUN_00a38df0()
+void FUN_00a38df0_shell::NiSingleInterpController_TargetIsRequiredType()
 {
     ((void(__thiscall*)(void*, void*))(*reinterpret_cast<void***>(this))[0xe8 / 4])(this, m_p2c);
 }
@@ -245,10 +245,10 @@ struct FakeInterpGuarantee
 };
 struct FUN_00a38e90_shell
 {
-    void FUN_00a38e90(float, float);
+    void NiSingleInterpController_GuaranteeTimeRange(float, float);
 };
 // @fnv 0x00a38e90
-void FUN_00a38e90_shell::FUN_00a38e90(float m_fStartTime, float m_fMaximumDistance)
+void FUN_00a38e90_shell::NiSingleInterpController_GuaranteeTimeRange(float m_fStartTime, float m_fMaximumDistance)
 {
     NiInterpolator* p = ((NiSingleInterpController*)this)->m_spControllerInterpolator;
     if (p)
@@ -303,10 +303,10 @@ struct S00c27120
 };
 struct FUN_00a39010_shell : NiSingleInterpController
 {
-    void FUN_00a39010(NiStream&);
+    void NiSingleInterpController_SaveBinary(NiStream&);
 };
 // @fnv 0x00a39010
-void FUN_00a39010_shell::FUN_00a39010(NiStream& kStream)
+void FUN_00a39010_shell::NiSingleInterpController_SaveBinary(NiStream& kStream)
 {
     ((S00c27120*)this)->FUN_00c27120(kStream);
     ((void(__thiscall*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
@@ -354,10 +354,10 @@ struct InterpWrap
 };
 struct Holder00a390a0
 {
-    void FUN_00a390a0(StrArr*);
+    void NiSingleInterpController_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00a390a0
-void Holder00a390a0::FUN_00a390a0(StrArr* pkStrings)
+void Holder00a390a0::NiSingleInterpController_GetViewerStrings(StrArr* pkStrings)
 {
     ((BaseWrap*)this)->WriteManagerControlledFlag(pkStrings);
     char* psz = _FUN_00a7d330(g_011f36ec_arg1);
@@ -372,12 +372,12 @@ void Holder00a390a0::FUN_00a390a0(StrArr* pkStrings)
 
 struct FUN_00a38e40_cls : public NiSingleInterpController
 {
-    void FUN_00a38e40(NiInterpolator* pNew, unsigned int unused);
+    void NiSingleInterpController_SetInterpolator(NiInterpolator* pNew, unsigned int unused);
 };
 
 // Replaces the stored interpolator pointer, releasing the old one and incrementing the new one's reference count.
 // @fnv 0x00a38e40
-void FUN_00a38e40_cls::FUN_00a38e40(NiInterpolator* apNewInterpolator, unsigned int unused)
+void FUN_00a38e40_cls::NiSingleInterpController_SetInterpolator(NiInterpolator* apNewInterpolator, unsigned int unused)
 {
     NiInterpolator* pOld = m_spControllerInterpolator;
     if (pOld == apNewInterpolator)
@@ -630,7 +630,7 @@ void FUN_00a35870::DoSave(A30440Stream& arStream)
 unsigned short __cdecl FUN_00c283f0(void*, void*);
 
 // @fnv 0x00a35880
-unsigned short __cdecl FUN_00a35880(void* param1, void* param2)
+unsigned short __cdecl BSMultiTargetTreadTransfController_IsEqual(void* param1, void* param2)
 {
     return FUN_00c283f0(param1, param2);
 }
@@ -699,11 +699,11 @@ class BSMultiTargetTreadTransfControllerStandIn
     int unk34;
     unsigned short unk38;
 
-    virtual unsigned short FUN_00a35890();
+    virtual unsigned short BSMultiTargetTreadTransfController_GetInterpolatorCount();
 };
 
 // @fnv 0x00a35890
-unsigned short BSMultiTargetTreadTransfControllerStandIn::FUN_00a35890()
+unsigned short BSMultiTargetTreadTransfControllerStandIn::BSMultiTargetTreadTransfController_GetInterpolatorCount()
 {
     return unk38;
 }

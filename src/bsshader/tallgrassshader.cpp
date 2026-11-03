@@ -258,7 +258,7 @@ void __stdcall FUN_00bac8d0(unsigned int k)
 namespace fnv_00bac950 {
 struct TextureReceiver
 {
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 struct Poly
 {
@@ -423,7 +423,7 @@ int Self::FUN_00bac950(Arg* arg)
     if (k - 0x284 <= 3)
     {
         Slot* b = DAT_0126f74c->t->b;
-        b->f = DAT_011f91e0[3]->in->tr->FUN_004bc320(0);
+        b->f = DAT_011f91e0[3]->in->tr->BSRenderedTexture_GetTexture(0);
     }
     return s66();
 }

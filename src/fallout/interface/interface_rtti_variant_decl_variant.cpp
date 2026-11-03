@@ -130,7 +130,7 @@ void __cdecl CreateSleepWaitMenu(bool);
 // @fnv 0x007054f0
 void __cdecl FUN_007054f0(bool sleep)
 {
-    if (FUN_004b7210() && FUN_004b7210()->FUN_009373f0() && IsSomethingZero())
+    if (InterfaceManager_Instance() && InterfaceManager_Instance()->FUN_009373f0() && IsSomethingZero())
     {
         Tile* menu = FUN_00a09030(1012);
         SleepWaitMenu* tile = menu ? dynamic_cast<SleepWaitMenu*>(menu->GetMenu()) : 0;

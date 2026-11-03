@@ -5,7 +5,7 @@
 extern "C" void* g_012026d8;
 
 // @fnv 0x00c29e90
-void* __cdecl FUN_00c29e90()
+void* __cdecl NiPSysInitialRotSpeedVarCtlr_GetRTTI()
 {
     return &g_012026d8;
 }
@@ -26,7 +26,7 @@ FUN_00c32d80::FUN_00c32d80()
 }
 
 extern "C" void* g_012026d8;
-void __stdcall FUN_00c32f60(void* p);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(void* p);
 void* __cdecl FUN_00a7d330(void* p);
 
 struct FUN_00c29f00_Array
@@ -43,9 +43,9 @@ struct FUN_00c29f00_Array
 
 // Grows the array if its count has reached capacity, then stores the item obtained from g_012026d8 at the current count.
 // @fnv 0x00c29f00
-void __stdcall FUN_00c29f00(FUN_00c29f00_Array* arr)
+void __stdcall NiPSysInitialRotSpeedVarCtlr_GetViewerStrings(FUN_00c29f00_Array* arr)
 {
-    FUN_00c32f60(arr);
+    NiPSysModifierFloatCtlr_GetViewerStrings(arr);
     void* item = FUN_00a7d330(g_012026d8);
     unsigned int count = arr->unk0A;
     if (count >= arr->unk08)

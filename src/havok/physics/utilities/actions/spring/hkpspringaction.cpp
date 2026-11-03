@@ -7,7 +7,7 @@
 extern int g_unk01269168;
 
 // @fnv 0x00cf4ef0
-int* __cdecl FUN_00cf4ef0()
+int* __cdecl hkpBinaryAction_getClassType()
 {
     return &g_unk01269168;
 }

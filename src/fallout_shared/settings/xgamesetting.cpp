@@ -7,9 +7,9 @@
 bool GameSettingCollection::ReadSetting(Setting& setting)
 {
     bool result = false;
-    if (FUN_004f8960())
+    if (Actor_GetLifeState())
     {
-        TESFile* file = FUN_004f8960();
+        TESFile* file = Actor_GetLifeState();
         file->NextChunk();
         if (file->GetChunkID() == 0x41544144)
         {
@@ -69,11 +69,11 @@ void S_0060ba10::FUN_0096a610(int a)
 
 struct FUN_004f8980_shell
 {
-    virtual bool __thiscall FUN_004f8980(bool);
+    virtual bool __thiscall GameSettingCollection_Open(bool);
 };
 
 // @fnv 0x004f8980
-bool __thiscall FUN_004f8980_shell::FUN_004f8980(bool)
+bool __thiscall FUN_004f8980_shell::GameSettingCollection_Open(bool)
 {
     return *(int*)((char*)this + 0x108) != 0;
 }

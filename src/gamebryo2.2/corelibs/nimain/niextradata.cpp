@@ -74,10 +74,10 @@ struct FakeStream
 struct MyOwner : public NiObject
 {
     int _08;
-    bool FUN_00a7b290(NiStream&);
+    bool NiExtraData_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00a7b290
-bool MyOwner::FUN_00a7b290(NiStream& kStream)
+bool MyOwner::NiExtraData_RegisterStreamables(NiStream& kStream)
 {
     if (!((NiObjectBase*)this)->NiObjectBase::RegisterStreamables(&kStream))
         return false;
@@ -134,7 +134,7 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 // Allocates a 12-byte NiExtraData, constructs it, sets its vtable and copies a stored int into offset 8, returning the object or null.
 // @fnv 0x00a7b380
-NiExtraData* FUN_00a7b380()
+NiExtraData* NiExtraData_CreateObject()
 {
     NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(12);
     if (p)
@@ -162,11 +162,11 @@ struct FUN_00a7b2c0_shell
     void* vtable;
     unsigned int pad;
     char m_kName[1];
-    void FUN_00a7b2c0(NiStream& kStream);
+    void NiExtraData_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a7b2c0
-void FUN_00a7b2c0_shell::FUN_00a7b2c0(NiStream& kStream)
+void FUN_00a7b2c0_shell::NiExtraData_SaveBinary(NiStream& kStream)
 {
     reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)->LinkObject(kStream);
     reinterpret_cast<FUN_00a7b2c0_NiStream*>(&kStream)->SerializeString(m_kName);
@@ -228,12 +228,12 @@ class NiObject_00a7b3d0
     unsigned int _08;
 
     unsigned char __thiscall IsSameAs(NiObject_00a7b3d0* object);
-    unsigned char __thiscall FUN_00a7b3d0(NiObject_00a7b3d0* object);
+    unsigned char __thiscall NiExtraData_IsEqual(NiObject_00a7b3d0* object);
 };
 
 // Returns 0 if IsSameAs fails; otherwise returns whether _08 equals object->_08.
 // @fnv 0x00a7b3d0
-unsigned char __thiscall NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
+unsigned char __thiscall NiObject_00a7b3d0::NiExtraData_IsEqual(NiObject_00a7b3d0* object)
 {
     if (!IsSameAs(object))
         return 0;
@@ -302,10 +302,10 @@ struct ExtraDataStrings
     {
         return name;
     }
-    void FUN_00a7b580(StrArr* strings);
+    void NiExtraData_GetViewerStrings(StrArr* strings);
 };
 // @fnv 0x00a7b580
-void ExtraDataStrings::FUN_00a7b580(StrArr* strings)
+void ExtraDataStrings::NiExtraData_GetViewerStrings(StrArr* strings)
 {
     strings->Add(FUN_00a7d330(g_01270908_arg1));
     strings->Add(FUN_00a7d5e0(DAT_01097790, GetName()));

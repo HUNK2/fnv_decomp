@@ -308,28 +308,28 @@ bool TESObjectARMO::Load(TESFile* file)
 
 struct FUN_00514450_shell : public TESBipedModelForm
 {
-    bool FUN_00514450();
+    bool TESBipedModelForm_IsMedium();
 };
 
 // @fnv 0x00514450
-bool FUN_00514450_shell::FUN_00514450()
+bool FUN_00514450_shell::TESBipedModelForm_IsMedium()
 {
     return *((unsigned char*)this + 8) & 8;
 }
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short GetSaveSize(unsigned int);
 };
 
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short GetSaveSize(unsigned int);
 };
 
 struct FUN_00514470
 {
-    FUN_00484bf0 m_00;
+    TESForm_GetSaveSize m_00;
     unsigned char m_58[0x58];
     unsigned short GetSaveSize(unsigned int);
 };
@@ -340,13 +340,13 @@ unsigned short FUN_00514470::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += m_00.GetSaveSize(aiFlags);
-    isize += ((FUN_0048e9b0*)((char*)this + 0x58))->GetSaveSize(aiFlags);
+    isize += ((TESValueForm_GetSaveSize*)((char*)this + 0x58))->GetSaveSize(aiFlags);
     return isize;
 }
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
     void FUN_0048e9e0(unsigned int);
 };
 struct FUN_00516040_shell
@@ -356,17 +356,17 @@ struct FUN_00516040_shell
     FUN_0051b070_shell m58;
     void FUN_00516040(unsigned int);
 };
-// Calls FUN_00484c20 on m0 and FUN_0048e9e0 on m58, passing aiFlags to each.
+// Calls TESForm_SaveGame on m0 and FUN_0048e9e0 on m58, passing aiFlags to each.
 // @fnv 0x00516040
 void FUN_00516040_shell::FUN_00516040(unsigned int aiFlags)
 {
-    m0.FUN_00484c20(aiFlags);
+    m0.TESForm_SaveGame(aiFlags);
     m58.FUN_0048e9e0(aiFlags);
 }
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
+    void __thiscall TESForm_LoadGame2(unsigned int, unsigned int);
 };
 
 struct TESValueFormStub
@@ -381,11 +381,11 @@ struct FUN_00516070_shell
     void __thiscall FUN_00516070(unsigned int, unsigned int);
 };
 
-// Forwards both arguments to TESFormStub::FUN_00484c50 on this object, then to m_valueStub.FUN_0048ea10.
+// Forwards both arguments to TESFormStub::TESForm_LoadGame2 on this object, then to m_valueStub.FUN_0048ea10.
 // @fnv 0x00516070
 void __thiscall FUN_00516070_shell::FUN_00516070(unsigned int a1, unsigned int a2)
 {
-    reinterpret_cast<TESFormStub*>(this)->FUN_00484c50(a1, a2);
+    reinterpret_cast<TESFormStub*>(this)->TESForm_LoadGame2(a1, a2);
     m_valueStub.FUN_0048ea10(a1, a2);
 }
 
@@ -581,21 +581,21 @@ void AppendChunk(unsigned int, void*, unsigned int);
 void FUN_00485910(unsigned int, unsigned int);
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_00485e00();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void TESForm_SaveData();
 };
 struct FUN_00487010_shell
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct FUN_0047bd70_shell
 {
-    void FUN_0047bd70();
+    void TESEnchantableForm_Save();
 };
 struct S_00480610
 {
@@ -603,19 +603,19 @@ struct S_00480610
 };
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct S0047b8a0
 {
-    void FUN_0047b8a0();
+    void BGSRepairItemList_Save();
 };
 struct FUN_00474d60_shell
 {
-    void FUN_00474d60();
+    void BGSBipedModelList_Save();
 };
 struct FUN_00479350_shell
 {
-    void FUN_00479350();
+    void BGSEquipType_Save();
 };
 struct FUN_0047b560_holder
 {
@@ -667,17 +667,17 @@ struct ArmorSerializer
 // @fnv 0x00513d90
 void ArmorSerializer::Save()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
-    ((FUN_00487010_shell*)&fullName)->FUN_00487010();
-    ((S_0048cca0*)&scriptable)->FUN_0048cca0();
-    ((FUN_0047bd70_shell*)&enchantable)->FUN_0047bd70();
+    ((FUN_004855a0_shell*)this)->TESForm_StartForm();
+    ((FUN_00487010_shell*)&fullName)->TESFullName_Save();
+    ((S_0048cca0*)&scriptable)->TESScriptableForm_Save();
+    ((FUN_0047bd70_shell*)&enchantable)->TESEnchantableForm_Save();
     ((S_00480610*)&biped)->InitBipedModel();
-    ((S_00477f20*)&destructible)->FUN_00477f20();
-    ((S0047b8a0*)&repairList)->FUN_0047b8a0();
-    ((FUN_00474d60_shell*)&modelList)->FUN_00474d60();
-    ((FUN_00479350_shell*)&equipType)->FUN_00479350();
+    ((S_00477f20*)&destructible)->BGSDestructibleObjectForm_Save();
+    ((S0047b8a0*)&repairList)->BGSRepairItemList_Save();
+    ((FUN_00474d60_shell*)&modelList)->BGSBipedModelList_Save();
+    ((FUN_00479350_shell*)&equipType)->BGSEquipType_Save();
     ((FUN_0047b560_holder*)&pickupSounds)->LogFormIDs();
-    ((FUN_004855a0_shell*)this)->FUN_00485e00();
+    ((FUN_004855a0_shell*)this)->TESForm_SaveData();
     if (FUN_00401500())
         data.FUN_00535aa0();
     AppendChunk(0x4d414e44, &data, sizeof(data));
@@ -713,7 +713,7 @@ void ArmorSerializer::Save()
             }
         }
     }
-    ((FUN_004855a0_shell*)this)->FUN_00485680();
+    ((FUN_004855a0_shell*)this)->TESForm_CloseForm();
 }
 
 void* __cdecl operator new(unsigned int);
@@ -811,7 +811,7 @@ FUN_00512ba0::~FUN_00512ba0()
 #include <string.h>
 struct ArmorCompare : TESObjectARMO
 {
-    bool FUN_00485270(TESObjectARMO* other);
+    bool TESForm_CompareAllComponents(TESObjectARMO* other);
     bool IsDifferentFrom(TESForm* form);
 };
 // Returns true if form is not an armor or differs in base compare, data, sound source armor, or pickup/putdown sound list entries.
@@ -821,7 +821,7 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     TESObjectARMO* pOther = dynamic_cast<TESObjectARMO*>(form);
     if (!pOther)
         return true;
-    if (FUN_00485270(pOther))
+    if (TESForm_CompareAllComponents(pOther))
         return true;
     if (memcmp(&data, &pOther->data, 12))
         return true;

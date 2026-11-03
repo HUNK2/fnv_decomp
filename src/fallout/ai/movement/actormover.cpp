@@ -588,7 +588,7 @@ struct NiMemObject
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_009dfa00_shell : public ActorMover
 {
-    void FUN_009dfa00(BGSLoadFormBuffer*);
+    void ActorMover_FinishLoadGame(BGSLoadFormBuffer*);
 };
 
 class PathingRequest
@@ -650,7 +650,7 @@ struct PathingRequestLOS
 };
 
 // @fnv 0x009dfa00
-void FUN_009dfa00_shell::FUN_009dfa00(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009dfa00_shell::ActorMover_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m_bMovementActive && *(NiPointer<PathingRequest>*)((char*)this + 0x1c))
     {
@@ -1026,11 +1026,11 @@ struct ArrSI
 
 struct FUN_00564db0_cls
 {
-    void FUN_00564db0(bool abVal);
+    void TESObjectREFR_SetTargeted(bool abVal);
 };
 
 // @fnv 0x00564db0
-void __thiscall FUN_00564db0_cls::FUN_00564db0(bool abVal)
+void __thiscall FUN_00564db0_cls::TESObjectREFR_SetTargeted(bool abVal)
 {
     int iflags = ((ArrSI*)this)->GetFlags();
     if (abVal)
@@ -1082,11 +1082,11 @@ struct FUN_009de060_Class
 {
     unsigned char m_071;
     int m_038;
-    void FUN_009de060(int param);
+    void ActorMover_ForceMoveMode(int param);
 };
 
 // @fnv 0x009de060
-void FUN_009de060_Class::FUN_009de060(int aiValue)
+void FUN_009de060_Class::ActorMover_ForceMoveMode(int aiValue)
 {
     *(unsigned char*)((char*)this + 0x71) = 1;
     *(int*)((char*)this + 0x38) = aiValue;
@@ -1835,7 +1835,7 @@ struct Dummy
     bool FUN_005f0c40();
 };
 
-bool __fastcall FUN_005f0b50(TESActorBase*);
+bool __fastcall TESActorBase_DoesSwim(TESActorBase*);
 
 struct ActorBaseComponent30
 {
@@ -1874,7 +1874,7 @@ void __cdecl SetupPathingRequest(Actor* apActor, PathingRequest* apRequest, NiPo
         ((FUN_006e2b50_shell*)apRequest)
             ->SetCantOpenDoors(((ActorBaseComponent30*)((char*)apActor->GetActorBase() + 0x30))->v10());
     }
-    ((FUN_006e2b70_shell*)apRequest)->SetCanSwim(FUN_005f0b50(apActor->GetActorBase()));
+    ((FUN_006e2b70_shell*)apRequest)->SetCanSwim(TESActorBase_DoesSwim(apActor->GetActorBase()));
     ((FUN_006e2b90*)apRequest)->SetFlag(((Dummy*)apActor->GetActorBase())->FUN_005f0c40());
 }
 }  // namespace fnv_009dbc90
@@ -2083,7 +2083,7 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_009df8c0_shell : public ActorMover
 {
-    void FUN_009df8c0(BGSLoadFormBuffer*);
+    void ActorMover_InitLoadGame(BGSLoadFormBuffer*);
 };
 
 struct CombatController
@@ -2442,7 +2442,7 @@ struct MoverView
     SActor* pActor;
 };
 // @fnv 0x009df8c0
-void FUN_009df8c0_shell::FUN_009df8c0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009df8c0_shell::ActorMover_InitLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (((MoverView*)this)->m_pPathHandler)
         ((MoverView*)this)->m_pPathHandler->LoadGame(apLoadGameBuffer);
@@ -3242,11 +3242,11 @@ struct Mover11
     void SetEnabled(int);
     void FUN_009ddc00();
     void FUN_00483710();
-    void FUN_009dc120(float f);
+    void ActorMover_Update(float f);
 };
 
 // @fnv 0x009dc120
-void Mover11::FUN_009dc120(float f)
+void Mover11::ActorMover_Update(float f)
 {
     if (m_72)
     {
@@ -5053,7 +5053,7 @@ struct Area
 };
 struct Map
 {
-    Area* FUN_0045af00(World*, unsigned int);
+    Area* TES_GetNavMeshInfoMap(World*, unsigned int);
     double GetCellHeightAtPosition(const Vec&, Cell*);
 };
 extern Map* DAT_011dea10;
@@ -5276,7 +5276,7 @@ void Mover::SetEnabled(bool abEnabled)
             int y = int(actor->Position()->y) >> 12;
             if (!xSlot14 && !y &&
                 !DAT_011dea10
-                     ->FUN_0045af00(actor->FUN_00575d70(), PackShortPair((unsigned short)xSlot14, (unsigned short)y))
+                     ->TES_GetNavMeshInfoMap(actor->FUN_00575d70(), PackShortPair((unsigned short)xSlot14, (unsigned short)y))
                      ->FUN_006b7850())
                 actor->FUN_008ad1c0(request.FUN_00559450()->FUN_006a9540()->FUN_005c3420(), 0.0f,
                                     request.FUN_00559450()->FUN_006a9540()->FUN_009611e0(),
@@ -5412,7 +5412,7 @@ struct PathSol
 };
 struct ProjBase
 {
-    bool FUN_005f0b50();
+    bool TESActorBase_DoesSwim();
     bool FUN_005f0c40();
 };
 struct RefrV
@@ -5612,7 +5612,7 @@ extern "C" double _gModifierZero;
 struct TESWorldSpace;
 struct TESObjectREFR;
 TESWorldSpace* __fastcall FUN_00575d70(TESObjectREFR* refr);
-void __cdecl FUN_00573800(void* actor, void* cell, void* ws);
+void __cdecl TESObjectREFR_MoveRefToNewSpace(void* actor, void* cell, void* ws);
 struct Helper13
 {
     int m_00;
@@ -5794,7 +5794,7 @@ void Tgt13::UpdateTargeting()
         solution4.SetByteAtOffset9B(1);
         solution4.SetFlagA3(true);
         solution4.SetCantOpenDoors(false);
-        solution4.SetCanSwim(actor->FUN_004181e0()->FUN_005f0b50());
+        solution4.SetCanSwim(actor->FUN_004181e0()->TESActorBase_DoesSwim());
         solution4.FUN_006e2b90(actor->FUN_004181e0()->FUN_005f0c40());
         solution4.SetByteAtA1(1);
         Pt3 idx;
@@ -5839,7 +5839,7 @@ void Tgt13::UpdateTargeting()
             if (actor->FUN_008bc7f0(g_thePlayer) &&
                 FUN_00575d70((TESObjectREFR*)actor) != FUN_00575d70((TESObjectREFR*)g_thePlayer))
             {
-                FUN_00573800(actor, g_thePlayer->FUN_008d6f30(), FUN_00575d70((TESObjectREFR*)g_thePlayer));
+                TESObjectREFR_MoveRefToNewSpace(actor, g_thePlayer->FUN_008d6f30(), FUN_00575d70((TESObjectREFR*)g_thePlayer));
                 actor->Call2a8((Vec3*)&idx);
             }
             else
@@ -5944,11 +5944,11 @@ struct FUN_009df100_shell
     unsigned int timeStamp;
     unsigned int field80;
     unsigned int field84;
-    void FUN_009df100(BGSSaveFormBuffer* buffer);
+    void ActorMover_SaveGame(BGSSaveFormBuffer* buffer);
 };
 // Writes movement, pathing, state and timing fields to the save buffer, then saves the location, reference, request, path and handler.
 // @fnv 0x009df100
-void FUN_009df100_shell::FUN_009df100(BGSSaveFormBuffer* buffer)
+void FUN_009df100_shell::ActorMover_SaveGame(BGSSaveFormBuffer* buffer)
 {
     buffer->FUN_00865e50(&movement40, 2, 0);
     buffer->FUN_00865e50(&movement42, 2, 0);
@@ -6298,11 +6298,11 @@ struct Mover
     int a84;
     void FUN_009daf80();
     void SetEnabled(int);
-    void FUN_009df3d0(Buffer*);
+    void ActorMover_LoadGame(Buffer*);
 };
 // Reads the mover's saved fields from a buffer, reconstructs its request, path and handler, and forces a failure if the path is stale.
 // @fnv 0x009df3d0
-void Mover::FUN_009df3d0(Buffer* buffer)
+void Mover::ActorMover_LoadGame(Buffer* buffer)
 {
     buffer->Read(&a40, 2);
     buffer->Read(&a42, 2);
@@ -6968,7 +6968,7 @@ class PathingRequest
     BackgroundPathLocation14* FUN_006a9540();
     float FUN_009b0bd0() const;
     float GetSmoothingRandomness();
-    bool FUN_00505c00();
+    bool PathingRequest_GetFaceTargetAtGoal();
     float FUN_00507e10();
     void FUN_006e2b20(void*);
     void FUN_009db930(unsigned int);
@@ -7403,7 +7403,7 @@ struct PathManager14
 
 struct PathManager;
 PathManager* __cdecl GetPathManager();
-bool __fastcall FUN_00450ff0(void*);
+bool __fastcall TESObjectCELL_IsAttached(void*);
 void __cdecl FUN_009e71b0(void*, PathingRequest*, void*);
 void __fastcall FUN_009daf80(TESForm*);
 
@@ -7507,7 +7507,7 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
                 {
                     FUN_009dd1c0(1);
                     bool flag = true;
-                    if (((PathingRequest*)apRequest)->FUN_00505c00())
+                    if (((PathingRequest*)apRequest)->PathingRequest_GetFaceTargetAtGoal())
                     {
                         flag = FUN_009dce80(((PathingRequest*)apRequest)->FUN_00507e10(), true);
                     }
@@ -7564,7 +7564,7 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
     {
         if (m_actor->FUN_008d6f30() != 0)
         {
-            if (FUN_00450ff0(m_actor->FUN_008d6f30()))
+            if (TESObjectCELL_IsAttached(m_actor->FUN_008d6f30()))
             {
                 FUN_009e71b0(m_actor, (PathingRequest*)m_req, 0);
             }

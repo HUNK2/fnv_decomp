@@ -131,14 +131,14 @@ int __cdecl FUN_00d9fb70()
     return 1;
 }
 
-// FUN_00d9fc60
+// hkpDefaultToiResourceMgr_getClassType
 // Returns the address of the global registration object that lives at
 // DAT_0126955c.  The startup code fills that object (13 dwords) through a
 // constructor call, and this getter hands out its address.
 extern int DAT_0126955c;
 
 // @fnv 0x00d9fc60
-int* __cdecl FUN_00d9fc60()
+int* __cdecl hkpDefaultToiResourceMgr_getClassType()
 {
     return &DAT_0126955c;
 }

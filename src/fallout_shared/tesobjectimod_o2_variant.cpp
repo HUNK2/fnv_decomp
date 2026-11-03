@@ -163,11 +163,11 @@ class TESObjectIMOD : public TESBoundObject,
 };
 struct FUN_0051a5d0_shell
 {
-    void __thiscall FUN_0051a5d0(unsigned int, unsigned int);
+    void __thiscall TESObjectIMOD_LoadGame2(unsigned int, unsigned int);
 };
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
+    void __thiscall TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
@@ -195,26 +195,26 @@ struct FUN_00519e70_stub
 {
     void __thiscall FUN_00519e70();
 };
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
 struct FUN_0051a550_shell
 {
-    unsigned short __thiscall FUN_0051a550(unsigned int aiFlags);
+    unsigned short __thiscall TESObjectIMOD_GetSaveSize(unsigned int aiFlags);
 };
 struct FUN_0051b070_shell
 {
-    void __thiscall FUN_00484c20(unsigned int);
+    void __thiscall TESForm_SaveGame(unsigned int);
     void __thiscall FUN_0048e9e0(unsigned int);
 };
 struct FUN_0051a5a0_shell
 {
-    void __thiscall FUN_0051a5a0(unsigned int aiFlags);
+    void __thiscall TESObjectIMOD_SaveGame(unsigned int aiFlags);
 };
 struct BGSSaveFormBuffer;
 struct FUN_00484d60_holder
@@ -227,15 +227,15 @@ struct FUN_0048ea40_holder
 };
 struct FUN_0051a600_shell
 {
-    void __thiscall FUN_0051a600(BGSSaveFormBuffer* buffer);
+    void __thiscall TESObjectIMOD_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer);
 };
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
+    void __thiscall BGSDestructibleObjectForm_Save();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
+    void __thiscall TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -243,23 +243,23 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall TESScriptableForm_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
 struct FUN_0047a240_holder
 {
@@ -271,11 +271,11 @@ struct FUN_0047b560_holder
 };
 struct FUN_0048e370_holder
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 struct FUN_0051a420_shell : public TESObjectIMOD
 {
-    void FUN_0051a420();
+    void TESObjectIMOD_SaveForm();
 };
 
 struct B1

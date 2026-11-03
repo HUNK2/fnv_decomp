@@ -472,7 +472,7 @@ class TESForm
 class TESObjectREFR : public TESForm
 {
   public:
-    bool FUN_0057b790();
+    bool TESObjectREFR_IsCellLoaded();
 };
 
 struct TESDataHandler
@@ -513,7 +513,7 @@ bool BGSChangeFlagsEx::TestFormChangeFlags(TESForm* apForm)
         {
             bKeep2 = true;
         }
-        if (pRef->FUN_0057b790())
+        if (pRef->TESObjectREFR_IsCellLoaded())
         {
             if (Test(0x10000000))
             {

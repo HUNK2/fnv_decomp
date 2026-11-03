@@ -5,7 +5,7 @@
 extern "C" char const* const g_011f6048_arg1;
 
 // @fnv 0x00a8f860
-char const* const* __cdecl FUN_00a8f860()
+char const* const* __cdecl NiMaterial_GetRTTI()
 {
     return &g_011f6048_arg1;
 }

@@ -132,7 +132,7 @@ void PlayerMover::Update(float fTimeSinceScaleStart)
 {
     NiPoint3 delta = NiPoint3::ZERO;
     Animation* animation = g_thePlayer->GetAnimation(false);
-    if (!g_thePlayer->FUN_004eaf60())
+    if (!g_thePlayer->PlayerCharacter_Is3rdPerson())
     {
         Animation* firstPerson = g_thePlayer->GetAnimation(true);
         if (!animation || firstPerson->FUN_004301b0(1) == animation->FUN_004301b0(1))
@@ -348,16 +348,16 @@ struct BGSSaveFormBuffer
 };
 struct FUN_009df100_shell : PlayerMover
 {
-    void FUN_009df100(BGSSaveFormBuffer* apBuffer);
+    void ActorMover_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 struct FUN_009ea5a0_shell : PlayerMover
 {
-    void FUN_009ea5a0(BGSSaveFormBuffer* apBuffer);
+    void PlayerMover_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 // @fnv 0x009ea5a0
-void FUN_009ea5a0_shell::FUN_009ea5a0(BGSSaveFormBuffer* apBuffer)
+void FUN_009ea5a0_shell::PlayerMover_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
-    ((FUN_009df100_shell*)this)->FUN_009df100(apBuffer);
+    ((FUN_009df100_shell*)this)->ActorMover_SaveGame(apBuffer);
     apBuffer->SaveData(&m_kSideVec, 0xC, 0);
     apBuffer->SaveData(&ByteAndFlagState, 4, 0);
     apBuffer->SaveData(&m_uiMode, 4, 0);

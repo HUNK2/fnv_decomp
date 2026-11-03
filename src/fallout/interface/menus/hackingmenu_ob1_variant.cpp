@@ -15,7 +15,7 @@ struct FUN_006ffe80_shell
 };
 struct HackingMenu
 {
-    int __thiscall FUN_00765870();
+    int __thiscall HackingMenu_GetClass();
 };
 int __cdecl FUN_00766a40();
 struct WeatherEntry;
@@ -41,7 +41,7 @@ struct HackingMenu;
 struct FUN_0076a510_shell : HackingMenu
 {
     void __thiscall FUN_0076a510();
-    void __thiscall FUN_0076a540();
+    void __thiscall HackingMenu_TransitionToComputersMenu();
 };
 struct StrMem
 {
@@ -209,7 +209,7 @@ struct FUN_007021b0_cls
     void* DestroyOrFree(unsigned int flags);
 };
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeap_Free(void* apMemory);
 class NiNode;
 class TileD766
 {
@@ -864,7 +864,7 @@ struct Menu_007a8b10
     virtual ~Menu_007a8b10();
 };
 unsigned int __cdecl gm_GetTickCount();
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 extern SettingColl DAT_011d0b90;
 extern unsigned int DAT_011d95c0;
 extern char DAT_011d9674;

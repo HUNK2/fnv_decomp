@@ -57,7 +57,7 @@ struct Elem20
 };
 struct TriX
 {
-    unsigned short FUN_005582d0(int i);
+    unsigned short NavMeshTriangle_GetVert(int i);
 };
 struct MeshX
 {
@@ -650,9 +650,9 @@ bool __cdecl FUN_006d34d0(void* req, NiPoint3* out)
     Elem20 elem = *arrD3.FUN_006b3160(arrD3.FUN_0044ddc0() - 1);
     Pt3 pts[3];
     TriX* triPtr7 = ((MeshX*)elem.mesh)->FUN_005582f0(elem.tri);
-    *(NiPoint3*)&pts[0] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(0));
-    *(NiPoint3*)&pts[1] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(1));
-    *(NiPoint3*)&pts[2] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->FUN_005582d0(2));
+    *(NiPoint3*)&pts[0] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->NavMeshTriangle_GetVert(0));
+    *(NiPoint3*)&pts[1] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->NavMeshTriangle_GetVert(1));
+    *(NiPoint3*)&pts[2] = ((MeshX*)elem.mesh)->FUN_0068f0a0(triPtr7->NavMeshTriangle_GetVert(2));
     *out = (const NiPoint3&)FUN_006bbad0((NiPoint3*)&pts[0], (NiPoint3*)&pts[1], (NiPoint3*)&pts[2]);
     return true;
 }

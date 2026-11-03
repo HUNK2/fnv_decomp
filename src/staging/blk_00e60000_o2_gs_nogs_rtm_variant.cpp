@@ -2900,7 +2900,7 @@ class FUN_00e7d180_cls
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_0126f5a4;
-CpuOpaque* __cdecl FUN_00e7d220();
+CpuOpaque* __cdecl NiDX9TextureBufferData_GetRTTI();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 struct D3DSurfaceDesc_e7d250
 {
@@ -3011,9 +3011,9 @@ class Ni2DBufferStub
     void AttachRendererData(RendererDataStub* pkData);
 };
 extern int DAT_0126f5e0;
-int* __cdecl FUN_00e7d550();
+int* __cdecl NiDX9ImplicitBufferData_GetRTTI();
 extern int DAT_0126f5b4;
-void* __cdecl FUN_00e7d680(void);
+void* __cdecl NiDX9ImplicitDepthStencilBufferData_GetRTTI(void);
 class BE7F610Heap
 {
   public:
@@ -6159,7 +6159,7 @@ struct ClosestList
 int FUN_00e7ccf0(unsigned int index);
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f59c;
-GlobalObjectO2_00a7b610* FUN_00e7cd30();
+GlobalObjectO2_00a7b610* NiDX92DBufferData_GetRTTI();
 class FUN_00e7a5e0_Object
 {
   public:
@@ -6545,7 +6545,7 @@ struct SpinLk
 {
     int owner;
     unsigned int count;
-    void FUN_0040fbf0(const char* name = 0) throw();
+    void BSSpinLock_Lock(const char* name = 0) throw();
     void Unlock() throw()
     {
         if (--count == 0)
@@ -6568,7 +6568,7 @@ struct PoolAlloc
 {
     static ListItem* Allocate() throw()
     {
-        DAT_011c5f80.FUN_0040fbf0();
+        DAT_011c5f80.BSSpinLock_Lock();
         if (!NiTAbstractPoolAllocator_unsigned_int_instance.head)
             FUN_0043a080();
         ListItem* p = NiTAbstractPoolAllocator_unsigned_int_instance.head;

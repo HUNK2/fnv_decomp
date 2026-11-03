@@ -5,7 +5,7 @@
 extern const char* const g_011f3f58_arg1;
 
 // @fnv 0x00a485a0
-const char* const* __cdecl FUN_00a485a0()
+const char* const* __cdecl NiFloatController_GetRTTI()
 {
     return &g_011f3f58_arg1;
 }
@@ -13,7 +13,7 @@ const char* const* __cdecl FUN_00a485a0()
 extern void* g_011f3f58;
 
 // @fnv 0x00a485b0
-void* __cdecl FUN_00a485b0()
+void* __cdecl NiRollController_GetRTTI()
 {
     return &g_011f3f58;
 }
@@ -26,7 +26,7 @@ void __fastcall FUN_00a6d220(void*);
 extern int DAT_01098634;
 
 // @fnv 0x00a48750
-void* __cdecl FUN_00a48750()
+void* __cdecl NiRollController_CreateObject()
 {
     void* pFadeNode = BSFadeNode::operator new(0x3c);
     if (pFadeNode)
@@ -64,16 +64,16 @@ struct StrArr {
     void SetSize(unsigned int);
     void SetAt(unsigned int, char* &);
 };
-void __stdcall FUN_00a6d830(StrArr*);
+void __stdcall NiTimeController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 struct NiRollController {
-    void FUN_00a48790(StrArr*);
+    void NiRollController_GetViewerStrings(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(g_011f3f58) to the StrArr, growing it via SetSize when full, then stores it with SetAt.
 // @fnv 0x00a48790
-void NiRollController::FUN_00a48790(StrArr* pStrArr)
+void NiRollController::NiRollController_GetViewerStrings(StrArr* pStrArr)
 {
-    FUN_00a6d830(pStrArr);
+    NiTimeController_GetViewerStrings(pStrArr);
     char* pkString = _FUN_00a7d330((const char*)g_011f3f58);
     unsigned int uiSize = pStrArr->m_usSize;
     unsigned int uiMaxSize = pStrArr->m_usMaxSize;
@@ -125,53 +125,53 @@ struct A486F0Controller : A486F0ControllerBase {
     A486F0Controller() {}
     virtual ~A486F0Controller();
 
-    A486F0Object* FUN_00a486f0(A486F0CloningProcess& kCloning);
+    A486F0Object* NiRollController_CreateClone(A486F0CloningProcess& kCloning);
 };
 
 // Allocates a new controller, copies this object's state into it via the cloning process, and returns the clone.
 // @fnv 0x00a486f0
-A486F0Object* A486F0Controller::FUN_00a486f0(A486F0CloningProcess& kCloning)
+A486F0Object* A486F0Controller::NiRollController_CreateClone(A486F0CloningProcess& kCloning)
 {
     A486F0Controller* pkClone = new A486F0Controller;
     CopyMemberData(pkClone, kCloning);
     return pkClone;
 }
 
-void __cdecl FUN_00a57a70();
+void __cdecl NiFloatController_LinkObject();
 
 // @fnv 0x00a48560
-void __cdecl FUN_00a48560()
+void __cdecl NiRollController_LinkObject()
 {
-    FUN_00a57a70();
+    NiFloatController_LinkObject();
 }
 
-void __cdecl FUN_00a57ad0();
+void __cdecl NiFloatController_RegisterStreamables();
 // @fnv 0x00a48570
-void __cdecl FUN_00a48570()
+void __cdecl NiRollController_RegisterStreamables()
 {
-    FUN_00a57ad0();
+    NiFloatController_RegisterStreamables();
 }
 
-void __cdecl FUN_00a57b00();
+void __cdecl NiFloatController_SaveBinary();
 
 // @fnv 0x00a48580
-void __cdecl FUN_00a48580() {
-    FUN_00a57b00();
+void __cdecl NiRollController_SaveBinary() {
+    NiFloatController_SaveBinary();
 }
 
-void __cdecl FUN_00a57b20();
+void __cdecl NiFloatController_IsEqual();
 
 // @fnv 0x00a48590
-void __cdecl FUN_00a48590()
+void __cdecl NiRollController_IsEqual()
 {
-    FUN_00a57b20();
+    NiFloatController_IsEqual();
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-void __cdecl FUN_00a57970();
+void __cdecl NiFloatController_LoadBinary();
 // @fnv 0x00a48550
-void __cdecl FUN_00a48550() { FUN_00a57970(); }
+void __cdecl NiRollController_LoadBinary() { NiFloatController_LoadBinary(); }
 
 struct NiUpdateDataA485 {
     float m_fTime;
@@ -213,7 +213,7 @@ public:
     virtual void vfn_00();
     bool FUN_00a36250(float fTime);
     NiFloatKeyA485* GetFloatKeys(unsigned int& uiNumKeys, int& eType, unsigned char& ucSize);
-    void FUN_00a485e0(NiUpdateDataA485& kUpdateData);
+    void NiRollController_Update(NiUpdateDataA485& kUpdateData);
 
     unsigned int m_uiRefCount;
     unsigned short m_uiObjectFlags;
@@ -226,7 +226,7 @@ public:
 };
 
 // @fnv 0x00a485e0
-void NiRollControllerA485::FUN_00a485e0(NiUpdateDataA485& kUpdateData)
+void NiRollControllerA485::NiRollController_Update(NiUpdateDataA485& kUpdateData)
 {
     if (!m_pkTarget || FUN_00a36250(kUpdateData.m_fTime))
         return;

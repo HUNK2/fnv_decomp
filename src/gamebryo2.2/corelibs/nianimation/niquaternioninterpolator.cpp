@@ -27,11 +27,11 @@ struct NiKeyBasedInterpolator
 
 struct NiQuaternionInterpolator : NiKeyBasedInterpolator
 {
-    AnimationKey::KeyContent __stdcall FUN_00a487e0();
+    AnimationKey::KeyContent __stdcall NiQuaternionInterpolator_GetKeyContent();
 };
 
 // @fnv 0x00a487e0
-AnimationKey::KeyContent __stdcall NiQuaternionInterpolator::FUN_00a487e0()
+AnimationKey::KeyContent __stdcall NiQuaternionInterpolator::NiQuaternionInterpolator_GetKeyContent()
 {
     return kCONTENT_FLOAT;
 }
@@ -68,7 +68,7 @@ void NiQuaternionInterpolator::FUN_00a48960(float m_fStartTime, float m_fMaximum
 extern "C" const void* g_011f3f60;
 
 // @fnv 0x00a48ab0
-const void* __cdecl FUN_00a48ab0()
+const void* __cdecl NiQuaternionInterpolator_GetRTTI()
 {
     return &g_011f3f60;
 }
@@ -185,7 +185,7 @@ void* __thiscall FUN_00a48dd0_shell::Release(unsigned int uiDeleteFlags)
 }
 
 // Stand-in for the game's NiBound (a 4 x float bounding volume) and for the
-// interpolator object that owns FUN_00a48800.
+// interpolator object that owns NiQuaternionInterpolator_GetChannelPosed.
 //
 // Object layout taken from the disassembly of the original:
 //   +0x00 .. +0x0b   the NiKeyBasedInterpolator part of the object
@@ -212,11 +212,11 @@ struct NiQuaternionInterpolatorStandIn
     int unk08;
     NiBound m_bound;
     RefObj* m_pKeyData;
-    bool __thiscall FUN_00a48800(unsigned int nTime);
+    bool __thiscall NiQuaternionInterpolator_GetChannelPosed(unsigned int nTime);
 };
 
 // @fnv 0x00a48800
-bool NiQuaternionInterpolatorStandIn::FUN_00a48800(unsigned int nTime)
+bool NiQuaternionInterpolatorStandIn::NiQuaternionInterpolator_GetChannelPosed(unsigned int nTime)
 {
     if (m_pKeyData != 0)
         return false;
@@ -411,14 +411,14 @@ class BA48A50Base : public BA48A50Object
 class BA48A50Interpolator : public BA48A50Base
 {
   public:
-    bool FUN_00a48a50(BA48A50Object* pkObject);
+    bool NiQuaternionInterpolator_IsEqual(BA48A50Object* pkObject);
 
     BA48A50Quaternion m_kValue;
     BA48A50Pointer<BA48A50Object> m_spTransformData;
 };
 
 // @fnv 0x00a48a50
-bool BA48A50Interpolator::FUN_00a48a50(BA48A50Object* pkObject)
+bool BA48A50Interpolator::NiQuaternionInterpolator_IsEqual(BA48A50Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -523,14 +523,14 @@ struct QuaternionInterpolator
     Storage unk0c;
     void* unk1c;
 
-    void __thiscall FUN_00a3cbf0(Stream* stream);
-    void __thiscall FUN_00a48ea0(Stream* stream);
+    void __thiscall NiKeyBasedInterpolator_GetViewerStrings(Stream* stream);
+    void __thiscall NiQuaternionInterpolator_GetViewerStrings(Stream* stream);
 };
 
 // @fnv 0x00a48ea0
-void QuaternionInterpolator::FUN_00a48ea0(Stream* stream)
+void QuaternionInterpolator::NiQuaternionInterpolator_GetViewerStrings(Stream* stream)
 {
-    FUN_00a3cbf0(stream);
+    NiKeyBasedInterpolator_GetViewerStrings(stream);
     void* value = FUN_00a7d330(g_011f3f60);
     unsigned int index = stream->unk0a;
     if (index >= stream->unk08)

@@ -27,7 +27,7 @@ extern "C"
 }
 
 // @fnv 0x00c2a9b0
-const void* __cdecl FUN_00c2a9b0()
+const void* __cdecl NiPSysGravityFieldModifier_GetRTTI()
 {
     return &g_01202708;
 }
@@ -41,10 +41,10 @@ extern double DAT_01017cf8;
 struct FUN_004a0c10_s
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 // @fnv 0x004a0c10
-void FUN_004a0c10_s::FUN_004a0c10()
+void FUN_004a0c10_s::NiPoint3_Unitize()
 {
     float len = ((NiPoint3*)this)->Length();
     if (len > DAT_01017cf8)

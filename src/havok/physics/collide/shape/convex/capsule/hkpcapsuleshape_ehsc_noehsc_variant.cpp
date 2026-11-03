@@ -9,7 +9,7 @@
 extern char const* const g_01268970_arg1;
 void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
-int __cdecl FUN_00d22350();
+int __cdecl hkpCapsuleShape_getNumCollisionSpheresImpl();
 int __stdcall FUN_00d22d60(int a, int b);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -65,7 +65,7 @@ struct FUN_00d224a0_Data
     __m128 unk20;
     __m128 unk30;
 
-    void __thiscall FUN_00d224a0(__m128* result);
+    void __thiscall hkpCapsuleShape_getCollisionSpheresImpl(__m128* result);
 };
 extern int DAT_010ce25c;
 union __declspec(align(16)) AlignedHKVector4

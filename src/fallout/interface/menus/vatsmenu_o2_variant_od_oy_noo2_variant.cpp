@@ -57,14 +57,14 @@ struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct FUN_007ef760_Owner
 {
     virtual void vf0();
     virtual void vf1();
     virtual void vf2();
     virtual void vf3(int, int);
-    void __thiscall FUN_007ef760(int aiID, Tile* apTarget);
+    void __thiscall VATSMenu_HandleMousewheel(int aiID, Tile* apTarget);
 };
 struct Vec2Tmp
 {
@@ -186,9 +186,9 @@ struct Filter007f6af0
     Filter007f6af0()
     {}
     Filter007f6af0(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned);
-    unsigned FUN_004a3a20();
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned);
+    unsigned CFilter_GetGroup();
 };
 struct Hit007f6af0
 {
@@ -216,10 +216,10 @@ struct __declspec(align(16)) Ray007f6af0
 {
     char field_00[176];
     Ray007f6af0();
-    void FUN_004a3f70(int);
-    void FUN_004a3da0(Point007f6af0*);
+    void bhkPickData_SetFilter(int);
+    void bhkPickData_SetFrom(Point007f6af0*);
     void FUN_007f68a0(Point007f6af0 const&);
-    void FUN_004a3fb0(Collector007f6af0*);
+    void bhkPickData_SetAllCollector(Collector007f6af0*);
     Response007f6af0* FUN_008cdd90();
 };
 struct World007f6af0
@@ -279,7 +279,7 @@ struct World007f6af0
 struct PlayerFilter007f6af0
 {
     int field_00;
-    unsigned FUN_004a3a20();
+    unsigned CFilter_GetGroup();
 };
 struct Player007f6af0
 {
@@ -287,10 +287,10 @@ struct Player007f6af0
     void* GetTarget();
 };
 extern Player007f6af0* DAT_011dea3c;
-World007f6af0* __fastcall FUN_004543c0(void*);
+World007f6af0* __fastcall TESObjectCELL_GetbhkWorld(void*);
 void FUN_00c82870(int, unsigned __int64);
 void* FUN_004b5820(void*);
-TESObjectREFR* FUN_0056f930(void*);
+TESObjectREFR* TESObjectREFR_FindReferenceFor3D(void*);
 extern ItemListContainer* DAT_011f21cc;
 struct Owner007f6af0
 {
@@ -306,8 +306,8 @@ bool __fastcall FUN_007f6af0(Owner007f6af0* self)
     float distance = DAT_011a0b74;
     Point007f6af0 origin;
     Point007f6af0 direction;
-    FUN_0045c670()->FUN_006629f0()->MapScreenToRay((int)((Light007f6af0*)FUN_004b7210())->FUN_009a9350(),
-                                                   (int)((Quest007f6af0*)FUN_004b7210())->FUN_00792760(), &origin,
+    FUN_0045c670()->FUN_006629f0()->MapScreenToRay((int)((Light007f6af0*)InterfaceManager_Instance())->FUN_009a9350(),
+                                                   (int)((Quest007f6af0*)InterfaceManager_Instance())->FUN_00792760(), &origin,
                                                    &direction, 0);
     Ray007f6af0 ray;
     unsigned int mask = 0x140;
@@ -315,14 +315,14 @@ bool __fastcall FUN_007f6af0(Owner007f6af0* self)
     PlayerFilter007f6af0 playerFilter;
     DAT_011dea3c->FUN_00931ed0(&playerFilter);
     Filter007f6af0 filter(0);
-    filter.FUN_004a39f0(0x27);
-    filter.FUN_0059ce80(playerFilter.FUN_004a3a20());
-    ray.FUN_004a3f70(filter.field_00);
-    ray.FUN_004a3da0(&origin);
+    filter.CFilter_SetLayer(0x27);
+    filter.CFilter_SetGroup(playerFilter.CFilter_GetGroup());
+    ray.bhkPickData_SetFilter(filter.field_00);
+    ray.bhkPickData_SetFrom(&origin);
     ray.FUN_007f68a0(direction * distance);
     Collector007f6af0 collector;
-    ray.FUN_004a3fb0(&collector);
-    World007f6af0* world = FUN_004543c0(DAT_011dea3c->GetTarget());
+    ray.bhkPickData_SetAllCollector(&collector);
+    World007f6af0* world = TESObjectCELL_GetbhkWorld(DAT_011dea3c->GetTarget());
     world->v50(&ray);
     int unused = 0;
     for (int i = 0; i < ray.FUN_008cdd90()->GetVoiceFilePath()->FUN_00726070(); ++i)
@@ -330,7 +330,7 @@ bool __fastcall FUN_007f6af0(Owner007f6af0* self)
         Hit007f6af0 hit;
         hit.FUN_00696c30(ray.FUN_008cdd90()->GetVoiceFilePath()->GetEntryAt(i));
         void* object = FUN_004b5820(hit.field_50);
-        TESObjectREFR* ref = FUN_0056f930(object);
+        TESObjectREFR* ref = TESObjectREFR_FindReferenceFor3D(object);
         if (object)
         {
             BSSimpleList* entry = ((StandIn*)self)->FindListEntryForTarget(ref);

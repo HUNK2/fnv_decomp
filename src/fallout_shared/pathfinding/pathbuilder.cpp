@@ -28,7 +28,7 @@ bool CheckLineOfSightFilterWater::IsLineOfSightClear(unsigned int firstMesh, uns
 // @fnv 0x006c8d30
 PathBuilder::PathBuilder(PathingRequest* request, PathingSolution* solution)
 {
-    m_pAllocator = FUN_00401020()->GetGeneralAllocator();
+    m_pAllocator = MemoryManager_Instance()->GetGeneralAllocator();
     pRequest = request;
     m_pOutputSolution = solution;
     m_bPathFound = false;
@@ -596,7 +596,7 @@ extern const NiPoint3 _NiPoint3_ZERO;
 struct PathingRequestS
 {
     const void* GetString() const;
-    bool FUN_00505c00();
+    bool PathingRequest_GetFaceTargetAtGoal();
     bool FUN_006a7980() const;
     bool GetByteAtOffset9B();
     float GetCenterRadius() const;
@@ -661,7 +661,7 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
                                      unsigned int aiFirstVirtualNodeIndex, unsigned int aiLastVirtualNodeIndex)
 {
     if (*g_011d73d8.GetLifeStateControlFlag() && !((PathingRequestS*)pRequest)->GetString() &&
-        !((PathingRequestS*)pRequest)->FUN_00505c00() && !((PathingRequestS*)pRequest)->FUN_006a7980() &&
+        !((PathingRequestS*)pRequest)->PathingRequest_GetFaceTargetAtGoal() && !((PathingRequestS*)pRequest)->FUN_006a7980() &&
         ((PathBuilderS*)this)->FUN_006cd1f0(aStartLocation, aGoalLocation))
         return 0;
 
@@ -908,7 +908,7 @@ void* FUN_006cb480_shell::FUN_006cb480()
 
 struct S00568fa0
 {
-    int FUN_00568fa0();
+    int TESObjectREFR_GetLinkedDoorTeleportPosition();
 };
 struct S006dd460
 {
@@ -923,7 +923,7 @@ struct Mid
 void Mid::FUN_006cc560(int aiValue)
 {
     *(int*)((char*)this + 0x38) = aiValue;
-    ((S006dd460*)((char*)this + 4))->FUN_006dd460((*(S00568fa0**)((char*)this + 0x38))->FUN_00568fa0());
+    ((S006dd460*)((char*)this + 4))->FUN_006dd460((*(S00568fa0**)((char*)this + 0x38))->TESObjectREFR_GetLinkedDoorTeleportPosition());
     *(int*)this = *(int*)this | 3;
 }
 
@@ -1167,7 +1167,7 @@ struct PathingStepC_006dd4f0
 
 struct PathingStepD_00450ff0
 {
-    bool FUN_00450ff0();
+    bool TESObjectCELL_IsAttached();
 };
 
 struct PathingStepE_006ca0c0
@@ -1191,7 +1191,7 @@ bool FUN_006c9fc0_cls::FindPathSegmentEnd(int aiStartIndex, int* piStartOut, int
                                reinterpret_cast<PathingStepA_006e78b0*>(m_04)->FUN_006e78b0(aiStartIndex))
                                ->FUN_00717e50())
                            ->FUN_006dd4f0();
-    if (!(pFirstNode != 0 && reinterpret_cast<PathingStepD_00450ff0*>(pFirstNode)->FUN_00450ff0()))
+    if (!(pFirstNode != 0 && reinterpret_cast<PathingStepD_00450ff0*>(pFirstNode)->TESObjectCELL_IsAttached()))
     {
         return false;
     }
@@ -1204,7 +1204,7 @@ bool FUN_006c9fc0_cls::FindPathSegmentEnd(int aiStartIndex, int* piStartOut, int
                              reinterpret_cast<PathingStepA_006e78b0*>(m_04)->FUN_006e78b0(*piEndOut))
                              ->FUN_00717e50())
                          ->FUN_006dd4f0();
-        if (!(item != 0 && reinterpret_cast<PathingStepD_00450ff0*>(item)->FUN_00450ff0()))
+        if (!(item != 0 && reinterpret_cast<PathingStepD_00450ff0*>(item)->TESObjectCELL_IsAttached()))
         {
             break;
         }
@@ -5492,7 +5492,7 @@ struct RouteCell
 };
 struct RoutePortal
 {
-    RoutePoint& FUN_00568fa0();
+    RoutePoint& TESObjectREFR_GetLinkedDoorTeleportPosition();
     RouteCell* FUN_00568e50();
 };
 struct RouteInfos
@@ -7650,7 +7650,7 @@ bool RouteBuilder::BuildRoute(void* from, void* to)
         if (portals.FUN_00877a30(0))
         {
             RoutePortal* portalRes = portals.FUN_00877a30(0);
-            RoutePoint exit = portalRes->FUN_00568fa0();
+            RoutePoint exit = portalRes->TESObjectREFR_GetLinkedDoorTeleportPosition();
             solution->CreateEntry(infos.FUN_00877a30(0), exit, portalRes);
             RoutePoint entry = portalRes->FUN_00568e50()->FUN_00717e50();
             solution->AddPathingItem(entry, infos.FUN_00877a30(1));
@@ -7662,7 +7662,7 @@ bool RouteBuilder::BuildRoute(void* from, void* to)
                 RoutePortal* portalRes = portals.FUN_00877a30(i2);
                 if (portalRes)
                 {
-                    RoutePoint exit = portalRes->FUN_00568fa0();
+                    RoutePoint exit = portalRes->TESObjectREFR_GetLinkedDoorTeleportPosition();
                     solution->CreateEntry(infos.FUN_00877a30(i2), exit, portalRes);
                     RoutePoint entry = portalRes->FUN_00568e50()->FUN_00717e50();
                     solution->AddPathingItem(entry, infos.FUN_00877a30(i2 + 1));
@@ -7843,7 +7843,7 @@ class PathingRequestExt : public PathingRequest
     bool FUN_006ca4c0();
     float GetFloatAtOffset68();
     float GetField90Float();
-    bool FUN_00505c00();
+    bool PathingRequest_GetFaceTargetAtGoal();
     float FUN_00507e10();
 };
 
@@ -7924,7 +7924,7 @@ bool PathBuilder_Child::FUN_006ca0e0(Actor* apActor, unsigned int aiSegmentIndex
             }
         }
 
-        if (bResult && ((PathingRequestExt*)this->pRequest)->FUN_00505c00() &&
+        if (bResult && ((PathingRequestExt*)this->pRequest)->PathingRequest_GetFaceTargetAtGoal() &&
             ((PathingSolutionExt*)this->m_pOutputSolution)->FUN_00441110() ==
                 ((PathingSolutionExt*)this->m_pOutputSolution)->FUN_005a4320() - 1)
         {

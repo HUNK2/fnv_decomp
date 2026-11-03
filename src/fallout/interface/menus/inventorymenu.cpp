@@ -165,7 +165,7 @@ void InventoryMenu::UpdateDialog()
 // @fnv 0x0077fc10
 Tile* InventoryMenu::Create()
 {
-    InterfaceManager* pMenuInterfaceManager = FUN_004b7210();
+    InterfaceManager* pMenuInterfaceManager = InterfaceManager_Instance();
     float m_fProjectionDepth = Tile::GetInterfaceScale();
     Menu* oldMenu = Tile::FindMenuById(FUN_0077ff80());
     if (oldMenu)
@@ -185,7 +185,7 @@ Tile* InventoryMenu::Create()
         if (static_cast<TileListBoxCalls*>(pTile)->GetFloat(0xfa7) == 6006.0 ||
             static_cast<TileListBoxCalls*>(pTile)->GetFloat(0xfa7) == 102.0)
             pTile->Set(0xfad, Tile::GetInterfaceScale(), true);
-        FUN_004b7210()->tutorialManager.ShowMessage(34, FUN_0077ff80(), 512);
+        InterfaceManager_Instance()->tutorialManager.ShowMessage(34, FUN_0077ff80(), 512);
         ms_pInventoryMenu->m_kItemList.Initialize(ms_pInventoryMenu->m_pTiles[4], "IM_InventoryListTemplate");
         ms_pInventoryMenu->m_kItemList.FUN_007a1930(false);
         Interface::SetTileFormattedText(ms_pInventoryMenu->m_pTiles[13], 24, DAT_011d29b8.FUN_00403df0(),
@@ -318,10 +318,10 @@ struct FUN_00781b10_shell
 };
 struct FUN_00781620_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781620(int aiID, Tile* apTarget);
+    void __thiscall InventoryMenu_DoLeave(int aiID, Tile* apTarget);
 };
 // @fnv 0x00781620
-void __thiscall FUN_00781620_shell::FUN_00781620(int aiID, Tile* apTarget)
+void __thiscall FUN_00781620_shell::InventoryMenu_DoLeave(int aiID, Tile* apTarget)
 {
     if (aiID == 0x1D || aiID == 0x1E)
     {
@@ -343,7 +343,7 @@ struct ProxyMgr
 void FUN_00782470(bool a1)
 {
     if (InventoryMenu::ms_pInventoryMenu)
-        ((ProxyMgr*)FUN_004b7210())->GetPipboyManager()->SetValue(InventoryMenu::ms_pInventoryMenu->m_iCurrentTab, a1);
+        ((ProxyMgr*)InterfaceManager_Instance())->GetPipboyManager()->SetValue(InventoryMenu::ms_pInventoryMenu->m_iCurrentTab, a1);
 }
 
 // @fnv 0x007824b0
@@ -397,7 +397,7 @@ void __cdecl FUN_007800c0()
 
 struct FUN_004bddd0_t
 {
-    bool __thiscall FUN_004bddd0(bool);
+    bool __thiscall ItemChange_GetWorn(bool);
 };
 
 struct FUN_00781860_shell
@@ -430,7 +430,7 @@ void FUN_00781680_shell::FUN_00781680()
         {
             m_pTiles[6]->Set(0xfc4, DAT_011d5178->FUN_00403df0(), true);
         }
-        else if (((FUN_004bddd0_t*)InventoryMenu::ms_pActionPointSource)->FUN_004bddd0(false))
+        else if (((FUN_004bddd0_t*)InventoryMenu::ms_pActionPointSource)->ItemChange_GetWorn(false))
         {
             m_pTiles[6]->Set(0xfc4, g_011d460c.FUN_00403df0(), true);
         }
@@ -526,7 +526,7 @@ struct FUN_004be2d0_shell
 
 struct FUN_004bddd0_t
 {
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 
 int __cdecl FUN_00408b20(char const*, char const*);
@@ -560,11 +560,11 @@ int __cdecl FUN_007824e0(ListBoxItem<InventoryStackRecord*>* apItem1, ListBoxIte
 
         if (iresult == 0)
         {
-            if (reinterpret_cast<FUN_004bddd0_t*>(apItem1->m_pInventoryEntryData)->FUN_004bddd0(0))
+            if (reinterpret_cast<FUN_004bddd0_t*>(apItem1->m_pInventoryEntryData)->ItemChange_GetWorn(0))
             {
                 iresult = -1;
             }
-            else if (reinterpret_cast<FUN_004bddd0_t*>(apItem2->m_pInventoryEntryData)->FUN_004bddd0(0))
+            else if (reinterpret_cast<FUN_004bddd0_t*>(apItem2->m_pInventoryEntryData)->ItemChange_GetWorn(0))
             {
                 iresult = 1;
             }
@@ -585,7 +585,7 @@ int __cdecl FUN_007824e0(ListBoxItem<InventoryStackRecord*>* apItem1, ListBoxIte
 
 struct XExtra
 {
-    short __thiscall FUN_00418770();
+    short __thiscall ExtraDataList_GetCount();
 };
 
 struct ExtraDataList : XExtra
@@ -886,7 +886,7 @@ void __cdecl DropInventoryItem(int aiAmountChosen)
     if (aiAmountChosen == 0)
         return;
 
-    if (pextra && pextra->FUN_00418770() < aiAmountChosen)
+    if (pextra && pextra->ExtraDataList_GetCount() < aiAmountChosen)
         pextra = 0;
 
     _g_thePlayer->FUN_009614b0(pobjectRef, &dropPoint, 1, 1);
@@ -1149,7 +1149,7 @@ struct Form
 struct Item
 {
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(int);
+    float ItemChange_GetItemHealth(int);
     const char* GetIconFilename(int);
 };
 struct Player
@@ -1169,7 +1169,7 @@ struct Interface
 {
     Camera* FUN_00704370();
 };
-Interface* FUN_004b7210();
+Interface* InterfaceManager_Instance();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -1265,7 +1265,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)list.Value(0xfac)->FUN_00a011b0();
             if (DAT_011d9f34 != selectedSlot11)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8610(
+                InterfaceManager_Instance()->FUN_00704370()->FUN_007f8610(
                     0, DAT_011d9f34 < selectedSlot11 ? *DAT_011db2f0.FUN_00403e20() : -*DAT_011db2f0.FUN_00403e20(),
                     *DAT_011db358.FUN_00403e20(), 1);
                 DAT_011d9f34 = selectedSlot11;
@@ -1273,7 +1273,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             float threshold = DAT_0102f0f8;
             if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 24)
                 threshold = DAT_0101b268;
-            if (DAT_011d9ea8->FUN_004bcdb0(1) >= threshold)
+            if (DAT_011d9ea8->ItemChange_GetItemHealth(1) >= threshold)
                 label->FUN_00a01350(0xfc4, DAT_011d3dcc.FUN_00403df0(), 1);
             else
                 label->FUN_00a01350(0xfc4, DAT_011d1f2c.FUN_00403df0(), 1);
@@ -1356,10 +1356,10 @@ struct Entry
 {
     ~Entry();
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(bool);
+    float ItemChange_GetItemHealth(bool);
     int FUN_00726070();
     ExtraNode* FUN_00559450();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
     void* FUN_004459e0(int);
 };
 struct EntryListNode
@@ -1388,10 +1388,10 @@ bool InventoryCheck::FUN_00781860(Entry* entry)
 {
     bool result5 = false;
     Form* form4 = entry ? entry->FUN_0044ddc0() : 0;
-    if (entry && FUN_00476b20(entry->FUN_004bcdb0(true)) == 100.0)
+    if (entry && FUN_00476b20(entry->ItemChange_GetItemHealth(true)) == 100.0)
         return result5;
     if (entry && form4 && (form4->FUN_00401170() == 40 || form4->FUN_00401170() == 24) &&
-        entry->FUN_004bcdb0(true) < 100.0)
+        entry->ItemChange_GetItemHealth(true) < 100.0)
     {
         if (entry->FUN_00726070() > 1)
             result5 = true;
@@ -1408,10 +1408,10 @@ bool InventoryCheck::FUN_00781860(Entry* entry)
                 Extra* otherExtra8 = (*node9->FUN_006815c0())->FUN_00559450()
                                          ? *(*node9->FUN_006815c0())->FUN_00559450()->FUN_006815c0()
                                          : 0;
-                if (!(*node9->FUN_006815c0())->FUN_004bddd0(false))
+                if (!(*node9->FUN_006815c0())->ItemChange_GetWorn(false))
                 {
                     if (otherForm2 != form4 ||
-                        (FUN_00476b20((*node9->FUN_006815c0())->FUN_004bcdb0(true)) < 100.0 &&
+                        (FUN_00476b20((*node9->FUN_006815c0())->ItemChange_GetItemHealth(true)) < 100.0 &&
                          otherExtra8 != originalExtra && otherExtra8 && !otherExtra8->FUN_00418ba0()))
                         result5 = true;
                 }
@@ -1429,9 +1429,9 @@ bool InventoryCheck::FUN_00781860(Entry* entry)
 struct ItemLabelSource : InventoryStackRecord
 {
     int FUN_00726070();
-    unsigned char FUN_004bd820();
+    unsigned char ItemChange_GetModSlots();
     const char* GetTargetFullName();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 class Actor;
 class TESAmmo;
@@ -1465,7 +1465,7 @@ void __cdecl UpdateItemLabel(ItemLabelTile* tile, ItemLabelSource* item)
     {
         if (item->FUN_00726070() > 1)
         {
-            if (item->FUN_004bd820())
+            if (item->ItemChange_GetModSlots())
                 _sprintf_s(label, 128, "%s+ (%d)", item->GetTargetFullName(), item->FUN_00726070());
             else
                 _sprintf_s(label, 128, "%s (%d)", item->GetTargetFullName(), item->FUN_00726070());
@@ -1494,7 +1494,7 @@ void __cdecl UpdateItemLabel(ItemLabelTile* tile, ItemLabelSource* item)
         else
         {
             (*tile->children.AddEight(tile->children.FUN_00559450()))
-                ->Set(0xfa3, item && item->FUN_004bddd0(false) ? 1 : 0);
+                ->Set(0xfa3, item && item->ItemChange_GetWorn(false) ? 1 : 0);
         }
     }
 }
@@ -1531,7 +1531,7 @@ struct Sh005ae3d0
 };
 struct Sh004bddd0
 {
-    bool FUN_004bddd0(bool arg);
+    bool ItemChange_GetWorn(bool arg);
 };
 struct Sh0088c650
 {
@@ -1543,7 +1543,7 @@ struct Sh0088c790
 };
 
 unsigned __cdecl FUN_0058db10(int arg);
-unsigned __cdecl FUN_004839c0(int arg);
+unsigned __cdecl TESForm_GetFormByNumericID(int arg);
 
 class SettingString
 {
@@ -1592,7 +1592,7 @@ void Menu75b::FUN_00780d60()
     void* c = (void*)FUN_0044ddc0(DAT_011d9ea8);
     list.FUN_005ae3d0(&c);
 
-    if ((FUN_0044ddc0(DAT_011d9ea8) == FUN_0058db10(0) || FUN_0044ddc0(DAT_011d9ea8) == FUN_004839c0(0xccef2)) &&
+    if ((FUN_0044ddc0(DAT_011d9ea8) == FUN_0058db10(0) || FUN_0044ddc0(DAT_011d9ea8) == TESForm_GetFormByNumericID(0xccef2)) &&
         ((Gp75*)g_thePlayer)->emb.v2(0x10) == ((Gp75*)g_thePlayer)->emb.v7(0x10))
     {
         Interface::ShowMessage(DAT_011d2af0.GetString(), 0, 0, 0, 2.0f, false);
@@ -1601,7 +1601,7 @@ void Menu75b::FUN_00780d60()
     {
         Interface::ShowMessage(DAT_011d2af0.GetString(), 0, 0, 0, 2.0f, false);
     }
-    else if (!((Sh004bddd0*)DAT_011d9ea8)->FUN_004bddd0(false))
+    else if (!((Sh004bddd0*)DAT_011d9ea8)->ItemChange_GetWorn(false))
     {
         ((Sh0088c650*)g_thePlayer)
             ->FUN_0088c650(a, (int)((Sh00726070*)DAT_011d9ea8)->FUN_00726070(), b, false, false, true);
@@ -1675,8 +1675,8 @@ struct VTPoint3
 
 struct VTItemData
 {
-    bool FUN_00418b10();
-    bool FUN_00418ab0(int iFlag);
+    bool ExtraDataList_GetCanNotWear();
+    bool ExtraDataList_GetWorn(int iFlag);
 };
 struct VTItemNode
 {
@@ -1689,8 +1689,8 @@ class VTTarget
     VTForm* FUN_0044ddc0();
     VTTile* FUN_00726070();
     VTItemNode* FUN_00559450();
-    float FUN_004bcdb0(int iFlag);
-    bool FUN_004bddd0(int iFlag);
+    float ItemChange_GetItemHealth(int iFlag);
+    bool ItemChange_GetWorn(int iFlag);
 };
 
 class VTAction
@@ -2332,7 +2332,7 @@ class VTPlayer
     virtual void PlayAttack(VTAnim* pkAnimOut, int iType, bool bLeft, int iFlag);  // +0x3ec
     void FUN_00950030();
     VTProcess* FUN_008d8520();
-    VTWeapon* FUN_006044c0();
+    VTWeapon* TESNPC_GetFaceNPC();
     VTAnim* FUN_008a1710();
     void PlayActorSound(VTForm* pkTargetNum, int iA, int iB);
     int FUN_008a7570();
@@ -2418,7 +2418,7 @@ class VTMenu
     VTTile* FUN_00726070();
     void ClearActionPointSource();
     void FUN_00780d60();
-    void FUN_00780140(int m_uiSoundID, VTTile* pkTile);
+    void InventoryMenu_DoClick(int m_uiSoundID, VTTile* pkTile);
 };
 
 extern VTTarget* DAT_011d9ea8;
@@ -2451,7 +2451,7 @@ void IsNotFormType2E();
 
 // Dispatches by the integer argument, handling mode changes and menu actions including item, drop, and attack paths with state checks.
 // @fnv 0x00780140
-void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
+void VTMenu::InventoryMenu_DoClick(int m_uiSoundID, VTTile* pkTile)
 {
     if (!pkTile && m_uiSoundID >= 0 && m_uiSoundID < 0x17)
         pkTile = m_apTiles[m_uiSoundID];
@@ -2471,10 +2471,10 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             UpdateCurrentValue();
             m_iMode = m_uiSoundID - 0x18;
             m_apTiles[13]->FUN_00700320(DAT_011d9eac, m_iMode);
-            ((VTInterface*)FUN_004b7210())
+            ((VTInterface*)InterfaceManager_Instance())
                 ->FUN_00704370()
                 ->FUN_007fb150(*DAT_011db458.FUN_00403e20(), *DAT_011db37c.FUN_00403e20(), 0.5f);
-            ((VTInterface*)FUN_004b7210())->SetByte13(m_uiSoundID);
+            ((VTInterface*)InterfaceManager_Instance())->SetByte13(m_uiSoundID);
             m_kCallbackList.ApplyFilter(FUN_00782620);
             m_kCallbackList.FUN_007314c0(FUN_00780c00, -1, 0x7fffffff);
             FUN_007800c0();
@@ -2484,13 +2484,13 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             m_apTiles[19]->FUN_00700320(0xfa3, 1);
         else if (m_uiSoundID == 0x1c)
         {
-            ((VTInterface*)FUN_004b7210())->m_kSubMenu.FUN_00718630(0x24, FUN_0077ff80(), 0x1f4);
+            ((VTInterface*)InterfaceManager_Instance())->m_kSubMenu.FUN_00718630(0x24, FUN_0077ff80(), 0x1f4);
             ((VTMenu*)DAT_011d9ea4)->m_kCallbackList.FUN_007314c0(UpdateItemLabel, 0, 0x7fffffff);
         }
         else
         {
             if (m_uiSoundID == 0x19)
-                ((VTInterface*)FUN_004b7210())->m_kSubMenu.FUN_00718630(0x23, FUN_0077ff80(), 0x200);
+                ((VTInterface*)InterfaceManager_Instance())->m_kSubMenu.FUN_00718630(0x23, FUN_0077ff80(), 0x200);
             m_apTiles[19]->FUN_00700320(0xfa3, 0);
             m_apTiles[20]->FUN_00700320(0xfa3, 0);
             m_apTiles[22]->FUN_00700320(0xfa3, 0);
@@ -2527,7 +2527,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             {
                 if (!FUN_004b71d0())
                 {
-                    if (DAT_011d9ea8 && DAT_011d9ea8->FUN_004bcdb0(1) == 0.0)
+                    if (DAT_011d9ea8 && DAT_011d9ea8->ItemChange_GetItemHealth(1) == 0.0)
                         DispatchMessageToSink(((VTSetting*)&DAT_011d3810)->FUN_00403df0(), 2, 0, "UIVATSInsufficientAP",
                                               2.0f, 0);
                     else if (!FUN_00726070()->IsTraitNonZero(DAT_011d9ebc) ||
@@ -2561,7 +2561,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 break;
             VTAction* pkAction = new VTAction(DAT_011d9ea8->FUN_0044ddc0(), DAT_011d9ea8->FUN_00726070());
             VTProcess* pkProcess = ((VTPlayer*)DAT_011dea3c)->FUN_008d8520();
-            VTWeapon* pkWeaponOut = ((VTPlayer*)DAT_011dea3c)->FUN_006044c0();
+            VTWeapon* pkWeaponOut = ((VTPlayer*)DAT_011dea3c)->TESNPC_GetFaceNPC();
             VTAnim* pkAnimOut = ((VTPlayer*)DAT_011dea3c)->FUN_008a1710();
             pkProcess->PerformAction(pkAction);
             pkProcess->GetActionList(0)->FUN_006ecd40();
@@ -2605,11 +2605,11 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 VTAudio::FUN_00453a70()->FUN_00ad7550("UIVATSInsufficientAP", 0x121).FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
                 DispatchMessageToSink(DAT_011d47a4.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
-            else if (((VTPlayer*)DAT_011dea3c)->FUN_008a7570() != -1 && DAT_011d9ea8->FUN_004bddd0(0))
+            else if (((VTPlayer*)DAT_011dea3c)->FUN_008a7570() != -1 && DAT_011d9ea8->ItemChange_GetWorn(0))
                 DispatchMessageToSink(DAT_011d22c8.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
             else if (((VTPlayer*)DAT_011dea3c)->FUN_009337b0())
                 DispatchMessageToSink(DAT_011d43e4.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
-            else if (pkItem && pkItem->FUN_00418b10() && pkItem->FUN_00418ab0(0))
+            else if (pkItem && pkItem->ExtraDataList_GetCanNotWear() && pkItem->ExtraDataList_GetWorn(0))
                 DispatchMessageToSink(DAT_011d31f8.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
             else if (!((VTPlayer*)DAT_011dea3c)->FUN_009614b0(pkRefOut, &kPos, 1, 1))
                 DispatchMessageToSink(DAT_011d3d30.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
@@ -2674,9 +2674,9 @@ class TESBipedModelForm
 {
   public:
     static TESBipedModelForm* GetFormAsBipedModel(TESForm*);
-    bool FUN_00480d90();
+    bool TESBipedModelForm_GetPlayable();
 };
-bool __cdecl FUN_00481f10(FilterForm*);
+bool __cdecl TESContainer_IsGold(FilterForm*);
 struct FilterPlayer
 {
     unsigned char GetByteAt240();
@@ -2700,7 +2700,7 @@ bool __cdecl FUN_00782620(Entry* entry)
             return tab3 != 27;
         int type = form4->FUN_00401170();
         TESBipedModelForm* biped3 = TESBipedModelForm::GetFormAsBipedModel((TESForm*)form4);
-        if ((biped3 && !biped3->FUN_00480d90()) || FUN_00481f10(form4) ||
+        if ((biped3 && !biped3->TESBipedModelForm_GetPlayable()) || TESContainer_IsGold(form4) ||
             (form4->IsQuestItem() && !((FilterPlayer*)DAT_011dea3c)->GetByteAt240()) || type == 46)
             return true;
         switch (tab3)

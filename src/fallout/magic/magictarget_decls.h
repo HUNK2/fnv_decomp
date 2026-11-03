@@ -91,7 +91,7 @@ class EffectSetting
   public:
     bool FUN_007df1b0();
     bool GetFlag(unsigned int) const;
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
     int GetArchetype();
 };
 class EffectItem

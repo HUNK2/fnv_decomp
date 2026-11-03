@@ -5,7 +5,7 @@
 extern "C" void* g_01202580;
 
 // @fnv 0x00c25870
-void* __cdecl FUN_00c25870()
+void* __cdecl NiPSysUpdateTask_GetRTTI()
 {
     return &g_01202580;
 }

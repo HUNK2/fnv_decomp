@@ -5,7 +5,7 @@
 extern int g_011f5e84;
 
 // @fnv 0x00a92070
-int* __cdecl FUN_00a92070()
+int* __cdecl NiVectorExtraData_GetRTTI()
 {
     return &g_011f5e84;
 }
@@ -19,11 +19,11 @@ struct NiVectorExtraData : NiObject
 {
     char m_auiShapeKeys[8];
     float m_afVectorComponents[4];
-    bool FUN_00a92020(NiObject* pObject);
+    bool NiVectorExtraData_IsEqual(NiObject* pObject);
 };
 
 // @fnv 0x00a92020
-bool NiVectorExtraData::FUN_00a92020(NiObject* pObject)
+bool NiVectorExtraData::NiVectorExtraData_IsEqual(NiObject* pObject)
 {
     if (pObject)
     {
@@ -73,11 +73,11 @@ struct CloningProcess
 extern int DAT_0109fb94;
 struct FUN_00a920b0_shell : NiVectorExtraData
 {
-    NiObject* FUN_00a920b0(CloningProcess&);
+    NiObject* NiVectorExtraData_CreateClone(CloningProcess&);
 };
 // Allocates a NiVectorExtraData, initialises its four floats to zero, copies this object's four floats into it and returns it.
 // @fnv 0x00a920b0
-NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
+NiObject* FUN_00a920b0_shell::NiVectorExtraData_CreateClone(CloningProcess& kCloning)
 {
     NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
     if (pkObject)
@@ -125,11 +125,11 @@ int __cdecl _NiSprintf(char* pBuffer, unsigned int uiSize, const char* pFormat, 
 
 struct FUN_00a92290_shell : NiVectorExtraData
 {
-    void FUN_00a92290(StrArr* apViewerStrings);
+    void NiVectorExtraData_GetViewerStrings(StrArr* apViewerStrings);
 };
 
 // @fnv 0x00a92290
-void FUN_00a92290_shell::FUN_00a92290(StrArr* pStringArray)
+void FUN_00a92290_shell::NiVectorExtraData_GetViewerStrings(StrArr* pStringArray)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(pStringArray);
 
@@ -373,11 +373,11 @@ class FUN_00a92110_cls : public NiVectorExtraData
 {
   public:
     void FUN_00a7b4a0(S_00a921f0_Stream* s);
-    void FUN_00a92110(S_00a921f0_Stream* s);
+    void NiVectorExtraData_LoadBinary(S_00a921f0_Stream* s);
 };
 
 // @fnv 0x00a92110
-void FUN_00a92110_cls::FUN_00a92110(S_00a921f0_Stream* s)
+void FUN_00a92110_cls::NiVectorExtraData_LoadBinary(S_00a921f0_Stream* s)
 {
     FUN_00a7b4a0(s);
     if ((unsigned int)s->unk0d8 < 0x500000e)

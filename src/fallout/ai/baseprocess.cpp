@@ -226,11 +226,11 @@ bool __thiscall FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdle
 
 struct FUN_008d0350_shell
 {
-    void __thiscall FUN_008d0350(int, int, int, int, int, int, int);
+    void __thiscall BaseProcess_CreateDetectionEvent(int, int, int, int, int, int, int);
 };
 
 // @fnv 0x008d0350
-void __thiscall FUN_008d0350_shell::FUN_008d0350(int, int, int, int, int, int, int)
+void __thiscall FUN_008d0350_shell::BaseProcess_CreateDetectionEvent(int, int, int, int, int, int, int)
 {}
 
 struct ActiveEffect;
@@ -832,10 +832,10 @@ DetectionViewData* FUN_008d0340_s::FUN_008d0340(Actor* apactor, int aedetect, bo
 
 struct FUN_008d0380_s
 {
-    void FUN_008d0380(Actor*, bool, TESBoundObject*, int, ExtraDataList*, bool, bool, bool, bool, bool, bool);
+    void BaseProcess_AddQueuedItem(Actor*, bool, TESBoundObject*, int, ExtraDataList*, bool, bool, bool, bool, bool, bool);
 };
 // @fnv 0x008d0380
-void FUN_008d0380_s::FUN_008d0380(Actor* apActor, bool abEquip, TESBoundObject* apObject, int aiNumber,
+void FUN_008d0380_s::BaseProcess_AddQueuedItem(Actor* apActor, bool abEquip, TESBoundObject* apObject, int aiNumber,
                                   ExtraDataList* apExtra, bool abNow, bool abForceEquip, bool abFromMenus,
                                   bool abForceUnequip, bool abEquipCalling, bool abPlayPickUpSounds)
 {}
@@ -886,20 +886,20 @@ bool FUN_008d0530_s::FUN_008d0530(Actor* apActor, Actor* apTarget, bool abCheckF
 
 struct FUN_008d0570_s
 {
-    int FUN_008d0570(TESActorBase*, int, Actor*);
+    int BaseProcess_GetActorValueI(TESActorBase*, int, Actor*);
 };
 // @fnv 0x008d0570
-int FUN_008d0570_s::FUN_008d0570(TESActorBase* apActorBase, int aiWhich, Actor* apActor)
+int FUN_008d0570_s::BaseProcess_GetActorValueI(TESActorBase* apActorBase, int aiWhich, Actor* apActor)
 {
     return -1;
 }
 
 struct FUN_008d0580_s
 {
-    float FUN_008d0580(TESActorBase*, int, Actor*);
+    float BaseProcess_GetActorValueF(TESActorBase*, int, Actor*);
 };
 // @fnv 0x008d0580
-float FUN_008d0580_s::FUN_008d0580(TESActorBase* apActorBase, int aiWhich, Actor* apActor)
+float FUN_008d0580_s::BaseProcess_GetActorValueF(TESActorBase* apActorBase, int aiWhich, Actor* apActor)
 {
     return 0.0f;
 }
@@ -950,12 +950,12 @@ struct FUN_008c64d0_target
 };
 struct FUN_008d0e60_shell
 {
-    void FUN_008d0e60(unsigned int aiFlags, unsigned int aiOldFlags, MobileObject* pmob);
+    void BaseProcess_InitLoadGameTES(unsigned int aiFlags, unsigned int aiOldFlags, MobileObject* pmob);
 };
 
 // Forwards the new and old flag values to the object at offset 4 of this shell.
 // @fnv 0x008d0e60
-void FUN_008d0e60_shell::FUN_008d0e60(unsigned int aiFlags, unsigned int aiOldFlags, MobileObject* pmob)
+void FUN_008d0e60_shell::BaseProcess_InitLoadGameTES(unsigned int aiFlags, unsigned int aiOldFlags, MobileObject* pmob)
 {
     ((FUN_008c64d0_target*)((char*)this + 4))->FUN_008c64d0(aiFlags, aiOldFlags);
 }
@@ -971,10 +971,10 @@ struct FUN_008c65d0_target
 struct FUN_008d0f30_shell
 {
     char* GetBase();
-    void FUN_008d0f30(BGSSaveFormBuffer* apSaveGameBuffer);
+    void BaseProcess_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 // @fnv 0x008d0f30
-void FUN_008d0f30_shell::FUN_008d0f30(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_008d0f30_shell::BaseProcess_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     apSaveGameBuffer->SaveData((char*)this + 0x1c, 4, 0);
     apSaveGameBuffer->SaveData((char*)this + 0x20, 4, 0);
@@ -990,10 +990,10 @@ struct FUN_008d0f10_s
 {
     int pad0;
     FUN_008c65a0_shell sub;
-    void FUN_008d0f10(unsigned int aiFlags, MobileObject* pmob);
+    void BaseProcess_RevertTES(unsigned int aiFlags, MobileObject* pmob);
 };
 // @fnv 0x008d0f10
-void FUN_008d0f10_s::FUN_008d0f10(unsigned int aiFlags, MobileObject* pmob)
+void FUN_008d0f10_s::BaseProcess_RevertTES(unsigned int aiFlags, MobileObject* pmob)
 {
     sub.FUN_008c65a0(aiFlags);
 }
@@ -1202,12 +1202,12 @@ TESForm* _ref_004839c0(unsigned int iFormID);
 
 struct FUN_008d0900_shell
 {
-    unsigned short FUN_008d0900(unsigned int aiFlags, MobileObject* pmob);
+    unsigned short BaseProcess_GetSaveSize(unsigned int aiFlags, MobileObject* pmob);
 };
 
 // Accumulates a save-size value from the save manager, a virtual call on this+4, and a constant, logging the delta when the debug flag is set.
 // @fnv 0x008d0900
-unsigned short FUN_008d0900_shell::FUN_008d0900(unsigned int aiFlags, MobileObject* pmob)
+unsigned short FUN_008d0900_shell::BaseProcess_GetSaveSize(unsigned int aiFlags, MobileObject* pmob)
 {
     unsigned short pform;
     unsigned short pheader;
@@ -1587,11 +1587,11 @@ struct FUN_008d0e80_class
     virtual void vfn_27c();
     virtual int vfn_280();
     virtual void vfn_284(int);
-    void FUN_008d0e80(int p1, int p2, void* p3);
+    void BaseProcess_FinishInitLoadGame(int p1, int p2, void* p3);
 };
 
 // @fnv 0x008d0e80
-void __thiscall FUN_008d0e80_class::FUN_008d0e80(int aiUnused1, int aiUnused2, void* p3)
+void __thiscall FUN_008d0e80_class::BaseProcess_FinishInitLoadGame(int aiUnused1, int aiUnused2, void* p3)
 {
     void* t = FUN_00ec43fb(p3, 0, DAT_01184920, DAT_011846d4, 0);
     if (t != 0 && t != DAT_011dea3c && this->vfn_22c() == 0 && this->vfn_280() == -1)
@@ -1632,7 +1632,7 @@ extern const char DAT_0101536c[];
 extern const char DAT_01015318[];
 void __cdecl FUN_0040fbe0(const char*, ...);
 void __cdecl FNV_Warning(const char*, ...);
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct ProcessData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -1643,7 +1643,7 @@ struct SavedProcess
     int unk00;
     ProcessData data;
     unsigned int unk1c;
-    void FUN_008d0a10(unsigned int, unsigned int);
+    void BaseProcess_SaveGameTES(unsigned int, unsigned int);
 };
 struct FormView
 {
@@ -1726,7 +1726,7 @@ struct FormView
     virtual const char* Describe();
 };
 // @fnv 0x008d0a10
-void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
+void SavedProcess::BaseProcess_SaveGameTES(unsigned int flags, unsigned int unused)
 {
     unsigned short length = 0;
     unsigned int* begin = 0;
@@ -1748,7 +1748,7 @@ void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
         SaveHeaderView* end = ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->GetHitSound();
         if (end)
         {
-            TESForm* form = FUN_004839c0(end->id);
+            TESForm* form = TESForm_GetFormByNumericID(end->id);
             FUN_0040fbe0(DAT_010153a0, header - initial, end->id, ((FormView*)form)->Describe(),
                          *(unsigned int*)&end->flags, 0xf9, DAT_010865e0);
         }
@@ -1867,7 +1867,7 @@ struct Object8d
     virtual void v75();
     virtual const char* name();
 };
-Object8d* __cdecl FUN_004839c0(unsigned);
+Object8d* __cdecl TESForm_GetFormByNumericID(unsigned);
 void __cdecl FUN_005b5e40(const char*, ...);
 struct Base8d
 {
@@ -1896,7 +1896,7 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
             Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
             if (record)
             {
-                Object8d* object = FUN_004839c0(record->id);
+                Object8d* object = TESForm_GetFormByNumericID(record->id);
                 FUN_005b5e40(&DAT_01015718, &DAT_010865e0, 0x104, record->id, object->name(),
                              *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
             }
@@ -1916,7 +1916,7 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
         Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
         if (record)
         {
-            Object8d* object = FUN_004839c0(record->id);
+            Object8d* object = TESForm_GetFormByNumericID(record->id);
             if (end > start + count)
             {
                 FUN_005b5e40(&DAT_01015588, end - (start + count), &DAT_010865e0, 0x109, record->id, object->name(),

@@ -190,7 +190,7 @@ struct FUN_009dabd0_item
     unsigned int FUN_0084e3a0();
 };
 
-const char* __cdecl FUN_00482720(FUN_009dabd0_item* p);
+const char* __cdecl TESFullName_GetFullName(FUN_009dabd0_item* p);
 
 struct FUN_009dabd0_obj
 {
@@ -221,7 +221,7 @@ void FUN_009dabd0_cls::PrintDebugInfo(FUN_009dabd0_obj* pPrinter, unsigned int a
     if (this->pItem != 0)
     {
         pPrinter->v05(a2, a3, "Item: '%s' (%08X)",
-                      (this->pItem->FUN_00474cb0() != 0) ? this->pItem->v76() : FUN_00482720(this->pItem),
+                      (this->pItem->FUN_00474cb0() != 0) ? this->pItem->v76() : TESFullName_GetFullName(this->pItem),
                       this->pItem->FUN_0084e3a0());
     }
 }
@@ -241,7 +241,7 @@ struct UCICombatProcess
 };
 struct UCIAmmo
 {
-    bool FUN_004985f0();
+    bool Animation_SpecialIdleDonePlaying();
     bool HasIdleForm(int aiUnk);
 };
 struct UCIActor
@@ -409,7 +409,7 @@ void FUN_009daab0_Proc::UpdateCombatItemUse()
     if (!pActor2->FUN_008d8520()->FUN_0045cd60())
     {
         pAmmo = pActor2->GetAmmo();
-        if (pAmmo && (!pAmmo->FUN_004985f0() || pAmmo->HasIdleForm(0)))
+        if (pAmmo && (!pAmmo->Animation_SpecialIdleDonePlaying() || pAmmo->HasIdleForm(0)))
             return;
         if (!m_bItemFlag)
         {

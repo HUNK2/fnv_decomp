@@ -325,7 +325,7 @@ class TES
 };
 extern TES* g_TES;
 extern NiRTTI DAT_011f444c;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 
 class NiExtraData
 {

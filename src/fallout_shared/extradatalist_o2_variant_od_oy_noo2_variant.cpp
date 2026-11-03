@@ -15,10 +15,10 @@
 struct V
 {
     __m128 v;
-    void FUN_00553f70(const V& o);
+    void hkVector4_add4(const V& o);
 };
 // @fnv 0x00553f70
-void V::FUN_00553f70(const V& o)
+void V::hkVector4_add4(const V& o)
 {
     v = _mm_add_ps(v, o.v);
 }

@@ -73,11 +73,11 @@ class FUN_0082b370 : public ActiveEffect
 
     FUN_0082b370(int, int, int);
 
-    ActiveEffect* FUN_0082b3b0();
+    ActiveEffect* TurnUndeadEffect_Clone();
 };
 
 // @fnv 0x0082b3b0
-ActiveEffect* FUN_0082b370::FUN_0082b3b0()
+ActiveEffect* FUN_0082b370::TurnUndeadEffect_Clone()
 {
     FUN_0082b370* presult = new FUN_0082b370(field28, field8, fieldc);
     presult->m_bEffectFlag = m_bEffectFlag;
@@ -276,7 +276,7 @@ class Actor
     virtual void slot185();
     virtual bool HasFlag186();
     unsigned short FUN_0087f9f0();
-    bool FUN_00608d80();
+    bool Actor_IsReanimated();
 };
 class Reference
 {
@@ -291,10 +291,10 @@ class EffectEvaluator
 {
   public:
     float GetFloatAtOffset1C();
-    bool FUN_0082b460(Reference* reference);
+    bool TurnUndeadEffect_CheckTarget(Reference* reference);
 };
 // @fnv 0x0082b460
-bool EffectEvaluator::FUN_0082b460(Reference* reference)
+bool EffectEvaluator::TurnUndeadEffect_CheckTarget(Reference* reference)
 {
     Actor* actor = reference ? reference->FUN_00822b40() : 0;
     if (actor != 0)
@@ -307,7 +307,7 @@ bool EffectEvaluator::FUN_0082b460(Reference* reference)
                 if (result != 0)
                 {
                 }
-                else if (actor->FUN_00608d80())
+                else if (actor->Actor_IsReanimated())
                     return true;
             }
         }
@@ -327,7 +327,7 @@ struct C
 {
     int FUN_0059bb30();
     int FUN_0045cd60();
-    void FUN_0082b530();
+    void TurnUndeadEffect_Start();
 };
 
 struct D
@@ -340,7 +340,7 @@ struct V
     virtual int v0();
 };
 // @fnv 0x0082b530
-void C::FUN_0082b530()
+void C::TurnUndeadEffect_Start()
 {
     int b;
     int a;
@@ -844,7 +844,7 @@ class B82B5E0Actor
     virtual void VFunc430();
     virtual void SetPackage(B82B5E0Package* pkPackage);
 
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     B82B5E0Process* GetProcess();
 };
 
@@ -888,7 +888,7 @@ class B82B5E0Request
     bool m_bModifierActive;
 };
 
-// If the request is active, resolves the actor and package handles and, when the actor passes FUN_00493bb0, sets the package and starts it on the actor's process.
+// If the request is active, resolves the actor and package handles and, when the actor passes Actor_IsInCombat, sets the package and starts it on the actor's process.
 // @fnv 0x0082b5e0
 void B82B5E0Request::ApplyPackageToActor()
 {
@@ -896,7 +896,7 @@ void B82B5E0Request::ApplyPackageToActor()
         return;
     B82B5E0Actor* pkActor = GetActorHandle() ? GetActorHandle()->Get() : 0;
     B82B5E0Package* pkPackage3 = GetPackageHandle() ? GetPackageHandle()->Get() : 0;
-    if (pkActor && pkActor->FUN_00493bb0())
+    if (pkActor && pkActor->Actor_IsInCombat())
     {
         pkActor->SetPackage(pkPackage3);
         if (pkPackage3 && pkActor->GetProcess())

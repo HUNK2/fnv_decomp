@@ -696,7 +696,7 @@ struct ZColor
 struct ZVec
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct ZFog
 {
@@ -1178,7 +1178,7 @@ void ZTree::UpdateLighting(int arg)
     if (light)
     {
         ZVec lightDir = light->unkF0;
-        lightDir.FUN_004a0c10();
+        lightDir.NiPoint3_Unitize();
         ZVec ambient = light->unkC8;
         unkAC = ZColor(ambient.x, ambient.y, ambient.z, 1.0f);
         ambient = light->unkD4;

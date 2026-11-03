@@ -520,7 +520,7 @@ class NiPoint3R
     }
     float Dot(const NiPoint3R&) const;
     float Length() const;
-    void FUN_004a0c10()
+    void NiPoint3_Unitize()
     {
         float len = Length();
         if (len > 1e-06)
@@ -547,11 +547,11 @@ class NiMatrix3R
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void FUN_00439f50(unsigned int, NiPoint3R&) const;
+    void NiMatrix3_GetCol(unsigned int, NiPoint3R&) const;
     NiPoint3R Column(unsigned int column) const
     {
         NiPoint3R result;
-        FUN_00439f50(column, result);
+        NiMatrix3_GetCol(column, result);
         return result;
     }
     void FUN_00476980(const NiPoint3R&, const NiPoint3R&, const NiPoint3R&);
@@ -661,13 +661,13 @@ void __cdecl FUN_00c4bf40(Source* source, Plane* plane, NiCamera* dest)
     NiPoint3R thirdB = source->rotation.Column(1);
     NiPoint3R reflected6 = position + (-plane->normal) * (float)(2.0 * plane->Distance(position));
     NiPoint3R direction6 = -first7;
-    direction6.FUN_004a0c10();
+    direction6.NiPoint3_Unitize();
     NiPoint3R axisA = (float)(2.0 * plane->normal.Dot(direction6)) * plane->normal - direction6;
     direction6 = -second3;
-    direction6.FUN_004a0c10();
+    direction6.NiPoint3_Unitize();
     NiPoint3R axis2 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
     direction6 = thirdB;
-    direction6.FUN_004a0c10();
+    direction6.NiPoint3_Unitize();
     NiPoint3R axis7 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
     NiMatrix3R matrix;
     matrix.FUN_00476980(axisA, axis7, axis2);

@@ -1288,8 +1288,8 @@ struct Pkg
     void SetPackageType(int);
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
-    void FUN_00671d30(PkgLoc*);
-    void FUN_00672fc0(PkgTarget*);
+    void TESPackage_SetPackageLocation(PkgLoc*);
+    void TESPackage_SetPackageTarget(PkgTarget*);
     void FUN_00984f60(unsigned int);
     PkgData* GetData();
     void SetFlag200000(bool);
@@ -2115,7 +2115,7 @@ struct Me : MeBase
     int unk60;
     int unk64;
     Sub68* unk68;
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     Proc* FUN_008d8520();
     CurPkg* GetCurrentPackage();
     void FUN_008bf500(void* arg);
@@ -2124,7 +2124,7 @@ struct Me : MeBase
 // @fnv 0x008bf500
 void Me::FUN_008bf500(void* arg)
 {
-    if (FUN_00493bb0())
+    if (Actor_IsInCombat())
         return;
     unk68->v133();
     FUN_008d8520()->v401(1);
@@ -2137,10 +2137,10 @@ void Me::FUN_008bf500(void* arg)
     pNewPkg->SetMustComplete(true);
     PkgLoc* pLocation = new PkgLoc;
     pLocation->FUN_0067f3c0(arg);
-    pNewPkg->FUN_00671d30(pLocation);
+    pNewPkg->TESPackage_SetPackageLocation(pLocation);
     delete pLocation;
     PkgTarget* target = new PkgTarget;
-    pNewPkg->FUN_00672fc0(target);
+    pNewPkg->TESPackage_SetPackageTarget(target);
     delete target;
     pNewPkg->FUN_00984f60(0x2b);
     pNewPkg->GetData()->FUN_006800b0(0);
@@ -2184,11 +2184,11 @@ struct A3
 };
 struct A2
 {
-    NiTransform* FUN_00461130();
+    NiTransform* NiAVObject_GetWorldRotate();
 };
 struct RObj
 {
-    NiTransform* FUN_00461130();
+    NiTransform* NiAVObject_GetWorldRotate();
 };
 struct ResObj
 {
@@ -2202,7 +2202,7 @@ struct NodeObj
 };
 struct Glob
 {
-    NodeObj* FUN_00447080(const char* n, int a, bool b, bool c, bool d, bool e);
+    NodeObj* ModelLoader_LoadFile(const char* n, int a, bool b, bool c, bool d, bool e);
     void FUN_0045a5e0(const char* n);
 };
 extern Glob* DAT_011c3b3c;
@@ -2218,7 +2218,7 @@ struct NameObj
 };
 struct MidObj
 {
-    void FUN_004fa6f0(int a, NiPoint3* p, unsigned char c, float f);
+    void BGSDebris_SpawnDebris(int a, NiPoint3* p, unsigned char c, float f);
 };
 struct P2
 {
@@ -2483,13 +2483,13 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                         if (p4->FUN_005e3fa0() != 0)
                         {
                             CreateProjectileRef(p4->FUN_005e3fa0(), 0, 0, FUN_008d6f30(), pPlacement->m_24,
-                                                pTransformSource->FUN_00461130()->m_kOrientation);
+                                                pTransformSource->NiAVObject_GetWorldRotate()->m_kOrientation);
                         }
                         if (p4->FUN_008d8520() != 0)
                         {
                             if (p4->GetUnk66() > 0)
                             {
-                                p4->FUN_008d8520()->FUN_004fa6f0(FUN_008d6f30(), &pPlacement->m_24, p4->GetUnk66(),
+                                p4->FUN_008d8520()->BGSDebris_SpawnDebris(FUN_008d6f30(), &pPlacement->m_24, p4->GetUnk66(),
                                                                  (float)(FUN_00567400() * p4->FUN_009b0bd0()));
                             }
                         }
@@ -2499,15 +2499,15 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                         if (pTransformSource != 0)
                         {
                             NodeObj* u;
-                            u = DAT_011c3b3c->FUN_00447080(p4->FUN_005d8a70()->GetNameV5(), 0, 1, 0, 0, 0);
+                            u = DAT_011c3b3c->ModelLoader_LoadFile(p4->FUN_005d8a70()->GetNameV5(), 0, 1, 0, 0, 0);
                             if (u != 0)
                             {
                                 X38 x_(1.0f);
                                 retValA = u->FUN_00a5d2c0(&x_);
                                 NiTransform t1;
                                 NiTransform t2;
-                                GetR116(&t1)->FUN_00461130()->InvertTransform();
-                                t2 = t1 * *pTransformSource->FUN_00461130();
+                                GetR116(&t1)->NiAVObject_GetWorldRotate()->InvertTransform();
+                                t2 = t1 * *pTransformSource->NiAVObject_GetWorldRotate();
                                 retValA->FUN_00440460(t2.m_kTranslation);
                                 retValA->FUN_0043fa80(&t2);
                                 retValA->FUN_00440490(p4->FUN_009b88c0());
@@ -2571,7 +2571,7 @@ struct TESForm
 };
 struct Faction
 {
-    bool FUN_0047d7c0();
+    bool TESFaction_GetEvil();
 };
 struct RefObj
 {
@@ -3193,8 +3193,8 @@ struct ActorX
 
 int __fastcall FNV_GetFormType(TESForm* p);
 float __cdecl FUN_0048ebc0(int, bool);
-bool __fastcall FUN_004d1360(void* p);
-unsigned int __cdecl FUN_0047e040(float f);
+bool __fastcall PlayerCharacter_IsHardcore(void* p);
+unsigned int __cdecl TESActorBaseData_GetAlignmentForKarma(float f);
 int __cdecl GetTopicSubTypeName(int, int);
 void __cdecl SetTlsInt(int);
 
@@ -3235,7 +3235,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
     s = apForm;
     if (!s && i)
         s = i->GetOwner();
-    a = FUN_0048ebc0(a2, FUN_004d1360(DAT_011dea3c));
+    a = FUN_0048ebc0(a2, PlayerCharacter_IsHardcore(DAT_011dea3c));
     if (a > DAT_01012060)
     {
         a = a * ((FloatSetting*)&DAT_011cdf84)->Float()->f;
@@ -3246,7 +3246,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
     else if (FNV_GetFormType(s) == 8)
     {
         ax = (Faction*)s;
-        if (!ax->FUN_0047d7c0())
+        if (!ax->TESFaction_GetEvil())
             f = true;
         p = ((Z*)&DAT_011e0e80)->FUN_00970b30(ax, 1, 0);
     }
@@ -3255,7 +3255,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
         aj = s;
         if (aj)
         {
-            q = FUN_0047e040(aj->m100.s3(0x17));
+            q = TESActorBaseData_GetAlignmentForKarma(aj->m100.s3(0x17));
             if (q != 2 && q != 4)
                 f = true;
             p = ((Z*)&DAT_011e0e80)->FUN_00970a20(aj, 1);

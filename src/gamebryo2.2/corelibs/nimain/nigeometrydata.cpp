@@ -161,7 +161,7 @@ void FUN_00a67020_shell::FUN_00a67020(NiBound* kBound)
 
 extern const char* const g_011f5b88_arg1;
 // @fnv 0x00a67bf0
-const char* const* __cdecl FUN_00a67bf0()
+const char* const* __cdecl NiGeometryData_GetRTTI()
 {
     return &g_011f5b88_arg1;
 }
@@ -632,13 +632,13 @@ int NiGeometryDataCmp::CompareVertices(unsigned short usVertexA, unsigned short 
 
 struct FUN_00a66f90_cls : public NiGeometryData
 {
-    unsigned int FUN_00a66f90();
+    unsigned int NiGeometryData_GetBlockAllocationSize();
     unsigned int FUN_00e7cd40_base();
 };
 
 // Computes the total geometry data size from vertex, normal, color and texture buffers and adds the base size.
 // @fnv 0x00a66f90
-unsigned int FUN_00a66f90_cls::FUN_00a66f90()
+unsigned int FUN_00a66f90_cls::NiGeometryData_GetBlockAllocationSize()
 {
     unsigned int total;
 
@@ -892,10 +892,10 @@ struct GeomView
     void* vptr;
     unsigned int refs;
     unsigned short usVertices;
-    unsigned short FUN_00a669e0() const;
+    unsigned short NiGeometryData_GetActiveVertexCount() const;
 };
 // @fnv 0x00a669e0
-unsigned short GeomView::FUN_00a669e0() const
+unsigned short GeomView::NiGeometryData_GetActiveVertexCount() const
 {
     return usVertices;
 }
@@ -1707,12 +1707,12 @@ extern NiObjectGroup* DAT_011f4880;
 
 struct NiGeometryDataSave : NiGeometryData
 {
-    void FUN_00a68520(SaveStream& kStream);
+    void NiGeometryData_SaveBinary(SaveStream& kStream);
 };
 
 // Serializes NiGeometryData vertex, normal, color, texture and bound data to kStream, writing arrays only when m_bVerticesDirty is set.
 // @fnv 0x00a68520
-void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
+void NiGeometryDataSave::NiGeometryData_SaveBinary(SaveStream& kStream)
 {
     NiObject::SaveBinary(kStream);
 
@@ -1788,12 +1788,12 @@ class SlotOwner
     int unk30;
     SlotOverride* m_pOverride;  // +0x34
 
-    bool FUN_00a66c00(int iSlot);
+    bool NiGeometryData_ContainsVertexData(int iSlot);
 };
 
 // Returns true if the slot is occupied, checking m_pOverride first, then the specific slot pointer or m_pLeveled with m_uiLevel thresholds.
 // @fnv 0x00a66c00
-bool SlotOwner::FUN_00a66c00(int iSlot)
+bool SlotOwner::NiGeometryData_ContainsVertexData(int iSlot)
 {
     if (m_pOverride && m_pOverride->HasSlot(iSlot))
         return true;
@@ -1979,12 +1979,12 @@ class NiPoint2
 
 struct GeometryEquality : NiGeometryData
 {
-    bool FUN_00a67840(NiObject* pkObject);
+    bool NiGeometryData_IsEqual(NiObject* pkObject);
 };
 
 // Compares this NiGeometryData against pkObject, returning false if vertex, normal, bound, color, texture, or additional data differ.
 // @fnv 0x00a67840
-bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
+bool GeometryEquality::NiGeometryData_IsEqual(NiObject* pkObject)
 {
     if (!NiObject::IsEqual(pkObject))
         return false;

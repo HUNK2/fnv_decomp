@@ -255,10 +255,10 @@ struct Actor
     virtual void v57();
     virtual void v58();
     virtual void SetSource(void*);
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     void SetEffectValue(int, float, int);
 };
-Actor* FUN_0056f930(void*);
+Actor* TESObjectREFR_FindReferenceFor3D(void*);
 bool FUN_008c7aa0();
 struct ActorSystem
 {
@@ -286,7 +286,7 @@ void Processor::ProcessRequests()
             void* form = static_cast<Reference*>(item->subject.FUN_00559450())->FUN_004ae750();
             Form* ref = form ? FUN_004b5a20(form) : 0;
             void* actor = ref ? ref->FUN_0044ddc0() : 0;
-            Actor* base = actor ? FUN_0056f930(actor) : 0;
+            Actor* base = actor ? TESObjectREFR_FindReferenceFor3D(actor) : 0;
             if (base)
             {
                 base->SetSource(item->source.FUN_00559450());
@@ -294,7 +294,7 @@ void Processor::ProcessRequests()
                     base->SetAmount(item->amount, 0);
                 else
                     FUN_004537b0()->QueueDamageTask(base, item->amount, 0);
-                if (base->FUN_00477ba0() && item->source.FUN_00559450() &&
+                if (base->TESForm_GetDestroyed() && item->source.FUN_00559450() &&
                     static_cast<SmartRef*>(item->source.FUN_00559450())->FUN_00559450() == g_thePlayer)
                     g_thePlayer->SetEffectValue(10, 8.0f, 0);
             }
@@ -529,7 +529,7 @@ void S_006240f0::ApplyToCharacter(S_006240f0_Form* form, int arg)
 
 struct HitForm
 {
-    float FUN_004b4ea0();
+    float hkpRigidBody_getMass();
 };
 struct HitRefTarget;
 HitRefTarget* __cdecl FUN_004b5a80(HitForm* pkForm);
@@ -678,7 +678,7 @@ struct HitActor
     virtual bool IsDead();
 
     bool FUN_00452370();
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
 };
 
 struct HitSetting
@@ -726,10 +726,10 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
     float fAbs = FUN_00408820(fAmount);
     if (fAbs < *g_s_011ce75c.FUN_00403e20())
         return;
-    if (pkActorA && pkActorA->FUN_00452370() && !pkActorA->FUN_00477ba0() && !pkActorA->IsDead() &&
+    if (pkActorA && pkActorA->FUN_00452370() && !pkActorA->TESForm_GetDestroyed() && !pkActorA->IsDead() &&
         (!pkActorB || !pkActorB->IsDead()))
     {
-        float fScaleX = pkFormB->FUN_004b4ea0();
+        float fScaleX = pkFormB->hkpRigidBody_getMass();
         if (fScaleX == 0.0)
             fScaleX = 10000.0f;
         float fValueVal2 = ComputeDistanceFactor(fScaleX, fAbs);
@@ -742,10 +742,10 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
             m_kEntries.FUN_005ae3d0(pkEntry);
         }
     }
-    if (pkActorB && pkActorB->FUN_00452370() && !pkActorB->FUN_00477ba0() && !pkActorB->IsDead() &&
+    if (pkActorB && pkActorB->FUN_00452370() && !pkActorB->TESForm_GetDestroyed() && !pkActorB->IsDead() &&
         (!pkActorA || !pkActorA->IsDead()))
     {
-        float fScale2 = pkFormA->FUN_004b4ea0();
+        float fScale2 = pkFormA->hkpRigidBody_getMass();
         if (fScale2 == 0.0)
             fScale2 = 10000.0f;
         float fSecondFunctionValue = ComputeDistanceFactor(fScale2, fAbs);
@@ -829,7 +829,7 @@ struct Ctx_623cb0
 struct Key_623cb0
 {
     void FUN_008c71b0(void* v);
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
     unsigned char FUN_00624070();
     int FUN_006240b0();
     void* m_00;
@@ -840,7 +840,7 @@ struct Gen_623cb0
     void* GetLastNode();
     float FUN_00624050();
     int FUN_004b5980();
-    void* FUN_0043b540();
+    void* hkpCollidable_getCollisionFilterInfo();
     float FUN_00450410();
 };
 
@@ -874,7 +874,7 @@ unsigned char FUN_0062b150(void* obj, void* ctx);
 void FUN_00458620(Ctx_623cb0* ctx, void* req);
 float FUN_004587d0(float v);
 float FUN_00408820(float v);
-void FUN_00837550(Ctx_623cb0* ctx);
+void ImpactMixer_PlayCollisionSound(Ctx_623cb0* ctx);
 void* FUN_004b59f0(void* obj);
 
 // Does nothing if a1->m_20 is set; unless early checks return, calls AddHitEntries with a1->m_1c and the two nodes, then ApplyToCharacter for both.
@@ -914,9 +914,9 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
         {
             Key_623cb0 key1;
             Key_623cb0 key8;
-            key1.FUN_008c71b0(((Gen_623cb0*)keyTmp)->FUN_0043b540());
-            key8.FUN_008c71b0(((Gen_623cb0*)entry)->FUN_0043b540());
-            if (key1.FUN_004a3a20() == key8.FUN_004a3a20())
+            key1.FUN_008c71b0(((Gen_623cb0*)keyTmp)->hkpCollidable_getCollisionFilterInfo());
+            key8.FUN_008c71b0(((Gen_623cb0*)entry)->hkpCollidable_getCollisionFilterInfo());
+            if (key1.CFilter_GetGroup() == key8.CFilter_GetGroup())
             {
                 if (key1.FUN_00624070())
                 {
@@ -961,17 +961,17 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
             }
         }
         count = (fval.a + 1) * (fval.b + 1);
-        FUN_00837550(&ctx2);
+        ImpactMixer_PlayCollisionSound(&ctx2);
     }
 
     node = FUN_004b59f0(keyTmp);
     item = node ? FUN_004b5a20(node) : 0;
     cat = item ? item->FUN_0044ddc0() : 0;
-    cell3 = cat ? FUN_0056f930(cat) : 0;
+    cell3 = cat ? TESObjectREFR_FindReferenceFor3D(cat) : 0;
     cell2 = FUN_004b59f0(entry);
     idx = cell2 ? FUN_004b5a20(cell2) : 0;
     key2 = idx ? idx->FUN_0044ddc0() : 0;
-    hold = key2 ? FUN_0056f930(key2) : 0;
+    hold = key2 ? TESObjectREFR_FindReferenceFor3D(key2) : 0;
     AddHitEntries(apHitRecord->m_1c, node, cell2, cell3, hold);
     ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)cell3, (int)apHitRecord);
     ((S_006240f0*)this)->ApplyToCharacter((S_006240f0_Form*)hold, (int)apHitRecord);

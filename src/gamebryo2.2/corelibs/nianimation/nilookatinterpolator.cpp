@@ -5,7 +5,7 @@
 extern "C" void* g_011f3f90;
 
 // @fnv 0x00a4be10
-void* __cdecl FUN_00a4be10()
+void* __cdecl NiLookAtInterpolator_GetRTTI()
 {
     return &g_011f3f90;
 }
@@ -75,10 +75,10 @@ struct NiObject
 };
 struct Host_00a4bb80
 {
-    void __thiscall FUN_00a4bb80(CloningProcess&);
+    void __thiscall NiLookAtInterpolator_ProcessClone(CloningProcess&);
 };
 // @fnv 0x00a4bb80
-void __thiscall Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
+void __thiscall Host_00a4bb80::NiLookAtInterpolator_ProcessClone(CloningProcess& kCloning)
 {
     bool bCloned;
     NiObject* pkClone;
@@ -137,10 +137,10 @@ struct BaseInterp
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool __thiscall NiLookAtInterpolator_RegisterStreamables(NiStream*);
 };
 // @fnv 0x00a4bbe0
-bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
+bool __thiscall MyInterp::NiLookAtInterpolator_RegisterStreamables(NiStream* kStream)
 {
     unsigned int ui;
     if (!((BaseInterp*)this)->FUN_00a81fe0(kStream))
@@ -164,7 +164,7 @@ struct BSFadeNode
     void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
-void* __cdecl FUN_00a4c5a0()
+void* __cdecl NiLookAtInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x44);
     if (p)
@@ -225,11 +225,11 @@ struct FUN_00a4b900_V
 };
 struct FUN_00a4b900_Holder
 {
-    void FUN_00a4b900();
+    void NiLookAtInterpolator_Collapse();
 };
 // Iterates three pointers starting at offset 0x38 and calls v47 on each non-null one.
 // @fnv 0x00a4b900
-void FUN_00a4b900_Holder::FUN_00a4b900()
+void FUN_00a4b900_Holder::NiLookAtInterpolator_Collapse()
 {
     unsigned int ui;
     FUN_00a4b900_V** pp = (FUN_00a4b900_V**)((char*)this + 0x38);
@@ -543,11 +543,11 @@ class A4BC40Data : public A4BC40Base
     A4BC40Transform m_kTransform;
     A4BC40Object* m_ppKeyData[3];
 
-    bool FUN_00a4bc40(A4BC40Object* pkObject);
+    bool NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject);
 };
 
 // @fnv 0x00a4bc40
-bool A4BC40Data::FUN_00a4bc40(A4BC40Object* pkObject)
+bool A4BC40Data::NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -660,15 +660,15 @@ struct FUN_00a4c780_cls
     Obj_b9286* m3c;
     Obj_b9286* m40;
 
-    void __thiscall FUN_00a570b0(Arg_b9286* a);
+    void __thiscall NiInterpolator_GetViewerStrings(Arg_b9286* a);
 
-    void FUN_00a4c780(Arg_b9286* a);
+    void NiLookAtInterpolator_GetViewerStrings(Arg_b9286* a);
 };
 
 // @fnv 0x00a4c780
-void FUN_00a4c780_cls::FUN_00a4c780(Arg_b9286* a)
+void FUN_00a4c780_cls::NiLookAtInterpolator_GetViewerStrings(Arg_b9286* a)
 {
-    FUN_00a570b0(a);
+    NiInterpolator_GetViewerStrings(a);
     void* p = FUN_00a7d330(g_011f3f90);
     unsigned int b = a->m0a;
     unsigned int c = a->m08;
@@ -993,12 +993,12 @@ class C630Blend : public C630Interpolator
     C630Transform m_kTransform;
     C630Pointer<C630RefObject> m_akReferencedObjects[3];
 
-    void FUN_00a4c630(C630Stream& kStream);
+    void NiLookAtInterpolator_LoadBinary(C630Stream& kStream);
 };
 
 // Loads the blend from the stream: base interpolator data, flags, target, name (version-dependent), transform, and three ref objects.
 // @fnv 0x00a4c630
-void C630Blend::FUN_00a4c630(C630Stream& kStream)
+void C630Blend::NiLookAtInterpolator_LoadBinary(C630Stream& kStream)
 {
     C630Interpolator::LoadBinary(kStream);
 
@@ -1525,7 +1525,7 @@ struct LookVector
     {
         return LookVector(y * v.GetZ() - z * v.GetY(), z * v.GetX() - x * v.GetZ(), x * v.GetY() - y * v.GetX());
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
 };
 struct LookMatrix
 {
@@ -1713,7 +1713,7 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
         rotation.Identity();
     else
     {
-        vDirection.FUN_004a0c10();
+        vDirection.NiPoint3_Unitize();
         LookVector vUp;
         float projection;
         if ((vDirection.z < DAT_01098c00 && vDirection.z > DAT_01098bf8) ||
@@ -1728,7 +1728,7 @@ bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
             projection = vDirection.z;
         }
         vUp -= vDirection * projection;
-        vUp.FUN_004a0c10();
+        vUp.NiPoint3_Unitize();
         if (!bool(flags & 1))
             vDirection = -vDirection;
 

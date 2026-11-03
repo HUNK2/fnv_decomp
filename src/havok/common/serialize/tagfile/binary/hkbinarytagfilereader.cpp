@@ -549,7 +549,7 @@ struct FUN_00dc5d50_Local
 };
 
 // @fnv 0x00dc5d50
-unsigned int __stdcall FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
+unsigned int __stdcall hkBinaryTagfileReader_load(unsigned int a, unsigned int b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);

@@ -119,7 +119,7 @@ void __cdecl FUN_007e9200();
 // @fnv 0x00705640
 void __cdecl FUN_00705640()
 {
-    if (FUN_004b7210() && ((InterfaceManagerKey*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && ((InterfaceManagerKey*)InterfaceManager_Instance())->FUN_009373f0())
     {
         Tile* pkTileMenu = FUN_00a09030(Interface::eVATSMenu);
         VATSMenu* pkMenu = pkTileMenu ? dynamic_cast<VATSMenu*>(pkTileMenu->GetMenu()) : 0;
@@ -143,7 +143,7 @@ void FUN_007c01b0();
 // @fnv 0x007055c0
 void FUN_007055c0()
 {
-    if (FUN_004b7210() && ((Iface2*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && ((Iface2*)InterfaceManager_Instance())->FUN_009373f0())
     {
         Tile* a = FUN_00a09030(0x3f4);
         SleepWaitMenu* b = a ? dynamic_cast<SleepWaitMenu*>(a->GetMenu()) : 0;

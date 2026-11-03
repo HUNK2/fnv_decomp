@@ -34,11 +34,11 @@ struct FUN_0080a900
 };
 struct FUN_0080a930_shell : ActiveEffect
 {
-    FUN_0080a900* FUN_0080a930();
+    FUN_0080a900* CalmEffect_Clone();
 };
 // Allocates a FUN_0080a900 from this object's fields at offsets 0x28, 0x8 and 0xc, passes it to virtual method 17, and returns it.
 // @fnv 0x0080a930
-FUN_0080a900* FUN_0080a930_shell::FUN_0080a930()
+FUN_0080a900* FUN_0080a930_shell::CalmEffect_Clone()
 {
     FUN_0080a900* presult =
         new FUN_0080a900(*(void**)((char*)this + 0x28), *(void**)((char*)this + 8), *(void**)((char*)this + 0xc));
@@ -547,7 +547,7 @@ struct FUN_0080a9e0_Caster
 
 struct FUN_0080a9e0_Helper
 {
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     float GetFloatAtOffset1C();
     unsigned short FUN_0087f9f0();
 };
@@ -556,15 +556,15 @@ bool __cdecl FUN_006494d0(unsigned short a, float b);
 
 struct FUN_0080a9e0_cls
 {
-    bool FUN_0080a9e0(MagicCaster* caster);
+    bool CalmEffect_CheckTarget(MagicCaster* caster);
 };
 
 // @fnv 0x0080a9e0
-bool FUN_0080a9e0_cls::FUN_0080a9e0(MagicCaster* caster)
+bool FUN_0080a9e0_cls::CalmEffect_CheckTarget(MagicCaster* caster)
 {
     FUN_0080a9e0_Effect* pEffect;
     pEffect = (caster != 0) ? ((FUN_0080a9e0_Caster*)caster)->FUN_00822b40() : 0;
-    if (pEffect != 0 && !pEffect->vf08B(false) && !pEffect->vf0BA() && ((FUN_0080a9e0_Helper*)pEffect)->FUN_00493bb0())
+    if (pEffect != 0 && !pEffect->vf08B(false) && !pEffect->vf0BA() && ((FUN_0080a9e0_Helper*)pEffect)->Actor_IsInCombat())
     {
         if (FUN_006494d0(((FUN_0080a9e0_Helper*)pEffect)->FUN_0087f9f0(),
                          ((FUN_0080a9e0_Helper*)this)->GetFloatAtOffset1C()))
@@ -859,19 +859,19 @@ struct FUN_0080aa90_Holder
 class FUN_0080aa90_cls
 {
   public:
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
     FUN_0080aa90_Holder* FUN_0059bb30();
 
-    void FUN_0080aa90();
+    void CalmEffect_Start();
 };
 
-// Calls FUN_0082c000, then if the holder's object and its Virt266 result are non-null, calls StopActorMoving on that result.
+// Calls ValueModifierEffect_Start, then if the holder's object and its Virt266 result are non-null, calls StopActorMoving on that result.
 // @fnv 0x0080aa90
-void FUN_0080aa90_cls::FUN_0080aa90()
+void FUN_0080aa90_cls::CalmEffect_Start()
 {
     FUN_0080aa90_Obj* pObject;
 
-    FUN_0082c000();
+    ValueModifierEffect_Start();
     pObject = FUN_0059bb30() != 0 ? FUN_0059bb30()->FUN_00822b40() : 0;
     if (pObject != 0)
     {
@@ -1161,11 +1161,11 @@ struct FUN_0080ab10_cls
     void FUN_0082c660(float);
     void FUN_00804210(int);
     FUN_0080ab10_obj* FUN_0059bb30();
-    void FUN_0080ab10(float a1);
+    void CalmEffect_Update(float a1);
 };
 
 // @fnv 0x0080ab10
-void FUN_0080ab10_cls::FUN_0080ab10(float afValue)
+void FUN_0080ab10_cls::CalmEffect_Update(float afValue)
 {
     unsigned char flag;
     FUN_0080ab10_obj* obj;

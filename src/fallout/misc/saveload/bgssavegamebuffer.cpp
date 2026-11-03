@@ -18,12 +18,12 @@ struct FUN_0043aa40_shell
     int m_14;
     int m_18;
     int m_1c;
-    void __thiscall FUN_0043aa40(BGSSaveFormBuffer* apBuffer);
+    void __thiscall DoorTeleportData_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 
 // Writes three ranges of this object (offsets 4, 0x10, 0x1c) and the form at m_00 into the save buffer.
 // @fnv 0x0043aa40
-void FUN_0043aa40_shell::FUN_0043aa40(BGSSaveFormBuffer* apBuffer)
+void FUN_0043aa40_shell::DoorTeleportData_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData((void*)((char*)this + 4), 0xc, 0);
     apBuffer->SaveData((void*)((char*)this + 0x10), 0xc, 0);

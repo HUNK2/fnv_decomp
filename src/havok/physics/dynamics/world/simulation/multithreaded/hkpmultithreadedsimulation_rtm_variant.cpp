@@ -53,7 +53,7 @@ struct S_00d02020_Pair
     S_00d02020_Handle* m_kPointA;
     S_00d02020_Handle* m_kPointB;
 };
-void __stdcall FUN_00d02020(S_00d02020_Pair* pair);
+void __stdcall hkpMultiThreadedSimulation_MtPhantomBroadPhaseListener_removeCollisionPair(S_00d02020_Pair* pair);
 struct CompareValue
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -354,7 +354,7 @@ struct SortPair8
 };
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
 void __cdecl QuickSortPairs(SortPair8* apPairs, int lo, int hi, SortPairLess apLess);
-void __stdcall FUN_00d020f0(S_00d02020_Pair* pair);
+void __stdcall hkpMultiThreadedSimulation_MtBroadPhaseBorderListener_removeCollisionPair(S_00d02020_Pair* pair);
 void __stdcall FUN_00d02200(int);
 void __stdcall FUN_00d02210(int, int, int);
 struct OwnerD020;

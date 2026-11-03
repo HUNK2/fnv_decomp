@@ -156,7 +156,7 @@ void* __fastcall FUN_00a3a8a0(FUN_00a3a8a0_t* self, int unused, unsigned short i
 
 // Stores pkInterpolator into the morph controller's interpolator slot at usIndex, releasing the old interpolator and incrementing the new one's ref count.
 // @fnv 0x00a3a8b0
-void __fastcall FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
+void __fastcall NiGeomMorpherController_SetInterpolator(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     NiInterpolator** slot = reinterpret_cast<NiInterpolator**>(&self->m_pInterpolatorItems[usIndex]);
     NiInterpolator* pOldInterpolator = *slot;
@@ -289,7 +289,7 @@ struct FUN_00a3adc0_t
     FUN_00a3adc0_md* md;
 };
 // @fnv 0x00a3adc0
-unsigned short __fastcall FUN_00a3adc0(FUN_00a3adc0_t* self, int)
+unsigned short __fastcall NiGeomMorpherController_GetInterpolatorCount(FUN_00a3adc0_t* self, int)
 {
     if (self->md)
         return self->md->count;
@@ -342,7 +342,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3728;
 // @fnv 0x00a3afd0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a3afd0()
+GlobalObjectO2_00a7b610* __cdecl NiGeomMorpherController_GetRTTI()
 {
     return &g_011f3728;
 }
@@ -759,12 +759,12 @@ struct FUN_00a3b5a0_shell : public NiGeomMorpherController
 {
     void ClearInterpolatorArray();
     void LinkObject(NiStream& kStream);
-    void FUN_00a3b5a0(NiStream& kStream);
+    void NiGeomMorpherController_LinkObject(NiStream& kStream);
 };
 
 // Links the object to the stream, reads morph data, sets per-target interpolators and key times depending on the stream version.
 // @fnv 0x00a3b5a0
-void FUN_00a3b5a0_shell::FUN_00a3b5a0(NiStream& kStream)
+void FUN_00a3b5a0_shell::NiGeomMorpherController_LinkObject(NiStream& kStream)
 {
     typedef void(__thiscall * SetInterpolatorType)(NiGeomMorpherController*, const char*, unsigned int);
     typedef void(__thiscall * SetTimeType)(NiGeomMorpherController*, float, float);
@@ -918,7 +918,7 @@ class A3A750TimeController
 class A3A750Controller : public A3A750TimeController
 {
   public:
-    void FUN_00a3a750(A3A750Target* pkTarget);
+    void NiGeomMorpherController_SetTarget(A3A750Target* pkTarget);
 
     void* m_pkInterpolator;
     int unk3C;
@@ -928,7 +928,7 @@ class A3A750Controller : public A3A750TimeController
 };
 
 // @fnv 0x00a3a750
-void A3A750Controller::FUN_00a3a750(A3A750Target* pkTarget)
+void A3A750Controller::NiGeomMorpherController_SetTarget(A3A750Target* pkTarget)
 {
     if (pkTarget->IsAVObject())
     {
@@ -1467,12 +1467,12 @@ struct FUN_00a3acb0_cls
     FUN_00a3acb0_item* items;
     void FUN_00a6d0c0(void* p);
     unsigned int FUN_008d3ed0();
-    void FUN_00a3acb0(void* p);
+    void NiGeomMorpherController_ProcessClone(void* p);
 };
 
 // Calls FUN_00a6d0c0(p), then forwards p to Slot26 on each non-null item pointer in items up to FUN_008d3ed0().
 // @fnv 0x00a3acb0
-void FUN_00a3acb0_cls::FUN_00a3acb0(void* p)
+void FUN_00a3acb0_cls::NiGeomMorpherController_ProcessClone(void* p)
 {
     FUN_00a6d0c0(p);
     unsigned short i;
@@ -1938,7 +1938,7 @@ Obj_b10413::Obj_b10413(MorphData_b10413* pkData) throw() : m_spMorphTargetData(p
 
 // Allocates and constructs an Obj_b10413 with a null MorphData pointer, returning the new object.
 // @fnv 0x00a3b550
-Obj_b10413* __cdecl FUN_00a3b550()
+Obj_b10413* __cdecl NiGeomMorpherController_CreateObject()
 {
     return new Obj_b10413(0);
 }
@@ -1997,7 +1997,7 @@ class MorphController
   public:
     bool FUN_00c283f0(MorphObject* pkObject);  // NiInterpController::IsEqual
     unsigned int FUN_008d3ed0();               // GetNumTargets
-    bool FUN_00a3ad00(MorphObject* pkObject);
+    bool NiGeomMorpherController_IsEqual(MorphObject* pkObject);
 
     int unk00[14];
     MorphPointer<MorphObject> m_spMorphTargetData;  // +0x38
@@ -2005,7 +2005,7 @@ class MorphController
 };
 
 // @fnv 0x00a3ad00
-bool MorphController::FUN_00a3ad00(MorphObject* pkObject)
+bool MorphController::NiGeomMorpherController_IsEqual(MorphObject* pkObject)
 {
     if (!FUN_00c283f0(pkObject))
         return false;
@@ -2102,11 +2102,11 @@ class NiGeomMorpherControllerA3B : public a3bb::FUN_00a2f8c0
     bool m_bUpdateBounds;
 
     void FUN_00a3ba70(NiGeomMorpherControllerA3B* pkClone, NiCloningProcessA3B& kCloning);
-    NiGeomMorpherControllerA3B* FUN_00a3bb80(NiCloningProcessA3B& kCloning);
+    NiGeomMorpherControllerA3B* NiGeomMorpherController_CreateClone(NiCloningProcessA3B& kCloning);
 };
 // Allocates a new NiGeomMorpherControllerA3B, calls FUN_00a3ba70 with it and kCloning, and returns it.
 // @fnv 0x00a3bb80
-NiGeomMorpherControllerA3B* NiGeomMorpherControllerA3B::FUN_00a3bb80(NiCloningProcessA3B& kCloning)
+NiGeomMorpherControllerA3B* NiGeomMorpherControllerA3B::NiGeomMorpherController_CreateClone(NiCloningProcessA3B& kCloning)
 {
     NiGeomMorpherControllerA3B* pkClone = new NiGeomMorpherControllerA3B;
     FUN_00a3ba70(pkClone, kCloning);
@@ -2168,11 +2168,11 @@ struct NiGMCShell_a3b350 : NiGeomMorpherController
             return m_spMorphTargetData.m_pObject->m_uiNumTargets;
         return 0;
     }
-    void FUN_00a3b350(NiStreamSV& stream);
+    void NiGeomMorpherController_SaveBinary(NiStreamSV& stream);
 };
 // Calls FUN_00c27120, then saves a value, morph target link, update flag, target count, and interpolator links and weights.
 // @fnv 0x00a3b350
-void NiGMCShell_a3b350::FUN_00a3b350(NiStreamSV& stream)
+void NiGMCShell_a3b350::NiGeomMorpherController_SaveBinary(NiStreamSV& stream)
 {
     reinterpret_cast<S00c27120*>(this)->FUN_00c27120(stream);
     stream.Save(m_uiObjectFlags);

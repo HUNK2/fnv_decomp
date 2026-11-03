@@ -14,13 +14,13 @@ void NiBSplineInterpolator::LoadBinary(NiStream& stream)
 
 struct FUN_00a57f70_shell : public NiBSplineInterpolator
 {
-    void* FUN_00a57f70();
+    void* NiBSplineInterpolator_GetRTTI();
 };
 
 extern "C" const char* g_011f3fe4_arg1;
 
 // @fnv 0x00a57f70
-void* FUN_00a57f70_shell::FUN_00a57f70()
+void* FUN_00a57f70_shell::NiBSplineInterpolator_GetRTTI()
 {
     return &g_011f3fe4_arg1;
 }
@@ -95,10 +95,10 @@ struct FUN_00a57d60_holder
     char _pad[12];
     float _st;
     float _en;
-    void FUN_00a57d60(float&, float&);
+    void NiBSplineInterpolator_GetActiveTimeRange(float&, float&);
 };
 // @fnv 0x00a57d60
-void FUN_00a57d60_holder::FUN_00a57d60(float& fBegin, float& m_fEndValue)
+void FUN_00a57d60_holder::NiBSplineInterpolator_GetActiveTimeRange(float& fBegin, float& m_fEndValue)
 {
     if (fBegin == DAT_010231b0 && m_fEndValue == DAT_010241b0)
         m_fEndValue = fBegin = 0.0f;
@@ -570,7 +570,7 @@ class A57E90Controller : public A57E90Object
 {
   public:
     bool BaseIsEqual(A57E90Object* pkObject);
-    bool FUN_00a57e90(A57E90Object* pkObject);
+    bool NiBSplineInterpolator_IsEqual(A57E90Object* pkObject);
 
     int unk04;
     int unk08;
@@ -581,7 +581,7 @@ class A57E90Controller : public A57E90Object
 };
 
 // @fnv 0x00a57e90
-bool A57E90Controller::FUN_00a57e90(A57E90Object* pkObject)
+bool A57E90Controller::NiBSplineInterpolator_IsEqual(A57E90Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -874,7 +874,7 @@ class BA58200Sequence
 {
   public:
     void BaseGetViewerStrings(BA58200StringArray* pkStrings);
-    void FUN_00a58200(BA58200StringArray* pkStrings);
+    void NiBSplineInterpolator_GetViewerStrings(BA58200StringArray* pkStrings);
 
     int unk00;
     int unk04;
@@ -886,7 +886,7 @@ class BA58200Sequence
 };
 
 // @fnv 0x00a58200
-void BA58200Sequence::FUN_00a58200(BA58200StringArray* pkStrings)
+void BA58200Sequence::NiBSplineInterpolator_GetViewerStrings(BA58200StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_pcA58200Name));

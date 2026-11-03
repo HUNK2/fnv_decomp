@@ -95,11 +95,11 @@ void TESRace::BuildBodyTexturePath(TESNPC* npc, char* out)
 {
     TESNPC* npcID = npc;
     char acRacePath[16];
-    if (npc->FUN_006044c0())
+    if (npc->TESNPC_GetFaceNPC())
     {
-        npcID = npc->FUN_006044c0();
-        while (npcID && npcID->FUN_006044c0())
-            npcID = npcID->FUN_006044c0();
+        npcID = npc->TESNPC_GetFaceNPC();
+        while (npcID && npcID->TESNPC_GetFaceNPC())
+            npcID = npcID->TESNPC_GetFaceNPC();
     }
     if (npc->GetSex() == SEX_SEX_FEMALE)
         sprintf(acRacePath, "Female");
@@ -212,12 +212,12 @@ TESModel* __fastcall ConstructTESModel(TESModel* pThis)
 
 struct FUN_00613970_shell : public TESRace
 {
-    TESModel* FUN_00613970(int, int);
+    TESModel* TESRace_GetHeadPartModel(int, int);
 };
 
 // Returns the TESModel for the given sex and body part index, or null if the part index is out of range.
 // @fnv 0x00613970
-TESModel* FUN_00613970_shell::FUN_00613970(int aeSex, int aePart)
+TESModel* FUN_00613970_shell::TESRace_GetHeadPartModel(int aeSex, int aePart)
 {
     if (aePart < 0 || aePart >= 8)
         return 0;
@@ -226,12 +226,12 @@ TESModel* FUN_00613970_shell::FUN_00613970(int aeSex, int aePart)
 
 struct FUN_00613a20_shell : public TESRace
 {
-    TESModel* FUN_00613a20(int, int);
+    TESModel* TESRace_GetBodyPartModel(int, int);
 };
 
 // Returns the TESModel for the given sex and body part index, or null if the part index is outside 0..2.
 // @fnv 0x00613a20
-TESModel* FUN_00613a20_shell::FUN_00613a20(int aeSex, int aePart)
+TESModel* FUN_00613a20_shell::TESRace_GetBodyPartModel(int aeSex, int aePart)
 {
     if (aePart < 0 || aePart >= 3)
         return 0;
@@ -497,12 +497,12 @@ bool FUN_006148f0_shell::BuildBodyModTexturePath(TESNPC* apNPC, char* apName, ch
 {
     TESNPC* pfacenpc = apNPC;
     bool bUpdate;
-    if (apNPC->FUN_006044c0())
+    if (apNPC->TESNPC_GetFaceNPC())
     {
-        pfacenpc = apNPC->FUN_006044c0();
-        while (pfacenpc && pfacenpc->FUN_006044c0())
+        pfacenpc = apNPC->TESNPC_GetFaceNPC();
+        while (pfacenpc && pfacenpc->TESNPC_GetFaceNPC())
         {
-            pfacenpc = pfacenpc->FUN_006044c0();
+            pfacenpc = pfacenpc->TESNPC_GetFaceNPC();
         }
     }
     TESFile* pmaster = ((TESForm_ext*)pfacenpc)->GetOwnerMaster();
@@ -634,10 +634,10 @@ struct List_009e03e0
 struct FUN_00613850_shell
 {
     List_009e03e0* __thiscall FUN_0045bb80();
-    void FUN_00613850();
+    void TESRace_ClearHairList();
 };
 // @fnv 0x00613850
-void FUN_00613850_shell::FUN_00613850()
+void FUN_00613850_shell::TESRace_ClearHairList()
 {
     FUN_0045bb80()->RemoveAll();
 }
@@ -672,11 +672,11 @@ struct Obj
 {
     char _pad[0x230];
     Mid m[3];
-    void FUN_00613b60(int, int, char const*);
+    void TESRace_SetHeadPartTexture(int, int, char const*);
 };
 // Bounds-checks a (0-2) and b (0-7), then calls SetFullName on m[a].arr[b] with the given string.
 // @fnv 0x00613b60
-void Obj::FUN_00613b60(int a, int aiIndex, char const* apName)
+void Obj::TESRace_SetHeadPartTexture(int a, int aiIndex, char const* apName)
 {
     if (aiIndex < 0 || aiIndex >= 8 || a < 0 || a > 2)
         return;
@@ -691,10 +691,10 @@ struct FullNameEx
 struct FUN_00613c00_shell
 {
     FullNameEx m[3];
-    void FUN_00613c00(int a, int b, const char* c);
+    void TESRace_SetBodyPartTexture(int a, int b, const char* c);
 };
 // @fnv 0x00613c00
-void FUN_00613c00_shell::FUN_00613c00(int aiIndex, int aiSubIndex, const char* apName)
+void FUN_00613c00_shell::TESRace_SetBodyPartTexture(int aiIndex, int aiSubIndex, const char* apName)
 {
     if (aiIndex < 0 || aiIndex >= 2 || aiSubIndex < 0 || aiSubIndex >= 3)
         return;
@@ -707,11 +707,11 @@ struct Holder00613120
 {
     unsigned char _pad[0xA0];
     float f0xA0;
-    float FUN_00613120();
+    float TESRace_GetClampFaceGeoValue();
 };
 // Returns f0xA0 when it is greater than _gModifierZero, otherwise returns 5.0f.
 // @fnv 0x00613120
-float Holder00613120::FUN_00613120()
+float Holder00613120::TESRace_GetClampFaceGeoValue()
 {
     return f0xA0 > _gModifierZero ? f0xA0 : 5.0f;
 }
@@ -744,11 +744,11 @@ struct FUN_00613bb0_shell
 {
     char _pad[0x2F0];
     FUN_Row36 m[2];
-    FUN_Elem12* FUN_00613bb0(int a, int b);
+    FUN_Elem12* TESRace_GetBodyPartTexture(int a, int b);
 };
 // Returns a pointer to element e[b] of row m[a] when a is in [0,2) and b in [0,3), otherwise returns null.
 // @fnv 0x00613bb0
-FUN_Elem12* FUN_00613bb0_shell::FUN_00613bb0(int aiRow, int aiColumn)
+FUN_Elem12* FUN_00613bb0_shell::TESRace_GetBodyPartTexture(int aiRow, int aiColumn)
 {
     if (aiRow < 0 || aiRow >= 2 || aiColumn < 0 || aiColumn >= 3)
         return 0;
@@ -757,14 +757,14 @@ FUN_Elem12* FUN_00613bb0_shell::FUN_00613bb0(int aiRow, int aiColumn)
 
 struct RaceCleanup : TESRace
 {
-    void FUN_00613850();
+    void TESRace_ClearHairList();
     void ClearRecipeCategoryList();
-    void FUN_00610ac0();
+    void TESRace_ClearData();
 };
 // @fnv 0x00610ac0
-void RaceCleanup::FUN_00610ac0()
+void RaceCleanup::TESRace_ClearData()
 {
-    FUN_00613850();
+    TESRace_ClearHairList();
     ClearRecipeCategoryList();
     unsigned int uiOuterIndex, i;
     for (uiOuterIndex = 0; uiOuterIndex < 2; ++uiOuterIndex)
@@ -797,13 +797,13 @@ struct FUN_00611db0_cls
     int m_18[2];
     int m_20;
 
-    void FUN_00611db0();
+    void RACE_DATA_Endian();
 };
 
 void __cdecl FUN_00401080(void* item, bool flag);
 
 // @fnv 0x00611db0
-void FUN_00611db0_cls::FUN_00611db0()
+void FUN_00611db0_cls::RACE_DATA_Endian()
 {
     for (int i = 0; i < 2; i++)
     {
@@ -1234,26 +1234,26 @@ void RaceReset::ResetRaceData()
 extern "C" void* __cdecl _alloca(unsigned int);
 bool __cdecl FUN_00401500();
 void __cdecl FUN_004856d0(unsigned int);
-void __cdecl FUN_004856f0(unsigned int, const void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, const void*, unsigned int);
 void __cdecl FUN_00485710(unsigned int, const void*, unsigned int);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 void __cdecl FUN_00485910(unsigned int, float);
 void __cdecl FUN_00485950(unsigned int, unsigned short);
-void* __cdecl FUN_00401000(unsigned int);
-void __cdecl FUN_00401030(void*);
+void* __cdecl FormHeap_Allocate(unsigned int);
+void __cdecl FormHeap_Free(void*);
 void* __cdecl FUN_00403d30(void*, int, unsigned int);
 struct SaveComponent611e50
 {
-    void FUN_00487010();
-    void FUN_00482cb0();
-    void FUN_0048d330();
+    void TESFullName_Save();
+    void TESDescription_Save();
+    void TESSpellList_Save();
     void WriteCameraShotList();
-    void FUN_00611db0();
+    void RACE_DATA_Endian();
     unsigned int FUN_009d2510();
-    void FUN_00480100(void*);
+    void TESAttributes_Save(void*);
     void WriteToBuffer(unsigned int, unsigned int);
     void FUN_00489240(unsigned int);
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct SaveForm611e50
 {
@@ -1296,9 +1296,9 @@ struct SaveRace611e50
     BGSVoiceType* m_apDefaultVoiceTypes[2];
     TESRace* m_pOlderRace;
     TESRace* m_pYoungerRace;
-    void FUN_004855a0();
-    void FUN_00485e20(void*, unsigned int);
-    void FUN_00485680();
+    void TESForm_StartForm();
+    void TESForm___SaveData(void*, unsigned int);
+    void TESForm_CloseForm();
     SaveList611e50* FUN_0045bb80();
     SaveList611e50* FUN_00503650();
     void SaveRace();
@@ -1306,16 +1306,16 @@ struct SaveRace611e50
 // @fnv 0x00611e50
 void SaveRace611e50::SaveRace()
 {
-    FUN_004855a0();
-    ((SaveComponent611e50*)&unk18)->FUN_00487010();
-    ((SaveComponent611e50*)&unk24)->FUN_00482cb0();
-    ((SaveComponent611e50*)&unk2c)->FUN_0048d330();
+    TESForm_StartForm();
+    ((SaveComponent611e50*)&unk18)->TESFullName_Save();
+    ((SaveComponent611e50*)&unk24)->TESDescription_Save();
+    ((SaveComponent611e50*)&unk2c)->TESSpellList_Save();
     ((SaveComponent611e50*)&unk40)->WriteCameraShotList();
     if (FUN_00401500())
-        ((SaveComponent611e50*)&Data)->FUN_00611db0();
-    FUN_00485e20(&Data, 0x24);
+        ((SaveComponent611e50*)&Data)->RACE_DATA_Endian();
+    TESForm___SaveData(&Data, 0x24);
     if (FUN_00401500())
-        ((SaveComponent611e50*)&Data)->FUN_00611db0();
+        ((SaveComponent611e50*)&Data)->RACE_DATA_Endian();
     unsigned int formid51 = 0;
     if (m_pOlderRace)
     {
@@ -1352,14 +1352,14 @@ void SaveRace611e50::SaveRace()
         }
         FUN_00485710(0x4d414e44, hairids, 2);
     }
-    FUN_004856f0(0x4d414e43, m_acDefaultHairColors, 2);
+    TESForm_AddChunkArray(0x4d414e43, m_acDefaultHairColors, 2);
     FUN_00485910(0x4d414e50, m_fFaceGenMainClamp);
     FUN_00485910(0x4d414e55, m_fFaceGenFaceClamp);
     unsigned int attributeSize72 = ((SaveComponent611e50*)&m_kMaleAttributes)->FUN_009d2510();
     char* attributeData20 = (char*)_alloca(attributeSize72 * 2);
-    ((SaveComponent611e50*)&m_kMaleAttributes)->FUN_00480100(attributeData20);
-    ((SaveComponent611e50*)&m_kFemaleAttributes)->FUN_00480100(attributeData20 + attributeSize72);
-    FUN_004856f0(0x52545441, attributeData20, 2);
+    ((SaveComponent611e50*)&m_kMaleAttributes)->TESAttributes_Save(attributeData20);
+    ((SaveComponent611e50*)&m_kFemaleAttributes)->TESAttributes_Save(attributeData20 + attributeSize72);
+    TESForm_AddChunkArray(0x52545441, attributeData20, 2);
     FUN_004856d0(0x304d414e);
     unsigned int sex3, part2;
     for (sex3 = 0; sex3 < 2; sex3++)
@@ -1373,7 +1373,7 @@ void SaveRace611e50::SaveRace()
             FUN_00485910(0x58444e49, part2);
             ((SaveComponent611e50*)&m_kBodyPartModels[sex3][part2])->WriteToBuffer(0x4c444f4d, 0x54444f4d);
             ((SaveComponent611e50*)&m_kBodyPartModels[sex3][part2])->FUN_00489240(0x44444f4d);
-            ((SaveComponent611e50*)&m_kBodyPartTextures[sex3][part2])->FUN_0048e370(0x4e4f4349);
+            ((SaveComponent611e50*)&m_kBodyPartTextures[sex3][part2])->TESTexture_Save(0x4e4f4349);
         }
     }
     FUN_004856d0(0x314d414e);
@@ -1386,7 +1386,7 @@ void SaveRace611e50::SaveRace()
         for (part2 = 0; part2 < 3; part2++)
         {
             FUN_00485910(0x58444e49, part2);
-            ((SaveComponent611e50*)&m_kHeadPartTextures[sex3][part2])->FUN_0048e370(0x4e4f4349);
+            ((SaveComponent611e50*)&m_kHeadPartTextures[sex3][part2])->TESTexture_Save(0x4e4f4349);
             ((SaveComponent611e50*)&m_kHeadPartModels[sex3][part2])->WriteToBuffer(0x4c444f4d, 0x54444f4d);
             ((SaveComponent611e50*)&m_kHeadPartModels[sex3][part2])->FUN_00489240(0x44444f4d);
         }
@@ -1435,7 +1435,7 @@ void SaveRace611e50::SaveRace()
         if (count)
         {
             unsigned int geometrybytes31 = count * 4;
-            float* geometrydata18 = (float*)FUN_00401000(geometrybytes31);
+            float* geometrydata18 = (float*)FormHeap_Allocate(geometrybytes31);
             FUN_00403d30(geometrydata18, 0, geometrybytes31);
             for (unsigned int geometryindex = 0; geometryindex < count; geometryindex++)
             {
@@ -1449,7 +1449,7 @@ void SaveRace611e50::SaveRace()
                                                          .FUN_00629ab0();
             }
             FUN_00485710(0x53474746, geometrydata18, count);
-            FUN_00401030(geometrydata18);
+            FormHeap_Free(geometrydata18);
             geometrydata18 = 0;
         }
         if (sex3 == 0)
@@ -1459,7 +1459,7 @@ void SaveRace611e50::SaveRace()
         if (count)
         {
             unsigned int asymmetrybytes4 = count * 4;
-            float* asymmetrydata24 = (float*)FUN_00401000(asymmetrybytes4);
+            float* asymmetrydata24 = (float*)FormHeap_Allocate(asymmetrybytes4);
             FUN_00403d30(asymmetrydata24, 0, asymmetrybytes4);
             for (unsigned int asymmetryindex = 0; asymmetryindex < count; asymmetryindex++)
             {
@@ -1473,7 +1473,7 @@ void SaveRace611e50::SaveRace()
                                                            .FUN_00629ab0();
             }
             FUN_00485710(0x41474746, asymmetrydata24, count);
-            FUN_00401030(asymmetrydata24);
+            FormHeap_Free(asymmetrydata24);
             asymmetrydata24 = 0;
         }
         if (sex3 == 0)
@@ -1483,7 +1483,7 @@ void SaveRace611e50::SaveRace()
         if (count)
         {
             unsigned int texturebytes2 = count * 4;
-            float* texturedata16 = (float*)FUN_00401000(texturebytes2);
+            float* texturedata16 = (float*)FormHeap_Allocate(texturebytes2);
             FUN_00403d30(texturedata16, 0, texturebytes2);
             for (unsigned int textureindex = 0; textureindex < count; textureindex++)
             {
@@ -1497,12 +1497,12 @@ void SaveRace611e50::SaveRace()
                                                        .FUN_00629ab0();
             }
             FUN_00485710(0x53544746, texturedata16, count);
-            FUN_00401030(texturedata16);
+            FormHeap_Free(texturedata16);
             texturedata16 = 0;
         }
         FUN_00485950(0x4d414e53, m_usRaceAttribute);
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct RaceListItem
@@ -1518,26 +1518,26 @@ struct RaceList
 struct RaceComparer : TESRace
 {
     bool IsDifferentFrom(TESForm*);
-    bool FUN_00485270(RaceComparer*);
+    bool TESForm_CompareAllComponents(RaceComparer*);
     RaceDefinitionData* FUN_00613790();
-    TESHair* FUN_00604780(unsigned);
-    TESEyes* FUN_00613870(unsigned);
+    TESHair* TESRace_GetDefaultVoiceType(unsigned);
+    TESEyes* TESRace_GetDefaultHair(unsigned);
     char GetByteAtOffset(unsigned);
-    float FUN_00613120();
+    float TESRace_GetClampFaceGeoValue();
     float GetFieldA4OrDefault();
     TESAttributes* FUN_004fadc0();
     TESAttributes* FUN_006130e0();
-    TESModel* FUN_00613970(unsigned, unsigned);
+    TESModel* TESRace_GetHeadPartModel(unsigned, unsigned);
     TESTexture* GetBodyPartTexture(unsigned, unsigned);
     RaceList* FUN_0045bb80();
     RaceList* FUN_00503650();
     int FindByKey(const char*);
     int FindRecipeCategoryById(const char*);
-    BGSVoiceType* FUN_005d9fb0(unsigned);
+    BGSVoiceType* TESRace_GetMeanFaceCoord(unsigned);
     unsigned short FUN_00607350();
 };
 int FUN_00ec4835(const void*, const void*, unsigned);
-bool FUN_00652900(BGSVoiceType*, BGSVoiceType*);
+bool BSFaceGenManager_CompareFaceGenCoord(BGSVoiceType*, BGSVoiceType*);
 unsigned short FUN_00487f50();
 // Compares this race against another TESRace field by field and returns true as soon as any difference is found.
 // @fnv 0x006131c0
@@ -1546,7 +1546,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
     RaceComparer* pOtherRace = (RaceComparer*)dynamic_cast<TESRace*>(form);
     if (!pOtherRace)
         return true;
-    if (FUN_00485270(pOtherRace))
+    if (TESForm_CompareAllComponents(pOtherRace))
         return true;
     if (FUN_00ec4835(&Data, pOtherRace->FUN_00613790(), 36))
         return true;
@@ -1554,19 +1554,19 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
         return true;
     if (m_pYoungerRace != pOtherRace->m_pYoungerRace)
         return true;
-    if (FUN_00604780(0) != pOtherRace->FUN_00604780(0))
+    if (TESRace_GetDefaultVoiceType(0) != pOtherRace->TESRace_GetDefaultVoiceType(0))
         return true;
-    if (FUN_00604780(1) != pOtherRace->FUN_00604780(1))
+    if (TESRace_GetDefaultVoiceType(1) != pOtherRace->TESRace_GetDefaultVoiceType(1))
         return true;
-    if (FUN_00613870(0) != pOtherRace->FUN_00613870(0))
+    if (TESRace_GetDefaultHair(0) != pOtherRace->TESRace_GetDefaultHair(0))
         return true;
-    if (FUN_00613870(1) != pOtherRace->FUN_00613870(1))
+    if (TESRace_GetDefaultHair(1) != pOtherRace->TESRace_GetDefaultHair(1))
         return true;
     if (GetByteAtOffset(0) != pOtherRace->GetByteAtOffset(0))
         return true;
     if (GetByteAtOffset(1) != pOtherRace->GetByteAtOffset(1))
         return true;
-    if (FUN_00613120() != pOtherRace->FUN_00613120())
+    if (TESRace_GetClampFaceGeoValue() != pOtherRace->TESRace_GetClampFaceGeoValue())
         return true;
     if (GetFieldA4OrDefault() != pOtherRace->GetFieldA4OrDefault())
         return true;
@@ -1578,7 +1578,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
     {
         for (unsigned part = 0; part < 8; ++part)
         {
-            if (m_kBodyPartModels[uiSex][part].CompareWithBase(pOtherRace->FUN_00613970(uiSex, part)) ||
+            if (m_kBodyPartModels[uiSex][part].CompareWithBase(pOtherRace->TESRace_GetHeadPartModel(uiSex, part)) ||
                 m_kBodyPartTextures[uiSex][part].CompareWithBase(pOtherRace->GetBodyPartTexture(uiSex, part)))
                 return true;
         }
@@ -1617,12 +1617,12 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             pEyesList = pEyesList->FUN_00726070();
         }
     }
-    if (FUN_00652900(pOtherRace->FUN_005d9fb0(0), FUN_005d9fb0(0)))
+    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->TESRace_GetMeanFaceCoord(0), TESRace_GetMeanFaceCoord(0)))
     {
         m_usRaceAttribute = FUN_00487f50();
         return true;
     }
-    if (FUN_00652900(pOtherRace->FUN_005d9fb0(1), FUN_005d9fb0(1)))
+    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->TESRace_GetMeanFaceCoord(1), TESRace_GetMeanFaceCoord(1)))
     {
         m_usRaceAttribute = FUN_00487f50();
         return true;
@@ -1974,7 +1974,7 @@ struct NPC
     void FUN_00603ad0(Output*);
     int FUN_005f0cc0();
     Hair* FUN_00603b50();
-    float FUN_00602130();
+    float TESNPC_GetHairLength();
     int FUN_004169d0();
     Part* FUN_00602150();
     void CreatePartTexture(unsigned int, String&);
@@ -1997,17 +1997,17 @@ struct Data
 };
 extern Data* DAT_011c3f2c;
 void* FUN_006521e0();
-void FUN_006529a0(void*, Output*, int, int);
+void BSFaceGenManager_CopyFaceGenCoord(void*, Output*, int, int);
 void* FUN_00605d40(unsigned int);
 int FUN_00614630();
 int FUN_00404dc0(const char*, const char*);
 extern const char DAT_0104b8a0[];
 struct Race
 {
-    void* FUN_005d9fb0(int);
-    Hair* FUN_00613870(int);
+    void* TESRace_GetMeanFaceCoord(int);
+    Hair* TESRace_GetDefaultHair(int);
     signed char GetByteAtOffset(int);
-    void* FUN_00613970(int, unsigned int);
+    void* TESRace_GetHeadPartModel(int, unsigned int);
     void* GetBodyPartTexture(int, unsigned int);
     List* FUN_00503650();
     void BuildAppearance(NPC*, Output*, int, bool);
@@ -2030,30 +2030,30 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
     }
     else
     {
-        void* model = FUN_005d9fb0(sex);
+        void* model = TESRace_GetMeanFaceCoord(sex);
         if (!model)
             model = FUN_006521e0();
-        FUN_006529a0(model, apOutput, 0, 0);
+        BSFaceGenManager_CopyFaceGenCoord(model, apOutput, 0, 0);
     }
     if (npc)
     {
         if (special || !npc->FUN_00603b50() || !npc->FUN_00603b50()->IsHairValidForNPC(npc))
-            apOutput->hair = FUN_00613870(sex);
+            apOutput->hair = TESRace_GetDefaultHair(sex);
         else
             apOutput->hair = npc->FUN_00603b50();
-        apOutput->length = npc->FUN_00602130();
+        apOutput->length = npc->TESNPC_GetHairLength();
         apOutput->color = npc->FUN_004169d0();
         apOutput->eyes = npc->FUN_00602150();
         apOutput->sex = npc->FUN_005f0cc0();
     }
     else
     {
-        apOutput->hair = FUN_00613870(sex);
+        apOutput->hair = TESRace_GetDefaultHair(sex);
         apOutput->color = GetByteAtOffset(sex);
     }
     for (unsigned int i = 0; i < 8; i++)
     {
-        apOutput->models.FUN_0096a610(FUN_00613970(sex, i));
+        apOutput->models.FUN_0096a610(TESRace_GetHeadPartModel(sex, i));
         apOutput->textures.FUN_0096a610(GetBodyPartTexture(sex, i));
         apOutput->slots.FUN_0096a610(FUN_00605d40(i));
         if (npc && *DAT_011cb99c.FUN_00408d60() && !skip)
@@ -2082,8 +2082,8 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
             }
         }
     }
-    apOutput->mouth = FUN_00613970(sex, 6);
-    apOutput->teeth = FUN_00613970(sex, 7);
+    apOutput->mouth = TESRace_GetHeadPartModel(sex, 6);
+    apOutput->teeth = TESRace_GetHeadPartModel(sex, 7);
     if (!apOutput->eyes)
     {
         List* eyes = FUN_00503650();
@@ -2337,12 +2337,12 @@ class TextureAccess
 class NpcCoords : public TESNPC
 {
   public:
-    void* FUN_00601800();
+    void* TESNPC_GetOffsetFaceCoord();
 };
 struct RaceTexture : TESRace
 {
     bool ApplyBodyTexture(NiPointer<NiSourceTexture>&, NiPointer<NiTexture>&, TESNPC*, BIPED_OBJECT, bool);
-    void* FUN_005d9fb0(int);
+    void* TESRace_GetMeanFaceCoord(int);
 };
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 void __cdecl FNV_Warning(const char*, ...);
@@ -2353,7 +2353,7 @@ const char* __cdecl GetModelEgtFilename(BSStringT<char>*, const char*);
 BSFaceGenModel* __cdecl GetOrCreateFaceGenModel(int, int, int, const char*, int, int, int);
 void __cdecl FUN_00652af0(void*, void*, void*, bool, float);
 void* __cdecl FUN_006521e0();
-void __cdecl FUN_006529a0(void*, void*, bool, bool);
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(void*, void*, bool, bool);
 unsigned int __cdecl FUN_006151d0();
 void __cdecl FUN_00a61c50(NiTexture*, int);
 
@@ -2408,14 +2408,14 @@ bool RaceTexture::ApplyBodyTexture(NiPointer<NiSourceTexture>& source, NiPointer
             return false;
         if (npc)
         {
-            FUN_00652af0(FUN_005d9fb0(npc->GetSex()), ((NpcCoords*)npc)->FUN_00601800(), coords9, false, 0.0f);
+            FUN_00652af0(TESRace_GetMeanFaceCoord(npc->GetSex()), ((NpcCoords*)npc)->TESNPC_GetOffsetFaceCoord(), coords9, false, 0.0f);
         }
         else
         {
-            void* _fallback = FUN_005d9fb0(sex4);
+            void* _fallback = TESRace_GetMeanFaceCoord(sex4);
             if (!_fallback)
                 _fallback = FUN_006521e0();
-            FUN_006529a0(_fallback, coords9, false, false);
+            BSFaceGenManager_CopyFaceGenCoord(_fallback, coords9, false, false);
         }
         if (force)
             FUN_00a61fb0(path3);
@@ -2436,7 +2436,7 @@ struct RaceLoadFile
     int FUN_004726b0();
     unsigned int GetField25C();
     bool ReadChunkInt(void*);
-    bool FUN_00472890(void*, unsigned int);
+    bool TESFile_GetChunkData(void*, unsigned int);
     bool FUN_004726f0();
 };
 struct RaceLoadComponents
@@ -2459,7 +2459,7 @@ class TESEyes : public TESForm
 };
 struct RaceLoadTarget : public TESRace
 {
-    bool FUN_00610cd0(TESFile*);
+    bool TESRace_Load(TESFile*);
 };
 
 template <int N> struct RaceLoadEndianTag
@@ -2509,7 +2509,7 @@ struct RaceLoadCoordAccess
 };
 struct RaceLoadAttributes
 {
-    void FUN_00480130(unsigned char*);
+    void TESAttributes_Load(unsigned char*);
 };
 struct RaceLoadSpellList
 {
@@ -2517,7 +2517,7 @@ struct RaceLoadSpellList
 };
 struct RaceLoadHairList
 {
-    void FUN_00613810(TESHair*);
+    void TESRace_AddHair(TESHair*);
 };
 struct RaceLoadHairDefault
 {
@@ -2525,11 +2525,11 @@ struct RaceLoadHairDefault
 };
 struct RaceLoadEyeList
 {
-    void FUN_00613910(TESEyes*);
+    void TESRace_AddEyeColor(TESEyes*);
 };
 struct RaceLoadDataReader
 {
-    void FUN_004861f0(TESFile*, void*, unsigned short);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
 };
 struct RaceLoadEndianState
 {
@@ -2537,7 +2537,7 @@ struct RaceLoadEndianState
 };
 struct RaceLoadDataEndian
 {
-    void FUN_00611db0();
+    void RACE_DATA_Endian();
 };
 struct RaceLoadTextureChunk
 {
@@ -2637,7 +2637,7 @@ struct RaceLoadVirtuals
 
 // Reads a race record from apFile, parsing chunks into fields and returning false if the record type is not 0xc.
 // @fnv 0x00610cd0
-bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
+bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
 {
     int isex;
     int esymm;
@@ -2663,7 +2663,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
         {
         case 0x44494445: {
             char* pMessage = (char*)_alloca(((RaceLoadFile*)apFile)->GetField25C());
-            ((RaceLoadFile*)apFile)->FUN_00472890(pMessage, 0x200);
+            ((RaceLoadFile*)apFile)->TESFile_GetChunkData(pMessage, 0x200);
             ((RaceLoadVirtuals*)this)->v77(pMessage);
             break;
         }
@@ -2684,7 +2684,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
         }
         case 0x4d414e58: {
             RaceLoadReaction* pdata = new RaceLoadReaction;
-            ((RaceLoadFile*)apFile)->FUN_00472890(pdata, 0xc);
+            ((RaceLoadFile*)apFile)->TESFile_GetChunkData(pdata, 0xc);
             if (((RaceLoadEndianState*)apFile)->FUN_00401680())
                 ((RaceLoadReactionEndian*)pdata)->FUN_005a6b10();
             ((RaceLoadReactionList&)((RaceLoadReactionAccess*)(&((RaceLoadComponents*)this)->reactions))
@@ -2693,7 +2693,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             break;
         }
         case 0x41544144:
-            ((RaceLoadDataReader*)this)->FUN_004861f0(apFile, &Data, 0x24);
+            ((RaceLoadDataReader*)this)->TESForm_LoadData(apFile, &Data, 0x24);
             break;
         case 0x4d414e4f: {
             unsigned int itempint = 0;
@@ -2716,7 +2716,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             else if (((RaceLoadFile*)apFile)->GetField25C() == 8)
             {
                 unsigned int ptempint[2];
-                ((RaceLoadFile*)apFile)->FUN_00472890(ptempint, 8);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(ptempint, 8);
                 if (((RaceLoadEndianState*)apFile)->FUN_00401680())
                 {
                     for (int i = 0; i < 2; i++)
@@ -2729,13 +2729,13 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
         case 0x4d414e43:
             if (((RaceLoadFile*)apFile)->GetField25C() == 1)
             {
-                ((RaceLoadFile*)apFile)->FUN_00472890(&m_acDefaultHairColors[0], 2);
-                ((RaceLoadFile*)apFile)->FUN_00472890(&m_acDefaultHairColors[1], 2);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(&m_acDefaultHairColors[0], 2);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(&m_acDefaultHairColors[1], 2);
             }
             else if (((RaceLoadFile*)apFile)->GetField25C() == 2)
             {
                 unsigned char ptempcolor[2];
-                ((RaceLoadFile*)apFile)->FUN_00472890(ptempcolor, 2);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(ptempcolor, 2);
                 for (int isex = 0; isex < 2; isex++)
                     SetDefaultHairColor((SEX)isex, ptempcolor[isex]);
             }
@@ -2748,7 +2748,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             break;
         case 0x4d414e44: {
             unsigned int ptempint[2];
-            ((RaceLoadFile*)apFile)->FUN_00472890(ptempint, 8);
+            ((RaceLoadFile*)apFile)->TESFile_GetChunkData(ptempint, 8);
             if (((RaceLoadEndianState*)apFile)->FUN_00401680())
             {
                 for (int i = 0; i < 2; i++)
@@ -2761,10 +2761,10 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
         case 0x52545441: {
             unsigned int iattribSize = FUN_009d2510(&m_kMaleAttributes);
             char* pdata = (char*)_alloca(iattribSize * 2);
-            ((RaceLoadFile*)apFile)->FUN_00472890(pdata, iattribSize * 2);
-            ((RaceLoadAttributes*)&m_kMaleAttributes)->FUN_00480130((unsigned char*)pdata);
+            ((RaceLoadFile*)apFile)->TESFile_GetChunkData(pdata, iattribSize * 2);
+            ((RaceLoadAttributes*)&m_kMaleAttributes)->TESAttributes_Load((unsigned char*)pdata);
             pdata = pdata + iattribSize;
-            ((RaceLoadAttributes*)&m_kFemaleAttributes)->FUN_00480130((unsigned char*)pdata);
+            ((RaceLoadAttributes*)&m_kFemaleAttributes)->TESAttributes_Load((unsigned char*)pdata);
             break;
         }
         case 0x53474746:
@@ -2793,7 +2793,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             ((RaceLoadCoordArray*)&m_kFirstFloatPairBySex[etype][esymm])->SetDimensions(isize, true);
             pfloats = (float*)_alloca(imemsize);
             FUN_00403d30(pfloats, 0, imemsize);
-            ((RaceLoadFile*)apFile)->FUN_00472890(pfloats, imemsize);
+            ((RaceLoadFile*)apFile)->TESFile_GetChunkData(pfloats, imemsize);
             for (unsigned int i = 0; i < isize; i++)
             {
                 if (((RaceLoadEndianState*)apFile)->FUN_00401680())
@@ -2863,7 +2863,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             if (inumHair != 0)
             {
                 phairIDs = new unsigned int[inumHair];
-                ((RaceLoadFile*)apFile)->FUN_00472890(phairIDs, ichunksize);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(phairIDs, ichunksize);
                 for (unsigned int i = 0; i < inumHair; i++)
                 {
                     if (((RaceLoadEndianState*)apFile)->FUN_00401680())
@@ -2871,7 +2871,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
                     RemapFormIDForFile(phairIDs[i], apFile);
                     TESHair* phair = dynamic_cast<TESHair*>(GetFormByID(phairIDs[i]));
                     if (phair)
-                        ((RaceLoadHairList*)this)->FUN_00613810(phair);
+                        ((RaceLoadHairList*)this)->TESRace_AddHair(phair);
                     else
                         Warning("MASTERFILE: Could not find hair (%08X) for race '%s' (%08X).", phairIDs[i],
                                 ((RaceLoadVirtuals*)this)->v76(), GetFormID());
@@ -2889,7 +2889,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             if (inumEyes != 0)
             {
                 peyesIDs = new unsigned int[inumEyes];
-                ((RaceLoadFile*)apFile)->FUN_00472890(peyesIDs, ichunksize);
+                ((RaceLoadFile*)apFile)->TESFile_GetChunkData(peyesIDs, ichunksize);
                 for (unsigned int i = 0; i < inumEyes; i++)
                 {
                     if (((RaceLoadEndianState*)apFile)->FUN_00401680())
@@ -2897,7 +2897,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
                     RemapFormIDForFile(peyesIDs[i], apFile);
                     TESEyes* peyes = dynamic_cast<TESEyes*>(GetFormByID(peyesIDs[i]));
                     if (peyes)
-                        ((RaceLoadEyeList*)this)->FUN_00613910(peyes);
+                        ((RaceLoadEyeList*)this)->TESRace_AddEyeColor(peyes);
                     else
                         Warning("MASTERFILE: Could not find eyes (%08X) for race '%s' (%08X).", peyesIDs[i],
                                 ((RaceLoadVirtuals*)this)->v76(), GetFormID());
@@ -2933,7 +2933,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             break;
         }
         if (chunkid == 0x41544144 && ((RaceLoadEndianState*)apFile)->FUN_00401680())
-            ((RaceLoadDataEndian*)&Data)->FUN_00611db0();
+            ((RaceLoadDataEndian*)&Data)->RACE_DATA_Endian();
         if (!((RaceLoadFile*)apFile)->FUN_004726f0())
             break;
     }
@@ -2976,10 +2976,10 @@ class FUN_006104c0 : public FUN_00483630_RaceFormCleanup,
     NiTPrimitiveArray<FaceGenUndo*> m_kFaceGenUndoList;
     virtual ~FUN_006104c0();
 };
-// Calls FUN_00610ac0 on this through a RaceCleanup pointer.
+// Calls TESRace_ClearData on this through a RaceCleanup pointer.
 // @fnv 0x006104c0
 FUN_006104c0::~FUN_006104c0()
 {
-    ((RaceCleanup*)this)->FUN_00610ac0();
+    ((RaceCleanup*)this)->TESRace_ClearData();
 }
 }

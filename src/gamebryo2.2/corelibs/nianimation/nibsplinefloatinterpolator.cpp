@@ -47,7 +47,7 @@ void __fastcall SetHandleIfFirstIndex(CPX* self, int, unsigned int h, unsigned s
 
 struct IsEqX
 {
-    bool FUN_00a57e90(void*);
+    bool NiBSplineInterpolator_IsEqual(void*);
 };
 struct FInterpX
 {
@@ -55,11 +55,11 @@ struct FInterpX
     float f1c;
     unsigned int h;
 };
-// Returns true when FUN_00a57e90 matches other and both f1c and h are equal; otherwise false.
+// Returns true when NiBSplineInterpolator_IsEqual matches other and both f1c and h are equal; otherwise false.
 // @fnv 0x00a50b30
 bool __fastcall IsInterpEqual(FInterpX* self, int, FInterpX* other)
 {
-    if (!reinterpret_cast<IsEqX*>(self)->FUN_00a57e90(other))
+    if (!reinterpret_cast<IsEqX*>(self)->NiBSplineInterpolator_IsEqual(other))
         return false;
     if (self->f1c != other->f1c)
         return false;
@@ -72,7 +72,7 @@ struct GlobalObjX
 };
 extern GlobalObjX g_011f401c_arg1;
 // @fnv 0x00a50b70
-GlobalObjX* FUN_00a50b70()
+GlobalObjX* NiBSplineFloatInterpolator_GetRTTI()
 {
     return &g_011f401c_arg1;
 }
@@ -148,7 +148,7 @@ struct Base
 {
     unsigned char pad[0x1c];
 
-    void FUN_00a58200(StrArr* strings);
+    void NiBSplineInterpolator_GetViewerStrings(StrArr* strings);
 };
 
 char* __cdecl _FUN_00a7d330(char const* value);
@@ -166,7 +166,7 @@ struct FUN_00a50d30_shell : Base
 // @fnv 0x00a50d30
 void FUN_00a50d30_shell::SerializeToStrings(StrArr* strings)
 {
-    this->FUN_00a58200(strings);
+    this->NiBSplineInterpolator_GetViewerStrings(strings);
 
     char* value = _FUN_00a7d330(reinterpret_cast<char const*>(g_011f401c_arg1.x));
 

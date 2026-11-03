@@ -495,13 +495,13 @@ struct LodCell
 
 struct LodWorld
 {
-    LodCell* FUN_00587550(const LodPoint3& pos);
+    LodCell* TESWorldSpace_GetCellFromWorldCoord(const LodPoint3& pos);
 };
 
 struct LodTES
 {
     LodWorld* FUN_004fd3e0();
-    bool FUN_004511e0(LodCell* cell, int unk);
+    bool TES_IsCellLoaded(LodCell* cell, int unk);
 };
 extern LodTES* g_LodTES;
 
@@ -546,8 +546,8 @@ void LodVisitor::UpdateLodVisibility(LodObject* obj, int a, unsigned short b, un
     else
     {
         LodPoint3 pos = obj->GetWorldTranslate();
-        LodCell* cell = g_LodTES->FUN_004fd3e0()->FUN_00587550(pos);
-        if (g_LodTES->FUN_004511e0(cell, 1) && cell->FUN_00557d30())
+        LodCell* cell = g_LodTES->FUN_004fd3e0()->TESWorldSpace_GetCellFromWorldCoord(pos);
+        if (g_LodTES->TES_IsCellLoaded(cell, 1) && cell->FUN_00557d30())
             SetObjectVisible(obj, 0);
         else
             SetObjectVisible(obj, 1);
@@ -559,7 +559,7 @@ struct SceneNode;
 
 struct TileWorkList
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
     SceneNode* FUN_0045bc00(unsigned int auiIndex);
 };
 
@@ -587,7 +587,7 @@ void NodeVisitor::VisitNodeTree(SceneNode* apNode)
     if (apNode->GetChildren() != 0)
     {
         TileWorkList* pList = apNode->GetChildren();
-        for (unsigned int uiIndex = 0; uiIndex < pList->FUN_00453470(); uiIndex++)
+        for (unsigned int uiIndex = 0; uiIndex < pList->NiNode_GetChildCount(); uiIndex++)
             VisitNodeTree(pList->FUN_0045bc00(uiIndex));
     }
 }
@@ -2075,7 +2075,7 @@ struct MmTransform
 struct MmNode
 {
     void FUN_00a5b230(int i);
-    void FUN_00439410(void* pkProperty);
+    void NiAVObject_AttachProperty(void* pkProperty);
     MmTexturing* FUN_00a59d30(void* pkType);
     void FUN_00874460(void* pkData);
     void FUN_00a5a040();
@@ -2127,7 +2127,7 @@ void MenuModelImpl::UpdateMenuNodes()
         pkAlphaPtr->FUN_0049ed90(0);
         pkAlphaPtr->FUN_0094db80(0x80);
         pkAlphaPtr->FUN_004393e0(4);
-        m_spNodeA.FUN_00559450()->FUN_00439410(pkAlphaPtr);
+        m_spNodeA.FUN_00559450()->NiAVObject_AttachProperty(pkAlphaPtr);
         MmTexturing* pkTexX = m_spNodeA.FUN_00559450()->FUN_00a59d30(FUN_00438220());
         pkTexX->FUN_00441130(0x22, 1);
         pkTexX->FUN_00441130(0x21, 0);
@@ -2137,7 +2137,7 @@ void MenuModelImpl::UpdateMenuNodes()
         {
             m_spNodeA.FUN_00559450()->FUN_00a5b230(3);
             pkTexX = pkCloneTmp2;
-            m_spNodeA.FUN_00559450()->FUN_00439410(pkTexX);
+            m_spNodeA.FUN_00559450()->NiAVObject_AttachProperty(pkTexX);
         }
         m_spNodeA.FUN_00559450()->FUN_00874460(FUN_00b55560(pkTexX->FUN_006286d0()));
         MmTransform kTransformTmp(0.0f, 0, 0);
@@ -2180,7 +2180,7 @@ struct GtAVObject
 };
 struct GtNode : GtAVObject
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
     GtAVObject* FUN_0045bc00(unsigned int uiIndex);
 };
 struct GtFlags
@@ -2255,7 +2255,7 @@ struct GtGeometry : GtAVObject
 {
     GtShaderProp* FUN_00a59d30(int iType);
     void FUN_00a5b230(int iType);
-    void FUN_00439410(void* pkPropW);
+    void NiAVObject_AttachProperty(void* pkPropW);
     void FUN_00874460(int i);
     void FUN_00a5a040();
     void FUN_00a59c60(GtPoint3* pkPt);
@@ -2422,7 +2422,7 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
     if (pkObject->IsSceneNode())
     {
         GtNode* pkNode = pkObject->IsSceneNode();
-        for (unsigned int i = 0; i < pkNode->FUN_00453470(); i++)
+        for (unsigned int i = 0; i < pkNode->NiNode_GetChildCount(); i++)
             ApplyShaderSetup(pkNode->FUN_0045bc00(i));
     }
     else
@@ -2436,7 +2436,7 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
         pkPropW->FUN_0049ed90(0);
         pkPropW->FUN_0094db80(0x80);
         pkPropW->FUN_004393e0(4);
-        pkGeomA->FUN_00439410(pkPropW);
+        pkGeomA->NiAVObject_AttachProperty(pkPropW);
         pkShaderZ->FUN_00441130(0x22, 1);
         pkShaderZ->FUN_00441130(0x37, 1);
         GtShaderProp* pkNewVal2 = pkShaderZ->FUN_vb0(pkGeomA, 0, 1);
@@ -2444,7 +2444,7 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
         {
             pkGeomA->FUN_00a5b230(3);
             pkShaderZ = pkNewVal2;
-            pkGeomA->FUN_00439410(pkShaderZ);
+            pkGeomA->NiAVObject_AttachProperty(pkShaderZ);
         }
         pkGeomA->FUN_00874460(FUN_00b55560(pkShaderZ->FUN_006286d0()));
         GtPoint3 kZeroWork(0.0f, 0, 0);

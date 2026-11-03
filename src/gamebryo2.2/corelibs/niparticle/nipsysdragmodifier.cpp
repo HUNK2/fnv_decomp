@@ -21,7 +21,7 @@ struct BSFadeNode
 void* __fastcall FUN_00c2c030(void*);
 
 // @fnv 0x00c2c080
-void* __cdecl FUN_00c2c080()
+void* __cdecl NiPSysDragModifier_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x34);
     if (p)
@@ -32,7 +32,7 @@ void* __cdecl FUN_00c2c080()
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202768;
 // @fnv 0x00c2c0a0
-void* __cdecl FUN_00c2c0a0()
+void* __cdecl NiPSysDragModifier_GetRTTI()
 {
     return &g_01202768;
 }
@@ -168,11 +168,11 @@ struct NiPoint3Stand
 
 struct FUN_00c2c4f0_cls : NiPSysDragModifier
 {
-    void FUN_00c2c4f0(NiStream& stream);
+    void NiPSysDragModifier_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00c2c4f0
-void FUN_00c2c4f0_cls::FUN_00c2c4f0(NiStream& stream)
+void FUN_00c2c4f0_cls::NiPSysDragModifier_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<NiPSysModifierStand*>(this)->LoadStream(stream);
     void** vt = *reinterpret_cast<void***>(&stream);
@@ -227,7 +227,7 @@ struct S_00c2c590_Base
     int unk0C;
     int unk10;
     int unk14;
-    bool FUN_00c31830(S_00c2c590_Base* other);
+    bool NiPSysModifier_IsEqual(S_00c2c590_Base* other);
 };
 struct S_00c2c590 : S_00c2c590_Base
 {
@@ -238,13 +238,13 @@ struct S_00c2c590 : S_00c2c590_Base
     float unk28;
     float unk2C;
     float unk30;
-    bool FUN_00c2c590(S_00c2c590* other);
+    bool NiPSysDragModifier_IsEqual(S_00c2c590* other);
 };
 // Compares this object with other: base comparison, unk18 pointer presence and unk5C match, then unk1C vector and unk28/unk2C/unk30 floats.
 // @fnv 0x00c2c590
-bool S_00c2c590::FUN_00c2c590(S_00c2c590* other)
+bool S_00c2c590::NiPSysDragModifier_IsEqual(S_00c2c590* other)
 {
-    if (FUN_00c31830(other))
+    if (NiPSysModifier_IsEqual(other))
     {
         if (unk18 && !other->unk18)
             return false;
@@ -296,7 +296,7 @@ struct NiPSysDragShell : NiPSysModifier
     float percentage;
     float range;
     float falloff;
-    void FUN_00c2c620(NiStream& stream);
+    void NiPSysDragModifier_GetViewerStrings(NiStream& stream);
 };
 extern char DAT_0102909c;
 extern char DAT_010bff18;
@@ -309,7 +309,7 @@ void* __cdecl FUN_00a7d5e0(const void* typeName, const void* value);
 void* __cdecl FUN_00a7d550(const void* typeName, float value);
 // Saves the modifier via NiPSysModifier::SaveBinary, then appends the drag object name, drag axis, percentage, range and falloff to the stream array.
 // @fnv 0x00c2c620
-void NiPSysDragShell::FUN_00c2c620(NiStream& stream)
+void NiPSysDragShell::NiPSysDragModifier_GetViewerStrings(NiStream& stream)
 {
     NiPSysModifier::SaveBinary(stream);
     StreamArray& array = *reinterpret_cast<StreamArray*>(&stream);

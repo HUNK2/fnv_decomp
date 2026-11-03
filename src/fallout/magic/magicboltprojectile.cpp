@@ -741,7 +741,7 @@ struct BoltProperty
     BoltProperty();
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    void FUN_00519230(bool, bool);
+    void BSXFlags_SetFlags(bool, bool);
 };
 struct BoltNode
 {
@@ -791,7 +791,7 @@ struct BoltNode
     BoltNode(int);
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    void FUN_004f00e0(const BoltPoint&);
+    void NiAVObject_SetWorldTranslate(const BoltPoint&);
     void FUN_00440460(const BoltPoint&);
     BoltProperty* FUN_00a5bdd0(const char*);
     void FUN_00a5bc40(const char*, BoltProperty*);
@@ -1032,7 +1032,7 @@ struct Bolt
 void Bolt::InitEffect()
 {
     root.FUN_0066b0d0(new BoltNode(0));
-    root.FUN_00559450()->FUN_004f00e0(Position());
+    root.FUN_00559450()->NiAVObject_SetWorldTranslate(Position());
     emitter.FUN_0066b0d0(new BoltNode(0));
     emitter.FUN_00559450()->FUN_00440460(Position());
     BoltProperty* property = emitter.FUN_00559450()->FUN_00a5bdd0(FUN_00448a80());
@@ -1041,7 +1041,7 @@ void Bolt::InitEffect()
         property = new BoltProperty;
         emitter.FUN_00559450()->FUN_00a5bc40(FUN_00448a80(), property);
     }
-    property->FUN_00519230(true, true);
+    property->BSXFlags_SetFlags(true, true);
     effect.FUN_0066b0d0(0);
     BoltPoint rotation = FUN_00430830();
     BoltMatrix matrix2;
@@ -1256,7 +1256,7 @@ struct AimFullActor : AimActor, AimSecondBase
 
 struct AimPlayer : AimFullActor
 {
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
 };
 
 struct AimOwner
@@ -1347,7 +1347,7 @@ bool AimProjectile::UpdateProjectileAimNode()
 
     if (pSource && aPTarget && (AimNode*)m_pController)
     {
-        if (GetField90Float() < 0.5 && pActor2 == g_pAimPlayer && !g_pAimPlayer->FUN_004eaf60())
+        if (GetField90Float() < 0.5 && pActor2 == g_pAimPlayer && !g_pAimPlayer->PlayerCharacter_Is3rdPerson())
         {
             AimPoint3 kPos = *pSource->GetWorldTranslate();
             ((AimNode*)m_pController)->SetLocalTranslate(kPos);
@@ -1405,14 +1405,14 @@ struct PlayerCharacter : SaveBaseObj
 extern PlayerCharacter* pPlayer;
 struct LoadObject : ThisObj
 {
-    void FUN_0081e980(int, int);
+    void MagicProjectile_LoadGame2(int, int);
     void LoadObjectData(int, int);
 };
 // @fnv 0x00814870
 void LoadObject::LoadObjectData(int arg1, int arg2)
 {
     v71();
-    FUN_0081e980(arg1, arg2);
+    MagicProjectile_LoadGame2(arg1, arg2);
     reinterpret_cast<FUN_008579e0_shell*>(g_TESSaveLoadGame)->FUN_008579e0(&unkAC, 4);
     reinterpret_cast<Helper009f8770*>(this)->FUN_00484d00(&unk88, 4);
     FUN_00814aa0* formID = new FUN_00814aa0;
@@ -1664,7 +1664,7 @@ struct AudioManager
     static AudioManager* GetSingleton();
     AudioPlaybackHandle FUN_00ad73b0(unsigned int id, unsigned int flags);
 };
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 class MagicProjectile : public TESObjectREFR
 {
   public:
@@ -1720,7 +1720,7 @@ class MagicProjectile : public TESObjectREFR
     AudioPlaybackHandle sound;
     void ResolveMagicReferences(int arg1, int arg2);
     void InitEffect();
-    void FUN_00570f70(SceneNode*);
+    void TESObjectREFR_Set3DSimple(SceneNode*);
     ProjectileCell* GetParentCell();
     ProjectileEffect* FUN_004fd400();
     void InitializeProjectile(int arg1, int arg2);
@@ -1732,7 +1732,7 @@ void MagicProjectile::InitializeProjectile(int arg1, int arg2)
     unsigned int referenceID = reinterpret_cast<unsigned int>(sourceReference);
     if (referenceID)
     {
-        sourceReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(referenceID));
+        sourceReference = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(referenceID));
         if (sourceReference)
         {
             SceneNode* node = sourceReference->GetNode3D();
@@ -1743,7 +1743,7 @@ void MagicProjectile::InitializeProjectile(int arg1, int arg2)
         }
     }
     InitEffect();
-    FUN_00570f70(nodeB4);
+    TESObjectREFR_Set3DSimple(nodeB4);
     GetParentCell()->AddReference(this, false);
     if (FUN_004fd400()->GetBoltSound())
     {
@@ -1771,7 +1771,7 @@ struct OutHandle
 {
     int value;
     OutHandle(const OutHandle&);
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct GameObject
@@ -2173,7 +2173,7 @@ struct GameObject
 
     GameObject* FUN_006fa820();
 
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 
     float FUN_00457990();
 
@@ -2221,9 +2221,9 @@ struct LocalStore
 
     void* value;
 
-    void FUN_004a39f0(int);
+    void CFilter_SetLayer(int);
 
-    void FUN_0059ce80(int);
+    void CFilter_SetGroup(int);
 
     void SetFlag4000(int);
 };
@@ -2401,7 +2401,7 @@ void Root::UpdatePending(int arg1, int arg2)
             if (current)
             {
 
-                selected = current->FUN_00931ed0().FUN_004a3a20();
+                selected = current->FUN_00931ed0().CFilter_GetGroup();
             }
             else
             {
@@ -2410,7 +2410,7 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 GameObject* item = form ? form->FUN_006fa820() : 0;
 
-                selected = item ? item->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                selected = item ? item->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
             }
         }
         else
@@ -2420,14 +2420,14 @@ void Root::UpdatePending(int arg1, int arg2)
 
             GameObject* item = form ? form->FUN_006fa820() : 0;
 
-            selected = item ? item->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            selected = item ? item->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
         }
 
         a->FUN_0070c440(&handle);
 
-        handle.FUN_004a39f0(7);
+        handle.CFilter_SetLayer(7);
 
-        handle.FUN_0059ce80(selected);
+        handle.CFilter_SetGroup(selected);
 
         a->FUN_00810ff0(handle.value);
     }
@@ -2585,7 +2585,7 @@ class AENode
     virtual AENode* FindNode(const NiFixedString& kName);
 
     const AEPoint3& FUN_0043c490();  // world translate
-    AEPointResult FUN_00461130(const AEPoint3& kPoint, int iIndex);
+    AEPointResult NiAVObject_GetWorldRotate(const AEPoint3& kPoint, int iIndex);
     AEPointResult FUN_006a9540(const AEPoint3& kPoint);
 };
 
@@ -2818,7 +2818,7 @@ class AEActor : public AERefr
 class AEPlayer : public AEActor
 {
   public:
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
 };
 
 extern AEPlayer* g_thePlayer;
@@ -2868,7 +2868,7 @@ class AEEffect
 
 struct AEEffectItem
 {
-    int FUN_00404420();
+    int EffectItem_GetArea();
 };
 
 struct AESetting
@@ -2963,11 +2963,11 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
 
     AENode* pkNode = GetNode3D();
     if (pkNode)
-        FUN_0081f000(kPos, pkNode->FUN_00461130(DAT_011a9478, iIndex).FUN_004b4500());
+        FUN_0081f000(kPos, pkNode->NiAVObject_GetWorldRotate(DAT_011a9478, iIndex).FUN_004b4500());
 
     if (pkTarget)
     {
-        if (pkTarget != g_thePlayer || g_thePlayer->FUN_004eaf60())
+        if (pkTarget != g_thePlayer || g_thePlayer->PlayerCharacter_Is3rdPerson())
         {
             m_pkSource = pkTarget;
             AENode* pkTargetNode = m_pkSource->GetNode3D();
@@ -2988,7 +2988,7 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
     m_pkSource = 0;
     if (FUN_004fd400()->m_kArea.GetValue())
     {
-        float fScale = FUN_00586150()->FUN_00404420() * *DAT_011d1bbc.FUN_00403e20();
+        float fScale = FUN_00586150()->EffectItem_GetArea() * *DAT_011d1bbc.FUN_00403e20();
         if (fScale > *DAT_011d1acc.FUN_00403e20())
             fScale = *DAT_011d1acc.FUN_00403e20();
         else if (fScale < *DAT_011d15a4.FUN_00403e20())

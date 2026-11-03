@@ -49,7 +49,7 @@ class GameSettingCollection : public SettingCollectionMap<Setting>
     virtual bool ReadSetting(TESFile* file, const char* key);
 
     // Actor::IsFleeing(bool) candidate is incompatible with this call site.
-    TESFile* FUN_004f8960();
+    TESFile* Actor_GetLifeState();
     Setting* FUN_004f8a30(const char* key);
     void SetField108(TESFile* file);
 };

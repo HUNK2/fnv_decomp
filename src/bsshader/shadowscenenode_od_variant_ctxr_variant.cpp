@@ -119,7 +119,7 @@ struct FUN_00a712f0
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
     void FUN_00712e60(const Rect2180&);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(const Frustum2180&);
     void SetLookAt(const Point2180&, const Point2180&);
     void FUN_00733fd0(float);
@@ -302,7 +302,7 @@ struct UpdateObject
     virtual void slot115();
     virtual UpdateObject* GetRoot();
     UpdateObject* FUN_0045bc00(unsigned);
-    unsigned FUN_00453470();
+    unsigned NiNode_GetChildCount();
     UpdateObject* FUN_0043b4a0(unsigned);
     unsigned FUN_00a59d30(unsigned);
     UpdateObject* FUN_00413f40();
@@ -310,7 +310,7 @@ struct UpdateObject
     UpdateObject* FUN_00503650();
     bool FUN_008256d0();
     unsigned* FUN_006815c0();
-    unsigned FUN_00613970(unsigned, unsigned);
+    unsigned TESRace_GetHeadPartModel(unsigned, unsigned);
     unsigned GetBodyPartTexture(unsigned, unsigned);
 };
 struct NodePointer
@@ -442,13 +442,13 @@ struct UpdateOwner
     NodePointer previous;
     NodePointer current;
     unsigned FUN_00603b50();
-    float FUN_00602130();
+    float TESNPC_GetHairLength();
     unsigned FUN_00602150();
     unsigned FUN_005f0cc0();
     unsigned FUN_004169d0();
     void FUN_00603ad0(UpdatePacket&);
     void CreatePartTexture(unsigned, LocalNodePtr&);
-    void FUN_006056f0(UpdateObject* object);
+    void TESNPC_FixNPCNormals(UpdateObject* object);
 };
 bool FUN_00605d20();
 const void* FUN_00605d40(unsigned);
@@ -463,7 +463,7 @@ extern char DAT_0104a7bc;
 extern float DAT_01016248;
 extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned);
 // @fnv 0x006056f0
-void UpdateOwner::FUN_006056f0(UpdateObject* object)
+void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
 {
     if (!object || !FUN_00605d20())
         return;
@@ -493,7 +493,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                     list = found->GetList();
                     if (list)
                     {
-                        entry = list->FUN_00453470();
+                        entry = list->NiNode_GetChildCount();
                         for (unsigned i = 0; i < entry; i++)
                         {
                             found = list->FUN_0043b4a0(i);
@@ -516,7 +516,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                 }
                 else
                 {
-                    entry = nested->FUN_00453470();
+                    entry = nested->NiNode_GetChildCount();
                     for (unsigned j = 0; j < entry; j++)
                     {
                         found = nested->FUN_0043b4a0(j);
@@ -543,7 +543,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     {
         UpdatePacket packet;
         packet.identity = FUN_00603b50();
-        packet.weight = FUN_00602130();
+        packet.weight = TESNPC_GetHairLength();
         packet.flags = FUN_00602150();
         packet.sex = FUN_005f0cc0();
         packet.region = FUN_004169d0();
@@ -553,7 +553,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
             packet.flags = *references.FUN_00726070()->FUN_00503650()->FUN_006815c0();
         for (unsigned k = 0; k < 8; k++)
         {
-            packet.primary.FUN_0096a610(references.FUN_00726070()->FUN_00613970(FUN_005f0cc0(), k));
+            packet.primary.FUN_0096a610(references.FUN_00726070()->TESRace_GetHeadPartModel(FUN_005f0cc0(), k));
             packet.secondary.FUN_0096a610(references.FUN_00726070()->GetBodyPartTexture(FUN_005f0cc0(), k));
             references.FUN_00726070();
             packet.names.FUN_0096a610((unsigned)FUN_00605d40(k));

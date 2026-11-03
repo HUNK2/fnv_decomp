@@ -189,7 +189,7 @@ class NiTriBasedGeom : public NiAVObject
     unsigned short FUN_00456650();
     void* FUN_0049ec60();
     NiSkinInstance* FUN_0043fad0();
-    void FUN_004902f0(bool);
+    void NiAVObject_SetSelectiveUpdate(bool);
     void FUN_0065a620(bool);
 };
 class BSFaceGenBaseMorphExtraData
@@ -278,9 +278,9 @@ class BSFaceGenManager
   public:
     static FaceGenCoordinate* GetFaceGenCoordinates();
 };
-void FUN_00652140();
-void FUN_00652190();
-bool FUN_00651f70(BSFaceGenModel*);
+void BSFaceGenManager_LockFaceGenAccess();
+void BSFaceGenManager_UnlockFaceGenAccess();
+bool BSFaceGenManager_LoadEGMData(BSFaceGenModel*);
 BSFaceGenBaseMorphExtraData* GetExtraDataIfPresent(NiTriBasedGeom*);
 class CloningProcess
 {

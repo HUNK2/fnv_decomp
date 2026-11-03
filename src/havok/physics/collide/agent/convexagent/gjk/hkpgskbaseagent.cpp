@@ -993,12 +993,12 @@ struct S_00dac0b0_Agent : hkpGskBaseAgent
     int unk18;
     int unk1C;
     S_00dac0b0_Vertex m_sepNormal;
-    void FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
+    void hkpGskBaseAgent_getPenetrations(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
                       const void* input, S_00dac0b0_Pad<S_00dac0b0_Out> pOut);
 };
 
 // @fnv 0x00dac0b0
-void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
+void S_00dac0b0_Agent::hkpGskBaseAgent_getPenetrations(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
                                     const void* input, S_00dac0b0_Pad<S_00dac0b0_Out> pOut)
 {
     EarlyScratch scratch;

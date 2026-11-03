@@ -257,7 +257,7 @@ void __cdecl FUN_007dfc60(Tile* apTile, int aeID)
     }
 }
 
-bool __fastcall FUN_004d1360(PlayerCharacter* pPlayer);
+bool __fastcall PlayerCharacter_IsHardcore(PlayerCharacter* pPlayer);
 bool __cdecl FUN_004b71d0(void);
 int __cdecl GetStatusResult(void);
 
@@ -277,7 +277,7 @@ struct DummyAVOwner
 // @fnv 0x007e05f0
 bool __cdecl IsActorValueBelowPermanent(int* aHO)
 {
-    bool bIsHardcore = FUN_004d1360(g_thePlayer);
+    bool bIsHardcore = PlayerCharacter_IsHardcore(g_thePlayer);
     if (aHO[2] != 0)
     {
         int etargetAV = GetStatusResult();
@@ -839,7 +839,7 @@ struct ActiveEffectOps : public ActiveEffect
 struct EffectItemOps : public EffectItem
 {
     bool IsScriptBasedEffect();
-    bool FUN_00403ee0();
+    bool EffectItem_IsActorValueUsed();
     int GetAffectedActorValue();
 };
 struct EffectSettingOps : public EffectSetting
@@ -933,7 +933,7 @@ struct Flt
 };
 int __cdecl FUN_005a3370(int);
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 int __cdecl FUN_004d5e00();
 void __cdecl _FNV_Warning(const char*, ...);
 const char* __cdecl GetGameSettingString(int);
@@ -979,7 +979,7 @@ Tile* FUN_007da2c0()
     Menu* pold_menu_tile = FindMenuById(FUN_004d5e00());
     if (pold_menu_tile)
         delete (VDtor*)pold_menu_tile;
-    InterfaceManager* pin = (InterfaceManager*)FUN_004b7210();
+    InterfaceManager* pin = (InterfaceManager*)InterfaceManager_Instance();
     float ftop_depth = TileH::GetInterfaceScale();
     Tile* ptile = ((TileH*)((IMH*)pin)->FUN_00586150())->ReadFile("Data\\Menus\\Main\\stats_menu.xml");
     StatsMenu::ms_pInventoryMenu = (StatsMenu*)((TileH*)ptile)->GetMenu();
@@ -995,7 +995,7 @@ Tile* FUN_007da2c0()
         }
         if (ptile->GetFloat(0xfa7) == _DAT_010704f0 || ptile->GetFloat(0xfa7) == _DAT_010704e8)
             ((TileH*)ptile)->Set(0xfad, ftop_depth, true);
-        ((TutorialState*)((char*)FUN_004b7210() + 0x4d4))->ShowMessage(0x19, FUN_004d5e00(), 0x200);
+        ((TutorialState*)((char*)InterfaceManager_Instance() + 0x4d4))->ShowMessage(0x19, FUN_004d5e00(), 0x200);
         UpdateStatsMenuLevelText();
         BGSRadiationStage* pstage = BGSRadiationStage::GetStageForLevel(3.402823466e+38F);
         ((TileH*)ptile)->Set(0x1006, pstage ? ((Calendar*)pstage)->GetDaysPassed() : 1000);
@@ -1247,7 +1247,7 @@ struct StatsMenuHelper
     void UpdateOption(int mode);
     int FUN_007dfe40();
 };
-unsigned int __cdecl FUN_0047e040(float);
+unsigned int __cdecl TESActorBaseData_GetAlignmentForKarma(float);
 int __cdecl MinInt(int, int);
 int __cdecl GetTileValueID(const char* name, int index);
 extern Setting_S originalRuntimeFloatSetting1017;
@@ -1349,7 +1349,7 @@ void StatsMenuImpl::UpdateStatEntry(int aeWhich)
             break;
         }
     case 23:
-        switch (FUN_0047e040(g_thePlayer->GetCurrentActorValue((ActorValue::Index)23)))
+        switch (TESActorBaseData_GetAlignmentForKarma(g_thePlayer->GetCurrentActorValue((ActorValue::Index)23)))
         {
         case 1:
             m_pTiles[36]->Set(0xfcc, "Interface\\Icons\\PipboyImages\\Karma icons\\karma_neutral.dds", true);
@@ -1491,17 +1491,17 @@ struct FUN_00404210_t
     EffectSetting* m_pEffectSetting;
     float m_fCost;
     unsigned int GetFormID();
-    int FUN_00404390();
-    int FUN_00404420();
-    int FUN_004044d0();
+    int EffectItem_GetMagnitude();
+    int EffectItem_GetArea();
+    int EffectItem_GetDuration();
     int GetAffectedActorValue();
     PerkEntryConditionSet* GetConditions();
-    void FUN_00404560(unsigned int range);
-    void FUN_004043d0(int magnitude);
-    void FUN_00404470(int area);
-    void FUN_00404510(int duration);
+    void EffectItem_SetRange(unsigned int range);
+    void EffectItem_SetMagnitude(int magnitude);
+    void EffectItem_SetArea(int area);
+    void EffectItem_SetDuration(int duration);
     void SetOwner(int actorValue);
-    void FUN_00404760(PerkEntryConditionSet* conditions);
+    void EffectItem_SetConditions(PerkEntryConditionSet* conditions);
     void CopyFrom(FUN_00404210_t* apSource);
 };
 
@@ -1509,12 +1509,12 @@ struct FUN_00404210_t
 void FUN_00404210_t::CopyFrom(FUN_00404210_t* apSource)
 {
     m_pEffectSetting = apSource->m_pEffectSetting;
-    FUN_00404560(apSource->GetFormID());
-    FUN_004043d0(apSource->FUN_00404390());
-    FUN_00404470(apSource->FUN_00404420());
-    FUN_00404510(apSource->FUN_004044d0());
+    EffectItem_SetRange(apSource->GetFormID());
+    EffectItem_SetMagnitude(apSource->EffectItem_GetMagnitude());
+    EffectItem_SetArea(apSource->EffectItem_GetArea());
+    EffectItem_SetDuration(apSource->EffectItem_GetDuration());
     SetOwner(apSource->GetAffectedActorValue());
-    FUN_00404760(apSource->GetConditions());
+    EffectItem_SetConditions(apSource->GetConditions());
     m_fCost = -1.0f;
 }
 
@@ -1547,7 +1547,7 @@ struct FNStub
 struct TESReputation
 {
     const char* GetReputationName();
-    const char* FUN_00616710();
+    const char* TESReputation_GetReputationTitle();
 };
 struct FUN_007dcb40_t : public StatsMenu
 {
@@ -1564,7 +1564,7 @@ void FUN_007dcb40_t::SetReputationEntry(TESReputation* pRep)
     m_pTiles[48]->Set(0xfa3, 1);
     m_pTiles[51]->Set(0xfa3, 1);
     m_pTiles[51]->Set(0xfc4, ((FNStub*)((char*)pRep + 0x18))->GetFullName(), true);
-    m_pTiles[48]->Set(0xfc4, pRep->FUN_00616710(), true);
+    m_pTiles[48]->Set(0xfc4, pRep->TESReputation_GetReputationTitle(), true);
 }
 }  // namespace fnv_007dcb40
 
@@ -1577,14 +1577,14 @@ struct Interface
     FOPipboyManager* GetPipboyManager();
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_Instance(void);
 
 // If a stats menu exists, gets the pipboy manager and plays sounds for the menu's current page.
 // @fnv 0x007dfc90
 void PlayPipboyPageSound(bool abPlaySounds)
 {
     if (StatsMenu::ms_pInventoryMenu)
-        reinterpret_cast<Interface*>(FUN_004b7210())
+        reinterpret_cast<Interface*>(InterfaceManager_Instance())
             ->GetPipboyManager()
             ->SetValue(StatsMenu::ms_pInventoryMenu->GetCurrentPage(), abPlaySounds);
 }
@@ -1595,7 +1595,7 @@ struct FUN_007dff40_shell : public StatsMenu
     void SetPage(int);
 };
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 class FORenderedMenu
 {
   public:
@@ -1635,9 +1635,9 @@ void FUN_007dff40_shell::SetPage(int aePage)
 {
     if (aePage < 0 || aePage > 4)
         return;
-    ((Interface*)FUN_004b7210())->GetPipboyManager()->StartBurst(*g_011db458.Float(), *g_011db37c.Float(), 0.5f);
+    ((Interface*)InterfaceManager_Instance())->GetPipboyManager()->StartBurst(*g_011db458.Float(), *g_011db37c.Float(), 0.5f);
     pMenu->Set(0x1004, aePage);
-    if (((Interface*)FUN_004b7210())->GetPipboyManager()->GetInitialized())
+    if (((Interface*)InterfaceManager_Instance())->GetPipboyManager()->GetInitialized())
         PlayPipboyPageSound(1);
     if (m_bUpdateOption)
         ((FUN_007dc7e0_t*)this)->RefreshHealingOptions();
@@ -1717,12 +1717,12 @@ int __cdecl CompareEffectNames(FUN_007e0540_effect* apEffectA, FUN_007e0540_effe
     return _stricmp(apEffectA->GetEffectName(), apEffectB->GetEffectName());
 }
 
-bool __fastcall FUN_004d1360(PlayerCharacter* pPlayer);
+bool __fastcall PlayerCharacter_IsHardcore(PlayerCharacter* pPlayer);
 int __cdecl GetStatusResult();
 // @fnv 0x007e06f0
 bool __cdecl IsHealingOptionAvailable(StatsMenu__HealingOption* apOption)
 {
-    bool bResult = FUN_004d1360(g_thePlayer);
+    bool bResult = PlayerCharacter_IsHardcore(g_thePlayer);
     if (apOption->m_pStatusEffect)
     {
         int iIndex = GetStatusResult();
@@ -1791,11 +1791,11 @@ namespace fnv_007e0d60 {
 struct MenuH
 {
     void UpdateXboxButtonState();
-    void FUN_007e0d60(bool abHas360Controller);
+    void StatsMenu_HandleControllerConnectOrDisconnect(bool abHas360Controller);
 };
 
 // @fnv 0x007e0d60
-void MenuH::FUN_007e0d60(bool abHas360Controller)
+void MenuH::StatsMenu_HandleControllerConnectOrDisconnect(bool abHas360Controller)
 {
     MenuH::UpdateXboxButtonState();
 }
@@ -1952,12 +1952,12 @@ struct FUN_00403ba0
 struct FUN_00404210_t
 {
     int GetAffectedActorValue();
-    int FUN_00404390();
-    int FUN_004044d0();
+    int EffectItem_GetMagnitude();
+    int EffectItem_GetDuration();
 };
 struct S3e60
 {
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
 };
 struct G2
 {
@@ -1979,17 +1979,17 @@ void FUN_007e0b20_shell::AddEffectItem(EffectItem* apEffect)
         FUN_00403ba0* pEntry = FindEntryByFormID(reinterpret_cast<FUN_00404210_t*>(apEffect)->GetAffectedActorValue());
         if (pEntry)
         {
-            pEntry->m_iMagnitude += reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_00404390();
+            pEntry->m_iMagnitude += reinterpret_cast<FUN_00404210_t*>(apEffect)->EffectItem_GetMagnitude();
         }
         else
         {
             pEntry = new FUN_00403ba0;
             pEntry->m_eAssociatedActorValue = reinterpret_cast<FUN_00404210_t*>(apEffect)->GetAffectedActorValue();
-            pEntry->m_iMagnitude = reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_00404390();
-            if (reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->FUN_00403e60(4))
+            pEntry->m_iMagnitude = reinterpret_cast<FUN_00404210_t*>(apEffect)->EffectItem_GetMagnitude();
+            if (reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->EffectSetting_IsFlagSet(4))
                 pEntry->m_iMagnitude *= -1;
-            if (!reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->FUN_00403e60(2))
-                pEntry->m_iPayloadInteger = reinterpret_cast<FUN_00404210_t*>(apEffect)->FUN_004044d0();
+            if (!reinterpret_cast<S3e60*>(apEffect->GetEffectSetting())->EffectSetting_IsFlagSet(2))
+                pEntry->m_iPayloadInteger = reinterpret_cast<FUN_00404210_t*>(apEffect)->EffectItem_GetDuration();
             kList.AddHead(reinterpret_cast<int*>(&pEntry));
         }
     }
@@ -2970,7 +2970,7 @@ struct Obj2_007dfd20
     void FUN_007f8610();
 };
 
-Obj2_007dfd20* __stdcall FUN_004b7210(int, float, float);
+Obj2_007dfd20* __stdcall InterfaceManager_Instance(int, float, float);
 
 struct FUN_007dfd20_cls
 {
@@ -2984,11 +2984,11 @@ void FUN_007dfd20_cls::FUN_007dfd20(Dummy007_obj* apObj, unsigned int* apOut)
     unsigned int v = (unsigned int)apObj->FUN_00a011b0(0xfac);
     if (*apOut < v)
     {
-        FUN_004b7210(0, *DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
+        InterfaceManager_Instance(0, *DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
     }
     else if (*apOut > v)
     {
-        FUN_004b7210(0, -*DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
+        InterfaceManager_Instance(0, -*DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370()->FUN_007f8610();
     }
     *apOut = v;
 }
@@ -3227,7 +3227,7 @@ struct ClickVirtual
 };
 struct ClickMenu : StatsMenu
 {
-    void FUN_007db380(int id, Tile* tile);
+    void StatsMenu_DoClick(int id, Tile* tile);
     bool SetIndexFromType(int, int*);
     bool GetTileIndex(int, int*);
     void SetPage(int);
@@ -3239,7 +3239,7 @@ struct ClickMenu : StatsMenu
     void FUN_007ddf00();
 };
 // @fnv 0x007db380
-void ClickMenu::FUN_007db380(int id, Tile* tile)
+void ClickMenu::StatsMenu_DoClick(int id, Tile* tile)
 {
     if (!tile && id >= 0 && id < 60)
         tile = m_pTiles[id];
@@ -3294,7 +3294,7 @@ void ClickMenu::FUN_007db380(int id, Tile* tile)
     {
         int part = ((ClickStatus*)FUN_007db1c0((int)tile))->FindEntryIndex();
         if (part != 6)
-            FUN_004d1360(g_thePlayer) ? ((ClickVirtual*)this)->OnClick(59, 0) : ((ClickVirtual*)this)->OnClick(10, 0);
+            PlayerCharacter_IsHardcore(g_thePlayer) ? ((ClickVirtual*)this)->OnClick(59, 0) : ((ClickVirtual*)this)->OnClick(10, 0);
     }
 }
 
@@ -3521,11 +3521,11 @@ struct FORenderedMenu
     bool IsUnk28Set();
 };
 FORenderedMenu* __cdecl FUN_00705990();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 bool __cdecl FUN_007178a0();
 unsigned int __cdecl FUN_00457fe0();
 bool __cdecl FUN_00702450(int);
-bool __fastcall FUN_004d1360(void*);
+bool __fastcall PlayerCharacter_IsHardcore(void*);
 extern unsigned int DAT_011dad74;
 extern void* DAT_011dea3c;
 extern unsigned char DAT_011a0ae1;
@@ -3558,13 +3558,13 @@ void Host15::UpdateStatsMenu()
     m_bStatUpdatePending = 0;
     if (FUN_00705990()->IsUnk28Set())
     {
-        FUN_004b7210();
+        InterfaceManager_Instance();
         if (FUN_007178a0())
         {
             if (FUN_00457fe0() >= DAT_011dad74)
             {
                 UpdatePipboyNeedle();
-                if (DAT_011dea3c && FUN_004d1360(DAT_011dea3c))
+                if (DAT_011dea3c && PlayerCharacter_IsHardcore(DAT_011dea3c))
                 {
                     FUN_007ddc20();
                     FUN_007ddd10();
@@ -3581,10 +3581,10 @@ void Host15::UpdateStatsMenu()
     }
     if (GetCurrentPage() == 0)
     {
-        if (FUN_007dcc40() > (FUN_004d1360(DAT_011dea3c) ? 5 : 2))
+        if (FUN_007dcc40() > (PlayerCharacter_IsHardcore(DAT_011dea3c) ? 5 : 2))
             FUN_007e0060(0);
     }
-    if (DAT_011dea3c && !FUN_004d1360(DAT_011dea3c) && DAT_011a0ae1)
+    if (DAT_011dea3c && !PlayerCharacter_IsHardcore(DAT_011dea3c) && DAT_011a0ae1)
     {
         DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 0);
         DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 0);
@@ -3594,7 +3594,7 @@ void Host15::UpdateStatsMenu()
         DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 0);
         DAT_011a0ae1 = 0;
     }
-    else if (DAT_011dea3c && FUN_004d1360(DAT_011dea3c) && !DAT_011a0ae1)
+    else if (DAT_011dea3c && PlayerCharacter_IsHardcore(DAT_011dea3c) && !DAT_011a0ae1)
     {
         DAT_011dace0->m_tiles[0x59]->Set(0xfaf, 1);
         DAT_011dace0->m_tiles[0x59]->Set(0xfa3, 1);
@@ -3603,7 +3603,7 @@ void Host15::UpdateStatsMenu()
         DAT_011dace0->m_tiles[0x5b]->Set(0xfaf, 1);
         DAT_011dace0->m_tiles[0x5b]->Set(0xfa3, 1);
     }
-    DAT_011a0ae1 = FUN_004d1360(DAT_011dea3c);
+    DAT_011a0ae1 = PlayerCharacter_IsHardcore(DAT_011dea3c);
 }
 
 namespace fnv_007dc9b0 {
@@ -4259,7 +4259,7 @@ void FUN_007ddb00_shell::UpdatePipboyNeedle()
     else
         fValue = FUN_004bd510(fValue, 1.0f);
     ((TileFloatSetter*)pMenu)->Set(0x1005, fValue, true);
-    ((PipboyInterfaceStub*)FUN_004b7210())
+    ((PipboyInterfaceStub*)InterfaceManager_Instance())
         ->GetPipboyManager()
         ->SetKnobTargetAndRate(1, fAngleDifference, g_fPipboyNeedleSpeed);
 }
@@ -4754,7 +4754,7 @@ struct FUN_007e0060_cls
 // @fnv 0x007e0060
 bool FUN_007e0060_cls::FUN_007e0060(int id)
 {
-    if (id >= 0 && id <= (FUN_004d1360(g_011dea3c) ? 5 : 2) && FUN_007dcc40() != id)
+    if (id >= 0 && id <= (PlayerCharacter_IsHardcore(g_011dea3c) ? 5 : 2) && FUN_007dcc40() != id)
     {
         if (m_bUpdateOption)
         {
@@ -4794,7 +4794,7 @@ struct EffectGroupList
 };
 struct SettingCalls
 {
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
 };
 struct FUN_007e08a0_shell
 {
@@ -4814,7 +4814,7 @@ void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
         pGroup = new EffectGroup(group);
         forms.FUN_007a7eb0(pGroup, FUN_007e0480);
     }
-    if (((SettingCalls*)effect->GetEffectSetting())->FUN_00403e60(0x2000))
+    if (((SettingCalls*)effect->GetEffectSetting())->EffectSetting_IsFlagSet(0x2000))
         pGroup->special.FUN_007e09d0(effect);
     else
         pGroup->normal.ApplyParamToEntry(effect);
@@ -5042,7 +5042,7 @@ class StatusMenuOwner
 {
   public:
     void FUN_007e0230();
-    void FUN_007dc490(int iUnused, int iIndex);
+    void StatsMenu_DoLeave(int iUnused, int iIndex);
 
     char unk000[0x160];
     Tile* m_pkTile;  // +0x160
@@ -5051,7 +5051,7 @@ class StatusMenuOwner
 };
 
 // @fnv 0x007dc490
-void StatusMenuOwner::FUN_007dc490(int iUnused, int iIndex)
+void StatusMenuOwner::StatsMenu_DoLeave(int iUnused, int iIndex)
 {
     if (m_bModifierActive && !FUN_004b71d0())
     {
@@ -5070,7 +5070,7 @@ struct TileSI : public Tile
 };
 struct PlayerClick
 {
-    bool FUN_004d1360();
+    bool PlayerCharacter_IsHardcore();
 };
 struct ListClick
 {
@@ -5124,7 +5124,7 @@ void ClickMenu::OnTileClick(int aiTileIndex, Tile* tile)
             FUN_007dfd20(tile, &DAT_011dad60);
         if (!FUN_004b71d0())
         {
-            if ((g_thePlayer && ((PlayerClick*)g_thePlayer)->FUN_004d1360()) ? m_kHealingOptions[3].m_pStatusEffect
+            if ((g_thePlayer && ((PlayerClick*)g_thePlayer)->PlayerCharacter_IsHardcore()) ? m_kHealingOptions[3].m_pStatusEffect
                                                                              : m_kHealingOptions[0].m_pStatusEffect)
             {
                 int status = FUN_007db1c0(tile)->FindEntryIndex();
@@ -5284,7 +5284,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
                 if (m_pStatusEffectAtIndex3->pForm == pspell)
                     m_pStatusEffectAtIndex3->xEffectData.ApplyParamToEntry(pactiveEffect);
             }
-            if (((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->FUN_00403ee0() &&
+            if (((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->EffectItem_IsActorValueUsed() &&
                 FUN_0066eb00(
                     ((EffectItemOps*)((ActiveEffectOps*)pactiveEffect)->GetEffectItem())->GetAffectedActorValue()) &&
                 (pactiveEffect->GetDuration() != 0.0 || ((ActiveEffectOps*)pactiveEffect)->GetSpellType() == 1 ||
@@ -5537,7 +5537,7 @@ struct InputInterface
 {
     InputPipboy* FUN_00704370();
 };
-InputInterface* __cdecl FUN_004b7210();
+InputInterface* __cdecl InterfaceManager_Instance();
 bool __cdecl FUN_00709d40();
 struct InputControls
 {
@@ -5558,12 +5558,12 @@ struct InputStats : public StatsMenu
     int FUN_007dcc40();
     bool FUN_007e0060(int);
     bool GetTileIndex(int, int*);
-    bool FUN_007db680(int code, float amount);
+    bool StatsMenu_HandleSpecialKeyInput(int code, float amount);
 };
 
 // Processes input codes for the stats menu, updating healing options, status values, page navigation, and scrolling effect lists.
 // @fnv 0x007db680
-bool InputStats::FUN_007db680(int code, float amount)
+bool InputStats::StatsMenu_HandleSpecialKeyInput(int code, float amount)
 {
     if (!FUN_00702450(1003) || !FUN_00705990()->IsUnk28Set())
         return false;
@@ -5652,7 +5652,7 @@ bool InputStats::FUN_007db680(int code, float amount)
                         ((InputTile*)m_pTiles[55])->FUN_00a0b110(0xfcb);
                     else if (GetTileIndex(0x39, &limbVal) && limbVal == newStatusVal)
                         ((InputTile*)m_pTiles[57])->FUN_00a0b110(0xfcb);
-                    FUN_004b7210()->FUN_00704370()->FUN_007f8610(0, *g_011db2f0.FUN_00403e20() * statusStep6,
+                    InterfaceManager_Instance()->FUN_00704370()->FUN_007f8610(0, *g_011db2f0.FUN_00403e20() * statusStep6,
                                                                  *g_011db358.FUN_00403e20(), true);
                     return true;
                 }

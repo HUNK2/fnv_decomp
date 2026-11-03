@@ -5,7 +5,7 @@
 extern char const* const g_011f5f14_arg1;
 
 // @fnv 0x00a9b1b0
-char const* const* __cdecl FUN_00a9b1b0()
+char const* const* __cdecl NiParticles_GetRTTI()
 {
     return &g_011f5f14_arg1;
 }
@@ -20,11 +20,11 @@ struct NiGeometryData
 
 struct NiParticles
 {
-    void FUN_00a9b230(bool bTool);
+    void NiParticles_CalculateConsistency(bool bTool);
 };
 
 // @fnv 0x00a9b230
-void NiParticles::FUN_00a9b230(bool bTool)
+void NiParticles::NiParticles_CalculateConsistency(bool bTool)
 {
     NiGeometryData* p = *(NiGeometryData**)((char*)this + 0xb8);
     p->SetDataConsistency((NiGeometryData::Consistency)0);
@@ -59,7 +59,7 @@ struct NiRenderer
 };
 struct FUN_00a80610_This
 {
-    void FUN_00a80610(void*);
+    void NiGeometry_RenderImmediate(void*);
 };
 struct FUN_00a9b1f0_shell
 {
@@ -69,7 +69,7 @@ struct FUN_00a9b1f0_shell
 void FUN_00a9b1f0_shell::SetupRenderer(NiRenderer* apkRenderer)
 {
     NiRenderer* pkRenderer = apkRenderer;
-    ((FUN_00a80610_This*)this)->FUN_00a80610(pkRenderer);
+    ((FUN_00a80610_This*)this)->NiGeometry_RenderImmediate(pkRenderer);
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
     {
         ((void(__thiscall*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
@@ -86,13 +86,13 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a80e70(StrArr*);
+void __stdcall NiGeometry_GetViewerStrings(StrArr*);
 char* _FUN_00a7d330(const char*);
 // Grows the StrArr if it is full, then appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) at the current size.
 // @fnv 0x00a9b2e0
-void __stdcall FUN_00a9b2e0(StrArr* apStrArr)
+void __stdcall NiParticles_GetViewerStrings(StrArr* apStrArr)
 {
-    FUN_00a80e70(apStrArr);
+    NiGeometry_GetViewerStrings(apStrArr);
     char* psz = _FUN_00a7d330(g_011f5f14_arg1);
     unsigned int uiSize = apStrArr->m_usSize;
     unsigned int uiMax = apStrArr->m_usMax;

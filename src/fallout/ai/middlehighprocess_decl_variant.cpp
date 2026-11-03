@@ -1,6 +1,6 @@
 
 // src/fallout/ai/middlehighprocess_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x0091db40: the skeleton of src/fallout/ai/middlehighprocess.cpp
-// with declarations corrected to what the original code does (middlehighprocess_decls.h: MiddleHighProcess += void FUN_0091db40(Actor* actor);; Actor.h: virtual void Unk_10D(void); -> virtual void Unk_10D(Actor* target);; TESObjectREFR.h: TESObjectREFR += float FUN_005723b0(TESObjectREFR* ref, int a, int b);). Move the function to its real unit once
+// with declarations corrected to what the original code does (middlehighprocess_decls.h: MiddleHighProcess += void FUN_0091db40(Actor* actor);; Actor.h: virtual void Unk_10D(void); -> virtual void Unk_10D(Actor* target);; TESObjectREFR.h: TESObjectREFR += float TESObjectREFR_GetDistanceFromReference(TESObjectREFR* ref, int a, int b);). Move the function to its real unit once
 // that unit declares it this way.
 
 #include "middlehighprocess_decls_decl_middlehighprocess.h"
@@ -25,7 +25,7 @@ void MiddleHighProcess::FUN_0091db40(Actor* actor)
     }
     if (found &&
         ((actor->GetParentCell() && actor->GetParentCell() == found->GetParentCell()) ||
-         actor->FUN_005723b0(found, 0, 0) < 300.0) &&
+         actor->TESObjectREFR_GetDistanceFromReference(found, 0, 0) < 300.0) &&
         found->GetProcess() && found->GetProcess()->GetProcessLevel() == 1)
     {
         while (remaining)

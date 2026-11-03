@@ -30,7 +30,7 @@ void __fastcall FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char p
 extern const char* const g_011f5f0c_arg1;
 
 // @fnv 0x00a967d0
-const char* const* __cdecl FUN_00a967d0()
+const char* const* __cdecl NiParticlesData_GetRTTI()
 {
     return &g_011f5f0c_arg1;
 }
@@ -129,11 +129,11 @@ class NiQuaternion
 };
 struct Candidate : NiParticlesData
 {
-    void FUN_00a964c0(unsigned short index);
+    void NiParticlesData_RemoveParticle(unsigned short index);
 };
 // Copies the last active particle's vertex, color, normal, radii, sizes, rotation and texture data into the given slot, then decrements m_usActive.
 // @fnv 0x00a964c0
-void Candidate::FUN_00a964c0(unsigned short index)
+void Candidate::NiParticlesData_RemoveParticle(unsigned short index)
 {
     unsigned short last = m_usActive - 1;
     if (index != last)
@@ -286,17 +286,17 @@ inline bool EqualParticleOffset(const RgbaColor& left, const RgbaColor& right)
 }
 struct GeometryEquality : NiGeometryData
 {
-    bool FUN_00a67840(NiObject* other);
+    bool NiGeometryData_IsEqual(NiObject* other);
 };
 struct ParticlesEquality : NiParticlesData
 {
-    bool FUN_00a96a30(NiObject* object);
+    bool NiParticlesData_IsEqual(NiObject* object);
 };
 
 // @fnv 0x00a96a30
-bool ParticlesEquality::FUN_00a96a30(NiObject* apOther)
+bool ParticlesEquality::NiParticlesData_IsEqual(NiObject* apOther)
 {
-    if (!static_cast<GeometryEquality*>(static_cast<NiGeometryData*>(this))->FUN_00a67840(apOther))
+    if (!static_cast<GeometryEquality*>(static_cast<NiGeometryData*>(this))->NiGeometryData_IsEqual(apOther))
         return false;
     NiParticlesData* other = static_cast<NiParticlesData*>(apOther);
     if ((m_pfRadii && !other->m_pfRadii) || (!m_pfRadii && other->m_pfRadii))
@@ -523,7 +523,7 @@ struct NiStream
 };
 struct GeoSave
 {
-    void FUN_00a68520(NiStream&);
+    void NiGeometryData_SaveBinary(NiStream&);
 };
 struct NiColorA_SaveHelper
 {
@@ -532,13 +532,13 @@ struct NiColorA_SaveHelper
 };
 struct FUN_00a97290_holder : NiParticlesData
 {
-    void FUN_00a97290(NiStream&);
+    void NiParticlesData_SaveBinary(NiStream&);
 };
 // Writes presence flags for radii, sizes, rotations, angles, axes and texture indices, then the sub-texture offset count and each offset to the stream.
 // @fnv 0x00a97290
-void FUN_00a97290_holder::FUN_00a97290(NiStream& stream)
+void FUN_00a97290_holder::NiParticlesData_SaveBinary(NiStream& stream)
 {
-    ((GeoSave*)this)->FUN_00a68520(stream);
+    ((GeoSave*)this)->NiGeometryData_SaveBinary(stream);
     bool hasRadii = m_pfRadii != 0;
     stream.output->Write(&hasRadii, 1);
     stream.output->Write(&m_usActive, 2);
@@ -661,12 +661,12 @@ class NiParticlesDataViewer : public NiGeometryDataViewer
     void* m_pkSubTextureOffsets;
     unsigned char m_ucSubTextureOffsetCount;
 
-    void FUN_00a97420(NiViewerStringsArray* pkStrings);
+    void NiParticlesData_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // Appends the base geometry viewer strings plus the particle radii, sizes, rotations, texture indices and sub-texture offsets to pkStrings.
 // @fnv 0x00a97420
-void NiParticlesDataViewer::FUN_00a97420(NiViewerStringsArray* pkStrings)
+void NiParticlesDataViewer::NiParticlesData_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     NiGeometryDataViewer::GetViewerStrings(pkStrings);
 
@@ -979,12 +979,12 @@ class ParticlesLoadView : public NiGeometryData
     Rot16* m_pkSubTextureOffsets;
     unsigned char m_ucSubTextureOffsetCount;
     unsigned char unk6d, unk6e, unk6f;
-    void __thiscall FUN_00a96cf0(StreamIn* stream);
+    void __thiscall NiParticlesData_LoadBinary(StreamIn* stream);
 };
 
 // Reads particle-related values and flags from the stream, allocates arrays, and fills several arrays with defaults depending on version.
 // @fnv 0x00a96cf0
-void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
+void __thiscall ParticlesLoadView::NiParticlesData_LoadBinary(StreamIn* stream)
 {
     union ReadValue
     {

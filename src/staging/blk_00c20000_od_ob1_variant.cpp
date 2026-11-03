@@ -8,13 +8,13 @@
 #include "../../include/layout_support.h"
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char __thiscall BSMultiBoundRoom_IsEqual(void* arg);
     char __thiscall IsSameAs(void* arg);
 };
 extern "C" void* g_01202828;
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* __thiscall BSMultiBoundRoom_GetRTTI();
 };
 struct P03MM
 {
@@ -33,7 +33,7 @@ struct FUN_00c3b9e0_Class
 extern "C" void* g_012043e4;
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* __thiscall BSNodeReferences_GetRTTI();
 };
 int __cdecl FUN_00c3c200();
 extern const void* DAT_010c14e8;
@@ -78,7 +78,7 @@ struct FUN_00c35980_Class
 };
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* __thiscall BSMultiBoundRoom_CreateClone(int arg);
 };
 struct NiTPrimitiveArray_unsigned_int_
 {
@@ -87,24 +87,24 @@ struct NiTPrimitiveArray_unsigned_int_
 void* __cdecl FUN_00a7d330(void*);
 struct FUN_00c3a0c0_Class
 {
-    void* __thiscall FUN_00c46e70(unsigned int a);
+    void* __thiscall BSMultiBoundNode_GetViewerStrings(unsigned int a);
     void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
 };
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void __thiscall BSMultiBoundRoom_LinkObject(int);
 };
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void __thiscall BSMultiBoundRoom_LoadBinary(int arg);
 };
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void __thiscall BSMultiBoundRoom_SaveBinary(int);
 };
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char __thiscall BSMultiBoundRoom_RegisterStreamables(void* arg);
 };
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
@@ -121,7 +121,7 @@ struct NiNode
 };
 struct BSMultiBoundNode : NiNode
 {
-    void __thiscall FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
+    void __thiscall BSMultiBoundNode_UpdateDownwardPass(NiUpdateData& data, unsigned int flags);
 };
 struct FUN_00c3a620_Class
 {
@@ -199,30 +199,30 @@ struct NiStream
 {
     static int __cdecl RegisterObjectLoader(char const* name, PFN_NiObjectLoader loader);
 };
-NiObject* __cdecl FUN_00c64810();
-NiObject* __cdecl FUN_00c649f0();
-NiObject* __cdecl FUN_00c537f0();
+NiObject* __cdecl BSReference_CreateObject();
+NiObject* __cdecl BSNodeReferences_CreateObject();
+NiObject* __cdecl NiBSBoneLODController_CreateObject();
 NiObject* __cdecl FUN_00c55010();
-NiObject* __cdecl FUN_00c43190();
+NiObject* __cdecl BSXFlags_CreateObject();
 NiObject* __cdecl CreateNamedNode();
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 NiObject* __cdecl CreatePositionModifierObject();
-NiObject* __cdecl FUN_00c54210();
-FUN_00c61b10* __cdecl FUN_00c61e70();
-NiObject* __cdecl FUN_00c61510();
-NiObject* __cdecl FUN_00c4b0c0();
-NiObject* __cdecl FUN_00c4ac00();
-NiObject* __cdecl FUN_00c43a30();
-NiObject* __cdecl FUN_00c5cbb0();
-NiObject* __cdecl FUN_00c5e5a0();
-NiObject* __cdecl FUN_00c361a0();
+NiObject* __cdecl BSFurnitureMarker_CreateObject();
+FUN_00c61b10* __cdecl BSPSysArrayEmitter_CreateObject();
+NiObject* __cdecl BSWArray_CreateObject();
+NiObject* __cdecl BSDamageStage_CreateObject();
+NiObject* __cdecl BSBlastNode_CreateObject();
+NiObject* __cdecl BSValueNode_CreateObject();
+NiObject* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
+NiObject* __cdecl BSMasterParticleSystem_CreateObject();
+NiObject* __cdecl BSMultiBound_CreateObject();
 NiObject* __cdecl CreateNewObject();
 NiObject* __cdecl CreateNewBodyCls();
 NiObject* __cdecl CreateBC36500Object();
-NiObject* __cdecl FUN_00c610a0();
-FUN_00c4fb10_shell* __cdecl FUN_00c4fdb0();
-NiObject* __cdecl FUN_00c607d0();
-NiObject* __cdecl FUN_00c4ae60();
+NiObject* __cdecl BSMultiBoundCapsule_CreateObject();
+FUN_00c4fb10_shell* __cdecl BSMultiBoundSphere_CreateObject();
+NiObject* __cdecl BSPSysSimpleColorModifier_CreateObject();
+NiObject* __cdecl BSDebrisNode_CreateObject();
 NiObject* __cdecl CreatePositionModifierInstance();
 extern char const g_012043dc_arg0[];
 extern char const g_012043e4_arg0[];
@@ -483,7 +483,7 @@ struct FUN_00c3a4b0_node
 struct FUN_00c3a4b0_sub
 {
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0045cee0(FUN_00c3a4b0_node* p);
+    void __thiscall NiTPointerAllocator_Deallocate(FUN_00c3a4b0_node* p);
 };
 struct FUN_00c3a4b0_cls
 {
@@ -1822,7 +1822,7 @@ struct LockX
 {
     int m_iOwner;
     int m_iArrayLength;
-    void FUN_0040fbf0(int i);
+    void BSSpinLock_Lock(int i);
     void Unlock()
     {
         if (--m_iArrayLength == 0)
@@ -1843,7 +1843,7 @@ struct ListQ
 bool ListQ::FUN_00c3f960(SPX pSceneObject)
 {
     bool bFound = false;
-    m_kLock.FUN_0040fbf0(0);
+    m_kLock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < m_uiCount && !bFound; i++)
         bFound = Test(i, pSceneObject);
     m_kLock.Unlock();
@@ -2771,7 +2771,7 @@ struct Owner39
     Node39* head;
     int tail;
     unsigned int count;
-    unsigned char FUN_00c39b00(void* arg);
+    unsigned char BSMultiBoundRoom_QPointWithin(void* arg);
 };
 
 inline Handler39* Pass39(Handler39* p)
@@ -2780,7 +2780,7 @@ inline Handler39* Pass39(Handler39* p)
 }
 
 // @fnv 0x00c39b00
-unsigned char Owner39::FUN_00c39b00(void* arg)
+unsigned char Owner39::BSMultiBoundRoom_QPointWithin(void* arg)
 {
     unsigned char Dir;
     Node39* CN;
@@ -2905,7 +2905,7 @@ class OwnerC39B
         HolderC39B* p = m_pkHolder;
         return p;
     }
-    int FUN_00c39bb0(void* pvArg);
+    int BSMultiBoundRoom_CheckBound(void* pvArg);
 
     int unk00;
     int unk04;
@@ -2962,7 +2962,7 @@ class OwnerC39B
 };
 
 // @fnv 0x00c39bb0
-int OwnerC39B::FUN_00c39bb0(void* pvArg)
+int OwnerC39B::BSMultiBoundRoom_CheckBound(void* pvArg)
 {
     int iResult = GetHolder()->GetTarget()->Process(pvArg);
     if (iResult != 1 && !m_kChildList.IsEmpty())
@@ -3102,14 +3102,14 @@ struct Node144
     int unkD4;
     unsigned int count;
     void FUN_005467e0();
-    void FUN_00c39d50();
+    void BSMultiBoundRoom_UpdateWorldBound();
     bool Flag80000()
     {
         return (unk30 & 0x80000) ? 1 : 0;
     }
 };
 // @fnv 0x00c39d50
-void Node144::FUN_00c39d50()
+void Node144::BSMultiBoundRoom_UpdateWorldBound()
 {
     const Bound144* a0;
     float aAcoustic;
@@ -4790,7 +4790,7 @@ struct LockObj
 {
     void* owner;
     int count;
-    void __thiscall FUN_0040fbf0(const char* name);
+    void __thiscall BSSpinLock_Lock(const char* name);
     __forceinline void Unlock()
     {
         count = count - 1;
@@ -4817,7 +4817,7 @@ bool Owner::FUN_00c3f160(int a, int b, int c)
     int local4, local5, local6, receiver, answer;
     int extra14, done, status, extra4, extra5;
     int slot2, spare4, spare5, spare6, spare8, spare9, extra15;
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     H* node = FUN_00c3f750();
     bool found = pass(node, a, b, c);
     lock.Unlock();
@@ -5743,7 +5743,7 @@ struct F1f0Lock
 {
     unsigned int m_pOwnerObject;
     unsigned int m_lLockCount;
-    void __thiscall FUN_0040fbf0(unsigned int);
+    void __thiscall BSSpinLock_Lock(unsigned int);
     void Unlock()
     {
         m_lLockCount = m_lLockCount - 1;
@@ -5794,7 +5794,7 @@ struct F1f0Cls
 // @fnv 0x00c3f1f0
 bool F1f0Cls::FUN_00c3f1f0(int a1, int a2, int a3, bool a4)
 {
-    m_lock.FUN_0040fbf0(0);
+    m_lock.BSSpinLock_Lock(0);
     Dead34();
     bool r = FUN_00c3f750()->Test(a1, a2, a3, a4);
     m_lock.Unlock();
@@ -5809,7 +5809,7 @@ struct SpinLockS
 {
     unsigned int owningThread;
     unsigned int lockCount;
-    void __thiscall FUN_0040fbf0(const char* name)
+    void __thiscall BSSpinLock_Lock(const char* name)
     {
         unsigned int threadID = FUN_0040fc90();
         if (owningThread == threadID)
@@ -5863,7 +5863,7 @@ static __forceinline void Dead35()
 // @fnv 0x00c3f430
 bool ManagerS::FUN_00c3f430(int a, int b, int c, int d, unsigned char e)
 {
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     bool result = FUN_00c3f750()->FUN_00c3ffb0(a, b, c, d, e);
     Dead35();
     lock.Unlock();

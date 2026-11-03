@@ -16,7 +16,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void __thiscall Explosion_SetActorCause(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -417,7 +417,7 @@ struct RetObj
 struct Actor
 {
     RetObj* _FNV_GetObjectReference();
-    bool FUN_00565690();
+    bool TESObjectREFR_IsQuestObject();
 };
 struct Standin77900
 {
@@ -515,7 +515,7 @@ struct MobileObject_9b22c0
     unsigned int unk7C;
     unsigned int unk80;
     unsigned int unk84;
-    void FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer);
+    void MobileObject_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct FUN_009b22c0_shell : MobileObject_9b22c0
 {
@@ -551,7 +551,7 @@ struct FUN_009b22c0_shell : MobileObject_9b22c0
     float unkE8[3];
     float unkF4[3];
     int unk100;
-    void FUN_009b22c0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Explosion_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct Vec3f
 {
@@ -1199,7 +1199,7 @@ struct Explosion_9b25b0 : ExplosionBase
     unsigned int unkD4;
     unsigned int unkD8;
     CasterData* m_pEffectInstance;
-    void FUN_009b25b0(void* apBuffer);
+    void Explosion_InitLoadGame(void* apBuffer);
 };
 struct GlobalObject_00633c90
 {
@@ -1460,7 +1460,7 @@ class B17A0Ref
     bool Is3DLoaded();
     void Update3D(int iUnused);
 };
-// FUN_009b2790 v01 - worker7 data round
+// Explosion_Revert v01 - worker7 data round
 struct BGSLoadFormBuffer;
 struct MobileObject
 {
@@ -1558,7 +1558,7 @@ struct OwnerW7 : MobileObject
     Vec3W7 m_e8;
     Vec3W7 m_f4;
 
-    void FUN_009b2790(BGSLoadFormBuffer* apBuffer);
+    void Explosion_Revert(BGSLoadFormBuffer* apBuffer);
 };
 struct NiPoint3
 {
@@ -1937,7 +1937,7 @@ struct SceneX
     virtual void v62();
     virtual void v63();
     void FUN_00450f90(bool);
-    void FUN_00476ab0();
+    void BSFadeNode_TurnFadeNodeOn();
     void FUN_00440460(const NiPoint3&);
     void FUN_00a5a040();
 };
@@ -1970,14 +1970,14 @@ struct BaseX
     void* FUN_004fd380();
     float GetScaledValue();
     float FUN_008d01e0();
-    int* FUN_004fb810();
+    int* BGSExplosion_GetSoundLevelValue();
 };
 struct CellX
 {
     void RemoveReference(RefX*);
     void AddReference(RefX*, bool);
     SceneX* FUN_005497a0();
-    float FUN_005471e0();
+    float TESObjectCELL_GetWaterHeight();
 };
 struct ActorProcX
 {
@@ -2253,7 +2253,7 @@ struct RefX
 extern RefX* DAT_011dea3c;
 struct ExtraX
 {
-    void FUN_00422220(float);
+    void ExtraDataList_SetRadius(float);
 };
 struct HandlerX
 {

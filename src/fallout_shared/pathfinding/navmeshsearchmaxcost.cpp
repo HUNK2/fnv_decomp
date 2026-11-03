@@ -48,10 +48,10 @@ struct Holder
 {
     char _pad[0x20A8];
     bool flag;
-    bool __thiscall FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode);
+    bool __thiscall NavMeshSearchMaxCost_IsGoalNode(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode);
 };
 // @fnv 0x006abb60
-bool __thiscall Holder::FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode)
+bool __thiscall Holder::NavMeshSearchMaxCost_IsGoalNode(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode)
 {
     if (!flag)
         return false;
@@ -195,7 +195,7 @@ struct FUN_00aa42e0_shell
 {
     void* __thiscall FUN_00aa42e0();
 };
-FUN_00aa42e0_shell* __cdecl FUN_00401020();
+FUN_00aa42e0_shell* __cdecl MemoryManager_Instance();
 struct FUN_006abbb0 : FUN_006abf60
 {
     void* unk10;
@@ -203,16 +203,16 @@ struct FUN_006abbb0 : FUN_006abf60
     virtual ~FUN_006abbb0();
     void __thiscall FUN_009a3d00(int, int);
 };
-// Initializes unk10 from FUN_00401020()->FUN_00aa42e0() and calls FUN_009a3d00(0, 0).
+// Initializes unk10 from MemoryManager_Instance()->FUN_00aa42e0() and calls FUN_009a3d00(0, 0).
 // @fnv 0x006abbb0
 FUN_006abbb0::FUN_006abbb0()
 {
-    unk10 = FUN_00401020()->FUN_00aa42e0();
+    unk10 = MemoryManager_Instance()->FUN_00aa42e0();
     FUN_009a3d00(0, 0);
 }
 
 namespace fnv_006abd40 {
-void* __cdecl FUN_00401020();
+void* __cdecl MemoryManager_Instance();
 
 struct NavMeshSearchHeapObj
 {
@@ -240,7 +240,7 @@ struct FUN_006abd40 : NavMeshSearchGraphBase
 // @fnv 0x006abd40
 FUN_006abd40::FUN_006abd40()
 {
-    m_10 = ((NavMeshSearchHeapObj*)FUN_00401020())->FUN_00aa42e0();
+    m_10 = ((NavMeshSearchHeapObj*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006b3f40(0, 0);
 }
 }  // namespace fnv_006abd40
@@ -2546,7 +2546,7 @@ struct Door
 {
     DoorBase* FUN_007af430();
 };
-Door* __cdecl FUN_004839c0(unsigned int);
+Door* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct Actor;
 struct PathingRequest
 {
@@ -4693,7 +4693,7 @@ bool SearchEdges::ExpandNeighborNodes(NavMeshTriangleReference* source, NodeOutp
                 else
                 {
                     unsigned int door = *mesh->FUN_00699af0(triangle);
-                    Door* doorId = FUN_004839c0(door);
+                    Door* doorId = TESForm_GetFormByNumericID(door);
                     if (doorId)
                     {
                         Actor* actor;

@@ -57,7 +57,7 @@ void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, un
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8c0e0
-bool __stdcall FUN_00a8c0e0(const char* extension)
+bool __stdcall NiDDSReader_CanReadFile(const char* extension)
 {
     if (NiStricmp(extension, ".dds") != 0)
         return false;
@@ -561,7 +561,7 @@ class NiDDSReader : public NiImageReader
     __declspec(noinline) bool IsValidBitDepth(unsigned int uiRedMask, unsigned int uiGreenMask, unsigned int uiBlueMask,
                                               unsigned int uiAlphaMask, unsigned int uiBitsPerPixel);
     NiPixelFormat NormalizePixelFormat(NiPixelFormat kFormat);
-    bool FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight, NiPixelFormat& kFormat,
+    bool NiDDSReader_ReadHeader(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight, NiPixelFormat& kFormat,
                       bool& bMipmap, unsigned int& uiFaces);
 };
 
@@ -574,7 +574,7 @@ __declspec(noinline) bool NiDDSReader::IsValidBitDepth(unsigned int uiRedMask, u
 
 // Parses a DDS header from kIst, validating magic, size, and pixel format, then sets uiWidth, uiHeight, kFormat, bMipmap, and uiFaces.
 // @fnv 0x00a8c1e0
-bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight,
+bool NiDDSReader::NiDDSReader_ReadHeader(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight,
                                NiPixelFormat& kFormat, bool& bMipmap, unsigned int& uiFaces)
 {
     Lock();
@@ -1127,11 +1127,11 @@ struct DDSReader : NiImageReader
     void(__fastcall* m_pfnPixelConverter)(char*, int, unsigned char*, unsigned char*);
     unsigned int d174;
     unsigned char b178, b179, b17a, b17b;
-    bool FUN_00a8dce0(ReadStream* stream, int* pA, int* pB, NiPixelFormat* pFmt, unsigned char* pByte, int* pFlag);
+    bool NiTGAReader_ReadHeader(ReadStream* stream, int* pA, int* pB, NiPixelFormat* pFmt, unsigned char* pByte, int* pFlag);
 };
 // Seeks to the start, reads fields, selects m_eFormat and a converter, and writes values to pFlag, pA, pB, pFmt, and pByte.
 // @fnv 0x00a8dce0
-bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, NiPixelFormat* apFormat,
+bool DDSReader::NiTGAReader_ReadHeader(ReadStream* stream, int* apWidth, int* apHeight, NiPixelFormat* apFormat,
                              unsigned char* pByte, int* pFlag)
 {
     ReadStream& kReadStream = *stream;

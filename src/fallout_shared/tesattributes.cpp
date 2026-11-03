@@ -20,7 +20,7 @@ void TESAttributes::InitializeComponent()
 
 struct FUN_00480130_shell : public TESAttributes
 {
-    unsigned int FUN_00480130(void*);
+    unsigned int TESAttributes_Load(void*);
 };
 
 void* __cdecl memcpy(void*, const void*, unsigned int);
@@ -28,7 +28,7 @@ unsigned int __fastcall FUN_009d2510(void*);
 
 // Copies 7 bytes from apData into the object at offset 4, then calls FUN_009d2510 on this and returns its result.
 // @fnv 0x00480130
-unsigned int FUN_00480130_shell::FUN_00480130(void* apData)
+unsigned int FUN_00480130_shell::TESAttributes_Load(void* apData)
 {
     memcpy(reinterpret_cast<char*>(this) + 4, apData, 7);
     return FUN_009d2510(this);
@@ -36,11 +36,11 @@ unsigned int FUN_00480130_shell::FUN_00480130(void* apData)
 
 struct FUN_00480160_shell : public TESAttributes
 {
-    unsigned char FUN_00480160(int);
+    unsigned char TESAttributes_GetAttributeValue(int);
 };
 
 // @fnv 0x00480160
-unsigned char FUN_00480160_shell::FUN_00480160(int aeAttribute)
+unsigned char FUN_00480160_shell::TESAttributes_GetAttributeValue(int aeAttribute)
 {
     return reinterpret_cast<unsigned char*>(this)[aeAttribute - 1];
 }
@@ -50,12 +50,12 @@ unsigned int __fastcall FUN_009d2510(void* p);
 
 struct FUN_00480100_shell
 {
-    unsigned int __thiscall FUN_00480100(void* apData);
+    unsigned int __thiscall TESAttributes_Save(void* apData);
 };
 
 // Copies 7 bytes from this+4 into apData, then returns the result of FUN_009d2510(this).
 // @fnv 0x00480100
-unsigned int __thiscall FUN_00480100_shell::FUN_00480100(void* apData)
+unsigned int __thiscall FUN_00480100_shell::TESAttributes_Save(void* apData)
 {
     _memcpy(apData, this + 4, 7);
     return FUN_009d2510(this);
@@ -200,11 +200,11 @@ struct AVH
 struct FUN_00480070_shell : public TESAttributes
 {
     unsigned char GetAttributeValue(int index);
-    bool FUN_00480070(BaseFormComponent* component);
+    bool TESAttributes_CompareComponent(BaseFormComponent* component);
 };
 // Casts component to TESAttributes and returns false only if all seven attribute values match this object's cAttribute entries; returns true otherwise.
 // @fnv 0x00480070
-bool FUN_00480070_shell::FUN_00480070(BaseFormComponent* component)
+bool FUN_00480070_shell::TESAttributes_CompareComponent(BaseFormComponent* component)
 {
     TESAttributes* attributes = dynamic_cast<TESAttributes*>(component);
     if (!attributes)

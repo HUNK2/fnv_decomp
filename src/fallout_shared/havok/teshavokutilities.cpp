@@ -37,7 +37,7 @@ struct NiNode : public NiAVObject
 };
 struct bhkWorldObject
 {
-    float FUN_004b5400();
+    float bhkRigidBody_GetMass();
 };
 struct bhkCollisionObject
 {
@@ -54,7 +54,7 @@ float FUN_0062c300(NiAVObject* object)
         bhkCollisionObject* pCollisionObject = bhkCollisionObject::GetFromNiAVObject(object);
         bhkWorldObject* pWorldObject = pCollisionObject ? pCollisionObject->FUN_006fa820() : 0;
         if (pWorldObject)
-            fmass += pWorldObject->FUN_004b5400();
+            fmass += pWorldObject->bhkRigidBody_GetMass();
         NiNode* pnode = (NiNode*)object->GetAsNiNode();
         if (pnode && pnode->GetNumChildren())
         {
@@ -90,7 +90,7 @@ struct TESObjectREFR
 extern "C" void* __cdecl FUN_00c7fa90(void*);
 
 // @fnv 0x0062b4e0
-TESObjectREFR* __cdecl FUN_0062b4e0(void* object)
+TESObjectREFR* __cdecl GetCdBodyRef(void* object)
 {
     TESObjectREFR* result = 0;
     if (object)
@@ -110,13 +110,13 @@ struct H0043b4d0
 {
     int m_uiFilterValue;
     H0043b4d0();
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct W_0043b4f0
 {
     H0043b4d0 FUN_0043b4f0();
 };
-float __fastcall FUN_004b5400(void*);
+float __fastcall bhkRigidBody_GetMass(void*);
 extern Setting_S originalRuntimeFloatSetting1034;
 extern Setting_S originalRuntimeFloatSetting1035;
 extern Setting_S originalRuntimeFloatSetting1036;
@@ -132,7 +132,7 @@ float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
         return value;
     float fMultiplier = 1.0f;
     H0043b4d0 layer = ((W_0043b4f0*)object)->FUN_0043b4f0();
-    switch (layer.FUN_0043b4d0())
+    switch (layer.CFilter_GetLayer())
     {
     case 14:
         fMultiplier *= *originalRuntimeFloatSetting1035.Float();
@@ -153,7 +153,7 @@ float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
     }
     if (scale)
     {
-        float f = FUN_004b5400(object);
+        float f = bhkRigidBody_GetMass(object);
         if (f < *originalRuntimeFloatSetting1038.Float())
             fMultiplier *= f / *originalRuntimeFloatSetting1038.Float();
     }
@@ -666,7 +666,7 @@ struct __declspec(align(16)) PhysicsTransform
     void FUN_00961190(unsigned int operation);
     void FUN_0062aea0();
     void FUN_00627920(void* data);
-    void FUN_00553f70(int value);
+    void hkVector4_add4(int value);
 };
 struct __declspec(align(16)) PhysicsData
 {
@@ -800,7 +800,7 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 PhysicsData volume;
                 volume.FUN_005dbf20(scale);
                 transform.FUN_00627920(&volume);
-                transform.FUN_00553f70(state->FUN_00560dc0());
+                transform.hkVector4_add4(state->FUN_00560dc0());
                 state->OnTrigger(&transform);
             }
         }

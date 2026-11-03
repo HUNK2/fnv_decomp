@@ -52,7 +52,7 @@ struct Filter
 };
 struct FormBase
 {
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
     bool FUN_009c19e0();
 };
 struct EventEntity
@@ -64,8 +64,8 @@ struct EventEntity
 struct Scene
 {
     EventStream* FUN_008cdd90();
-    void FUN_004585f0(Vec3* out);
-    void FUN_004587f0(Vec3* out);
+    void bhkPickData_GetFrom(Vec3* out);
+    void bhkPickData_GetTo(Vec3* out);
     void FUN_005dbe60(Vec3* out);
     void FUN_009c1a20(Vec3* out);
     Filter* ConstructCF845(Filter* out);
@@ -82,10 +82,10 @@ struct AnimationPacket
     int unka4, unka8;
     bool unkac;
     AnimationPacket();
-    void FUN_004a3f70(unsigned int filterValue);
-    void FUN_004a3da0(Vec3* origin);
+    void bhkPickData_SetFilter(unsigned int filterValue);
+    void bhkPickData_SetFrom(Vec3* origin);
     void FUN_007f68a0(Vec3* direction);
-    void FUN_004a3fb0(void* collector);
+    void bhkPickData_SetAllCollector(void* collector);
 };
 struct HitEntry
 {
@@ -126,7 +126,7 @@ struct Controller
 {
     void** vtable;
     RenderManager* FUN_004181e0();
-    Controller* FUN_00476c90();
+    Controller* Sky_GetMode();
     bool FUN_00444d00(int);
     void FUN_009795c0(float);
     void FUN_009c4e60(Vec3 point, bool flag);
@@ -184,11 +184,11 @@ extern float DAT_010162c0, DAT_01017870, DAT_0101712c;
 extern double DAT_010231b0, DAT_01088210;
 extern Vec3 DAT_011a9484;
 extern int FUN_004b5820(int handle);
-extern EventEntity* FUN_0056f930(int handle);
+extern EventEntity* TESObjectREFR_FindReferenceFor3D(int handle);
 extern int FUN_004b5950(int handle);
 extern EventEntity* FUN_004b5a80(int form);
-extern void FUN_005ac750(Controller* player, void* sound, int flags);
-extern bool FUN_0043b300(FormTypeDescriptor* descriptor, EventEntity* entity);
+extern void Script_SetActionFlag(Controller* player, void* sound, int flags);
+extern bool NiObject_IsKindOf(FormTypeDescriptor* descriptor, EventEntity* entity);
 extern EventEntity* FUN_004b5260(int handle);
 struct ParentEntity : EventEntity
 {
@@ -217,7 +217,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
     {
         Vec3 initialPosition;
         Vec3 initialDirection;
-        scene->FUN_004585f0(&initialPosition);
+        scene->bhkPickData_GetFrom(&initialPosition);
         scene->FUN_009c1a20(&initialDirection);
         bool partialMatch = false;
         EventEntity* lastReference = 0;
@@ -228,7 +228,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
             if (info.time > maximumTime)
                 continue;
             int handle = FUN_004b5820(info.eventHandle);
-            EventEntity* reference = FUN_0056f930(handle);
+            EventEntity* reference = TESObjectREFR_FindReferenceFor3D(handle);
             if (handle != 0)
             {
                 bool candidate = true;
@@ -239,16 +239,16 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                     candidate = false;
                     unsigned int filterA, filterB;
                     if (player != 0 && reference != 0 &&
-                        (entity2->FUN_0043b4f0(&filterA)->FUN_0043b4d0() == 0x17 ||
-                         entity2->FUN_0043b4f0(&filterB)->FUN_0043b4d0() == 0x18))
+                        (entity2->FUN_0043b4f0(&filterA)->CFilter_GetLayer() == 0x17 ||
+                         entity2->FUN_0043b4f0(&filterB)->CFilter_GetLayer() == 0x18))
                     {
-                        FUN_005ac750(player, reference->FUN_005d43c0(), 0x80);
-                        if (player->FUN_00476c90() != 0)
-                            FUN_005ac750(player->FUN_00476c90(), reference->FUN_005d43c0(), 0x100);
+                        Script_SetActionFlag(player, reference->FUN_005d43c0(), 0x80);
+                        if (player->Sky_GetMode() != 0)
+                            Script_SetActionFlag(player->Sky_GetMode(), reference->FUN_005d43c0(), 0x100);
                     }
                     unsigned int filterC;
-                    if (FUN_0043b300(&DAT_01268444, entity2) ||
-                        (acceptUnknown && entity2->FUN_0043b4f0(&filterC)->FUN_0043b4d0() == 0x1e))
+                    if (NiObject_IsKindOf(&DAT_01268444, entity2) ||
+                        (acceptUnknown && entity2->FUN_0043b4f0(&filterC)->CFilter_GetLayer() == 0x1e))
                     {
                         partialMatch = true;
                         lastReference = reference;
@@ -263,17 +263,17 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                                 {
                                     AnimationPacket anim;
                                     Vec3 origin;
-                                    scene->FUN_004585f0(&origin);
+                                    scene->bhkPickData_GetFrom(&origin);
                                     Vec3 direction;
                                     scene->FUN_009c1a20(&direction);
                                     initialDirection.FUN_00439180(DAT_010162c0);
                                     direction.FUN_00439180(DAT_010162c0);
                                     Filter sceneFilter;
-                                    anim.FUN_004a3f70(scene->ConstructCF845(&sceneFilter)->value);
-                                    anim.FUN_004a3da0(&origin);
+                                    anim.bhkPickData_SetFilter(scene->ConstructCF845(&sceneFilter)->value);
+                                    anim.bhkPickData_SetFrom(&origin);
                                     anim.FUN_007f68a0(&direction);
                                     Collector collector;
-                                    anim.FUN_004a3fb0(&collector);
+                                    anim.bhkPickData_SetAllCollector(&collector);
                                     bool hit = FUN_009c5ba0(&anim, handle, 0, 1);
                                     if (hit)
                                     {
@@ -379,8 +379,8 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                 if (lastReference != 0)
                     saved = *((GetPositionFn)lastReference->vtable[0x1f4 / 4])(lastReference);
                 else
-                    scene->FUN_004587f0(&saved);
-                scene->FUN_004585f0(&at);
+                    scene->bhkPickData_GetTo(&saved);
+                scene->bhkPickData_GetFrom(&at);
                 direction = saved.FUN_00439ef0(at);
                 extra = position.FUN_00439ef0(at);
                 float mag = extra.DotProduct(direction);

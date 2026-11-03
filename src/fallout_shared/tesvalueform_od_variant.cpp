@@ -14,11 +14,11 @@ struct TESValueForm : BaseFormComponent
 {
     unsigned int GetValueFromForm();
     void SetFormValue(unsigned int);
-    void FUN_0048e7f0(BaseFormComponent*);
+    void TESValueForm_CopyComponent(BaseFormComponent*);
 };
 
 // @fnv 0x0048e7f0
-void TESValueForm::FUN_0048e7f0(BaseFormComponent* component)
+void TESValueForm::TESValueForm_CopyComponent(BaseFormComponent* component)
 {
     TESValueForm* form = dynamic_cast<TESValueForm*>(component);
     if (!form)
@@ -29,11 +29,11 @@ void TESValueForm::FUN_0048e7f0(BaseFormComponent* component)
 namespace fnv_0048e9b0 {
 struct TESValueForm
 {
-    unsigned short FUN_0048e9b0(unsigned int aiFlags);
+    unsigned short TESValueForm_GetSaveSize(unsigned int aiFlags);
 };
 
 // @fnv 0x0048e9b0
-unsigned short TESValueForm::FUN_0048e9b0(unsigned int aiFlags)
+unsigned short TESValueForm::TESValueForm_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 2)
@@ -131,7 +131,7 @@ void FUN_0048ea80_Class::FUN_0048ea80(BGSLoadFormBuffer* buffer)
 
 struct BaseData
 {
-    void* FUN_004216f0();
+    void* ExtraDataList_GetLevCreaOriginalBase();
 };
 struct Item
 {
@@ -270,7 +270,7 @@ struct Item
     virtual void v132();
     virtual void v133();
     virtual bool v134();
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     void* FUN_007af430();
     BaseData* FUN_005d43c0();
 };
@@ -294,7 +294,7 @@ Item* Holder::FUN_00970a20(void* key, int unused)
     for (unsigned int index = 0; index < items.FUN_005be5c0(0); index++)
     {
         result = items.FUN_00968670(index);
-        if (result && !current && !result->FUN_00576d30())
+        if (result && !current && !result->TESForm_IsStillLoading())
         {
             Item* actor = 0;
             if (result && result->v64())
@@ -306,7 +306,7 @@ Item* Holder::FUN_00970a20(void* key, int unused)
                     target = actor->FUN_007af430();
                 if (target && key == target)
                     current = actor;
-                else if (actor->FUN_005d43c0()->FUN_004216f0() == key)
+                else if (actor->FUN_005d43c0()->ExtraDataList_GetLevCreaOriginalBase() == key)
                     current = actor;
             }
         }
@@ -316,11 +316,11 @@ Item* Holder::FUN_00970a20(void* key, int unused)
 
 struct FUN_0048e840_shell
 {
-    bool FUN_0048e840(BaseFormComponent* other);
+    bool TESValueForm_CompareComponent(BaseFormComponent* other);
 };
 
 // @fnv 0x0048e840
-bool FUN_0048e840_shell::FUN_0048e840(BaseFormComponent* other)
+bool FUN_0048e840_shell::TESValueForm_CompareComponent(BaseFormComponent* other)
 {
     TESValueForm* form = dynamic_cast<TESValueForm*>(other);
     if (!form)

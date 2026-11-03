@@ -221,7 +221,7 @@ class Actor : public MobileObject,
     virtual void Unk_136(void);
     TESActorBase* GetActorBase();
     void SetAlphaAndFade(float fAlpha);
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     bool FUN_008c4560();
     void UpdateActorEffectState();
     BaseProcess* GetProcess();

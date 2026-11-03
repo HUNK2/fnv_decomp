@@ -80,7 +80,7 @@ struct RenderTargetGroup
 struct BSRenderedTexture
 {
     RenderTargetGroup* GetGroup();
-    void* FUN_004bc320();
+    void* BSRenderedTexture_GetTexture();
 };
 
 struct ImageSpaceTexture
@@ -411,7 +411,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
 
     tex64.FUN_00ba3840(8);
 
-    tex34.FUN_00ba37a0(new Type_00b6b380(tex64.FUN_00ba3770()->FUN_004bc320(), 0, 1,
+    tex34.FUN_00ba37a0(new Type_00b6b380(tex64.FUN_00ba3770()->BSRenderedTexture_GetTexture(), 0, 1,
                                          GetAsset<1>()->FUN_00ba3770()->GetGroup()->GetView()));
 
     ImageSpaceTexture tex44;

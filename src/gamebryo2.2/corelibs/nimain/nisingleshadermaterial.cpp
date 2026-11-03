@@ -22,7 +22,7 @@ NiDepthStencilBuffer* NiDepthStencilBuffer::Create(unsigned int width, unsigned 
 extern "C" void* g_011f6048;
 
 // @fnv 0x00aa06e0
-void* __cdecl FUN_00aa06e0()
+void* __cdecl NiSingleShaderMaterial_GetRTTI()
 {
     return &g_011f6048;
 }

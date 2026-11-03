@@ -109,7 +109,7 @@ FUN_0050b400::FUN_0050b400()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00488400_shell
 {
@@ -117,14 +117,14 @@ struct FUN_00488400_shell
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 
-void FUN_004855a0_shell::FUN_004855a0()
+void FUN_004855a0_shell::TESForm_StartForm()
 {}
 void FUN_00488400_shell::SaveLeveledList()
 {}
-void FUN_00485680_shell::FUN_00485680()
+void FUN_00485680_shell::TESForm_CloseForm()
 {}
 
 struct FUN_0050b530_shell : public B1_4fe, public FUN_00487650
@@ -132,14 +132,14 @@ struct FUN_0050b530_shell : public B1_4fe, public FUN_00487650
     void FUN_0050b530();
 };
 
-// Calls FUN_004855a0, TESForm::ClearData, SaveLeveledList on the member at offset 0x30, then FUN_00485680.
+// Calls TESForm_StartForm, TESForm::ClearData, SaveLeveledList on the member at offset 0x30, then TESForm_CloseForm.
 // @fnv 0x0050b530
 void FUN_0050b530_shell::FUN_0050b530()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
+    ((FUN_004855a0_shell*)this)->TESForm_StartForm();
     TESForm::ClearData();
     ((FUN_00488400_shell*)((char*)this + 0x30))->SaveLeveledList();
-    ((FUN_00485680_shell*)this)->FUN_00485680();
+    ((FUN_00485680_shell*)this)->TESForm_CloseForm();
 }
 
 struct BGSSaveFormBuffer;
@@ -191,28 +191,28 @@ FUN_0050b4c0::~FUN_0050b4c0()
 
 struct LevItemCopyEntry : public ::TESLevItem
 {
-    void FUN_004851b0(::TESForm* source);
-    void FUN_0050b800(::TESForm* source);
+    void TESForm_CopyAllComponents(::TESForm* source);
+    void TESLevItem_CopyFrom(::TESForm* source);
 };
 
-// Casts the source TESForm to a TESLevItem and, if valid, calls FUN_004851b0 to copy the source into this entry.
+// Casts the source TESForm to a TESLevItem and, if valid, calls TESForm_CopyAllComponents to copy the source into this entry.
 // @fnv 0x0050b800
-void LevItemCopyEntry::FUN_0050b800(::TESForm* source)
+void LevItemCopyEntry::TESLevItem_CopyFrom(::TESForm* source)
 {
     ::TESLevItem* sourceItem;
     sourceItem = dynamic_cast< ::TESLevItem*>(source);
     if (!sourceItem)
         return;
-    FUN_004851b0(source);
+    TESForm_CopyAllComponents(source);
 }
 
 struct LevItemComparison : public ::TESLevItem
 {
-    bool FUN_0050b840(::TESForm*);
+    bool TESLevItem_Compare(::TESForm*);
 };
 
 // @fnv 0x0050b840
-bool LevItemComparison::FUN_0050b840(::TESForm* other)
+bool LevItemComparison::TESLevItem_Compare(::TESForm* other)
 {
     ::TESLevItem* pLevItem = dynamic_cast< ::TESLevItem*>(other);
     if (!pLevItem)

@@ -18,7 +18,7 @@ struct BSFadeNode
 {
     static void* operator new(unsigned int);
 };
-void* __cdecl FUN_00a409d0();
+void* __cdecl NiBlendTransformInterpolator_CreateObject();
 float FUN_00a42050(float a, float b, float c);
 void __fastcall FUN_00a36890(void*);
 extern int DAT_01097904;
@@ -81,7 +81,7 @@ struct FUN_00a57870_Class
     const char* m_cByteAtOffset1;
     void ReleaseString();
 };
-void* __cdecl FUN_00a42f90();
+void* __cdecl BSBlendTreadTransfInterpolator_CreateObject();
 struct FUN_00a4d6d0_class
 {
     int m_iWordAt00;
@@ -103,10 +103,10 @@ struct BaseHolder
 {
     void FUN_00a57f20(int, int);
 };
-void* __cdecl FUN_00a50ad0();
+void* __cdecl NiBSplineFloatInterpolator_CreateObject();
 void __fastcall _Call_a5d3a0(void*);
 extern int DAT_01099e54;
-void* __cdecl FUN_00a51e10();
+void* __cdecl NiBSplineData_CreateObject();
 void* __cdecl NiMalloc(unsigned int);
 void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
 struct FUN_00a54060_class : NiTMapBaseStub
@@ -1853,7 +1853,7 @@ void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, flo
                           float* p9);
 struct FUN_00a44840_stub
 {
-    void* __thiscall FUN_00a44840(unsigned int);
+    void* __thiscall NiObject_CreateClone(unsigned int);
 };
 namespace a47 {
 struct Obj
@@ -1948,7 +1948,7 @@ Ptr Arr::FUN_00a47540(unsigned int i) throw()
 }
 }
 
-extern "C" void __cdecl FUN_00a39010();
+extern "C" void __cdecl NiSingleInterpController_SaveBinary();
 void __cdecl FUN_00a57c00();
 struct FUN_00a5d320_Class
 {
@@ -1956,7 +1956,7 @@ struct FUN_00a5d320_Class
 };
 struct FUN_00a5d430_Class
 {
-    void __thiscall FUN_00a5d430(unsigned int param_1);
+    void __thiscall NiObject_ProcessClone(unsigned int param_1);
 };
 struct NiVBSet
 {

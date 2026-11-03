@@ -5,7 +5,7 @@
 extern "C" void* g_011f5c08;
 
 // @fnv 0x00a8b070
-void* __cdecl FUN_00a8b070()
+void* __cdecl NiPalette_GetRTTI()
 {
     return &g_011f5c08;
 }
@@ -59,7 +59,7 @@ struct MyObj
     int f20;
 };
 // @fnv 0x00a8b220
-void* FUN_00a8b220()
+void* NiPalette_CreateObject()
 {
     MyObj* p = (MyObj*)BSFadeNode::operator new(0x24);
     if (p)
@@ -128,7 +128,7 @@ template <class T, class A> struct NiTPrimitiveArray
 void __stdcall AppendCameraPathEntries(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 char* __cdecl _FUN_00a7d330(void*);
 // @fnv 0x00a8b460
-void __stdcall FUN_00a8b460(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void __stdcall NiPalette_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pszString = _FUN_00a7d330(g_011f5c08);
@@ -642,11 +642,11 @@ class A8B3C0Data : public A8B3C0Base
     int unk10;
     unsigned char* m_pCompressedData;
 
-    void FUN_00a8b3c0(A8B3C0Stream& kStream);
+    void NiPalette_SaveBinary(A8B3C0Stream& kStream);
 };
 
 // @fnv 0x00a8b3c0
-void A8B3C0Data::FUN_00a8b3c0(A8B3C0Stream& kStream)
+void A8B3C0Data::NiPalette_SaveBinary(A8B3C0Stream& kStream)
 {
     A8B3C0Base::SaveBinary(kStream);
     A8B3C0SaveBinary<unsigned char>(kStream, m_bFlag);

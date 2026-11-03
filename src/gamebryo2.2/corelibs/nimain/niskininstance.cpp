@@ -35,11 +35,11 @@ struct FUN_00a864d0_Class
     char pad[8];
     void* m_pSkinData;            // +0x08
     void* m_pkSkinMeshPartition;  // +0x0c
-    bool FUN_00a864d0(A46BB0Object* pkObject);
+    bool NiSkinInstance_IsEqual(A46BB0Object* pkObject);
 };
 
 // @fnv 0x00a864d0
-bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
+bool FUN_00a864d0_Class::NiSkinInstance_IsEqual(A46BB0Object* pkObject)
 {
     FUN_00a864d0_Class* pkSkinInstance = (FUN_00a864d0_Class*)pkObject;
     if (!((A46BB0Object*)this)->IsEqual(pkObject))
@@ -69,7 +69,7 @@ struct SkinGraph
     NiObject* skinPartition;
     NiObject* rootParent;
     NiObject** bones;
-    bool FUN_00a5d2f0(NiStream&);
+    bool NiObject_RegisterStreamables(NiStream&);
     bool VisitSkinGraphLinks(NiStream& stream);
 };
 typedef void(__thiscall* VisitStreamable)(NiObject*, NiStream&);
@@ -81,7 +81,7 @@ __forceinline void VisitLinkedObject(NiObject* object, NiStream& stream)
 // @fnv 0x00a86460
 bool SkinGraph::VisitSkinGraphLinks(NiStream& stream)
 {
-    if (!FUN_00a5d2f0(stream))
+    if (!NiObject_RegisterStreamables(stream))
         return false;
     VisitLinkedObject(skinData, stream);
     if (skinPartition)
@@ -200,12 +200,12 @@ struct NiSkinInstanceStub : NiObjectBaseStub
 
     bool IsCloneable(NiCloningProcessStub& kCloning);
     void CopyMemberData(NiSkinInstanceStub* pkDest, NiCloningProcessStub& kCloning);
-    NiSkinInstanceStub* FUN_00a86830(NiCloningProcessStub& kCloning);
+    NiSkinInstanceStub* NiSkinInstance_CreateClone(NiCloningProcessStub& kCloning);
 };
 
 // Clones the skin instance when cloneable, remapping the skin root and bone objects through the cloning map and copying the bone pointer array.
 // @fnv 0x00a86830
-NiSkinInstanceStub* NiSkinInstanceStub::FUN_00a86830(NiCloningProcessStub& kCloning)
+NiSkinInstanceStub* NiSkinInstanceStub::NiSkinInstance_CreateClone(NiCloningProcessStub& kCloning)
 {
     if (!IsCloneable(kCloning))
         return this;
@@ -435,11 +435,11 @@ struct Skin
     Root* partition;
     Named* parent;
     BonePtr* bones;
-    void FUN_00a86920(Strings*);
+    void NiSkinInstance_GetViewerStrings(Strings*);
 };
 // Adds skin and parent labels, hardware partition and bone count values, sorted bone labels, then calls partition->Describe.
 // @fnv 0x00a86920
-void Skin::FUN_00a86920(Strings* apStrings)
+void Skin::NiSkinInstance_GetViewerStrings(Strings* apStrings)
 {
     ClearStrings(apStrings);
     apStrings->Add(CopyName(globalName));

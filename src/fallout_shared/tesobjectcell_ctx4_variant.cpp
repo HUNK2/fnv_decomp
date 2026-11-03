@@ -230,14 +230,14 @@ struct Collection
 
 struct World
 {
-    bool FUN_004623f0(bool);
+    bool BGSSaveLoadGame_SetThreadAllowChanges(bool);
     void ApplyUnloadedChanges(Reference*);
 };
 extern World* DAT_011ddf38;
 
 struct Manager
 {
-    void FUN_00858730(Reference*);
+    void TESSaveLoadGame_LoadForm(Reference*);
     bool FUN_0047c850();
     void FUN_00859690(Cell*);
     bool FUN_008727b0();
@@ -257,7 +257,7 @@ void FUN_004fffe0(int);
 unsigned int FUN_00ec6130(const char*);
 void FUN_005b5e40(const char*, ...);
 void ResolveFormID(unsigned int*, int);
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 extern "C" void* __cdecl __RTDynamicCast(void*, int, void*, void*, int);
 
 struct Cell : Reference
@@ -275,16 +275,16 @@ struct Cell : Reference
     int FUN_00544c30();
     unsigned int GetLightingTemplate();
     int FUN_00484e60(int);
-    void FUN_00558b60(void*);
+    void TESObjectCELL_SetLightingTemplate(void*);
     Node* FUN_009604f0();
     Extras* GetExtraDataList();
     bool FUN_005516c0();
     Collection* FUN_0070ec90();
-    void FUN_00542d40();
+    void TESObjectCELL_InitItem();
 };
 
 // @fnv 0x00542d40
-void Cell::FUN_00542d40()
+void Cell::TESObjectCELL_InitItem()
 {
 
     if (!FUN_004013e0())
@@ -324,14 +324,14 @@ void Cell::FUN_00542d40()
         {
             unsigned int handle = GetLightingTemplate();
             ResolveFormID(&handle, FUN_00484e60(-1));
-            BGSLightingTemplate* resolved = dynamic_cast<BGSLightingTemplate*>(FUN_004839c0(handle));
-            FUN_00558b60(resolved);
+            BGSLightingTemplate* resolved = dynamic_cast<BGSLightingTemplate*>(TESForm_GetFormByNumericID(handle));
+            TESObjectCELL_SetLightingTemplate(resolved);
             if (!resolved && handle)
                 FUN_005b5e40(&DAT_0102eb10, handle, Name(), FUN_0084e3a0());
         }
     }
 
-    bool oldState = DAT_011ddf38->FUN_004623f0(false);
+    bool oldState = DAT_011ddf38->BGSSaveLoadGame_SetThreadAllowChanges(false);
     Node* node = FUN_009604f0();
     Node* previous = 0;
 
@@ -341,7 +341,7 @@ void Cell::FUN_00542d40()
         if (!reference->FUN_004013e0())
         {
             reference->Load();
-            DAT_011de45c->FUN_00858730(reference);
+            DAT_011de45c->TESSaveLoadGame_LoadForm(reference);
             DAT_011ddf38->ApplyUnloadedChanges(reference);
         }
 
@@ -372,7 +372,7 @@ void Cell::FUN_00542d40()
         }
     }
 
-    DAT_011ddf38->FUN_004623f0(oldState);
+    DAT_011ddf38->BGSSaveLoadGame_SetThreadAllowChanges(oldState);
 
     if (DAT_011de45c->FUN_0047c850())
     {

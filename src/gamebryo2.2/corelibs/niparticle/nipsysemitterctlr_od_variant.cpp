@@ -19,7 +19,7 @@ struct FUN_00a38e00 : NiSingleInterpControllerBase
 };
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4054;
-void* __cdecl FUN_00a537e0();
+void* __cdecl NiBoolData_GetRTTI();
 struct NiTimeControllerStop
 {
     void ResetTiming();
@@ -31,13 +31,13 @@ struct FUN_00c1ba30 : NiTimeControllerStop
 };
 void __fastcall FUN_00c1ba30(FUN_00c1ba30* self, int unused);
 extern const char* const g_01203340_arg1;
-const char* const* __cdecl FUN_00c1c2f0();
+const char* const* __cdecl NiPSysEmitterCtlr_GetRTTI();
 extern int DAT_011ae754;
 extern int DAT_011ae758;
-const char* const* __stdcall FUN_00c1ba50(unsigned short usIndex);
+const char* const* __stdcall NiPSysEmitterCtlr_GetInterpolatorID(unsigned short usIndex);
 struct NiPSysEmitterCtlr_shell : NiPSysEmitterCtlr
 {
-    void FUN_00c1bcc0(NiInterpolator* pkInterpolator, unsigned short usIndex);
+    void NiPSysEmitterCtlr_SetInterpolator(NiInterpolator* pkInterpolator, unsigned short usIndex);
 };
 
 struct GO
@@ -55,7 +55,7 @@ struct NiPSysEmitterCtlr_StandIn
 {
     char pad[0x34];
     GO m34;
-    NiBoolInterpolator* FUN_00639b60();
+    NiBoolInterpolator* NiPSysEmitterCtlr_GetBirthRateInterpolator();
 };
 
 void* __cdecl _UseSaveGameBlocks(void* table, unsigned int key);
@@ -64,7 +64,7 @@ extern int g_011f3738;
 extern GlobalObjectO2_00a7b610 g_011f3e58;
 
 // @fnv 0x00639b60
-NiBoolInterpolator* NiPSysEmitterCtlr_StandIn::FUN_00639b60()
+NiBoolInterpolator* NiPSysEmitterCtlr_StandIn::NiPSysEmitterCtlr_GetBirthRateInterpolator()
 {
     NiBoolInterpolator* pkBoolInterp;
     NiBlendBoolInterpolator* pkBlendInterp;

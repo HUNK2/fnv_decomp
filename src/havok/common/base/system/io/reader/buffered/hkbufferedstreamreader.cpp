@@ -34,10 +34,10 @@ struct FUN_00d2bb40_cls
     int m_14;
     int m_18;
     int m_1c;
-    int FUN_00d2bb40();
+    int hkBufferedStreamReader_rewindToMark();
 };
 // @fnv 0x00d2bb40
-int FUN_00d2bb40_cls::FUN_00d2bb40()
+int FUN_00d2bb40_cls::hkBufferedStreamReader_rewindToMark()
 {
     if (m_1c >= 0)
     {
@@ -135,12 +135,12 @@ struct FUN_00d2ba00_cls : FUN_00d2ba80_cls
     int m_vContactPosition;
     int m_kRayEnd;
 
-    int FUN_00d2ba00(char* pBuffer, int nSize);
+    int hkBufferedStreamReader_read(char* pBuffer, int nSize);
 };
 
 // Copies up to nSize bytes from the internal buffer into pBuffer, refilling via v12 when exhausted, and returns the number of bytes read.
 // @fnv 0x00d2ba00
-int FUN_00d2ba00_cls::FUN_00d2ba00(char* apDest, int nSize)
+int FUN_00d2ba00_cls::hkBufferedStreamReader_read(char* apDest, int nSize)
 {
     char* pDest = apDest;
     int nRemaining = nSize;
@@ -198,7 +198,7 @@ struct FUN_00d2bb60_cls
 };
 
 // @fnv 0x00d2bb60
-int __fastcall FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
+int __fastcall hkBufferedStreamReader_seekTellSupported(FUN_00d2bb60_cls* self, int unused, int value)
 {
     self->m_pObject->v9(value);
     return value;
@@ -304,10 +304,10 @@ struct Stream
     int a, b;
     Reader* reader;
     int c, pos, end;
-    hkBool FUN_00d2bad0();
+    hkBool hkBufferedStreamReader_isOk();
 };
 // @fnv 0x00d2bad0
-hkBool Stream::FUN_00d2bad0()
+hkBool Stream::hkBufferedStreamReader_isOk()
 {
     unsigned char byte;
     return hkBool(pos != end || *reader->v3(&byte) != 0);

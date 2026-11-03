@@ -26,10 +26,10 @@ struct NiAVObject
 };
 struct FUN_00a5a030_shell : NiAVObject
 {
-    void __thiscall FUN_00a5a030(NiUpdateData& data);
+    void __thiscall NiAVObject_UpdateControllers(NiUpdateData& data);
 };
 extern char const* const g_011f4428_arg1;
-char const* const* __cdecl FUN_00a5a420();
+char const* const* __cdecl NiAVObject_GetRTTI();
 extern const void* DAT_011f9140;
 const void* __cdecl FUN_00b4e1d0();
 struct MemoryManager

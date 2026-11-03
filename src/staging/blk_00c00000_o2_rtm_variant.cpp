@@ -2667,7 +2667,7 @@ class FUN_00c1a500_cls
     unsigned int m_iCC;
     unsigned int m_iD0;
     float m_fD4;
-    void FUN_00a71d30(unsigned int a1);
+    void NiTriStrips_RenderImmediate(unsigned int a1);
     void UpdateOutput(unsigned int a1);
 };
 class NiRenderer;
@@ -3015,7 +3015,7 @@ struct Renderer
 };
 struct TextureGenerator
 {
-    void* FUN_004bc320(unsigned int code);
+    void* BSRenderedTexture_GetTexture(unsigned int code);
 };
 struct ShaderResource
 {
@@ -6144,7 +6144,7 @@ struct BSShaderPPLightingProperty
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int code);
+    TextureReceiver* BSRenderedTexture_GetTexture(int code);
 };
 struct C0CD80Pass
 {

@@ -41,7 +41,7 @@ class TimeGlobal
 class PlayerCharacter
 {
   public:
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
 };
 class NiFixedString
 {

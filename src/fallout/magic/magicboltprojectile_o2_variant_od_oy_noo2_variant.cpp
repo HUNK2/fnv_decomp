@@ -114,7 +114,7 @@ struct xCtl
 };
 struct xCell
 {
-    void FUN_00548230(void*, bool);
+    void TESObjectCELL_AddReference(void*, bool);
 };
 struct xOwner
 {
@@ -171,10 +171,10 @@ struct xProj : xBase
     xEffect* FUN_004fd400();
     void FUN_008133d0(int);
     xP3* FUN_00436aa0();
-    void FUN_00575830(const xP3&);
+    void TESObjectREFR_SetLocationOnReference(const xP3&);
     void InitEffect();
-    void FUN_00570f70(void*);
-    void FUN_00813f30();
+    void TESObjectREFR_Set3DSimple(void*);
+    void MagicBoltProjectile_InitHavok();
     xCtl* FUN_009306d0();
     xCell* FUN_008d6f30();
     void FUN_0081eba0();
@@ -195,16 +195,16 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     {
         xP3 POS = *FUN_00436aa0();
         POS.z = POS.z + *xg_11d1ae4.FUN_00403e20();
-        FUN_00575830(POS);
+        TESObjectREFR_SetLocationOnReference(POS);
     }
     xPtr OLD(xFUN_0081e440(FUN_004fd400()));
     OLD.FUN_0066b0d0(0);
     InitEffect();
-    FUN_00570f70(m_b4.FUN_00559450());
-    FUN_00813f30();
+    TESObjectREFR_Set3DSimple(m_b4.FUN_00559450());
+    MagicBoltProjectile_InitHavok();
     xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
     FUN_009306d0()->FUN_0080fb00(&V);
-    FUN_008d6f30()->FUN_00548230(this, false);
+    FUN_008d6f30()->TESObjectCELL_AddReference(this, false);
     FUN_008133d0(0);
     if (FUN_004fd400()->FUN_004fd3c0())
     {

@@ -242,7 +242,7 @@ struct NiPoint2
 typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_00640810_shell : public Sun
 {
-    void FUN_00640810(NiNode*);
+    void Sun_Initialize(NiNode*);
 };
 
 namespace _ {
@@ -341,7 +341,7 @@ struct NiAVObject : _::NiMemObject
 struct NiNode : NiAVObject
 {
     virtual void AttachChildInAvailableSlot(NiAVObject* pkChild, bool abFirstAvailableSlot);
-    void FUN_004902f0(bool);
+    void NiAVObject_SetSelectiveUpdate(bool);
     char _pad_9c[0x10];
 };
 struct FUN_0051cf00 : NiNode
@@ -352,7 +352,7 @@ struct FUN_0051cf00 : NiNode
 };
 struct NiTriBasedGeom : NiAVObject
 {
-    void FUN_004902f0(bool);
+    void NiAVObject_SetSelectiveUpdate(bool);
     char _pad_9c[0x24];
 };
 struct NiTriShape : NiTriBasedGeom
@@ -392,7 +392,7 @@ struct TESObjectREFR
 };
 struct FUN_00632d20_shell
 {
-    void FUN_00632d20(bool);
+    void NiPick_SetFrontOnly(bool);
 };
 struct RadioSignal
 {
@@ -427,11 +427,11 @@ extern NiPoint3 _NiPoint3_ZERO;
 
 struct FUN_00640810_t
 {
-    void FUN_00640810(NiNode* apSkyRoot);
+    void Sun_Initialize(NiNode* apSkyRoot);
 };
 
 // @fnv 0x00640810
-void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
+void FUN_00640810_t::Sun_Initialize(NiNode* apSkyRoot)
 {
     NiPoint3* psunNormals;
     NiPoint3* pglareNormals;
@@ -517,20 +517,20 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
 
     (NP&)((Sun*)this)->m_pThirdSceneObject =
         new NiTriShape(4, psunVertices, psunNormals, psunColors, psunTexture, 1, 0, 2, ssunVertOrder);
-    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject)->FUN_004902f0(true);
+    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject)->NiAVObject_SetSelectiveUpdate(true);
 
     (NP&)((Sun*)this)->m_pFirstSceneObject = new FUN_0051cf00;
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)->FUN_004902f0(true);
+    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)->NiAVObject_SetSelectiveUpdate(true);
     ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)->FUN_0051d000(2);
     ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pFirstSceneObject)
         ->AttachChildInAvailableSlot((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pThirdSceneObject, true);
 
     (NP&)((Sun*)this)->m_pFourthSceneObject =
         new NiTriShape(4, pglareVertices, pglareNormals, pglareColors, pglareTexture, 1, 0, 2, sglareVertOrder);
-    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject)->FUN_004902f0(true);
+    ((NiTriShape*)(unsigned int)(const Flt&)((Sun*)this)->m_pFourthSceneObject)->NiAVObject_SetSelectiveUpdate(true);
 
     (NP&)((Sun*)this)->m_pSecondSceneObject = new FUN_0051cf00;
-    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)->FUN_004902f0(true);
+    ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)->NiAVObject_SetSelectiveUpdate(true);
     ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)->FUN_0051d000(2);
     ((FUN_0051cf00*)(unsigned int)(const Flt&)((Sun*)this)->m_pSecondSceneObject)
         ->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
@@ -551,7 +551,7 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     ((Sun*)this)->m_pSunGlarePick = new GlobalObject_00e98f20(0, 8);
     ((QuantityData*)((Sun*)this)->m_pSunGlarePick)->SetQuantity(1);
     ((TESObjectREFR*)((Sun*)this)->m_pSunGlarePick)->SetFlags(1);
-    ((FUN_00632d20_shell*)((Sun*)this)->m_pSunGlarePick)->FUN_00632d20(true);
+    ((FUN_00632d20_shell*)((Sun*)this)->m_pSunGlarePick)->NiPick_SetFrontOnly(true);
     ((RadioSignal*)((Sun*)this)->m_pSunGlarePick)->SetByteAtOffset17(1);
 
     ((FUN_00baf3c0_S*)&bsshaderdata)->FUN_00baf3c0();
@@ -848,7 +848,7 @@ struct NiAVObject
     void SetLocalRotation(const H::ThreeByThreeMatrix&);
     void FUN_00440490(float);
     void SetAppCulled(bool);
-    bool FUN_006366b0();
+    bool NiAVObject_GetDisplayObject();
 };
 struct FUN_00440460_S
 {
@@ -864,12 +864,12 @@ struct BSAudio
 };
 struct Sky
 {
-    int FUN_00476c90();
+    int Sky_GetMode();
     bool IsFlag4Set();
 };
 struct FUN_00476980_S
 {
-    void FUN_004769c0(int, int);
+    void NiMatrix3_SetCol(int, int);
 };
 struct CP_008c48d0
 {
@@ -922,14 +922,14 @@ struct Sun_S
 };
 float __cdecl FUN_00408860(float);
 float __cdecl FUN_004dd130(float, float);
-bool FUN_004e2180();
-NiAVObject* __fastcall FUN_00558310(NiNode_00558310*);
+bool TESWaterSystem_GetPlayerUnderwater();
+NiAVObject* __fastcall BSSceneGraph_GetCameraRoot(NiNode_00558310*);
 NiNode_00558310* FUN_0045c670();
-float __fastcall FUN_00595ea0(char*);
-float __fastcall FUN_00595f50(char*);
-float __fastcall FUN_00595fc0(char*);
-float __fastcall FUN_00596030(void*);
-float __fastcall FUN_006447d0(const char*);
+float __fastcall Sky_GetSunriseBegin(char*);
+float __fastcall Sky_GetSunriseEnd(char*);
+float __fastcall Sky_GetSunsetBegin(char*);
+float __fastcall Sky_GetSunsetEnd(void*);
+float __fastcall Sky_GetCurrentWeatherPct(const char*);
 float __fastcall GetFieldEC(const char*);
 void __fastcall _ref_006815c0(void*);
 int __fastcall _ref_0084e3a0(TES*);
@@ -955,7 +955,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
     NiPoint3 newLoc = _NiPoint3_ZERO;
     float fhour = GetFieldEC((const char*)apSky);
     ((H::SkyObject*)this)->Update(apSky, afSecondsPassed);
-    if (apSky->FUN_00476c90() == 0)
+    if (apSky->Sky_GetMode() == 0)
     {
         H::ThreeByThreeMatrix lightDir = DAT_011a9448;
         TESObjectCELL* pcell = g_TES ? ((CP_008c48d0*)g_TES)->GetPrevPath() : 0;
@@ -979,7 +979,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
             ->FUN_0050dd50(*((TESDataHandler*)apSky)->GetTESCaravanDeckList());
     }
-    else if (apSky->FUN_00476c90() == 1)
+    else if (apSky->Sky_GetMode() == 1)
     {
         H::ThreeByThreeMatrix lightDir = DAT_011a9448;
         TESObjectCELL* pcell = g_TES ? ((CP_008c48d0*)g_TES)->GetPrevPath() : 0;
@@ -1003,12 +1003,12 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
             ->FUN_0050dd50(*((TESDataHandler*)apSky)->GetTESCaravanDeckList());
     }
-    else if (apSky->FUN_00476c90() == 3 || apSky->FUN_00476c90() == 2)
+    else if (apSky->Sky_GetMode() == 3 || apSky->Sky_GetMode() == 2)
     {
         ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))
-            ->SetAppCulled(!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))->FUN_006366b0());
-        float fSunriseBegin = (FUN_00595f50((char*)apSky) + FUN_00595ea0((char*)apSky)) / 2.0;
-        float fSunsetEnd = (FUN_00596030(apSky) + FUN_00595fc0((char*)apSky)) / 2.0;
+            ->SetAppCulled(!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))->NiAVObject_GetDisplayObject());
+        float fSunriseBegin = (Sky_GetSunriseEnd((char*)apSky) + Sky_GetSunriseBegin((char*)apSky)) / 2.0;
+        float fSunsetEnd = (Sky_GetSunsetEnd(apSky) + Sky_GetSunsetBegin((char*)apSky)) / 2.0;
         float fhalftrans = *originalRuntimeFloatSetting82.Float() * DAT_01011588;
         float fAlphaInBegin = fSunriseBegin - fhalftrans;
         float fAlphaInEnd = fSunriseBegin + fhalftrans;
@@ -1029,7 +1029,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         }
         TESWeather* pCurr = (TESWeather*)((BSAudio*)apSky)->GetAudioBackendData();
         TESWeather* pLast = (TESWeather*)((AnimIdle*)apSky)->GetSection();
-        float fCurrPct = FUN_006447d0((const char*)apSky);
+        float fCurrPct = Sky_GetCurrentWeatherPct((const char*)apSky);
         float fGlareAlpha = (pCurr ? pCurr->GetWeatherData(4, fCurrPct * fDiscAlpha, 0.0f) : fDiscAlpha) +
                             (pLast ? pLast->GetWeatherData(4, (1.0f - fCurrPct) * fDiscAlpha, 0.0f) : 0.0f);
         void* pshadeProperty =
@@ -1090,7 +1090,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 ->Set(-fxNewAim, ((GlobalObject_0044f440*)&originalRuntimeFloatSetting84)->FUN_00450410(),
                       ((GlobalObject_0044f440*)&originalRuntimeFloatSetting85)->FUN_00450410());
             ((H::NiPoint3*)&ksundirection)->ComputeMagnitude();
-            ((FUN_00476980_S*)&newSunRot)->FUN_004769c0(0, (int)&ksundirection);
+            ((FUN_00476980_S*)&newSunRot)->NiMatrix3_SetCol(0, (int)&ksundirection);
             ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))->SetLocalRotation(newSunRot);
             ((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))
                 ->FUN_004bc280(((TESDataHandler*)apSky)->GetTESRaceList());
@@ -1101,12 +1101,12 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         }
         if (g_TES && _ref_0084e3a0(g_TES))
         {
-            NiPoint3 origin = *((TESDataHandler*)FUN_00558310(FUN_0045c670()))->GetTESEyesList();
+            NiPoint3 origin = *((TESDataHandler*)BSSceneGraph_GetCameraRoot(FUN_0045c670()))->GetTESEyesList();
             NiPoint3 direction = newLoc;
             float fscaleChange = *originalRuntimeFloatSetting81.Float() * afSecondsPassed;
             ((H::NiPoint3*)&direction)->ComputeMagnitude();
             bool bblocked =
-                ((Sun_S*)this)->FUN_006427c0() >= 1.0 || (((EffectSetting*)g_TES)->GetEffectID(), FUN_004e2180());
+                ((Sun_S*)this)->FUN_006427c0() >= 1.0 || (((EffectSetting*)g_TES)->GetEffectID(), TESWaterSystem_GetPlayerUnderwater());
             float fscale = FUN_004dd130(1.0f - ((Sun_S*)this)->FUN_006427c0(), _DAT_010162c0);
             ((Sun_S*)this)->FUN_00642890();
             if (bblocked || fscale < *originalRuntimeFloatSetting80.Float())
@@ -1139,7 +1139,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))
                     ->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
             }
-            if (!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->FUN_006366b0())
+            if (!((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->NiAVObject_GetDisplayObject())
             {
                 ((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))->SetAppCulled(true);
             }

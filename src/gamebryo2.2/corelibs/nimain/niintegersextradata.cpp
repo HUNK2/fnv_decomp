@@ -101,50 +101,50 @@ extern int g_012031c4;
 
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* __thiscall BSFurnitureMarker_GetRTTI();
 };
 
 // @fnv 0x00c54d60
-int* __thiscall FUN_00c54d60_shell::FUN_00c54d60()
+int* __thiscall FUN_00c54d60_shell::BSFurnitureMarker_GetRTTI()
 {
     return &g_012031c4;
 }
 
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int __thiscall BSFurnitureMarker_CreateClone(int param_1);
 };
 
 // @fnv 0x00c54030
-int __thiscall FUN_00c54030_shell::FUN_00c54030(int param_1)
+int __thiscall FUN_00c54030_shell::BSFurnitureMarker_CreateClone(int param_1)
 {
     return (int)this;
 }
 
 struct FUN_00a7b290_shell
 {
-    void __thiscall FUN_00a7b290(int);
+    void __thiscall NiExtraData_RegisterStreamables(int);
 };
 struct FUN_00c54150_shell
 {
-    void __thiscall FUN_00c54150(int param_1);
+    void __thiscall BSFurnitureMarker_RegisterStreamables(int param_1);
 };
 // @fnv 0x00c54150
-void __thiscall FUN_00c54150_shell::FUN_00c54150(int param_1)
+void __thiscall FUN_00c54150_shell::BSFurnitureMarker_RegisterStreamables(int param_1)
 {
-    ((FUN_00a7b290_shell*)this)->FUN_00a7b290(param_1);
+    ((FUN_00a7b290_shell*)this)->NiExtraData_RegisterStreamables(param_1);
 }
 
 struct C00c541e0
 {
-    bool FUN_00a7b3d0(int);
-    bool FUN_00c541e0(int);
+    bool NiExtraData_IsEqual(int);
+    bool BSFurnitureMarker_IsEqual(int);
 };
-// Calls FUN_00a7b3d0 with the given int and returns its bool result.
+// Calls NiExtraData_IsEqual with the given int and returns its bool result.
 // @fnv 0x00c541e0
-bool C00c541e0::FUN_00c541e0(int a)
+bool C00c541e0::BSFurnitureMarker_IsEqual(int a)
 {
-    bool b = FUN_00a7b3d0(a);
+    bool b = NiExtraData_IsEqual(a);
     return b;
 }
 
@@ -223,10 +223,10 @@ struct NiExtraDataSaveHelper : NiExtraData
 void __cdecl FUN_0044adf0(NiStream&, unsigned const&);
 struct NiExtraDataSaveHelperShell : NiExtraDataSaveHelper
 {
-    void FUN_00c54170(NiStream&);
+    void BSFurnitureMarker_SaveBinary(NiStream&);
 };
 // @fnv 0x00c54170
-void NiExtraDataSaveHelperShell::FUN_00c54170(NiStream& stream)
+void NiExtraDataSaveHelperShell::BSFurnitureMarker_SaveBinary(NiStream& stream)
 {
     SaveBinary(stream);
     unsigned int count = *(unsigned short*)((char*)this + 0x18);
@@ -250,7 +250,7 @@ NiFixedString DAT_011f49e0;
 
 // Allocates a FUN_00c53f10 object, sets its name to DAT_011f49e0, and returns it as an NiAVObject pointer.
 // @fnv 0x00c54210
-NiAVObject* FUN_00c54210()
+NiAVObject* BSFurnitureMarker_CreateObject()
 {
     NiAVObject* object = reinterpret_cast<NiAVObject*>(new FUN_00c53f10);
     object->SetName(DAT_011f49e0);
@@ -289,11 +289,11 @@ void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, unsigned int flags)
 struct S_00c54130
 {
     void FUN_00a7b3b0(int a);
-    void FUN_00c54130(int a);
+    void BSFurnitureMarker_LinkObject(int a);
 };
 
 // @fnv 0x00c54130
-void S_00c54130::FUN_00c54130(int a)
+void S_00c54130::BSFurnitureMarker_LinkObject(int a)
 {
     FUN_00a7b3b0(a);
 }
@@ -488,8 +488,8 @@ struct FUN_00c542a0_shell : NiExtraData
     unsigned int unk14;
     unsigned short count;
 
-    void FUN_00a7b580(ViewerStringsArray*);
-    void FUN_00c542a0(ViewerStringsArray*);
+    void NiExtraData_GetViewerStrings(ViewerStringsArray*);
+    void BSFurnitureMarker_GetViewerStrings(ViewerStringsArray*);
 };
 
 extern int g_012031c4;
@@ -499,7 +499,7 @@ extern char* __cdecl FUN_00a7d550(char const*, float);
 
 // Appends marker count and per-marker number, position, and heading strings to the viewer strings array.
 // @fnv 0x00c542a0
-void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
+void FUN_00c542a0_shell::BSFurnitureMarker_GetViewerStrings(ViewerStringsArray* strings)
 {
     unsigned long iMarkers;
     unsigned int aIndex;
@@ -513,7 +513,7 @@ void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
     int aNameValue;
     MarkerText_00c542a0 val;
 
-    FUN_00a7b580(strings);
+    NiExtraData_GetViewerStrings(strings);
 
     aNameValue = g_012031c4;
     aRtti = FUN_00a7d330(aNameValue);

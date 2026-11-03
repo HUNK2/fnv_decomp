@@ -253,7 +253,7 @@ extern InventoryMenuSetting DAT_011d3810;
 extern InventoryMenuSetting DAT_011d1e18;
 extern bool DAT_011d9f38;
 bool FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 int Warning(const char*, ...);
 extern InventoryMenuSetting DAT_011d3258;
 extern InventoryMenuSetting DAT_011d2acc;

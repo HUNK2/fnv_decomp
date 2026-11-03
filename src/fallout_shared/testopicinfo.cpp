@@ -1024,18 +1024,18 @@ char* FUN_0061e5e0_shell::GetFieldPtr()
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
+    void __thiscall TESForm_LoadGame2(unsigned int, unsigned int);
 };
 
 struct FUN_0061dad0_shell
 {
-    void __thiscall FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void __thiscall TESTopicInfo_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 
 // @fnv 0x0061dad0
-void __thiscall FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void __thiscall FUN_0061dad0_shell::TESTopicInfo_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    ((TESFormStub*)this)->FUN_00484c50(aiFlags, aiCurrentFlags);
+    ((TESFormStub*)this)->TESForm_LoadGame2(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x80000000)
         ((unsigned char*)this)[0x22] = 1;
 }
@@ -1089,11 +1089,11 @@ void FUN_0061cb60_shell::FUN_0061cb60(TESResponse* head)
 
 struct FUN_0061d6a0_shell : public TESTopicInfo
 {
-    void FUN_0061d6a0(bool set);
+    void TESTopicInfo_SetAltered(bool set);
 };
 
 // @fnv 0x0061d6a0
-void FUN_0061d6a0_shell::FUN_0061d6a0(bool set)
+void FUN_0061d6a0_shell::TESTopicInfo_SetAltered(bool set)
 {
     if (!IsTemporary() && set && IsFormInitialized())
     {
@@ -1250,7 +1250,7 @@ struct ActorS
 };
 struct FUN_0061e600_t : public TESTopicInfo
 {
-    bool FUN_00619b20();
+    bool TESTopicInfo_IsSayOnce();
     bool IsNew();
     bool FUN_0061e600(bool& rbDeferred, TESQuest* apQuest, TESObjectREFR* apSpeaker, TESObjectREFR* apListener);
 };
@@ -1263,7 +1263,7 @@ bool FUN_0061e600_t::FUN_0061e600(bool& rbDeferred, TESQuest* apQuest, TESObject
     ActorS* pActor;
     if (IsDeleted())
         return false;
-    if (FUN_00619b20() && IsNew())
+    if (TESTopicInfo_IsSayOnce() && IsNew())
         return false;
     {
         int iType = FUN_0061e720((const char*)this);
@@ -1329,7 +1329,7 @@ extern unsigned int kGroupFormType;
 
 struct FUN_00485b60
 {
-    bool FUN_00485be0(unsigned int);
+    bool TESForm_FormIDMatchesWithoutIndex(unsigned int);
 };
 
 struct GROUP_PARENT_CHECK
@@ -1433,7 +1433,7 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
 
                 if (!bretval && reinterpret_cast<unsigned int*>(apGroupFORM)[3] == 7 &&
                     reinterpret_cast<FUN_00485b60*>(pparenttopic)
-                        ->FUN_00485be0(reinterpret_cast<unsigned int*>(apGroupFORM)[2]))
+                        ->TESForm_FormIDMatchesWithoutIndex(reinterpret_cast<unsigned int*>(apGroupFORM)[2]))
                 {
                     bretval = true;
                 }
@@ -1515,10 +1515,10 @@ TESTopic* FindTopicByInfo(TESForm*);
 struct TopicInfoCompare : TESTopicInfo
 {
     bool IsLessThan(TESForm*);
-    bool FUN_0061d710(TESForm*);
+    bool TESTopicInfo_Sort(TESForm*);
 };
 // @fnv 0x0061d710
-bool TopicInfoCompare::FUN_0061d710(TESForm* form)
+bool TopicInfoCompare::TESTopicInfo_Sort(TESForm* form)
 {
     bool bResult = false;
     switch (static_cast<DialogueFormType*>(form)->FUN_00401170())
@@ -1664,8 +1664,8 @@ void TopicInfoDebug::PrintDebugInfo(DebugTextOut* out)
 
 struct TopicInfoCopy : TESTopicInfo
 {
-    void FUN_0061e330(TESForm* form);
-    void FUN_004851b0(TESForm* form);
+    void TESTopicInfo_CopyFrom(TESForm* form);
+    void TESForm_CopyAllComponents(TESForm* form);
     TopicInfoData* GetFieldPtr();
     void FUN_0061d250();
     void FUN_0061d230();
@@ -1690,14 +1690,14 @@ struct ScriptCopy : Script
 };
 // Copies topic info data from another TESTopicInfo: add-topic list, responses, prompt, perk/actor value, difficulty, speaker, result scripts and quest.
 // @fnv 0x0061e330
-void TopicInfoCopy::FUN_0061e330(TESForm* form)
+void TopicInfoCopy::TESTopicInfo_CopyFrom(TESForm* form)
 {
     TESTopicInfo* topic = dynamic_cast<TESTopicInfo*>(form);
     if (!topic)
         return;
     BSSimpleList<TESTopic*>* source = 0;
     TESTopic* node = 0;
-    FUN_004851b0(form);
+    TESForm_CopyAllComponents(form);
     m_Data = static_cast<TopicInfoCopy*>(topic)->GetFieldPtr()[0];
     FUN_0061d250();
     source = topic->GetAddTopicList();
@@ -1903,7 +1903,7 @@ int B61F2B0Object::FUN_0061f2b0()
 }
 
 extern unsigned int kGroupFormType;
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 struct S_00619510_Obj
 {
     unsigned int unk00;
@@ -1952,7 +1952,7 @@ bool FUN_00619510_shell::IsFormInGroup(S_00619510_Obj* pGroupObj)
             result = false;
             break;
         case 7: {
-            TESTopic* t = dynamic_cast<TESTopic*>(FUN_004839c0(pGroupObj->unk08));
+            TESTopic* t = dynamic_cast<TESTopic*>(TESForm_GetFormByNumericID(pGroupObj->unk08));
             if (t)
                 result = v15(t);
             break;

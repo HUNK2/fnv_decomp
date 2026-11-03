@@ -367,7 +367,7 @@ struct SurgeryInterface
 {
     NiNode* FUN_007fd640();
 };
-SurgeryInterface* __cdecl FUN_004b7210();
+SurgeryInterface* __cdecl InterfaceManager_Instance();
 struct SurgeryHolder
 {
     NiNode* ptr;
@@ -394,7 +394,7 @@ void __cdecl UpdateSurgeryScene()
     NiNode* c = (NiNode*)(unsigned)g_011dadb4;
     UpdateCameraFrustum(c, 0.15f);
     NiNode* a = FUN_00450b80(1);
-    SurgeryHolder e(FUN_004b7210()->FUN_007fd640());
+    SurgeryHolder e(InterfaceManager_Instance()->FUN_007fd640());
     d->FUN_004a0fd0(e.FUN_00559450());
     FUN_00b6bee0(c, a, d);
     FUN_00b6c0d0(c, e.FUN_00559450(), 0);
@@ -761,7 +761,7 @@ void CloseSurgeryMenu()
             RefreshEntryByID((*iter->_ref_006815c0())->_04);
             iter = iter->_ref_00726070();
         }
-        ((InterfaceManager*)FUN_004b7210())->GetParent()->SetInt(0xfa9, 0xff);
+        ((InterfaceManager*)InterfaceManager_Instance())->GetParent()->SetInt(0xfa9, 0xff);
     }
 
     FUN_007e5170();
@@ -925,11 +925,11 @@ struct MenuX
     void Drag();
     bool Hit();
     void Update();
-    void FUN_007e23c0();
+    void SurgeryMenu_Update();
 };
 // Updates the menu's top-menu flag, drag position, decay of valueac over time, sounds, and the value text from the player's actor value 16.
 // @fnv 0x007e23c0
-void MenuX::FUN_007e23c0()
+void MenuX::SurgeryMenu_Update()
 {
     char text[256];
     if (!IsMenu(0x41e))
@@ -1515,7 +1515,7 @@ struct SceneNode
 {
     void FUN_00a59c60(UpdateArgs&);
     Position3& FUN_0043c490();
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 struct ScenePtr
 {
@@ -1757,7 +1757,7 @@ float SurgeryView::UpdateWoundInteraction()
         c.x = ApplyNoise((float)(((ClockValue&)g_timeGlobal).FUN_00825c00() * 0.0002500000118743628));
         c.y = ApplyNoise((float)((((ClockValue&)g_timeGlobal).FUN_00825c00() + 12345) * 0.0002500000118743628));
         Position3 k = ((SceneNode*)nodes[GetIndex(p->index)])->FUN_0043c490();
-        ((SceneNode*)nodes[GetIndex(p->index)])->FUN_004bc1f0(c.x, c.y, 1.0f);
+        ((SceneNode*)nodes[GetIndex(p->index)])->NiAVObject_SetTranslate(c.x, c.y, 1.0f);
         UpdateArgs ba(0.0f, false, false);
         ((SceneNode*)nodes[GetIndex(p->index)])->FUN_00a59c60(ba);
     }
@@ -2103,7 +2103,7 @@ struct FUN_007e4540_shell
 // @fnv 0x007e4540
 bool FUN_007e4540_shell::FUN_007e4540()
 {
-    FUN_004b7210();
+    InterfaceManager_Instance();
     if (FUN_004b71d0())
         return true;
 
@@ -2135,7 +2135,7 @@ bool FUN_007e4540_shell::FUN_007e4540()
         iRadiusTmp = 0x145;
     }
 
-    FUN_00747d00_im* pInterface6 = (FUN_00747d00_im*)FUN_004b7210();
+    FUN_00747d00_im* pInterface6 = (FUN_00747d00_im*)InterfaceManager_Instance();
     FUN_006815c0 kDeltaCur;
     kDeltaCur.x = pInterface6->FUN_00747d00() - iX;
     kDeltaCur.y = pInterface6->FUN_0073b020() - iY;
@@ -2901,7 +2901,7 @@ class DirectionSequence
 class DirectionManager
 {
   public:
-    DirectionSequence* FUN_0047a520(const NiFixedString& kName);  // FindSequenceByName
+    DirectionSequence* NiControllerManager_GetSequenceByName(const NiFixedString& kName);  // FindSequenceByName
     void FUN_0048fef0(float fTime);                               // deactivate all
     void FUN_0047aab0(DirectionSequence* pkSequence, int iPriority, bool bStartOver, float fWeight, float fEaseInTime,
                       DirectionSequence* pkTimeSync);
@@ -2947,13 +2947,13 @@ void DirectionAnimator::SetDirection(int iDirection)
         switch (m_iDirection)
         {
         case 1:
-            pkSequence2 = pkManager->FUN_0047a520(NiFixedString("Forward"));
+            pkSequence2 = pkManager->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
             break;
         case 2:
-            pkSequence2 = pkManager->FUN_0047a520(NiFixedString("Right"));
+            pkSequence2 = pkManager->NiControllerManager_GetSequenceByName(NiFixedString("Right"));
             break;
         case 3:
-            pkSequence2 = pkManager->FUN_0047a520(NiFixedString("Left"));
+            pkSequence2 = pkManager->NiControllerManager_GetSequenceByName(NiFixedString("Left"));
             break;
         }
         if (pkSequence2)
@@ -3034,7 +3034,7 @@ extern PickTimer DAT_011f6394;
 extern PickPlayer* DAT_011dea3c;
 extern int DAT_011dad9c;
 
-PickInterface* FUN_004b7210();
+PickInterface* InterfaceManager_Instance();
 int __cdecl FUN_00a00940(const char* apTrait, int aiDefault);
 void __cdecl ComputeInjuryEffectScalars(float* apResistance, float* apMagnitude, float* apMouse, float afSkill,
                                         float afLockLevel, int aiPerception);
@@ -3078,7 +3078,7 @@ struct PickMenu
 // @fnv 0x007e3890
 void PickMenu::UpdateLockpick(bool abForcing)
 {
-    PickInterface* pInterfaceFinal = FUN_004b7210();
+    PickInterface* pInterfaceFinal = InterfaceManager_Instance();
     static int iMinResistanceTime = FUN_00a00940(s_szMinResistanceTime, -1);
     static int iMaxResistanceTime = FUN_00a00940(s_szMaxResistanceTime, -1);
     static int iMinMagnitude = FUN_00a00940(s_szMinMagnitude, -1);
@@ -3124,7 +3124,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         kCursorPos.Add(&kIntersectionOffset);
         PickInput* pInputIn = DAT_011dea0c->FUN_00877720();
         PickPoint kInput;
-        if (FUN_004b7210()->FUN_004b71d0())
+        if (InterfaceManager_Instance()->FUN_004b71d0())
         {
             int iStickX = pInputIn->GetAxisState(0, 7);
             int iStickYTmp = pInputIn->GetAxisState(0, 8);
@@ -3153,7 +3153,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         bForcing = false;
         fResistance = 0.0f;
         kArgumentPosition->FUN_00700320(0xfa3, 0);
-        if (FUN_004b7210()->FUN_004b71d0())
+        if (InterfaceManager_Instance()->FUN_004b71d0())
         {
             PickInput* pPadIn = DAT_011dea0c->FUN_00877720();
             int iPadX = pPadIn->GetAxisState(0, 7);
@@ -3753,8 +3753,8 @@ struct BoneAnim
 };
 struct BoneManager
 {
-    unsigned FUN_00495d00();
-    BoneAnim* FUN_00495d20(unsigned);
+    unsigned NiControllerManager_GetSequenceCount();
+    BoneAnim* NiControllerManager_GetSequenceAt(unsigned);
     void FUN_0047aab0(BoneAnim*, int, bool, float, float, void*);
 };
 struct BoneHost
@@ -3933,9 +3933,9 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
         }
         else
             currentItem = previous_2;
-        for (unsigned i = 0; i < ((BoneMenu*)DAT_011dada4)->manager->FUN_00495d00(); i++)
+        for (unsigned i = 0; i < ((BoneMenu*)DAT_011dada4)->manager->NiControllerManager_GetSequenceCount(); i++)
         {
-            BoneAnim* sequence5 = ((BoneMenu*)DAT_011dada4)->manager->FUN_00495d20(i);
+            BoneAnim* sequence5 = ((BoneMenu*)DAT_011dada4)->manager->NiControllerManager_GetSequenceAt(i);
             char nameSize5[32];
             sprintf(nameSize5, "Bone%s", sequence5->FUN_00413f40().FUN_0043b1b0());
             BoneEntry* entry24 = 0;
@@ -4025,7 +4025,7 @@ extern GlobalObject_0044f440 g_011dae6c;
 
 struct BipAVObject
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00440490(float);
 };
 
@@ -4088,7 +4088,7 @@ void __cdecl FUN_007e4fe0(float a, float b, float c)
     {
         DAT_011dae5c.FUN_00559450()
             ->v039(NiFixedString("Bip01"))
-            ->FUN_004bc1f0(-*g_011dae6c.Float(), *g_011dadf0.Float() - b, *g_011dae28.Float() - a);
+            ->NiAVObject_SetTranslate(-*g_011dae6c.Float(), *g_011dadf0.Float() - b, *g_011dae28.Float() - a);
         DAT_011dae5c.FUN_00559450()->v039(NiFixedString("Bip01"))->FUN_00440490(*g_011dadfc.Float() * (double)c);
         NiUpdateDataS kData(0.0f, false, false);
         DAT_011dae5c.FUN_00559450()->FUN_00a59c60(kData);

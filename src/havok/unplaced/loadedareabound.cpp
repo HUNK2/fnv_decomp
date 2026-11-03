@@ -35,15 +35,15 @@ struct ObjA
 };
 struct Refr
 {
-    int FUN_00575ca0();
-    bool FUN_00568680();
+    int TESObjectREFR_GetSpace();
+    bool TESObjectREFR_IsFurniture();
     Refr* FUN_0067f390();
     int FUN_00678ca0();
-    void* FUN_00567790();
+    void* TESObjectREFR_GetOwner();
     bool FUN_005785e0(Actor* a, bool b);
     ObjA* FUN_007af430();
-    int FUN_005682c0(bool b);
-    bool FUN_00568500(int a, int b);
+    int TESObjectREFR_GetFirstFreeMarkerIndex(bool b);
+    bool TESObjectREFR_GetMarkerAtIndex(int a, int b);
 };
 struct Obj44
 {
@@ -384,7 +384,7 @@ struct Proc
 };
 struct Actor : Refr
 {
-    int FUN_00575ca0();
+    int TESObjectREFR_GetSpace();
     virtual void vtbl000();
     virtual void vtbl001();
     virtual void vtbl002();
@@ -525,21 +525,21 @@ struct Actor : Refr
     virtual void vtbl137();
     virtual void vtbl138();
     virtual bool v22c(int flags);
-    bool FUN_004938e0();
+    bool Actor_IsMoving();
     bool FUN_008a3b30();
     Proc* FUN_008d8520();
     void FUN_008c3c40(int a, int b);
     Refr* FUN_00886080();
     Refr* FUN_00881650();
     struct Pkg* FUN_009344a0();
-    Refr* FUN_00569b80();
+    Refr* TESObjectREFR_GetLinkedRef();
     bool FUN_00579670();
     void* FUN_00891d30();
     bool FUN_008a7870();
     bool FUN_0088d2f0(Refr* r, int a, int b, bool c);
     void* FUN_008d6f30();
-    void FUN_00575830(Point3* p);
-    void FUN_00562020();
+    void TESObjectREFR_SetLocationOnReference(Point3* p);
+    void TESObjectREFR_Update3DPosition();
 };
 struct Pkg
 {
@@ -687,7 +687,7 @@ void ThisCls::FUN_00972d30()
                     {
                         if (j->v218())
                         {
-                            if (!j->FUN_004938e0())
+                            if (!j->Actor_IsMoving())
                             {
                                 if (!j->FUN_008a3b30())
                                 {
@@ -697,7 +697,7 @@ void ThisCls::FUN_00972d30()
                                             continue;
                                         {
                                             j->FUN_008c3c40(0, 0);
-                                            int pObj4 = j->FUN_00575ca0();
+                                            int pObj4 = j->TESObjectREFR_GetSpace();
                                             Refr* accepted = 0;
                                             bool visible = false;
                                             bool _x = false;
@@ -728,7 +728,7 @@ void ThisCls::FUN_00972d30()
                                             if (found != 0)
                                             {
                                                 if (found->FUN_00678ca0() == 6)
-                                                    q = j->FUN_00569b80();
+                                                    q = j->TESObjectREFR_GetLinkedRef();
                                             }
                                             if (!q)
                                             {
@@ -737,28 +737,28 @@ void ThisCls::FUN_00972d30()
                                             long _object;
                                             _object = j->FUN_008d8520()->v4d4();
                                             unsigned int idx13 = -1;
-                                            if (refr38 != 0 && refr38->FUN_00568680() &&
-                                                refr38->FUN_00575ca0() == pObj4)
+                                            if (refr38 != 0 && refr38->TESObjectREFR_IsFurniture() &&
+                                                refr38->TESObjectREFR_GetSpace() == pObj4)
                                             {
                                                 accepted = refr38;
                                                 chosen = accepted->FUN_007af430();
                                                 if (chosen->FUN_00509420())
                                                     visible = true;
-                                                idx13 = accepted->FUN_005682c0(true);
-                                                if (idx13 == -1 || !accepted->FUN_00568500(idx13, _object))
+                                                idx13 = accepted->TESObjectREFR_GetFirstFreeMarkerIndex(true);
+                                                if (idx13 == -1 || !accepted->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                 {
                                                     accepted = 0;
                                                     _x = true;
                                                 }
                                             }
-                                            else if (q != 0 && q->FUN_00568680() && q->FUN_00575ca0() == pObj4)
+                                            else if (q != 0 && q->TESObjectREFR_IsFurniture() && q->TESObjectREFR_GetSpace() == pObj4)
                                             {
                                                 accepted = q;
                                                 chosen = accepted->FUN_007af430();
                                                 if (chosen->FUN_00509420())
                                                     visible = true;
-                                                idx13 = accepted->FUN_005682c0(true);
-                                                if (idx13 == -1 || !accepted->FUN_00568500(idx13, _object))
+                                                idx13 = accepted->TESObjectREFR_GetFirstFreeMarkerIndex(true);
+                                                if (idx13 == -1 || !accepted->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                 {
                                                     accepted = 0;
                                                     _x = true;
@@ -775,17 +775,17 @@ void ThisCls::FUN_00972d30()
                                                 {
                                                     currentReference = *iter->FUN_006815c0();
                                                     bool flag49 = false;
-                                                    if (currentReference->FUN_00575ca0() == pObj4)
+                                                    if (currentReference->TESObjectREFR_GetSpace() == pObj4)
                                                     {
-                                                        if (currentReference->FUN_00567790() == 0 ||
+                                                        if (currentReference->TESObjectREFR_GetOwner() == 0 ||
                                                             currentReference->FUN_005785e0(j, true))
                                                         {
                                                             chosen = currentReference->FUN_007af430();
                                                             if (chosen->FUN_00509420())
                                                             {
-                                                                idx13 = currentReference->FUN_005682c0(true);
+                                                                idx13 = currentReference->TESObjectREFR_GetFirstFreeMarkerIndex(true);
                                                                 if (idx13 == -1 ||
-                                                                    !currentReference->FUN_00568500(idx13, _object))
+                                                                    !currentReference->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                                 {
                                                                     iter->FUN_00905330(&currentReference);
                                                                     iter = DAT_011dea10->FUN_0055ac00();
@@ -817,18 +817,18 @@ void ThisCls::FUN_00972d30()
                                                     {
                                                         currentReference = *iter->FUN_006815c0();
                                                         bool flag4a = false;
-                                                        if (currentReference->FUN_00575ca0() == pObj4 &&
+                                                        if (currentReference->TESObjectREFR_GetSpace() == pObj4 &&
                                                             currentReference != 0)
                                                         {
-                                                            if (currentReference->FUN_00567790() == 0 ||
+                                                            if (currentReference->TESObjectREFR_GetOwner() == 0 ||
                                                                 currentReference->FUN_005785e0(j, true))
                                                             {
                                                                 chosen = currentReference->FUN_007af430();
                                                                 if (chosen->FUN_005093f0())
                                                                 {
-                                                                    idx13 = currentReference->FUN_005682c0(true);
+                                                                    idx13 = currentReference->TESObjectREFR_GetFirstFreeMarkerIndex(true);
                                                                     if (idx13 == -1 ||
-                                                                        !currentReference->FUN_00568500(idx13, _object))
+                                                                        !currentReference->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                                     {
                                                                         iter->FUN_00905330(&currentReference);
                                                                         iter = DAT_011dea10->FUN_0055ac00();
@@ -857,8 +857,8 @@ void ThisCls::FUN_00972d30()
                                                 _origin = j->v1f4();
                                                 Point3 pt = *_origin;
                                                 FUN_006d6f80(FUN_00575d70(j), j->FUN_008d6f30(), _origin, &pt);
-                                                j->FUN_00575830(&pt);
-                                                j->FUN_00562020();
+                                                j->TESObjectREFR_SetLocationOnReference(&pt);
+                                                j->TESObjectREFR_Update3DPosition();
                                             }
                                         }
                                     }
@@ -886,7 +886,7 @@ struct FUN_00437c10
 struct CF845
 {
     CF845(void* p);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
     int unk;
 };
 
@@ -959,7 +959,7 @@ struct TESObjectREFR
     virtual bool vfunc_0x100();
 };
 
-TESObjectREFR* __cdecl FUN_0062b4e0(void* p);
+TESObjectREFR* __cdecl GetCdBodyRef(void* p);
 
 struct PickedObj
 {
@@ -977,7 +977,7 @@ struct ItemObj
     void* FUN_00460140();
     const char* operator_str();
     void* FUN_007d6bb0();
-    void* FUN_0043b540();
+    void* hkpCollidable_getCollisionFilterInfo();
 };
 
 struct Arg2Item
@@ -1019,10 +1019,10 @@ struct Arg3
 struct FUN_00628df0_class
 {
     void FUN_00628df0(Arg1* a1, Arg2* a2, Arg3* a3);
-    void FUN_006295e0(TESObjectREFR* r);
+    void LoadedAreaBound_WarpActor(TESObjectREFR* r);
 };
 
-// For each a2 item with a string, calls a3's target vfunc_0x3c; if the a1 checks fail and the item type is 0x1e, passes its REFR to FUN_006295e0.
+// For each a2 item with a string, calls a3's target vfunc_0x3c; if the a1 checks fail and the item type is 0x1e, passes its REFR to LoadedAreaBound_WarpActor.
 // @fnv 0x00628df0
 void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
 {
@@ -1037,14 +1037,14 @@ void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
             char flag;
             if (!a1->FUN_00628d10(&flag, &tmp)->FUN_005609f0() || !a1->FUN_00628c50(&tmp))
             {
-                CF845 filter(p38->FUN_0043b540());
-                if (filter.FUN_0043b4d0() == 0x1e)
+                CF845 filter(p38->hkpCollidable_getCollisionFilterInfo());
+                if (filter.CFilter_GetLayer() == 0x1e)
                 {
-                    TESObjectREFR* refr = FUN_0062b4e0(p38);
+                    TESObjectREFR* refr = GetCdBodyRef(p38);
                     if (refr && refr->vfunc_0x100())
                     {
                         TESObjectREFR* pRefr = refr;
-                        this->FUN_006295e0(pRefr);
+                        this->LoadedAreaBound_WarpActor(pRefr);
                     }
                 }
             }

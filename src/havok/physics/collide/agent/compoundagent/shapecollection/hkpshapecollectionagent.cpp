@@ -931,13 +931,13 @@ class ShapeCollectionAgentA
         return -1;
     }
 
-    void FUN_00d43f10(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
+    void hkpShapeCollectionAgent_updateShapeCollectionFilter(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                       ConstraintOwner& constraintOwner);
 };
 
 // Iterates shape keys in bodyA's container, creating or updating collision agents for enabled pairs and removing agents for disabled ones.
 // @fnv 0x00d43f10
-void ShapeCollectionAgentA::FUN_00d43f10(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
+void ShapeCollectionAgentA::hkpShapeCollectionAgent_updateShapeCollectionFilter(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                                          ConstraintOwner& constraintOwner)
 {
     CdBody newOperandA(&bodyA);

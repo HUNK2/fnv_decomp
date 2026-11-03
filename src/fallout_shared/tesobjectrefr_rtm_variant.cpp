@@ -4,7 +4,7 @@
 
 #include "tesobjectrefr_decls.h"
 GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
+void* DecalData_GetDefaultDecalData();
 void FUN_005743f0();
 void FUN_00575c90(unsigned char value);
 float FUN_005790b0();
@@ -33,8 +33,8 @@ class NonActorMagicTarget : public BSExtraData, public ExtraBase2
 };
 struct ExtraList
 {
-    BSExtraData* FUN_00410220(int type);
-    void FUN_0040ff60(BSExtraData* p);
+    BSExtraData* BaseExtraList_GetExtraData(int type);
+    void BaseExtraList_AddExtra(BSExtraData* p);
 };
 bool __cdecl FUN_00576040(int x);
 struct Owner
@@ -60,19 +60,19 @@ struct Owner
     virtual void v18(unsigned int flag);
     int FUN_007af430();
     ExtraList* FUN_005d43c0();
-    ExtraBase2* FUN_00575f30();
+    ExtraBase2* TESObjectREFR_GetMagicTarget();
 };
 // @fnv 0x00575f30
-ExtraBase2* Owner::FUN_00575f30()
+ExtraBase2* Owner::TESObjectREFR_GetMagicTarget()
 {
     NonActorMagicTarget* p = 0;
     if (FUN_00576040(FUN_007af430()))
     {
-        p = dynamic_cast<NonActorMagicTarget*>(FUN_005d43c0()->FUN_00410220(0x33));
+        p = dynamic_cast<NonActorMagicTarget*>(FUN_005d43c0()->BaseExtraList_GetExtraData(0x33));
         if (!p)
         {
             p = new NonActorMagicTarget(this);
-            FUN_005d43c0()->FUN_0040ff60(p);
+            FUN_005d43c0()->BaseExtraList_AddExtra(p);
             v18(0x80000000);
         }
     }

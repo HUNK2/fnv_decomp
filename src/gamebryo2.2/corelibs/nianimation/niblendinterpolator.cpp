@@ -472,7 +472,7 @@ void FUN_00a37260_shell::UpdateNormalizedWeights()
 
 extern const char* const g_011f371c_arg1;
 // @fnv 0x00a36960
-const char* const* __cdecl FUN_00a36960()
+const char* const* __cdecl NiBlendInterpolator_GetRTTI()
 {
     return &g_011f371c_arg1;
 }
@@ -635,7 +635,7 @@ struct BlendInterpS : InterpS
     InterpS* m_pSingleInterpolator;
 };
 // @fnv 0x00a36e10
-void __fastcall FUN_00a36e10(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
+void __fastcall NiBlendInterpolator_GuaranteeTimeRange(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_ucInterpCount == 1)
     {
@@ -722,7 +722,7 @@ struct BlendInterpS : InterpS
 };
 // Registers the base streamables, then registers each item's interpolator when the flag bit is clear; returns false if the base call fails.
 // @fnv 0x00a36f80
-bool __fastcall FUN_00a36f80(BlendInterpS* self, int, StreamS& kStream)
+bool __fastcall NiBlendInterpolator_RegisterStreamables(BlendInterpS* self, int, StreamS& kStream)
 {
     if (!self->FUN_00a81fe0(kStream))
         return false;
@@ -796,7 +796,7 @@ struct BlendS
     bool FUN_00ba87d0(ObjS* o);
 };
 // @fnv 0x00a36fd0
-bool __fastcall FUN_00a36fd0(BlendS* self, int, ObjS* pkObject)
+bool __fastcall NiBlendInterpolator_IsEqual(BlendS* self, int, ObjS* pkObject)
 {
     if (!self->FUN_00ba87d0(pkObject))
         return false;
@@ -1240,11 +1240,11 @@ struct InterpolatorRegistry
 class BlendSerializer : public NiBlendInterpolator
 {
   public:
-    void FUN_00a38080(NiStream* stream);
+    void NiBlendInterpolator_GetViewerStrings(NiStream* stream);
 };
 // Appends viewer strings for the blend interpolator's fields and, for each array entry with a linked interpolator, its priority, weights and interpolator strings.
 // @fnv 0x00a38080
-void BlendSerializer::FUN_00a38080(NiStream* stream)
+void BlendSerializer::NiBlendInterpolator_GetViewerStrings(NiStream* stream)
 {
     this->NiInterpolator::GetViewerStrings((NiViewerStringsArray*)stream);
     unsigned int uiValue;
@@ -1532,12 +1532,12 @@ struct SBObject : SBBase
     int m_iValue28;
     int m_iValue2C;
 
-    void FUN_00a37ec0(SBStream& arStream);
+    void NiBlendInterpolator_SaveBinary(SBStream& arStream);
 };
 
 // Serializes the base fields, then unless flag bit 1 is set writes the extra bytes and values, each entry, and the link ID.
 // @fnv 0x00a37ec0
-void SBObject::FUN_00a37ec0(SBStream& arStream)
+void SBObject::NiBlendInterpolator_SaveBinary(SBStream& arStream)
 {
     SBBase::SaveBinary(arStream);
     SBStreamSaveBinary(arStream, m_ucFlags);

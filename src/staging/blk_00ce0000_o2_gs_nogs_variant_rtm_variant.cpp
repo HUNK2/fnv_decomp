@@ -45,7 +45,7 @@ struct FUN_00ce4a20_cls {
     int __thiscall FUN_00ce4a20(int a);
 };
 extern int DAT_0102e378;
-void __cdecl FUN_00cf69a0(int* a);
+void __cdecl finishLoadedObject_hkReferencedObject(int* a);
 struct FUN_00cf69c0_class {
     int m_kPointA;
     int m_auiShapeKeys;
@@ -163,7 +163,7 @@ struct FUN_00cf4490_cls {
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
-CpuOpaque* __cdecl FUN_00cf45f0();
+CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI();
 struct PacketSerializer {
     int metadata, bytesWritten, reserved;
     typedef int (__cdecl *Fn)(PacketSerializer*, const void*, int, int*, int);
@@ -480,9 +480,9 @@ public:
     void InitFromSource(FUN_00cf4f70_src* src);
 };
 struct FUN_00cf6980_class {
-    virtual void FUN_00cf6980(int);
+    virtual void cleanupLoadedObject_hkReferencedObject(int);
 };
-void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
+void __cdecl cleanupLoadedObject_hkReferencedObject(FUN_00cf6980_class* object);
 extern int DAT_01268748;
 int* __cdecl FUN_00cf6990();
 extern int DAT_0102e378;
@@ -836,7 +836,7 @@ struct FUN_00cf4190 : FUN_00cdf560 {
     FUN_00cf4190();
 };
 extern int DAT_01268730;
-int* FUN_00cf41b0();
+int* bhkPositionConstraintMotor_GetRTTI();
 extern "C" void __cdecl FUN_00d86100(void* view, void* object);
 struct BinaryStream {
     void* vtable;
@@ -860,7 +860,7 @@ struct SerializedRecord {
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
-CpuOpaque* __cdecl FUN_00cf43f0();
+CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI();
 class NiBinaryStreamCF46 {
 public:
     typedef unsigned int (*WriteFn)(NiBinaryStreamCF46* pkThis, const void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);

@@ -4,7 +4,7 @@
 extern const void* g_01202710;
 
 // @fnv 0x00c2b040
-const void* __cdecl FUN_00c2b040()
+const void* __cdecl NiPSysFieldMaxDistanceCtlr_GetRTTI()
 {
     return &g_01202710;
 }
@@ -36,12 +36,12 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // @fnv 0x00c2b0c0
-void __stdcall FUN_00c2b0c0(StrArr* pkStrings)
+void __stdcall NiPSysFieldMaxDistanceCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330((const char*)g_01202710);
     unsigned int uSize = pkStrings->m_usSize;
     if (uSize >= pkStrings->m_usMaxSize)
@@ -63,12 +63,12 @@ struct FUN_00c2b070_cls
     unsigned int unk04;
     unsigned int unk08;
     void FUN_00c32de0(void* obj, unsigned int a1);
-    void* FUN_00c2b070(unsigned int a1);
+    void* NiPSysFieldMaxDistanceCtlr_CreateClone(unsigned int a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor and sets its vtable, then passes it with a1 to FUN_00c32de0 and returns it.
 // @fnv 0x00c2b070
-void* FUN_00c2b070_cls::FUN_00c2b070(unsigned int a1)
+void* FUN_00c2b070_cls::NiPSysFieldMaxDistanceCtlr_CreateClone(unsigned int a1)
 {
     FUN_00c2b070_cls* p = (FUN_00c2b070_cls*)FUN_00aa13e0(0x40);
     if (p != 0)

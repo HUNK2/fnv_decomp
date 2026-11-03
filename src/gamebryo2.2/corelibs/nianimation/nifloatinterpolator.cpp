@@ -64,7 +64,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3738;
 
 // @fnv 0x00a3c380
-const GlobalObjectO2_00a7b610* __cdecl FUN_00a3c380()
+const GlobalObjectO2_00a7b610* __cdecl NiFloatInterpolator_GetRTTI()
 {
     return &g_011f3738;
 }
@@ -162,12 +162,12 @@ extern const volatile float DAT_0109a918;
 
 struct NiFloatInterpolatorShell_00a3c3f0 : NiFloatInterpolator
 {
-    unsigned char FUN_00a3c3f0(unsigned int unused) const;
+    unsigned char NiFloatInterpolator_GetChannelPosed(unsigned int unused) const;
 };
 
 // Returns 0 if m_spFloatData.m_pObject is set or m_fFloatValue equals DAT_0109a918, otherwise returns 1.
 // @fnv 0x00a3c3f0
-unsigned char NiFloatInterpolatorShell_00a3c3f0::FUN_00a3c3f0(unsigned int unused) const
+unsigned char NiFloatInterpolatorShell_00a3c3f0::NiFloatInterpolator_GetChannelPosed(unsigned int unused) const
 {
     if (m_spFloatData.m_pObject)
         return 0;
@@ -210,10 +210,10 @@ struct NiFloatDataEqualityView
 };
 struct NiFloatInterpolatorEquality : NiFloatInterpolator
 {
-    bool FUN_00a3c5e0(const NiObject* otherObject);
+    bool NiFloatInterpolator_IsEqual(const NiObject* otherObject);
 };
 // @fnv 0x00a3c5e0
-bool NiFloatInterpolatorEquality::FUN_00a3c5e0(const NiObject* otherObject)
+bool NiFloatInterpolatorEquality::NiFloatInterpolator_IsEqual(const NiObject* otherObject)
 {
     if (!reinterpret_cast<NiBaseEqualityView*>(this)->FUN_00c85800(otherObject))
         return false;
@@ -467,12 +467,12 @@ class C940FloatInterpolator
     C940Pointer<C940FloatData> m_spFloatData;
 
     void BaseGetViewerStrings(C940StringArray* pkStrings);
-    void FUN_00a3c940(C940StringArray* pkStrings);
+    void NiFloatInterpolator_GetViewerStrings(C940StringArray* pkStrings);
 };
 
 // Appends the base viewer strings plus the class name, m_fFloatValue and m_spFloatData entries to pkStrings.
 // @fnv 0x00a3c940
-void C940FloatInterpolator::FUN_00a3c940(C940StringArray* pkStrings)
+void C940FloatInterpolator::NiFloatInterpolator_GetViewerStrings(C940StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     pkStrings->Add(C940GetViewerString(g_pcC940ClassName));

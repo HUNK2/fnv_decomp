@@ -32,7 +32,7 @@ struct __declspec(align(16)) CollisionTransform
     float yx, yy, yz, yw;
     float zx, zy, zz, zw;
     float tx, ty, tz, tw;
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
 };
 struct __declspec(align(16)) CollisionInfo
 {
@@ -47,8 +47,8 @@ struct CollisionFilter
 {
     unsigned int value;
     CollisionFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
     void* FUN_00559450() const;
 };
 class FUN_0056e2d0 : public NiMemObject
@@ -401,7 +401,7 @@ class ImpactHandler620
     ImpactEvent620* CreateEventDirect(void* pvTarget, void* pvBody, void* pvInfo);
 };
 void* __cdecl FUN_004b5820(void* pvBody);
-void* __cdecl FUN_0056f930(void* pvObject);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvObject);
 TESObjectREFR620* __cdecl FUN_004b59f0(void* pvForm);
 void* __cdecl FUN_004b5a80(const void* pvRef);
 class ImpactManager620
@@ -1817,7 +1817,7 @@ class SmoothListV
     void AddHead(SmoothEntryV* const& rpkEntry);
 };
 extern SmoothListV g_kSmoothListV;
-void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef);
+void __cdecl TESArrowTargetListener_AddArrowTarget(const hkVector4V& kTarget, void* pvRef);
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -1830,7 +1830,7 @@ struct Vector62BAE0
 {
     Vector62BAE0();
     void Set(float fX, float fY, float fZ, float fW);
-    void FUN_00553f70(void* pkRotation);
+    void hkVector4_add4(void* pkRotation);
     __m128 m_vComponents;
 };
 struct Point62BAE0

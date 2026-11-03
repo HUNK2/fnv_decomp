@@ -140,7 +140,7 @@ struct StrArr
 };
 struct FUN_00a5ea70_t
 {
-    void FUN_00a5ad00(StrArr*);
+    void NiAVObject_GetViewerStrings(StrArr*);
 };
 int NiSprintf(char*, unsigned int, const char*, ...);
 char* FUN_00a7d330(const char*);
@@ -170,13 +170,13 @@ struct Zx3Effect : public NiAVObject
     Zx3ListNode* m_pkAffectedTail;
     int m_uiAffectedCount;
     Zx3ListNode* m_pkUnaffectedHead;
-    void FUN_00a69140(StrArr* pkStrings);
+    void NiDynamicEffect_GetViewerStrings(StrArr* pkStrings);
 };
 
 // @fnv 0x00a69140
-void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
+void Zx3Effect::NiDynamicEffect_GetViewerStrings(StrArr* pkStrings)
 {
-    ((FUN_00a5ea70_t*)this)->FUN_00a5ad00(pkStrings);
+    ((FUN_00a5ea70_t*)this)->NiAVObject_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_011f4a28_arg1));
     if (m_uiAffectedCount)
     {
@@ -204,7 +204,7 @@ void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
 
 struct EffectObject : NiDynamicEffect
 {
-    void __thiscall FUN_00a5a900(NiStream* stream);
+    void __thiscall NiAVObject_SaveBinary(NiStream* stream);
     void __thiscall SaveToStream(NiStream* stream);
 };
 static __forceinline unsigned int WriteBytes(NiBinaryStream* output, const void* bytes, unsigned int length)
@@ -222,7 +222,7 @@ static __forceinline void WriteLinkedObject(NiStream* stream, NiNode*& object)
 // @fnv 0x00a68f80
 void __thiscall EffectObject::SaveToStream(NiStream* stream)
 {
-    FUN_00a5a900(stream);
+    NiAVObject_SaveBinary(stream);
     unsigned char enabled = m_bEffectEnabled;
     NiBinaryStream* output = stream->m_pBackingStream;
     WriteBytes(output, &enabled, 1);
@@ -250,14 +250,14 @@ static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 class FNVEffect : public NiDynamicEffect
 {
   public:
-    bool __thiscall FUN_00a5a260(FNVEffect* other);
-    bool __thiscall FUN_00a68d80(FNVEffect* other);
+    bool __thiscall NiAVObject_IsEqual(FNVEffect* other);
+    bool __thiscall NiDynamicEffect_IsEqual(FNVEffect* other);
 };
-// Returns false if counts differ or paired entries differ in nullness; otherwise returns true if FUN_00a5a260 succeeds.
+// Returns false if counts differ or paired entries differ in nullness; otherwise returns true if NiAVObject_IsEqual succeeds.
 // @fnv 0x00a68d80
-bool __thiscall FNVEffect::FUN_00a68d80(FNVEffect* other)
+bool __thiscall FNVEffect::NiDynamicEffect_IsEqual(FNVEffect* other)
 {
-    if (!FUN_00a5a260(other))
+    if (!NiAVObject_IsEqual(other))
         return false;
     if (m_kEffectTargetNodes.m_kItemCount.m_uiCount != other->m_kEffectTargetNodes.m_kItemCount.m_uiCount)
         return false;

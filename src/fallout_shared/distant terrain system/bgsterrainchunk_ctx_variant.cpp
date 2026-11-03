@@ -36,7 +36,7 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     int iX;
     int iY;
     int iLevel;
-    bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
+    bool BGSTerrainChunkLoadTask_GetDescription(char* apDescription, unsigned int aiBufferSize);
 };
 extern int _sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void __cdecl UpdateListItems();
@@ -371,7 +371,7 @@ struct ModelLoader
 };
 struct FUN_0043cc60_shell
 {
-    int FUN_0043cc60();
+    int IOTask_GetIOTaskPriority();
 };
 struct FUN_006fbbd0_virtual
 {
@@ -572,7 +572,7 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
+    void BSMultiBoundAABB_SetHalfExtents(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {
@@ -890,7 +890,7 @@ struct Obj18
 };
 struct NodeX
 {
-    unsigned FUN_00453470();
+    unsigned NiNode_GetChildCount();
     Obj18* FUN_0043b4a0(unsigned i);
 };
 struct RootX
@@ -938,7 +938,7 @@ class SelfX
     PN m54;
     int FUN_00c3cff0(int a, int b);
     int FUN_0045cd60(int a);
-    void FUN_006fbd00();
+    void BGSTerrainChunkLoadTask_Run();
 };
 
 struct G3
@@ -1117,7 +1117,7 @@ extern D6Manager* DAT_011dea10;
 extern SettingX g_kSetting;
 
 // @fnv 0x006fbd00
-void SelfX::FUN_006fbd00()
+void SelfX::BGSTerrainChunkLoadTask_Run()
 {
     AutoMemX kMemVal(
         0x23, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSTerrainChunk.cpp",
@@ -1131,13 +1131,13 @@ void SelfX::FUN_006fbd00()
         {
             m54.FUN_0066b0d0(kStreamVal.GetStringAt(0));
             m48.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(0));
-            if (m54.FUN_00559450()->FUN_00453470() > 1 && *g_kSetting.FUN_00408d60())
+            if (m54.FUN_00559450()->NiNode_GetChildCount() > 1 && *g_kSetting.FUN_00408d60())
             {
                 m4c.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(1)->F18());
                 if (m4c.FUN_00559450()->F28() && m4c.FUN_00559450()->F28()->GetFlagOrValue() == 3)
                     m4c.FUN_0066b0d0(0);
             }
-            if (m54.FUN_00559450()->FUN_00453470() > 2 && *g_kSetting.FUN_00408d60())
+            if (m54.FUN_00559450()->NiNode_GetChildCount() > 2 && *g_kSetting.FUN_00408d60())
                 m50.FUN_0066b0d0(m54.FUN_00559450()->FUN_0043b4a0(2)->F18());
         }
         else

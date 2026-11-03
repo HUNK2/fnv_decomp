@@ -44,12 +44,12 @@ void BGSCameraShot::ResetCameraShot()
     ((CameraTargetResetFields*)this)->f18 = 0.0f;
     if (((CameraTargetResetFields*)this)->a)
     {
-        FUN_005293f0(((CameraTargetResetFields*)this)->a);
+        ImageSpaceModifierInstance_Stop(((CameraTargetResetFields*)this)->a);
         ((CameraTargetResetFields*)this)->a = 0;
     }
     if (((CameraTargetResetFields*)this)->b)
     {
-        FUN_005293f0(((CameraTargetResetFields*)this)->b);
+        ImageSpaceModifierInstance_Stop(((CameraTargetResetFields*)this)->b);
         ((CameraTargetResetFields*)this)->b = 0;
     }
 }
@@ -92,7 +92,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&legacyData, 0, 32);
                 ((BGSImpactData*)this)->ReadTypedData(file, &legacyData, 32);
                 if (file->IsEndianConversionRequired())
-                    legacyData.FUN_0058c2e0();
+                    legacyData.BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
                 Data.m_eAction = (BGSCameraShot__CAM_ACTION)legacyData.action;
                 Data.pInputFile = (BGSCameraShot__CAM_OBJECT)legacyData.location;
                 Data.m_eAttacker = (BGSCameraShot__CAM_OBJECT)legacyData.target;
@@ -107,7 +107,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&Data, 0, 40);
                 file->GetChunkData(&Data, 40);
                 if (file->IsEndianConversionRequired())
-                    Data.FUN_0058c3c0();
+                    Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
             }
             break;
         }
@@ -132,12 +132,12 @@ struct FUN_0058c2e0_shell
     int field_0x14;
     int field_0x18;
     int field_0x1c;
-    void FUN_0058c2e0();
+    void BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
 };
 
 // Byte-swaps all eight 32-bit fields of the object via BSEndian, in the order 0x10, 0x14, 0x00, 0x04, 0x08, 0x0c, 0x18, 0x1c.
 // @fnv 0x0058c2e0
-void FUN_0058c2e0_shell::FUN_0058c2e0()
+void FUN_0058c2e0_shell::BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian()
 {
     BSEndian(&field_0x10, EndianSizeTag<3>());
     BSEndian(&field_0x14, EndianSizeTag<3>());
@@ -168,7 +168,7 @@ void* FUN_0058be60_host::DestroyIfFlagged(unsigned int flags)
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_0058bfc0_shell
 {
@@ -182,7 +182,7 @@ void FUN_0058bfc0_shell::CopyFromCameraShot(TESForm* apCopy)
     pcopy = dynamic_cast<BGSCameraShot*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0((TESForm*)pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents((TESForm*)pcopy);
     __memcpy((char*)this + 0x38, (char*)pcopy + 0x38, 0x28);
 }
 
@@ -219,27 +219,27 @@ bool FUN_0058d630_shell::FUN_0058d630()
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_0058c020_shell
 {
-    bool FUN_0058c020(TESForm*);
+    bool BGSCameraShot_Compare(TESForm*);
 };
 int _memcmp(const void*, const void*, unsigned int);
 // @fnv 0x0058c020
-bool FUN_0058c020_shell::FUN_0058c020(TESForm* apCompare)
+bool FUN_0058c020_shell::BGSCameraShot_Compare(TESForm* apCompare)
 {
     BGSCameraShot* pCameraShot = dynamic_cast<BGSCameraShot*>(apCompare);
     if (!pCameraShot)
         return true;
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pCameraShot))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pCameraShot))
         return true;
     if (_memcmp(reinterpret_cast<char*>(this) + 0x38, reinterpret_cast<char*>(pCameraShot) + 0x38, 0x28))
         return true;
     return false;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
@@ -249,35 +249,35 @@ struct FUN_004891d0_obj
 };
 struct FUN_00487450_shell
 {
-    void FUN_00487450();
+    void TESImageSpaceModifiableForm_Save();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 bool __cdecl FUN_00401500();
 
 struct FUN_0058c4d0_shell
 {
-    void FUN_0058c4d0();
+    void BGSCameraShot_SaveForm();
 };
 
 // @fnv 0x0058c4d0
-void FUN_0058c4d0_shell::FUN_0058c4d0()
+void FUN_0058c4d0_shell::BGSCameraShot_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     ((FUN_004891d0_obj*)((char*)this + 0x18))->WriteToBuffer(0x4C444F4D, 0x54444F4D);
     if (FUN_00401500())
-        ((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))->FUN_0058c3c0();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x38), 0x28);
+        ((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))->BGSCameraShot_CAMERA_SHOT_DATA_Endian();
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x38), 0x28);
     if (FUN_00401500())
-        ((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))->FUN_0058c3c0();
-    ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
-    ((FUN_00485680*)this)->M();
+        ((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))->BGSCameraShot_CAMERA_SHOT_DATA_Endian();
+    ((FUN_00487450_shell*)((char*)this + 0x30))->TESImageSpaceModifiableForm_Save();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_0058c3c0_shell
@@ -293,12 +293,12 @@ struct FUN_0058c3c0_shell
     int field_0x20;
     int field_0x24;
 
-    void FUN_0058c3c0();
+    void BGSCameraShot_CAMERA_SHOT_DATA_Endian();
 };
 
 // Byte-swaps each of the ten 32-bit fields of the object via BSEndian.
 // @fnv 0x0058c3c0
-void FUN_0058c3c0_shell::FUN_0058c3c0()
+void FUN_0058c3c0_shell::BGSCameraShot_CAMERA_SHOT_DATA_Endian()
 {
     BSEndian(&field_0x10, EndianSizeTag<3>());
     BSEndian(&field_0x14, EndianSizeTag<3>());
@@ -505,7 +505,7 @@ struct NodePtrObj
 };
 struct ModelLoader
 {
-    int FUN_00447080(const char*, int, int, int, int, int);
+    int ModelLoader_LoadFile(const char*, int, int, int, int, int);
     int FUN_0045a5e0(const char*);
 };
 extern ModelLoader* g_modelLoader;
@@ -685,7 +685,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
     void* myFoundPtr;
     if (model.FUN_0048cee0())
     {
-        m_spPositionNode.FUN_0066b0d0((void*)g_modelLoader->FUN_00447080(model.vfn_14(), 0, 1, 1, 0, 0));
+        m_spPositionNode.FUN_0066b0d0((void*)g_modelLoader->ModelLoader_LoadFile(model.vfn_14(), 0, 1, 1, 0, 0));
     }
     myFoundPtr = m_spPositionNode.FUN_00559450()
                      ? FUN_00653270(&DAT_011f4a18, (void*)m_spPositionNode.FUN_00559450()->FUN_0045bc00(0))
@@ -832,7 +832,7 @@ struct NiUpdateData
 };
 struct Host56
 {
-    M3 FUN_0056fa00();
+    M3 TESObjectREFR_GetOrientation();
 };
 struct Rot56
 {
@@ -1138,12 +1138,12 @@ void Shot::UpdateCamera(float afTime)
             if (!IsNotFlag4Set() || f68 == 0 || f3c != 2)
             {
                 NiPoint3 tmpA = pt;
-                FUN_00a582f0(DAT_011f21f0->FUN_0056fa00(), &DAT_011f426c, 1, tmpA, pt);
+                FUN_00a582f0(DAT_011f21f0->TESObjectREFR_GetOrientation(), &DAT_011f426c, 1, tmpA, pt);
             }
             else
             {
                 NiPoint3 tmpB = pt;
-                FUN_00a582f0(f68->FUN_0056fa00(), &DAT_011f426c, 1, tmpB, pt);
+                FUN_00a582f0(f68->TESObjectREFR_GetOrientation(), &DAT_011f426c, 1, tmpB, pt);
             }
         }
         else if (m60.FUN_00559450())

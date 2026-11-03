@@ -1905,7 +1905,7 @@ struct MemoryManager
     void* __thiscall FUN_00aa42e0();
 };
 
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 
 struct FUN_00978ae0 : public PAVActor
 {
@@ -1922,12 +1922,12 @@ PAVActor::PAVActor()
 PAVActor::~PAVActor()
 {}
 
-// Sets the vtable, stores a value from FUN_00401020()->FUN_00aa42e0() at m_10, and calls FUN_006b3eb0(0, 0).
+// Sets the vtable, stores a value from MemoryManager_Instance()->FUN_00aa42e0() at m_10, and calls FUN_006b3eb0(0, 0).
 // @fnv 0x00978ae0
 FUN_00978ae0::FUN_00978ae0()
 {
     *(void**)this = &DAT_0108c250;
-    this->m_10 = FUN_00401020()->FUN_00aa42e0();
+    this->m_10 = MemoryManager_Instance()->FUN_00aa42e0();
     ((AX*)this)->FUN_006b3eb0(0, 0);
 }
 
@@ -1945,7 +1945,7 @@ struct Global_00aa42e0
 {
     unsigned int FUN_00aa42e0();
 };
-Global_00aa42e0* __cdecl FUN_00401020();
+Global_00aa42e0* __cdecl MemoryManager_Instance();
 
 struct FUN_00978c50 : FUN_00978ea0
 {
@@ -1954,11 +1954,11 @@ struct FUN_00978c50 : FUN_00978ea0
     virtual ~FUN_00978c50();
     void FUN_006b3f40(unsigned int, unsigned int);
 };
-// Initializes the base class, stores the value returned by FUN_00401020()->FUN_00aa42e0() in m_resource, then calls FUN_006b3f40(0, 0).
+// Initializes the base class, stores the value returned by MemoryManager_Instance()->FUN_00aa42e0() in m_resource, then calls FUN_006b3f40(0, 0).
 // @fnv 0x00978c50
 FUN_00978c50::FUN_00978c50() : FUN_00978ea0()
 {
-    m_resource = FUN_00401020()->FUN_00aa42e0();
+    m_resource = MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3f40(0, 0);
 }
 }  // namespace fnv_00978c50
@@ -4618,13 +4618,13 @@ class Actor
     virtual void slot149();
     virtual void slot150();
     virtual void UpdateProcess(float elapsed);
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     void* GetParentCell();
     void* FUN_00575d70();
     BaseProcess* GetProcess();
     bool GetDeleted() const;
     bool GetDisabled();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_008842c0();
 };
 class TopicInfoArray
@@ -4650,11 +4650,11 @@ void ActorUpdateManager::UpdateActors()
     for (unsigned int i = 0; i < actors.FUN_005be5c0(0); i++)
     {
         Actor* actor = actors.FUN_00968670(i);
-        if (actor && actor->IsActor() && !actor->FUN_00576d30() && (actor->GetParentCell() || actor->FUN_00575d70()))
+        if (actor && actor->IsActor() && !actor->TESForm_IsStillLoading() && (actor->GetParentCell() || actor->FUN_00575d70()))
         {
             Actor* ref = actor;
             if (ref && ref != reinterpret_cast<Actor*>(DAT_011dea3c) && ref->GetProcess() && !ref->GetDeleted() &&
-                !ref->GetDisabled() && !ref->FUN_00493bb0())
+                !ref->GetDisabled() && !ref->Actor_IsInCombat())
             {
                 float previousHour = ref->GetProcess()->FUN_007df1f0();
                 {
@@ -5301,7 +5301,7 @@ FUN_00978a80::~FUN_00978a80()
 
 struct Equipment97
 {
-    bool FUN_004c0bf0();
+    bool TESObjectWEAP_IsThrownWeapon();
 };
 struct Inventory97
 {
@@ -5716,7 +5716,7 @@ struct Actor97
 };
 struct CombatData97
 {
-    unsigned char FUN_00662a80();
+    unsigned char BSFaceGenNiNode_GetApplyRotToParent();
     void FUN_0097f240(float value);
     Equipment97* GetBestWeapon();
     void FUN_00997ba0(int first, int second);
@@ -5820,7 +5820,7 @@ void CombatController97::UpdateCombatEquipment(int first, int second)
     {
         equipmentChanged = false;
         FUN_0097f200();
-        bool active = combat->FUN_00662a80() != 0;
+        bool active = combat->BSFaceGenNiNode_GetApplyRotToParent() != 0;
         actor->GetProcess()->SetWeaponFlag(!active);
         if (active)
         {
@@ -5833,7 +5833,7 @@ void CombatController97::UpdateCombatEquipment(int first, int second)
             Equipment97* current = pEquippedEntry ? pEquippedEntry->GetFlags() : 0;
             if (entry && entry != current)
             {
-                actor->EquipObject(entry, entry->FUN_004c0bf0() ? actor->FUN_00575610(entry) : 1, 0, true, false, true);
+                actor->EquipObject(entry, entry->TESObjectWEAP_IsThrownWeapon() ? actor->FUN_00575610(entry) : 1, 0, true, false, true);
             }
             else if (!entry && current)
             {
@@ -6614,7 +6614,7 @@ struct FloatSetting
 };
 struct CleanupTarget
 {
-    void FUN_005c1ae0();
+    void CombatController_ForceStopCombat();
 };
 
 extern FloatSetting DAT_011ce3a8;
@@ -7980,7 +7980,7 @@ int CombatController::FUN_00967da0()
         {
             CombatActor* actor = eb->GetIntAt(index);
             if (actor && actor->vtable->GetCleanup(actor))
-                actor->vtable->GetCleanup(actor)->FUN_005c1ae0();
+                actor->vtable->GetCleanup(actor)->CombatController_ForceStopCombat();
         }
         while (eb->FUN_005a4320() > 0)
         {
@@ -8534,12 +8534,12 @@ struct WTWorld;
 
 struct WTController
 {
-    int FUN_005c0880();
+    int bhkCharacterController_GetState();
 };
 
 struct WTHighProcess
 {
-    bool FUN_005444c0();
+    bool TESObjectCELL_GetCantWaitHere();
 };
 
 struct WTPlayer
@@ -8887,12 +8887,12 @@ void WTActor::FUN_00969fa0()
         QueueUIMessage(g_kWTMsgUnk2e50.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
     }
-    else if (g_pWTPlayer->FUN_009306d0()->FUN_005c0880() == 1 || g_pWTPlayer->FUN_009306d0()->FUN_005c0880() == 2)
+    else if (g_pWTPlayer->FUN_009306d0()->bhkCharacterController_GetState() == 1 || g_pWTPlayer->FUN_009306d0()->bhkCharacterController_GetState() == 2)
     {
         QueueUIMessage(g_kWTMsgFalling.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
     }
-    else if (g_pWTPlayer->GetProcessData()->FUN_005444c0() || !g_pWTPlayer->GetByteAt66E())
+    else if (g_pWTPlayer->GetProcessData()->TESObjectCELL_GetCantWaitHere() || !g_pWTPlayer->GetByteAt66E())
     {
         QueueUIMessage(g_kWTMsgUnk20ac.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
@@ -9073,7 +9073,7 @@ FUN_00979070::FUN_00979070(void* a, void* b, void* c, NiPoint3_979 kPos, float f
 struct MovePoint
 {
     float x, y, z, w;
-    double FUN_00527a40(const MovePoint*);
+    double BGSWorldLocation_GetDistanceSquared(const MovePoint*);
     void FUN_0097ede0();
 };
 struct MoveTarget
@@ -9087,10 +9087,10 @@ struct MoveTarget
 };
 struct MoveActor
 {
-    void* FUN_00567d90();
-    MovePoint FUN_00575650();
+    void* TESObjectREFR_GetLocationEncounterZone();
+    MovePoint TESObjectREFR_GetWorldLocation();
     unsigned char FUN_008b3bd0();
-    void FUN_00575770(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
 };
 struct MoveAction
 {
@@ -9104,7 +9104,7 @@ struct MoveBrain
     bool FUN_009a1380();
     bool FUN_0097ee90();
     bool IsElapsedTimeAtLeastSetting();
-    unsigned char FUN_00662a80();
+    unsigned char BSFaceGenNiNode_GetApplyRotToParent();
     void FUN_0097ce70(int);
     bool FUN_0099ebe0(int, MoveTarget*, int);
     bool FUN_009a02a0(MovePoint*, int, int);
@@ -9311,7 +9311,7 @@ void CombatMove::FUN_0097e4b0()
     {
         timer.FUN_008d7f40(1.0f);
         elapsed = 0.0f;
-        if (target && *g_011f1840.Bool() && target->FUN_00567d90() != actor->FUN_00567d90())
+        if (target && *g_011f1840.Bool() && target->TESObjectREFR_GetLocationEncounterZone() != actor->TESObjectREFR_GetLocationEncounterZone())
             FUN_00980830(0);
     }
     if (timer.FUN_008d7f80())
@@ -9341,13 +9341,13 @@ void CombatMove::FUN_0097e4b0()
             return;
         brain->FUN_00997cb0();
         int next = 0;
-        MovePoint origin_ = actor->FUN_00575650();
-        MovePoint destination2 = target->FUN_00575650();
+        MovePoint origin_ = actor->TESObjectREFR_GetWorldLocation();
+        MovePoint destination2 = target->TESObjectREFR_GetWorldLocation();
         if (brain->FUN_009a1380())
             next = 5;
         else if (brain->FUN_0097ee90())
         {
-            if (origin_.FUN_00527a40(&destination2) <
+            if (origin_.BGSWorldLocation_GetDistanceSquared(&destination2) <
                 *originalRuntimeFloatSetting498.Float() * *originalRuntimeFloatSetting498.Float())
                 next = 1;
             else
@@ -9360,14 +9360,14 @@ void CombatMove::FUN_0097e4b0()
         if (next != state)
         {
             FUN_00980250();
-            unsigned char prior = brain->FUN_00662a80();
+            unsigned char prior = brain->BSFaceGenNiNode_GetApplyRotToParent();
             brain->FUN_0097ce70(0);
             switch (next)
             {
             case 5:
                 if (changed && prior)
                     brain->FUN_0097ce70(2);
-                else if (origin_.FUN_00527a40(&destination2) <
+                else if (origin_.BGSWorldLocation_GetDistanceSquared(&destination2) <
                          *originalRuntimeFloatSetting498.Float() * *originalRuntimeFloatSetting498.Float())
                 {
                     brain->FUN_0097ce70(1);
@@ -9405,8 +9405,8 @@ void CombatMove::FUN_0097e4b0()
                 position7.FUN_0097ede0();
                 if (manager->GetDetectedTargetLocation(target, &position7) && brain->FUN_009a02a0(&position7, 1, 1))
                 {
-                    MovePoint current3 = actor->FUN_00575650();
-                    if (current3.FUN_00527a40(&position7) > 100.0)
+                    MovePoint current3 = actor->TESObjectREFR_GetWorldLocation();
+                    if (current3.BGSWorldLocation_GetDistanceSquared(&position7) > 100.0)
                     {
                         goal.AssignV4(&position7);
                         FUN_009801b0(new TravelAction(&goal, DAT_011a5654, 15));
@@ -9428,7 +9428,7 @@ void CombatMove::FUN_0097e4b0()
         if (actor->FUN_008b3bd0())
         {
             elapsed = timer.FUN_00435e00();
-            actor->FUN_00575770(3.402823466e38f);
+            actor->TESObjectREFR_SetAngleOnReferenceX(3.402823466e38f);
         }
         timer.FUN_008d7f40(1.0f);
     }

@@ -88,23 +88,23 @@ void __thiscall FUN_00617ea0_shell::ResetState()
 }
 
 namespace fnv_00617fc0 {
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
+    void __thiscall TESForm___SaveData(int, int);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
@@ -113,25 +113,25 @@ void __cdecl WriteDescChunk(void*, int);
 int __cdecl FUN_00401500();
 struct FUN_00617fc0_shell
 {
-    void __thiscall FUN_00617fc0();
+    void __thiscall TESSkill_SaveForm();
 };
 // @fnv 0x00617fc0
-void __thiscall FUN_00617fc0_shell::FUN_00617fc0()
+void __thiscall FUN_00617fc0_shell::TESSkill_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     FUN_00485910(0x58444e49, *(int*)((char*)this + 0x2c));
-    ((FUN_00482cb0_shell*)((char*)this + 0x18))->FUN_00482cb0();
-    ((FUN_0048e370_obj*)((char*)this + 0x20))->FUN_0048e370(0x4e4f4349);
+    ((FUN_00482cb0_shell*)((char*)this + 0x18))->TESDescription_Save();
+    ((FUN_0048e370_obj*)((char*)this + 0x20))->TESTexture_Save(0x4e4f4349);
     if ((unsigned char)FUN_00401500())
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x2c), 0x14);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x2c), 0x14);
     if ((unsigned char)FUN_00401500())
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
     WriteDescChunk((char*)this + 0x40, 0x4d414e41);
     WriteDescChunk((char*)this + 0x48, 0x4d414e4a);
     WriteDescChunk((char*)this + 0x50, 0x4d414e45);
     WriteDescChunk((char*)this + 0x58, 0x4d414e4d);
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 }  // namespace fnv_00617fc0
 
@@ -331,12 +331,12 @@ struct TESForm
 
 struct TESSkill : public TESForm
 {
-    bool __thiscall FUN_00618130(TESFile*);
+    bool __thiscall TESSkill_Load(TESFile*);
 };
 
 // Reads a skill record from apFile: checks the record type, loads the base form, then dispatches each chunk to its handler until the file ends.
 // @fnv 0x00618130
-bool TESSkill::FUN_00618130(TESFile* apFile)
+bool TESSkill::TESSkill_Load(TESFile* apFile)
 {
     CHUNK_ID chunkID;
 
@@ -437,7 +437,7 @@ class FormC
     int unk28;
     int k2c[5];
     Elem arr[4];
-    void FUN_004851b0(void*);
+    void TESForm_CopyAllComponents(void*);
     void CopyFrom(void* pOther);
 };
 // Copies the k2c array and arr elements from another FormC instance into this one after resolving pOther.
@@ -447,7 +447,7 @@ void FormC::CopyFrom(void* pOther)
     FormC* pSource = (FormC*)FUN_00ec43fb(pOther, 0, &DAT_01183028, &DAT_01186518, 0);
     if (!pSource)
         return;
-    FUN_004851b0(pOther);
+    TESForm_CopyAllComponents(pOther);
     FUN_00401460(k2c, pSource->k2c, 0x14);
     for (int i = 0; i < 4; i++)
         arr[i].Copy(&pSource->arr[i]);
@@ -457,7 +457,7 @@ struct NiColor;
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct TESRegion
@@ -484,13 +484,13 @@ struct SkillV : public FUN_005e79a0_t
     unsigned char data[0x14];
     DescQ m_kDescriptions[4];
 
-    bool FUN_00618430(TESForm*);
+    bool TESSkill_Compare(TESForm*);
 };
 
 int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x00618430
-bool SkillV::FUN_00618430(TESForm* apCompare)
+bool SkillV::TESSkill_Compare(TESForm* apCompare)
 {
     SkillV* pOther = reinterpret_cast<SkillV*>(dynamic_cast<TESSkill*>(apCompare));
     if (!pOther)
@@ -498,7 +498,7 @@ bool SkillV::FUN_00618430(TESForm* apCompare)
         return true;
     }
 
-    if (FUN_005e79a0_t::FUN_00485270(reinterpret_cast<TESForm*>(pOther)))
+    if (FUN_005e79a0_t::TESForm_CompareAllComponents(reinterpret_cast<TESForm*>(pOther)))
     {
         return true;
     }

@@ -67,11 +67,11 @@ const char* const* FUN_00682800_shell::GetRTTI() const
 
 struct FUN_006828e0_shell
 {
-    unsigned short __thiscall FUN_006828e0();
+    unsigned short __thiscall BSTempEffect_GetSaveSize();
 };
 
 // @fnv 0x006828e0
-unsigned short __thiscall FUN_006828e0_shell::FUN_006828e0()
+unsigned short __thiscall FUN_006828e0_shell::BSTempEffect_GetSaveSize()
 {
     unsigned short usSize = 0;
     usSize += 4;
@@ -87,11 +87,11 @@ struct BGSLoadFormBuffer
 
 struct FUN_00682a80_shell
 {
-    void FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer);
+    void BSTempEffect_LoadGameBGS(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x00682a80
-void FUN_00682a80_shell::FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_00682a80_shell::BSTempEffect_LoadGameBGS(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 8), 4);
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x10), 4);
@@ -135,10 +135,10 @@ struct FUN_006828a0_shell
     float m_fParticleParameter5;
     char _0c[4];
     float m_fFirstFloatValue;
-    bool FUN_006828a0(float afTimeDelta);
+    bool BSTempEffect_Update(float afTimeDelta);
 };
 // @fnv 0x006828a0
-bool FUN_006828a0_shell::FUN_006828a0(float afTimeDelta)
+bool FUN_006828a0_shell::BSTempEffect_Update(float afTimeDelta)
 {
     m_fFirstFloatValue += afTimeDelta;
     if (m_fFirstFloatValue > m_fParticleParameter5)
@@ -152,11 +152,11 @@ struct BGSSaveFormBuffer
 };
 struct Holder00682a30
 {
-    void FUN_00682a30(BGSSaveFormBuffer*);
+    void BSTempEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 // Writes the 4-byte fields at offsets 8 and 16 and the 1-byte field at offset 20 of this object into apSaveGameBuffer.
 // @fnv 0x00682a30
-void Holder00682a30::FUN_00682a30(BGSSaveFormBuffer* apSaveGameBuffer)
+void Holder00682a30::BSTempEffect_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     apSaveGameBuffer->SaveData((void*)((char*)this + 8), 4, 0);
     apSaveGameBuffer->SaveData((void*)((char*)this + 16), 4, 0);
@@ -181,11 +181,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00682920_shell
 {
-    void FUN_00682920();
+    void BSTempEffect_SaveGameTES();
 };
 
 // @fnv 0x00682920
-void FUN_00682920_shell::FUN_00682920()
+void FUN_00682920_shell::BSTempEffect_SaveGameTES()
 {
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 8, 4);
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x10, 4);
@@ -209,7 +209,7 @@ class TESForm
 class TESObjectCELL : public TESForm
 {
   public:
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
 };
 
 struct FUN_00682990_LoadShim
@@ -223,16 +223,16 @@ struct FUN_00682990_SGLShim
 };
 
 extern void* DAT_011de45c;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 
 struct FUN_00682990_shell
 {
-    bool FUN_00682990();
+    bool BSTempEffect_LoadGameTES();
 };
 
 // @fnv 0x00682990
 // @fnv 0x00682990
-bool FUN_00682990_shell::FUN_00682990()
+bool FUN_00682990_shell::BSTempEffect_LoadGameTES()
 {
     bool result = true;
     unsigned int formID;
@@ -244,10 +244,10 @@ bool FUN_00682990_shell::FUN_00682990()
     reinterpret_cast<FUN_00682990_SGLShim*>(DAT_011de45c)->FUN_00857aa0(&formID, 4);
 
     *reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) =
-        dynamic_cast<TESObjectCELL*>(FUN_004839c0(formID));
+        dynamic_cast<TESObjectCELL*>(TESForm_GetFormByNumericID(formID));
 
     if (!*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) ||
-        !(*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_00545cb0())
+        !(*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c))->TESObjectCELL_Get3D())
         result = false;
 
     return result;

@@ -18,11 +18,11 @@ class NiStringExtraData : public NiExtraData
 {
   public:
     char m_kStringBuffer[1];
-    void FUN_00a74200(NiStream& stream);
+    void NiStringExtraData_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00a74200
-void NiStringExtraData::FUN_00a74200(NiStream& stream)
+void NiStringExtraData::NiStringExtraData_SaveBinary(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
     stream.SerializeString(m_kStringBuffer + 0xc);
@@ -32,7 +32,7 @@ extern "C" void* DAT_011f4a38;
 
 // Returns the address of the global DAT_011f4a38.
 // @fnv 0x00a74220
-void* __cdecl FUN_00a74220()
+void* __cdecl NiStringExtraData_GetRTTI()
 {
     return &DAT_011f4a38;
 }
@@ -48,7 +48,7 @@ struct BSFadeNode
 extern "C" int EmptyFS;
 extern "C" void* DAT_0109d39c;
 // @fnv 0x00a74230
-void* __cdecl FUN_00a74230()
+void* __cdecl NiStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)
@@ -77,10 +77,10 @@ struct NiExtraDataHelper
 };
 struct NiStringExtraDataShell : NiStringExtraData
 {
-    void FUN_00a74260(NiStream& stream);
+    void NiStringExtraData_LoadBinary(NiStream& stream);
 };
 // @fnv 0x00a74260
-void NiStringExtraDataShell::FUN_00a74260(NiStream& stream)
+void NiStringExtraDataShell::NiStringExtraData_LoadBinary(NiStream& stream)
 {
     ((NiExtraDataHelper*)this)->LoadBinary(stream);
     if (*(unsigned int*)((char*)&stream + 0xd8) < 0x14010001)
@@ -92,7 +92,7 @@ void NiStringExtraDataShell::FUN_00a74260(NiStream& stream)
 
 struct FUN_00a7b290_shell
 {
-    bool FUN_00a7b290(NiStream&);
+    bool NiExtraData_RegisterStreamables(NiStream&);
 };
 struct VHack
 {
@@ -113,7 +113,7 @@ struct FUN_00a741d0_shell : NiStringExtraData
 // @fnv 0x00a741d0
 bool FUN_00a741d0_shell::LoadStringExtraData(NiStream& stream)
 {
-    if (!((FUN_00a7b290_shell*)this)->FUN_00a7b290(stream))
+    if (!((FUN_00a7b290_shell*)this)->NiExtraData_RegisterStreamables(stream))
         return false;
     ((VHack*)&stream)->v8((char*)this + 12);
     return true;
@@ -251,14 +251,14 @@ extern "C" char* __cdecl FUN_00a7d5e0(const char* key, char* value);
 
 struct FUN_00a74380_shell : NiStringExtraData
 {
-    void FUN_00a7b580(NiStream& stream);
-    void FUN_00a74380(NiStream& stream);
+    void NiExtraData_GetViewerStrings(NiStream& stream);
+    void NiStringExtraData_GetViewerStrings(NiStream& stream);
 };
 
 // @fnv 0x00a74380
-void FUN_00a74380_shell::FUN_00a74380(NiStream& stream)
+void FUN_00a74380_shell::NiStringExtraData_GetViewerStrings(NiStream& stream)
 {
-    FUN_00a7b580(stream);
+    NiExtraData_GetViewerStrings(stream);
     reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d330((char*)DAT_011f4a38));
     char* s = *(char**)((char*)this + 0x0c);
     reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d5e0("m_kString", s));

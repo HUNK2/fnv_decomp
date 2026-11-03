@@ -16,7 +16,7 @@ struct xP3
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
+    void CFilter_SetLayer(int);
     unsigned int m_uiFilterValue;
 };
 struct xAllHits
@@ -28,10 +28,10 @@ struct xAllHits
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
+    void bhkPickData_SetFrom(xP3*);
     void FUN_007f68a0(xP3*);
-    void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
+    void bhkPickData_SetFilter(xFilter);
+    void bhkPickData_SetAllCollector(xAllHits*);
     char m_buf[0xb0];
 };
 struct xWorld
@@ -258,12 +258,12 @@ bool xActor::FUN_009c40c0()
         FILTER = OWNER->FUN_0070c440();
     else
         FILTER = xg_player_11dea3c->FUN_00931ed0();
-    FILTER.FUN_004a39f0(6);
-    PICK.FUN_004a3f70(FILTER);
-    PICK.FUN_004a3da0(&PLPOS);
+    FILTER.CFilter_SetLayer(6);
+    PICK.bhkPickData_SetFilter(FILTER);
+    PICK.bhkPickData_SetFrom(&PLPOS);
     PICK.FUN_007f68a0(&DIR);
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
+    PICK.bhkPickData_SetAllCollector(&HITS);
     xWorld* WORLD = xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30());
     bool RES = WORLD->FUN_c8(&PICK);
     float DIST = 3.402823466e+38F;

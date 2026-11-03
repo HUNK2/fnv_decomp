@@ -32,7 +32,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3fa8;
 
 // @fnv 0x00a4d200
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4d200()
+GlobalObjectO2_00a7b610* __cdecl NiLightColorController_GetRTTI()
 {
     return &g_011f3fa8;
 }
@@ -50,7 +50,7 @@ struct NiLightColorController
 extern int DAT_01098dd4;
 
 // @fnv 0x00a4d500
-void* __cdecl FUN_00a4d500()
+void* __cdecl NiLightColorController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x3c);
     if (p)
@@ -114,11 +114,11 @@ struct NiObject
 bool __stdcall FUN_00a57c10(void*);
 struct FUN_00a4d1d0_holder
 {
-    bool __thiscall FUN_00a4d1d0(NiObject* pkObject);
+    bool __thiscall NiLightColorController_IsEqual(NiObject* pkObject);
 };
 // Checks pkObject via FUN_00a57c10, then compares bit 0 of the inverted byte at offset 0x38 with the byte at this+0x38 and returns the result.
 // @fnv 0x00a4d1d0
-bool __thiscall FUN_00a4d1d0_holder::FUN_00a4d1d0(NiObject* pkObject)
+bool __thiscall FUN_00a4d1d0_holder::NiLightColorController_IsEqual(NiObject* pkObject)
 {
     NiLightColorController* pkControl = (NiLightColorController*)pkObject;
     if (!FUN_00a57c10(pkControl))
@@ -199,10 +199,10 @@ struct CloneHost
 {
     char _pad[0x38];
     unsigned short m_uiObjectFlags;
-    void* __thiscall FUN_00a4d4b0(CloningProcess&);
+    void* __thiscall NiLightColorController_CreateClone(CloningProcess&);
 };
 // @fnv 0x00a4d4b0
-void* __thiscall CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
+void* __thiscall CloneHost::NiLightColorController_CreateClone(CloningProcess& kCloning)
 {
     CloneHost* pkObject = (CloneHost*)BSFadeNode::operator new(0x3c);
     if (pkObject)
@@ -227,12 +227,12 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a57d10(StrArr*);
+void __stdcall NiPoint3InterpController_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
 // @fnv 0x00a4d5a0
-void __stdcall FUN_00a4d5a0(StrArr* pkStrings)
+void __stdcall NiLightColorController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a57d10(pkStrings);
+    NiPoint3InterpController_GetViewerStrings(pkStrings);
     char* p = FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f3fa8);
     unsigned int uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])

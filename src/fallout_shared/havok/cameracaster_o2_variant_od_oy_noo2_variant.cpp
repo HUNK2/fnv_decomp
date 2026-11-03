@@ -76,7 +76,7 @@ struct xPhantom
 struct xFilter
 {
     xFilter(unsigned int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
     unsigned int m_uiFilterValue;
 };
 unsigned int __fastcall xFUN_0043b540(void*);
@@ -222,7 +222,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
             {
                 void* SHAPE = COL.FUN_00460140()->FUN_00807770(I)->m_48;
                 xFilter FILTER(xFUN_0043b540(SHAPE));
-                int TYPE = FILTER.FUN_0043b4d0();
+                int TYPE = FILTER.CFilter_GetLayer();
                 xNode* NODE = xFUN_00c7fa90(SHAPE);
                 if (TYPE != 0x11 && (!NODE || NODE->FUN_00456610()))
                 {

@@ -135,20 +135,20 @@ void FUN_004f2a70_shell::SetFullName(BSStr& aDest)
 
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 void __fastcall WriteSaveData(void* this_ptr);
 struct FUN_004f29f0_shell
 {
     char _0[8];
     FUN_0048e370_obj* _8;
-    void __thiscall FUN_004f29f0();
+    void __thiscall TESRegionDataLandscape_Save();
 };
 // @fnv 0x004f29f0
-void __thiscall FUN_004f29f0_shell::FUN_004f29f0()
+void __thiscall FUN_004f29f0_shell::TESRegionDataLandscape_Save()
 {
     WriteSaveData(this);
-    _8->FUN_0048e370(0x4E4F4349);
+    _8->TESTexture_Save(0x4E4F4349);
 }
 
 struct Flt
@@ -211,7 +211,7 @@ struct NiPixelData
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
-    unsigned char* FUN_0064dac0(int, int);
+    unsigned char* NiPixelData_GetPixels(int, int);
     void AddString();
 };
 struct NiFixedString
@@ -267,7 +267,7 @@ NiTexturingProperty* GetDefaultFullMaskTextureProperty()
     if (g_011c7f0c)
         return g_011c7f0c;
     ppixeldata = new NiPixelData(64, 64, gNiPoint3StartupSrc, 1, 1);
-    ppixels = ppixeldata->FUN_0064dac0(0, 0);
+    ppixels = ppixeldata->NiPixelData_GetPixels(0, 0);
     for (iy = 0; iy < 64; iy++)
     {
         for (ix = 0; ix < 64; ix++)
@@ -293,11 +293,11 @@ struct FUN_004f2870
 };
 struct FUN_004f2b10_shell
 {
-    FUN_004f2870* FUN_004f2b10();
+    FUN_004f2870* TESRegionDataLandscape_CreateCopy();
 };
 // Allocates a new FUN_004f2870 constructed from this object and returns the pointer.
 // @fnv 0x004f2b10
-FUN_004f2870* FUN_004f2b10_shell::FUN_004f2b10()
+FUN_004f2870* FUN_004f2b10_shell::TESRegionDataLandscape_CreateCopy()
 {
     FUN_004f2870* pdata = new FUN_004f2870(this);
     return pdata;
@@ -365,7 +365,7 @@ struct ThisT
     unsigned char m_06;
     unsigned char FUN_004f1540();
     void FUN_004f15a0(int v);
-    bool FUN_004f15c0(unsigned char v);
+    bool TESRegionData_SetPriority(unsigned char v);
     unsigned char FUN_005bb4d0();
     void __thiscall UpdateFromSource(ThisT* a1, int a2);
 };
@@ -381,7 +381,7 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
     if (m_05)
     {
         FUN_004f15a0(a1p->FUN_004f1540());
-        FUN_004f15c0(a1p->FUN_005bb4d0());
+        TESRegionData_SetPriority(a1p->FUN_005bb4d0());
         a1p->Slot10(&str3);
         Slot11(&str3);
     }
@@ -400,7 +400,7 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
                     if (a1p->FUN_005bb4d0() > FUN_005bb4d0())
                     {
                         FUN_004f15a0(a1p->FUN_004f1540());
-                        FUN_004f15c0(a1p->FUN_005bb4d0());
+                        TESRegionData_SetPriority(a1p->FUN_005bb4d0());
                         a1p->Slot10(&str3);
                         Slot11(&str3);
                     }
@@ -412,7 +412,7 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
                 if (a1p->FUN_004f1540())
                 {
                     FUN_004f15a0(a1p->FUN_004f1540());
-                    FUN_004f15c0(a1p->FUN_005bb4d0());
+                    TESRegionData_SetPriority(a1p->FUN_005bb4d0());
                     a1p->Slot10(&str3);
                     Slot11(&str3);
                 }
@@ -427,7 +427,7 @@ void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
                     f += (float)((100 - a1p->FUN_005bb4d0()) * FUN_005bb4d0() +
                                  a1p->FUN_005bb4d0() * a1p->FUN_005bb4d0());
                     f *= DAT_01023b88;
-                    FUN_004f15c0((unsigned char)floor(f));
+                    TESRegionData_SetPriority((unsigned char)floor(f));
                 }
             }
         }

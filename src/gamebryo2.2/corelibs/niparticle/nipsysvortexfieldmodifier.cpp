@@ -5,7 +5,7 @@
 extern "C" void* g_01202688;
 
 // @fnv 0x00c26810
-void* __cdecl FUN_00c26810()
+void* __cdecl NiPSysVortexFieldModifier_GetRTTI()
 {
     return &g_01202688;
 }
@@ -22,10 +22,10 @@ struct NiPSysFieldModifier
 struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 {
     NiColor m_kFogTint;
-    void FUN_00c267d0(NiStream& stream);
+    void NiPSysVortexFieldModifier_LoadBinary(NiStream& stream);
 };
 // @fnv 0x00c267d0
-void NiPSysVortexFieldModifier::FUN_00c267d0(NiStream& stream)
+void NiPSysVortexFieldModifier::NiPSysVortexFieldModifier_LoadBinary(NiStream& stream)
 {
     NiPSysFieldModifier::LoadBinary(stream);
     ((NiColor*)((char*)this + 0x30))->LoadBinary(stream);
@@ -123,7 +123,7 @@ extern void* _g_01202688;
 
 struct C27A30Base
 {
-    void FUN_00c322b0(StrArr*);
+    void NiPSysFieldModifier_GetViewerStrings(StrArr*);
 };
 
 struct FUN_00c27060_shell : C27A30Base
@@ -134,7 +134,7 @@ struct FUN_00c27060_shell : C27A30Base
 // @fnv 0x00c27060
 void FUN_00c27060_shell::AppendNameAndDirection(StrArr* pkStrings)
 {
-    FUN_00c322b0(pkStrings);
+    NiPSysFieldModifier_GetViewerStrings(pkStrings);
     char* pcStr = _FUN_00a7d330(_g_01202688);
     unsigned int uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usCapacity)
@@ -179,12 +179,12 @@ struct CloneHost
     char _pad_0[0x30];
     CloneVec3 m_30;
     void FUN_00c32020(CloneItem* pItem, int a);
-    CloneItem* FUN_00c26940(int a);
+    CloneItem* NiPSysVortexFieldModifier_CreateClone(int a);
 };
 
 // Allocates a CloneItem, passes it with a to FUN_00c32020, copies m_30 into the item's m_30, and returns it.
 // @fnv 0x00c26940
-CloneItem* CloneHost::FUN_00c26940(int a)
+CloneItem* CloneHost::NiPSysVortexFieldModifier_CreateClone(int a)
 {
     CloneItem* pItem = new CloneItem;
     this->FUN_00c32020(pItem, a);
@@ -260,7 +260,7 @@ struct Vec3
         y = fY;
         z = fZ;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 
     Vec3 operator-(const Vec3& pt) const
     {
@@ -387,7 +387,7 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
         NiTransform kFieldToPSys = kInvPSys * kField;
         Vec3 kPosition = kFieldToPSys.m_kTranslation;
         Vec3 kDirection = kFieldToPSys.m_kOrientation * m_kLightVector;
-        kDirection.FUN_004a0c10();
+        kDirection.NiPoint3_Unitize();
         float fMaxDistanceSqr = m_fDistanceLimit * m_fDistanceLimit;
         for (unsigned short us = 0; us < pkData->m_usActiveVertices; us++)
         {
@@ -423,7 +423,7 @@ struct NormVec3
     float x;
     float y;
     float z;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct NiTransform
 {
@@ -552,7 +552,7 @@ void ForceOwner::FUN_00c26c00(float delta, ParticleList* list)
     combined.FUN_0062c250(*pA, transformB);
     Vec3 axis = RotMul(transformA.rotation, m_dir);
     Vec3 origin = transformA.translation;
-    ((NormVec3*)&axis)->FUN_004a0c10();
+    ((NormVec3*)&axis)->NiPoint3_Unitize();
     for (unsigned short i = 0; i < list->count; ++i)
     {
         Particle* pParticle = list->particles + i;
@@ -576,7 +576,7 @@ namespace fnv_00c2c170 {
 struct AirVector
 {
     float x, y, z;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     float SquaredLength() const
     {
         return x * x + y * y + z * z;
@@ -654,11 +654,11 @@ struct AirField
     AirNode* field;
     AirVector direction;
     float magnitude, nearDistance, farDistance;
-    void FUN_00c2c170(float time, const AirParticles* data);
+    void NiPSysDragModifier_Update(float time, const AirParticles* data);
 };
 // Updates each particle's velocity along the normalized axis, with distance falloff above nearDistance and a time-based scale.
 // @fnv 0x00c2c170
-void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
+void AirField::NiPSysDragModifier_Update(float time, const AirParticles* apParticles)
 {
     if (!(magnitude > 0.0f))
         return;
@@ -673,7 +673,7 @@ void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
     inverse.FUN_0062c250(transform, fieldWorld);
     AirVector axis;
     axis = transform.FUN_004b4500(direction);
-    axis.FUN_004a0c10();
+    axis.NiPoint3_Unitize();
     float axisSquared = axis.SquaredLength();
     float range = farDistance - nearDistance;
     for (unsigned short i = 0; i < apParticles->count; ++i)

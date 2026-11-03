@@ -4,4 +4,4 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_01202688;
-void* __cdecl FUN_00c26810();
+void* __cdecl NiPSysVortexFieldModifier_GetRTTI();

@@ -212,7 +212,7 @@ void* __cdecl FUN_00401460(void* dst, const void* src, unsigned int size);
 
 struct FUN_005054b0_shell
 {
-    void __thiscall FUN_004851b0(TESForm* form);
+    void __thiscall TESForm_CopyAllComponents(TESForm* form);
 };
 
 struct FUN_005932b0_decal
@@ -248,11 +248,11 @@ struct FUN_0058dd10_shell : public TESForm
     void* unk50;
     FUN_005932b0_decal unk54;
 
-    void __thiscall FUN_0058dd10(int arg);
+    void __thiscall BGSImpactData_CopyFrom(int arg);
 };
 
 // @fnv 0x0058dd10
-void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
+void __thiscall FUN_0058dd10_shell::BGSImpactData_CopyFrom(int arg)
 {
     FUN_0058dd10_shell* source =
         reinterpret_cast<FUN_0058dd10_shell*>(FUN_00ec43fb(arg, 0, DAT_01183028, DAT_011862fc, 0));
@@ -260,7 +260,7 @@ void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
     if (source == 0)
         return;
 
-    reinterpret_cast<FUN_005054b0_shell*>(this)->FUN_004851b0(source);
+    reinterpret_cast<FUN_005054b0_shell*>(this)->TESForm_CopyAllComponents(source);
     FUN_00401460(reinterpret_cast<char*>(this) + 0x30, reinterpret_cast<char*>(source) + 0x30, 0x18);
     reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(this) + 0x54)
         ->FUN_005932b0(reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(source) + 0x54));
@@ -271,7 +271,7 @@ void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_005932e0_shell
 {
@@ -293,7 +293,7 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
     BGSImpactData* pOther = dynamic_cast<BGSImpactData*>(apCompare);
     if (!pOther)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOther))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pOther))
         return true;
     if (memcmp((char*)this + 0x30, (char*)pOther + 0x30, 0x18) != 0)
         return true;
@@ -341,11 +341,11 @@ class SelfX
     int m2c;
     int m30;
     int m34;
-    void FUN_0058e250();
+    void BGSImpactData_OLD_IMPACT_DATA_DATA_Endian();
 };
 // Calls FUN_00401080 with TagX() for each listed member.
 // @fnv 0x0058e250
-void SelfX::FUN_0058e250()
+void SelfX::BGSImpactData_OLD_IMPACT_DATA_DATA_Endian()
 {
     FUN_00401080(&m00, TagX());
     FUN_00401080(&m14, TagX());
@@ -382,12 +382,12 @@ void OpaqueData::SwapEndian()
     BSEndian((unsigned char*)this + 16, EndianSizeTag<1>());
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -399,12 +399,12 @@ struct FUN_004891d0_obj
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 
 struct FUN_00593320_shell
 {
-    void FUN_00593320(void*);
+    void DecalData_Save(void*);
 };
 
 struct FUN_0058e450_shell
@@ -414,7 +414,7 @@ struct FUN_0058e450_shell
     TESForm* m_pPrimaryImpactSound;
     TESForm* m_pSecondaryImpactSound;
 
-    void FUN_0058e450();
+    void BGSImpactData_SaveForm();
 };
 
 bool _FUN_00401500();
@@ -422,9 +422,9 @@ void _FUN_00485910(int, int);
 
 // Calls base helpers, processes bytes at offset 0x30, and passes non-null form IDs to _FUN_00485910.
 // @fnv 0x0058e450
-void FUN_0058e450_shell::FUN_0058e450()
+void FUN_0058e450_shell::BGSImpactData_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)
         ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
@@ -434,7 +434,7 @@ void FUN_0058e450_shell::FUN_0058e450()
         reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)->Endian();
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(
         reinterpret_cast<int>(reinterpret_cast<unsigned char*>(this) + 0x30), 0x18);
 
     if (_FUN_00401500())
@@ -445,7 +445,7 @@ void FUN_0058e450_shell::FUN_0058e450()
     if (!reinterpret_cast<FUN_0058de80_shell*>(this)->IsFlagSet())
     {
         reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
-            ->FUN_00593320(reinterpret_cast<void*>(0x54444f44));
+            ->DecalData_Save(reinterpret_cast<void*>(0x54444f44));
     }
 
     {
@@ -478,7 +478,7 @@ void FUN_0058e450_shell::FUN_0058e450()
         }
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct TESQuest;
@@ -488,8 +488,8 @@ struct TopicInfo_Ext
     TESQuest* GetParentQuest();
     void FUN_005932b0(DecalData*);
 };
-void* __fastcall FUN_0056a880(char*);
-void* FUN_0056a8c0();
+void* __fastcall BGSTextureSet_GetDecalData(char*);
+void* DecalData_GetDefaultDecalData();
 struct DecalDataCopy
 {
     void Copy(DecalData*);
@@ -510,12 +510,12 @@ void FUN_0058e730Class::CopyDecalData()
         {
             reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
                 ->Copy(reinterpret_cast<DecalData*>(
-                    FUN_0056a880(reinterpret_cast<char*>(reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest()))));
+                    BGSTextureSet_GetDecalData(reinterpret_cast<char*>(reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest()))));
         }
         else
         {
             reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
-                ->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
+                ->Copy(reinterpret_cast<DecalData*>(DecalData_GetDefaultDecalData()));
         }
     }
 }

@@ -14,13 +14,13 @@ struct FUN_00d27260_standin
     int m_kRayEnd;
 
     int FlushToDestination();
-    int FUN_00d27260(const void* data, int size);
+    int hkBufferedStreamWriter_write(const void* data, int size);
 };
 
 void _FUN_00cb1260(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00d27260
-int __thiscall FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
+int __thiscall FUN_00d27260_standin::hkBufferedStreamWriter_write(const void* data, int size)
 {
     int remaining = size;
     const char* bytes = static_cast<const char*>(data);
@@ -73,7 +73,7 @@ struct DDCC60World
     void removeReference();
 };
 
-void __cdecl FUN_00d272e0();
+void __cdecl hkBufferedStreamWriter_flush();
 void* __cdecl _D1A0E0GetMemoryRouter();
 void __cdecl FUN_00c85660(void*, void*);
 
@@ -97,7 +97,7 @@ struct FUN_00d27520
 FUN_00d27520::~FUN_00d27520()
 {
     m_vtbl = &DAT_010ce448;
-    FUN_00d272e0();
+    hkBufferedStreamWriter_flush();
     if (m_pWorld)
         m_pWorld->removeReference();
     if (m_18)
@@ -153,7 +153,7 @@ void* FUN_00d27570Writer::DestroyWriter(unsigned char deletingFlag)
 extern int DAT_012689e4;
 
 // @fnv 0x00d27560
-void* __cdecl FUN_00d27560()
+void* __cdecl hkBufferedStreamWriter_getClassType()
 {
     return &DAT_012689e4;
 }
@@ -222,11 +222,11 @@ struct FUN_00d272e0_class
     int unk04;
     FUN_00d272e0_target* unk08;
 
-    void FUN_00d272e0();
+    void hkBufferedStreamWriter_flush();
 };
 
 // @fnv 0x00d272e0
-void FUN_00d272e0_class::FUN_00d272e0()
+void FUN_00d272e0_class::hkBufferedStreamWriter_flush()
 {
     reinterpret_cast<FUN_00d27260_standin*>(this)->FlushToDestination();
 
@@ -303,11 +303,11 @@ class hkBufferedStreamD273
     int m_iElementCount;
 
     void FlushToDestination();
-    hkResultD273 FUN_00d27380(int offset, int whence);
+    hkResultD273 hkBufferedStreamWriter_seek(int offset, int whence);
 };
 
 // @fnv 0x00d27380
-hkResultD273 hkBufferedStreamD273::FUN_00d27380(int offset, int whence)
+hkResultD273 hkBufferedStreamD273::hkBufferedStreamWriter_seek(int offset, int whence)
 {
     if (m_pChildAtom)
     {
@@ -431,12 +431,12 @@ class FUN_00d273f0_cls
     int unk0C;
     int m_base;
 
-    int FUN_00d273f0() const;
+    int hkBufferedStreamWriter_tell() const;
 };
 
 // Returns m_base plus the child count from m_inner, or -1 when the count is negative.
 // @fnv 0x00d273f0
-int FUN_00d273f0_cls::FUN_00d273f0() const
+int FUN_00d273f0_cls::hkBufferedStreamWriter_tell() const
 {
     int n = m_inner ? m_inner->getNumChildren() : 0;
     if (n >= 0)

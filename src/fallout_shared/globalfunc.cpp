@@ -169,7 +169,7 @@ bool UpdateObjectVisibility(NiAVObject* object)
                 for (int type = 0; type < 6; ++type)
                 {
                     NiTexture* texture = textures->GetTexture(type, i);
-                    if (texture && FUN_0043b300(&DAT_011f444c, reinterpret_cast<NiAVObject*>(texture)))
+                    if (texture && NiObject_IsKindOf(&DAT_011f444c, reinterpret_cast<NiAVObject*>(texture)))
                     {
                         bool swapped;
                         NiTexture* source = texture;
@@ -342,7 +342,7 @@ bool IsObjectNetValid(NiObjectNET* object)
 {
     if (!object)
         return false;
-    if (FUN_0043b300(&DAT_012024e0, reinterpret_cast<NiAVObject*>(object)))
+    if (NiObject_IsKindOf(&DAT_012024e0, reinterpret_cast<NiAVObject*>(object)))
         return true;
     NiNode* node = object->GetAsNiNode();
     if (node)
@@ -669,11 +669,11 @@ struct FourDimensionalVector
 typedef char _sizecheck_bhkVector4[sizeof(FourDimensionalVector) == 16 ? 1 : -1];
 struct FUN_004b4ff0_shell : public FourDimensionalVector
 {
-    void FUN_004b4ff0(float, float, float, float);
+    void bhkVector4_set(float, float, float, float);
 };
 
 // @fnv 0x004b4ff0
-void FUN_004b4ff0_shell::FUN_004b4ff0(float afX, float afY, float afZ, float afW)
+void FUN_004b4ff0_shell::bhkVector4_set(float afX, float afY, float afZ, float afW)
 {
     fX = afX;
     fY = afY;
@@ -719,13 +719,13 @@ struct blob8
 };
 
 hkpRigidBody* __fastcall FUN_004ae750(void*);
-float __fastcall FUN_004b4ea0(hkpRigidBody*);
+float __fastcall hkpRigidBody_getMass(hkpRigidBody*);
 
 // @fnv 0x004b5400
-float __fastcall FUN_004b5400(void* pThis)
+float __fastcall bhkRigidBody_GetMass(void* pThis)
 {
     hkpRigidBody* pb = FUN_004ae750(pThis);
-    return pb ? FUN_004b4ea0(pb) : 0.0f;
+    return pb ? hkpRigidBody_getMass(pb) : 0.0f;
 }
 
 bool __cdecl FUN_004b5470(const NiPoint3& aPt, float afCompLength);
@@ -780,7 +780,7 @@ void* __cdecl FUN_004b5950(const void* collidable)
 }
 
 // @fnv 0x004b59d0
-const void* __fastcall FUN_004b59d0(const char* apBase)
+const void* __fastcall hkpCollidable_getOwner(const char* apBase)
 {
     return apBase + apBase[0x10];
 }
@@ -894,10 +894,10 @@ class TESObjectREFR
 // @fnv 0x004b6740
 void __cdecl FUN_004b6740(NiAVObject* apObject, char* data)
 {
-    if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&g_0126817c, apObject))
+    if ((*(unsigned int*)(data + 0x18) & 1) && NiObject_IsKindOf(&g_0126817c, apObject))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) &&
-        FUN_0043b300(&DAT_011f9140, (NiAVObject*)((TESObjectREFR*)apObject)->GetFlags()))
+        NiObject_IsKindOf(&DAT_011f9140, (NiAVObject*)((TESObjectREFR*)apObject)->GetFlags()))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) && ((TESObjectREFR*)apObject)->GetFlags() &&
         ((BSFadeNode*)((TESTopicInfoData*)((TESObjectREFR*)apObject)->GetFlags())->GetLinkToList())
@@ -942,13 +942,13 @@ class MobileObject
 
 extern bool DAT_011d8a84;
 extern MobileObject g_011d8c4c;
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_Instance(void);
 
-// Returns true when DAT_011d8a84 is set and, after calling FUN_004b7210, g_011d8c4c reports its char controller flag.
+// Returns true when DAT_011d8a84 is set and, after calling InterfaceManager_Instance, g_011d8c4c reports its char controller flag.
 // @fnv 0x004b71d0
 bool __cdecl FUN_004b71d0()
 {
-    return DAT_011d8a84 && (FUN_004b7210(), g_011d8c4c.GetCharControllerFlag());
+    return DAT_011d8a84 && (InterfaceManager_Instance(), g_011d8c4c.GetCharControllerFlag());
 }
 
 struct FUN_0063f790_shell : public NiBound
@@ -1310,7 +1310,7 @@ struct UIRoot;
 extern UIRoot* DAT_011d8a80;
 
 // @fnv 0x004b7210
-UIRoot* FUN_004b7210()
+UIRoot* InterfaceManager_Instance()
 {
     return DAT_011d8a80;
 }
@@ -1347,11 +1347,11 @@ extern char const* const g_01268100_arg1;
 
 struct FUN_004b5150_shell
 {
-    char const* const* __thiscall FUN_004b5150();
+    char const* const* __thiscall bhkSerializable_GetRTTI();
 };
 
 // @fnv 0x004b5150
-char const* const* __thiscall FUN_004b5150_shell::FUN_004b5150()
+char const* const* __thiscall FUN_004b5150_shell::bhkSerializable_GetRTTI()
 {
     return &g_01268100_arg1;
 }
@@ -1378,11 +1378,11 @@ extern const char* const g_0126811c_arg1;
 
 struct FUN_004b5190_shell
 {
-    const char* const* FUN_004b5190();
+    const char* const* bhkAction_GetRTTI();
 };
 
 // @fnv 0x004b5190
-const char* const* FUN_004b5190_shell::FUN_004b5190()
+const char* const* FUN_004b5190_shell::bhkAction_GetRTTI()
 {
     return &g_0126811c_arg1;
 }
@@ -1415,12 +1415,12 @@ int __fastcall FUN_004b5980(int param_1)
     return GetCharAtOffset4(param_1 + 0x14);
 }
 
-void const* __fastcall FUN_004b59d0(char const*);
+void const* __fastcall hkpCollidable_getOwner(char const*);
 
 // @fnv 0x004b59c0
 void const* __cdecl FUN_004b59c0(char const* arg)
 {
-    return FUN_004b59d0(arg);
+    return hkpCollidable_getOwner(arg);
 }
 
 namespace fnv_004b4d10 {
@@ -1517,25 +1517,25 @@ struct FUN_004b4fa0_shell
     void* __fastcall FUN_004b4fa0();
 };
 
-void* __fastcall FUN_004b4fc0(void*);
+void* __fastcall bhkVector4_setZero4(void*);
 
 // @fnv 0x004b4fa0
 void* __fastcall FUN_004b4fa0_shell::FUN_004b4fa0()
 {
-    FUN_004b4fc0(this);
+    bhkVector4_setZero4(this);
     return this;
 }
 
 struct S_004b4fc0
 {
-    void FUN_004b4ff0(float, float, float, float);
-    void FUN_004b4fc0();
+    void bhkVector4_set(float, float, float, float);
+    void bhkVector4_setZero4();
 };
-// Calls FUN_004b4ff0 with four zero float arguments.
+// Calls bhkVector4_set with four zero float arguments.
 // @fnv 0x004b4fc0
-void S_004b4fc0::FUN_004b4fc0()
+void S_004b4fc0::bhkVector4_setZero4()
 {
-    FUN_004b4ff0(0.0f, 0.0f, 0.0f, 0.0f);
+    bhkVector4_set(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 extern int DAT_0102009c;
@@ -1781,7 +1781,7 @@ struct Sub004B
 {
     char pad[16];
     void FUN_004b4fa0();
-    void FUN_004b4ff0(float, float, float, float);
+    void bhkVector4_set(float, float, float, float);
 };
 struct Sub0056
 {
@@ -1801,7 +1801,7 @@ Owner0066d650* Owner0066d650::Reset()
     f0.FUN_0056e8d0();
     f10.FUN_004b4fa0();
     f20.FUN_004b4fa0();
-    f20.FUN_004b4ff0(1.0f, 0.0f, 0.0f, 0.0f);
+    f20.bhkVector4_set(1.0f, 0.0f, 0.0f, 0.0f);
     return this;
 }
 
@@ -2330,7 +2330,7 @@ void FUN_004b70f0(NiNode* apNode, float afPhase)
     for (; n < apNode->FUN_0043b480(); ++n)
     {
         NiAVObject* pobj = apNode->GetAt(n);
-        if (pobj && FUN_0043b300(&DAT_011f4428, pobj))
+        if (pobj && NiObject_IsKindOf(&DAT_011f4428, pobj))
             FUN_004b70f0((NiNode*)pobj, afPhase);
     }
 }
@@ -2400,11 +2400,11 @@ class TESDataHandler
 {
   public:
     BSSimpleList_Ragdoll* GetBGSRagdollList(void);
-    float FUN_004b4ea0();
+    float hkpRigidBody_getMass();
 };
 
 // @fnv 0x004b4ea0
-float TESDataHandler::FUN_004b4ea0()
+float TESDataHandler::hkpRigidBody_getMass()
 {
     return GetBGSRagdollList()->GetMassValue();
 }
@@ -2451,11 +2451,11 @@ struct FUN_004b68a0_data
 // @fnv 0x004b68a0
 void FUN_004b68a0(ArrSI* object, FUN_004b68a0_data* data)
 {
-    if ((data->field_18 & 1) && FUN_0043b300(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
+    if ((data->field_18 & 1) && NiObject_IsKindOf(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
         return;
 
     if ((data->field_18 & 2) &&
-        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&DAT_011f9140), reinterpret_cast<NiAVObject*>(object->GetFlags())))
+        NiObject_IsKindOf(reinterpret_cast<const NiRTTI*>(&DAT_011f9140), reinterpret_cast<NiAVObject*>(object->GetFlags())))
         return;
 
     if ((data->field_18 & 2) && object->GetFlags() &&
@@ -2505,13 +2505,13 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 {
     if (data->field_18 & 1)
     {
-        if (FUN_0043b300(&g_0126817c, object))
+        if (NiObject_IsKindOf(&g_0126817c, object))
             return;
     }
 
     if (data->field_18 & 2)
     {
-        if (FUN_0043b300(&DAT_011f9140, reinterpret_cast<NiAVObject*>(reinterpret_cast<ArrSI*>(object)->GetFlags())))
+        if (NiObject_IsKindOf(&DAT_011f9140, reinterpret_cast<NiAVObject*>(reinterpret_cast<ArrSI*>(object)->GetFlags())))
             return;
     }
 
@@ -3191,7 +3191,7 @@ extern const char* DAT_01189034;
 
 // Returns the type name string for a form type code, looking it up in typeNames, then a switch table, then FNV_FormTypeNames, warning on invalid codes.
 // @fnv 0x004b1b60
-const char* __cdecl FUN_004b1b60(unsigned char type)
+const char* __cdecl TESForm_GetFormTypeName(unsigned char type)
 {
     int index = LookupType(type);
     if (index >= 0)
@@ -3386,7 +3386,7 @@ struct Point
     Point();
     Point operator-(const Point&) const;
     float Length() const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     Point& operator+=(const Point&);
 };
 struct Matrix
@@ -3412,9 +3412,9 @@ struct GeometryData
 struct Geometry
 {
     Point* FUN_0049ec60();
-    Point* FUN_004a8030();
+    Point* NiGeometry_GetNormals();
     unsigned short FUN_00456650();
-    Transform& FUN_00461130();
+    Transform& NiAVObject_GetWorldRotate();
     GeometryData* FUN_005495f0();
 };
 struct Entry
@@ -3448,12 +3448,12 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
     if (!source || !target || source == target)
         return false;
     Point* sourceVertices7 = source->FUN_0049ec60();
-    Point* sourceNormals2 = source->FUN_004a8030();
+    Point* sourceNormals2 = source->NiGeometry_GetNormals();
     unsigned int uiCountX = source->FUN_00456650();
     if (!sourceVertices7 || !sourceNormals2 || !uiCountX)
         return false;
     Point* targetVertices5 = target->FUN_0049ec60();
-    Point* targetNormals2 = target->FUN_004a8030();
+    Point* targetNormals2 = target->NiGeometry_GetNormals();
     unsigned int uiCountVal = target->FUN_00456650();
     if (!targetVertices5 || !targetNormals2 || !uiCountVal)
         return false;
@@ -3466,8 +3466,8 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
         delete sourcePositions;
         return false;
     }
-    target->FUN_00461130().FUN_004b4880(aTransform);
-    rotation4 = target->FUN_00461130().FUN_004b45b0() * source->FUN_00461130();
+    target->NiAVObject_GetWorldRotate().FUN_004b4880(aTransform);
+    rotation4 = target->NiAVObject_GetWorldRotate().FUN_004b45b0() * source->NiAVObject_GetWorldRotate();
     unsigned int best4;
     float bestDist3;
     float bestDistance10;
@@ -3518,7 +3518,7 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
             iCount++;
             map30.GetNextEntry(position, aHKey, existing);
             targetNormals2[existing.first] = rotation4.FUN_004b4500(&sourceNormals2[aHKey]);
-            targetNormals2[existing.first].FUN_004a0c10();
+            targetNormals2[existing.first].NiPoint3_Unitize();
             if (existing.second < uiCountVal)
             {
                 targetNormals2[existing.second] = targetNormals2[existing.first];
@@ -3589,7 +3589,7 @@ struct S4b52f0_Ref
 };
 S4b52f0_Ref* __cdecl FUN_0043b610(void* obj);
 
-// Recursively picks, among an object's list children and its ref target, the one with the greatest FUN_004b5400 value; returns 0 for a null object.
+// Recursively picks, among an object's list children and its ref target, the one with the greatest bhkRigidBody_GetMass value; returns 0 for a null object.
 // @fnv 0x004b52f0
 void* __cdecl FUN_004b52f0(void* object)
 {
@@ -3612,14 +3612,14 @@ void* __cdecl FUN_004b52f0(void* object)
                 child2 = FUN_004b52f0(list6->FUN_0043b4a0(i4));
                 if (child2 != 0)
                 {
-                    if (bestX == 0 || FUN_004b5400(bestX) < FUN_004b5400(child2))
+                    if (bestX == 0 || bhkRigidBody_GetMass(bestX) < bhkRigidBody_GetMass(child2))
                         bestX = child2;
                 }
             }
         }
         ref = FUN_0043b610(object);
         other = ref ? ref->FUN_006fa820() : 0;
-        if (bestX != 0 && (other == 0 || FUN_004b5400(other) < FUN_004b5400(bestX)))
+        if (bestX != 0 && (other == 0 || bhkRigidBody_GetMass(other) < bhkRigidBody_GetMass(bestX)))
         {
             return bestX;
         }

@@ -12,11 +12,11 @@ struct NiPointLight : NiObject
     NiPointLight();
     ~NiPointLight();
     bool IsEqual(NiObject* pObject);
-    bool FUN_00a7d730(NiObject* pObject);
+    bool NiPointLight_IsEqual(NiObject* pObject);
 };
 
 // @fnv 0x00a7d730
-bool NiPointLight::FUN_00a7d730(NiObject* pObject)
+bool NiPointLight::NiPointLight_IsEqual(NiObject* pObject)
 {
     NiPointLight* pOtherLight = static_cast<NiPointLight*>(pObject);
     if (IsEqual(pOtherLight))
@@ -32,7 +32,7 @@ bool NiPointLight::FUN_00a7d730(NiObject* pObject)
 extern const char* const g_011f5ec4_arg1;
 
 // @fnv 0x00a7d790
-const char* const* __cdecl FUN_00a7d790()
+const char* const* __cdecl NiPointLight_GetRTTI()
 {
     return &g_011f5ec4_arg1;
 }
@@ -57,11 +57,11 @@ struct NiAVObject
 
 struct NiPointLight : NiAVObject
 {
-    void FUN_00a7d7a0(NiUpdateData& update);
+    void NiPointLight_UpdateWorldData(NiUpdateData& update);
 };
 
 // @fnv 0x00a7d7a0
-void NiPointLight::FUN_00a7d7a0(NiUpdateData& update)
+void NiPointLight::NiPointLight_UpdateWorldData(NiUpdateData& update)
 {
     NiAVObject::UpdateWorldData(update);
     ((int*)this)[0xa8 / 4]++;
@@ -71,7 +71,7 @@ void NiPointLight::FUN_00a7d7a0(NiUpdateData& update)
 extern const void* g_011f5f6c;
 
 // @fnv 0x00a9b390
-const void* __cdecl FUN_00a9b390()
+const void* __cdecl NiAmbientLight_GetRTTI()
 {
     return &g_011f5f6c;
 }
@@ -580,15 +580,15 @@ struct NiStream
 
 struct NiPointLightSave : NiPointLightLayout
 {
-    void FUN_00a720f0(NiStream* stream);
+    void NiLight_SaveBinary(NiStream* stream);
     void SavePointLight(NiStream* stream);
 };
 
-// Calls FUN_00a720f0 then writes the three 4-byte values at unkF0, unkF4 and unkF8 to stream->unk250, accumulating the byte counts into its unk04.
+// Calls NiLight_SaveBinary then writes the three 4-byte values at unkF0, unkF4 and unkF8 to stream->unk250, accumulating the byte counts into its unk04.
 // @fnv 0x00a7d8d0
 void NiPointLightSave::SavePointLight(NiStream* stream)
 {
-    this->FUN_00a720f0(stream);
+    this->NiLight_SaveBinary(stream);
 
     // One block per light radius.  The out value of the callback lives in an
     // inner scope: that is what makes the compiler keep the callback in EDX
@@ -655,11 +655,11 @@ struct S_00a7d960_base : NiPointLightLayout
 
 struct FUN_00a7d960_cls : S_00a7d960_base
 {
-    void FUN_00a7d960(S_00a7d960_arg* p);
+    void NiPointLight_GetViewerStrings(S_00a7d960_arg* p);
 };
 
 // @fnv 0x00a7d960
-void FUN_00a7d960_cls::FUN_00a7d960(S_00a7d960_arg* pBuffer)
+void FUN_00a7d960_cls::NiPointLight_GetViewerStrings(S_00a7d960_arg* pBuffer)
 {
     AppendEffectProperties(pBuffer);
     S_Push(pBuffer, FUN_00a7d330(DAT_011f4a98));
@@ -668,26 +668,26 @@ void FUN_00a7d960_cls::FUN_00a7d960(S_00a7d960_arg* pBuffer)
     S_Push(pBuffer, FUN_00a7d550(str_0109dde8, unkF8));
 }
 
-void __cdecl FUN_00a71f50();
+void __cdecl NiLight_LinkObject();
 
 // @fnv 0x00a9b360
 void __cdecl FUN_00a9b360()
 {
-    FUN_00a71f50();
+    NiLight_LinkObject();
 }
 
-void __cdecl FUN_00a720f0(int param1, int param2);
+void __cdecl NiLight_SaveBinary(int param1, int param2);
 
 // @fnv 0x00a9b370
 void __cdecl FUN_00a9b370(int param1, int param2)
 {
-    FUN_00a720f0(param1, param2);
+    NiLight_SaveBinary(param1, param2);
 }
 
-extern void __cdecl FUN_00a72160();
+extern void __cdecl NiLight_IsEqual();
 
 // @fnv 0x00a9b380
 void __cdecl FUN_00a9b380()
 {
-    FUN_00a72160();
+    NiLight_IsEqual();
 }

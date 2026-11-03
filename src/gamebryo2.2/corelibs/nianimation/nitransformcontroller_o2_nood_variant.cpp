@@ -27,13 +27,13 @@ NiObject* __cdecl FUN_00a36810()
     return new ObjectA36810;
 }
 
-// FUN_00a360b0 - forwards its single argument to a helper and reports the
+// NiTransformController_IsEqual - forwards its single argument to a helper and reports the
 // helper's byte sized result as a bool.
 
 extern "C" unsigned char __stdcall Helper00a39030(void* pObject);
 
 // @fnv 0x00a360b0
-bool __stdcall FUN_00a360b0(void* pObject)
+bool __stdcall NiTransformController_IsEqual(void* pObject)
 {
     return Helper00a39030(pObject);
 }
@@ -101,11 +101,11 @@ struct NiInterpolatorVirtuals
 
 struct FUN_00a361c0_cls : public NiSingleInterpController
 {
-    void FUN_00a361c0(NiStream& kStream);
+    void NiTransformController_LinkObject(NiStream& kStream);
 };
 
 // @fnv 0x00a361c0
-void FUN_00a361c0_cls::FUN_00a361c0(NiStream& kStream)
+void FUN_00a361c0_cls::NiTransformController_LinkObject(NiStream& kStream)
 {
     NiSingleInterpController::LinkObject(kStream);
 
@@ -125,7 +125,7 @@ struct FUN_00a367c0_helper
 };
 
 // @fnv 0x00a367c0
-ObjectA36810* __fastcall FUN_00a367c0(ObjectA36810* pThis, void*, CloningProcess& cloning)
+ObjectA36810* __fastcall NiTransformController_CreateClone(ObjectA36810* pThis, void*, CloningProcess& cloning)
 {
     ObjectA36810* pNewInstance = new ObjectA36810;
     ((FUN_00a367c0_helper*)pThis)->FUN_00a38ef0(pNewInstance, cloning);

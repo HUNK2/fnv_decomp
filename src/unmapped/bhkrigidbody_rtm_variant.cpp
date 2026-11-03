@@ -11,9 +11,9 @@ struct NiStream
 };
 struct bhkRigidBody
 {
-    void FUN_00c859e0(NiStream*);
+    void bhkWorldObject_LinkObject(NiStream*);
     void FUN_00c8ef80(NiObject*);
-    void FUN_00c8f3c0(NiStream*);
+    void bhkRigidBody_LinkObject(NiStream*);
 };
 char* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct NiTPrimitiveArray_unsigned_int_
@@ -42,8 +42,8 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type);
 struct FUN_00c8eb00_s
 {
     void __thiscall ProcessListNodes();
-    void __thiscall FUN_00c9d590();
-    void __thiscall FUN_00c8eb00();
+    void __thiscall bhkEntity_Remove();
+    void __thiscall bhkRigidBody_Remove();
 };
 struct LinkedRecord
 {
@@ -132,7 +132,7 @@ struct S_00c8d440_Target
     virtual void v4(unsigned int id, S_00c8d440_Arg arg);
 };
 extern S_00c8d440_Target* DAT_01268360;
-void __stdcall FUN_00c8d440(bool flag);
+void __stdcall bhkRigidBody_SetHavokAssertState(bool flag);
 struct NativeData
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -619,7 +619,7 @@ struct SpawnedObject : public ChainB_cls
         DAT_012681bc += 1;
     }
 };
-SpawnedObject* __cdecl FUN_00c8ed70();
+SpawnedObject* __cdecl bhkRigidBody_CreateObject();
 struct NiNode;
 struct HavokShape
 {
@@ -1450,10 +1450,10 @@ struct Ent
     int unk;
     int unkCur;
     Body* m_pPhysicsBody;
-    hkVector FUN_00c8d200();
+    hkVector bhkRigidBody_GetCenterOfMassLocal();
 };
 // @fnv 0x00c8d200
-hkVector Ent::FUN_00c8d200()
+hkVector Ent::bhkRigidBody_GetCenterOfMassLocal()
 {
     const hkVector* p;
     if (this && m_pPhysicsBody)
@@ -1916,7 +1916,7 @@ class WorldObject_c8ea
 {
   public:
     virtual void v00();
-    void FUN_00c9d4f0(char* pkStream);
+    void bhkEntity_LoadBinary(char* pkStream);
     float FUN_0062ab20();
 };
 struct LoadStream_c8ea
@@ -1975,7 +1975,7 @@ class Entity_c8ea : public WorldObject_c8ea
     int unk04, unk08, unk0c;
     int m_iSlotCount;
 
-    void FUN_00c8ea30(char* pkStream);
+    void bhkRigidBody_LoadBinary(char* pkStream);
 };
 extern "C" void _ReadWriteBarrier(void);
 struct RTTI_eb20
@@ -3588,7 +3588,7 @@ struct This160
     Linked160* m_08;
     void FUN_00a29680();
     float FUN_00577b50();
-    void FUN_005610f0(float* p);
+    void bhkRigidBody_SetPosition(float* p);
     void FUN_00561690(float* p);
     void FUN_005617c0(float* p);
     void FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3);
@@ -3597,7 +3597,7 @@ struct SmartObj160
 {
     int unk00;
     int ref04;
-    void FUN_0040fbf0(int x);
+    void BSSpinLock_Lock(int x);
 };
 struct Vec50Obj
 {
@@ -3787,8 +3787,8 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     if (DAT_0106b798 < len)
     {
         if (a3)
-            a3->FUN_0040fbf0(0);
-        FUN_005610f0(p1);
+            a3->BSSpinLock_Lock(0);
+        bhkRigidBody_SetPosition(p1);
         if (a3)
         {
             if (--a3->ref04 == 0)

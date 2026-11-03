@@ -46,7 +46,7 @@ class NiPixelData
   public:
     NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int flags,
                 unsigned int extra);
-    void* FUN_0064dac0(int zero1, int zero2, unsigned int size);
+    void* NiPixelData_GetPixels(int zero1, int zero2, unsigned int size);
 };
 
 class BSFadeNode

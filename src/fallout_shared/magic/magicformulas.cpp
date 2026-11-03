@@ -6,12 +6,12 @@ int FlaggedData::ContainsAnyFlag(unsigned int mask)
 {
     return (flags & mask) != 0;
 }
-// Returns the result of FUN_00874480 on the object from FUN_004b7210 when it exists and its GetIndex is nonzero, otherwise 0.
+// Returns the result of FUN_00874480 on the object from InterfaceManager_Instance when it exists and its GetIndex is nonzero, otherwise 0.
 // @fnv 0x00703350
 int FlaggedData::GetPlayerValue()
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        return FUN_004b7210()->FUN_00874480();
+    if (InterfaceManager_Instance() && reinterpret_cast<QuestStage*>(InterfaceManager_Instance())->GetIndex())
+        return InterfaceManager_Instance()->FUN_00874480();
     return 0;
 }
 

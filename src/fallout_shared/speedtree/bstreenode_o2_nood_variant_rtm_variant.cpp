@@ -27,7 +27,7 @@ struct BSTreeNode : NiNode
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -62,7 +62,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -81,7 +81,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 struct FUN_0066da50_t
 {
@@ -128,7 +128,7 @@ extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void __thiscall bhkTransform_setIdentity();
 };
 struct FUN_0066d550_shell
 {
@@ -954,7 +954,7 @@ struct S_0066d880_List
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
+    unsigned char BSTreeModel_IsInstance();
     int FUN_008d6f30();
 };
 struct S_0066d880_Holder
@@ -1020,7 +1020,7 @@ struct S_0066d880_Base
     int unkd8;
     int unkdc;
     int unke0;
-    void FUN_00a5ea70(S_0066d880_List* list);
+    void NiNode_GetViewerStrings(S_0066d880_List* list);
 };
 struct S_0066d880 : S_0066d880_Base
 {
@@ -1369,7 +1369,7 @@ struct Obj
     int unk04;
     Data8* unk08;
     void FUN_00c9fb70(Output*);
-    void FUN_00cab1b0(void*, void*);
+    void bhkCapsuleShape_BuildDisplayGeometry(void*, void*);
 };
 extern unsigned int DAT_0126fd98;
 extern float DAT_010c72bc;
@@ -1591,14 +1591,14 @@ struct S00c880f0_Cls
     S00c880f0_HolderA* m_08;
     unsigned int m_0c;
     S00c880f0_Node* m_10;
-    void FUN_00c880f0();
+    void bhkPCollisionObject_NitohkTransform();
 };
 struct S00c880f0_LockObj
 {
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
 };
 // @fnv 0x00c880f0
-void S00c880f0_Cls::FUN_00c880f0()
+void S00c880f0_Cls::bhkPCollisionObject_NitohkTransform()
 {
     S00c880f0_HolderA* a = m_08;
     S00c880f0_Node* b = m_10;
@@ -1621,7 +1621,7 @@ void S00c880f0_Cls::FUN_00c880f0()
                 makePosition(position, pose.translation);
                 out.min.plus(position);
                 out.max.plus(position);
-                reinterpret_cast<S00c880f0_LockObj*>(&DAT_01267b80)->FUN_0040fbf0(0);
+                reinterpret_cast<S00c880f0_LockObj*>(&DAT_01267b80)->BSSpinLock_Lock(0);
                 S00c880f0_Ifc* item = b->m_08;
                 if (item)
                 {

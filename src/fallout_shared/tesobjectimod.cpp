@@ -281,12 +281,12 @@ TESObjectIMOD::TESObjectIMOD()
 
 struct FUN_0051a5d0_shell
 {
-    void __thiscall FUN_0051a5d0(unsigned int, unsigned int);
+    void __thiscall TESObjectIMOD_LoadGame2(unsigned int, unsigned int);
 };
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
+    void __thiscall TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
@@ -294,9 +294,9 @@ struct TESValueFormStub
 };
 
 // @fnv 0x0051a5d0
-void __thiscall FUN_0051a5d0_shell::FUN_0051a5d0(unsigned int arg1, unsigned int arg2)
+void __thiscall FUN_0051a5d0_shell::TESObjectIMOD_LoadGame2(unsigned int arg1, unsigned int arg2)
 {
-    reinterpret_cast<TESFormStub*>(this)->FUN_00484c50(arg1, arg2);
+    reinterpret_cast<TESFormStub*>(this)->TESForm_LoadGame2(arg1, arg2);
     reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_0048ea10(arg1, arg2);
 }
 
@@ -345,46 +345,46 @@ void* FUN_00519e40_shell::FUN_00519e40(unsigned int flags)
     return this;
 }
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
 
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
 
 struct FUN_0051a550_shell
 {
-    unsigned short __thiscall FUN_0051a550(unsigned int aiFlags);
+    unsigned short __thiscall TESObjectIMOD_GetSaveSize(unsigned int aiFlags);
 };
 
 // Returns the sum of the save sizes reported by this object and the object at offset 0x7c, both queried with aiFlags.
 // @fnv 0x0051a550
-unsigned short __thiscall FUN_0051a550_shell::FUN_0051a550(unsigned int aiFlags)
+unsigned short __thiscall FUN_0051a550_shell::TESObjectIMOD_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0*)this)->GetSaveSize(aiFlags);
-    isize += ((FUN_0048e9b0*)((char*)this + 0x7c))->GetSaveSize(aiFlags);
+    isize += ((TESForm_GetSaveSize*)this)->GetSaveSize(aiFlags);
+    isize += ((TESValueForm_GetSaveSize*)((char*)this + 0x7c))->GetSaveSize(aiFlags);
     return isize;
 }
 
 struct FUN_0051b070_shell
 {
-    void __thiscall FUN_00484c20(unsigned int);
+    void __thiscall TESForm_SaveGame(unsigned int);
     void __thiscall FUN_0048e9e0(unsigned int);
 };
 
 struct FUN_0051a5a0_shell
 {
-    void __thiscall FUN_0051a5a0(unsigned int aiFlags);
+    void __thiscall TESObjectIMOD_SaveGame(unsigned int aiFlags);
 };
 
 // @fnv 0x0051a5a0
-void __thiscall FUN_0051a5a0_shell::FUN_0051a5a0(unsigned int aiFlags)
+void __thiscall FUN_0051a5a0_shell::TESObjectIMOD_SaveGame(unsigned int aiFlags)
 {
-    reinterpret_cast<FUN_0051b070_shell*>(this)->FUN_00484c20(aiFlags);
+    reinterpret_cast<FUN_0051b070_shell*>(this)->TESForm_SaveGame(aiFlags);
     reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_0048e9e0(aiFlags);
 }
 
@@ -399,12 +399,12 @@ struct FUN_0048ea40_holder
 };
 struct FUN_0051a600_shell
 {
-    void __thiscall FUN_0051a600(BGSSaveFormBuffer* buffer);
+    void __thiscall TESObjectIMOD_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer);
 };
 
 // Calls SaveIfChanged on this and FUN_0048ea40 on the sub-object at offset 0x7c, passing the save buffer to both.
 // @fnv 0x0051a600
-void __thiscall FUN_0051a600_shell::FUN_0051a600(BGSSaveFormBuffer* buffer)
+void __thiscall FUN_0051a600_shell::TESObjectIMOD_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(buffer);
     reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_0048ea40(buffer);
@@ -412,11 +412,11 @@ void __thiscall FUN_0051a600_shell::FUN_0051a600(BGSSaveFormBuffer* buffer)
 
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
+    void __thiscall BGSDestructibleObjectForm_Save();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
+    void __thiscall TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -424,23 +424,23 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall TESScriptableForm_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
 struct FUN_0047a240_holder
 {
@@ -452,65 +452,65 @@ struct FUN_0047b560_holder
 };
 struct FUN_0048e370_holder
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 
 struct FUN_0051a420_shell : public TESObjectIMOD
 {
-    void FUN_0051a420();
+    void TESObjectIMOD_SaveForm();
 };
 
 // @fnv 0x0051a420
-void FUN_0051a420_shell::FUN_0051a420()
+void FUN_0051a420_shell::TESObjectIMOD_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_holder*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_holder*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_holder*)((char*)this + 0x94))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((FUN_00482cb0_shell*)((char*)this + 0x74))->FUN_00482cb0();
-    ((S_00477f20*)((char*)this + 0x8c))->FUN_00477f20();
+    ((S_0048cca0*)((char*)this + 0x68))->TESScriptableForm_Save();
+    ((FUN_00482cb0_shell*)((char*)this + 0x74))->TESDescription_Save();
+    ((S_00477f20*)((char*)this + 0x8c))->BGSDestructibleObjectForm_Save();
     ((FUN_0047b560_holder*)((char*)this + 0xa4))->LogFormIDs();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
-    ((FUN_00485680*)this)->M();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct S_0051a4c0
 {
     void CopyFrom(TESForm* apCopy);
 };
-// Casts apCopy to TESObjectIMOD and, if the cast succeeds, forwards it to FUN_004851b0 on this object.
+// Casts apCopy to TESObjectIMOD and, if the cast succeeds, forwards it to TESForm_CopyAllComponents on this object.
 // @fnv 0x0051a4c0
 void S_0051a4c0::CopyFrom(TESForm* apCopy)
 {
     TESObjectIMOD* pmisc = dynamic_cast<TESObjectIMOD*>(apCopy);
     if (!pmisc)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_0051a500_holder
 {
-    bool FUN_0051a500(TESForm* apCompare);
+    bool TESObjectIMOD_Compare(TESForm* apCompare);
 };
-// Casts apCompare to TESObjectIMOD; returns true if the cast fails or if FUN_00485270 reports a match, otherwise false.
+// Casts apCompare to TESObjectIMOD; returns true if the cast fails or if TESForm_CompareAllComponents reports a match, otherwise false.
 // @fnv 0x0051a500
-bool FUN_0051a500_holder::FUN_0051a500(TESForm* apCompare)
+bool FUN_0051a500_holder::TESObjectIMOD_Compare(TESForm* apCompare)
 {
     TESObjectIMOD* pcomp;
     pcomp = dynamic_cast<TESObjectIMOD*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     return false;
 }

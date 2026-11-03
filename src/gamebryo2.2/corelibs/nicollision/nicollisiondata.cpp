@@ -5,7 +5,7 @@
 extern void* g_0126fab4;
 
 // @fnv 0x00eacd20
-void* __cdecl FUN_00eacd20()
+void* __cdecl NiCollisionData_GetRTTI()
 {
     return &g_0126fab4;
 }
@@ -243,10 +243,10 @@ struct NiCollisionObject
 struct NiCollisionData : NiCollisionObject
 {
     int m_eCollisionMode;
-    void FUN_00ead330(NiAVObject* pkSceneObject);
+    void NiCollisionData_SetSceneGraphObject(NiAVObject* pkSceneObject);
 };
 // @fnv 0x00ead330
-void NiCollisionData::FUN_00ead330(NiAVObject* pkSceneObject)
+void NiCollisionData::NiCollisionData_SetSceneGraphObject(NiAVObject* pkSceneObject)
 {
     SetSceneObject(pkSceneObject);
     int iMode = m_eCollisionMode;
@@ -296,10 +296,10 @@ struct NiCollisionData : NiCollisionObject
 {
     unsigned char _padC[0x1C];
     int m_eCollisionMode;
-    void FUN_00ead760(NiStream&);
+    void NiCollisionData_LinkObject(NiStream&);
 };
 // @fnv 0x00ead760
-void NiCollisionData::FUN_00ead760(NiStream& kStream)
+void NiCollisionData::NiCollisionData_LinkObject(NiStream& kStream)
 {
     NiCollisionObject::LinkObject(kStream);
     if (kStream.m_uiNifVersion < 0x0A000110)
@@ -374,13 +374,13 @@ struct NiCollisionData
     virtual void v23();
     virtual void v24();
     virtual void VirtAt64(StrArr*);
-    void FUN_00a81100(StrArr*);
-    void FUN_00ead870(StrArr*);
+    void NiCollisionObject_GetViewerStrings(StrArr*);
+    void NiCollisionData_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00ead870
-void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
+void NiCollisionData::NiCollisionData_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a81100(pkStrings);
+    NiCollisionObject_GetViewerStrings(pkStrings);
     char* pszDup = _FUN_00a7d330((const char*)g_0126fab4);
     unsigned int uiSize = pkStrings->GetSize();
     unsigned int uiMax = pkStrings->GetAllocatedSize();
@@ -391,7 +391,7 @@ void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
 }
 }  // namespace fnv_00ead870
 
-// FUN_00eacd00 - forwards its single argument to the collection's stream
+// NiCollisionData_RegisterStreamables - forwards its single argument to the collection's stream
 // writer and reports the writer's byte sized result as a bool.
 //
 // Original body (18 bytes):
@@ -408,7 +408,7 @@ void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
 extern "C" unsigned char __stdcall MyColl_WriteToStream(void* pStream);
 
 // @fnv 0x00eacd00
-bool __stdcall FUN_00eacd00(void* pStream)
+bool __stdcall NiCollisionData_RegisterStreamables(void* pStream)
 {
     return MyColl_WriteToStream(pStream);
 }
@@ -1639,7 +1639,7 @@ class EAD7B0Base
 class EAD7B0Object : public EAD7B0Base
 {
   public:
-    void FUN_00ead7b0(EAD7B0Stream& kStream);
+    void NiCollisionData_SaveBinary(EAD7B0Stream& kStream);
 
     int m_iValue0;
     int m_iValue1;
@@ -1648,7 +1648,7 @@ class EAD7B0Object : public EAD7B0Base
 
 // Saves the base fields, m_iValue0 and m_iValue1, then a presence flag and the child's SaveBinary if m_pkChild is set.
 // @fnv 0x00ead7b0
-void EAD7B0Object::FUN_00ead7b0(EAD7B0Stream& kStream)
+void EAD7B0Object::NiCollisionData_SaveBinary(EAD7B0Stream& kStream)
 {
     SaveBinaryBase(kStream);
     EAD7B0SaveBinary(kStream, m_iValue0);
@@ -1674,11 +1674,11 @@ struct FUN_00eacd60_shell
 struct FUN_00eada20_cls
 {
     void __thiscall CloneCollisionData(void* a, void* b);
-    void* __thiscall FUN_00eada20(void* arg);
+    void* __thiscall NiCollisionData_CreateClone(void* arg);
 };
 
 // @fnv 0x00eada20
-void* __thiscall FUN_00eada20_cls::FUN_00eada20(void* arg)
+void* __thiscall FUN_00eada20_cls::NiCollisionData_CreateClone(void* arg)
 {
     void* result;
     void* mem = FUN_00aa13e0(0x50);
@@ -1897,12 +1897,12 @@ struct FUN_00ead8d0_shell : FUN_00a81160_base
     NiCollisionModel* m_pkModelABV;
     char* FormatName(const char* pcPrefix, unsigned int eMode);
     char* FUN_00eacef0(const char* pcPrefix, unsigned int eMode);
-    void FUN_00ead8d0(StrArr* pkStrings);
+    void NiCollisionData_AddViewerStrings(StrArr* pkStrings);
 };
 
 // Appends viewer strings for propagation/collision modes, the ABV model and local/world velocities to pkStrings.
 // @fnv 0x00ead8d0
-void FUN_00ead8d0_shell::FUN_00ead8d0(StrArr* pkStrings)
+void FUN_00ead8d0_shell::NiCollisionData_AddViewerStrings(StrArr* pkStrings)
 {
     WriteToStream(pkStrings);
     pkStrings->Add(FUN_00a7d330((char*)g_0126fab4));

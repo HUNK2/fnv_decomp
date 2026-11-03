@@ -419,7 +419,7 @@ struct TESSaveLoadGame
     unsigned char FUN_008df040();
 };
 extern TESSaveLoadGame* g_TESSaveLoadGame;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 struct LoadedList
 {
     void* item;
@@ -454,7 +454,7 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
                 SavedRecord* f = g_TESSaveLoadGame->CurrentRecord();
                 if (f)
                 {
-                    TESForm* eb = FUN_004839c0(f->id);
+                    TESForm* eb = TESForm_GetFormByNumericID(f->id);
                     Warning(
                         "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSpellList.cpp", 1371, f->id,
@@ -479,8 +479,8 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
         {
             unsigned int b;
             g_TESSaveLoadGame->FUN_00857aa0(&b, 4);
-            SpellItem* q = dynamic_cast<SpellItem*>(FUN_004839c0(b));
-            TESLevSpell* cf = dynamic_cast<TESLevSpell*>(FUN_004839c0(b));
+            SpellItem* q = dynamic_cast<SpellItem*>(TESForm_GetFormByNumericID(b));
+            TESLevSpell* cf = dynamic_cast<TESLevSpell*>(TESForm_GetFormByNumericID(b));
             if (q)
             {
                 spells.AddHead(q);
@@ -504,7 +504,7 @@ void LoadedSpells::LoadSpellList(unsigned int flags, unsigned int unused)
             SavedRecord* k = g_TESSaveLoadGame->CurrentRecord();
             if (k)
             {
-                TESForm* c = FUN_004839c0(k->id);
+                TESForm* c = TESForm_GetFormByNumericID(k->id);
                 if (l > a + h)
                 {
                     Warning(
@@ -550,11 +550,11 @@ class ActorPackageContext
 struct TESSpellListShell : TESSpellList
 {
     ListNode* _ref_00717e50();
-    void FUN_0048d330();
+    void TESSpellList_Save();
 };
 void __cdecl FUN_00485910(unsigned int type, unsigned int formId);
 // @fnv 0x0048d330
-void TESSpellListShell::FUN_0048d330()
+void TESSpellListShell::TESSpellList_Save()
 {
     ListNode* currentLeveledSpell = _ref_00717e50();
     unsigned int currentSpell;
@@ -627,7 +627,7 @@ class FUN_0048d880_shell
     BSSimpleList<void*>* GetOffsetC();
 };
 
-TESForm* FUN_004839c0(unsigned int formID);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 extern "C" void FUN_0040fbe0(const char* fmt, ...);
 
 class TESSpellList_Target : public TESSpellList
@@ -711,7 +711,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
             createdObj2 = reinterpret_cast<TES*>(g_TESSaveLoadGame)->GetHitSound();
             if (createdObj2)
             {
-                form = FUN_004839c0(*(unsigned int*)createdObj2);
+                form = TESForm_GetFormByNumericID(*(unsigned int*)createdObj2);
                 FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                              currentPos1 - startPosData, *(unsigned int*)createdObj2, form->GetEditorID(),
                              *(unsigned int*)((char*)createdObj2 + 5), 1359,
@@ -750,12 +750,12 @@ struct SpellNode
 struct SpellListAccess : TESSpellList
 {
     SpellNode* FUN_00717e50();
-    void FUN_0048d630(BaseFormComponent* source);
+    void TESSpellList_CopyComponent(BaseFormComponent* source);
 };
 
 // Copies all spells from the source TESSpellList into this list, clearing existing entries first.
 // @fnv 0x0048d630
-void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
+void SpellListAccess::TESSpellList_CopyComponent(BaseFormComponent* source)
 {
     TESSpellList* a = dynamic_cast<TESSpellList*>(source);
     if (a == 0)
@@ -898,12 +898,12 @@ struct S0048d8f0_SpellListSaveSizer
     void* vtable;
     S0048d8f0_SizedList spells;
     S0048d8f0_SizedList leveledSpells;
-    unsigned short FUN_0048d8f0(unsigned int saveFlags);
+    unsigned short TESSpellList_GetSaveSize(unsigned int saveFlags);
 };
 
 // When saveFlags bit 0x10 is set, adds two bytes and list-size contributions, plus six bytes when the save-state check succeeds.
 // @fnv 0x0048d8f0
-unsigned short S0048d8f0_SpellListSaveSizer::FUN_0048d8f0(unsigned int saveFlags)
+unsigned short S0048d8f0_SpellListSaveSizer::TESSpellList_GetSaveSize(unsigned int saveFlags)
 {
     unsigned short size = 0;
     if (saveFlags & 0x10)

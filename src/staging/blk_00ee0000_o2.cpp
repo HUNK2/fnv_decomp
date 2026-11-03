@@ -211,7 +211,7 @@ void __cdecl FUN_00ee6dbc()
 extern "C" __declspec(dllimport) void __cdecl ImportedFunction();
 
 // @fnv 0x00ee6dc2
-void __cdecl FUN_00ee6dc2()
+void __cdecl D3DXSaveTextureToFileA()
 {
     ImportedFunction();
 }

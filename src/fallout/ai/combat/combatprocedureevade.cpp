@@ -19,11 +19,11 @@ struct CombatProcedureEvade : CombatProcedure
 
 struct FUN_009d5ff0_shell : CombatProcedureEvade
 {
-    void FUN_009d5ff0(BGSLoadFormBuffer*);
+    void CombatProcedureEvade_LoadGame(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x009d5ff0
-void FUN_009d5ff0_shell::FUN_009d5ff0(BGSLoadFormBuffer* buffer)
+void FUN_009d5ff0_shell::CombatProcedureEvade_LoadGame(BGSLoadFormBuffer* buffer)
 {
     CombatProcedure::LoadGame(buffer);
     buffer->ReadTypedData((void*)((char*)this + 0x10), 4);
@@ -436,7 +436,7 @@ struct EvadeActor
     bool FUN_008b3b90();
     bool FUN_008b3960();
     bool FUN_008b3bb0();
-    EvadeWorldLocation FUN_00575650();
+    EvadeWorldLocation TESObjectREFR_GetWorldLocation();
 };
 struct EvadeController
 {
@@ -551,7 +551,7 @@ void EvadeProcedure::UpdateFleeState()
         }
         else if (actor->FUN_008b3bb0())
         {
-            pController->HandleMenuEvent(&actor->FUN_00575650(), location);
+            pController->HandleMenuEvent(&actor->TESObjectREFR_GetWorldLocation(), location);
             SetState();
         }
         break;

@@ -4,7 +4,7 @@
 extern "C" void* g_01202750;
 
 // @fnv 0x00c2b8b0
-void* __cdecl FUN_00c2b8b0()
+void* __cdecl NiPSysEmitterDeclinationVarCtlr_GetRTTI()
 {
     return &g_01202750;
 }
@@ -65,13 +65,13 @@ struct StrArr
         return uiIndex;
     }
 };
-void __stdcall FUN_00c32f60(StrArr* pArr);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr* pArr);
 char* FUN_00a7d330(char* s);
 
 // @fnv 0x00c2b920
-void __stdcall FUN_00c2b920(StrArr* pStringArray)
+void __stdcall NiPSysEmitterDeclinationVarCtlr_GetViewerStrings(StrArr* pStringArray)
 {
-    FUN_00c32f60(pStringArray);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pStringArray);
     char* s = FUN_00a7d330((char*)g_01202750);
     pStringArray->Add(s);
 }
@@ -106,11 +106,11 @@ struct FUN_00c2b8d0_cls
 {
     void FUN_00c32de0(SpawnedObject* obj, void* arg);
 
-    SpawnedObject* FUN_00c2b8d0(void* arg);
+    SpawnedObject* NiPSysEmitterDeclinationVarCtlr_CreateClone(void* arg);
 };
 
 // @fnv 0x00c2b8d0
-SpawnedObject* FUN_00c2b8d0_cls::FUN_00c2b8d0(void* arg)
+SpawnedObject* FUN_00c2b8d0_cls::NiPSysEmitterDeclinationVarCtlr_CreateClone(void* arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
     if (obj != 0)

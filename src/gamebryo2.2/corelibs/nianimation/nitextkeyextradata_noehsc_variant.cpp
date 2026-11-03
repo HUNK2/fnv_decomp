@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern void* g_011f3f28;
-void* __cdecl FUN_00a46b60();
+void* __cdecl NiTextKeyExtraData_GetRTTI();
 struct NiExtraData
 {
     void __thiscall FUN_00a7b2e0();
@@ -16,7 +16,7 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 extern void* DAT_0109827c;
-void* __cdecl FUN_00a46b70();
+void* __cdecl NiTextKeyExtraData_CreateObject();
 struct NiMemObject
 {
     char _pad_0[1];
@@ -33,7 +33,7 @@ struct NiTextKeyExtraData : NiMemObject
 struct NiStream;
 struct FakeBase00
 {
-    bool __thiscall FUN_00a7b290(NiStream*);
+    bool __thiscall NiExtraData_RegisterStreamables(NiStream*);
 };
 struct FakeKey00
 {
@@ -58,7 +58,7 @@ struct A46BB0KeyData : A46BB0Object
     unsigned int m_uiNumKeys;
     A46BB0Key* m_pKeyArray;
 
-    bool FUN_00a46bb0(A46BB0Object* pkObject);
+    bool NiTextKeyExtraData_IsEqual(A46BB0Object* pkObject);
 };
 struct FUN_00a57870_Class
 {
@@ -158,7 +158,7 @@ struct ExtraDataBase
     void* m_vtbl;
     void* m_pcName;
     void* m_unk08;
-    void FUN_00a7b580(StrArray* pkStrings);
+    void NiExtraData_GetViewerStrings(StrArray* pkStrings);
 };
 struct TextKeyExtraData : ExtraDataBase
 {
@@ -194,7 +194,7 @@ class NiPSysOwnerA46
 {
   public:
     void CopyMemberData(NiPSysBaseA46* pkDest, void* pvProcess);
-    NiPSysBaseA46* FUN_00a46da0(void* pvProcess);
+    NiPSysBaseA46* NiTextKeyExtraData_CreateClone(void* pvProcess);
 };
 
 struct MemoryManager
@@ -321,7 +321,7 @@ struct NiTextKeyExtraDataStub : NiExtraDataBase
 {
     unsigned int m_uiNumKeys;
     TimedTextEntry* m_pKeys;
-    void __thiscall FUN_00a46e00(NiStream& stream);
+    void __thiscall NiTextKeyExtraData_LoadBinary(NiStream& stream);
 };
 
 struct BsStream
@@ -485,7 +485,7 @@ struct NiStream
 };
 
 // @fnv 0x00a46e00
-void __thiscall NiTextKeyExtraDataStub::FUN_00a46e00(NiStream& stream)
+void __thiscall NiTextKeyExtraDataStub::NiTextKeyExtraData_LoadBinary(NiStream& stream)
 {
     LoadBinaryBase(stream);
 

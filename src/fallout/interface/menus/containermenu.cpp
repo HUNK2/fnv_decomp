@@ -481,7 +481,7 @@ int __cdecl FUN_00406d00(char* buf, unsigned size, const char* fmt, char* name, 
 
 struct ContainerLikeObj
 {
-    bool FUN_004bddd0(int);
+    bool ItemChange_GetWorn(int);
     int FUN_00726070();
     char* GetTargetFullName();
     void* FUN_0073ac90(int, int);
@@ -499,7 +499,7 @@ void __cdecl FUN_0075d160(void* param1, void* param2)
 {
     char buf[0x80];
 
-    if (((ContainerLikeObj*)param2)->FUN_004bddd0(0))
+    if (((ContainerLikeObj*)param2)->ItemChange_GetWorn(0))
     {
         (*(ContainerLikeObj**)((ContainerLikeObj*)((char*)param1 + 4))->FUN_0073ac90(0xfa3, 1))->FUN_00700320();
     }
@@ -829,7 +829,7 @@ struct CurrentItem
 struct SourceForm
 {
     int FUN_00401170();
-    bool FUN_004c0bf0();
+    bool TESObjectWEAP_IsThrownWeapon();
     CurrentItem* GetOrFallback(ActorView* actor);
 };
 struct InventoryEntry
@@ -871,7 +871,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
             }
         }
         SourceForm* b = entry->FUN_0044ddc0();
-        if (b->FUN_004c0bf0())
+        if (b->TESObjectWEAP_IsThrownWeapon())
         {
             if (b->GetOrFallback(a))
             {
@@ -888,7 +888,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
 struct ExtraDataList
 {
     TESForm* GetOwner();
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct ItemNode
 {
@@ -897,7 +897,7 @@ struct ItemNode
 };
 struct ItemEntry
 {
-    float FUN_004bd400();
+    float ItemChange_GetItemValue();
     ItemNode* FUN_00559450();
 };
 extern "C" int __cdecl TruncateFloatToInt(float);
@@ -909,7 +909,7 @@ struct ContainerValue : ContainerMenu
 int ContainerValue::GetContainerValue(ItemEntry* entry, int amount, bool includeUnowned)
 {
     TESForm* owner = 0;
-    int value = TruncateFloatToInt(entry->FUN_004bd400());
+    int value = TruncateFloatToInt(entry->ItemChange_GetItemValue());
     int count = amount;
     int total = 0;
     if (((CloseVirtualSlots*)m_pContainer)->IsActor())
@@ -921,8 +921,8 @@ int ContainerValue::GetContainerValue(ItemEntry* entry, int amount, bool include
     {
         TESForm* itemOwner = (*node->FUN_006815c0())->GetOwner();
         if ((!itemOwner && includeUnowned) || (itemOwner && (*node->FUN_006815c0())->GetOwner() == owner))
-            total += (*node->FUN_006815c0())->FUN_00418770() * value;
-        count -= (*node->FUN_006815c0())->FUN_00418770();
+            total += (*node->FUN_006815c0())->ExtraDataList_GetCount() * value;
+        count -= (*node->FUN_006815c0())->ExtraDataList_GetCount();
     }
     if (includeUnowned)
         total += count * value;
@@ -1257,7 +1257,7 @@ struct MenuSystem
     MenuInput input;
     MenuTile* FUN_00586150();
 };
-MenuSystem* FUN_004b7210();
+MenuSystem* InterfaceManager_Instance();
 struct ContainerVirtual
 {
     virtual ~ContainerVirtual();
@@ -1353,7 +1353,7 @@ extern InventoryMenuSetting DAT_011d4378, DAT_011d2d0c, DAT_011d33fc, DAT_011d2c
 // @fnv 0x0075b310
 MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
 {
-    MenuSystem* tile = FUN_004b7210();
+    MenuSystem* tile = InterfaceManager_Instance();
     FUN_0075b6e0(0);
     if (!reference && mode != 4)
         return 0;
@@ -1579,12 +1579,12 @@ bool Menu75d250::HandleMenuAction(int aiAction, int aiUnused)
 struct XRef_0075d6b0
 {
     bool FUN_00440da0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
 };
 struct XList_0075d6b0
 {
     XRef_0075d6b0* FUN_0041de00();
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct Node_0075d6b0
 {
@@ -1880,7 +1880,7 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
         return;
     }
     if (extra && extra->FUN_0041de00() && !extra->FUN_0041de00()->FUN_00440da0() &&
-        !extra->FUN_0041de00()->FUN_00440d80())
+        !extra->FUN_0041de00()->TESForm_GetDelete())
     {
         ((Ref_0075d6b0*)DAT_011dea3c)->FUN_3d0(extra->FUN_0041de00(), 1, 0);
         return;
@@ -1892,7 +1892,7 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
         while (remaining > 0)
         {
             XList_0075d6b0* x4 = nodeB ? *nodeB->FUN_006815c0() : 0;
-            int n7 = x4 ? x4->FUN_00418770() : remaining;
+            int n7 = x4 ? x4->ExtraDataList_GetCount() : remaining;
             n7 = MinInt(n7, remaining);
             if (from4 == (Ref_0075d6b0*)DAT_011dea3c)
             {
@@ -2345,7 +2345,7 @@ struct Setting_75e0b0
 extern Setting_75e0b0 DAT_011d3f94;
 extern Setting_75e0b0 DAT_011cde20;
 bool __cdecl DispatchMessageToSink(const char*, int, const char*, const char*, float, bool);
-unsigned int __cdecl FUN_0047e040(float);
+unsigned int __cdecl TESActorBaseData_GetAlignmentForKarma(float);
 struct FUN_0075e0b0_shell
 {
     int unk00;
@@ -2440,7 +2440,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
             failed = true;
         }
         actor->FUN_004181e0();
-        unsigned int type = FUN_0047e040(actor->FUN_004181e0()->av.GetFloat(23));
+        unsigned int type = TESActorBaseData_GetAlignmentForKarma(actor->FUN_004181e0()->av.GetFloat(23));
         if (type != 2 && type != 4)
         {
             DAT_011dea3c->FUN_0094fd30((int)*DAT_011cde20.FUN_00403e20());
@@ -2555,7 +2555,7 @@ struct TrimFont
 struct TrimManager
 {
     void FUN_00a1b020(float*, const char*, int, float, int);
-    TrimFont* FUN_005bd5c0(int);
+    TrimFont* FontManager_GetFont(int);
 };
 TrimManager* FUN_005bd5b0();
 struct TrimTile
@@ -2606,7 +2606,7 @@ void TrimMenu::SetLabelText(const char* text)
     if (dimensions9[0] > widthTmp)
     {
         char* buffer = new char[260];
-        TrimGlyph* letters = FUN_005bd5b0()->FUN_005bd5c0(font8 - 1)->data->letters;
+        TrimGlyph* letters = FUN_005bd5b0()->FontManager_GetFont(font8 - 1)->data->letters;
         float total2 = 0.0f;
         int index = 0;
         FUN_00403d30(buffer, 0, 260);
@@ -2651,8 +2651,8 @@ struct TileObj
 
 struct RefObj
 {
-    float FUN_004be180();
-    float FUN_004be060();
+    float TESObjectARMO_GetDamageThreshold();
+    float TESObjectARMO_GetArmorRating();
 };
 
 struct Cls75eac0
@@ -2735,8 +2735,8 @@ void Cls75eac0::Update()
         else if (DAT_011d93fc != 0 && FUN_00401170(FUN_0044ddc0(DAT_011d93fc)) == 0x18)
         {
             UpdateAnimationTileFade(
-                (DAT_011d93fc != 0 && ((RefObj*)FUN_0044ddc0(DAT_011d93fc))->FUN_004be060() != 0.0) ? m_6c : 0,
-                (DAT_011d93fc != 0 && ((RefObj*)FUN_0044ddc0(DAT_011d93fc))->FUN_004be180() != 0.0) ? m_70 : 0, 0,
+                (DAT_011d93fc != 0 && ((RefObj*)FUN_0044ddc0(DAT_011d93fc))->TESObjectARMO_GetArmorRating() != 0.0) ? m_6c : 0,
+                (DAT_011d93fc != 0 && ((RefObj*)FUN_0044ddc0(DAT_011d93fc))->TESObjectARMO_GetDamageThreshold() != 0.0) ? m_70 : 0, 0,
                 DAT_011d93fc, 0);
         }
     }
@@ -2894,7 +2894,7 @@ struct FloatSrc75
 {
     float FUN_00a011b0();
 };
-bool __fastcall FUN_004d1360(void* player);
+bool __fastcall PlayerCharacter_IsHardcore(void* player);
 
 float __cdecl FUN_0048ebc0(int a, bool b);
 struct Sound75
@@ -2908,7 +2908,7 @@ struct StrThis75
 extern StrThis75 g_011d2628;
 struct Name75
 {
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 struct Msg75
 {
@@ -3056,7 +3056,7 @@ struct ProcGet75
 struct Inv75
 {
     static Inv75* __cdecl FUN_004bf220(void* refr);
-    int FUN_004c8f30(void* form);
+    int InventoryChanges_GetObjectCount(void* form);
 };
 
 // @fnv 0x0075dc80
@@ -3086,10 +3086,10 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
                 *(void**)&DAT_011d93f8->otherData[0x70] == (void*)&DAT_011d93f8->otherData[0x10] && refObj != 0)
             {
                 if (((Sound75*)refObj)->FUN_00577250(0) +
-                        FUN_0048ebc0((int)FUN_0044ddc0(DAT_011d93fc), FUN_004d1360((void*)DAT_011dea3c)) * aiCount >=
+                        FUN_0048ebc0((int)FUN_0044ddc0(DAT_011d93fc), PlayerCharacter_IsHardcore((void*)DAT_011dea3c)) * aiCount >=
                     ((FloatThis75*)refObj)->FUN_008a0c20())
                 {
-                    FUN_00406d00(msgtext, 260, DAT_01012058, (char*)((Name75*)refObj)->FUN_0055d520(),
+                    FUN_00406d00(msgtext, 260, DAT_01012058, (char*)((Name75*)refObj)->TESObjectREFR_GetFullName(),
                                  (int)g_011d2628.FUN_00403df0());
                     Msg75::DispatchMessageToSink(msgtext, 2, 0, 0, 2.0f, false);
                     flag = true;
@@ -3132,7 +3132,7 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
             ((MenuC28B75*)DAT_011d93f8)->FUN_0075c280((int)pCachedForm);
             if (processBaseObject != 0)
             {
-                if (Inv75::FUN_004bf220((void*)DAT_011dea3c)->FUN_004c8f30((void*)FUN_0044ddc0(processBaseObject)) == 0)
+                if (Inv75::FUN_004bf220((void*)DAT_011dea3c)->InventoryChanges_GetObjectCount((void*)FUN_0044ddc0(processBaseObject)) == 0)
                 {
                     ((ProcGet75*)DAT_011dea3c)->FUN_008d8520()->vfn_0168(0);
                 }
@@ -3187,7 +3187,7 @@ struct S650Form
 struct S650Ref
 {
     S650Form* FUN_0044ddc0();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 struct S650List
 {
@@ -3270,7 +3270,7 @@ bool S650::FUN_0075e650(S650Ref* pRef)
     }
     else if ((*(S650Global**)&DAT_011D93F8)->mode == 2)
     {
-        result2 = result2 || pRef->FUN_004bddd0(false);
+        result2 = result2 || pRef->ItemChange_GetWorn(false);
     }
     return result2;
 }
@@ -4112,7 +4112,7 @@ struct TileX
 };
 struct RefX
 {
-    int FUN_0055d520();
+    int TESObjectREFR_GetFullName();
 };
 struct MgrX
 {
@@ -4196,14 +4196,14 @@ void MenuX::FUN_0075bc80()
     case 2:
         if (m74)
         {
-            SetLabelText(m74->FUN_0055d520());
+            SetLabelText(m74->TESObjectREFR_GetFullName());
             FUN_0075baf0(m74, true);
         }
         break;
     case 3:
         if (m74)
         {
-            SetLabelText(m74->FUN_0055d520());
+            SetLabelText(m74->TESObjectREFR_GetFullName());
             BSAudio::GetSingleton()->GetSoundHandleByEditorID("DRSTraderOpen", 0x121).Play(false);
             FUN_00763ff0();
             TESTopic* pkForm = dynamic_cast<TESTopic*>(FUN_00483a00("FollowersTrade"));
@@ -4248,8 +4248,8 @@ struct Player75
 {
 };
 extern Player75* _g_thePlayer;
-bool __fastcall FUN_004d1360(Player75*);
-bool FUN_00481f10(void*);
+bool __fastcall PlayerCharacter_IsHardcore(Player75*);
+bool TESContainer_IsGold(void*);
 double FUN_0048ebc0(void*, bool);
 struct Setting75
 {
@@ -4337,11 +4337,11 @@ struct Menu_0075be80
     bool FUN_0075d510(Item75*, Player75*, void*);
     void UpdatePaneTitle(int);
     static void FUN_0075b750();
-    void FUN_0075be80(int, void*);
+    void ContainerMenu_DoClick(int, void*);
 };
 // Handles container menu activation by ID, cycling item lists or triggering take-all and quantity menu actions.
 // @fnv 0x0075be80
-void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
+void Menu_0075be80::ContainerMenu_DoClick(int aiActionId, void* tile)
 {
     if (!tile && aiActionId >= 0 && aiActionId < 19)
         tile = ((void**)&unk28)[aiActionId];
@@ -4351,8 +4351,8 @@ void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
         if (g_011d93fc)
         {
             DAT_011a002c = 0;
-            bool take = (FUN_00481f10(g_011d93fc->FUN_0044ddc0()) ||
-                         FUN_0048ebc0(g_011d93fc->FUN_0044ddc0(), FUN_004d1360(_g_thePlayer)) <= 0.0) &&
+            bool take = (TESContainer_IsGold(g_011d93fc->FUN_0044ddc0()) ||
+                         FUN_0048ebc0(g_011d93fc->FUN_0044ddc0(), PlayerCharacter_IsHardcore(_g_thePlayer)) <= 0.0) &&
                         (unk80 == 1 || unk80 == 2) && unkf8 == &unkc8;
             if (g_011d93fc->FUN_00726070() > *g_011d2418.Int() && !FUN_0075d510(g_011d93fc, _g_thePlayer, unk74) &&
                 !take)
@@ -4410,7 +4410,7 @@ void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
 
 struct CategoryNameReference
 {
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 extern InventoryMenuSetting DAT_011c3cb4;
 extern InventoryMenuSetting DAT_011d29b8, DAT_011d4d50, DAT_011d40b4, DAT_011d2acc, DAT_011d4918;
@@ -4492,7 +4492,7 @@ void CategoryTitleMenu::UpdatePaneTitle(TileObj* pane)
         }
         else
         {
-            SetLabelText(container->FUN_0055d520());
+            SetLabelText(container->TESObjectREFR_GetFullName());
         }
         break;
     case 1:
@@ -4714,13 +4714,13 @@ struct MenuReference
     MenuProcess* FUN_005d43c0();
     bool FUN_00437b90();
     MenuForm* FUN_007af430();
-    float FUN_00568ad0();
+    float TESObjectREFR_GetHealth();
     void GetTwoValues(float*, float*);
 };
 struct MenuForm
 {
     int FUN_00401170();
-    MenuForm* FUN_00525980(MenuReference*);
+    MenuForm* TESObjectWEAP_GetCurrentAmmo(MenuReference*);
 };
 struct MenuTileValue
 {
@@ -4852,7 +4852,7 @@ struct MenuInput
 {
     void FUN_00715860(void*, int);
 };
-MenuInput* FUN_004b7210();
+MenuInput* InterfaceManager_Instance();
 struct MenuTile
 {
     void FUN_00a01350(int, const char*, bool);
@@ -4901,7 +4901,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
     {
         void* playerInventory4 = FUN_004bf220(DAT_011dea3c);
         void* otherInventory = container ? FUN_004bf220(container) : 0;
-        MenuForm* ammo4 = filter->FUN_00401170() == 40 ? filter->FUN_00525980(container->IsActor() ? container : 0) : 0;
+        MenuForm* ammo4 = filter->FUN_00401170() == 40 ? filter->TESObjectWEAP_GetCurrentAmmo(container->IsActor() ? container : 0) : 0;
         AttachAndDeliver(filter, playerInventory4, &m_kList);
         if (ammo4)
             AttachAndDeliver(ammo4, playerInventory4, &m_kList);
@@ -4947,7 +4947,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
                 weaponEntry->FUN_00559450()->FUN_005ae3d0(&extra6);
             }
             (*weaponEntry->FUN_00559450()->FUN_006815c0())->FUN_0041de40(weapon);
-            (*weaponEntry->FUN_00559450()->FUN_006815c0())->FUN_00419970(weapon->FUN_00568ad0());
+            (*weaponEntry->FUN_00559450()->FUN_006815c0())->FUN_00419970(weapon->TESObjectREFR_GetHealth());
         }
     }
     m_kList.FUN_007314c0(FUN_0075d160, 0, 0x7fffffff);
@@ -4977,7 +4977,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
             {
                 Select(active == &m_kList ? 22 : 21, 0);
                 if (FUN_004b71d0())
-                    FUN_004b7210()->FUN_00715860(active->CallVirtualZero(0xfc3), 1);
+                    InterfaceManager_Instance()->FUN_00715860(active->CallVirtualZero(0xfc3), 1);
             }
         }
     }
@@ -5011,7 +5011,7 @@ struct InvChg
 struct Loader
 {
     void FUN_0045a5e0(char* name);
-    void* FUN_00447080(char* name, int a1, int a2, int a3, int a4, int a5);
+    void* ModelLoader_LoadFile(char* name, int a1, int a2, int a3, int a4, int a5);
 };
 struct PlayerObj
 {
@@ -5068,7 +5068,7 @@ void ThiS::FUN_007019e0(ObjRef* apObjRef)
         if (d == 0)
             d = dynamic_cast<TESModelTextureSwap*>(apObjRef->FUN_0044ddc0());
         if (d != 0)
-            DAT_011c3b3c->FUN_00447080(d->GetSwapName(), 0, 1, 0, 0, 0);
+            DAT_011c3b3c->ModelLoader_LoadFile(d->GetSwapName(), 0, 1, 0, 0, 0);
     }
     FUN_007017b0();
     ((PlayerObj*)DAT_011dea3c)->PlayActorSound(apObjRef->FUN_0044ddc0(), 1, 0);

@@ -467,12 +467,12 @@ unsigned char FUN_005ec040_stand::IsFlagSet()
 
 struct FUN_005ec060_shell : public TESConditionItem
 {
-    int FUN_005ec060();
+    int TESConditionItem_GetComparisonCondition();
 };
 
 // Extracts bits 5-7 of the first byte of this condition item and returns them as an integer.
 // @fnv 0x005ec060
-int FUN_005ec060_shell::FUN_005ec060()
+int FUN_005ec060_shell::TESConditionItem_GetComparisonCondition()
 {
     int ival = *(char*)this & 0xe0;
     ival >>= 5;
@@ -481,12 +481,12 @@ int FUN_005ec060_shell::FUN_005ec060()
 
 struct FUN_005e95b0_shell : BGSPerkEntry
 {
-    void __thiscall FUN_005e95b0(BGSPerkEntry* apCopy);
+    void __thiscall BGSPerkEntry_Copy(BGSPerkEntry* apCopy);
 };
 
 // Copies the two BGSPerkEntry fields from apCopy into this entry.
 // @fnv 0x005e95b0
-void __thiscall FUN_005e95b0_shell::FUN_005e95b0(BGSPerkEntry* apCopy)
+void __thiscall FUN_005e95b0_shell::BGSPerkEntry_Copy(BGSPerkEntry* apCopy)
 {
     this->m_ucRank = apCopy->m_ucRank;
     this->m_ucRegionPriority = apCopy->m_ucRegionPriority;
@@ -558,16 +558,16 @@ struct QuestStageEntry
 };
 struct FUN_005e9a70_t : public BGSPerkEntry
 {
-    void FUN_005e9a70();
-    void FUN_005e9620(int);
-    void FUN_005e9690();
+    void BGSQuestPerkEntry_Save();
+    void BGSPerkEntry_StartPerkEntry(int);
+    void BGSPerkEntry_FinishPerkEntry();
     QuestStageEntry Data;
 };
 // @fnv 0x005e9a70
-void FUN_005e9a70_t::FUN_005e9a70()
+void FUN_005e9a70_t::BGSQuestPerkEntry_Save()
 {
     TESForm* ptempQuest;
-    FUN_005e9620(0);
+    BGSPerkEntry_StartPerkEntry(0);
     ptempQuest = Data.pQuest;
     if (Data.pQuest)
         Data.pQuest = (TESForm*)Data.pQuest->GetFormID();
@@ -577,7 +577,7 @@ void FUN_005e9a70_t::FUN_005e9a70()
     if (FUN_00401500())
         reinterpret_cast<RegionDataEntry*>(&Data)->Endian();
     Data.pQuest = ptempQuest;
-    FUN_005e9690();
+    BGSPerkEntry_FinishPerkEntry();
 }
 
 struct FUN_005ea2c0
@@ -750,25 +750,25 @@ void _FUN_00485910(unsigned int, unsigned int);
 struct FUN_005e9a70_t
 {
     char _pad[8];
-    void FUN_005e9620(int);
-    void FUN_005e9690();
+    void BGSPerkEntry_StartPerkEntry(int);
+    void BGSPerkEntry_FinishPerkEntry();
 };
 struct S5e9dd0 : FUN_005e9a70_t
 {
     TESForm* m_pSpell;
-    void FUN_005e9dd0();
+    void BGSAbilityPerkEntry_Save();
 };
 // @fnv 0x005e9dd0
-void S5e9dd0::FUN_005e9dd0()
+void S5e9dd0::BGSAbilityPerkEntry_Save()
 {
     unsigned int iabilityID;
-    FUN_005e9620(1);
+    BGSPerkEntry_StartPerkEntry(1);
     if (m_pSpell)
     {
         iabilityID = m_pSpell->GetFormID();
         _FUN_00485910(0x41544144, iabilityID);
     }
-    FUN_005e9690();
+    BGSPerkEntry_FinishPerkEntry();
 }
 }  // namespace fnv_005e9dd0
 
@@ -1152,10 +1152,10 @@ struct Holder005e9ba0
     char pad[8];
     TESQuest* quest;
     unsigned char stage;
-    void FUN_005e9ba0(void* apActor, bool bAlt);
+    void BGSQuestPerkEntry_ApplyPerkEntry(void* apActor, bool bAlt);
 };
 // @fnv 0x005e9ba0
-void Holder005e9ba0::FUN_005e9ba0(void* apActor, bool bAlt)
+void Holder005e9ba0::BGSQuestPerkEntry_ApplyPerkEntry(void* apActor, bool bAlt)
 {
     if (quest)
         ((TESQuest_Callable*)quest)->IsStageComplete(stage);
@@ -1185,10 +1185,10 @@ struct ThisStandIn
 {
     char _pad[8];
     void* m_pSpell;
-    void FUN_005e9ee0(Actor*, bool);
+    void BGSAbilityPerkEntry_ApplyPerkEntry(Actor*, bool);
 };
 // @fnv 0x005e9ee0
-void ThisStandIn::FUN_005e9ee0(Actor* apActor, bool bAlt)
+void ThisStandIn::BGSAbilityPerkEntry_ApplyPerkEntry(Actor* apActor, bool bAlt)
 {
     if (m_pSpell != 0)
     {
@@ -1457,10 +1457,10 @@ struct HolderEntry
 {
     char _pad[8];
     void* m_pSpell;
-    void FUN_005e9f20(Actor* apActor, bool bAlt);
+    void BGSAbilityPerkEntry_RemovePerkEntry(Actor* apActor, bool bAlt);
 };
 // @fnv 0x005e9f20
-void HolderEntry::FUN_005e9f20(Actor* apActor, bool bAlt)
+void HolderEntry::BGSAbilityPerkEntry_RemovePerkEntry(Actor* apActor, bool bAlt)
 {
     if (m_pSpell != 0)
     {
@@ -1470,27 +1470,27 @@ void HolderEntry::FUN_005e9f20(Actor* apActor, bool bAlt)
 }
 }  // namespace fnv_005e9f20
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void FUN_00482cb0();
+    void TESDescription_Save();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct TESConditionSave
 {
     void ProcessItems();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -1504,7 +1504,7 @@ struct FUN_00485990_shell
 };
 struct FUN_005eb0e0_shell
 {
-    void FUN_005eb0e0();
+    void BGSPerk_SaveForm();
 };
 bool FUN_00401500();
 struct FUN_005eb0e0_TESForm
@@ -1515,12 +1515,12 @@ struct FUN_005eb0e0_TESForm
 void AppendChunk(unsigned int, void*, int);
 // Calls M on several subobjects, clears and serializes the data at offset 0x38, then iterates the perk-entry list calling vfn_28 on each entry.
 // @fnv 0x005eb0e0
-void FUN_005eb0e0_shell::FUN_005eb0e0()
+void FUN_005eb0e0_shell::BGSPerk_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
-    ((FUN_0048e370_obj*)((char*)this + 0x2c))->FUN_0048e370(0x4e4f4349);
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
+    ((FUN_00482cb0_shell*)((char*)this + 0x24))->TESDescription_Save();
+    ((FUN_0048e370_obj*)((char*)this + 0x2c))->TESTexture_Save(0x4e4f4349);
     ((TESConditionSave*)((char*)this + 0x40))->ProcessItems();
     if (FUN_00401500())
         ((FUN_005eb0e0_TESForm*)((char*)this + 0x38))->ClearData();
@@ -1535,7 +1535,7 @@ void FUN_005eb0e0_shell::FUN_005eb0e0()
             ((TESForm*)pPerkEntry)->vfn_28();
         pCurrentElementNext = pCurrentElementNext->GetNext();
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 namespace fnv_005e9940 {
@@ -1633,11 +1633,11 @@ struct FUN_005ea3a0_shell : BGSPerkEntry
     void* m_pFunctionData;
     PerkEntryConditionSet* m_pConditions;
 
-    BGSPerkEntry* FUN_005ea3a0();
+    BGSPerkEntry* BGSEntryPointPerkEntry_Duplicate();
 };
 
 // @fnv 0x005ea3a0
-BGSPerkEntry* FUN_005ea3a0_shell::FUN_005ea3a0()
+BGSPerkEntry* FUN_005ea3a0_shell::BGSEntryPointPerkEntry_Duplicate()
 {
     BGSPerkEntry* pduplicate = (BGSPerkEntry*)(void*)new FUN_005e9f60();
 
@@ -1994,12 +1994,12 @@ struct FUN_005eb1b0_cls
     unsigned char unk38[8];
     FUN_005eb1b0_cond cond40;
     FUN_005eb1b0_node list48;
-    void FUN_004851b0(int);
-    void FUN_005eb1b0(int a1);
+    void TESForm_CopyAllComponents(int);
+    void BGSPerk_CopyFrom(int a1);
 };
 
 // @fnv 0x005eb1b0
-void FUN_005eb1b0_cls::FUN_005eb1b0(int a1)
+void FUN_005eb1b0_cls::BGSPerk_CopyFrom(int a1)
 {
     FUN_005eb1b0_cls* _copy;
     FUN_005eb1b0_node* node2;
@@ -2013,7 +2013,7 @@ void FUN_005eb1b0_cls::FUN_005eb1b0(int a1)
         return;
     }
     FUN_00401460(unk38, _copy->unk38, 5);
-    FUN_004851b0(a1);
+    TESForm_CopyAllComponents(a1);
     cond40.CopyConditions(&_copy->cond40, 0);
     node2 = &_copy->list48;
     while (node2 != 0)
@@ -2065,12 +2065,12 @@ class PerkCompare_t : public BGSPerk
 {
   public:
     bool CompareFullName(TESForm* apForm);
-    bool FUN_005eb280(TESForm* apForm);
+    bool BGSPerk_Compare(TESForm* apForm);
 };
 
 // Compares this perk's playable, id, level, hidden, full name, conditions and entry list against another BGSPerk, returning true if any differ.
 // @fnv 0x005eb280
-bool PerkCompare_t::FUN_005eb280(TESForm* apForm)
+bool PerkCompare_t::BGSPerk_Compare(TESForm* apForm)
 {
     BGSPerk* pOtherPerk = dynamic_cast<BGSPerk*>(apForm);
     if (!pOtherPerk)
@@ -2203,11 +2203,11 @@ struct PerkCopy_vt
 
 struct FUN_005e9cc0_shell : BGSAbilityPerkEntry
 {
-    FUN_005e9bd0* FUN_005e9cc0();
+    FUN_005e9bd0* BGSAbilityPerkEntry_Duplicate();
 };
 
 // @fnv 0x005e9cc0
-FUN_005e9bd0* FUN_005e9cc0_shell::FUN_005e9cc0()
+FUN_005e9bd0* FUN_005e9cc0_shell::BGSAbilityPerkEntry_Duplicate()
 {
     FUN_005e9bd0* pNew = new FUN_005e9bd0();
     pNew->m_pSpell = m_pSpell;
@@ -2274,7 +2274,7 @@ struct FUN_005ea6b0_shell : public BGSEntryPointPerkEntry
 // @fnv 0x005ea6b0
 void FUN_005ea6b0_shell::SavePerkEntry()
 {
-    reinterpret_cast<FUN_005e9a70_t*>(this)->FUN_005e9620(2);
+    reinterpret_cast<FUN_005e9a70_t*>(this)->BGSPerkEntry_StartPerkEntry(2);
     if (FUN_00401500())
     {
         FUN_00483710(&Data);
@@ -2296,7 +2296,7 @@ void FUN_005ea6b0_shell::SavePerkEntry()
     {
         m_pFunctionData->Unk_04();
     }
-    reinterpret_cast<FUN_005e9a70_t*>(this)->FUN_005e9690();
+    reinterpret_cast<FUN_005e9a70_t*>(this)->BGSPerkEntry_FinishPerkEntry();
 }
 
 struct VirtualListItem
@@ -2366,7 +2366,7 @@ struct FormNameData
 struct PerkConditionItem : TESConditionItem
 {
     ConditionParameters* FUN_00413f40();
-    int FUN_005ec060();
+    int TESConditionItem_GetComparisonCondition();
     unsigned char IsFlagSet();
     float FUN_00681490();
 };
@@ -2416,7 +2416,7 @@ void PerkPrinter::BuildDescription(char* output, unsigned int outputSize)
                 int form = node->value;
                 const char* value = _data_01020770;
                 int offset = 0;
-                switch (kItem->FUN_005ec060())
+                switch (kItem->TESConditionItem_GetComparisonCondition())
                 {
                 case 0:
                 case 1:

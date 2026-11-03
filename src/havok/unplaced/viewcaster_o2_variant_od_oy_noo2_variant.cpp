@@ -943,7 +943,7 @@ extern void* g_pvLastHit631;
 
 void __cdecl FUN_004a3e00(hkVector4_631& kOut, const Point631& kIn);
 NiAVObject631* __cdecl FUN_004b5820(Collidable631* pkCollidable);
-TESObjectREFR631* __cdecl FUN_0056f930(void* pvObject);
+TESObjectREFR631* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvObject);
 Entity631* __cdecl FUN_004b59f0(Collidable631* pkCollidable);
 void* __cdecl FUN_004b5a80(Entity631* pkEntity);
 void __cdecl FUN_004b2780(List631* pkList, const Point631* pkOrigin, const Point631* pkDir, float fImpulseRadiusSquared,
@@ -1021,7 +1021,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                     NiAVObject631* pkObject = FUN_004b5820(kHit.m_pkCollidable);
                     g_iLine631 = 0xdb1;
                     if (pkObject)
-                        pkRef = FUN_0056f930(pkObject);
+                        pkRef = TESObjectREFR_FindReferenceFor3D(pkObject);
                     if (!pkRef || pkRef == g_pkPlayer631)
                         continue;
                     bool bHidden = false;
@@ -1152,7 +1152,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                                                 (Collidable631*)kRayHits.GetHits()->GetAt(0)->m_pvRootCollidable);
                                             if (pkHitObject)
                                             {
-                                                TESObjectREFR631* pkHitRef = FUN_0056f930(pkHitObject);
+                                                TESObjectREFR631* pkHitRef = TESObjectREFR_FindReferenceFor3D(pkHitObject);
                                                 if (pkHitRef && pkHitRef == pkRef)
                                                 {
                                                     pkAlternate = pkRef;
@@ -1187,7 +1187,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
             g_iLine631 = 0xdb6;
             void* pvObject = kList.GetResults()->GetAt(0)->GetObject();
             g_iLine631 = 0xdb7;
-            pkResult = FUN_0056f930(pvObject);
+            pkResult = TESObjectREFR_FindReferenceFor3D(pvObject);
             g_iLine631 = 0xdb8;
             *pfDistance = kList.GetResults()->GetAt(0)->GetDistance();
             g_iLine631 = 0xdb9;

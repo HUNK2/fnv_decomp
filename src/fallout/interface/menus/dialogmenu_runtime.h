@@ -195,7 +195,7 @@ class BSFaceGenNiNode
 class MobileObject
 {
   public:
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
     TESPackage* GetCurrentPackage();
     const char* GetFullName();
     void FUN_00934250();
@@ -916,7 +916,7 @@ class PlayerCharacter : public MobileObject
   public:
     unsigned char layoutPadding80[0x24];
     ActorValueOwner actorValueOwner;
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     void Show1stPerson(bool);
     void FocusOnActor(MobileObject*, float, bool);
     void SetAimingWeapon(bool, bool, bool);
@@ -948,7 +948,7 @@ class InterfaceManager
     TutorialState tutorial;
     Tile* FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 int FUN_007620e0();
 bool FUN_005d4a40();
 class TESImageSpaceModifier

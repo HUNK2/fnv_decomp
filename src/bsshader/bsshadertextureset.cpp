@@ -71,17 +71,17 @@ void FUN_00ba88d0_shell::LoadTextureSet(NiStream* kStream)
 
 struct FUN_00ba89e0_shell : public BSShaderTextureSet
 {
-    void FUN_00ba89e0(int, char*);
+    void BSShaderTextureSet_SetTexturePath(int, char*);
 };
 
 // @fnv 0x00ba89e0
-void FUN_00ba89e0_shell::FUN_00ba89e0(int aiType, char* apFilename)
+void FUN_00ba89e0_shell::BSShaderTextureSet_SetTexturePath(int aiType, char* apFilename)
 {
     reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 8)[aiType].Set(apFilename, 0);
 }
 
 // @fnv 0x00ba87e0
-int __fastcall FUN_00ba87e0(int* self, int unused, int index)
+int __fastcall BSShaderTextureSet_GetTexturePath(int* self, int unused, int index)
 {
     return self[index * 2 + 2];
 }
@@ -110,12 +110,12 @@ template <class T> inline void NiStreamSaveBinaryBA89(NiBinaryStream* pkStream, 
 class BSShaderTextureSetBA89 : public BSShaderTextureSet
 {
   public:
-    void FUN_00ba8970(NiStream& stream);
+    void BSShaderTextureSet_SaveBinary(NiStream& stream);
 };
 
 // Links the object into the stream, writes the texture count 6, and writes each of the six m_kTextureNames strings to the stream.
 // @fnv 0x00ba8970
-void BSShaderTextureSetBA89::FUN_00ba8970(NiStream& stream)
+void BSShaderTextureSetBA89::BSShaderTextureSet_SaveBinary(NiStream& stream)
 {
     ((NiObjectCall*)this)->NiObjectCall::LinkObject(stream);
 

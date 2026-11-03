@@ -8,7 +8,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5ef8;
 
 // @fnv 0x00a976f0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a976f0()
+GlobalObjectO2_00a7b610* __cdecl NiRangeLODData_GetRTTI()
 {
     return &g_011f5ef8;
 }
@@ -272,11 +272,11 @@ class BA97CE0Controller : public BA97CE0Object
     void* m_pkSecond;
 
     void CopyMemberData(BA97CE0Controller* pkDest, BA97CE0Cloning& kCloning);
-    BA97CE0Object* FUN_00a97ce0(BA97CE0Cloning& kCloning);
+    BA97CE0Object* NiRangeLODData_CreateClone(BA97CE0Cloning& kCloning);
 };
 
 // @fnv 0x00a97ce0
-BA97CE0Object* BA97CE0Controller::FUN_00a97ce0(BA97CE0Cloning& kCloning)
+BA97CE0Object* BA97CE0Controller::NiRangeLODData_CreateClone(BA97CE0Cloning& kCloning)
 {
     BA97CE0Controller* pkClone = new BA97CE0Controller;
     CopyMemberData(pkClone, kCloning);
@@ -507,11 +507,11 @@ class A97E20RangeLODData : public A97E20LODData
     A97E20Range* m_pRanges;
 
     void AllocateRanges(unsigned int uiNumRanges);
-    void FUN_00a97e20(A97E20Stream& kStream);
+    void NiRangeLODData_LoadBinary(A97E20Stream& kStream);
 };
 
 // @fnv 0x00a97e20
-void A97E20RangeLODData::FUN_00a97e20(A97E20Stream& kStream)
+void A97E20RangeLODData::NiRangeLODData_LoadBinary(A97E20Stream& kStream)
 {
     A97E20LODData::LoadBinary(kStream);
     m_kWorldCenter.LoadBinary(kStream);
@@ -761,12 +761,12 @@ class D60Data : public D60Base
     unsigned int m_uiNumKeys;
     D60Key* m_pKeyArray;
 
-    void FUN_00a97d60(D60Stream& kStream);
+    void NiRangeLODData_SaveBinary(D60Stream& kStream);
 };
 
 // Saves the base data, color, key count and each key's time and value to the stream.
 // @fnv 0x00a97d60
-void D60Data::FUN_00a97d60(D60Stream& kStream)
+void D60Data::NiRangeLODData_SaveBinary(D60Stream& kStream)
 {
     D60Base::SaveBinary(kStream);
     m_kFogTint.SaveBinary(kStream);
@@ -851,12 +851,12 @@ struct A97EF0RangeLODData
     A97EF0Point3 m_kWorldCenter;
     unsigned int m_uiRangeCount;
     A97EF0Range* m_pRanges;
-    void FUN_00a97ef0(A97EF0Strings* pkStrings);
+    void NiRangeLODData_GetViewerStrings(A97EF0Strings* pkStrings);
 };
 
 // Appends formatted strings for m_kCenter, m_kWorldCenter, and each range entry to pkStrings.
 // @fnv 0x00a97ef0
-void A97EF0RangeLODData::FUN_00a97ef0(A97EF0Strings* pkStrings)
+void A97EF0RangeLODData::NiRangeLODData_GetViewerStrings(A97EF0Strings* pkStrings)
 {
     pkStrings->Add(A97EF0GetViewerString(DAT_011f5ef8));
     pkStrings->Add(m_kCenter.FormatToBuffer("m_kCenter"));
@@ -967,12 +967,12 @@ struct WorldRangeLODData
     WPoint3 m_kWorldCenter;
     unsigned int m_uiRangeCount;
     WorldRange* m_pRanges;
-    void FUN_00a97780(const LODObject* pkLOD);
+    void NiRangeLODData_UpdateWorldData(const LODObject* pkLOD);
 };
 
 // Transforms m_kCenter into m_kWorldCenter and scales each range's near and far planes by the LOD object's world scale.
 // @fnv 0x00a97780
-void WorldRangeLODData::FUN_00a97780(const LODObject* pkLOD)
+void WorldRangeLODData::NiRangeLODData_UpdateWorldData(const LODObject* pkLOD)
 {
     const WTransform& kWorld = pkLOD->m_kWorldSpaceTransform;
     m_kWorldCenter = kWorld.m_kOrientation * (kWorld.m_fScale * m_kCenter) + kWorld.m_kTranslation;

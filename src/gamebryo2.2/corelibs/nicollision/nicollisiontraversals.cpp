@@ -384,7 +384,7 @@ static const float DAT_01011d78 = 0.0f;
 bool __cdecl RayIntersectsBound(S_00e9c490_Node* node, S_00e9c490_Pt* p1, S_00e9c490_Pt* p2);
 bool __cdecl FUN_00e9c6f0(S_00e9c490_Pt* p1, S_00e9c490_Pt* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
 bool __cdecl RaycastShape(S_00e9c490_Pt* p1, S_00e9c490_Pt* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
-bool __cdecl FUN_0043b300(const void* rtti, S_00e9c490_Node* node);
+bool __cdecl NiObject_IsKindOf(const void* rtti, S_00e9c490_Node* node);
 
 // @fnv 0x00e9c490
 bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9c490_Ctx* pContext,
@@ -403,7 +403,7 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
             return FUN_00e9c6f0(pPoint1, pPoint2, pContext, node);
         if (node->v7())
             return RaycastShape(pPoint1, pPoint2, pContext, node);
-        if (DAT_0126fa65 && FUN_0043b300(&DAT_011f4a48, node))
+        if (DAT_0126fa65 && NiObject_IsKindOf(&DAT_011f4a48, node))
         {
             S_00e9c490_Pt d = node->unk8c.FUN_00439ef0(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
@@ -412,7 +412,7 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
             pContext->unk18.GetTexture(node)->unk14 = len;
             return false;
         }
-        if (DAT_0126fa64 && FUN_0043b300(&DAT_011f5f64, node))
+        if (DAT_0126fa64 && NiObject_IsKindOf(&DAT_011f5f64, node))
         {
             S_00e9c490_Pt d = node->unk8c.FUN_00439ef0(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
@@ -491,7 +491,7 @@ struct P3
         r.z = x * b.y - y * b.x;
         return r;
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
 };
 P3 operator*(float f, const P3& p)
 {
@@ -896,7 +896,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
                 edge2 = p2 - p0;
                 normal = edge1.Cross(edge2);
             }
-            normal.FUN_004a0c10();
+            normal.NiPoint3_Unitize();
             if (pick->coordinates == 1)
                 normal = worldTransform.rotation.FUN_004b4500(&normal);
             hit->normal = normal;
@@ -1157,7 +1157,7 @@ struct Vec3
     {}
     Vec3 operator+(const Vec3&) const;
     Vec3 FUN_004b3800(const Vec3&) const;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     Vec3 operator-(const Vec3& v) const
     {
         Vec3 r(x - v.x, y - v.y, z - v.z);
@@ -1603,7 +1603,7 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
                         normal = edge1.FUN_004b3800(edge2);
                     }
                 }
-                normal.FUN_004a0c10();
+                normal.NiPoint3_Unitize();
                 if (options->coordinateMode == 1)
                     static_cast<Vec3&>(normal) = xform.rotation.FUN_004b4500(normal);
                 result->normal.AssignOutput(normal);
@@ -1678,7 +1678,7 @@ class NiPoint3
     NiPoint3 FUN_00439e90(const NiPoint3&) const;
     float FUN_00457990() const;
     NiPoint3 FUN_004b3800(const NiPoint3&) const;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     NiPoint3 operator-(const NiPoint3& v) const
     {
         NiPoint3 r(x - v.x, y - v.y, z - v.z);
@@ -1927,7 +1927,7 @@ struct Shape
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4a20;
 extern GlobalObjectO2_00a7b610 g_011f4a40;
-bool FUN_0043b300(const void*, Shape*);
+bool NiObject_IsKindOf(const void*, Shape*);
 bool __cdecl RaycastGeometry(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 bool __cdecl IntersectShape(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 
@@ -1960,7 +1960,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             if (shape->mesh->unk44 == 1)
                 return IntersectShape(rayStart, rayDirection, options, shape);
         }
-        else if (FUN_0043b300(&g_011f4a40, shape))
+        else if (NiObject_IsKindOf(&g_011f4a40, shape))
             return RaycastGeometry(rayStart, rayDirection, options, shape);
         const Transform& xform = shape->world;
         NiPoint3 difference = *rayStart - xform.translation;
@@ -2085,7 +2085,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                             normal = edge1.FUN_004b3800(edge2);
                         }
                     }
-                    normal.FUN_004a0c10();
+                    normal.NiPoint3_Unitize();
                     if (options->coordinateMode == 1)
                         normal = xform.rotation.FUN_004b4500(&normal);
                     result->normal.AssignOutput(normal);

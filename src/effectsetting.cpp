@@ -220,11 +220,11 @@ int EffectSetting::NormalizeEffectLoadedCount()
 
 struct FUN_004077c0_shell : public TESForm
 {
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
 };
 
 // @fnv 0x004077c0
-bool FUN_004077c0_shell::FUN_004077c0()
+bool FUN_004077c0_shell::TESForm_GetTemporary()
 {
     return (*(unsigned int*)((char*)this + 8) & 0x4000) ? true : false;
 }
@@ -295,12 +295,12 @@ int FUN_004086e0_shell::UpdateCounter()
 
 struct FUN_00408790_shell : public EffectSetting
 {
-    int FUN_00408790();
+    int EffectSetting_QueueAssociatedItem();
 };
 
 // If the associated-item count at offset 0xac is positive, logs a warning; otherwise decrements it, and returns the count.
 // @fnv 0x00408790
-int FUN_00408790_shell::FUN_00408790()
+int FUN_00408790_shell::EffectSetting_QueueAssociatedItem()
 {
     if (*(int*)((char*)this + 0xac) > 0)
     {
@@ -433,16 +433,16 @@ int FUN_00408550_Cls::GetShortValue()
 
 struct S3e60
 {
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
 };
 struct S86a0
 {
-    int FUN_004086a0();
+    int EffectSetting_GetProjectileType();
 };
 // @fnv 0x004086a0
-int S86a0::FUN_004086a0()
+int S86a0::EffectSetting_GetProjectileType()
 {
-    return (((S3e60*)this)->FUN_00403e60(0x2000000) ? 2 : 0) + (((S3e60*)this)->FUN_00403e60(0x4000000) ? 1 : 0);
+    return (((S3e60*)this)->EffectSetting_IsFlagSet(0x2000000) ? 2 : 0) + (((S3e60*)this)->EffectSetting_IsFlagSet(0x4000000) ? 1 : 0);
 }
 
 struct Unk00408730
@@ -623,7 +623,7 @@ extern DH* g_dataHandler;
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm* value);
+    void TESForm_CopyAllComponents(TESForm* value);
 };
 
 struct EffectSettingAux
@@ -659,7 +659,7 @@ void FUN_00407600_class::CopyFromEffectSetting(TESForm* apCopy)
     if (!psetting)
         return;
 
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(apCopy);
+    reinterpret_cast<FUN_005e78f0_t*>(this)->TESForm_CopyAllComponents(apCopy);
     reinterpret_cast<LowProcess*>(this)->SetPackageObjectType(
         reinterpret_cast<TESChallenge*>(psetting)->GetThreshold());
     reinterpret_cast<EffectSettingAux*>(this)->FUN_004ee4b0(reinterpret_cast<TESGrass*>(psetting)->GetLowestAllowedSlope());
@@ -836,7 +836,7 @@ struct EffT
 {
     char pad00[0xa0];
     ListT m_a0;
-    bool FUN_00485270(void* p);
+    bool TESForm_CompareAllComponents(void* p);
     int FUN_006286d0();
     double FUN_00639b20();
     int FUN_00586150();
@@ -865,7 +865,7 @@ bool EffT::IsDifferentFrom(void* pObject)
     EffT* other = (EffT*)FUN_00ec43fb(pObject, 0, &DAT_01183028, &DAT_011837c4, 0);
     if (other == 0)
         return 1;
-    if (FUN_00485270(pObject))
+    if (TESForm_CompareAllComponents(pObject))
         return 1;
     if (FUN_006286d0() != other->FUN_006286d0() || !(FUN_00639b20() == other->FUN_00639b20()) ||
         FUN_00586150() != other->FUN_00586150() || FUN_005f5f80() != other->FUN_005f5f80() ||

@@ -97,31 +97,31 @@ FUN_005266f0::~FUN_005266f0()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 extern "C" bool __cdecl FUN_00401500();
 struct FUN_00526730_obj : FUN_004855a0_shell
 {
-    void FUN_00526730();
+    void BGSLightingTemplate_SaveForm();
 };
 // @fnv 0x00526730
-void FUN_00526730_obj::FUN_00526730()
+void FUN_00526730_obj::BGSLightingTemplate_SaveForm()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     if (FUN_00401500())
         ((InteriorData*)((char*)this + 0x18))->Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x18), 0x2c);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x18), 0x2c);
     if (FUN_00401500())
         ((InteriorData*)((char*)this + 0x18))->Endian();
-    ((FUN_00485680_shell*)this)->FUN_00485680();
+    ((FUN_00485680_shell*)this)->TESForm_CloseForm();
 }
 
 struct SwapTag
@@ -166,17 +166,17 @@ extern "C" void* __cdecl _memcpy(void* dst, const void* src, unsigned int size);
 
 struct FUN_005054b0_shell : TESForm
 {
-    void FUN_004851b0(TESForm* arg);
+    void TESForm_CopyAllComponents(TESForm* arg);
 };
 
 struct FUN_005269f0_Lighting : BGSLightingTemplate
 {
-    void FUN_005269f0(TESForm* arg);
+    void BGSLightingTemplate_CopyFrom(TESForm* arg);
 };
 
 // Copies InteriorData from a BGSLightingTemplate source and calls the base class copy routine.
 // @fnv 0x005269f0
-void FUN_005269f0_Lighting::FUN_005269f0(TESForm* apSource)
+void FUN_005269f0_Lighting::BGSLightingTemplate_CopyFrom(TESForm* apSource)
 {
     BGSLightingTemplate* src = dynamic_cast<BGSLightingTemplate*>(apSource);
     if (src == 0)
@@ -185,7 +185,7 @@ void FUN_005269f0_Lighting::FUN_005269f0(TESForm* apSource)
     else
     {
         _memcpy(&Data, &src->Data, sizeof(InteriorData));
-        reinterpret_cast<FUN_005054b0_shell*>(this)->FUN_004851b0(apSource);
+        reinterpret_cast<FUN_005054b0_shell*>(this)->TESForm_CopyAllComponents(apSource);
     }
 }
 
@@ -209,11 +209,11 @@ void* LightingDelete::FUN_005266c0(unsigned int flags)
 
 struct LightingTemplateInit : BGSLightingTemplate
 {
-    void FUN_005269c0();
+    void BGSLightingTemplate_InitItem();
 };
 // If the form is not yet initialized, clears its data and marks it as initialized.
 // @fnv 0x005269c0
-void LightingTemplateInit::FUN_005269c0()
+void LightingTemplateInit::BGSLightingTemplate_InitItem()
 {
     if (IsFormInitialized())
         return;
@@ -224,11 +224,11 @@ void LightingTemplateInit::FUN_005269c0()
 extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct LightingComparison : public BGSLightingTemplate
 {
-    bool FUN_00526a50(TESForm*);
+    bool BGSLightingTemplate_Compare(TESForm*);
 };
 // Returns true when the cast fails, the InteriorData bytes differ, or TESForm::Compare returns true.
 // @fnv 0x00526a50
-bool LightingComparison::FUN_00526a50(TESForm* form)
+bool LightingComparison::BGSLightingTemplate_Compare(TESForm* form)
 {
     BGSLightingTemplate* other = dynamic_cast<BGSLightingTemplate*>(form);
     if (!other)

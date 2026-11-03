@@ -77,7 +77,7 @@ struct FakeVB
 };
 // Releases the vertex buffer chip for the given stream index, clears its slot and deletes the chip.
 // @fnv 0x00e94ee0
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
+void __stdcall NiUnsharedGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
 {
     NiVBChip* pkChip;
     if (uiStreamIndex < *(unsigned int*)((char*)pkBuffData + 0x20))
@@ -172,7 +172,7 @@ struct NiGeometryGroup
 };
 struct NiDynamicGeometryGroup : NiGeometryGroup
 {
-    void FUN_00e95190(NiGeometryData* pkData);
+    void NiDynamicGeometryGroup_RemoveObject(NiGeometryData* pkData);
 };
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct DeleteHelper
@@ -180,7 +180,7 @@ struct DeleteHelper
     virtual ~DeleteHelper();
 };
 // @fnv 0x00e95190
-void NiDynamicGeometryGroup::FUN_00e95190(NiGeometryData* pkData)
+void NiDynamicGeometryGroup::NiDynamicGeometryGroup_RemoveObject(NiGeometryData* pkData)
 {
     NiGeometryBufferData* pkBuffData = *(NiGeometryBufferData**)((char*)pkData + 0x1c);
     if (pkBuffData)
@@ -208,7 +208,7 @@ struct NiSkinInstance;
 struct NiVBChip;
 extern P03MM g_memoryManager;
 extern int DAT_01400000;
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
+void __stdcall NiUnsharedGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct BufEntry
 {
@@ -451,12 +451,12 @@ class NiUnsharedGeometryGroupE94
     void* m_ppVirtualMethodTable;
     int unk04;
     IDirect3DDevice9_E94* m_pDirect3DDevice;
-    NiVBChipE94* FUN_00e94e30(NiBuffDataE94* pkBuffData, unsigned int uiStream);
+    NiVBChipE94* NiUnsharedGeometryGroup_CreateChip(NiBuffDataE94* pkBuffData, unsigned int uiStream);
 };
 
 // Creates a D3D vertex buffer sized for the stream and returns a new NiVBChipE94 wrapping it with the given size and owning stream.
 // @fnv 0x00e94e30
-NiVBChipE94* NiUnsharedGeometryGroupE94::FUN_00e94e30(NiBuffDataE94* pkBuffData, unsigned int uiStream)
+NiVBChipE94* NiUnsharedGeometryGroupE94::NiUnsharedGeometryGroup_CreateChip(NiBuffDataE94* pkBuffData, unsigned int uiStream)
 {
     unsigned int uiVertexCount = pkBuffData->m_uiVertexCount;
     unsigned int uiVBSize = pkBuffData->GetVertexStride(uiStream) * uiVertexCount;

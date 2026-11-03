@@ -24,7 +24,7 @@ void NiPSysModifierFloatCtlr::LinkObject(NiStream& stream)
 extern const char* const g_012026d8_arg1;
 
 // @fnv 0x00c32e00
-const char* const* __cdecl FUN_00c32e00()
+const char* const* __cdecl NiPSysModifierFloatCtlr_GetRTTI()
 {
     return &g_012026d8_arg1;
 }
@@ -51,7 +51,7 @@ char* __cdecl _FUN_00a7d330(const char*);
 void __stdcall AppendModifierInfo(StrArr*);
 // Appends the string returned by _FUN_00a7d330(g_012026d8_arg1) to pkStrings, growing the array if its count reaches capacity.
 // @fnv 0x00c32f60
-void __stdcall FUN_00c32f60(StrArr* pkStrings)
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr* pkStrings)
 {
     AppendModifierInfo(pkStrings);
     char* pString = _FUN_00a7d330(g_012026d8_arg1);

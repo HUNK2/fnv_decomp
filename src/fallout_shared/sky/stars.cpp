@@ -180,7 +180,7 @@ class NiAVObject
 };
 struct NiNode : public NiAVObject
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
     NiAVObject* GetAt(unsigned int);
 };
 class NiGeometry : public NiAVObject
@@ -219,15 +219,15 @@ struct BSAudio
 struct Sky
 {
     float GetFieldEC();
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 struct FUN_00595fc0_shell
 {
-    float FUN_00595fc0();
+    float Sky_GetSunsetBegin();
 };
 struct FUN_00595f50_shell
 {
-    float FUN_00595f50();
+    float Sky_GetSunriseEnd();
 };
 struct FUN_0063ba30_shell
 {
@@ -239,7 +239,7 @@ struct FUN_0063b9b0_shell
 };
 struct FUN_006366b0_shell
 {
-    bool FUN_006366b0();
+    bool NiAVObject_GetDisplayObject();
 };
 struct Call_439090_tgt
 {
@@ -286,16 +286,16 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
     *(float*)((char*)this + 0xc) = 0.0f;
     static NiPoint3Ex lastColor(0.0f, 0.0f, 0.0f);
     ((SkyObjectS*)this)->Update(apSky, afSecondsPassed);
-    if (apSky->FUN_00476c90() == 3 || apSky->FUN_00476c90() == 2)
+    if (apSky->Sky_GetMode() == 3 || apSky->Sky_GetMode() == 2)
     {
-        if (!((FUN_006366b0_shell*)(unsigned int)*(const Flt*)((char*)this + 4))->FUN_006366b0())
+        if (!((FUN_006366b0_shell*)(unsigned int)*(const Flt*)((char*)this + 4))->NiAVObject_GetDisplayObject())
         {
             ((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))->SetAppCulled(true);
             return;
         }
-        float fSunsetBegin = ((FUN_00595fc0_shell*)apSky)->FUN_00595fc0();
+        float fSunsetBegin = ((FUN_00595fc0_shell*)apSky)->Sky_GetSunsetBegin();
         float fSunsetEnd = ((FUN_0063ba30_shell*)apSky)->FUN_0063ba30();
-        float fSunriseEnd = ((FUN_00595f50_shell*)apSky)->FUN_00595f50();
+        float fSunriseEnd = ((FUN_00595f50_shell*)apSky)->Sky_GetSunriseEnd();
         float fSunriseBegin = ((FUN_0063b9b0_shell*)apSky)->FUN_0063b9b0();
         float fBeginFadeIn = fSunsetEnd - (fSunsetEnd - fSunsetBegin) * 0.5f;
         float fEndFadeOut = fSunriseEnd - (fSunriseEnd - fSunriseBegin) * 0.5f;
@@ -314,7 +314,7 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
             NiGeometry* pstarsgeo = 0;
             NiAVObject* pchild = 0;
             unsigned int icount = (unsigned int)*(const Flt*)((char*)this + 8)
-                                      ? ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))->FUN_00453470()
+                                      ? ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))->NiNode_GetChildCount()
                                       : 0;
             for (unsigned int i = 0; i < icount; i++)
             {
@@ -477,8 +477,8 @@ class NiNode
     virtual void virtual_56();
     virtual void virtual_57();
     virtual void InsertChild(NiNode* child);
-    void FUN_00635fe0(bool enabled);
-    void FUN_004902f0(bool enabled);
+    void NiAVObject_SetDisplayObject(bool enabled);
+    void NiAVObject_SetSelectiveUpdate(bool enabled);
     void FUN_00a5a040();
 };
 template <class T> class NiPointer
@@ -833,21 +833,21 @@ class Model
 };
 extern const char* const DAT_011f4428;
 int __cdecl FUN_00406f60(BSStringT<char>*, const char*, ...);
-bool __cdecl FUN_0043b300(const void*, NiNode*);
+bool __cdecl NiObject_IsKindOf(const void*, NiNode*);
 void __cdecl FNV_Warning(const char*);
 struct StarsLoader
 {
     unsigned int unk00;
     NiPointer<NiNode> parent;
     NiPointer<NiNode> stars;
-    void FUN_0063fdb0(const char* path);
+    void Stars_LoadGeometry(const char* path);
 };
 // @fnv 0x0063fdb0
-void StarsLoader::FUN_0063fdb0(const char* path)
+void StarsLoader::Stars_LoadGeometry(const char* path)
 {
     if (!path || !*path)
     {
-        parent->FUN_00635fe0(false);
+        parent->NiAVObject_SetDisplayObject(false);
         return;
     }
     BSStringT<char> fileName;
@@ -855,17 +855,17 @@ void StarsLoader::FUN_0063fdb0(const char* path)
     {
         BSStream stream;
         if (!stream.FUN_00c3a8a0(fileName, false) || stream.GetRefAt21C() != 1 ||
-            !FUN_0043b300(&DAT_011f4428, stream.GetStringAt(0)))
+            !NiObject_IsKindOf(&DAT_011f4428, stream.GetStringAt(0)))
         {
             FNV_Warning("DEFAULT: Cannot load the stars.");
-            parent->FUN_00635fe0(false);
+            parent->NiAVObject_SetDisplayObject(false);
             return;
         }
         Model model(fileName, &stream, true, false);
-        parent->FUN_00635fe0(true);
+        parent->NiAVObject_SetDisplayObject(true);
         parent->InsertChild(stars);
         stars = model.GetObject3D();
-        stars->FUN_004902f0(true);
+        stars->NiAVObject_SetSelectiveUpdate(true);
         parent->AttachChildInAvailableSlot(stars, true);
         stars->FUN_00a5a040();
     }

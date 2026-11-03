@@ -19,13 +19,13 @@ struct FUN_00e2def0_class
 };
 struct FUN_00e2df40_class
 {
-    const char* __thiscall FUN_00e2df40(int);
+    const char* __thiscall hkMemoryResourceHandle_getName(int);
 };
 struct D481D0RefVariant
 {
     const void* GetVariantValue() const;
 };
-const void* __fastcall FUN_00e2df20(char* self, int);
+const void* __fastcall hkMemoryResourceHandle_getClass(char* self, int);
 struct FUN_00d479e0_class
 {
     void* GetValue(void const*, int);
@@ -96,7 +96,7 @@ struct FUN_00e2df50_Obj
     int unk04;
     int unk08;
 
-    int FUN_00e2df50();
+    int hkMemoryResourceHandle_getObject();
 };
 struct FnvCpu_FUN_00e2df70_CpuObject
 {
@@ -313,7 +313,7 @@ struct S00e2e3f0_Obj
     int unk0c;
     S00e2e3f0_Pair* m_aiIndexedValues;
     int m_uiItemCount;
-    void FUN_00e2e3f0();
+    void hkMemoryResourceHandle_clearExternalLinks();
 };
 extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
 {
@@ -321,7 +321,7 @@ extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
 }
 
 // @fnv 0x00e2e3f0
-void S00e2e3f0_Obj::FUN_00e2e3f0()
+void S00e2e3f0_Obj::hkMemoryResourceHandle_clearExternalLinks()
 {
     S00e2e3f0_Pair* p = m_aiIndexedValues;
     int n = m_uiItemCount;
@@ -364,7 +364,7 @@ struct Container839
     int unk00, unk04, unk08, unk0C;
     Pair839* pairs;
     int size, capacity;
-    void FUN_00e2e430(const char*);
+    void hkMemoryResourceHandle_removeExternalLink(const char*);
 };
 struct FUN_00c90510_Class
 {
@@ -973,12 +973,12 @@ struct hkMemoryResourceContainerE2
     int unk0c;
     hkHandleArrayE2 m_kHandles;
 
-    hkResourceHandleE2* FUN_00e2edb0(const char* objectName, const hkClassE2* pClassInfo,
+    hkResourceHandleE2* hkMemoryResourceContainer_findResourceByName(const char* objectName, const hkClassE2* pClassInfo,
                                      const hkResourceHandleE2* prevObject);
 };
 
 // @fnv 0x00e2edb0
-hkResourceHandleE2* hkMemoryResourceContainerE2::FUN_00e2edb0(const char* objectName, const hkClassE2* pClassInfo,
+hkResourceHandleE2* hkMemoryResourceContainerE2::hkMemoryResourceContainer_findResourceByName(const char* objectName, const hkClassE2* pClassInfo,
                                                               const hkResourceHandleE2* prevObject)
 {
     int start = 0;
@@ -1149,7 +1149,7 @@ class hkMemoryResourceContainer : public hkResourceBase
     __declspec(nothrow) void RetainReference() const throw();
     __declspec(nothrow) void removeReference() const throw();
 
-    int FUN_00e2e790(hkMemoryResourceContainer* newParent);
+    int hkMemoryResourceContainer_parentTo(hkMemoryResourceContainer* newParent);
 
     hkStringPtrHolder m_name;
     hkMemoryResourceContainer* m_parent;
@@ -1158,7 +1158,7 @@ class hkMemoryResourceContainer : public hkResourceBase
 };
 
 // @fnv 0x00e2e790
-int hkMemoryResourceContainer::FUN_00e2e790(hkMemoryResourceContainer* newParent)
+int hkMemoryResourceContainer::hkMemoryResourceContainer_parentTo(hkMemoryResourceContainer* newParent)
 {
     for (hkMemoryResourceContainer* c = newParent; c; c = c->getParent())
     {

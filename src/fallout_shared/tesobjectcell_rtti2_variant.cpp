@@ -176,7 +176,7 @@ class TESObjectREFRB54
     TESFormB54* FUN_007af430();
     void* FUN_005d43c0();
     bool FUN_00440da0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
 };
 class Actor : public TESObjectREFRB54
 {
@@ -199,8 +199,8 @@ struct NodeB54
 class SceneB54;
 struct ManagerB54
 {
-    bool FUN_00453490(SceneB54* pScene);
-    void* FUN_00458be0(SceneB54* pScene, int i);
+    bool TES_IsBuffered(SceneB54* pScene);
+    void* TES_GetCellPriority(SceneB54* pScene, int i);
 };
 extern ManagerB54* DAT_011dea10;
 struct SettingsB54
@@ -220,37 +220,37 @@ struct ProcessListB54
 extern ProcessListB54 DAT_011e0e80;
 struct LoaderB54
 {
-    void FUN_00444850(TESObjectREFRB54* pRef, void* p, int i);
+    void ModelLoader_QueueReference(TESObjectREFRB54* pRef, void* p, int i);
 };
 extern LoaderB54* DAT_011c3b3c;
 void __cdecl FUN_005ac190(TESObjectREFRB54* pRef, void* p);
-void __cdecl FUN_005ac750(TESObjectREFRB54* pRef, void* p, int iFlags);
+void __cdecl Script_SetActionFlag(TESObjectREFRB54* pRef, void* p, int iFlags);
 
 class SceneB54
 {
   public:
     ControllerB54* GetOrCreateWidget();
-    void FUN_0054c740(int a, int b);
-    bool FUN_0054df30();
+    void TESObjectCELL_RunScripts(int a, int b);
+    bool TESObjectCELL_HandleExpiredReferences();
     void RecalcLeveledActorBases(bool b);
     void ProcessCellReferences();
     void FUN_00541ac0();
-    void FUN_00541ae0();
+    void TESObjectCELL_CellRefLockLeave();
     NodeB54* FUN_009604f0();
-    void FUN_00548880(TESObjectREFRB54* pRef, int i);
-    void FUN_005535f0();
+    void TESObjectCELL_AttachReference3D(TESObjectREFRB54* pRef, int i);
+    void TESObjectCELL_SetupMopp();
     void SetState(int i);
-    void FUN_0054bcf0(bool bArg);
+    void TESObjectCELL_AttachModels(bool bArg);
 };
 
 // @fnv 0x0054bcf0
-void SceneB54::FUN_0054bcf0(bool bArg)
+void SceneB54::TESObjectCELL_AttachModels(bool bArg)
 {
     ControllerB54* pController2 = GetOrCreateWidget();
-    FUN_0054c740(0, 0);
-    bool bState5 = FUN_0054df30();
+    TESObjectCELL_RunScripts(0, 0);
+    bool bState5 = TESObjectCELL_HandleExpiredReferences();
     RecalcLeveledActorBases(bState5);
-    if (((ManagerB54*)DAT_011dea10)->FUN_00453490(this))
+    if (((ManagerB54*)DAT_011dea10)->TES_IsBuffered(this))
     {
         if (pController2)
         {
@@ -263,7 +263,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
     {
         FUN_00541ac0();
         int iPass4;
-        void* pCell9 = ((ManagerB54*)DAT_011dea10)->FUN_00458be0(this, 0);
+        void* pCell9 = ((ManagerB54*)DAT_011dea10)->TES_GetCellPriority(this, 0);
         NodeB54* pNode5 = FUN_009604f0();
         int iCountA = 0;
         iPass4 = 0;
@@ -289,11 +289,11 @@ void SceneB54::FUN_0054bcf0(bool bArg)
                 if (!g_BGSSaveLoadGame->FUN_0042ce10())
                 {
                     FUN_005ac190(pRef, pRef->FUN_005d43c0());
-                    FUN_005ac750(pRef, pRef->FUN_005d43c0(), 0x1000);
+                    Script_SetActionFlag(pRef, pRef->FUN_005d43c0(), 0x1000);
                 }
                 bool bDisabled4 = false;
                 bDisabled4 = pRef->FUN_00440da0();
-                if (!bDisabled4 && !pRef->FUN_00440d80())
+                if (!bDisabled4 && !pRef->TESForm_GetDelete())
                 {
                     if (pRef->IsVf100() && (!DAT_011de45c->FUN_0047c850() || DAT_011de45c->FUN_0047c850()))
                     {
@@ -309,7 +309,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
                         TESObjectREFRB54* pTarget = pRef;
                         pTarget->Vf260();
                     }
-                    ((LoaderB54*)DAT_011c3b3c)->FUN_00444850(pRef, pCell9, 0);
+                    ((LoaderB54*)DAT_011c3b3c)->ModelLoader_QueueReference(pRef, pCell9, 0);
                     if (pRef->IsVf1d0())
                     {
                         bool bProcess3 = true;
@@ -320,14 +320,14 @@ void SceneB54::FUN_0054bcf0(bool bArg)
                                 bProcess3 = false;
                         }
                         if (bProcess3)
-                            FUN_00548880(pRef, 0);
+                            TESObjectCELL_AttachReference3D(pRef, 0);
                     }
                 }
             }
         }
-        FUN_00541ae0();
+        TESObjectCELL_CellRefLockLeave();
     }
     if (bArg)
-        FUN_005535f0();
+        TESObjectCELL_SetupMopp();
     SetState(6);
 }

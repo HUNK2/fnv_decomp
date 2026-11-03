@@ -221,7 +221,7 @@ struct TESLeveledList : public BaseFormComponent
 typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 struct FUN_00487a00_shell : public TESLeveledList
 {
-    void FUN_00487a00(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
+    void TESLeveledList_AddScriptAddedLeveledObject(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
 };
 
 struct G2
@@ -251,7 +251,7 @@ struct FakeOwner
     virtual void a18(unsigned int);
 };
 // @fnv 0x00487a00
-void FUN_00487a00_shell::FUN_00487a00(TESForm* apOwner, unsigned short asLevel, unsigned short asCount, TESForm* apForm,
+void FUN_00487a00_shell::TESLeveledList_AddScriptAddedLeveledObject(TESForm* apOwner, unsigned short asLevel, unsigned short asCount, TESForm* apForm,
                                       ContainerItemExtra* apExtra)
 {
     LeveledObject* plev = CreateLeveledObject(asLevel, asCount, apForm, apExtra);
@@ -525,11 +525,11 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg);
 };
 
 // @fnv 0x00479fb0
-bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, int iArg)
+bool B479FB0IdleList::BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg)
 {
     if (pkActor)
     {
@@ -794,7 +794,7 @@ void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* 
     }
 }
 
-void __cdecl FUN_004856f0(char* pcDest, const char* pcSrc, unsigned int uiSize);
+void __cdecl TESForm_AddChunkArray(char* pcDest, const char* pcSrc, unsigned int uiSize);
 
 struct FUN_004891d0_hash
 {
@@ -823,7 +823,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
     if (FUN_0048cee0())
     {
         if (pcBuffer)
-            FUN_004856f0(pcBuffer, GetPath(), FUN_0048cee0() + 1);
+            TESForm_AddChunkArray(pcBuffer, GetPath(), FUN_0048cee0() + 1);
         if (pkOut)
             m_kObjectMap.FUN_008d0600(pkOut, GetPath());
     }
@@ -846,16 +846,16 @@ extern "C" char FNV_RTTI_TESForm;
 extern "C" char FNV_RTTI_TESObjectREFR;
 extern unsigned char DAT_011831e8;
 
-FUN_004895b0_model* FUN_00481010(TESForm* form, TESObjectREFR* ref);
+FUN_004895b0_model* TESBipedModelForm_GetWorldTESModel(TESForm* form, TESObjectREFR* ref);
 
-// Calls FNV_DynamicCast and FUN_00481010, then returns v5() or an empty string.
+// Calls FNV_DynamicCast and TESBipedModelForm_GetWorldTESModel, then returns v5() or an empty string.
 // @fnv 0x004895b0
-const char* FUN_004895b0(TESForm* apForm)
+const char* TESModel_GetModel(TESForm* apForm)
 {
     FUN_004895b0_model* m = (FUN_004895b0_model*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &DAT_011831e8, 0);
     if (m == 0)
     {
-        m = FUN_00481010(apForm,
+        m = TESBipedModelForm_GetWorldTESModel(apForm,
                          (TESObjectREFR*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &FNV_RTTI_TESObjectREFR, 0));
     }
     if (m != 0)
@@ -876,7 +876,7 @@ struct DistantModelView : TESModel
 };
 // If apForm is a TESModel, cast it to DistantModelView and call FUN_00489120 with apModelName.
 // @fnv 0x00489190
-void FUN_00489190(char* apModelName, TESForm* apForm)
+void TESModel_GetDistantModelName(char* apModelName, TESForm* apForm)
 {
     TESModel* pmodel;
     if (apForm)
@@ -918,12 +918,12 @@ struct ModelCopyView : TESModel
     virtual void Slot10();
     virtual int GetFlags();
     virtual void SetFlags(int flags);
-    void FUN_00489430(BaseFormComponent* component);
+    void TESModel_CopyComponent(BaseFormComponent* component);
 };
 
 // Copies the flags from a BaseFormComponent cast to TESModel into this ModelCopyView.
 // @fnv 0x00489430
-void ModelCopyView::FUN_00489430(BaseFormComponent* component)
+void ModelCopyView::TESModel_CopyComponent(BaseFormComponent* component)
 {
     TESModel* copy = dynamic_cast<TESModel*>(component);
     if (copy == 0)
@@ -932,14 +932,14 @@ void ModelCopyView::FUN_00489430(BaseFormComponent* component)
 }
 
 // @fnv 0x00489540
-unsigned int __cdecl FUN_00489540(void* apForm)
+unsigned int __cdecl TESModel_GetModelLength(void* apForm)
 {
     void* result;
 
     result = ::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm, &::DAT_011831e8, 0);
     if (result == 0)
     {
-        result = ::FUN_00481010((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm,
+        result = ::TESBipedModelForm_GetWorldTESModel((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm,
                                                                                         &::FNV_RTTI_TESObjectREFR, 0));
     }
     if (result != 0)
@@ -975,7 +975,7 @@ class TESBipedModelForm : public BaseFormComponent
 
 struct ReferenceOwnerView481010
 {
-    TESForm* FUN_00567790();
+    TESForm* TESObjectREFR_GetOwner();
 };
 
 struct ActorSexView481010
@@ -987,7 +987,7 @@ int __fastcall _FNV_GetFormType(TESForm*);
 
 // Returns the biped model for a TESBipedModelForm, selecting the male or female variant based on the owner actor's sex when a reference is provided.
 // @fnv 0x00481010
-FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREFR* apReference)
+FUN_004895b0_model* __cdecl TESBipedModelForm_GetWorldTESModel(TESForm* apBipedModelForm, TESObjectREFR* apReference)
 {
     TESBipedModelForm* sex = dynamic_cast<TESBipedModelForm*>(apBipedModelForm);
     TESForm* biped;
@@ -998,7 +998,7 @@ FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREF
     if (apReference == 0)
         return &sex->worldModel;
 
-    biped = reinterpret_cast<ReferenceOwnerView481010*>(apReference)->FUN_00567790();
+    biped = reinterpret_cast<ReferenceOwnerView481010*>(apReference)->TESObjectREFR_GetOwner();
     iOwnerSex = 0;
     if (biped != 0 && _FNV_GetFormType(biped) == 0x2a)
         iOwnerSex = reinterpret_cast<ActorSexView481010*>(biped)->FUN_005f0cc0();

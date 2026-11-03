@@ -108,7 +108,7 @@ class SForm
 };
 struct Obj34
 {
-    int FUN_0040a1e0();
+    int MagicItem_GetMagicItemFormID();
 };
 struct Obj44
 {
@@ -237,8 +237,8 @@ struct DebugFlag
 };
 struct SaveLock
 {
-    void FUN_0040fbf0(int a);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int a);
+    void BSSpinLock_Unlock();
 };
 struct PackageMgr
 {
@@ -251,7 +251,7 @@ extern SaveLock DAT_011c3920;
 extern PackageMgr* DAT_011c3f2c;
 void __cdecl FUN_0040fbe0(const char* fmt, ...);
 void __cdecl FUN_005b5e40(const char* fmt, ...);
-SForm* __cdecl FUN_004839c0(unsigned int id);
+SForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 unsigned char __cdecl FUN_0044a670(char* s);
 void __cdecl FUN_00805b40(void* p, int a);
 
@@ -395,7 +395,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         blkA4 = DAT_011de45c->FUN_00825c00();
         DAT_011de45c->FUN_008579b0(&zero, 2);
     }
-    DAT_011c3920.FUN_0040fbf0(0);
+    DAT_011c3920.BSSpinLock_Lock(0);
     count9 = 0;
     cnt = DAT_011de45c->FUN_00825c00();
     DAT_011de45c->FUN_008579b0(&count9, 2);
@@ -656,7 +656,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
                 int a = 0;
                 if (X->caster.vf34())
                 {
-                    a = X->caster.vf34()->FUN_0040a1e0();
+                    a = X->caster.vf34()->MagicItem_GetMagicItemFormID();
                 }
                 DAT_011de45c->FUN_00857a10(&a, 4);
                 int b = 0;
@@ -819,7 +819,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         FormIDEntry* hdr = DAT_011de45c->FUN_004fd3e0();
         if (hdr)
         {
-            SForm* f = FUN_004839c0(hdr->formID);
+            SForm* f = TESForm_GetFormByNumericID(hdr->formID);
             FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          endPos - kPosB, hdr->formID, f->vf130(), *(int*)hdr->changeFlags, 0x2c1f,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ExtraDataList.cpp");
@@ -841,7 +841,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         }
         *(short*)blkA4 = (short)(_end - blk);
     }
-    DAT_011c3920.FUN_0040fba0();
+    DAT_011c3920.BSSpinLock_Unlock();
 }
 
 }
@@ -856,7 +856,7 @@ class H
 {
   public:
     void FUN_0041de40();
-    void FUN_0041e000();
+    void ExtraDataList_AddDroppedItem();
 };
 class O;
 class G
@@ -1160,7 +1160,7 @@ extern char DAT_01183b2c;
 extern char DAT_01184638;
 extern char DAT_0118444c;
 void* FUN_00ec43fb(void*, int, void*, void*, int);
-TESForm* FUN_004839c0(G*);
+TESForm* TESForm_GetFormByNumericID(G*);
 int FUN_0040a250(G*);
 int FUN_00825550(G*);
 void FUN_008060e0(int, int);
@@ -1175,17 +1175,17 @@ class ListQ
 class ThisQ
 {
   public:
-    E* FUN_00410220(int);
+    E* BaseExtraList_GetExtraData(int);
     void FUN_00410140(int);
     void FUN_0041c900();
     void FUN_00419d10(G*);
     ListQ* FUN_00422700();
-    G* FUN_00418460();
+    G* ExtraDataList_GetTeleport();
     G* FUN_0041df90();
     G* FUN_0041de00();
     void FUN_0041de40(G*);
-    G* FUN_00419ea0();
-    void FUN_00419dc0(G*);
+    G* ExtraDataList_GetHeadTrackTargetExtra();
+    void ExtraDataList_SetHeadTrackTargetExtra(G*);
     void FUN_00426020(unsigned int a1, int a2, O* a3, void* a4);
 };
 // @fnv 0x00426020
@@ -1198,7 +1198,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             b = true;
         if (a1 & 0)
         {
-            E* e = FUN_00410220(0xd);
+            E* e = BaseExtraList_GetExtraData(0xd);
             if (e && a4)
             {
                 G* c = (G*)FUN_00ec43fb(a4, 0, &DAT_01183028, &DAT_01183254, 0);
@@ -1222,29 +1222,29 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
         }
         if (a1 & 0)
         {
-            E* e2 = FUN_00410220(0x1c);
+            E* e2 = BaseExtraList_GetExtraData(0x1c);
             if (e2)
             {
                 G* f2 = e2->m0c;
-                e2->m0c = (G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(f2));
+                e2->m0c = (G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(f2));
                 if (!e2->m0c)
                     FUN_0041c900();
             }
         }
         if (a1 & 0)
         {
-            E* e3 = FUN_00410220(0x3f);
+            E* e3 = BaseExtraList_GetExtraData(0x3f);
             if (e3)
             {
                 G* f3 = e3->m0c;
-                G* c3 = (G*)dynamic_cast<AlchemyItem*>(FUN_004839c0(f3));
+                G* c3 = (G*)dynamic_cast<AlchemyItem*>(TESForm_GetFormByNumericID(f3));
                 if (c3)
                     FUN_00419d10(c3);
             }
         }
         if (b)
         {
-            E* e4 = FUN_00410220(0x19);
+            E* e4 = BaseExtraList_GetExtraData(0x19);
             if (e4)
             {
                 if (DAT_011c3f2c->FUN_00469860(e4->m0c->FUN_0084e3a0()))
@@ -1252,13 +1252,13 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                 if (e4->m14)
                 {
                     G* f4 = e4->m14;
-                    e4->m14 = (G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(f4));
+                    e4->m14 = (G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(f4));
                 }
                 e4->m0c->ComputePackageFlags(e4->m14);
             }
             if (a1 & 0)
             {
-                E* e5 = FUN_00410220(0x1a);
+                E* e5 = BaseExtraList_GetExtraData(0x1a);
                 if (e5 && e5->m0c)
                     e5->m0c->v86();
             }
@@ -1272,7 +1272,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     G* f6 = 0;
                     c6 = *n->FUN_006815c0();
                     if (c6)
-                        f6 = (G*)dynamic_cast<Actor*>(FUN_004839c0(c6));
+                        f6 = (G*)dynamic_cast<Actor*>(TESForm_GetFormByNumericID(c6));
                     if (!f6)
                         n->FUN_0063f7b0();
                     else
@@ -1287,7 +1287,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
         {
             if (a1 & 0)
             {
-                X54* x = (X54*)dynamic_cast<NonActorMagicCaster*>((BSExtraData*)FUN_00410220(0x32));
+                X54* x = (X54*)dynamic_cast<NonActorMagicCaster*>((BSExtraData*)BaseExtraList_GetExtraData(0x32));
                 if (x)
                 {
                     G* v5c = x->ia.s13();
@@ -1298,20 +1298,20 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     if (v60)
                         x->ia.s18(FUN_00825550(v60));
                     if (v58)
-                        x->FUN_0050f9c0((G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(v58)));
+                        x->FUN_0050f9c0((G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(v58)));
                 }
-                X54* y = (X54*)dynamic_cast<NonActorMagicTarget*>((BSExtraData*)FUN_00410220(0x33));
+                X54* y = (X54*)dynamic_cast<NonActorMagicTarget*>((BSExtraData*)BaseExtraList_GetExtraData(0x33));
                 if (y)
                 {
                     G* v64 = y->ia.s1();
                     if (v64)
-                        y->FUN_0050f9a0((G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(v64)));
+                        y->FUN_0050f9a0((G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(v64)));
                     FUN_008060e0(y->ia.s2(), 0);
                 }
             }
             if (a1 & 0x20000)
             {
-                G* h = FUN_00418460();
+                G* h = ExtraDataList_GetTeleport();
                 h->FUN_0043a9f0();
             }
         }
@@ -1324,7 +1324,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                 G* f7 = *n7->FUN_006815c0();
                 G* c7 = f7;
                 if (c7)
-                    f7 = (G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(c7));
+                    f7 = (G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(c7));
                 if (!f7)
                 {
                     if (!prev)
@@ -1353,18 +1353,18 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             G* f8 = FUN_0041de00();
             if (f8)
             {
-                G* c8 = (G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(f8));
+                G* c8 = (G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(f8));
                 FUN_0041de40(c8);
                 if (c8)
-                    c8->FUN_005d43c0(a3)->FUN_0041e000();
+                    c8->FUN_005d43c0(a3)->ExtraDataList_AddDroppedItem();
             }
         }
-        v = FUN_00419ea0();
+        v = ExtraDataList_GetHeadTrackTargetExtra();
         if (v)
         {
             G* f9 = v;
-            v = (G*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(f9));
-            FUN_00419dc0(v);
+            v = (G*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(f9));
+            ExtraDataList_SetHeadTrackTargetExtra(v);
         }
     }
 }

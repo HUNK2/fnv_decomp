@@ -88,11 +88,11 @@ struct CombatProcedure_Helper
 };
 struct FUN_009da9b0_shell : CombatProcedureSwitchWeapon
 {
-    void FUN_009da9b0(BGSLoadFormBuffer*);
+    void CombatProcedureSwitchWeapon_LoadGame(BGSLoadFormBuffer*);
 };
 // Loads the base combat procedure state, resolves the weapon form from the buffer, and reads one byte into the field at offset 0x14.
 // @fnv 0x009da9b0
-void FUN_009da9b0_shell::FUN_009da9b0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009da9b0_shell::CombatProcedureSwitchWeapon_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((CombatProcedure_Helper*)this)->LoadGame(apLoadGameBuffer);
     pWeapon = dynamic_cast<TESObjectWEAP*>(_ref_004839c0(((BGSLoadGameBuffer*)apLoadGameBuffer)->ReadFormIdentifier()));
@@ -424,7 +424,7 @@ struct CombatController
     bool FUN_00981990();
     void UpdateActorValues();
 };
-bool __fastcall FUN_004c0bf0(TESForm*);
+bool __fastcall TESObjectWEAP_IsThrownWeapon(TESForm*);
 bool __fastcall FUN_006450c0(TESForm*);
 struct CombatProcedureSW
 {
@@ -462,7 +462,7 @@ void CombatProcedureSW::UpdateWeaponDraw()
         if (pWeapon)
         {
             int count = 1;
-            if (FUN_004c0bf0(pWeapon))
+            if (TESObjectWEAP_IsThrownWeapon(pWeapon))
                 count = actor->FUN_00575610(pWeapon);
             actor->FUN_0088c650(pWeapon, count, 0, true, false, true);
         }

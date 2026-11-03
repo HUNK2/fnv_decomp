@@ -205,7 +205,7 @@ void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
 bool __fastcall VisitSkinGraphLinks(void* pThis, int, NiStream& kStream);
 
 // @fnv 0x00a6c680
-bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
+bool __fastcall BSDismemberSkinInstance_RegisterStreamables(void* pThis, int edx, NiStream& kStream)
 {
     if (!VisitSkinGraphLinks(pThis, edx, kStream))
         return false;
@@ -214,7 +214,7 @@ bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 
 extern const char* const g_011f4a28_arg1;
 // @fnv 0x00a69060
-const char* const* FUN_00a69060()
+const char* const* NiDynamicEffect_GetRTTI()
 {
     return &g_011f4a28_arg1;
 }
@@ -249,7 +249,7 @@ int FUN_00a6a000()
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f49a4;
 // @fnv 0x00a6a140
-GlobalObjectO2_00a7b610* FUN_00a6a140()
+GlobalObjectO2_00a7b610* NiTexturingProperty_GetRTTI()
 {
     return &g_011f49a4;
 }
@@ -300,16 +300,16 @@ struct Elem4
 };
 struct EqObj
 {
-    bool FUN_00a864d0(EqObj*);
+    bool NiSkinInstance_IsEqual(EqObj*);
     unsigned int m_auiShapeKeys[13];
     unsigned int m_uiCount;
     Elem4* m_pElems;
 };
 // Returns true if the base comparison passes, the counts match, and every element's a, b and c fields are equal.
 // @fnv 0x00a6c6a0
-bool __fastcall FUN_00a6c6a0(EqObj* self, int, EqObj* other)
+bool __fastcall BSDismemberSkinInstance_IsEqual(EqObj* self, int, EqObj* other)
 {
-    if (!self->FUN_00a864d0(other))
+    if (!self->NiSkinInstance_IsEqual(other))
         return false;
     if (self->m_uiCount != other->m_uiCount)
         return false;
@@ -543,7 +543,7 @@ bool S_A69F80::MatchesValue(S_A69F80* pkObject)
 namespace fnv_00a6bac0 {
 struct MapBase
 {
-    void FUN_00a6b830(class NiStream&);
+    void NiTexturingProperty_Map_SaveBinary(class NiStream&);
 };
 struct MyStream
 {
@@ -562,7 +562,7 @@ struct Holder
 // @fnv 0x00a6bac0
 void Holder::WriteToStream(class NiStream& aStream)
 {
-    ((MapBase*)this)->FUN_00a6b830(aStream);
+    ((MapBase*)this)->NiTexturingProperty_Map_SaveBinary(aStream);
     MyStream* __restrict ostr = *(MyStream**)((char*)&aStream + 0x250);
     unsigned int size = 4;
     ostr->_pos += ostr->_write(ostr, &this->_v, 4, &size, 1);
@@ -874,12 +874,12 @@ struct NiPropertySaveStub
 
 struct NiTexturingPropertySave : public NiTexturingProperty
 {
-    void FUN_00a6b250(NiStream& kStream);
+    void NiTexturingProperty_SaveBinary(NiStream& kStream);
 };
 
 // Saves the base map array and optional shader map array to the stream, writing a count and a presence flag plus data for each map.
 // @fnv 0x00a6b250
-void NiTexturingPropertySave::FUN_00a6b250(NiStream& kStream)
+void NiTexturingPropertySave::NiTexturingProperty_SaveBinary(NiStream& kStream)
 {
     reinterpret_cast<NiPropertySaveStub*>(this)->SaveBinary(kStream);
 
@@ -1122,7 +1122,7 @@ class A6B830Child
 class A6B830Helper
 {
   public:
-    void FUN_00a6b830(A6B830Stream& kStream);
+    void NiTexturingProperty_Map_SaveBinary(A6B830Stream& kStream);
 
     int unk00;
     unsigned short m_usFlags;
@@ -1133,7 +1133,7 @@ class A6B830Helper
 
 // Writes the target link ID, flags, a child-present flag and, if present, the child's binary data to the stream.
 // @fnv 0x00a6b830
-void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
+void A6B830Helper::NiTexturingProperty_Map_SaveBinary(A6B830Stream& kStream)
 {
     kStream.SaveLinkID(m_pkTarget);
     A6B830SaveBinary(kStream, m_usFlags);
@@ -1147,12 +1147,12 @@ void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
 class A6B8C0BumpMap : public NiTexturingProperty::BumpMap
 {
   public:
-    void FUN_00a6b8c0(NiStream& kStream);
+    void NiTexturingProperty_BumpMap_LoadBinary(NiStream& kStream);
 };
 
 // Loads the base map data from kStream, then reads six float values into the bump map's luma and matrix fields.
 // @fnv 0x00a6b8c0
-void A6B8C0BumpMap::FUN_00a6b8c0(NiStream& kStream)
+void A6B8C0BumpMap::NiTexturingProperty_BumpMap_LoadBinary(NiStream& kStream)
 {
     Map::LoadBinary(kStream);
     ReadBinaryValue(kStream, m_fLumaScale);
@@ -1341,14 +1341,14 @@ struct S_00a6b9a0
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int unk24;
-    void FUN_00a6b830(S_00a6b9a0_Stream*);
+    void NiTexturingProperty_Map_SaveBinary(S_00a6b9a0_Stream*);
     void ReadFromStream(S_00a6b9a0_Stream* s);
 };
-// Calls FUN_00a6b830, then reads six 4-byte values from the stream into unk10 through unk24.
+// Calls NiTexturingProperty_Map_SaveBinary, then reads six 4-byte values from the stream into unk10 through unk24.
 // @fnv 0x00a6b9a0
 void S_00a6b9a0::ReadFromStream(S_00a6b9a0_Stream* pStream)
 {
-    FUN_00a6b830(pStream);
+    NiTexturingProperty_Map_SaveBinary(pStream);
     pStream->unk250->Read(&unk10, 4);
     pStream->unk250->Read(&unk14, 4);
     pStream->unk250->Read(&unk18, 4);
@@ -2013,16 +2013,16 @@ void LinkProperty::LoadFromStream(LinkStream& stream)
 struct NiStream;
 struct NiSkinInstance
 {
-    virtual void FUN_00a6c670(NiStream&);
+    virtual void BSDismemberSkinInstance_LinkObject(NiStream&);
 };
 struct BSDismemberSkinInstance : NiSkinInstance
 {
-    virtual void FUN_00a6c670(NiStream&);
+    virtual void BSDismemberSkinInstance_LinkObject(NiStream&);
 };
 // @fnv 0x00a6c670
-void BSDismemberSkinInstance::FUN_00a6c670(NiStream& stream)
+void BSDismemberSkinInstance::BSDismemberSkinInstance_LinkObject(NiStream& stream)
 {
-    NiSkinInstance::FUN_00a6c670(stream);
+    NiSkinInstance::BSDismemberSkinInstance_LinkObject(stream);
 }
 
 // @fnv 0x00e7cd40

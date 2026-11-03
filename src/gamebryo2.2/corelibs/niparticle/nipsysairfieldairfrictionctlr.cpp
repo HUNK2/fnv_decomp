@@ -5,7 +5,7 @@
 extern int g_012027b8;
 
 // @fnv 0x00c307c0
-int* __cdecl FUN_00c307c0()
+int* __cdecl NiPSysAirFieldAirFrictionCtlr_GetRTTI()
 {
     return &g_012027b8;
 }
@@ -53,12 +53,12 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(int);
 // @fnv 0x00c30880
-void __stdcall FUN_00c30880(StrArr* pkStrings)
+void __stdcall NiPSysAirFieldAirFrictionCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcStr = _FUN_00a7d330(g_012027b8);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiAlloc = pkStrings->m_usAlloc;

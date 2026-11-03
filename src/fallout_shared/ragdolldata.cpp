@@ -87,14 +87,14 @@ unsigned int FUN_004d9da0_shell::FUN_004d9da0()
 
 struct _dummy_4d9fa0
 {
-    void FUN_004d9fc0(bool, unsigned short);
+    void bhkNiCollisionObject_SetBit(bool, unsigned short);
     void FUN_004d9fa0(bool abTF);
 };
 
 // @fnv 0x004d9fa0
 void _dummy_4d9fa0::FUN_004d9fa0(bool abTF)
 {
-    FUN_004d9fc0(abTF, 0x40);
+    bhkNiCollisionObject_SetBit(abTF, 0x40);
 }
 
 template <int N> struct EndianSizeTag
@@ -123,12 +123,12 @@ void __thiscall FUN_004d9280::EndianSwap()
 struct FUN_004d9fc0_shell
 {
     unsigned short m_flags;  // +0xc
-    void FUN_004d9fc0(bool abSet, unsigned short uFlags);
+    void bhkNiCollisionObject_SetBit(bool abSet, unsigned short uFlags);
 };
 
 // Sets or clears the given flag bits in the 16-bit flags field at offset 0xc of this object.
 // @fnv 0x004d9fc0
-void FUN_004d9fc0_shell::FUN_004d9fc0(bool abSet, unsigned short uFlags)
+void FUN_004d9fc0_shell::bhkNiCollisionObject_SetBit(bool abSet, unsigned short uFlags)
 {
     if (abSet)
         ((unsigned short*)((char*)this + 0xc))[0] |= uFlags;
@@ -138,7 +138,7 @@ void FUN_004d9fc0_shell::FUN_004d9fc0(bool abSet, unsigned short uFlags)
 
 // Recursively counts node and its descendants for which FUN_004a8b00 returns true, returning the total count.
 // @fnv 0x004da180
-unsigned char FUN_004da180(NiNode* node)
+unsigned char RagDollData_CountRagDollBones(NiNode* node)
 {
     unsigned char count = 0;
     if (node)
@@ -151,7 +151,7 @@ unsigned char FUN_004da180(NiNode* node)
             NiAVObject* object = node->FUN_0043b4a0(i);
             NiNode* child = object ? object->IsSceneNode() : 0;
             if (child)
-                count += FUN_004da180(child);
+                count += RagDollData_CountRagDollBones(child);
         }
     }
     return count;
@@ -311,7 +311,7 @@ struct FUN_004d93c0_cls
     unsigned char m_uiItemCount;
     FUN_004d93c0_bone* m_kBones;
     FUN_004d93c0_name m_name;
-    void FUN_004d93c0();
+    void RagDollData_Save();
 };
 
 bool __cdecl FUN_00401500();
@@ -320,7 +320,7 @@ void __cdecl FUN_00485710(unsigned int tag, void* p, unsigned int n);
 extern char DAT_011f426c[];
 
 // @fnv 0x004d93c0
-void FUN_004d93c0_cls::FUN_004d93c0()
+void FUN_004d93c0_cls::RagDollData_Save()
 {
     if (m_uiItemCount != 0)
     {
@@ -474,11 +474,11 @@ class RagDollDataEx : public RagDollData
     void ReadFromActor(RagDollRefStandIn* apRef);
     void ReadFromRef(RagDollRefStandIn* apRef);
     bool ApplyToAnimationData(NiNode* apNode, unsigned int& auiIndex, unsigned int auiDepth);
-    bool FUN_004d9800(RagDollRefStandIn* apRef);
+    bool RagDollData_UpdateDataFromReference(RagDollRefStandIn* apRef);
 };
 
 // @fnv 0x004d9800
-bool RagDollDataEx::FUN_004d9800(RagDollRefStandIn* apRef)
+bool RagDollDataEx::RagDollData_UpdateDataFromReference(RagDollRefStandIn* apRef)
 {
     unsigned int uiIndex = 0;
     bool bResultTmp = true;
@@ -658,11 +658,11 @@ struct RagDollRefUpdater
     bool bEnabled;
     void SyncRef(TESObjectREFR* apRef);
     bool ApplyToAnimationData(NiNode* apNode, unsigned int& auiCount);
-    bool FUN_004d9910(TESObjectREFR* apRef);
+    bool RagDollData_UpdateReferenceFromData(TESObjectREFR* apRef);
 };
 
 // @fnv 0x004d9910
-bool RagDollRefUpdater::FUN_004d9910(TESObjectREFR* apRef)
+bool RagDollRefUpdater::RagDollData_UpdateReferenceFromData(TESObjectREFR* apRef)
 {
     unsigned int ItemUpdateArray = 0;
     bool bResult = true;
@@ -1088,7 +1088,7 @@ void FUN_004da230_shell::UpdateNodeFromPosition(FUN_004da230_param* object)
     }
 }
 
-unsigned char FUN_004da180(NiNode* node);
+unsigned char RagDollData_CountRagDollBones(NiNode* node);
 void FNV_Warning(const char* fmt, ...);
 
 struct RagDollBoneInit : public TransformEntry
@@ -1112,7 +1112,7 @@ void RagDollDataInit::InitFromRef(RagDollRefStandIn* apRef)
     {
         NiAVObject* pObj = apRef->Get3D();
         NiNode* pNode = pObj ? pObj->IsSceneNode() : 0;
-        count = FUN_004da180(pNode);
+        count = RagDollData_CountRagDollBones(pNode);
         if (count)
         {
             bones = new RagDollBoneInit[count];

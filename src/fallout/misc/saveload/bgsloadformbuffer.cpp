@@ -153,11 +153,11 @@ void FUN_00864580_shell::FUN_00864580(SaveLoadFile* apFile, unsigned int aiAlrea
 
 struct FUN_008645b0_shell : public BGSLoadFormBuffer
 {
-    TESForm* FUN_008645b0();
+    TESForm* BGSLoadFormBuffer_GetForm();
 };
 
 // @fnv 0x008645b0
-TESForm* FUN_008645b0_shell::FUN_008645b0()
+TESForm* FUN_008645b0_shell::BGSLoadFormBuffer_GetForm()
 {
     if (pForm == 0 && IsFlag2Set())
     {
@@ -180,7 +180,7 @@ bool FUN_008645f0_shell::IsFlag2Set()
 struct TESObjectREFR;
 struct FUN_00864610_shell : public BGSLoadFormBuffer
 {
-    TESObjectREFR* FUN_00864610();
+    TESObjectREFR* BGSLoadFormBuffer_GetReference();
 };
 
 namespace {
@@ -257,7 +257,7 @@ struct VTableF0
 
 // Returns the form pointer from v1() as a TESObjectREFR if it is non-null and its vf0() is non-zero, otherwise returns 0.
 // @fnv 0x00864610
-TESObjectREFR* FUN_00864610_shell::FUN_00864610()
+TESObjectREFR* FUN_00864610_shell::BGSLoadFormBuffer_GetReference()
 {
     VTableF0* pform = reinterpret_cast<VTableF0*>(reinterpret_cast<VTable4*>(this)->v1());
     if (pform && pform->vf0())

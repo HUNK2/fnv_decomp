@@ -151,7 +151,7 @@ DoorAccessData::DoorAccessData(TESObjectREFR* pRef)
 
     data.pRadioData = pRef->GetExtraRadioData();
     if (data.pRadioData != 0)
-        m_pDestinationCell = data.pRadioData->FUN_0043a2b0();
+        m_pDestinationCell = data.pRadioData->DoorTeleportData_GetTeleportCell();
     else
         m_pDestinationCell = 0;
 
@@ -399,7 +399,7 @@ void FUN_00501e80_shell::FUN_00501e80(TESObjectREFR* apDoorRef)
     m_pSourceCell = (TESObjectCELL*)((LowProcess*)apDoorRef)->GetTarget();
     ptel = apDoorRef->GetExtraRadioData();
     if (ptel)
-        m_pDestinationCell = ptel->FUN_0043a2b0();
+        m_pDestinationCell = ptel->DoorTeleportData_GetTeleportCell();
     else
         m_pDestinationCell = 0;
     pDoorLock = apDoorRef->GetLock();
@@ -452,7 +452,7 @@ struct LockActor;
 struct LockCell
 {
     void* GetOwner();
-    bool FUN_00546ca0(LockActor*);
+    bool TESObjectCELL_IsActorCellOwner(LockActor*);
     bool IsInterior();
     bool IsFlag20Set();
 };
@@ -762,9 +762,9 @@ bool LockAccess::CanAccessLock(LockActor* actor, int unused, bool flag)
         else if (state && !state->FUN_005021a0() && flag)
             a = true;
         else if (actor != DAT_011dea3c && actor->GetParentCell() && actor->GetParentCell()->GetOwner() &&
-                 actor->GetParentCell()->FUN_00546ca0(actor))
+                 actor->GetParentCell()->TESObjectCELL_IsActorCellOwner(actor))
         {
-            if (!cell || !cell->GetOwner() || cell->FUN_00546ca0(actor))
+            if (!cell || !cell->GetOwner() || cell->TESObjectCELL_IsActorCellOwner(actor))
                 a = true;
         }
         else if (actor != DAT_011dea3c && FUN_005021c0(actor, true))

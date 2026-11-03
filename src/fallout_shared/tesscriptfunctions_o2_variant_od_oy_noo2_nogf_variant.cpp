@@ -984,7 +984,7 @@ class CountC4
 CountC4* __cdecl GetHealthForm(BoundC4* pkBound);
 
 // @fnv 0x005c4b30
-RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDistance, int iMode, float fScale)
+RefC4* __cdecl PlaceAtMe(RefC4* pkRef, FormC4* pkForm, int iCount, int iDistance, int iMode, float fScale)
 {
     RefC4* pkNew = 0;
     if (pkRef && pkForm)
@@ -1211,7 +1211,7 @@ class CollObjDB
     bool IsHavokFlag(unsigned int uiFlag);
     bool IsKeyFlag(int iKey, unsigned int uiFlag);
 };
-CollObjDB* __cdecl FUN_004a3a40(ShapeDB* pkShape);
+CollObjDB* __cdecl bhkShape_Getbhk(ShapeDB* pkShape);
 
 class CollidableDB
 {
@@ -1421,7 +1421,7 @@ extern void* g_pvFormA_DB;
 extern void* g_pvFormB_DB;
 
 // @fnv 0x005db870
-bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
+bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
                           TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result,
                           unsigned int& opcodeOffsetPtr)
 {
@@ -1453,7 +1453,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
         {
             bool bSurface = false;
             ShapeDB* pkShape = kQuery.m_pkCollidable->GetShape();
-            CollObjDB* pkObj = FUN_004a3a40(pkShape);
+            CollObjDB* pkObj = bhkShape_Getbhk(pkShape);
             bSurface = pkObj->IsHavokFlag(0x40);
             if (!bSurface)
             {
@@ -1473,7 +1473,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                     pkLast = pkCur;
                     pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], kBuffer.GetAt(i));
                 }
-                CollObjDB* pkLastObj = FUN_004a3a40(pkLast);
+                CollObjDB* pkLastObj = bhkShape_Getbhk(pkLast);
                 if (pkLastObj)
                     bSurface = pkLastObj->IsKeyFlag(iKey, 0x40);
             }
@@ -1712,12 +1712,12 @@ class RefDF
   public:
     unsigned int GetRefID();
 };
-RefDF* __cdecl FUN_0056f930(void* pvHit);
+RefDF* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvHit);
 float __cdecl FUN_0040ebd0(float fA, float fB);
 void __cdecl FUN_005acc70(unsigned int* puiID, double& rdResult);
 
 // @fnv 0x005df5d0
-bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
+bool __cdecl Cmd_ObjectUnderReticle_Execute(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
                           TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result,
                           unsigned int& opcodeOffsetPtr)
 {
@@ -1753,7 +1753,7 @@ bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptDa
     kQuery.SetOrigin(kStart);
     kQuery.SetEnd(kEnd);
     void* pvHit = g_pkPickWorldDF->Pick(kQuery);
-    RefDF* pkRef = pvHit ? FUN_0056f930(pvHit) : 0;
+    RefDF* pkRef = pvHit ? TESObjectREFR_FindReferenceFor3D(pvHit) : 0;
     if (pkRef)
     {
         unsigned int uiID = pkRef->GetRefID();

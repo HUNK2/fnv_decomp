@@ -11,11 +11,11 @@ struct ActiveEffect
 
 struct ValueModifierEffect : ActiveEffect
 {
-    void FUN_00802db0(Actor* apActor);
+    void ValueModifierEffect_SaveGame(Actor* apActor);
 };
 
 // @fnv 0x00802db0
-void ValueModifierEffect::FUN_00802db0(Actor* apActor)
+void ValueModifierEffect::ValueModifierEffect_SaveGame(Actor* apActor)
 {
     ActiveEffect::SaveGame(apActor);
 }
@@ -69,19 +69,19 @@ struct Actor;
 
 struct ValueModifierEffect
 {
-    void __thiscall FUN_0082cd10(Actor* apActor);
+    void __thiscall ValueModifierEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 struct AbsorbEffect : ValueModifierEffect
 {
     void __thiscall InitBoltEffect();
-    void __thiscall FUN_00803d00(Actor* apActor);
+    void __thiscall AbsorbEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 // @fnv 0x00803d00
-void __thiscall AbsorbEffect::FUN_00803d00(Actor* apActor)
+void __thiscall AbsorbEffect::AbsorbEffect_FinishInitLoadGame(Actor* apActor)
 {
-    FUN_0082cd10(apActor);
+    ValueModifierEffect_FinishInitLoadGame(apActor);
     InitBoltEffect();
 }
 }  // namespace fnv_00803d00
@@ -113,11 +113,11 @@ struct ActiveEffect_LoadGame_Helper
 
 struct ValueModifierEffect_LoadGame_Helper : ActiveEffect_LoadGame_Helper
 {
-    void FUN_00802dd0(Actor* apActor);
+    void ValueModifierEffect_LoadGame(Actor* apActor);
 };
 
 // @fnv 0x00802dd0
-void ValueModifierEffect_LoadGame_Helper::FUN_00802dd0(Actor* apActor)
+void ValueModifierEffect_LoadGame_Helper::ValueModifierEffect_LoadGame(Actor* apActor)
 {
     ActiveEffect_LoadGame_Helper::LoadGame(apActor);
 }
@@ -168,10 +168,10 @@ struct ActiveEffect_GetSaveSize_Helper
 };
 struct FUN_00802d90_shell : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short __thiscall ValueModifierEffect_GetSaveSize(Actor* apActor);
 };
 // @fnv 0x00802d90
-unsigned short __thiscall FUN_00802d90_shell::FUN_00802d90(Actor* apActor)
+unsigned short __thiscall FUN_00802d90_shell::ValueModifierEffect_GetSaveSize(Actor* apActor)
 {
     return ((ActiveEffect_GetSaveSize_Helper*)this)->GetSaveSize(apActor);
 }
@@ -457,7 +457,7 @@ F40ActiveEffect* F40ActiveEffect::CreateAbsorbEffectClone()
     return pkClone;
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 
 struct AbsorbRecord
 {
@@ -486,7 +486,7 @@ struct AbsorbRecord
     unsigned int unk58;
     static void* operator new(unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     AbsorbRecord(unsigned int a, unsigned int b, unsigned int c);
 };
@@ -502,7 +502,7 @@ extern double DAT_01012060;
 
 struct FUN_00803070_Probe
 {
-    unsigned char FUN_00403e60();
+    unsigned char EffectSetting_IsFlagSet();
 };
 
 struct FUN_00803070_Sub
@@ -559,19 +559,19 @@ struct FUN_00803070_cls
     int unk1C;
     float m_20;
 
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
     void* FUN_0045cd60();
     float GetFloatAtOffset1C(int a);
     void FUN_0082be10();
     void InitBoltEffect();
-    void FUN_00803070();
+    void AbsorbEffect_Start();
 };
 
 // @fnv 0x00803070
-void FUN_00803070_cls::FUN_00803070()
+void FUN_00803070_cls::AbsorbEffect_Start()
 {
-    FUN_0082c000();
-    if (m_0c->FUN_00825c00(2)->FUN_00403e60() != 0 || (double)m_20 == DAT_01012060)
+    ValueModifierEffect_Start();
+    if (m_0c->FUN_00825c00(2)->EffectSetting_IsFlagSet() != 0 || (double)m_20 == DAT_01012060)
     {
         void* result = ((FUN_00803070_Owner*)this)->FUN_0045cd60() != 0
                            ? ((FUN_00803070_Node*)((FUN_00803070_Owner*)this)->FUN_0045cd60())->FUN_00815410()
@@ -743,7 +743,7 @@ struct BoltActorStandIn
     char pad04[0xa4 - 4];
     BoltAVOwner kAVOwner;
 
-    float FUN_005723b0(BoltActorStandIn* pkOther, bool b1, bool b2);
+    float TESObjectREFR_GetDistanceFromReference(BoltActorStandIn* pkOther, bool b1, bool b2);
     BoltProcessStandIn* FUN_008d8520();
 };
 
@@ -1083,7 +1083,7 @@ struct BoltTargetSrc
 };
 struct BoltFlags
 {
-    bool FUN_00403e60();
+    bool EffectSetting_IsFlagSet();
 };
 struct BoltEffectSetting
 {
@@ -1148,7 +1148,7 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
     FUN_0082c660(fTimeOffset);
     BoltActorStandIn* pkCaster = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
     BoltActorStandIn* pkTarget = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (!unk0c->FUN_00825c00(2)->FUN_00403e60() && unk20 > 0.0)
+    if (!unk0c->FUN_00825c00(2)->EffectSetting_IsFlagSet() && unk20 > 0.0)
     {
         int iAV = GetActorValue();
         if (pkTarget && pkTarget->kAVOwner.GetActorValueInt(GetActorValue()) <= 0.0)
@@ -1159,7 +1159,7 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
     if (!FUN_00705cf0() && pkTarget && pkTarget->Get3D() && !pkTarget->IsDead(false) && pkCaster && pkCaster->Get3D() &&
         !pkCaster->IsDead(false))
     {
-        float fDist = pkCaster->FUN_005723b0(pkTarget, false, false);
+        float fDist = pkCaster->TESObjectREFR_GetDistanceFromReference(pkTarget, false, false);
         if (fDist > FUN_006463e0(*g_s_011d1aa8.FUN_00403e20()))
             FUN_00804210(false);
         else if (pkCaster->FUN_008d8520())
@@ -1258,7 +1258,7 @@ struct S_008033b0_Ptr
 
 struct S_008033b0_Q
 {
-    bool FUN_00403e60();
+    bool EffectSetting_IsFlagSet();
 };
 
 struct S_008033b0_Mgr
@@ -1332,7 +1332,7 @@ struct S_008033b0_Fx
 void S_008033b0_Fx::Update()
 {
     ApplyEffect();
-    if (unk0c->FUN_00825c00(2)->FUN_00403e60())
+    if (unk0c->FUN_00825c00(2)->EffectSetting_IsFlagSet())
     {
         void* t = FUN_0045cd60() ? FUN_0045cd60()->FUN_00815410() : 0;
         float f = FUN_0082ce70(GetFloatAtOffset1C());
@@ -1379,7 +1379,7 @@ struct BoltExtraData
     {
         BoltFree(pvMem);
     }
-    void FUN_00519230(int a1, int a2);
+    void BSXFlags_SetFlags(int a1, int a2);
 };
 
 struct BoltNode
@@ -1492,7 +1492,7 @@ struct BoltModelInfo
 };
 struct BoltRoot
 {
-    BoltModelInfo* FUN_00496940();
+    BoltModelInfo* Animation_GetControllerManager();
 };
 
 struct BoltAttachTarget
@@ -1739,7 +1739,7 @@ void BoltEffectImpl::InitBoltEffect()
         pkDataZ = new BoltExtraData;
         m_spNode.FUN_00559450()->FUN_00a5bc40(FUN_00448a80(), pkDataZ);
     }
-    pkDataZ->FUN_00519230(1, 1);
+    pkDataZ->BSXFlags_SetFlags(1, 1);
 
     BoltActor* pkAY = FUN_0059bb30() ? FUN_0059bb30()->GetActor() : 0;
     BoltActor* pkBOut = FUN_0045cd60() ? FUN_0045cd60()->GetActor() : 0;
@@ -1756,7 +1756,7 @@ void BoltEffectImpl::InitBoltEffect()
         if (pkRootRes)
         {
             m_spSource.FUN_0066b0d0(
-                pkRootRes->FUN_00496940()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+                pkRootRes->Animation_GetControllerManager()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
             if (m_spSource.FUN_00822510(0))
                 m_spSource.FUN_0066b0d0(pkAY->Get3D());
         }
@@ -1764,7 +1764,7 @@ void BoltEffectImpl::InitBoltEffect()
         if (pkRootRes)
         {
             m_spReferencedObject.FUN_0066b0d0(
-                pkRootRes->FUN_00496940()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
+                pkRootRes->Animation_GetControllerManager()->GetStringAtOffset()->GetObjectByName(NiFixedStringStandIn(s_szSpine1)));
             if (m_spReferencedObject.FUN_00822510(0))
                 m_spReferencedObject.FUN_0066b0d0(pkBOut->Get3D());
         }

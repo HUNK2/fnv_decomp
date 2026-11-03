@@ -31,12 +31,12 @@ void* __fastcall NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, u
 
 struct FUN_00a75790_shell : public NiMaterialProperty
 {
-    void FUN_00a75790(NiStream*);
+    void NiMaterialProperty_LoadBinary(NiStream*);
 };
 
 // Loads a NiMaterialProperty from a stream, reading two colors and two or three floats depending on the stream version.
 // @fnv 0x00a75790
-void FUN_00a75790_shell::FUN_00a75790(NiStream* pkStream)
+void FUN_00a75790_shell::NiMaterialProperty_LoadBinary(NiStream* pkStream)
 {
     NiStream& stream = *pkStream;
     NiProperty::LoadBinary(stream);
@@ -94,10 +94,10 @@ struct EqBase
 };
 struct FUN_00a75960_shell : public EqBase
 {
-    bool FUN_00a75960(NiObject* o);
+    bool NiMaterialProperty_IsEqual(NiObject* o);
 };
 // @fnv 0x00a75960
-bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
+bool FUN_00a75960_shell::NiMaterialProperty_IsEqual(NiObject* apObject)
 {
     if (FUN_00a62140(apObject))
     {
@@ -160,7 +160,7 @@ class FUN_00a75730_cls : public BA75730Object
 {
   public:
     FUN_00a75730_cls() throw();
-    BA75730Object* FUN_00a75730(BA75730Cloning& kCloning);
+    BA75730Object* NiMaterialProperty_CreateClone(BA75730Cloning& kCloning);
     void CopyMemberData(FUN_00a75730_cls* pkDest, BA75730Cloning& kCloning);
 
     int unk00;
@@ -185,7 +185,7 @@ class FUN_00a75730_cls : public BA75730Object
 };
 
 // @fnv 0x00a75730
-BA75730Object* FUN_00a75730_cls::FUN_00a75730(BA75730Cloning& kCloning)
+BA75730Object* FUN_00a75730_cls::NiMaterialProperty_CreateClone(BA75730Cloning& kCloning)
 {
     if (m_iArrayLength)
     {
@@ -407,7 +407,7 @@ class BA758C0Property
 class FUN_00a758c0_cls : public BA758C0Property
 {
   public:
-    void FUN_00a758c0(BA758C0Stream& kStream);
+    void NiMaterialProperty_SaveBinary(BA758C0Stream& kStream);
 
     int unk00;
     int unk04;
@@ -426,7 +426,7 @@ class FUN_00a758c0_cls : public BA758C0Property
 
 // Saves the base property, ambient and diffuse colors, shine, alpha and emit multiplier to the stream.
 // @fnv 0x00a758c0
-void FUN_00a758c0_cls::FUN_00a758c0(BA758C0Stream& kStream)
+void FUN_00a758c0_cls::NiMaterialProperty_SaveBinary(BA758C0Stream& kStream)
 {
     BA758C0Property::SaveBinary(kStream);
     m_kAmbient.SaveBinary(kStream);
@@ -495,12 +495,12 @@ struct FUN_00a75a70_shell : public ViewerPropertyBase
     float m_fShine;
     float m_fAlpha;
     float m_fEmitMult;
-    void FUN_00a75a70(NiViewerStringsArray* pkStrings);
+    void NiMaterialProperty_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // Appends the RTTI name, spec, emit (external or local), shine, alpha and emit multiplier strings to the viewer strings array.
 // @fnv 0x00a75a70
-void FUN_00a75a70_shell::FUN_00a75a70(NiViewerStringsArray* pkStrings)
+void FUN_00a75a70_shell::NiMaterialProperty_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     ViewerPropertyBase::GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_011f4a5c.GetName()));

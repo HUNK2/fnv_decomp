@@ -35,7 +35,7 @@ struct NiPixelData
 {
     virtual ~NiPixelData();
     NiPixelData(unsigned int w, unsigned int h, const NiPixelFormat& fmt, unsigned int a, unsigned int b);
-    void* FUN_0064dac0(int a, int b);
+    void* NiPixelData_GetPixels(int a, int b);
     static void* operator new(unsigned int size);
     static void operator delete(void*, unsigned int);
     int unk04;
@@ -630,7 +630,7 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
         if (((ParamObj*)srcv)->FUN_00726070() == 0)
         {
             pixelData = new NiPixelData(m_24, m_28, DAT_011aa2e8, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];
@@ -650,7 +650,7 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
         else
         {
             pixelData = new NiPixelData(m_24, m_28, DAT_011aa2a0, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];

@@ -307,8 +307,8 @@ struct FootstepActor
     virtual void v124();
     virtual const NiPoint3& GetPos();
 
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
+    bool Actor_IsSwimming();
+    float TESObjectREFR_GetRelevantWaterHeight();
     bool GetByteAt7C6();
     bool FUN_00524d10();
 };
@@ -334,15 +334,15 @@ struct NavQueryResult
 
 struct CellNavInfo
 {
-    void FUN_0053b550(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
+    void TESObjectLAND_GetCoordData(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
     MaterialRecord* FUN_0053a630(unsigned char ucA, unsigned short usB);
 };
 
 struct FootstepCell
 {
     bool FUN_00425fd0();
-    bool FUN_004518e0();
-    CellNavInfo* FUN_00546fb0();
+    bool TESObjectCELL_HasWater();
+    CellNavInfo* TESObjectCELL_GetLand();
     bool FUN_005547c0(NiPoint3* pkPos, float* pfHeight);
 };
 
@@ -355,7 +355,7 @@ extern TESStandIn* g_TES_011dea10;
 
 struct DataHandlerStandIn
 {
-    FootstepCell* FUN_00461bc0(float fX, float fY, TESWorldSpace* pkWorld);
+    FootstepCell* TESDataHandler_GetCellFromWorldCoord(float fX, float fY, TESWorldSpace* pkWorld);
     BGSImpactData* FUN_004616c0(const char* pEditorID);
 };
 extern DataHandlerStandIn* g_dataHandler_011c3f2c;
@@ -384,22 +384,22 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         return;
 
     if (!pCell_)
-        pCell_ = g_dataHandler_011c3f2c->FUN_00461bc0(kPosOut.x, kPosOut.y, g_TES_011dea10->FUN_004fd3e0(0));
+        pCell_ = g_dataHandler_011c3f2c->TESDataHandler_GetCellFromWorldCoord(kPosOut.x, kPosOut.y, g_TES_011dea10->FUN_004fd3e0(0));
 
     if (pActor->IsActor() && pCell_)
     {
-        if ((pCell_->FUN_00425fd0() && pCell_->FUN_004518e0()) || !pCell_->FUN_00425fd0())
+        if ((pCell_->FUN_00425fd0() && pCell_->TESObjectCELL_HasWater()) || !pCell_->FUN_00425fd0())
         {
-            if (!pActorRef4->FUN_005a2030() && pActorRef4->FUN_0057b0a0() > kPosOut.z)
+            if (!pActorRef4->Actor_IsSwimming() && pActorRef4->TESObjectREFR_GetRelevantWaterHeight() > kPosOut.z)
                 iMaterial = 8;
         }
     }
 
-    if (iMaterial == 0x24 && !pCell_->FUN_00425fd0() && pCell_->FUN_00546fb0())
+    if (iMaterial == 0x24 && !pCell_->FUN_00425fd0() && pCell_->TESObjectCELL_GetLand())
     {
         NavQueryResult kResult_2;
-        pCell_->FUN_00546fb0()->FUN_0053b550(&kResult_2, &kPosOut, 1);
-        MaterialRecord* pMaterialTmp = pCell_->FUN_00546fb0()->FUN_0053a630(kResult_2.unk18, kResult_2.unk3c);
+        pCell_->TESObjectCELL_GetLand()->TESObjectLAND_GetCoordData(&kResult_2, &kPosOut, 1);
+        MaterialRecord* pMaterialTmp = pCell_->TESObjectCELL_GetLand()->FUN_0053a630(kResult_2.unk18, kResult_2.unk3c);
         if (pMaterialTmp)
         {
             float m_fGlyphExtent = 0.0f;
@@ -1351,7 +1351,7 @@ struct FootstepQuery
 };
 struct NavOps
 {
-    void FUN_0053b550(FootstepQuery*, NiPoint3*, int);
+    void TESObjectLAND_GetCoordData(FootstepQuery*, NiPoint3*, int);
 };
 extern const char armorPowerRightName[];
 extern const char armorPowerLeftName[];
@@ -1380,7 +1380,7 @@ struct SoundOps
 class TESCreature : public TESBoundObject
 {
   public:
-    SoundOps* FUN_005f92d0(int);
+    SoundOps* TESCreature_PickCreatureSound(int);
     void* FUN_00acbb70();
 };
 struct MaterialOps
@@ -1795,8 +1795,8 @@ struct ActorOps
     virtual void v228();
     virtual bool SuppressFootsteps(int);
     TESBoundObject* FUN_007af430();
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
+    bool Actor_IsSwimming();
+    float TESObjectREFR_GetRelevantWaterHeight();
     SkinOps* FUN_009306d0();
     bool FUN_004997b0();
     bool FUN_00884730();
@@ -1859,7 +1859,7 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
         {
             TESBoundObject* base = reinterpret_cast<ActorOps*>(apActor)->FUN_007af430();
             TESCreature* creature = dynamic_cast<TESCreature*>(base);
-            SoundOps* creatureSound = creature->FUN_005f92d0(foot);
+            SoundOps* creatureSound = creature->TESCreature_PickCreatureSound(foot);
             memory = creatureSound;
             if (memory && armor <= memory->GetField45() * 100)
             {
@@ -1877,21 +1877,21 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
             FootstepCell* cell = g_TES_011dea10->FUN_005f36f0();
             if (!cell)
                 cell =
-                    g_dataHandler_011c3f2c->FUN_00461bc0(firstPerson.x, firstPerson.y, g_TES_011dea10->FUN_004fd3e0(0));
+                    g_dataHandler_011c3f2c->TESDataHandler_GetCellFromWorldCoord(firstPerson.x, firstPerson.y, g_TES_011dea10->FUN_004fd3e0(0));
             bool soundType = false;
             bool movingActor = false;
-            if (!actorOps->FUN_005a2030() && cell && firstPerson.z < actorOps->FUN_0057b0a0() &&
-                ((cell->FUN_00425fd0() && cell->FUN_004518e0()) || !cell->FUN_00425fd0()))
+            if (!actorOps->Actor_IsSwimming() && cell && firstPerson.z < actorOps->TESObjectREFR_GetRelevantWaterHeight() &&
+                ((cell->FUN_00425fd0() && cell->TESObjectCELL_HasWater()) || !cell->FUN_00425fd0()))
                 soundType = true;
             ActorOps* material = actorOps;
             if (material->FUN_009306d0()->FUN_00838750())
                 movingActor = true;
-            if (!g_TES_011dea10->FUN_005f36f0() && cell && cell->FUN_00546fb0())
+            if (!g_TES_011dea10->FUN_005f36f0() && cell && cell->TESObjectCELL_GetLand())
             {
                 MaterialRecord* result;
                 FootstepQuery height;
-                reinterpret_cast<NavOps*>(cell->FUN_00546fb0())->FUN_0053b550(&height, &firstPerson, 1);
-                result = cell->FUN_00546fb0()->FUN_0053a630(height.materialKind, height.triangle);
+                reinterpret_cast<NavOps*>(cell->TESObjectCELL_GetLand())->TESObjectLAND_GetCoordData(&height, &firstPerson, 1);
+                result = cell->TESObjectCELL_GetLand()->FUN_0053a630(height.materialKind, height.triangle);
                 float record = 0.0f;
                 materialIndex = 0;
                 if (soundType)
@@ -2114,7 +2114,7 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
         {
             TESBoundObject* bolt6 = ((ActorOps*)apRefr)->FUN_007af430();
             TESCreature* creature6 = dynamic_cast<TESCreature*>(bolt6);
-            SoundOps* csnd = creature6->FUN_005f92d0(0x14);
+            SoundOps* csnd = creature6->TESCreature_PickCreatureSound(0x14);
             impact1 = csnd;
             if (impact1)
             {
@@ -2134,25 +2134,25 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
             int material6 = 0;
             FootstepCell* cell8 = g_TES_011dea10->FUN_005f36f0();
             if (!cell8)
-                cell8 = g_dataHandler_011c3f2c->FUN_00461bc0(pos20.x, pos20.y, g_TES_011dea10->FUN_004fd3e0(0));
+                cell8 = g_dataHandler_011c3f2c->TESDataHandler_GetCellFromWorldCoord(pos20.x, pos20.y, g_TES_011dea10->FUN_004fd3e0(0));
             bool flagWater6 = false;
             bool local2 = false;
-            if (!pActor->FUN_005a2030())
+            if (!pActor->Actor_IsSwimming())
             {
-                if (cell8 && pos20.z < pActor->FUN_0057b0a0())
+                if (cell8 && pos20.z < pActor->TESObjectREFR_GetRelevantWaterHeight())
                 {
-                    if ((cell8->FUN_00425fd0() && cell8->FUN_004518e0()) || !cell8->FUN_00425fd0())
+                    if ((cell8->FUN_00425fd0() && cell8->TESObjectCELL_HasWater()) || !cell8->FUN_00425fd0())
                         flagWater6 = true;
                 }
             }
             ActorOps* pq = pActor;
             if (pq->FUN_009306d0()->FUN_00838750())
                 local2 = true;
-            if (!g_TES_011dea10->FUN_005f36f0() && cell8 && cell8->FUN_00546fb0())
+            if (!g_TES_011dea10->FUN_005f36f0() && cell8 && cell8->TESObjectCELL_GetLand())
             {
                 FootstepQuery query4;
-                cell8->FUN_00546fb0()->FUN_0053b550((NavQueryResult*)&query4, (NiPoint3*)&pos20, 1);
-                MaterialRecord* localA = cell8->FUN_00546fb0()->FUN_0053a630(query4.materialKind, query4.triangle);
+                cell8->TESObjectCELL_GetLand()->TESObjectLAND_GetCoordData((NavQueryResult*)&query4, (NiPoint3*)&pos20, 1);
+                MaterialRecord* localA = cell8->TESObjectCELL_GetLand()->FUN_0053a630(query4.materialKind, query4.triangle);
                 float heightStepB = 0.0f;
                 material6 = 0;
                 if (flagWater6)
@@ -2260,7 +2260,7 @@ struct ImpactTimer
     int iData;
     ImpactTimer();
     ~ImpactTimer();
-    void FUN_004538a0(const char* apName);
+    void BSCriticalSection_Enter(const char* apName);
     void FUN_004538c0();
 };
 
@@ -2268,7 +2268,7 @@ struct ImpactFormType
 {
     int iData;
     ImpactFormType();
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 
 struct ImpactObject
@@ -2360,13 +2360,13 @@ static const char s_szRifle[] = "PHYCasingRifle";
 
 // Selects impact sounds from collision materials and object masses, adjusts frequency and volume from impulse, and prunes impact history.
 // @fnv 0x00837550
-void FUN_00837550(ImpactData* apImpact)
+void ImpactMixer_PlayCollisionSound(ImpactData* apImpact)
 {
     ImpactMemContext kMemContext(0xb, true, kCollisionSourcePath, 0x234);
     if (apImpact->pObjectA == apImpact->pObjectB && apImpact->pObjectA)
         return;
     static ImpactTimer s_kTimer;
-    s_kTimer.FUN_004538a0(s_szTimerName);
+    s_kTimer.BSCriticalSection_Enter(s_szTimerName);
     float fScaledImpulseRes = apImpact->fImpulse * 0.014287499710917473;
     float fWaterLevelItem = apImpact->fImpulse / DAT_010179e0;
     unsigned int uiFlagsTmp = 0;
@@ -2378,8 +2378,8 @@ void FUN_00837550(ImpactData* apImpact)
         bool bCasingVal = false;
         ImpactSoundForm* pSoundA = 0;
         ImpactSoundForm* pSoundBNew = 0;
-        if ((apImpact->pObjectA && apImpact->pObjectA->FUN_0043b4f0().FUN_0043b4d0() == 0x19) ||
-            (apImpact->pObjectB && apImpact->pObjectB->FUN_0043b4f0().FUN_0043b4d0() == 0x19))
+        if ((apImpact->pObjectA && apImpact->pObjectA->FUN_0043b4f0().CFilter_GetLayer() == 0x19) ||
+            (apImpact->pObjectB && apImpact->pObjectB->FUN_0043b4f0().CFilter_GetLayer() == 0x19))
             bCasingVal = true;
         if (!bCasingVal)
         {

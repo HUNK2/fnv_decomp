@@ -443,7 +443,7 @@ class Ref56D
     Middle56D* GetMiddle();
     void SetScale(float fScale);
     Matrix56D GetRotation();
-    void FUN_0056d7e0();
+    void TESObjectREFR_InitHavokForPrimitiveTrigger();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -472,7 +472,7 @@ class Ref56D
 };
 
 // @fnv 0x0056d7e0
-void Ref56D::FUN_0056d7e0()
+void Ref56D::TESObjectREFR_InitHavokForPrimitiveTrigger()
 {
     Bound56D* pkBound = GetExtraData()->GetBound();
     World56D* pkWorld = GetMiddle() ? GetMiddle()->GetWorld() : 0;
@@ -553,7 +553,7 @@ struct HavokTransform264
     __m128 rotation[3];
     __m128 translation;
     HavokTransform264();
-    void FUN_00577070();
+    void hkTransform_setIdentity();
 };
 void __cdecl FUN_0056df80(HavokTransform264*, const Transform264*);
 struct NativeA264
@@ -581,7 +581,7 @@ struct WrappedShape264 : Shape264
 };
 struct World264
 {
-    Shape264* FUN_004ae6a0();
+    Shape264* bhkWorldObject_GetShape();
 };
 struct Collision264
 {
@@ -642,10 +642,10 @@ struct Scene264
     virtual void slot2c();
     virtual void slot2d();
     virtual void Update(UpdateData264&);
-    const Transform264& FUN_00461130();
+    const Transform264& NiAVObject_GetWorldRotate();
 };
 Collision264* __cdecl FUN_0043b610(Scene264*);
-bool __cdecl FUN_0043b300(const void*, const void*);
+bool __cdecl NiObject_IsKindOf(const void*, const void*);
 extern char DAT_012682e8, DAT_012682dc, DAT_012682d0;
 struct Owner264
 {
@@ -658,37 +658,37 @@ void Owner264::FUN_00576d50(Scene264* scene)
         return;
     UpdateData264 update(0.0f, true, false);
     scene->Update(update);
-    Transform264 transform = scene->FUN_00461130();
+    Transform264 transform = scene->NiAVObject_GetWorldRotate();
     HavokTransform264 converted;
-    converted.FUN_00577070();
+    converted.hkTransform_setIdentity();
     FUN_0056df80(&converted, &transform);
     Collision264* collision = FUN_0043b610(scene);
     World264* world = collision ? collision->FUN_006fa820() : 0;
-    Shape264* shape = world ? world->FUN_004ae6a0() : 0;
+    Shape264* shape = world ? world->bhkWorldObject_GetShape() : 0;
     if (shape)
     {
         NativeA264* nativeA = 0;
         NativeB264* nativeB = 0;
-        if (FUN_0043b300(&DAT_012682e8, shape))
+        if (NiObject_IsKindOf(&DAT_012682e8, shape))
         {
             ShapeA264* typed = (ShapeA264*)shape;
             nativeA = typed->GetReferenceFlags();
         }
-        else if (FUN_0043b300(&DAT_012682dc, shape))
+        else if (NiObject_IsKindOf(&DAT_012682dc, shape))
         {
             ShapeB264* typed = (ShapeB264*)shape;
             nativeB = typed->GetReferenceFlags();
         }
-        else if (FUN_0043b300(&DAT_012682d0, shape))
+        else if (NiObject_IsKindOf(&DAT_012682d0, shape))
         {
             WrappedShape264* typed = (WrappedShape264*)shape;
             Shape264* child = typed->FUN_00577190();
-            if (child && FUN_0043b300(&DAT_012682e8, child))
+            if (child && NiObject_IsKindOf(&DAT_012682e8, child))
             {
                 ShapeA264* typedA = (ShapeA264*)child;
                 nativeA = typedA->GetReferenceFlags();
             }
-            else if (child && FUN_0043b300(&DAT_012682dc, child))
+            else if (child && NiObject_IsKindOf(&DAT_012682dc, child))
             {
                 ShapeB264* typedB = (ShapeB264*)child;
                 nativeB = typedB->GetReferenceFlags();

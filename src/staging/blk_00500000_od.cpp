@@ -327,11 +327,11 @@ struct FUN_008256d0_list
 
 struct FUN_005194d0_shell_base
 {
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
 };
 
 // @fnv 0x005194d0
-bool FUN_005194d0_shell_base::FUN_005194d0()
+bool FUN_005194d0_shell_base::TESObjectDOOR_IsRandomDoor()
 {
     if (!reinterpret_cast<FUN_008256d0_list*>(reinterpret_cast<char*>(this) + 0x88)->FUN_008256d0())
         return true;
@@ -538,7 +538,7 @@ struct TESForm;
 TESForm* __cdecl GetFormByID(unsigned int id);
 
 // @fnv 0x00505000
-TESForm* __cdecl FUN_00505000()
+TESForm* __cdecl TESCombatStyle_GetDefaultCombatStyle()
 {
     return GetFormByID(0x3d);
 }
@@ -674,10 +674,10 @@ struct AVH
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int __thiscall TESObjectBOOK_GetTeaches();
 };
 // @fnv 0x00514fd0
-int __thiscall FUN_00514fd0_class::FUN_00514fd0()
+int __thiscall FUN_00514fd0_class::TESObjectBOOK_GetTeaches()
 {
     if (reinterpret_cast<const signed char*>(this)[0xc1] == -1)
         return -1;
@@ -1084,7 +1084,7 @@ struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
     unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
+    unsigned char PathingRequest_GetFaceTargetAtGoal();
     unsigned char GetByteAtOffset9A();
     unsigned char GetByteAtOffset9B();
     unsigned char FUN_009e8670();
@@ -1099,7 +1099,7 @@ unsigned char FUN_00505b80_cls::DispatchByType(int aType)
     case 0x5c:
         return FUN_0073cb80();
     case 0x5d:
-        return FUN_00505c00();
+        return PathingRequest_GetFaceTargetAtGoal();
     case 0x5e:
         return GetByteAtOffset9A();
     case 0x5f:
@@ -2027,12 +2027,12 @@ struct NiUpdateData
 struct Obj
 {
     float FUN_004e4600();
-    float FUN_006447d0();
+    float Sky_GetCurrentWeatherPct();
     float FUN_004e4620();
-    void FUN_0050c630(float v);
-    void FUN_0050c660(float v);
-    void FUN_0050c690(float v);
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiPointLight_SetConstantAttenuation(float v);
+    void NiPointLight_SetLinearAttenuation(float v);
+    void NiPointLight_SetQuadraticAttenuation(float v);
+    void NiAVObject_SetTranslate(float a, float b, float c);
     void FUN_00a59c60(NiUpdateData& u);
     float FUN_00644a50();
     void FUN_0050dd20(float v);
@@ -2134,7 +2134,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
             if (s)
             {
                 b = s->FUN_004e4600();
-                flag = s->FUN_006447d0();
+                flag = s->Sky_GetCurrentWeatherPct();
                 x = s->FUN_004e4620();
             }
             if (m_a8 & 0x40)
@@ -2151,9 +2151,9 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
                 x = (float)(x - DAT_0101ff48);
             if (s)
             {
-                s->FUN_0050c630(b);
-                s->FUN_0050c660(flag);
-                s->FUN_0050c690(x);
+                s->NiPointLight_SetConstantAttenuation(b);
+                s->NiPointLight_SetLinearAttenuation(flag);
+                s->NiPointLight_SetQuadraticAttenuation(x);
             }
             float idx;
             idx = FUN_004e44b0((float)((b + DAT_010290d8) * 2.0));
@@ -2166,7 +2166,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
             float p;
             p = (float)(unk24 * idx * a2 / DAT_01011590);
             unk24 = (unk24 + p > DAT_01012060) ? p : 0.0f;
-            p1.FUN_00559450()->FUN_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
+            p1.FUN_00559450()->NiAVObject_SetTranslate((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
             if (FUN_008c7aa0())
             {
                 FUN_004537b0(p1.FUN_00559450())->FUN_0087ad50();
@@ -2644,7 +2644,7 @@ class DoorRef
     virtual NiPoint3* GetPos();
     TESBoundObject* FUN_007af430();
     void* FUN_00568e50();
-    struct TeleportableReference* FUN_00568e70();
+    struct TeleportableReference* TESObjectREFR_AddTeleport();
     DoorRef* FUN_00569b20();
     NiPoint3* FUN_00572500(NiPoint3* apOut, float afAngle);
     const NiPoint3& FUN_00430830() const;
@@ -2673,8 +2673,8 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
         {
             if (!apDoorA->FUN_00568e50() && !apDoorB->FUN_00568e50())
             {
-                TeleportableReference* pTeleportDataA = apDoorA->FUN_00568e70();
-                TeleportableReference* pTeleportDataB = apDoorB->FUN_00568e70();
+                TeleportableReference* pTeleportDataA = apDoorA->TESObjectREFR_AddTeleport();
+                TeleportableReference* pTeleportDataB = apDoorB->TESObjectREFR_AddTeleport();
                 if (pTeleportDataA && pTeleportDataB)
                 {
                     float fDist = *g_011c9398.Float();

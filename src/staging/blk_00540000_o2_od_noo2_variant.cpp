@@ -217,11 +217,11 @@ struct ParticleSystem
         return FUN_00553300(n);
     }
     Component* FUN_00541c80();
-    void FUN_005533f0(void*);
-    void FUN_00553480(CurveBase*);
+    void bhkWorld_AddEntityListener(void*);
+    void bhkWorld_AddTrapListener(CurveBase*);
     void SetField(void*);
-    void FUN_005534f0(void*);
-    void FUN_00553440(void*);
+    void bhkWorld_AddAcousticSpaceListener(void*);
+    void bhkWorld_AddContactListener(void*);
     void FUN_00c68750(FUN_006815c0*);
     void FUN_00454380(bool);
     void SetProcessEnabled(int);
@@ -305,12 +305,12 @@ ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
     *acceleration.FUN_00560d30(2) = FUN_004a3e90(DAT_0102f0fc);
     ParticleSystem* system = new FUN_00c99ff0(&source, &velocity, &acceleration);
     system->FUN_00541c80()->FUN_00483710();
-    system->FUN_005533f0(new FUN_00554590());
-    system->FUN_00553480(new FUN_0062d5c0());
+    system->bhkWorld_AddEntityListener(new FUN_00554590());
+    system->bhkWorld_AddTrapListener(new FUN_0062d5c0());
     system->SetField(FUN_0062f3d0());
-    system->FUN_005534f0(new FUN_0061f460());
-    system->FUN_00553440(FUN_00453720());
-    system->FUN_005533f0(new FUN_0062a460());
+    system->bhkWorld_AddAcousticSpaceListener(new FUN_0061f460());
+    system->bhkWorld_AddContactListener(FUN_00453720());
+    system->bhkWorld_AddEntityListener(new FUN_0062a460());
     if (!DAT_011ca088)
         DAT_011ca088 = new FUN_00624150();
     DAT_011ca088->NotifyActivation(system->FUN_00541c80());

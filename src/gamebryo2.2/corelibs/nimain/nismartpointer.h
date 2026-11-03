@@ -110,7 +110,7 @@ NiPointer<WaitableObject>& NiPointer<WaitableObject>::operator=(const NiPointer<
 class MemoryManager;
 extern MemoryManager g_memoryManager;
 // @fnv 0x00401020
-MemoryManager* FUN_00401020()
+MemoryManager* MemoryManager_Instance()
 {
     return &g_memoryManager;
 }

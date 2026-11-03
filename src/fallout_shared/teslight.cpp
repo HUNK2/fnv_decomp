@@ -53,7 +53,7 @@ NiLight* FindLightInNode(NiNode* node)
                 if (result)
                     return result;
             }
-            else if (FUN_0043b300(&DAT_011f4a28, static_cast<NiAVObject*>(child)))
+            else if (NiObject_IsKindOf(&DAT_011f4a28, static_cast<NiAVObject*>(child)))
             {
                 return static_cast<NiLight*>(static_cast<NiAVObject*>(child));
             }
@@ -112,12 +112,12 @@ class NiDynamicEffect
 
 struct FUN_0050c630_helper : public NiDynamicEffect
 {
-    void FUN_0050c630(float fC);
+    void NiPointLight_SetConstantAttenuation(float fC);
 };
 
 // Stores fC at offset 0xf0 of this object and calls IncRevisionID to mark the effect as changed.
 // @fnv 0x0050c630
-void FUN_0050c630_helper::FUN_0050c630(float fC)
+void FUN_0050c630_helper::NiPointLight_SetConstantAttenuation(float fC)
 {
     *(float*)((char*)this + 0xf0) = fC;
     IncRevisionID();
@@ -131,12 +131,12 @@ struct NiDynamicEffect
 
 struct FUN_0050c660_shell
 {
-    void FUN_0050c660(float fL);
+    void NiPointLight_SetLinearAttenuation(float fL);
 };
 
 // Stores fL at offset 0xf4 of this and calls IncRevisionID on the object as a NiDynamicEffect.
 // @fnv 0x0050c660
-void FUN_0050c660_shell::FUN_0050c660(float fL)
+void FUN_0050c660_shell::NiPointLight_SetLinearAttenuation(float fL)
 {
     *(float*)((char*)this + 0xf4) = fL;
     ((NiDynamicEffect*)this)->IncRevisionID();
@@ -167,7 +167,7 @@ bool FUN_0050dd90_shell::FUN_0050dd90()
 
 // Stores fQ at offset 0xf8 of the object and increments its revision ID.
 // @fnv 0x0050c690
-void __fastcall FUN_0050c690(NiDynamicEffect* this_ptr, float fQ)
+void __fastcall NiPointLight_SetQuadraticAttenuation(NiDynamicEffect* this_ptr, float fQ)
 {
     *(float*)((char*)this_ptr + 0xf8) = fQ;
     this_ptr->IncRevisionID();
@@ -215,11 +215,11 @@ void* FUN_0050d100_shell::FUN_0050d100()
 
 struct FUN_00484bf0_stub
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int flags);
+    unsigned short __thiscall TESForm_GetSaveSize(unsigned int flags);
 };
 struct FUN_0048e9b0_stub
 {
-    unsigned short __thiscall FUN_0048e9b0(unsigned int flags);
+    unsigned short __thiscall TESValueForm_GetSaveSize(unsigned int flags);
 };
 
 struct FUN_0050e4f0_shell
@@ -227,38 +227,38 @@ struct FUN_0050e4f0_shell
     unsigned short __thiscall GetSize(unsigned int aiFlags);
 };
 
-// Returns the sum of the sizes reported by FUN_00484bf0 on this and FUN_0048e9b0 on the object at offset 0x8c, both called with aiFlags.
+// Returns the sum of the sizes reported by TESForm_GetSaveSize on this and TESValueForm_GetSaveSize on the object at offset 0x8c, both called with aiFlags.
 // @fnv 0x0050e4f0
 unsigned short __thiscall FUN_0050e4f0_shell::GetSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0_stub*)this)->FUN_00484bf0(aiFlags);
-    isize += ((FUN_0048e9b0_stub*)((char*)this + 0x8c))->FUN_0048e9b0(aiFlags);
+    isize += ((FUN_00484bf0_stub*)this)->TESForm_GetSaveSize(aiFlags);
+    isize += ((FUN_0048e9b0_stub*)((char*)this + 0x8c))->TESValueForm_GetSaveSize(aiFlags);
     return isize;
 }
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
     void FUN_0048e9e0(unsigned int);
 };
 
 struct FUN_0050e550_shell
 {
-    void FUN_0050e550(unsigned int);
+    void TESObjectLIGH_SaveGame(unsigned int);
 };
 
-// Forwards aiFlags to FUN_00484c20 on this and to FUN_0048e9e0 on the object at offset 0x8c.
+// Forwards aiFlags to TESForm_SaveGame on this and to FUN_0048e9e0 on the object at offset 0x8c.
 // @fnv 0x0050e550
-void FUN_0050e550_shell::FUN_0050e550(unsigned int aiFlags)
+void FUN_0050e550_shell::TESObjectLIGH_SaveGame(unsigned int aiFlags)
 {
-    reinterpret_cast<FUN_0051b070_shell*>(this)->FUN_00484c20(aiFlags);
+    reinterpret_cast<FUN_0051b070_shell*>(this)->TESForm_SaveGame(aiFlags);
     reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048e9e0(aiFlags);
 }
 
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
@@ -267,13 +267,13 @@ struct TESValueFormStub
 
 struct FUN_0050e580_shell
 {
-    void FUN_0050e580(unsigned int a1, unsigned int a2);
+    void TESObjectLIGH_LoadGame2(unsigned int a1, unsigned int a2);
 };
 
 // @fnv 0x0050e580
-void FUN_0050e580_shell::FUN_0050e580(unsigned int a1, unsigned int a2)
+void FUN_0050e580_shell::TESObjectLIGH_LoadGame2(unsigned int a1, unsigned int a2)
 {
-    ((TESFormStub*)this)->FUN_00484c50(a1, a2);
+    ((TESFormStub*)this)->TESForm_LoadGame2(a1, a2);
     ((TESValueFormStub*)((char*)this + 0x8c))->FUN_0048ea10(a1, a2);
 }
 
@@ -288,11 +288,11 @@ struct FUN_0048ea40_holder
 
 struct FUN_0050e5c0_shell
 {
-    void FUN_0050e5c0(unsigned int aiFlags);
+    void TESObjectLIGH_AppendSaveLoadFormBuffer(unsigned int aiFlags);
 };
 
 // @fnv 0x0050e5c0
-void FUN_0050e5c0_shell::FUN_0050e5c0(unsigned int aiFlags)
+void FUN_0050e5c0_shell::TESObjectLIGH_AppendSaveLoadFormBuffer(unsigned int aiFlags)
 {
     reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(aiFlags);
     reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048ea40(aiFlags);
@@ -510,7 +510,7 @@ struct FUN_005e78f0_t
     unsigned char padding[0x9c];
     Data data;
 
-    void FUN_004851b0(TESForm* form);
+    void TESForm_CopyAllComponents(TESForm* form);
     void CopyFromLight(TESForm* form);
 };
 
@@ -525,7 +525,7 @@ void FUN_005e78f0_t::CopyFromLight(TESForm* apCopy)
     if (!ligh)
         return;
 
-    FUN_004851b0(apCopy);
+    TESForm_CopyAllComponents(apCopy);
 
     data = *reinterpret_cast<Data*>(reinterpret_cast<FUN_0050d100_shell*>(ligh)->FUN_0050d100());
 
@@ -536,12 +536,12 @@ void FUN_005e78f0_t::CopyFromLight(TESForm* apCopy)
 }
 }  // namespace fnv_0050d060
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -553,22 +553,22 @@ struct DoorPart3c
 
 struct DoorPart5c
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 
 struct DoorPart68
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 
 struct FUN_0047a240_shell
@@ -578,7 +578,7 @@ struct FUN_0047a240_shell
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 
 bool _FUN_00401500();
@@ -596,23 +596,23 @@ struct FUN_0050cf20_shell
     float fade_00b4;
     TESForm* sound_00b8;
 
-    void FUN_0050cf20();
+    void TESObjectLIGH_SaveForm();
 };
 
 // @fnv 0x0050cf20
-void FUN_0050cf20_shell::FUN_0050cf20()
+void FUN_0050cf20_shell::TESObjectLIGH_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x3c)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x78)->FUN_0048cca0();
-    reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x94)->FUN_00477f20();
+    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x78)->TESScriptableForm_Save();
+    reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x94)->BGSDestructibleObjectForm_Save();
 
     if (flags_00a8 & 2)
     {
-        reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
-        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048e370(0x4e4f4349);
+        reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x30)->TESFullName_Save();
+        reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x5c)->TESTexture_Save(0x4e4f4349);
         reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0x68)->FUN_0047a240(0x4f43494d);
     }
     else
@@ -624,7 +624,7 @@ void FUN_0050cf20_shell::FUN_0050cf20()
     if (_FUN_00401500())
         SwapEndian(&value_009c);
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<int>(&value_009c), 0x18);
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(reinterpret_cast<int>(&value_009c), 0x18);
 
     if (_FUN_00401500())
         SwapEndian(&value_009c);
@@ -637,7 +637,7 @@ void FUN_0050cf20_shell::FUN_0050cf20()
         _FUN_00485910(0x4d414e53, formID);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct FUN_0050c870 : stand::TESBoundAnimObject,
@@ -689,7 +689,7 @@ struct LightLoader : TESBoundAnimObject,
     float fFadeAmount;
     TESSound* m_pGameSound;
     void FUN_00484ab0(int);
-    void FUN_004861f0(TESFile*, void*, unsigned short);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
     bool LoadLight(TESFile*);
 };
 void FUN_004892d0(TESModelTextureSwap*, TESFile*);
@@ -758,7 +758,7 @@ bool LightLoader::LoadLight(TESFile* file)
             FUN_004781e0(this, file);
             break;
         case 0x41544144:
-            FUN_004861f0(file, &data, 24);
+            TESForm_LoadData(file, &data, 24);
             break;
         case 0x4d414e46:
             file->GetChunkData((unsigned int*)&fFadeAmount);
@@ -1139,10 +1139,10 @@ struct Reference
     virtual Position* GetPosition();
     BaseForm* FUN_007af430();
     int FUN_008d6f30();
-    float FUN_0057b0a0();
-    void FUN_00484a70(bool);
+    float TESObjectREFR_GetRelevantWaterHeight();
+    void TESForm_SetFireOff(bool);
     void FUN_00572610(Light*);
-    float FUN_00568cb0();
+    float TESObjectREFR_GetRadius();
     ObjectPointerProvider* FUN_005d43c0();
 };
 struct Manager
@@ -1150,7 +1150,7 @@ struct Manager
     void FUN_00b5c940(Light*, bool);
 };
 Manager* __cdecl FUN_00450b80(int);
-bool __cdecl FUN_00578400(Scene*);
+bool __cdecl TESObjectREFR_HasAddonNodes(Scene*);
 void __cdecl ProcessListItems(Scene*);
 const char* __cdecl FUN_0050de10();
 Light* __cdecl FUN_0050d6d0(Scene*);
@@ -1284,10 +1284,10 @@ struct LightForm
     float fade;
     void FUN_0050ddb0(bool);
     bool FUN_0050dd90();
-    Light* FUN_0050d810(Reference*, Scene*, bool);
+    Light* TESObjectLIGH_GenDynamic(Reference*, Scene*, bool);
 };
 // @fnv 0x0050d810
-Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
+Light* LightForm::TESObjectLIGH_GenDynamic(Reference* reference, Scene* pScene, bool force)
 {
     if (!pScene)
         return 0;
@@ -1295,11 +1295,11 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     if (reference)
     {
         base = reference->FUN_007af430();
-        if ((flags & 0x20) || (reference->FUN_008d6f30() && reference->GetPosition()->z < reference->FUN_0057b0a0()))
+        if ((flags & 0x20) || (reference->FUN_008d6f30() && reference->GetPosition()->z < reference->TESObjectREFR_GetRelevantWaterHeight()))
         {
-            if (base->FUN_00401170() == 30 && FUN_00578400(pScene))
+            if (base->FUN_00401170() == 30 && TESObjectREFR_HasAddonNodes(pScene))
             {
-                reference->FUN_00484a70(true);
+                reference->TESForm_SetFireOff(true);
                 ProcessListItems(pScene);
             }
             if (!reference->IsPersistent() && (flags & 0x20))
@@ -1334,7 +1334,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     lightSlot12->FUN_0050dd50(DAT_011f4998);
     float radiusValueSlot21 = (float)radius;
     if (reference)
-        radiusValueSlot21 = reference->FUN_00568cb0();
+        radiusValueSlot21 = reference->TESObjectREFR_GetRadius();
     lightSlot12->FUN_0050dd50(Color(radiusValueSlot21, radiusValueSlot21, radiusValueSlot21));
     lightSlot12->SetEffectColor(tintSlot1);
     Parent* parentSlot6;
@@ -1370,9 +1370,9 @@ class TESObjectCELL;
 class NiPointLight
 {
   public:
-    void FUN_0050c630(float f);
-    void FUN_0050c660(float f);
-    void FUN_0050c690(float f);
+    void NiPointLight_SetConstantAttenuation(float f);
+    void NiPointLight_SetLinearAttenuation(float f);
+    void NiPointLight_SetQuadraticAttenuation(float f);
 };
 
 class GlobalObject_0044f440
@@ -1418,9 +1418,9 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
     NiPointLight* light = (NiPointLight*)NiDynamicCast(&DAT_011f4a98, object);
     if (light)
     {
-        light->FUN_0050c630((DAT_011c8fa0 & 1) ? *g_011c9000.Float() : 0.0f);
-        light->FUN_0050c660(0.0f);
-        light->FUN_0050c690(0.0f);
+        light->NiPointLight_SetConstantAttenuation((DAT_011c8fa0 & 1) ? *g_011c9000.Float() : 0.0f);
+        light->NiPointLight_SetLinearAttenuation(0.0f);
+        light->NiPointLight_SetQuadraticAttenuation(0.0f);
 
         if ((DAT_011c8fa0 & 2) || (g_TES->GetPrevPath() != 0 && g_011c8fc0.FUN_0050e620(true)))
         {
@@ -1428,13 +1428,13 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
             switch (*g_011c9054.Int())
             {
             case 0:
-                light->FUN_0050c660(*g_011c908c.Float());
+                light->NiPointLight_SetLinearAttenuation(*g_011c908c.Float());
                 break;
             default:
-                light->FUN_0050c660((a != 0.0) ? ((1.0 / a) * *g_011c908c.Float()) : 0.01f);
+                light->NiPointLight_SetLinearAttenuation((a != 0.0) ? ((1.0 / a) * *g_011c908c.Float()) : 0.01f);
                 break;
             case 2:
-                light->FUN_0050c660((a != 0.0) ? (*g_011c908c.Float() / (a * a)) : 0.01f);
+                light->NiPointLight_SetLinearAttenuation((a != 0.0) ? (*g_011c908c.Float() / (a * a)) : 0.01f);
                 break;
             }
         }
@@ -1445,13 +1445,13 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
             switch (*g_011c907c.Int())
             {
             case 0:
-                light->FUN_0050c690(*g_011c9040.Float());
+                light->NiPointLight_SetQuadraticAttenuation(*g_011c9040.Float());
                 break;
             case 1:
-                light->FUN_0050c690((b != 0.0) ? ((1.0 / (double)count) * g_011c9040.FUN_00450410()) : 0.01f);
+                light->NiPointLight_SetQuadraticAttenuation((b != 0.0) ? ((1.0 / (double)count) * g_011c9040.FUN_00450410()) : 0.01f);
                 break;
             default:
-                light->FUN_0050c690((b != 0.0) ? (g_011c9040.FUN_00450410() / (b * b)) : 0.01f);
+                light->NiPointLight_SetQuadraticAttenuation((b != 0.0) ? (g_011c9040.FUN_00450410() / (b * b)) : 0.01f);
                 break;
             }
         }
@@ -1464,7 +1464,7 @@ struct LightSoundAccess
 };
 struct LightComponentComparison
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct LightDataAccess
 {
@@ -1475,17 +1475,17 @@ extern float __fastcall GetFieldB4Float(char*);
 
 struct LightComparison : TESObjectLIGH
 {
-    bool FUN_0050d120(TESForm* form);
+    bool TESObjectLIGH_Compare(TESForm* form);
 };
 
 // Returns true if this light fails the component, sound, data, or computed-value comparisons.
 // @fnv 0x0050d120
-bool LightComparison::FUN_0050d120(TESForm* form)
+bool LightComparison::TESObjectLIGH_Compare(TESForm* form)
 {
     TESObjectLIGH* pOtherLight = dynamic_cast<TESObjectLIGH*>(form);
     if (!pOtherLight)
         return true;
-    if (reinterpret_cast<LightComponentComparison*>(this)->FUN_00485270(pOtherLight))
+    if (reinterpret_cast<LightComponentComparison*>(this)->TESForm_CompareAllComponents(pOtherLight))
         return true;
     if (m_pGameSound != reinterpret_cast<LightSoundAccess*>(pOtherLight)->FUN_004036b0())
         return true;

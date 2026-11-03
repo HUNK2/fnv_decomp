@@ -108,14 +108,14 @@ class E5DF0Modifier
     float FUN_00488d50();
 };
 
-bool FUN_005e5b80(int iUnused, int iType, E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult,
+bool BGSEntryPointFunction_CheckFunctionArguments(int iUnused, int iType, E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult,
                   E5DF0Modifier* pkModifier);
 
-// Calls FUN_005e5b80 to validate the modifier, then adds the product of the counter value and FUN_006b9130 to the result.
+// Calls BGSEntryPointFunction_CheckFunctionArguments to validate the modifier, then adds the product of the counter value and FUN_006b9130 to the result.
 // @fnv 0x005e5df0
 void FUN_005e5df0(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, E5DF0Modifier* pkModifier)
 {
-    if (!FUN_005e5b80(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
         return;
 
     float* pfOut3 = *ppfResult;
@@ -159,14 +159,14 @@ class EntryPointSingleValueSource
   public:
     float FUN_006b9130();
 };
-bool __cdecl FUN_005e5b80(int, int, void*, void*, unsigned char, void*, void*);
-// Calls FUN_005e5b80 to validate arguments, then writes the result of a5->FUN_006b9130() into the float pointed to by *a4.
+bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*, unsigned char, void*, void*);
+// Calls BGSEntryPointFunction_CheckFunctionArguments to validate arguments, then writes the result of a5->FUN_006b9130() into the float pointed to by *a4.
 // @fnv 0x005e5c70
 void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** ppValue,
                           EntryPointSingleValueSource* apSource)
 {
     EntryPointSingleValueSource* pSource;
-    if (!FUN_005e5b80(0, 1, apArg1, apArg2, a3, ppValue, apSource))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 1, apArg1, apArg2, a3, ppValue, apSource))
         return;
     {
         float* pValue;
@@ -271,11 +271,11 @@ struct OneValueDuplicateEntry
 {
     unsigned int vtable;
     float value;
-    FUN_005e63f0* FUN_005e6670();
+    FUN_005e63f0* BGSEntryPointFunctionDataOneValue_Duplicate();
 };
 // Allocates a new FUN_005e63f0, copies the value field into it, and returns the pointer.
 // @fnv 0x005e6670
-FUN_005e63f0* OneValueDuplicateEntry::FUN_005e6670()
+FUN_005e63f0* OneValueDuplicateEntry::BGSEntryPointFunctionDataOneValue_Duplicate()
 {
     FUN_005e63f0* pduplicate = new FUN_005e63f0;
     pduplicate->value = value;
@@ -292,12 +292,12 @@ class BGSEntryPointFunctionDataOneValue : public BGSEntryPointFunctionData
 {
   public:
     float fValue;
-    bool FUN_005e6700(BGSEntryPointFunctionData* apCompare);
+    bool BGSEntryPointFunctionDataOneValue_Compare(BGSEntryPointFunctionData* apCompare);
 };
 
 // Returns true if apCompare is not a BGSEntryPointFunctionDataOneValue or its fValue differs from this object's fValue.
 // @fnv 0x005e6700
-bool BGSEntryPointFunctionDataOneValue::FUN_005e6700(BGSEntryPointFunctionData* apCompare)
+bool BGSEntryPointFunctionDataOneValue::BGSEntryPointFunctionDataOneValue_Compare(BGSEntryPointFunctionData* apCompare)
 {
     BGSEntryPointFunctionDataOneValue* poneValue;
     poneValue = dynamic_cast<BGSEntryPointFunctionDataOneValue*>(apCompare);
@@ -320,12 +320,12 @@ struct FUN_005e64b0
 
 struct FUN_005e67f0_shell : FUN_005e64b0
 {
-    FUN_005e64b0* FUN_005e67f0();
+    FUN_005e64b0* BGSEntryPointFunctionDataTwoValue_Duplicate();
 };
 
 // Allocates a new FUN_005e64b0, copies EntryPointTwoValueFunctionData and fSecondFunctionValue into it, and returns the pointer.
 // @fnv 0x005e67f0
-FUN_005e64b0* FUN_005e67f0_shell::FUN_005e67f0()
+FUN_005e64b0* FUN_005e67f0_shell::BGSEntryPointFunctionDataTwoValue_Duplicate()
 {
     FUN_005e64b0* pduplicate = new FUN_005e64b0;
     pduplicate->EntryPointTwoValueFunctionData = EntryPointTwoValueFunctionData;
@@ -342,12 +342,12 @@ class BGSEntryPointFunctionDataTwoValue : public BGSEntryPointFunctionData
   public:
     float EntryPointTwoValueFunctionData;
     float fSecondFunctionValue;
-    bool FUN_005e6890(BGSEntryPointFunctionData* apCompare);
+    bool BGSEntryPointFunctionDataTwoValue_Compare(BGSEntryPointFunctionData* apCompare);
 };
 
 // Returns true if the dynamic_cast to BGSEntryPointFunctionDataTwoValue fails or if either float field differs from apCompare.
 // @fnv 0x005e6890
-bool BGSEntryPointFunctionDataTwoValue::FUN_005e6890(BGSEntryPointFunctionData* apCompare)
+bool BGSEntryPointFunctionDataTwoValue::BGSEntryPointFunctionDataTwoValue_Compare(BGSEntryPointFunctionData* apCompare)
 {
     BGSEntryPointFunctionDataTwoValue* ptwoValue = dynamic_cast<BGSEntryPointFunctionDataTwoValue*>(apCompare);
     if (!ptwoValue)
@@ -369,10 +369,10 @@ struct FUN_005e69d0_shell
 {
     void* m_vtbl;
     int m_uiFilterValue;
-    FUN_005e6510* FUN_005e69d0();
+    FUN_005e6510* BGSEntryPointFunctionDataLeveledList_Duplicate();
 };
 // @fnv 0x005e69d0
-FUN_005e6510* FUN_005e69d0_shell::FUN_005e69d0()
+FUN_005e6510* FUN_005e69d0_shell::BGSEntryPointFunctionDataLeveledList_Duplicate()
 {
     FUN_005e6510* pduplicate = new FUN_005e6510;
     pduplicate->m_uiFilterValue = m_uiFilterValue;
@@ -388,13 +388,13 @@ struct FUN_005e6ab0_StandIn
 {
     int f0;
     TESSound* pLeveledList;
-    void FUN_005e6250();
-    void FUN_005e6ab0();
+    void BGSEntryPointFunctionData_StartFunctionData();
+    void BGSEntryPointFunctionDataLeveledList_Save();
 };
 // @fnv 0x005e6ab0
-void FUN_005e6ab0_StandIn::FUN_005e6ab0()
+void FUN_005e6ab0_StandIn::BGSEntryPointFunctionDataLeveledList_Save()
 {
-    FUN_005e6250();
+    BGSEntryPointFunctionData_StartFunctionData();
     unsigned int ileveledListID = 0;
     if (pLeveledList != 0)
     {
@@ -420,11 +420,11 @@ struct FUN_005e6b00_cls
 {
     int pad;
     int value;
-    bool FUN_005e6b00(TESFile_s* apFile);
+    bool BGSEntryPointFunctionDataLeveledList_Load(TESFile_s* apFile);
 };
 // Reads a 4-byte leveled list ID into value, byte-swapping it when GetChunkData returns true.
 // @fnv 0x005e6b00
-bool FUN_005e6b00_cls::FUN_005e6b00(TESFile_s* apFile)
+bool FUN_005e6b00_cls::BGSEntryPointFunctionDataLeveledList_Load(TESFile_s* apFile)
 {
     unsigned int isize = apFile->_ref_00401660();
     if (isize != 4)
@@ -449,24 +449,24 @@ struct FUN_00413f40_shell
 
 unsigned int __cdecl _strlen(const char*);
 unsigned int __cdecl _BSStringLength(const char*);
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl FUN_00485950(unsigned int, unsigned int);
 
 struct FUN_005e6e50_obj
 {
     int unk00;
     char* m_kChoiceText;
-    void FUN_005e6250();
-    void FUN_005e6e50();
+    void BGSEntryPointFunctionData_StartFunctionData();
+    void BGSEntryPointFunctionDataActivateChoice_Save();
 };
 
 // @fnv 0x005e6e50
-void FUN_005e6e50_obj::FUN_005e6e50()
+void FUN_005e6e50_obj::BGSEntryPointFunctionDataActivateChoice_Save()
 {
-    FUN_005e6250();
+    BGSEntryPointFunctionData_StartFunctionData();
     unsigned int z = 0;
     if (m_kChoiceText && _strlen(m_kChoiceText))
-        FUN_004856f0(0x32465045, m_kChoiceText, _BSStringLength(m_kChoiceText) + 1);
+        TESForm_AddChunkArray(0x32465045, m_kChoiceText, _BSStringLength(m_kChoiceText) + 1);
     FUN_00485950(0x33465045, *(unsigned short*)((char*)this + 0x5c));
     reinterpret_cast<FUN_00413f40_shell*>(this)->FUN_00413f40()->FUN_005abe00();
 }
@@ -508,16 +508,16 @@ class OneValueSaveEntry
     void* vtable;
     float value;
 
-    void FUN_005e6250();
-    void FUN_005e6760();
+    void BGSEntryPointFunctionData_StartFunctionData();
+    void BGSEntryPointFunctionDataOneValue_Save();
 };
 
 void __cdecl FUN_00485910(unsigned int chunkID, float value);
 
 // @fnv 0x005e6760
-void OneValueSaveEntry::FUN_005e6760()
+void OneValueSaveEntry::BGSEntryPointFunctionDataOneValue_Save()
 {
-    FUN_005e6250();
+    BGSEntryPointFunctionData_StartFunctionData();
     FUN_00485910(0x44465045, value);
 }
 
@@ -531,7 +531,7 @@ extern ActionPointCostSetting* DAT_0119baf8[22];
 
 // Returns the action point cost for the given action index, or 0.0f if the index is out of range.
 // @fnv 0x0066dc70
-float FUN_0066dc70(int aiAction)
+float ActionPoints_GetBaseActionPoints(int aiAction)
 {
     float cost = 0.0f;
     if (aiAction >= 0 && aiAction < 22)
@@ -548,7 +548,7 @@ int Warning(const char*, ...);
 
 // Checks the function type, argument count, non-null arguments, and, when present, data type; warns and returns false on mismatches.
 // @fnv 0x005e5b80
-bool FUN_005e5b80(int aeExpectedFunctionType, unsigned char acExpectedFunctionData, TESObjectREFR* apPerkOwner,
+bool BGSEntryPointFunction_CheckFunctionArguments(int aeExpectedFunctionType, unsigned char acExpectedFunctionData, TESObjectREFR* apPerkOwner,
                   int aeFunctionType, unsigned char acArgumentCount, void** apFunctionArgument, void* apData)
 {
     if (aeExpectedFunctionType != aeFunctionType)
@@ -594,11 +594,11 @@ class EntryPointFunctionDataStartView
     virtual ~EntryPointFunctionDataStartView();
     virtual unsigned char GetType();
 
-    void FUN_005e6250();
+    void BGSEntryPointFunctionData_StartFunctionData();
 };
 
 // @fnv 0x005e6250
-void EntryPointFunctionDataStartView::FUN_005e6250()
+void EntryPointFunctionDataStartView::BGSEntryPointFunctionData_StartFunctionData()
 {
     unsigned char type = GetType();
     FUN_004858f0(0x54465045, type);
@@ -615,14 +615,14 @@ void FUN_00485990(unsigned int, void*, int);
 class EntryPointTwoValueSave
 {
   public:
-    void FUN_005e6250();
-    void FUN_005e6900();
+    void BGSEntryPointFunctionData_StartFunctionData();
+    void BGSEntryPointFunctionDataTwoValue_Save();
 };
 // Copies two float fields into a local pair, conditionally byte-swaps it, and passes its address and size to a helper.
 // @fnv 0x005e6900
-void EntryPointTwoValueSave::FUN_005e6900()
+void EntryPointTwoValueSave::BGSEntryPointFunctionDataTwoValue_Save()
 {
-    FUN_005e6250();
+    BGSEntryPointFunctionData_StartFunctionData();
     EntryPointFloatPair data;
     data.EntryPointTwoValueFunctionData =
         reinterpret_cast<BGSEntryPointFunctionDataTwoValue*>(this)->EntryPointTwoValueFunctionData;
@@ -665,12 +665,12 @@ class BGSEntryPointFunctionDataLeveledList : public BGSEntryPointFunctionData
 {
   public:
     TESLevItem* pLeveledList;
-    bool FUN_005e6a60(BGSEntryPointFunctionData* apCompare);
+    bool BGSEntryPointFunctionDataLeveledList_Compare(BGSEntryPointFunctionData* apCompare);
 };
 
 // Returns true if the cast to BGSEntryPointFunctionDataLeveledList fails or if pLeveledList differs from the other entry's pLeveledList, otherwise false.
 // @fnv 0x005e6a60
-bool BGSEntryPointFunctionDataLeveledList::FUN_005e6a60(BGSEntryPointFunctionData* apCompare)
+bool BGSEntryPointFunctionDataLeveledList::BGSEntryPointFunctionDataLeveledList_Compare(BGSEntryPointFunctionData* apCompare)
 {
     BGSEntryPointFunctionDataLeveledList* pleveledList = dynamic_cast<BGSEntryPointFunctionDataLeveledList*>(apCompare);
     if (!pleveledList)
@@ -710,13 +710,13 @@ struct FUN_005e61b0_Local
     void* pLocals;
 };
 
-bool __cdecl FUN_005e5b80(int, int, void*, void*, bool, void*, void*);
+bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*, bool, void*, void*);
 
 // Runs the challenge name object's script when it starts locked; otherwise adds the challenge pointer to pList.
 // @fnv 0x005e61b0
 void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
 {
-    if (!FUN_005e5b80(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
         return;
 
     G2* pChallenge = apLocal->pList;
@@ -768,11 +768,11 @@ struct FUN_005e6790_cls
 {
     int pad;
     int value;
-    bool FUN_005e6790(TESFile_s* apFile);
+    bool BGSEntryPointFunctionDataOneValue_Load(TESFile_s* apFile);
 };
 // Reads a 4-byte chunk from apFile into value, converting endianness if GetChunkData succeeds, and returns false if the chunk size is not 4.
 // @fnv 0x005e6790
-bool FUN_005e6790_cls::FUN_005e6790(TESFile_s* apFile)
+bool FUN_005e6790_cls::BGSEntryPointFunctionDataOneValue_Load(TESFile_s* apFile)
 {
     unsigned int isize = apFile->_ref_00401660();
     if (isize != 4)
@@ -818,12 +818,12 @@ struct FUN_005e6540 : BGSEntryPointFunctionData
 
 struct FUN_005e6cd0_shell : FUN_005e6540
 {
-    BGSEntryPointFunctionData* FUN_005e6cd0();
+    BGSEntryPointFunctionData* BGSEntryPointFunctionDataActivateChoice_Duplicate();
 };
 
 // Creates a new FUN_005e6540, copies m_kChoiceText, script contents, and value from this, and returns it.
 // @fnv 0x005e6cd0
-BGSEntryPointFunctionData* FUN_005e6cd0_shell::FUN_005e6cd0()
+BGSEntryPointFunctionData* FUN_005e6cd0_shell::BGSEntryPointFunctionDataActivateChoice_Duplicate()
 {
     FUN_005e6540* pduplicate = new FUN_005e6540();
 
@@ -879,14 +879,14 @@ class ActivateChoiceCompare : public BGSEntryPointFunctionDataActivateChoice
 {
   public:
     ActivateChoiceForm* FUN_00413f40();
-    bool FUN_005e6d80(BGSEntryPointFunctionData* other);
+    bool BGSEntryPointFunctionDataActivateChoice_Compare(BGSEntryPointFunctionData* other);
 };
 
 int __cdecl FUN_00408b20(const char* lhs, const char* rhs);
 
 // Returns true if the cast fails, a label comparison is nonzero, the form comparison returns true, or flags differ.
 // @fnv 0x005e6d80
-bool ActivateChoiceCompare::FUN_005e6d80(BGSEntryPointFunctionData* other)
+bool ActivateChoiceCompare::BGSEntryPointFunctionDataActivateChoice_Compare(BGSEntryPointFunctionData* other)
 {
     ActivateChoiceCompare* pOtherChoice =
         reinterpret_cast<ActivateChoiceCompare*>(dynamic_cast<BGSEntryPointFunctionDataActivateChoice*>(other));
@@ -1052,12 +1052,12 @@ struct FUN_005e6970_cls
     float valueA;
     float valueB;
 
-    bool FUN_005e6970(TESFile_s* apFile);
+    bool BGSEntryPointFunctionDataTwoValue_Load(TESFile_s* apFile);
 };
 
 // Reads an 8-byte chunk from apFile, optionally applies FUN_00462230, then copies its two floats into valueA and valueB.
 // @fnv 0x005e6970
-bool FUN_005e6970_cls::FUN_005e6970(TESFile_s* apFile)
+bool FUN_005e6970_cls::BGSEntryPointFunctionDataTwoValue_Load(TESFile_s* apFile)
 {
     EntryPointTwoValueChunk_5e6970 data;
     unsigned int size = apFile->_ref_00401660();
@@ -1157,7 +1157,7 @@ class TESForm
 };
 
 void FUN_00485d50(unsigned int&, TESFile*);
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 
 struct TESLevItem : TESForm
 {
@@ -1184,7 +1184,7 @@ void LevListData::FUN_005e6b70(TESForm* apOwner)
     {
         unsigned int itempint = (unsigned int)pLevItem;
         FUN_00485d50(itempint, apOwner->FUN_00484e60(-1));
-        pLevItem = dynamic_cast<TESLevItem*>(FUN_004839c0(itempint));
+        pLevItem = dynamic_cast<TESLevItem*>(TESForm_GetFormByNumericID(itempint));
         if (!pLevItem)
         {
             if (static_cast<EntryPointOwnerView*>(apOwner)->FUN_00474cb0())

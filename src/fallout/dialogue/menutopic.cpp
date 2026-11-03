@@ -616,7 +616,7 @@ struct ActorProxy
 
 struct FUN_00619df0_shell
 {
-    bool FUN_00619df0();
+    bool TESTopic_IsRemappedRumors();
     TESTopicInfo* FUN_0061a790(bool* apbFlag, TESObjectREFR* apSpeaker, PlayerCharacter* apPlayer, int a4,
                                TESTopic* apTopic, int a6);
     TESQuest* FindQuestForTopicInfo(TESTopicInfo* apInfo);
@@ -636,7 +636,7 @@ struct FUN_0083e0c0_shell
 
 struct FUN_00619b20_shell
 {
-    bool FUN_00619b20();
+    bool TESTopicInfo_IsSayOnce();
 };
 
 struct FUN_009611e0_shell
@@ -710,7 +710,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
                 continue;
         }
 
-        if (((FUN_00619df0_shell*)pTopic)->FUN_00619df0() && !((ActorProxy*)pActorCur)->HasNoRumors())
+        if (((FUN_00619df0_shell*)pTopic)->TESTopic_IsRemappedRumors() && !((ActorProxy*)pActorCur)->HasNoRumors())
         {
             MenuTopic* pExisting = 0;
             pExisting = FUN_005d43c0(m_pDialogueSpeaker)->FUN_0042df90(m_pDialogueSpeaker);
@@ -731,7 +731,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
             TESQuest* pQuest4 = ((FUN_00619df0_shell*)pTopic)->FindQuestForTopicInfo(pInfo);
             bool bSave = false;
             bool bCreate5 = true;
-            if (((FUN_00619df0_shell*)pTopic)->FUN_00619df0())
+            if (((FUN_00619df0_shell*)pTopic)->TESTopic_IsRemappedRumors())
             {
                 if (!bStateChanged && !((ActorProxy*)pActorCur)->HasNoRumors())
                     bSave = true;
@@ -751,7 +751,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
                 delete (FUN_00425ff0*)pMenuTopic;
                 pMenuTopic = 0;
             }
-            if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->FUN_009611e0()->FUN_00619b20())
+            if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->FUN_009611e0()->TESTopicInfo_IsSayOnce())
             {
                 FUN_005d43c0(m_pDialogueSpeaker)->FUN_0042dee0(pMenuTopic);
                 ((FUN_0083ed50_ref*)m_pDialogueSpeaker)->v12(0x80000000);
@@ -1178,7 +1178,7 @@ struct InfoShell
 {
     bool IsChallengeFlagSet();
     void MarkAsRefusal();
-    bool FUN_00619b20();
+    bool TESTopicInfo_IsSayOnce();
     bool IsSayOnceADay();
     int FUN_0061f2b0();
     int GetType();
@@ -1279,7 +1279,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
                                                 (MobileObject*)m_pDialogueSpeaker, false);
                 pNew->FillResponseList();
                 ((InfoShell*)pTopic->GetTopicInfo())->MarkAsRefusal();
-                if (((InfoShell*)pTopic->GetTopicInfo())->FUN_00619b20() ||
+                if (((InfoShell*)pTopic->GetTopicInfo())->TESTopicInfo_IsSayOnce() ||
                     ((InfoShell*)pTopic->GetTopicInfo())->IsSayOnceADay())
                 {
                     if (((InfoShell*)pTopic->GetTopicInfo())->IsSayOnceADay() && m_pDialogueSpeaker->v63())
@@ -1336,7 +1336,7 @@ struct NamedForm83f3
     unsigned int FUN_0084e3a0();
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormId);
 void __cdecl FUN_0040fbe0(const char* pcFormat, ...);
 void __cdecl FUN_005b5e40(const char* pcFormat, ...);
 
@@ -1388,7 +1388,7 @@ void MenuTopic83f3::SaveTopic()
         SaveFormHeader83f3* pkHeader = g_TESSaveLoadGame->FUN_004fd3e0();
         if (pkHeader)
         {
-            TESForm* pkForm = FUN_004839c0(pkHeader->auiFormId);
+            TESForm* pkForm = TESForm_GetFormByNumericID(pkHeader->auiFormId);
             FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          pcEnd - pcStart, pkHeader->auiFormId, pkForm->GetName(), *(unsigned int*)pkHeader->aucFlags,
                          0x2ff, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\MenuTopic.cpp");

@@ -95,7 +95,7 @@ struct Pos
     float x, y, z, w;
     Pos();
     Vec* FUN_006815c0();
-    double FUN_00527a40(const Pos&);
+    double BGSWorldLocation_GetDistanceSquared(const Pos&);
 };
 struct RefType
 {
@@ -109,7 +109,7 @@ struct Entry
 };
 struct Weapon
 {
-    int FUN_00522c80();
+    int TESObjectWEAP_GetCombatWeaponType();
 };
 struct Stamp
 {
@@ -134,7 +134,7 @@ struct Form
     virtual int Type();
     bool IsField8One();
     void* FUN_0044edb0();
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
 };
 struct BasePart
 {
@@ -433,7 +433,7 @@ struct Process
 };
 struct Actor
 {
-    Pos FUN_00575650();
+    Pos TESObjectREFR_GetWorldLocation();
     Weapon* FUN_008a1710();
     Process* FUN_008d8520();
     float GetHealthFraction();
@@ -452,7 +452,7 @@ struct State
     bool FUN_0097fd40();
     bool FUN_009a02a0(Pos*, int, int);
     RefType* FUN_007058c0();
-    unsigned char FUN_00662a80();
+    unsigned char BSFaceGenNiNode_GetApplyRotToParent();
     float FUN_00644790();
     void* FUN_00407820();
     bool FUN_0097ee90();
@@ -509,10 +509,10 @@ void WorldStateManager::UpdateWorldState(Context* context)
     State* stateB = context->FUN_00586150();
     Actor* actor15 = context->GetFieldBC();
     Actor* target9 = context->FUN_004030b0();
-    Pos position6 = actor15->FUN_00575650();
+    Pos position6 = actor15->TESObjectREFR_GetWorldLocation();
     Pos targetPositions5;
     if (target9)
-        targetPositions5 = target9->FUN_00575650();
+        targetPositions5 = target9->TESObjectREFR_GetWorldLocation();
     Caster* local4 = context->FUN_004fb070();
     unsigned int q = 0;
     Form* bolt9 = context->FUN_004fd3c0();
@@ -548,7 +548,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
             }
         }
     }
-    if (target9 && targetPositions5.FUN_00527a40(position6) < DAT_0108cb08 && !stateB->FUN_0097fd40() &&
+    if (target9 && targetPositions5.BGSWorldLocation_GetDistanceSquared(position6) < DAT_0108cb08 && !stateB->FUN_0097fd40() &&
         stateB->FUN_009a02a0(&targetPositions5, 1, 0))
         q |= 2;
     q |= 128;
@@ -577,9 +577,9 @@ void WorldStateManager::UpdateWorldState(Context* context)
             break;
         }
     }
-    if (stateB->FUN_00662a80() == 2)
+    if (stateB->BSFaceGenNiNode_GetApplyRotToParent() == 2)
         q |= 4096;
-    if (localX && localX->Type() == 9 && !localX->IsField8One() && !localX->FUN_00666f00())
+    if (localX && localX->Type() == 9 && !localX->IsField8One() && !localX->BSTreeModel_IsInstance())
         q |= 1024;
     FUN_009aad00(1, q);
     FUN_009aad00(2, ~q);
@@ -597,7 +597,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
     else
         FUN_009aad00(3, 1);
     Weapon* weapon0 = actor15->FUN_008a1710();
-    int weapon4 = weapon0 ? weapon0->FUN_00522c80() : 6;
+    int weapon4 = weapon0 ? weapon0->TESObjectWEAP_GetCombatWeaponType() : 6;
     if (weapon0 && weapon0 != stateB->FUN_0097c150(weapon4))
         weapon4 = 7;
     FUN_009aad00(11, weapon4);

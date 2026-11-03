@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern const char* const g_011c7d74_arg1;
-const char* const* __cdecl FUN_00a31730();
+const char* const* __cdecl NiControllerSequence_GetRTTI();
 struct BaseH
 {
     virtual ~BaseH();
@@ -133,7 +133,7 @@ struct FUN_00a316a0_shell
 {
     void* __thiscall FUN_00a316a0();
 };
-void* __cdecl FUN_00a326c0();
+void* __cdecl NiControllerSequence_CreateObject();
 extern char DAT_01096584;
 extern void* _EmptyFS;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
@@ -416,7 +416,7 @@ struct ObjectView
 {
     int vtable;
     int refs;
-    bool FUN_00a5d2f0(StreamView&);
+    bool NiObject_RegisterStreamables(StreamView&);
 };
 struct ItemView
 {
@@ -462,7 +462,7 @@ struct SequenceView : ObjectView
     int unk68;
     RefView** notes;
     unsigned short noteCount;
-    bool FUN_00a30ea0(StreamView&);
+    bool NiControllerSequence_RegisterStreamables(StreamView&);
 };
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
@@ -734,7 +734,7 @@ struct Sequence
     float end;
     float total;
     void AppendCameraPathEntries(OutputArray*);
-    void FUN_00a34540(OutputArray* output);
+    void NiControllerSequence_GetViewerStrings(OutputArray* output);
 };
 static const float g_fSeqNegInfinity = -3.402823466e+38f;
 struct SeqA34f20;
@@ -895,7 +895,7 @@ struct SeqEqStand : SequenceA30970
     unsigned int unk54;
     unsigned int unk58;
     void* root5c;
-    unsigned char FUN_00a30fb0(SeqEqStand* other);
+    unsigned char NiControllerSequence_IsEqual(SeqEqStand* other);
 };
 extern const char str_01020fd4[];
 extern const char str_01020fc8[];
@@ -1393,7 +1393,7 @@ extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
     void __thiscall FUN_00a33570(void* obj, unsigned int param);
-    void* FUN_00a344f0(unsigned int param);
+    void* NiControllerSequence_CreateClone(unsigned int param);
 };
 extern const float DAT_010141cc;
 struct FUN_00a350d0_seq : SeqA34f20

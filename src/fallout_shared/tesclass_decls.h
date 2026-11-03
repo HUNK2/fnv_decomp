@@ -42,7 +42,7 @@ class TESAttributes : public BaseFormComponent
 {
   public:
     unsigned char attrs[7];
-    void FUN_00480130(unsigned char*);
+    void TESAttributes_Load(unsigned char*);
 };
 class BGSImpactData
 {

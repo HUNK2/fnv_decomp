@@ -39,11 +39,11 @@ struct Actor : TESObjectREFR
 };
 struct DarknessEffect : TESForm
 {
-    void FUN_0080c850(Actor*);
+    void DarknessEffect_Revert(Actor*);
 };
 void __cdecl FUN_00b55b00(int, float);
 // @fnv 0x0080c850
-void DarknessEffect::FUN_0080c850(Actor* apActor)
+void DarknessEffect::DarknessEffect_Revert(Actor* apActor)
 {
     TESForm::Revert((unsigned int)apActor);
     if (apActor->GetReferenceType())
@@ -114,11 +114,11 @@ struct FUN_0080c4c0_shell
     void* c;
     void* d;
 
-    ActiveEffect* FUN_0080c4c0();
+    ActiveEffect* DarknessEffect_Clone();
 };
 
 // @fnv 0x0080c4c0
-ActiveEffect* FUN_0080c4c0_shell::FUN_0080c4c0()
+ActiveEffect* FUN_0080c4c0_shell::DarknessEffect_Clone()
 {
     ActiveEffect* presult = new FUN_0080c730_shell(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28),
                                                    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08),
@@ -140,7 +140,7 @@ struct MagicTarget
 
 struct FUN_0080dd30_shell
 {
-    void FUN_0082c000(void);
+    void ValueModifierEffect_Start(void);
 };
 
 double _DAT_01012060;
@@ -284,7 +284,7 @@ struct FUN_0080c570_shell : public DarknessEffect
     void UpdateDarkness();
 };
 
-// Gets the target actor, calls FUN_0082c000, and if the actor has a value, computes a clamped darkness from its inner value and applies it via FUN_00b55b00.
+// Gets the target actor, calls ValueModifierEffect_Start, and if the actor has a value, computes a clamped darkness from its inner value and applies it via FUN_00b55b00.
 // @fnv 0x0080c570
 void FUN_0080c570_shell::UpdateDarkness()
 {
@@ -296,7 +296,7 @@ void FUN_0080c570_shell::UpdateDarkness()
             ? reinterpret_cast<MagicTarget*>(reinterpret_cast<BSThread*>(this)->GetThreadID())->GetOwnerActor()
             : 0;
 
-    reinterpret_cast<FUN_0080dd30_shell*>(this)->FUN_0082c000();
+    reinterpret_cast<FUN_0080dd30_shell*>(this)->ValueModifierEffect_Start();
 
     if (ptargetActor && reinterpret_cast<FUN_0080c570_ActorVirtuals*>(ptargetActor)->GetValue())
     {
@@ -634,7 +634,7 @@ struct P09H
 
 struct InvisibilityEffect
 {
-    void __thiscall FUN_0082cd10(Actor*);
+    void __thiscall ValueModifierEffect_FinishInitLoadGame(Actor*);
 };
 
 struct FUN_0080c7b0_helper
@@ -654,12 +654,12 @@ struct FUN_0080c7b0_helper
 
 struct FUN_0080c7b0_shell : public DarknessEffect
 {
-    void FUN_0080c7b0(Actor*);
+    void DarknessEffect_FinishInitLoadGame(Actor*);
 };
 
-void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
+void FUN_0080c7b0_shell::DarknessEffect_FinishInitLoadGame(Actor* apActor)
 {
-    reinterpret_cast<InvisibilityEffect*>(this)->FUN_0082cd10(apActor);
+    reinterpret_cast<InvisibilityEffect*>(this)->ValueModifierEffect_FinishInitLoadGame(apActor);
 
     float fnewDarkness = 1.0 - (reinterpret_cast<FUN_0080c7b0_helper*>(reinterpret_cast<char*>(apActor) + 0xa4))
                                        ->GetValue(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48)) /

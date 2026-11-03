@@ -25,7 +25,7 @@ struct BSTreeNode : NiNode
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -60,7 +60,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -79,7 +79,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 struct FUN_0066da50_t
 {
@@ -126,7 +126,7 @@ extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void __thiscall bhkTransform_setIdentity();
 };
 struct FUN_0066d550_shell
 {
@@ -952,7 +952,7 @@ struct S_0066d880_List
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
+    unsigned char BSTreeModel_IsInstance();
     int FUN_008d6f30();
 };
 struct S_0066d880_Holder
@@ -1018,7 +1018,7 @@ struct S_0066d880_Base
     int unkd8;
     int unkdc;
     int unke0;
-    void FUN_00a5ea70(S_0066d880_List* list);
+    void NiNode_GetViewerStrings(S_0066d880_List* list);
 };
 struct S_0066d880 : S_0066d880_Base
 {
@@ -1506,7 +1506,7 @@ struct Obj
     int unk04;
     Data8* unk08;
     void FUN_00c9fb70(Output*);
-    void FUN_00cab1b0(void*, void*);
+    void bhkCapsuleShape_BuildDisplayGeometry(void*, void*);
 };
 extern unsigned int DAT_0126fd98;
 extern float DAT_010c72bc;
@@ -1536,7 +1536,7 @@ struct TlsRestore
     }
 };
 // @fnv 0x00cab1b0
-void Obj::FUN_00cab1b0(void* a1, void* a2)
+void Obj::bhkCapsuleShape_BuildDisplayGeometry(void* a1, void* a2)
 {
     TlsRestore guard;
     Output out;
@@ -2132,9 +2132,9 @@ struct RecordCollection
     unsigned int unk04;
     StrNode* m_08;
 
-    void FUN_00ca05b0(NiStrArr* a);
+    void bhkSphereRepShape_GetViewerStrings(NiStrArr* a);
 
-    void FUN_00cb7d80(NiStrArr* a1);
+    void bhkMultiSphereShape_GetViewerStrings(NiStrArr* a1);
 };
 
 inline float getX(__m128 v)
@@ -2180,10 +2180,10 @@ inline Point scale(__m128 v, float k)
 char* __cdecl FUN_00a7d550(const char* buf, float f);
 
 // @fnv 0x00cb7d80
-void RecordCollection::FUN_00cb7d80(NiStrArr* a1)
+void RecordCollection::bhkMultiSphereShape_GetViewerStrings(NiStrArr* a1)
 {
     TlsGuard_t guard(0x10);
-    FUN_00ca05b0(a1);
+    bhkSphereRepShape_GetViewerStrings(a1);
     int n;
     {
         char* text = FUN_00a7d330(DAT_012683e0);

@@ -144,7 +144,7 @@ struct Obj
 };
 
 // @fnv 0x00a39700
-void* __cdecl FUN_00a39700()
+void* __cdecl NiBlendAccumTransformInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x58);
     if (p)
@@ -167,12 +167,12 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a39720_shell : public NiBlendAccumTransformInterpolator
 {
-    void FUN_00a39720(NiStream*);
+    void NiBlendAccumTransformInterpolator_SaveBinary(NiStream*);
 };
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream*);
+    void NiBlendInterpolator_SaveBinary(NiStream*);
 };
 struct FUN_00a38b60_tgt
 {
@@ -184,9 +184,9 @@ struct FUN_00a59a90_tgt
 };
 
 // @fnv 0x00a39720
-void FUN_00a39720_shell::FUN_00a39720(NiStream* kStream)
+void FUN_00a39720_shell::NiBlendAccumTransformInterpolator_SaveBinary(NiStream* kStream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(kStream);
+    ((FUN_00a37ec0_tgt*)this)->NiBlendInterpolator_SaveBinary(kStream);
     unsigned char uc;
     for (uc = 0; uc < *((unsigned char*)this + 0xd); uc++)
     {
@@ -206,12 +206,12 @@ struct NiMemObject
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a39780_shell : public NiBlendAccumTransformInterpolator
 {
-    bool FUN_00a39780(NiObject*);
+    bool NiBlendAccumTransformInterpolator_IsEqual(NiObject*);
 };
 
 struct STUB_6FD0
 {
-    bool FUN_00a36fd0(NiObject*);
+    bool NiBlendInterpolator_IsEqual(NiObject*);
 };
 struct STUB_91C0
 {
@@ -219,9 +219,9 @@ struct STUB_91C0
 };
 
 // @fnv 0x00a39780
-bool FUN_00a39780_shell::FUN_00a39780(NiObject* pkObject)
+bool FUN_00a39780_shell::NiBlendAccumTransformInterpolator_IsEqual(NiObject* pkObject)
 {
-    if (!((STUB_6FD0*)this)->FUN_00a36fd0(pkObject))
+    if (!((STUB_6FD0*)this)->NiBlendInterpolator_IsEqual(pkObject))
         return false;
     return ((STUB_91C0*)((char*)this + 0x30))->Equals((char*)pkObject + 0x30);
 }
@@ -454,7 +454,7 @@ struct Holder
 };
 // Allocates a FUN_00a39230, passes it with p to Holder::FUN_00a3a450, and returns the new object.
 // @fnv 0x00a3a660
-FUN_00a39230* __fastcall FUN_00a3a660(Holder* self, int unused, void* p)
+FUN_00a39230* __fastcall NiBlendAccumTransformInterpolator_CreateClone(Holder* self, int unused, void* p)
 {
     FUN_00a39230* o = new FUN_00a39230;
     self->FUN_00a3a450(o, p);
@@ -480,7 +480,7 @@ struct Sub
 };
 struct Base
 {
-    void FUN_00a38080(Arr*);
+    void NiBlendInterpolator_GetViewerStrings(Arr*);
 };
 struct Self : Base
 {
@@ -489,11 +489,11 @@ struct Self : Base
 };
 extern int g_011f371c;
 char* FUN_00a7d330(int);
-// Calls FUN_00a38080, appends the string from FUN_00a7d330(g_011f371c) to strs (growing if full), then calls sub.FUN_00a38cb0.
+// Calls NiBlendInterpolator_GetViewerStrings, appends the string from FUN_00a7d330(g_011f371c) to strs (growing if full), then calls sub.FUN_00a38cb0.
 // @fnv 0x00a3a6b0
-void __fastcall FUN_00a3a6b0(Self* self, int unused, Arr* strs)
+void __fastcall NiBlendAccumTransformInterpolator_GetViewerStrings(Self* self, int unused, Arr* strs)
 {
-    self->FUN_00a38080(strs);
+    self->NiBlendInterpolator_GetViewerStrings(strs);
     char* s = FUN_00a7d330(g_011f371c);
     unsigned int n = strs->m_usSize;
     if (n >= strs->m_usMaxSize)
@@ -644,12 +644,12 @@ __forceinline void InvalidateAccumulatedValue(AccumItem& item)
 struct AccumulationQuery : NiBlendAccumTransformInterpolator
 {
     unsigned char FUN_00a36970(NiInterpolator*, float, unsigned char, float);
-    unsigned char FUN_00a392b0(NiInterpolator*, float, unsigned char, float);
+    unsigned char NiBlendAccumTransformInterpolator_AddInterpInfo(NiInterpolator*, float, unsigned char, float);
 };
 
 // Invalidates the selected slot and, with two interpolators, may combine and invalidate the old slot.
 // @fnv 0x00a392b0
-unsigned char AccumulationQuery::FUN_00a392b0(NiInterpolator* interpolator, float weight, unsigned char priority,
+unsigned char AccumulationQuery::NiBlendAccumTransformInterpolator_AddInterpInfo(NiInterpolator* interpolator, float weight, unsigned char priority,
                                               float ease)
 {
     unsigned char oldIndex = m_ucSingleIdx;
@@ -679,7 +679,7 @@ struct QQuatOps
 {
     float w, x, y, z;
     QQuatOps FUN_00a2bcf0(const QQuatOps&) const;
-    void FUN_004f0180(MatrixAccum*);
+    void NiQuaternion_ToRotation(MatrixAccum*);
 };
 extern QQuatOps DAT_011a9ea4;
 extern NiPoint3 DAT_011f426c;
@@ -808,7 +808,7 @@ void AccumTarget::FUN_00a39f60(unsigned char index, float time, NiObjectNET* tar
             secondRotation = *source;
         }
         QQuatOps productRotation = firstRotation.FUN_00a2bcf0(secondRotation);
-        productRotation.FUN_004f0180(&state->rotation);
+        productRotation.NiQuaternion_ToRotation(&state->rotation);
     }
     if (time < state->time && !reset)
     {
@@ -841,7 +841,7 @@ void AccumTarget::FUN_00a39f60(unsigned char index, float time, NiObjectNET* tar
                 firstRotation = *source;
             }
             QQuatOps productRotation = secondRotation.FUN_00a2bcf0(firstRotation);
-            productRotation.FUN_004f0180(&state->rotation);
+            productRotation.NiQuaternion_ToRotation(&state->rotation);
         }
         first.InvertTransform(inverse);
         state->value = inverse.FUN_00a38a00(current);

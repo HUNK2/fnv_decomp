@@ -41,14 +41,14 @@ struct FormType
 {
     int iData;
     FormType();
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 
 struct HandleRef
 {
     int iData;
     HandleRef();
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct NiObject
@@ -282,7 +282,7 @@ struct PathMover
 
 struct LookTarget
 {
-    bool FUN_00450ff0();
+    bool TESObjectCELL_IsAttached();
 };
 
 struct CameraNode
@@ -320,11 +320,11 @@ struct AnimSequence
 
 struct AnimController
 {
-    bool FUN_00494710(int aiGroup);
+    bool Animation_GroupLoaded(int aiGroup);
     void FUN_004955c0(int aiA, int aiGroup, int aiB, float afC, int aiD);
     AnimSequence* FUN_00491040(int aiValue);
-    void FUN_00491180(void* apActor, float afA, float afB);
-    void FUN_00493900(void* apActor);
+    void Animation_Update(void* apActor, float afA, float afB);
+    void Animation_UpdateMovement(void* apActor);
 };
 
 struct ListNode;
@@ -422,7 +422,7 @@ struct GeomData
     virtual void vz024();
     virtual int FUN_vt94();
     ListNode* FUN_007d6bb0();
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
     void UpdateMatchingNodes(int aiValue);
     FormType FUN_0043b4f0();
     void FUN_00561580(int aiValue);
@@ -794,25 +794,25 @@ struct Actor
     int FUN_00931850();
     void UpdateFlag800State();
     bool PlaceAtPosition(NiPoint3* apPos);
-    PathMover* FUN_008b70d0();
+    PathMover* Actor_GetAnimData();
     LookTarget* FUN_008d6f30();
     bool FUN_0094df60();
     NiPoint3* FUN_00430830();
-    void FUN_00575830(const NiPoint3& arPos);
-    bool FUN_00493bb0();
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& arPos);
+    bool Actor_IsInCombat();
     void UpdateControllerFlag();
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     float FUN_008be940();
     NiPoint3* FUN_00436aa0();
     int FUN_0084e3a0();
     int FUN_008d8520();
-    NiNode* FUN_0043fcd0();
+    NiNode* TESObjectREFR_Get3D();
     BaseForm* FUN_007af430();
     HandleRef FUN_00931ed0();
     void FUN_008a1800(int aiValue);
     void TryMakeTargetThing();
     bool FUN_0087eeb0();
-    bool FUN_00437bd0();
+    bool Actor_IsUnConscious();
     void FUN_00886cb0(float afDelta, int aiUnused);
 };
 
@@ -838,13 +838,13 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             iTargetFlags = pHolder->FUN_vt20();
             if (!pHolder->FUN_vt24(&kTarget))
             {
-                PathMover* pMover = FUN_008b70d0();
+                PathMover* pMover = Actor_GetAnimData();
                 if (pMover)
                     pMover->GetMovement(&kTarget, this, 0, 1);
             }
         }
         LookTarget* pLook = FUN_008d6f30();
-        if (pLook && pLook->FUN_00450ff0() && !DAT_011dea3c->FUN_0094df60())
+        if (pLook && pLook->TESObjectCELL_IsAttached() && !DAT_011dea3c->FUN_0094df60())
         {
             FUN_vt250(fTimeSinceScaleStart, &kTarget, iTargetFlags);
         }
@@ -852,10 +852,10 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
         {
             ThreeByThreeMatrix kRotate;
             kRotate.FUN_004a0c90(FUN_00430830()->z);
-            FUN_00575830(FUN_vt1f4()->FUN_00439e90(kRotate.FUN_004b4500(kTarget)));
+            TESObjectREFR_SetLocationOnReference(FUN_vt1f4()->FUN_00439e90(kRotate.FUN_004b4500(kTarget)));
         }
     }
-    if (FUN_00493bb0())
+    if (Actor_IsInCombat())
         UpdateControllerFlag();
     CombatController* pCombat = pProcess ? pProcess->FUN_vt28c() : 0;
     if (this != DAT_011dea3c)
@@ -864,7 +864,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
         if (this != DAT_011dea3c && p3D)
         {
             NiPoint3 kCameraPos;
-            if (DAT_011dea3c->FUN_004eaf60() && DAT_011e07d4)
+            if (DAT_011dea3c->PlayerCharacter_Is3rdPerson() && DAT_011e07d4)
                 kCameraPos = *DAT_011e07d4->FUN_0045bb80();
             else if (DAT_011e07d0)
                 kCameraPos = *DAT_011e07d0->FUN_0045bb80();
@@ -895,7 +895,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
         pCombat->FUN_00810610(FUN_00525420());
     if (bResetPose && FUN_008d8520())
     {
-        NiNode* pRoot = FUN_0043fcd0();
+        NiNode* pRoot = TESObjectREFR_Get3D();
         if (pRoot)
         {
             bool bUpright = true;
@@ -907,7 +907,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             if (pHavok && pHavok->FUN_00552490())
                 pHavok->FUN_00c7c150(1);
             if (pRagdoll)
-                pRagdoll->FUN_00ca2ad0(pRoot, FUN_00931ed0().FUN_004a3a20());
+                pRagdoll->FUN_00ca2ad0(pRoot, FUN_00931ed0().CFilter_GetGroup());
             FUN_008a1800(1);
             FUN_vt2a0();
             if (bUpright)
@@ -923,15 +923,15 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             else
             {
                 AnimController* pAnim = FUN_vt1e4();
-                if (pAnim && pAnim->FUN_00494710(0xe0))
+                if (pAnim && pAnim->Animation_GroupLoaded(0xe0))
                 {
                     pAnim->FUN_004955c0(0x14, 0xe0, -1, 0.0f, -1);
                     AnimSequence* pSequence = pAnim->FUN_00491040(1);
                     if (pSequence)
                     {
                         pSequence->FUN_0098adb0(pSequence->FUN_00508100());
-                        pAnim->FUN_00491180(this, 0.0f, pSequence->FUN_00508100());
-                        pAnim->FUN_00493900(this);
+                        pAnim->Animation_Update(this, 0.0f, pSequence->FUN_00508100());
+                        pAnim->Animation_UpdateMovement(this);
                     }
                     TryMakeTargetThing();
                 }
@@ -939,7 +939,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             bResetPose = false;
         }
     }
-    if (FUN_0087eeb0() && !FUN_vt22c(0) && !FUN_00437bd0())
+    if (FUN_0087eeb0() && !FUN_vt22c(0) && !Actor_IsUnConscious())
     {
         NiNode* pFaceRoot = FUN_vt1d0();
         NiAVObject* pObject = FUN_004ade00(pFaceRoot, FUN_0087e9a0());
@@ -952,7 +952,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             {
                 GeomData* pData = m_pShaderGeometry->FUN_006fa820();
                 ListNode* pIter = pData->FUN_007d6bb0();
-                int iSkin = pData->FUN_00517630();
+                int iSkin = pData->bhkRigidBody_GetMotionType();
                 if (!FUN_00c8cce0(&iSkin))
                 {
                     FUN_00c6a350(pObject, 1, 1, 1, 1);
@@ -961,7 +961,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     bChanged = true;
                 }
                 FormType kType = pData->FUN_0043b4f0();
-                if (kType.FUN_0043b4d0() == 0x1d)
+                if (kType.CFilter_GetLayer() == 0x1d)
                     FUN_00c804d0(pFaceRoot, 8);
                 pData->FUN_00561580(1);
                 while (pIter && pIter->FUN_006815c0()->FUN_00559450())
@@ -993,7 +993,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             {
                 GeomData* pData = m_pShaderGeometry->FUN_006fa820();
                 ListNode* pIter = pData->FUN_007d6bb0();
-                int iSkin = pData->FUN_00517630();
+                int iSkin = pData->bhkRigidBody_GetMotionType();
                 if (!FUN_00c8cce0(&iSkin))
                 {
                     FUN_00c6a350(pObject, 1, 1, 1, 1);
@@ -1002,7 +1002,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     bChanged = true;
                 }
                 FormType kType = pData->FUN_0043b4f0();
-                if (kType.FUN_0043b4d0() == 0x1d)
+                if (kType.CFilter_GetLayer() == 0x1d)
                     FUN_00c804d0(pFaceRoot, 8);
                 pData->FUN_00561580(1);
                 while (pIter && pIter->FUN_006815c0()->FUN_00559450())
@@ -1068,10 +1068,10 @@ struct P164Item
 };
 struct P164Inventory
 {
-    P164Item* FUN_004c8c10(unsigned int, int);
+    P164Item* InventoryChanges_GetWornItem(unsigned int, int);
 };
 P164Inventory* __cdecl FUN_004bf220(TESObjectREFR*);
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct P164Modifier
 {
     void LoadModifiers(P164Buffer*);
@@ -1096,17 +1096,17 @@ struct P164Biped
 };
 struct P164State
 {
-    int FUN_004f8960();
+    int Actor_GetLifeState();
 };
 struct P164Actor : Actor
 {
-    void FUN_008ab3a0(P164Buffer*);
-    void FUN_00932a00(P164Buffer*);
+    void Actor_LoadGame(P164Buffer*);
+    void MobileObject_LoadGame(P164Buffer*);
     void FUN_00884f80();
     void FUN_008c1ac0(bool);
     void SetFlag40000000(bool);
     bool FUN_00566950();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 struct P164ActorVirtual
 {
@@ -1553,10 +1553,10 @@ struct P164Process
     virtual void Update(bool);
 };
 // @fnv 0x008ab3a0
-void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
+void P164Actor::Actor_LoadGame(P164Buffer* buffer)
 {
-    int oldState = ((P164State*)this)->FUN_004f8960();
-    FUN_00932a00(buffer);
+    int oldState = ((P164State*)this)->Actor_GetLifeState();
+    MobileObject_LoadGame(buffer);
     m_eLifeState = (ACTOR_LIFE_STATE)oldState;
     FUN_00884f80();
     buffer->FUN_00864980(&ActorConditionAndAnimationState, 4);
@@ -1599,7 +1599,7 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
     if (buffer->GetVersion() >= 13)
         buffer->FUN_00864980(&m_uiValueBeforeBooleanFields, 4);
     buffer->FUN_008648e0(&m_pActorReference);
-    m_pActorBase = dynamic_cast<TESActorBase*>(FUN_004839c0(buffer->FUN_008648a0()));
+    m_pActorBase = dynamic_cast<TESActorBase*>(TESForm_GetFormByNumericID(buffer->FUN_008648a0()));
     buffer->FUN_008648e0(&m_pMobileObject);
     if (buffer->FUN_00428110().FUN_004280f0(0x400))
     {
@@ -1634,7 +1634,7 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
             for (unsigned int slot = 0; slot < slotCount; ++slot)
             {
                 TESForm* current = inventory->FUN_0088e0f0(slot);
-                P164Item* item = biped->FUN_004c8c10(slot, 0);
+                P164Item* item = biped->InventoryChanges_GetWornItem(slot, 0);
                 TESForm* equipped = item ? item->FUN_0044ddc0() : 0;
                 if (current)
                 {
@@ -1652,9 +1652,9 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
             }
         }
         else if (biped && ((P164ActorVirtual*)this)->IsCharacter() && FUN_00566950() &&
-                 strstr(FUN_0055d520(), DAT_0102fdc8))
+                 strstr(TESObjectREFR_GetFullName(), DAT_0102fdc8))
         {
-            P164Item* weapon = biped->FUN_004c8c10(5, 0);
+            P164Item* weapon = biped->InventoryChanges_GetWornItem(5, 0);
             TESForm* weaponForm = weapon ? weapon->FUN_0044ddc0() : 0;
             if (((P164Process*)m_pBaseProcess)->GetLoadedForm() &&
                 ((P164Process*)m_pBaseProcess)->GetLoadedForm()->FUN_0044ddc0() != weaponForm)

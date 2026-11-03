@@ -698,11 +698,11 @@ extern "C" float __cdecl FUN_00404010(float, float);
 
 struct FUN_009eb070_shell : VirtualActorPathHandler
 {
-    float FUN_009eb070();
+    float VirtualActorPathHandler_GetDistanceRemaining();
 };
 
 // @fnv 0x009eb070
-float FUN_009eb070_shell::FUN_009eb070()
+float FUN_009eb070_shell::VirtualActorPathHandler_GetDistanceRemaining()
 {
     float flength = ((float*)this)[7] - ((float*)this)[6];
     flength = FUN_00404010(flength, 0.0f);
@@ -789,10 +789,10 @@ struct FUN_009eb0b0_shell
     float m_fPathValue16;
     float m_fPathValue2;
     Flt mFlt;
-    float FUN_009eb0b0();
+    float VirtualActorPathHandler_GetPercentTraveled();
 };
 // @fnv 0x009eb0b0
-float FUN_009eb0b0_shell::FUN_009eb0b0()
+float FUN_009eb0b0_shell::VirtualActorPathHandler_GetPercentTraveled()
 {
     if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xc)->operator unsigned int())
         return 0.0f;
@@ -1341,10 +1341,10 @@ bool FUN_009eb230_class::GetPointAtIndex(unsigned int index, NiPoint3* out)
 bool __cdecl FUN_008c7aa0();
 struct DoorReference : TESObjectREFR
 {
-    void FUN_00575830(const NiPoint3&);
-    bool FUN_00573170(Actor*, bool, TESBoundObject*, int);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3&);
+    bool TESObjectREFR_Activate(Actor*, bool, TESBoundObject*, int);
     int FUN_00474cb0();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     int GetCellLoadState();
 };
 struct DoorPathNode
@@ -1379,12 +1379,12 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
     }
     else
     {
-        ((DoorReference*)pActor)->FUN_00575830(position);
+        ((DoorReference*)pActor)->TESObjectREFR_SetLocationOnReference(position);
     }
     DoorReference* pPathNodeDoor =
         ((DoorPathNode*)((PathingSolution*)pCurrentPathingSolution)->FUN_006e78b0(m_uiPathPointIndex))->FUN_0055b980();
     ++m_uiPathPointIndex;
-    if (pPathNodeDoor && !pPathNodeDoor->FUN_00573170(pActor, false, 0, 1))
+    if (pPathNodeDoor && !pPathNodeDoor->TESObjectREFR_Activate(pActor, false, 0, 1))
         return -1;
     if ((PathingSolution*)pCurrentPathingSolution &&
         m_uiPathPointIndex < ((PathingSolution*)pCurrentPathingSolution)->FUN_005a4320())
@@ -1403,7 +1403,7 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
                 Warning(
                     "PATHFINDING: Actor %s used teleport door %s in cell %s and was not moved to the expected pathing location, check teleport marker",
                     ((DoorReference*)pActor)->FUN_00474cb0() ? pActor->GetName()
-                                                             : ((DoorReference*)pActor)->FUN_0055d520(),
+                                                             : ((DoorReference*)pActor)->TESObjectREFR_GetFullName(),
                     pPathNodeDoor->GetName(),
                     pPathNodeDoor->GetParentCell() ? (((CellNameView*)pPathNodeDoor->GetParentCell())->FUN_00474cb0()
                                                   ? ((CellNameView*)pPathNodeDoor->GetParentCell())->fullName.GetFullName()

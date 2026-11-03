@@ -6,10 +6,10 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_011f3f68;
-void* __cdecl FUN_00a3dab0();
+void* __cdecl NiPosData_GetRTTI();
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* __thiscall NiPathInterpolator_GetKeyCount(short idx);
 };
 struct FUN_00a3db10_shell
 {
@@ -24,7 +24,7 @@ struct FUN_00a3db70_shell
     char __thiscall FUN_00a3db70(unsigned short arg);
 };
 extern "C" void* g_011f3e48;
-void* __cdecl FUN_00a3dde0();
+void* __cdecl NiPathInterpolator_GetRTTI();
 struct FloatDataHelper
 {
     void __thiscall FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance);
@@ -65,7 +65,7 @@ struct StrArr
 };
 struct FUN_00a3cbf0_shell
 {
-    void __thiscall FUN_00a3cbf0(StrArr*);
+    void __thiscall NiKeyBasedInterpolator_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 extern const char* _g_011f3e48;
@@ -121,7 +121,7 @@ struct FUN_00a3dc80_shell
     char _pad[0x18];
     PathPtr m_pPathObject;
     PctPtr m_pPathInterp;
-    void __thiscall FUN_00a3dc80(CloningProcess&);
+    void __thiscall NiPathInterpolator_ProcessClone(CloningProcess&);
 };
 struct HC1Base
 {
@@ -157,7 +157,7 @@ struct FUN_00a3dcc0_cls
     char _pad[0x18];
     FUN_00a3dcc0_Reg* m_path;
     FUN_00a3dcc0_Reg* m_pct;
-    bool __thiscall FUN_00a3dcc0(void*);
+    bool __thiscall NiPathInterpolator_RegisterStreamables(void*);
 };
 struct A51BF0Base
 {

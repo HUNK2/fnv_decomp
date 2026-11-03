@@ -137,10 +137,10 @@ class TESWorldSpace;
 class TESObjectCELL
 {
   public:
-    bool FUN_005434d0(struct FormGroupQuery* group);
+    bool TESObjectCELL_SavesBefore(struct FormGroupQuery* group);
     bool IsFormTypeBelowThreshold(struct FormGroupQuery* group);
-    unsigned int FUN_005441b0();
-    unsigned int FUN_00544210();
+    unsigned int TESObjectCELL_GetGroupBlockKey();
+    unsigned int TESObjectCELL_GetGroupSubBlockKey();
     bool FUN_005516c0();  // declared for the original code (decl_variants.py)
   public:
     virtual ~TESObjectCELL();
@@ -196,7 +196,7 @@ class TESObjectCELL
     void SetLightingTemplate(void* value);
     int GetCellStandValue();
     InteriorCellData* GetInteriorData();
-    bool FUN_00558b80(int mask);
+    bool TESObjectCELL_GetLightingTemplateInheritanceFlag(int mask);
     CellLightingTemplate* GetLightingTemplate();
     float GetInteriorLightValue();
     BSSimpleList<BGSPerkEntry*>* FUN_009604f0();
@@ -204,7 +204,7 @@ class TESObjectCELL
     void ClearCellReferenceList();
     NiAVObject* GetCellChildAt(int index);
     NiAVObject* GetDynamicNode();
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
     BGSEncounterZone* FindEncounterZone() const;
 };
 

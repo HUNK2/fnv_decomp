@@ -40,7 +40,7 @@ struct Actor
 };
 struct FUN_00498910_shell
 {
-    void FUN_00498910(bool, bool);
+    void Animation_SpecialIdleFree(bool, bool);
 };
 struct Node
 {

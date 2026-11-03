@@ -15,7 +15,7 @@ class NiObject
 class NiAVObject : public NiObject
 {
 };
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 class GarbageCollectorObjectPtr
 {
   public:
@@ -45,7 +45,7 @@ class NiShader
     }
 };
 // @fnv 0x0043b300
-bool FUN_0043b300(const NiRTTI* type, NiAVObject* object)
+bool NiObject_IsKindOf(const NiRTTI* type, NiAVObject* object)
 {
     if (!object)
         return false;

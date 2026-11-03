@@ -744,7 +744,7 @@ struct V3
     {
         return x * x + y * y + z * z;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 inline V3 operator*(float f, const V3& v)
 {
@@ -807,7 +807,7 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
                         if (fDistSq > 1.1920928955078125e-7f)
                         {
                             normal0 = vCenterDiff;
-                            normal0.FUN_004a0c10();
+                            normal0.NiPoint3_Unitize();
                         }
                         else
                             normal0 = DAT_011a946c;
@@ -831,7 +831,7 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
                 if (flag)
                 {
                     normal0 = a;
-                    normal0.FUN_004a0c10();
+                    normal0.NiPoint3_Unitize();
                     V3 n;
                     n = V3(-normal0.x, -normal0.y, -normal0.z);
                     normal1 = n;
@@ -851,14 +851,14 @@ bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sph
     if (fDistBSq > dotBB)
     {
         normal0 = C.c - A.c;
-        normal0.FUN_004a0c10();
+        normal0.NiPoint3_Unitize();
         float radius = A.r;
         local_point = A.c + radius * normal0;
         normal1 = -normal0;
         return true;
     }
     normal1 = A.c - C.c;
-    normal1.FUN_004a0c10();
+    normal1.NiPoint3_Unitize();
     local_point = C.c + C.r * normal1;
     normal0 = -normal1;
     return true;
@@ -933,7 +933,7 @@ struct Pt3
     {
         return Pt3(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float DotProduct(Pt3 const&) const;
 };
 struct Sphere : BoundVolLite
@@ -1030,7 +1030,7 @@ bool __cdecl SphereTriangleCollision(float time, Sphere const& sphere, Pt3 const
         float extentSquared = query.k.radiusSquared * normalSquared;
         if (difference * difference > extentSquared)
         {
-            normal.FUN_004a0c10();
+            normal.NiPoint3_Unitize();
             Pt3 vSupport;
             if (centerProjection > planeProjection)
             {

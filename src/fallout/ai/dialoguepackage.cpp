@@ -132,11 +132,11 @@ FUN_0083b830::FUN_0083b830()
 struct DialoguePackage : TESForm
 {
     void CopyFromPackage(TESForm*);
-    void FUN_009ee060(TESForm* apCopy);
+    void DialoguePackage_CopyFrom(TESForm* apCopy);
 };
 // Calls CopyFromPackage on apCopy, then dynamic_casts apCopy to DialoguePackage and stores the result in pcopy.
 // @fnv 0x009ee060
-void DialoguePackage::FUN_009ee060(TESForm* apCopy)
+void DialoguePackage::DialoguePackage_CopyFrom(TESForm* apCopy)
 {
     CopyFromPackage(apCopy);
     DialoguePackage* pSourcePackage = dynamic_cast<DialoguePackage*>(apCopy);
@@ -173,7 +173,7 @@ struct DialogueResponse;
 
 struct FUN_006797c0_shell
 {
-    void FUN_006797c0(void* buf);
+    void TESPackage_AppendSaveLoadFormBuffer(void* buf);
 };
 
 struct BGSSaveFormBuffer
@@ -203,7 +203,7 @@ void DialoguePackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     bool bhasConversation;
 
-    ((FUN_006797c0_shell*)this)->FUN_006797c0(apSaveGameBuffer);
+    ((FUN_006797c0_shell*)this)->TESPackage_AppendSaveLoadFormBuffer(apSaveGameBuffer);
     apSaveGameBuffer->SerializeFormData((*(MobileObject**)((char*)this + 0x94)), 0);
     apSaveGameBuffer->SerializeFormData((*(MobileObject**)((char*)this + 0xb0)), 0);
     apSaveGameBuffer->SerializeFormData((*(MobileObject**)((char*)this + 0xb4)), 0);
@@ -381,14 +381,14 @@ struct DialoguePackage : public FUN_00679a90_shell
     MobileObject* pTargetActor;
     MobileObject* m_pLinkedReference;
 
-    void FUN_009f0740(BGSLoadFormBuffer*);
+    void DialoguePackage_InitLoadGame(BGSLoadFormBuffer*);
 };
 
 TESForm* _GetFormByNumericID(unsigned int);
 
 // Calls the base loader, resolves the stored form IDs to MobileObject/TESObjectREFR pointers, then loads the Conversation if present.
 // @fnv 0x009f0740
-void DialoguePackage::FUN_009f0740(BGSLoadFormBuffer* apLoadGameBuffer)
+void DialoguePackage::DialoguePackage_InitLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     DispatchToSubobjects(apLoadGameBuffer);
 
@@ -1515,7 +1515,7 @@ struct This
     int fac;
     int fb0;
     int fb4;
-    void __thiscall FUN_00679340();
+    void __thiscall TESPackage_InitLoadGameTES();
     void __thiscall FUN_00484d00(void* a, unsigned int b);
     void __thiscall FUN_00484d40(unsigned int* a, int b);
     void __thiscall LoadSaveData();
@@ -1523,7 +1523,7 @@ struct This
 // @fnv 0x009efa50
 void This::LoadSaveData()
 {
-    FUN_00679340();
+    TESPackage_InitLoadGameTES();
     {
         unsigned short w18 = 0;
         int flag = 0;
@@ -1654,7 +1654,7 @@ void This::LoadSaveData()
 }
 
 namespace fnv_009eff60 {
-TESForm* FUN_004839c0(unsigned int formID);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* object);
 
@@ -1744,12 +1744,12 @@ void DialoguePackageState::ResolveReferences()
     FUN_006796c0();
     // Serialized actor IDs are resolved in target, speaker, listener order.
     unsigned int listenerID = (unsigned int)target;
-    target = dynamic_cast<Actor*>(FUN_004839c0(listenerID));
+    target = dynamic_cast<Actor*>(TESForm_GetFormByNumericID(listenerID));
     unsigned int targetID;
     unsigned int speakerID = (unsigned int)speaker;
-    speaker = dynamic_cast<Actor*>(FUN_004839c0(speakerID));
+    speaker = dynamic_cast<Actor*>(TESForm_GetFormByNumericID(speakerID));
     targetID = (unsigned int)listener;
-    listener = dynamic_cast<Actor*>(FUN_004839c0(targetID));
+    listener = dynamic_cast<Actor*>(TESForm_GetFormByNumericID(targetID));
 
     if (g_TESSaveLoadGame->FUN_008df040() >= 32 && conversation)
         conversation->FUN_0083c220();
@@ -1812,7 +1812,7 @@ class Conversation_Stub
     void SaveConversation();
     short FUN_0083ba50(DialogueItem*);
 };
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 void FUN_0040fbe0(const char*, ...);
 void FNV_Warning(const char*, ...);
 class DialoguePackage
@@ -1929,7 +1929,7 @@ void DialoguePackage::FUN_009ef6e0()
         DialogueSaveRecord* record = ((DialogueSaveGameWriter*)g_TESSaveLoadGame)->FUN_004fd3e0();
         if (record)
         {
-            TESForm* form = FUN_004839c0(record->formID);
+            TESForm* form = TESForm_GetFormByNumericID(record->formID);
             FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", end - saved7,
                          record->formID, form->GetName(), (unsigned int&)record->flags, 0x231,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\DialoguePackage.cpp");
@@ -1960,7 +1960,7 @@ struct BGSLoadFormBuffer
     unsigned FUN_008648a0();
     void FUN_00864980(void* p, unsigned n);
 };
-TESForm* __cdecl FUN_004839c0(unsigned id);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned id);
 struct List0083b830SV
 {
     int a, b, c;
@@ -2031,11 +2031,11 @@ struct FUN_009f0460_class : TESPackage
     int mc4;
     int mc8;
     char mcc;
-    void FUN_009f0460(BGSLoadFormBuffer* buf);
+    void DialoguePackage_LoadGame(BGSLoadFormBuffer* buf);
 };
 // Loads the base package, reads fields from the buffer, and conditionally loads a list with two indexed selections.
 // @fnv 0x009f0460
-void FUN_009f0460_class::FUN_009f0460(BGSLoadFormBuffer* apSaveBuffer)
+void FUN_009f0460_class::DialoguePackage_LoadGame(BGSLoadFormBuffer* apSaveBuffer)
 {
     TESPackage::LoadGame(apSaveBuffer);
     apSaveBuffer->FUN_008648e0(&m94);
@@ -2043,7 +2043,7 @@ void FUN_009f0460_class::FUN_009f0460(BGSLoadFormBuffer* apSaveBuffer)
     apSaveBuffer->FUN_008648e0(&mb4);
     apSaveBuffer->FUN_008648e0(&mb8);
     apSaveBuffer->FUN_008648e0(&m9c);
-    m8c = dynamic_cast<TESTopic*>(FUN_004839c0(apSaveBuffer->FUN_008648a0()));
+    m8c = dynamic_cast<TESTopic*>(TESForm_GetFormByNumericID(apSaveBuffer->FUN_008648a0()));
     apSaveBuffer->FUN_00864980(&m90, 4);
     apSaveBuffer->FUN_00864980(&m98, 1);
     apSaveBuffer->FUN_00864980(&mbc, 1);

@@ -2229,7 +2229,7 @@ class SpawnedObject
     virtual int vDel(int flags);
 };
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeap_Free(void* p);
 
 // @fnv 0x00682740
 void __cdecl ReleaseSpawnedObject(SpawnedObject* apObject)
@@ -2247,7 +2247,7 @@ void __cdecl ReleaseSpawnedObject(SpawnedObject* apObject)
         }
         else
         {
-            FUN_00401030((char*)kObj - 4);
+            FormHeap_Free((char*)kObj - 4);
             iResult = 0;
         }
         iResult2 = iResult;
@@ -2414,7 +2414,7 @@ struct NiMatrix3_0068aa50
 };
 struct NavMeshChain_0068aa50
 {
-    NavMeshChain_0068aa50* FUN_00461130();
+    NavMeshChain_0068aa50* NiAVObject_GetWorldRotate();
     void FUN_004b45b0();
 };
 struct NavMeshNode_0068aa50
@@ -2452,7 +2452,7 @@ void FUN_0068aa50_shell::FUN_0068aa50(void* searchArg)
             if (node)
             {
                 NiMatrix3_0068aa50 a;
-                node->FUN_009611e0(&a)->FUN_00461130()->FUN_004b45b0();
+                node->FUN_009611e0(&a)->NiAVObject_GetWorldRotate()->FUN_004b45b0();
                 NiMatrix3_0068aa50 b;
                 b.FUN_006815c0();
                 b.FUN_0043f850(DAT_0102b3c8);
@@ -2758,7 +2758,7 @@ FUN_0069b6d0_cls::~FUN_0069b6d0_cls()
     FUN_00438af0();
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 
 struct Obj_b9971
 {
@@ -2769,7 +2769,7 @@ struct Obj_b9971
     Obj_b9971();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     static void operator delete(void*, unsigned int);
 };
@@ -2911,7 +2911,7 @@ struct S_0069d9a0_cls
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (S_0069d9a0_cls::*callback)());
 
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeap_Free(void* apMemory);
 
 // @fnv 0x0069d9a0
 void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
@@ -2922,7 +2922,7 @@ void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
 
         if (flags & 1)
         {
-            FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            FormHeap_Free(reinterpret_cast<char*>(this) - 4);
         }
 
         return reinterpret_cast<char*>(this) - 4;
@@ -2932,7 +2932,7 @@ void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00401030(this);
+        FormHeap_Free(this);
     }
 
     return this;
@@ -2981,7 +2981,7 @@ struct P03MM
 {
     P03MMHeap* FUN_00aa42e0();
 };
-P03MM* FUN_00401020();
+P03MM* MemoryManager_Instance();
 void* FUN_00aa1070(unsigned int);
 struct B006815c0
 {
@@ -3071,7 +3071,7 @@ struct ResizeMesh
 // @fnv 0x0068e760
 void ResizeMesh::ResizeMeshBuffers()
 {
-    P03MMHeap* heap = FUN_00401020()->FUN_00aa42e0();
+    P03MMHeap* heap = MemoryManager_Instance()->FUN_00aa42e0();
     positions = new B006815c0[vertexCount];
     __memcpy(positions, oldPositions, vertexCount * sizeof(B006815c0));
     heap->FUN_00aa5610(oldPositions);
@@ -3598,7 +3598,7 @@ extern int DAT_011f426c;
 
 void* operator new(unsigned int n);
 void* __cdecl FUN_00aa13e0(unsigned int n);
-void* __cdecl FUN_00401000(unsigned int n);
+void* __cdecl FormHeap_Allocate(unsigned int n);
 void* __stdcall GetPathManager(void* p, int a);
 void* __cdecl FUN_00c56680(float f, int a, int b, void* p);
 void __cdecl AttachLightingPropertyRecursive(void* p);
@@ -3825,7 +3825,7 @@ struct ResObj
     virtual void vf54();
     virtual void vtarget(void* p, int a);
     void FUN_00440460(void* p);
-    void FUN_00439410(void* p);
+    void NiAVObject_AttachProperty(void* p);
     void FUN_00a5a040();
     void FUN_00a59c60(void* p);
 };
@@ -6084,7 +6084,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
                             (char*)*(((ArrObj*)m_2068.FUN_00558dd0(i))->FUN_00877a30(j)) + 4);
                         auxPtr = (AuxObj*)new ObjY();
                         auxPtr->FUN_0049ed90(1);
-                        objB2.FUN_00559450()->FUN_00439410(auxPtr);
+                        objB2.FUN_00559450()->NiAVObject_AttachProperty(auxPtr);
                         AttachLightingPropertyRecursive(objB2.FUN_00559450());
                         FUN_00b57e30(objB2.FUN_00559450(), 0, 0);
                         objB2.FUN_00559450()->FUN_00a5a040();
@@ -6268,7 +6268,7 @@ class TESObjectREFR
     TESForm* FUN_007af430();
 };
 
-Script* __cdecl FUN_004826d0(TESForm* formID);
+Script* __cdecl TESScriptableForm_GetFormScript(TESForm* formID);
 
 // @fnv 0x006823d0
 Script* FUN_006823d0(unsigned int index, FunctionData const* data)
@@ -6295,7 +6295,7 @@ Script* FUN_006823d0(unsigned int index, FunctionData const* data)
                 if (object)
                 {
                     formID = object->FUN_007af430();
-                    result = FUN_004826d0(formID);
+                    result = TESScriptableForm_GetFormScript(formID);
                 }
             }
         }

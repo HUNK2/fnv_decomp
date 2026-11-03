@@ -12,9 +12,9 @@ NiPoint3 NavMesh::GetNavMeshData(unsigned short m_usTriangleID)
         NavMeshTriangle* pTriangle;
     } calculation;
     calculation.pTriangle = GetTriangle(m_usTriangleID);
-    calculation.Center = FUN_0068f0a0(calculation.pTriangle->FUN_005582d0(0));
-    calculation.Center += FUN_0068f0a0(calculation.pTriangle->FUN_005582d0(1));
-    calculation.Center += FUN_0068f0a0(calculation.pTriangle->FUN_005582d0(2));
+    calculation.Center = FUN_0068f0a0(calculation.pTriangle->NavMeshTriangle_GetVert(0));
+    calculation.Center += FUN_0068f0a0(calculation.pTriangle->NavMeshTriangle_GetVert(1));
+    calculation.Center += FUN_0068f0a0(calculation.pTriangle->NavMeshTriangle_GetVert(2));
     calculation.Center *= DAT_0102f200;
     return calculation.Center;
 }

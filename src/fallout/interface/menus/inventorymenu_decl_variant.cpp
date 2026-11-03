@@ -1,6 +1,6 @@
 
 // src/fallout/interface/menus/inventorymenu_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00782190: the skeleton of src/fallout/interface/menus/inventorymenu.cpp
-// with declarations corrected to what the original code does (inventorymenu_decls.h: InventoryMenu += bool FUN_00782190(int input, int unused);; inventorymenu_decls.h: Tile += float FUN_00a011b0(unsigned int id);). Move the function to its real unit once
+// with declarations corrected to what the original code does (inventorymenu_decls.h: InventoryMenu += bool InventoryMenu_HandleSpecialKeyInput(int input, int unused);; inventorymenu_decls.h: Tile += float FUN_00a011b0(unsigned int id);). Move the function to its real unit once
 // that unit declares it this way.
 
 #include "inventorymenu_decls_decl_inventorymenu.h"
@@ -57,7 +57,7 @@ struct FUN_00781b10_shell
 };
 struct FUN_00781620_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781620(int aiID, Tile* apTarget);
+    void __thiscall InventoryMenu_DoLeave(int aiID, Tile* apTarget);
 };
 struct ProxyPipboy
 {
@@ -82,7 +82,7 @@ struct FUN_00726070_shell
 void __cdecl FUN_007800c0();
 struct FUN_004bddd0_t
 {
-    bool __thiscall FUN_004bddd0(bool);
+    bool __thiscall ItemChange_GetWorn(bool);
 };
 struct FUN_00781860_shell
 {
@@ -110,7 +110,7 @@ struct FUN_007823d0_shell : public InventoryMenu
 };
 struct XExtra
 {
-    short __thiscall FUN_00418770();
+    short __thiscall ExtraDataList_GetCount();
 };
 struct ExtraDataList : XExtra
 {
@@ -558,7 +558,7 @@ struct Form
 struct Item
 {
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(int);
+    float ItemChange_GetItemHealth(int);
     const char* GetIconFilename(int);
 };
 struct Player
@@ -578,7 +578,7 @@ struct Interface
 {
     Camera* FUN_00704370();
 };
-Interface* FUN_004b7210();
+Interface* InterfaceManager_Instance();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -673,7 +673,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)list.Value(0xfac)->FUN_00a011b0();
             if (DAT_011d9f34 != selectedSlot11)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8610(
+                InterfaceManager_Instance()->FUN_00704370()->FUN_007f8610(
                     0, DAT_011d9f34 < selectedSlot11 ? *DAT_011db2f0.FUN_00403e20() : -*DAT_011db2f0.FUN_00403e20(),
                     *DAT_011db358.FUN_00403e20(), 1);
                 DAT_011d9f34 = selectedSlot11;
@@ -681,7 +681,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             float threshold = DAT_0102f0f8;
             if (DAT_011d9ea8->FUN_0044ddc0()->FUN_00401170() == 24)
                 threshold = DAT_0101b268;
-            if (DAT_011d9ea8->FUN_004bcdb0(1) >= threshold)
+            if (DAT_011d9ea8->ItemChange_GetItemHealth(1) >= threshold)
                 label->FUN_00a01350(0xfc4, DAT_011d3dcc.FUN_00403df0(), 1);
             else
                 label->FUN_00a01350(0xfc4, DAT_011d1f2c.FUN_00403df0(), 1);
@@ -764,10 +764,10 @@ struct Entry
 {
     ~Entry();
     Form* FUN_0044ddc0();
-    float FUN_004bcdb0(bool);
+    float ItemChange_GetItemHealth(bool);
     int FUN_00726070();
     ExtraNode* FUN_00559450();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
     void* FUN_004459e0(int);
 };
 struct EntryListNode
@@ -794,9 +794,9 @@ struct InventoryCheck
 struct ItemLabelSource : InventoryStackRecord
 {
     int FUN_00726070();
-    unsigned char FUN_004bd820();
+    unsigned char ItemChange_GetModSlots();
     const char* GetTargetFullName();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
 };
 class Actor;
 class TESAmmo;
@@ -852,7 +852,7 @@ struct Sh005ae3d0
 };
 struct Sh004bddd0
 {
-    bool FUN_004bddd0(bool arg);
+    bool ItemChange_GetWorn(bool arg);
 };
 struct Sh0088c650
 {
@@ -863,7 +863,7 @@ struct Sh0088c790
     void FUN_0088c790(void* a, int b, void* c, bool d, bool e, bool f);
 };
 unsigned __cdecl FUN_0058db10(int arg);
-unsigned __cdecl FUN_004839c0(int arg);
+unsigned __cdecl TESForm_GetFormByNumericID(int arg);
 class SettingString
 {
   public:
@@ -904,7 +904,7 @@ void ShowStatsMenu(int, int);
 void UpdatePipboyMapVisibility(int, int);
 
 // @fnv 0x00782190
-bool InventoryMenu::FUN_00782190(int input, int unused)
+bool InventoryMenu::InventoryMenu_HandleSpecialKeyInput(int input, int unused)
 {
     if (!FUN_00702450(1002) || !FUN_00705990()->IsUnk28Set())
         return false;

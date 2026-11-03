@@ -6,15 +6,15 @@ struct Actor;
 
 struct ReanimateEffect
 {
-    unsigned short __thiscall FUN_00804f80(Actor* apActor);
-    unsigned short __thiscall FUN_00827440(Actor* apActor);
+    unsigned short __thiscall ActiveEffect_GetSaveSize(Actor* apActor);
+    unsigned short __thiscall ReanimateEffect_GetSaveSize(Actor* apActor);
 };
 
 // @fnv 0x00827440
-unsigned short __thiscall ReanimateEffect::FUN_00827440(Actor* apActor)
+unsigned short __thiscall ReanimateEffect::ReanimateEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += FUN_00804f80(apActor);
+    isize += ActiveEffect_GetSaveSize(apActor);
     isize += 4;
     isize += 4;
     isize += 0xc;
@@ -249,11 +249,11 @@ struct FUN_008276e0_shell
     unsigned char _pad[0x48];
     BodyVirt* pBody;
     int iState;
-    void __thiscall FUN_008276e0(Actor* apActor);
+    void __thiscall ReanimateEffect_Revert(Actor* apActor);
 };
 // Reverts this form with apActor, then if iState is below 0x32 and apActor has a116() and pBody exists, calls pBody->b57(1).
 // @fnv 0x008276e0
-void __thiscall FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
+void __thiscall FUN_008276e0_shell::ReanimateEffect_Revert(Actor* apActor)
 {
     ((TESForm*)this)->TESForm::Revert((unsigned int)apActor);
     if (iState < 0x32 && apActor && ((ActorVirt*)apActor)->a116() && pBody)
@@ -317,10 +317,10 @@ struct FUN_008274a0_shell : ActiveEffect
     unsigned char m_54[12];
     unsigned char m_60[16];
 
-    void FUN_008274a0(Actor* apActor);
+    void ReanimateEffect_SaveGame(Actor* apActor);
 };
 // @fnv 0x008274a0
-void FUN_008274a0_shell::FUN_008274a0(Actor* apActor)
+void FUN_008274a0_shell::ReanimateEffect_SaveGame(Actor* apActor)
 {
     ((SaveGameHelper*)this)->SaveGame(apActor);
     ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&m_4c, 4);
@@ -366,12 +366,12 @@ struct FUN_008266a0_copy60
 
 struct FUN_008266a0_shell : ReanimateEffect
 {
-    ActiveEffect* FUN_008266a0();
+    ActiveEffect* ReanimateEffect_Clone();
 };
 
 // Allocates a new effect from three fields of this, passes it to a17, copies fields at 0x48-0x6f into it and returns it.
 // @fnv 0x008266a0
-ActiveEffect* FUN_008266a0_shell::FUN_008266a0()
+ActiveEffect* FUN_008266a0_shell::ReanimateEffect_Clone()
 {
     ActiveEffect* presult = reinterpret_cast<ActiveEffect*>(
         new FUN_008265b0_shell(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28),
@@ -848,13 +848,13 @@ struct ReanimateState
     unsigned int unk44;
     BodyVirt* body;
     int state;
-    void FUN_00805760(Actor*);
+    void ActiveEffect_FinishInitLoadGame(Actor*);
     void UpdateReanimation(Actor*);
 };
 // @fnv 0x00827580
 void ReanimateState::UpdateReanimation(Actor* actor)
 {
-    FUN_00805760(actor);
+    ActiveEffect_FinishInitLoadGame(actor);
     ReanimateNode* root = reinterpret_cast<ReanimateNode*>(actor->a116());
     if (root)
     {
@@ -1934,21 +1934,21 @@ struct TESObjectREFR
 
 struct Character : Actor
 {
-    bool __thiscall FUN_00608d80();
-    int __thiscall FUN_004f8960();
+    bool __thiscall Actor_IsReanimated();
+    int __thiscall Actor_GetLifeState();
 };
 
 struct FUN_00827340_cls
 {
-    bool __thiscall FUN_00827340(TESObjectREFR* apRef);
+    bool __thiscall ReanimateEffect_CheckTarget(TESObjectREFR* apRef);
 };
 
-// Returns true when a1() yields a Character for which a139(0) is true, FUN_00608d80() is false, and FUN_004f8960() differs from 6.
+// Returns true when a1() yields a Character for which a139(0) is true, Actor_IsReanimated() is false, and Actor_GetLifeState() differs from 6.
 // @fnv 0x00827340
-bool FUN_00827340_cls::FUN_00827340(TESObjectREFR* apRef)
+bool FUN_00827340_cls::ReanimateEffect_CheckTarget(TESObjectREFR* apRef)
 {
     Character* pChar = dynamic_cast<Character*>(apRef->a1());
-    if (pChar != 0 && pChar->a139(0) && !pChar->FUN_00608d80() && pChar->FUN_004f8960() != 6)
+    if (pChar != 0 && pChar->a139(0) && !pChar->Actor_IsReanimated() && pChar->Actor_GetLifeState() != 6)
     {
         return true;
     }

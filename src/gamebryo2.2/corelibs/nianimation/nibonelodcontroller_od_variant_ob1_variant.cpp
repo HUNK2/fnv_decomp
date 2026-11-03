@@ -19,11 +19,11 @@ struct GlobalObjectO2_00a7b610
 {
 };
 extern GlobalObjectO2_00a7b610 g_011f405c;
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55120();
+GlobalObjectO2_00a7b610* __cdecl NiBoneLODController_GetRTTI();
 struct Unknown_00c536a0
 {
-    bool FUN_00a6d0f0(int);
-    bool FUN_00c536a0(int);
+    bool NiTimeController_RegisterStreamables(int);
+    bool NiBSBoneLODController_RegisterStreamables(int);
 };
 struct NiStream
 {
@@ -41,7 +41,7 @@ struct NiBSBoneLODController : NiObject
 extern GlobalObjectO2_00a7b610 g_012031b8;
 struct FUN_00c53e00_shell
 {
-    GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
+    GlobalObjectO2_00a7b610* __thiscall NiBSBoneLODController_GetRTTI();
 };
 class NiControllerManager
 {
@@ -79,7 +79,7 @@ struct S_00c53ed0
 {
     char _pad[0x2C];
     Inner_00c53ed0* m_ptr;
-    bool FUN_00c53ed0();
+    bool NiBSBoneLODController_TargetIsRequiredType();
 };
 extern "C" void __cdecl CallAnimCallback(void*, const void*);
 extern "C" void __cdecl FUN_0044adf0(void*, const void*);
@@ -124,8 +124,8 @@ struct BoneLODControllerSave : NiBSBoneLODController
     BoneEntryGroup** groupArray;
     unsigned short unk44;
     unsigned short groupCount;
-    void __thiscall FUN_00a6d730(NiStream*);
-    void __thiscall FUN_00c536d0(NiStream*);
+    void __thiscall NiTimeController_SaveBinary(NiStream*);
+    void __thiscall NiBSBoneLODController_SaveBinary(NiStream*);
 };
 struct RefList
 {
@@ -159,7 +159,7 @@ struct ControllerObject
     unsigned short unk44;
     unsigned short listCount;
     void FUN_00a6d500(BinaryStream*);
-    void FUN_00c53a10(BinaryStream*);
+    void NiBSBoneLODController_LinkObject(BinaryStream*);
 };
 struct S_00c53cf0_Arr
 {
@@ -369,10 +369,10 @@ class SelfW
     unsigned short m44;
     unsigned short m_usElementCount;
     void FUN_00a6d0c0(StreamW* p);
-    void FUN_00c53430(StreamW* pkStream);
+    void NiBSBoneLODController_ProcessClone(StreamW* pkStream);
 };
 // @fnv 0x00c53430
-void SelfW::FUN_00c53430(StreamW* pkStream)
+void SelfW::NiBSBoneLODController_ProcessClone(StreamW* pkStream)
 {
     int iSaved;
     {
@@ -453,14 +453,14 @@ struct FUN_00c53af0
         unsigned int n = m_usElementCount;
         return n;
     }
-    bool FUN_00a6cc80(FUN_00c53af0* pkObj);
+    bool NiTimeController_IsEqual(FUN_00c53af0* pkObj);
     bool IsEqual(FUN_00c53af0* pkObj);
 };
 // @fnv 0x00c53af0
 bool FUN_00c53af0::IsEqual(FUN_00c53af0* pkObj)
 {
     unsigned int i;
-    if (!FUN_00a6cc80(pkObj))
+    if (!NiTimeController_IsEqual(pkObj))
         return false;
     FUN_00c53af0* pkOther = pkObj;
     if (m_i34 != pkOther->m_i34 || m_i38 != pkOther->m_i38 || GetCount() != pkOther->m_usElementCount)
@@ -812,7 +812,7 @@ class BoneSetArray
 class TimeController
 {
   public:
-    void FUN_00a6d5e0(NiStreamLoader& kStream);
+    void NiTimeController_LoadBinary(NiStreamLoader& kStream);
     int unk00;
     int unk04;
     int unk08;
@@ -831,7 +831,7 @@ class TimeController
 class BoneLODController : public TimeController
 {
   public:
-    void FUN_00c53870(NiStreamLoader& kStream);
+    void NiBSBoneLODController_LoadBinary(NiStreamLoader& kStream);
 
     int m_iLOD;
     unsigned int m_uiNumLODs;
@@ -839,9 +839,9 @@ class BoneLODController : public TimeController
 };
 
 // @fnv 0x00c53870
-void BoneLODController::FUN_00c53870(NiStreamLoader& kStream)
+void BoneLODController::NiBSBoneLODController_LoadBinary(NiStreamLoader& kStream)
 {
-    TimeController::FUN_00a6d5e0(kStream);
+    TimeController::NiTimeController_LoadBinary(kStream);
 
     FUN_00a26df0(&kStream, &m_iLOD);
     FUN_00a26df0(&kStream, &m_uiNumLODs);
@@ -897,10 +897,10 @@ class FUN_00c53d70 : public NiControllerManager, public NiMemObject
 class CloneOwner_c53360 : public CloneableObj
 {
   public:
-    NiControllerManager* FUN_00c53360(CloningProcess* process);
+    NiControllerManager* NiBSBoneLODController_CreateClone(CloningProcess* process);
 };
 // @fnv 0x00c53360
-NiControllerManager* CloneOwner_c53360::FUN_00c53360(CloningProcess* process)
+NiControllerManager* CloneOwner_c53360::NiBSBoneLODController_CreateClone(CloningProcess* process)
 {
     NiControllerManager* result = new FUN_00c53d70;
     this->FUN_00c533f0(result, process);
@@ -940,7 +940,7 @@ struct FUN_00c53d70
     FUN_00c53d70();
 };
 // @fnv 0x00c537f0
-FUN_00c53d70* __cdecl FUN_00c537f0()
+FUN_00c53d70* __cdecl NiBSBoneLODController_CreateObject()
 {
     return new FUN_00c53d70;
 }

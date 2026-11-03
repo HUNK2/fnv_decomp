@@ -22,7 +22,7 @@ struct FUN_005a3790Class
 
 // Sets result to 0.0, then to 1.0 if the reference's FUN_005a3790 check succeeds, and returns true.
 // @fnv 0x005a3760
-bool __cdecl FUN_005a3760(void* reference, void* b, void* c, double& result)
+bool __cdecl Cmd_GetIgnoreFriendlyHits_Eval(void* reference, void* b, void* c, double& result)
 {
     result = 0.0;
     if (((FUN_005a3790Class*)reference)->FUN_005a3790())
@@ -82,7 +82,7 @@ struct FUN_00456a60_class
 };
 
 // @fnv 0x005b9220
-bool FUN_005b9220()
+bool Cmd_ToggleCollisionGeometry_Execute()
 {
     ((FUN_00456a60_class*)g_TES)->FUN_00456a60();
     return true;
@@ -96,7 +96,7 @@ struct FUN_00456a60_Class
 };
 // Sets DAT_012680fc to 1, calls FUN_00456a60 on g_TES, resets DAT_012680fc to 0 and returns 1.
 // @fnv 0x005b9240
-char __cdecl FUN_005b9240()
+char __cdecl Cmd_ToggleMaterialGeometry_Execute()
 {
     DAT_012680fc = 1;
     ((FUN_00456a60_Class*)(int)g_TES)->FUN_00456a60();
@@ -185,10 +185,10 @@ struct FUN_005a8e20_cls
 {
     int __thiscall FUN_005a90b0(void* param, bool flag);
     void __thiscall AttachScriptLocals(void* param);
-    char __thiscall FUN_005a8ef0(int param_2, int param_3);
+    char __thiscall ScriptLocals_CheckActionFlag(int param_2, int param_3);
 };
 // @fnv 0x005a8ef0
-char __thiscall FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
+char __thiscall FUN_005a8e20_cls::ScriptLocals_CheckActionFlag(int param_2, int param_3)
 {
     int result = FUN_005a90b0((void*)param_2, false);
     if (!result)
@@ -221,15 +221,15 @@ struct Flt
 extern Flt g_011c786c;
 struct NiNode
 {
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
 };
-// Returns false if g_011c786c is null, otherwise returns whether its FUN_00453470 result is greater than zero.
+// Returns false if g_011c786c is null, otherwise returns whether its NiNode_GetChildCount result is greater than zero.
 // @fnv 0x005bac20
 bool __cdecl FUN_005bac20()
 {
     if ((unsigned int)g_011c786c == 0)
         return false;
-    return 0 < ((NiNode*)(unsigned int)g_011c786c)->FUN_00453470();
+    return 0 < ((NiNode*)(unsigned int)g_011c786c)->NiNode_GetChildCount();
 }
 }  // namespace fnv_005bac20
 
@@ -377,11 +377,11 @@ FUN_005a78a0::~FUN_005a78a0()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00487010_shell
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_00483710_shell
 {
@@ -389,11 +389,11 @@ struct FUN_00483710_shell
 };
 struct FUN_00485e20_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 unsigned char __cdecl FUN_00401500();
 
@@ -415,20 +415,20 @@ struct FUN_005a7a90_shell
     int unk34;
     int unk38;
     int unk3c;
-    void FUN_005a7a90();
+    void TESRecipeCategory_SaveForm();
 };
 
 // @fnv 0x005a7a90
-void FUN_005a7a90_shell::FUN_005a7a90()
+void FUN_005a7a90_shell::TESRecipeCategory_SaveForm()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
-    ((FUN_00487010_shell*)((char*)this + 0x18))->FUN_00487010();
+    ((FUN_004855a0_shell*)this)->TESForm_StartForm();
+    ((FUN_00487010_shell*)((char*)this + 0x18))->TESFullName_Save();
     if (FUN_00401500())
         ((FUN_00483710_shell*)((char*)this + 0x24))->FUN_00483710();
-    ((FUN_00485e20_shell*)this)->FUN_00485e20((int)((char*)this + 0x24), 1);
+    ((FUN_00485e20_shell*)this)->TESForm___SaveData((int)((char*)this + 0x24), 1);
     if (FUN_00401500())
         ((FUN_00483710_shell*)((char*)this + 0x24))->FUN_00483710();
-    ((FUN_00485680_shell*)this)->FUN_00485680();
+    ((FUN_00485680_shell*)this)->TESForm_CloseForm();
 }
 
 struct FUN_005a7b00_Record
@@ -461,10 +461,10 @@ struct FUN_005a7b00_Class
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int m_24;
-    void FUN_004851b0(unsigned int id);
+    void TESForm_CopyAllComponents(unsigned int id);
     void InitializeFromRecord(unsigned int id);
 };
-// Looks up a record by id, copies its m_24 field into this object's m_24, then calls FUN_004851b0 with the id.
+// Looks up a record by id, copies its m_24 field into this object's m_24, then calls TESForm_CopyAllComponents with the id.
 // @fnv 0x005a7b00
 void FUN_005a7b00_Class::InitializeFromRecord(unsigned int id)
 {
@@ -472,7 +472,7 @@ void FUN_005a7b00_Class::InitializeFromRecord(unsigned int id)
     if (record == 0)
         return;
     FUN_00401460(&m_24, &record->m_24, 1);
-    FUN_004851b0(id);
+    TESForm_CopyAllComponents(id);
 }
 
 namespace fnv_005a8660 {
@@ -505,7 +505,7 @@ struct CopyForm
     CopyString* FUN_006a9540();
     CopyList* FUN_005a8080();
     CopyList* FUN_005d43c0();
-    void FUN_004851b0(void*);
+    void TESForm_CopyAllComponents(void*);
     int FUN_0059bb30();
     int FUN_0045cd60();
     int GetField54();
@@ -527,7 +527,7 @@ void CopyForm::CopyFrom(void* apSource)
         return;
     FUN_006a9540()->CopyConditions(source3->FUN_006a9540(), 0);
     memcpy(data + 0x24, source3->data + 0x24, 0x10);
-    FUN_004851b0(apSource);
+    TESForm_CopyAllComponents(apSource);
     while (!FUN_005a8080()->FUN_008256d0())
         FUN_005a8080()->FUN_0063f7b0();
     CopyList* iter = source3->FUN_005a8080();
@@ -584,7 +584,7 @@ struct SubChallenge
     int FUN_006286d0();
     unsigned int FUN_0059bb30();
     int FUN_0045cd60();
-    bool FUN_00485270(SubChallenge*);
+    bool TESForm_CompareAllComponents(SubChallenge*);
     SubString& FUN_006a9540();
     SubList* FUN_005a8080();
     SubList* FUN_005d43c0();
@@ -605,7 +605,7 @@ bool SubChallenge::IsNotEqual(void* input)
         return true;
     if (FUN_0045cd60() != other->FUN_0045cd60())
         return true;
-    if (FUN_00485270(other))
+    if (TESForm_CompareAllComponents(other))
         return true;
     if (FUN_006a9540().FUN_00680b70(other->FUN_006a9540()))
         return true;
@@ -667,7 +667,7 @@ class FUN_008ad910_ref
 class FUN_005e79a0_t
 {
   public:
-    bool FUN_00485270(TESForm* pkForm);
+    bool TESForm_CompareAllComponents(TESForm* pkForm);
 };
 
 class FUN_005a7b60_cls
@@ -676,19 +676,19 @@ class FUN_005a7b60_cls
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     unsigned char m_data;
 
-    bool FUN_005a7b60(TESForm* pkForm);
+    bool TESRecipeCategory_Compare(TESForm* pkForm);
 };
 
-// Returns true if pkForm is not a TESRecipeCategory, its first data byte differs from m_data, or FUN_00485270 returns true; otherwise false.
+// Returns true if pkForm is not a TESRecipeCategory, its first data byte differs from m_data, or TESForm_CompareAllComponents returns true; otherwise false.
 // @fnv 0x005a7b60
-bool FUN_005a7b60_cls::FUN_005a7b60(TESForm* pkForm)
+bool FUN_005a7b60_cls::TESRecipeCategory_Compare(TESForm* pkForm)
 {
     TESRecipeCategory* pkCategory = dynamic_cast<TESRecipeCategory*>(pkForm);
     if (!pkCategory)
         return true;
     if (memcmp(&m_data, reinterpret_cast<FUN_008ad910_ref*>(pkCategory)->GetData(), 1))
         return true;
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pkCategory))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pkCategory))
         return true;
     return false;
 }
@@ -726,15 +726,15 @@ class TESForm : public BaseFormComponent
     unsigned int unk10;
     unsigned int unk14;
     unsigned int GetFormID();
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_00485e20(void*, int);
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void TESForm___SaveData(void*, int);
 };
 class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> fullName;
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct RecipeItem
 {
@@ -772,20 +772,20 @@ class TESRecipe : public TESForm, public TESFullName
     RecipeData* FUN_00430830();
     BSSimpleList<RecipeItem*>* FUN_005a8080();
     BSSimpleList<RecipeItem*>* FUN_005d43c0();
-    void FUN_005a8490();
+    void TESRecipe_SaveForm();
 };
 // Stores category and subcategory form IDs, then calls FUN_00485910 with the form ID and count of each ingredient and each output item.
 // @fnv 0x005a8490
-void TESRecipe::FUN_005a8490()
+void TESRecipe::TESRecipe_SaveForm()
 {
-    FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESForm_StartForm();
+    TESFullName::TESFullName_Save();
     FUN_006a9540()->ProcessItems();
     FUN_00430830()->category = reinterpret_cast<TESForm*>(GetField54() ? GetField54()->GetFormID() : 0);
     FUN_00430830()->subcategory = reinterpret_cast<TESForm*>(FUN_006286d0() ? FUN_006286d0()->GetFormID() : 0);
     if (FUN_00401500())
         data.FUN_00414220();
-    FUN_00485e20(&data, 16);
+    TESForm___SaveData(&data, 16);
     if (FUN_00401500())
         data.FUN_00414220();
     BSSimpleList<RecipeItem*>* iter = FUN_005a8080();
@@ -806,7 +806,7 @@ void TESRecipe::FUN_005a8490()
         FUN_00485910(0x444f4352, item->FUN_00726070()->GetFormID());
         FUN_00485910(0x59514352, item->FUN_00559450());
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 }  // namespace fnv_005a8490
 
@@ -831,7 +831,7 @@ void* memset(void* destination, int value, unsigned int size);
 
 // Reads a short count and that many values from data via Script::GetValue, then formats them into string using format; returns false if any read fails.
 // @fnv 0x005b4960
-bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
+bool __cdecl Script_BuildMessageBoxStringFromParameters(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
                           Script* script, ScriptLocals* locals, int unused2, unsigned int& value, char const* format,
                           BSStringT<char>* string)
 {

@@ -10,7 +10,7 @@ struct FUN_00c9ce00_cls
     void __thiscall FUN_00c9ce00(int);
 };
 extern int DAT_010c7888;
-void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue);
+void __cdecl finishLoadedObject_hkpRigidBody(FUN_00c9ce00_cls* pObject, int aiValue);
 extern "C" void __cdecl AppendEventRecord(int, int, int, int);
 void __stdcall FUN_00d4de30(int a, int b);
 struct NiStream
@@ -19,7 +19,7 @@ struct NiStream
 };
 struct FUN_00d53200_class
 {
-    void FUN_00c8a230(NiStream& stream);
+    void hkConstraintCinfo_LoadBinary(NiStream& stream);
     void FUN_00d53200(NiStream& stream);
 };
 void* __cdecl InitAndGetOffset(void*, void*, void*);
@@ -40,31 +40,31 @@ void __cdecl FindEntryByKey();
 void __cdecl ForwardToTarget();
 void __cdecl FUN_00d41ec0(int* pObject);
 extern int DAT_010cf9a4;
-void __cdecl FUN_00d48350(int* p);
+void __cdecl finishLoadedObject_hkpPhysicsData(int* p);
 struct FUN_00d49580_vtbl
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d49580(FUN_00d49580_vtbl* p);
+void __cdecl cleanupLoadedObject_hkpStorageSampledHeightFieldShape(FUN_00d49580_vtbl* p);
 extern int DAT_010305a8;
 extern int DAT_010ce31c;
 extern int DAT_010cfb34;
-void __cdecl FUN_00d495a0(int* pObject, int b);
-void __cdecl FUN_00d4b190(void* p);
+void __cdecl finishLoadedObject_hkpStorageSampledHeightFieldShape(int* pObject, int b);
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShapeMeshSubpartStorage(void* p);
 struct FUN_00d4b250_class
 {
-    void __thiscall FUN_00d4b250(int);
+    void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShape(int);
 };
 struct FUN_00d4b250_vt
 {
-    virtual void __thiscall FUN_00d4b250(int);
+    virtual void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShape(int);
 };
-void __cdecl FUN_00d4b250(FUN_00d4b250_vt* p);
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShape(FUN_00d4b250_vt* p);
 struct FUN_00d4be50_vt
 {
-    virtual void FUN_00d4be50(int);
+    virtual void cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage(int);
 };
-void __cdecl FUN_00d4be50(FUN_00d4be50_vt* p);
+void __cdecl cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage(FUN_00d4be50_vt* p);
 struct CollisionAgentFunctionTable
 {
     void* f0;
@@ -91,24 +91,24 @@ struct FUN_00d48330_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d48330(FUN_00d48330_vt* p);
-void __cdecl FUN_00d49510(FUN_00d49580_vtbl* p);
+void __cdecl cleanupLoadedObject_hkpPhysicsData(FUN_00d48330_vt* p);
+void __cdecl cleanupLoadedObject_hkpRigidBody(FUN_00d49580_vtbl* p);
 struct FUN_00d4b1f0_vt
 {
-    virtual void __thiscall FUN_00d4b1f0(int);
+    virtual void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage(int);
 };
-void __cdecl FUN_00d4b1f0(FUN_00d4b1f0_vt* p);
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage(FUN_00d4b1f0_vt* p);
 struct FUN_00d4b320_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d4b320(FUN_00d4b320_vt* p);
-void __cdecl FUN_00d4beb0(FUN_00d49580_vtbl* p);
+void __cdecl cleanupLoadedObject_hkpExtendedMeshShape(FUN_00d4b320_vt* p);
+void __cdecl cleanupLoadedObject_hkpStorageMeshShape(FUN_00d49580_vtbl* p);
 struct FUN_00d4bf30_vt
 {
-    virtual void FUN_00d4bf30(int);
+    virtual void cleanupLoadedObject_hkpMeshShape(int);
 };
-void __cdecl FUN_00d4bf30(FUN_00d4bf30_vt* p);
+void __cdecl cleanupLoadedObject_hkpMeshShape(FUN_00d4bf30_vt* p);
 extern const char* const g_01268eb4_arg1;
 const char* const* __cdecl FUN_00d4bf60();
 struct FUN_00d4fe40_cls
@@ -366,7 +366,7 @@ struct FUN_00d4a180_cls
 {
     void __thiscall FUN_00d4a180(int a);
 };
-void __cdecl FUN_00d4b230(FUN_00d4a180_cls* pTarget, int aiValue);
+void __cdecl finishLoadedObject_hkpStorageExtendedMeshShape(FUN_00d4a180_cls* pTarget, int aiValue);
 extern int DAT_01268d4c;
 int* __cdecl FUN_00d4b280();
 extern int DAT_01268d94;
@@ -392,7 +392,7 @@ class FUN_00d4b300_cls
   public:
     void FUN_00d56f10(int a1);
 };
-void __cdecl FUN_00d4b300(FUN_00d4b300_cls* pObject, int aiValue);
+void __cdecl finishLoadedObject_hkpExtendedMeshShape(FUN_00d4b300_cls* pObject, int aiValue);
 extern int DAT_01268e24;
 void* FUN_00d4b350();
 struct TailTarget
@@ -449,7 +449,7 @@ struct FUN_00d4ba30_class
 {
     void __thiscall FUN_00d4ba30(int);
 };
-void __cdecl FUN_00d4be90(FUN_00d4ba30_class* pObject, int value);
+void __cdecl finishLoadedObject_hkpStorageMeshShape(FUN_00d4ba30_class* pObject, int value);
 extern int g_unk01268eb4;
 void* __cdecl FUN_00d4bee0();
 extern int g_unk01268efc;
@@ -468,7 +468,7 @@ class D4BF10Object
         return p;
     }
 };
-void FUN_00d4bf10(void* apMemory, int finishing);
+void finishLoadedObject_hkpMeshShape(void* apMemory, int finishing);
 extern int DAT_01268f74;
 class FUN_00d50020_base
 {
@@ -531,7 +531,7 @@ struct MemoryContextScope
 struct DataFactory
 {
     void FUN_00c89730(DataObject* object, int id);
-    DataObject* FUN_00d501f0(int id);
+    DataObject* bhkGenericConstraint_CreateClone(int id);
 };
 class FUN_00d51720_helper
 {
@@ -832,7 +832,7 @@ class D53360Owner
     D53360Entry** m_ppkEntries;
     unsigned int m_uiCount;
 
-    void FUN_00c8a280(D53360Stream& kStream);
+    void hkConstraintCinfo_SaveBinary(D53360Stream& kStream);
     void FUN_00d53360(D53360Stream& kStream);
 };
 extern double DAT_0101ffa0;
@@ -1301,7 +1301,7 @@ struct D53970Obj
     virtual void v43();
     virtual void v44();
     virtual D53970BaseB* GetData(int* out);
-    void FUN_00c89860(D53970Stream* stream);
+    void bhkConstraint_LinkObject(D53970Stream* stream);
     void ReadDataArray(D53970Stream* stream);
 };
 void __cdecl FUN_00d570d0(int* aiDest, const int* aiSrc);
@@ -1493,15 +1493,15 @@ void __cdecl FUN_00d4b2b0();
 void FUN_00d4b360();
 void FUN_00d4b370();
 void FUN_00d4bef0();
-void __cdecl FUN_00c8a230(int* param_1, int param_2);
-void __cdecl FUN_00d50000(int* param_1, int param_2);
+void __cdecl hkConstraintCinfo_LoadBinary(int* param_1, int param_2);
+void __cdecl hkGenericConstraintCinfo_LoadBinary(int* param_1, int param_2);
 struct FUN_00c89920_cls
 {
     void __thiscall InvokeRefTarget(int);
 };
 struct FUN_00d53290_cls
 {
-    void __thiscall FUN_00d53290(int a);
+    void __thiscall bhkConstraintChain_SaveBinary(int a);
 };
 class hkMemoryAllocatorD539;
 struct hkMemoryRouterD539
@@ -1926,11 +1926,11 @@ struct Hk48fc0_Data
 void __cdecl FUN_00d48af0(void* pStream, Hk48fc0_Format* pFormat);
 void* __cdecl FUN_00dc32c0(void* pData, void* pAllocator, void* pLoader);
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
-void __cdecl FUN_00dc5d50(void* pArg1, void* pArg2, void* pArg3);
+void __cdecl hkBinaryTagfileReader_load(void* pArg1, void* pArg2, void* pArg3);
 __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pError, void* pStream, void* pAllocator)
 {
     Hk48fc0_Contents kBuf;
-    FUN_00dc5d50(&kBuf, &pStream, pObj);
+    hkBinaryTagfileReader_load(&kBuf, &pStream, pObj);
     if (pError)
     {
         if (FUN_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
@@ -1948,7 +1948,7 @@ __declspec(noinline) static void* Hk48fc0_LoadPackfile(void* pAllocator, void* p
     {
         return 0;
     }
-    FUN_00dc5d50(pAllocator, &pStream, &pFormat);
+    hkBinaryTagfileReader_load(pAllocator, &pStream, &pFormat);
     return FUN_00dc32c0(&pError, &pLoader, 0);
 }
 void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* pLoader);
@@ -1978,8 +1978,8 @@ struct hkpD500Stream;
 class hkpD500Object
 {
   public:
-    void FUN_00c8a280(hkpD500Stream* pkStream);
-    void FUN_00d50010(hkpD500Stream* pkStream);
+    void hkConstraintCinfo_SaveBinary(hkpD500Stream* pkStream);
+    void hkGenericConstraintCinfo_SaveBinary(hkpD500Stream* pkStream);
 };
 struct hkFinishLoadedObjectFlagD50
 {
@@ -2337,8 +2337,8 @@ struct FUN_00d54ed0_Obj
 };
 struct FNVMemoryManager
 {
-    void __thiscall FUN_00c851c0(FUN_00d54ed0_Obj*);
-    void __thiscall FUN_00d54ed0(FUN_00d54ed0_Obj*);
+    void __thiscall bhkShape_GetViewerStrings(FUN_00d54ed0_Obj*);
+    void __thiscall bhkHeightFieldShape_GetViewerStrings(FUN_00d54ed0_Obj*);
 };
 struct D47180Cls
 {
@@ -2444,7 +2444,7 @@ class FUN_00d50c90
 struct OwnerD500
 {
     void ReleaseObject(FUN_00d50c90*, int);
-    void FUN_00d50090(FUN_00d50c90*, int);
+    void hkGenericConstraintCinfo_CloneData(FUN_00d50c90*, int);
 };
 struct D502D0_TlsBlock
 {
@@ -3129,7 +3129,7 @@ class bhkWorldObject35D0
     virtual void vd0();
     virtual void vd4();
     virtual void OnRemoved(hkpWorld35D0* pkWorld, int iFlags);
-    bool FUN_00d535d0();
+    bool bhkConstraintChain_Remove();
     int unk04;
     void* m_phkObject;
 };

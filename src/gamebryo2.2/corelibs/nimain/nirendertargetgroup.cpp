@@ -7,7 +7,7 @@ struct NiRTTI;
 extern NiRTTI g_012708ec;
 
 // @fnv 0x00ee8530
-NiRTTI* __cdecl FUN_00ee8530()
+NiRTTI* __cdecl NiRenderTargetGroup_GetRTTI()
 {
     return &g_012708ec;
 }
@@ -40,10 +40,10 @@ struct StandIn
 {
     char _pad[0x24];
     RendererData* m_pTextureRendererData;
-    void FUN_00ee8460(RendererData* pkRendererData);
+    void NiRenderTargetGroup_SetRendererData(RendererData* pkRendererData);
 };
 // @fnv 0x00ee8460
-void StandIn::FUN_00ee8460(RendererData* pkRendererData)
+void StandIn::NiRenderTargetGroup_SetRendererData(RendererData* pkRendererData)
 {
     if (m_pTextureRendererData)
     {
@@ -66,11 +66,11 @@ typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiRenderTargetGroup
 {
     char _pad_0[0x24];
-    int FUN_00ee84d0() const;
+    int NiRenderTargetGroup_GetDepthStencilWidth() const;
 };
 
 // @fnv 0x00ee84d0
-int NiRenderTargetGroup::FUN_00ee84d0() const
+int NiRenderTargetGroup::NiRenderTargetGroup_GetDepthStencilWidth() const
 {
     const NiMemObject* p =
         *reinterpret_cast<const NiMemObject* const*>(reinterpret_cast<const unsigned char*>(this) + 0x20);
@@ -85,11 +85,11 @@ struct NiRenderTargetGroup
 {
     char _pad_0[0x20];
     void* m_depthStencil;
-    int FUN_00ee84e0() const;
+    int NiRenderTargetGroup_GetDepthStencilHeight() const;
 };
 
 // @fnv 0x00ee84e0
-int NiRenderTargetGroup::FUN_00ee84e0() const
+int NiRenderTargetGroup::NiRenderTargetGroup_GetDepthStencilHeight() const
 {
     void* p =
         *reinterpret_cast<void**>(const_cast<unsigned char*>(reinterpret_cast<const unsigned char*>(this)) + 0x20);
@@ -110,11 +110,11 @@ struct NiRenderTargetGroup
 {
     char _pad_0[0x0c];
     NiMemObject* m_pBuffers[1];
-    NiMemObject* __thiscall FUN_00ee84f0(unsigned int uiIndex) const;
+    NiMemObject* __thiscall NiRenderTargetGroup_GetBuffer(unsigned int uiIndex) const;
 };
 
 // @fnv 0x00ee84f0
-NiMemObject* __thiscall NiRenderTargetGroup::FUN_00ee84f0(unsigned int uiIndex) const
+NiMemObject* __thiscall NiRenderTargetGroup::NiRenderTargetGroup_GetBuffer(unsigned int uiIndex) const
 {
     return m_pBuffers[uiIndex];
 }
@@ -131,11 +131,11 @@ struct NiRenderTargetGroup : NiMemObject
 {
     char _pad_1[7];
     bool m_bNeedsResolve;
-    void __thiscall FUN_00ee8550(bool abResolve);
+    void __thiscall NiRenderTargetGroup_SetByte08(bool abResolve);
 };
 
 // @fnv 0x00ee8550
-void __thiscall NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
+void __thiscall NiRenderTargetGroup::NiRenderTargetGroup_SetByte08(bool abResolve)
 {
     m_bNeedsResolve = abResolve;
 }
@@ -194,7 +194,7 @@ struct StrArr
 void __stdcall AppendCameraPathEntries(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00ee8800
-void __stdcall FUN_00ee8800(StrArr* pkStrings)
+void __stdcall NiRenderTargetGroup_GetViewerStrings(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pString = FUN_00a7d330(*(const char**)&g_012708ec);
@@ -680,11 +680,11 @@ unsigned int AA1AC0Class::FUN_00aa1ac0()
 
 struct StandIn_00ee8540
 {
-    unsigned char __thiscall FUN_00ee8540() const;
+    unsigned char __thiscall NiRenderTargetGroup_GetByte08() const;
 };
 
 // @fnv 0x00ee8540
-unsigned char __thiscall StandIn_00ee8540::FUN_00ee8540() const
+unsigned char __thiscall StandIn_00ee8540::NiRenderTargetGroup_GetByte08() const
 {
     return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 8);
 }

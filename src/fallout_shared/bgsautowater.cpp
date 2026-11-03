@@ -89,12 +89,12 @@ namespace fnv_0049ee30 {
 struct NiObjectNET
 {
     void FUN_00439360(unsigned short a, unsigned int b, unsigned int c);
-    void FUN_0049ee30(unsigned short a);
+    void NiStencilProperty_SetDrawMode(unsigned short a);
 };
 
 // Calls FUN_00439360 with the given unsigned short and the constants 0xc00 and 0xa.
 // @fnv 0x0049ee30
-void NiObjectNET::FUN_0049ee30(unsigned short a)
+void NiObjectNET::NiStencilProperty_SetDrawMode(unsigned short a)
 {
     FUN_00439360(a, 0xc00, 0xa);
 }
@@ -255,9 +255,9 @@ struct FUN_0049f640
 };
 struct ScriptProgram
 {
-    bool FUN_0045cb90();
-    void FUN_00535b90(int);
-    void FUN_00536d80();
+    bool TESObjectLAND_HasVertices();
+    void TESObjectLAND_LoadVertices(int);
+    void TESObjectLAND_UnLoadVertices();
     float FUN_0049db00();
     MeshPoint** GetSecondPointer();
 };
@@ -267,8 +267,8 @@ struct MeshMode
 };
 struct MeshInput
 {
-    ScriptProgram* FUN_00546fb0();
-    float FUN_005471e0();
+    ScriptProgram* TESObjectCELL_GetLand();
+    float TESObjectCELL_GetWaterHeight();
     MeshMode* FUN_0054ddd0();
 };
 extern FUN_0049f1c0* DAT_011c57ac;
@@ -283,17 +283,17 @@ extern bool __cdecl FUN_0049c7b0(const MeshPoint&, const MeshPoint&);
 // @fnv 0x0049c930
 void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
 {
-    ScriptProgram* mesh = pMeshInput->FUN_00546fb0();
-    float height = pMeshInput->FUN_005471e0();
+    ScriptProgram* mesh = pMeshInput->TESObjectCELL_GetLand();
+    float height = pMeshInput->TESObjectCELL_GetWaterHeight();
     if (!DAT_011c57ac)
         DAT_011c57ac = new FUN_0049f1c0;
     else
         DAT_011c57ac->FUN_008454f0(true);
     if (mesh)
     {
-        bool active8 = mesh->FUN_0045cb90();
+        bool active8 = mesh->TESObjectLAND_HasVertices();
         if (!active8)
-            mesh->FUN_00535b90(0);
+            mesh->TESObjectLAND_LoadVertices(0);
         FUN_0049f640 _list1;
         for (int i = 0; i < 4; i++)
         {
@@ -566,7 +566,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
             }
         }
         if (!active8)
-            mesh->FUN_00536d80();
+            mesh->TESObjectLAND_UnLoadVertices();
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
@@ -597,11 +597,11 @@ struct Pt
 };
 struct CellOrigin
 {
-    NiPoint3 FUN_00535b30(bool interior);
+    NiPoint3 TESObjectLAND_GetWorldOffsetForBlock(bool interior);
 };
 struct Cell
 {
-    CellOrigin* FUN_00546fb0();
+    CellOrigin* TESObjectCELL_GetLand();
     int FUN_00544c30();
     int FUN_00544c60();
 };
@@ -611,7 +611,7 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 {
     unsigned int f = 0;  // Edge mask: west=1, east=2, north=4, south=8.
     // Translate the point into the cell's coordinate system.
-    NiPoint3 i = cell->FUN_00546fb0()->FUN_00535b30(false);
+    NiPoint3 i = cell->TESObjectCELL_GetLand()->TESObjectLAND_GetWorldOffsetForBlock(false);
     point += i;
     // Cell corners: p=southwest, a=southeast, s=northwest, h=northeast.
     NiPoint2 p(float(cell->FUN_00544c30() << 12), float(cell->FUN_00544c60() << 12));
@@ -675,7 +675,7 @@ struct UpdData
 struct AVObj
 {
     void AssignFixedString(const NiFixedString&);
-    void FUN_00439410(void*);
+    void NiAVObject_AttachProperty(void*);
     int FUN_0049ec60();
     unsigned short FUN_00456650() const;
 };
@@ -691,18 +691,18 @@ struct BufObj
     float x;
     float y;
     float z;
-    FUN_00416870_t* FUN_00535b30();
+    FUN_00416870_t* TESObjectLAND_GetWorldOffsetForBlock();
 };
 struct WaterForm
 {
-    void* FUN_00580130();
+    void* TESWaterForm_GetPlaceableAutoWater();
 };
 struct ParamObj
 {
-    float FUN_005471e0();
-    BufObj FUN_00546fb0(int);
-    WaterForm* FUN_00547770();
-    void FUN_00548230(void*, bool);
+    float TESObjectCELL_GetWaterHeight();
+    BufObj TESObjectCELL_GetLand(int);
+    WaterForm* TESObjectCELL_GetWaterType();
+    void TESObjectCELL_AddReference(void*, bool);
 };
 struct Mgr
 {
@@ -866,9 +866,9 @@ struct FUN_0055a2f0
     int m_5c;
     int m_60;
     int m_64;
-    void FUN_00575690(void*);
+    void TESObjectREFR_SetObjectReference(void*);
     void FUN_00484490();
-    void FUN_0056c8f0();
+    void TESObjectREFR_InitHavokForPlaceableWater();
 };
 struct FUN_00b6abb0 : NiMemObject
 {
@@ -970,7 +970,7 @@ struct FUN_0049ec80 : NiMemObject
     int m_18;
     int m_1c;
     int m_20;
-    void FUN_0049ee30(int);
+    void NiStencilProperty_SetDrawMode(int);
 };
 struct BSFadeNode : NiMemObject
 {
@@ -1149,7 +1149,7 @@ struct FUN_00c37ec0 : NiMemObject
     int m_18;
     int m_1c;
     int m_20;
-    void FUN_00439680(const FUN_00416870_t&);
+    void BSMultiBoundAABB_SetHalfExtents(const FUN_00416870_t&);
 };
 struct BSMultiBound : NiMemObject
 {
@@ -1280,8 +1280,8 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
             NodeObj* nodeX;
             if (0 != DAT_011c57b0)
             {
-                ptB.FUN_00416870(a0->FUN_00546fb0(0).FUN_00535b30()->x, a0->FUN_00546fb0(0).FUN_00535b30()->y,
-                                 a0->FUN_005471e0());
+                ptB.FUN_00416870(a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->x, a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->y,
+                                 a0->TESObjectCELL_GetWaterHeight());
                 pForm = false;
                 s = DAT_011c57b0->FUN_00559450();
                 i = 0;
@@ -1350,7 +1350,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 new FUN_00b6abb0;
                                                                                                             nodeX
                                                                                                                 ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
+                                                                                                                ->NiAVObject_AttachProperty(
                                                                                                                     geom);
                                                                                                             FUN_00b57e30(
                                                                                                                 nodeX
@@ -1358,15 +1358,15 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 0, 0);
                                                                                                             minY =
                                                                                                                 new FUN_0049ec80;
-                                                                                                            minY->FUN_0049ee30(
+                                                                                                            minY->NiStencilProperty_SetDrawMode(
                                                                                                                 3);
                                                                                                             nodeX
                                                                                                                 ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
+                                                                                                                ->NiAVObject_AttachProperty(
                                                                                                                     minY);
-                                                                                                            p84->FUN_00575690(
-                                                                                                                a0->FUN_00547770()
-                                                                                                                    ->FUN_00580130());
+                                                                                                            p84->TESObjectREFR_SetObjectReference(
+                                                                                                                a0->TESObjectCELL_GetWaterType()
+                                                                                                                    ->TESWaterForm_GetPlaceableAutoWater());
                                                                                                             p80 =
                                                                                                                 new BSFadeNode;
                                                                                                             p80->FUN_0049ee60(
@@ -1474,7 +1474,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 &ptB);
                                                                                                             p7c->FUN_vtb8(
                                                                                                                 &n);
-                                                                                                            p7c->FUN_00439680(
+                                                                                                            p7c->BSMultiBoundAABB_SetHalfExtents(
                                                                                                                 pt44);
                                                                                                             p6c =
                                                                                                                 new BSMultiBound;
@@ -1498,7 +1498,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 false);
                                                                                                             p80->FUN_00a59c60(
                                                                                                                 &res);
-                                                                                                            a0->FUN_00548230(
+                                                                                                            a0->TESObjectCELL_AddReference(
                                                                                                                 p84,
                                                                                                                 false);
                                                                                                             p84->FUN_00484490();
@@ -1507,7 +1507,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                     0 &&
                                                                                                                 !pForm)
                                                                                                             {
-                                                                                                                p84->FUN_0056c8f0();
+                                                                                                                p84->TESObjectREFR_InitHavokForPlaceableWater();
                                                                                                                 pForm =
                                                                                                                     true;
                                                                                                             }
@@ -1610,7 +1610,7 @@ int __cdecl FUN_006b9a10(const S006b9a10_Pt& apStart, const S006b9a10_Pt& apEnd,
 
 struct MobileObjectCellAccess
 {
-    bool FUN_004518e0() const;
+    bool TESObjectCELL_HasWater() const;
 };
 struct NiTPointerListBase
 {
@@ -1623,7 +1623,7 @@ void BuildWaterSurfaces(MeshInput*);
 void FUN_0049c860(MeshInput* apMeshInput)
 {
     AutoMemHelper context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSAutoWater.cpp", 83);
-    if (!apMeshInput || !reinterpret_cast<MobileObjectCellAccess*>(apMeshInput)->FUN_004518e0())
+    if (!apMeshInput || !reinterpret_cast<MobileObjectCellAccess*>(apMeshInput)->TESObjectCELL_HasWater())
         return;
     if (DAT_011c57ac)
         DAT_011c57ac->FUN_008454f0(true);

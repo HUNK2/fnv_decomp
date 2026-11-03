@@ -5,7 +5,7 @@
 extern "C" void* g_011f3ec8;
 
 // @fnv 0x00a42e80
-void* __cdecl FUN_00a42e80()
+void* __cdecl BSFrustumFOVController_GetRTTI()
 {
     return &g_011f3ec8;
 }
@@ -23,7 +23,7 @@ struct BSFadeNode
 extern int DAT_0109780c;
 
 // @fnv 0x00a42ee0
-void* __cdecl FUN_00a42ee0()
+void* __cdecl BSFrustumFOVController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x38);
     if (p)
@@ -50,7 +50,7 @@ struct NiObjectNET
 extern const char* const g_011f5e6c_arg1;
 // Walks pkTarget's NiRTTI chain and returns true if any entry matches g_011f5e6c_arg1, false otherwise or when pkTarget is null.
 // @fnv 0x00a42d90
-bool __stdcall FUN_00a42d90(NiObjectNET* pkTarget)
+bool __stdcall BSFrustumFOVController_InterpTargetIsCorrectType(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -70,13 +70,13 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 
-void __stdcall FUN_00a576c0(StrArr*);
+void __stdcall NiFloatInterpController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 
 // @fnv 0x00a42f10
-void __stdcall FUN_00a42f10(StrArr* pkStrings)
+void __stdcall BSFrustumFOVController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330(g_011f3ec8);
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
@@ -403,7 +403,7 @@ class NiCameraControllerA42D
   public:
     virtual void vfn_00();
     bool FUN_00a36250(float fTime);
-    void FUN_00a42dc0(NiUpdateDataA42D& kUpdateData);
+    void BSFrustumFOVController_Update(NiUpdateDataA42D& kUpdateData);
 
     bool GetManagerControlled() const
     {
@@ -428,7 +428,7 @@ class NiCameraControllerA42D
 
 // Updates the camera controller time and, if not skipped, applies the interpolator's value to the target's view frustum bounds.
 // @fnv 0x00a42dc0
-void NiCameraControllerA42D::FUN_00a42dc0(NiUpdateDataA42D& kUpdateData)
+void NiCameraControllerA42D::BSFrustumFOVController_Update(NiUpdateDataA42D& kUpdateData)
 {
     if (GetManagerControlled())
     {
@@ -479,12 +479,12 @@ class ObjA42E : public FUN_00a57640
     }
 
     void FUN_00a57620(ObjA42E* dest, CloningProcessObjA42E& cloning);
-    ObjA42E* FUN_00a42e90(CloningProcessObjA42E& cloning);
+    ObjA42E* BSFrustumFOVController_CreateClone(CloningProcessObjA42E& cloning);
 };
 
 // Allocates an ObjA42E, calls FUN_00a57620 with it and cloning, and returns the new object.
 // @fnv 0x00a42e90
-ObjA42E* ObjA42E::FUN_00a42e90(CloningProcessObjA42E& cloning)
+ObjA42E* ObjA42E::BSFrustumFOVController_CreateClone(CloningProcessObjA42E& cloning)
 {
     ObjA42E* p = new ObjA42E;
     FUN_00a57620(p, cloning);

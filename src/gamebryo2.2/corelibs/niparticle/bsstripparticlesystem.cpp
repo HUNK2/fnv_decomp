@@ -5,7 +5,7 @@
 void* g_01202560;
 
 // @fnv 0x00c257c0
-void* __cdecl FUN_00c257c0()
+void* __cdecl BSStripParticleSystem_GetRTTI()
 {
     return &g_01202560;
 }
@@ -20,13 +20,13 @@ struct NiRenderer
 };
 struct FUN_00a80610_shell
 {
-    void __thiscall FUN_00a80610(NiRenderer*);
-    void __thiscall FUN_00c25730(NiRenderer*);
+    void __thiscall NiGeometry_RenderImmediate(NiRenderer*);
+    void __thiscall BSStripParticleSystem_RenderImmediate(NiRenderer*);
 };
 // @fnv 0x00c25730
-void __thiscall FUN_00a80610_shell::FUN_00c25730(NiRenderer* apkRenderer)
+void __thiscall FUN_00a80610_shell::BSStripParticleSystem_RenderImmediate(NiRenderer* apkRenderer)
 {
-    this->FUN_00a80610(apkRenderer);
+    this->NiGeometry_RenderImmediate(apkRenderer);
     NiRenderer* pkRenderer = apkRenderer;
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
         ((void(__thiscall*)(NiRenderer*, FUN_00a80610_shell*))(*(void***)pkRenderer)[112])(pkRenderer, this);
@@ -85,11 +85,11 @@ ParticleSystem* ParticleOwner::CreateParticleSystem(unsigned int flags)
     return object;
 }
 
-void __cdecl FUN_00c1b0b0();
+void __cdecl NiParticleSystem_RegisterStreamables();
 // @fnv 0x00c21940
 void __cdecl FUN_00c21940()
 {
-    FUN_00c1b0b0();
+    NiParticleSystem_RegisterStreamables();
 }
 
 struct NiCullingProcess
@@ -110,11 +110,11 @@ void __thiscall FUN_00c256f0_cls::FUN_00c256f0(NiCullingProcess& a)
     NiGeometry::OnVisible(a);
 }
 
-void __cdecl FUN_00c1b3a0();
+void __cdecl NiParticleSystem_LoadBinary();
 // @fnv 0x00c25700
-void __cdecl FUN_00c25700()
+void __cdecl BSStripParticleSystem_LoadBinary()
 {
-    FUN_00c1b3a0();
+    NiParticleSystem_LoadBinary();
 }
 
 extern "C" void __cdecl LoadModifiers();
@@ -124,17 +124,17 @@ void __cdecl FUN_00c25710()
     LoadModifiers();
 }
 
-void __cdecl FUN_00c1b400();
+void __cdecl NiParticleSystem_SaveBinary();
 // @fnv 0x00c25720
 void __cdecl FUN_00c25720()
 {
-    FUN_00c1b400();
+    NiParticleSystem_SaveBinary();
 }
 
-extern void FUN_00c1b1d0();
+extern void NiParticleSystem_IsEqual();
 
 // @fnv 0x00c21950
 void FUN_00c21950()
 {
-    FUN_00c1b1d0();
+    NiParticleSystem_IsEqual();
 }

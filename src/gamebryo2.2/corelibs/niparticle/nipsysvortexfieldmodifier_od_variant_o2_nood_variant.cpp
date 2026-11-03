@@ -8,9 +8,9 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_01202688;
-void* __cdecl FUN_00c26810();
+void* __cdecl NiPSysVortexFieldModifier_GetRTTI();
 
-// FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
+// NiPSysVortexFieldModifier_Update: NiPSysFieldModifier-style Update with attenuation - per-particle
 // force from FUN_00c26820, scaled by magnitude * dt / dist^attenuation.
 extern "C" double __cdecl pow(double, double);
 
@@ -29,7 +29,7 @@ struct TPoint3
     }
     bool FUN_004390c0(const TPoint3& kPt) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     TPoint3& FUN_00439180(float fScalar);
     TPoint3& FUN_0063c8a0(const TPoint3& kPt);
 };
@@ -161,14 +161,14 @@ struct TFieldModifier
     float m_fFieldStrength;
     TPoint3 m_kLightVector;
 
-    void FUN_00c26de0(float fTime, TPSysData* pkData);
+    void NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pkData);
     void FUN_00c269b0(float fTime, TPSysData* pkData);
     void FUN_00c26c00(float fTime, TPSysData* pkData);
     __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
 };
 
 // @fnv 0x00c26de0
-void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
+void TFieldModifier::NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pkData)
 {
     if (m_fInfluence == 0.0f)
         return;
@@ -199,7 +199,7 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
         NiTransform kFieldToPSys = kInvPSys.FUN_0062c250(kFieldXform);
         TPoint3 kFieldPos = kFieldToPSys.m_kTranslation;
         TPoint3 kFieldDir = kFieldToPSys.m_kOrientation.FUN_004b4500(m_kLightVector);
-        kFieldDir.FUN_004a0c10();
+        kFieldDir.NiPoint3_Unitize();
 
         for (unsigned short i = 0; i < pkData->GetShaderParticleCount(); i++)
         {

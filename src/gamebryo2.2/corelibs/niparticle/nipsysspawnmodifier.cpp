@@ -41,7 +41,7 @@ const NiRTTI* NiPSysBoundUpdateModifier::GetRTTI() const
 extern "C" const NiRTTI g_01202550;
 
 // @fnv 0x00c23ce0
-const NiRTTI* __cdecl FUN_00c23ce0()
+const NiRTTI* __cdecl NiPSysSpawnModifier_GetRTTI()
 {
     return &g_01202550;
 }
@@ -75,11 +75,11 @@ struct FUN_00c23b70_shell : NiObject
     float m_fSpawnDirectionChaos;
     float m_fYValue;
     float m_fLifeSpanVariation;
-    bool __thiscall FUN_00c23b70(NiObject* pkObject);
+    bool __thiscall NiPSysSpawnModifier_IsEqual(NiObject* pkObject);
 };
 // Compares this object with pkObject: checks IsEqual and that eight stored values match, returning true only if all are equal.
 // @fnv 0x00c23b70
-bool __thiscall FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
+bool __thiscall FUN_00c23b70_shell::NiPSysSpawnModifier_IsEqual(NiObject* pkObject)
 {
     FUN_00c23b70_shell* pkDest = static_cast<FUN_00c23b70_shell*>(pkObject);
     if (IsEqual(pkObject) && pkDest->m_usSpawnGenerationCount == m_usSpawnGenerationCount &&
@@ -109,7 +109,7 @@ struct Base00c319e0
 {
     unsigned char pad[0x18];
 
-    void __thiscall FUN_00c319e0(StrArr* strings);
+    void __thiscall NiPSysModifier_GetViewerStrings(StrArr* strings);
 };
 
 struct FUN_00c24a50_shell : Base00c319e0
@@ -134,7 +134,7 @@ char* __cdecl FUN_00a7d550(char const* name, float value);
 // @fnv 0x00c24a50
 void __thiscall FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
 {
-    Base00c319e0::FUN_00c319e0(strings);
+    Base00c319e0::NiPSysModifier_GetViewerStrings(strings);
 
     {
         char* value = _FUN_00a7d330(*reinterpret_cast<void* const*>(&g_01202550));
@@ -302,15 +302,15 @@ template <class T> __forceinline void StreamSaveBinary(SaveStream& stream, const
 
 struct SpawnModifier : NiPSysSpawnModifier
 {
-    void __thiscall FUN_00c31950(SaveStream& stream);
-    void __thiscall FUN_00c24920(SaveStream& stream);
+    void __thiscall NiPSysModifier_SaveBinary(SaveStream& stream);
+    void __thiscall NiPSysSpawnModifier_SaveBinary(SaveStream& stream);
 };
 
 // Saves the SpawnModifier fields to the stream after calling the base class save routine.
 // @fnv 0x00c24920
-void SpawnModifier::FUN_00c24920(SaveStream& stream)
+void SpawnModifier::NiPSysSpawnModifier_SaveBinary(SaveStream& stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     StreamSaveBinary(stream, m_usSpawnGenerationCount);
     StreamSaveBinary(stream, m_fSpawnPercentage);
     StreamSaveBinary(stream, m_usMinimumParticlesToSpawn);

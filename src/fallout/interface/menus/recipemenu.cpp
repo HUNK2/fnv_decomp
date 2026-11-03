@@ -4,11 +4,11 @@
 
 struct RecipeMenu
 {
-    int FUN_00726f00();
+    int RecipeMenu_GetClass();
 };
 
 // @fnv 0x00726f00
-int RecipeMenu::FUN_00726f00()
+int RecipeMenu::RecipeMenu_GetClass()
 {
     return 0x435;
 }
@@ -534,7 +534,7 @@ struct Tile_Set_shell
 
 struct FUN_00728a70_shell
 {
-    void __thiscall FUN_00728a70();
+    void __thiscall RecipeMenu_Update();
 };
 
 void __cdecl FUN_005330e0(float& value, float minimum, float maximum);
@@ -551,7 +551,7 @@ extern unsigned int DAT_011d8ebc;
 GameTimerRecord g_timeGlobal;
 
 // @fnv 0x00728a70
-void FUN_00728a70_shell::FUN_00728a70()
+void FUN_00728a70_shell::RecipeMenu_Update()
 {
     if ((unsigned char)DAT_011d8ea4 == 1)
         FUN_00728a30(true);
@@ -1730,7 +1730,7 @@ struct SelectionInterface
 {
     void FUN_00715860(SelectionTile*, int, bool);
 };
-SelectionInterface* FUN_004b7210();
+SelectionInterface* InterfaceManager_Instance();
 bool FUN_004b71d0();
 int FUN_00a01860(const char*);
 float FUN_0040ebd0(float, float);
@@ -1766,7 +1766,7 @@ void SelectionList::UpdateSelection(bool abNotify)
         scrollBar->FUN_00a012d0(FUN_00a01860("_current_value"), storedScroll, false);
         scrollBar->SetTraitAndReset(FUN_00a01860("_SetInCode"), 1.0f);
         selected = GetTile((unsigned int)FUN_0040ebd0(storedIndex, (float)(GetFilteredCount(0) - 1.0)));
-        FUN_004b7210()->FUN_00715860(selected, 0xfc3, abNotify);
+        InterfaceManager_Instance()->FUN_00715860(selected, 0xfc3, abNotify);
         SetSelected(selected);
         if (!FUN_004b71d0())
         {
@@ -2727,7 +2727,7 @@ char InitTutorialMenu(BGSMessage* message, int flags);
 // @fnv 0x00726ff0
 RcTile* CreateRecipeMenu(int vendor, int type)
 {
-    RcIM* im2 = static_cast<RcIM*>(FUN_004b7210());
+    RcIM* im2 = static_cast<RcIM*>(InterfaceManager_Instance());
     if (!vendor)
     {
         FNV_Warning(0x12, "Recipe menu called with NULL vendor!  Oh, noes!");
@@ -2770,13 +2770,13 @@ RcTile* CreateRecipeMenu(int vendor, int type)
         ((RcMenu*)DAT_011d8e90)->unk60 = vendor;
         ((RcMenu*)DAT_011d8e90)->unk64 = type;
         FUN_00717280(0x24);
-        if (!static_cast<RcIM*>(FUN_004b7210())->sub4D4.FUN_00718840(0x26))
+        if (!static_cast<RcIM*>(InterfaceManager_Instance())->sub4D4.FUN_00718840(0x26))
         {
             BGSMessage* message = dynamic_cast<BGSMessage*>(FUN_00483a00("HelpCrafting"));
             if (message)
             {
                 ((RcMenu*)DAT_011d8e90)->unk100 = InitTutorialMenu(message, 0);
-                static_cast<RcIM*>(FUN_004b7210())->sub4D4.SetFlag2(0x26);
+                static_cast<RcIM*>(InterfaceManager_Instance())->sub4D4.SetFlag2(0x26);
             }
         }
         ((RcMenu*)DAT_011d8e90)->FUN_00a1dc20(0);
@@ -3592,7 +3592,7 @@ extern RecipeData* DAT_011d8e94;
 int __cdecl FUN_00406d00(char*, int, const char*, ...);
 const char* __cdecl FUN_00464f30(const char*, bool);
 const char* __cdecl FUN_0066e950(int);
-int __cdecl FUN_00480f80(TESObjectARMO*, FNVAuxController*);
+int __cdecl TESBipedModelForm_GetMessageIcon(TESObjectARMO*, FNVAuxController*);
 struct SexData
 {
     int FUN_0087f4c0();
@@ -3612,11 +3612,11 @@ struct RecipeEnterMenu
     int unk68;
     RecipeBox first, second;
     void FUN_00728da0(TESForm*, RecipeTiles*);
-    void FUN_00727b10(int, RecipeTiles*);
+    void RecipeMenu_HandleMouseover(int, RecipeTiles*);
 };
 // Handles actions 3, 6, and 15 to switch recipe views, rebuild ingredient details, and update selected item tiles.
 // @fnv 0x00727b10
-void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
+void RecipeEnterMenu::RecipeMenu_HandleMouseover(int id, RecipeTiles* tile)
 {
     if (!tile && id >= 0 && id < 14)
         tile = tiles[id];
@@ -3631,7 +3631,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
     case 6:
         Activate(3, 0);
         first.SetSelected(0);
-        FUN_004b7210();
+        InterfaceManager_Instance();
         if (FUN_004b71d0())
             second.SetSelected(second.SelectAt(0, false));
         DAT_011d8ea5 = 1;
@@ -3743,7 +3743,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
             else
             {
                 TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(selected->FUN_00726070());
-                if (armor && FUN_00480f80(armor, DAT_011dea3c))
+                if (armor && TESBipedModelForm_GetMessageIcon(armor, DAT_011dea3c))
                 {
                     tiles[9]->FUN_00a01350(0xfcc, armor->names.FUN_00481280(((SexData*)DAT_011dea3c)->FUN_0087f4c0()),
                                            true);
@@ -4057,14 +4057,14 @@ class RecipeStatsFormView
 struct TESObjectWEAP : public TESForm
 {
     int GetField19C();
-    void* FUN_00525980(int a);
+    void* TESObjectWEAP_GetCurrentAmmo(int a);
     float FUN_00709430(int a);
     int FUN_00525b20(int a, int b, int c);
 };
 
 struct RecipeStatsArmorView : public TESForm
 {
-    float FUN_004be060();
+    float TESObjectARMO_GetArmorRating();
 };
 
 struct SoundObj
@@ -4092,7 +4092,7 @@ struct AmmoObj
 
 struct InvChanges
 {
-    int FUN_004c8f30(void* ammo);
+    int InventoryChanges_GetObjectCount(void* ammo);
 };
 
 struct ProcessObj
@@ -4230,7 +4230,7 @@ struct RecipeStatsPlayerView
     ProcessObj* FUN_008d8520();
 };
 
-bool __fastcall FUN_004d1360(RecipeStatsPlayerView* a);
+bool __fastcall PlayerCharacter_IsHardcore(RecipeStatsPlayerView* a);
 
 struct SettingObj
 {
@@ -4252,7 +4252,7 @@ float __cdecl GetWeaponDamage(TESObjectWEAP* weapon, float condition, int a, int
 float __cdecl FUN_00646360(int rating, float condition);
 float __cdecl FUN_00476b20(float rating);
 int __cdecl FUN_00a01860(const char* a);
-int __cdecl FUN_0048e8a0(void* a);
+int __cdecl TESValueForm_GetFormValue(void* a);
 float __cdecl ComputeItemValue(float a, float b);
 float __cdecl FUN_0048ebc0(void* a, int b);
 float __cdecl FUN_00645380(void* actorValues, TESObjectWEAP* weapon, float condition, int p4, int p5, int p6, int p7,
@@ -4333,8 +4333,8 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
             qSVM = 0x1009;
             qpqRa = 0.0f;
             qdqWL = 0.0f;
-            qfTOqo = ComputeItemValue((float)FUN_0048e8a0(apForm), 1.0f);
-            qpTd = FUN_0048ebc0(apForm, (int)FUN_004d1360((RecipeStatsPlayerView*)DAT_011dea3c));
+            qfTOqo = ComputeItemValue((float)TESValueForm_GetFormValue(apForm), 1.0f);
+            qpTd = FUN_0048ebc0(apForm, (int)PlayerCharacter_IsHardcore((RecipeStatsPlayerView*)DAT_011dea3c));
             if (apForm && apTiles)
             {
                 qjXCGmG = apTiles->links.FUN_00726070();
@@ -4399,16 +4399,16 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
                         qrEZrs[10]->FUN_00a01350(qvyWyw, local2, true);
                     }
                     DAT_011d8eb4 = (Tile*)qrEZrs[10];
-                    if (weapon4->FUN_00525980(0))
+                    if (weapon4->TESObjectWEAP_GetCurrentAmmo(0))
                     {
                         local31 = ((RecipeStatsPlayerView*)DAT_011dea3c)->FUN_008d8520()->v52();
                         local_ = ((RecipeStatsPlayerView*)DAT_011dea3c)->FUN_008d8520()->v53();
-                        local9 = ((AmmoObj*)weapon4->FUN_00525980(0))->GetStringAtOffsetC4();
-                        local67 = FUN_004bf220(DAT_011dea3c)->FUN_004c8f30(weapon4->FUN_00525980(0));
+                        local9 = ((AmmoObj*)weapon4->TESObjectWEAP_GetCurrentAmmo(0))->GetStringAtOffsetC4();
+                        local67 = FUN_004bf220(DAT_011dea3c)->InventoryChanges_GetObjectCount(weapon4->TESObjectWEAP_GetCurrentAmmo(0));
                         loaded = 0;
                         if (!local9 || *local9 == 0)
                         {
-                            local9 = ((AmmoObj*)weapon4->FUN_00525980(0))->name.FUN_00408da0();
+                            local9 = ((AmmoObj*)weapon4->TESObjectWEAP_GetCurrentAmmo(0))->name.FUN_00408da0();
                         }
                         local10 = (weapon4->FUN_00709430(0) == 0.0) ? (unsigned char)0 : (unsigned char)1;
                         if (local10)
@@ -4434,7 +4434,7 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
                     float local3 = 1.0f;
                     FUN_00406d00(
                         local14, 0x80, str_01020764,
-                        (int)FUN_00476b20(FUN_00646360((int)((RecipeStatsArmorView*)apForm)->FUN_004be060(), local3)));
+                        (int)FUN_00476b20(FUN_00646360((int)((RecipeStatsArmorView*)apForm)->TESObjectARMO_GetArmorRating(), local3)));
                     qrEZrs[0]->FUN_00a01350(qvyWyw, local14, true);
                     qsSDDgz = 0x1d;
                     break;

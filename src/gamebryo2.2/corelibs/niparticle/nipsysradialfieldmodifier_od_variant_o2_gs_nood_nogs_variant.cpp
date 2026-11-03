@@ -8,7 +8,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_012026b0;
-void* __cdecl FUN_00c285c0();
+void* __cdecl NiPSysRadialFieldModifier_GetRTTI();
 
 struct NiPoint3
 {
@@ -110,11 +110,11 @@ class RadialField
     float radiusSquared;
     float attenuation;
     void Update(float time, ParticleSystem* system);
-    void FUN_00c287a0(float time, ParticleSystem* system);
+    void NiPSysRadialFieldModifier_Update(float time, ParticleSystem* system);
 };
 
 // @fnv 0x00c287a0
-void RadialField::FUN_00c287a0(float time, ParticleSystem* system)
+void RadialField::NiPSysRadialFieldModifier_Update(float time, ParticleSystem* system)
 {
     if (strength == 0.0f || system->count == 0 || source == 0)
         return;

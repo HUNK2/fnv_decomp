@@ -7,19 +7,19 @@ struct NiObject
     virtual ~NiObject();
 };
 
-extern "C" char __stdcall FUN_00a7b3d0(NiObject*);
+extern "C" char __stdcall NiExtraData_IsEqual(NiObject*);
 
 // @fnv 0x00a89b00
-char __stdcall FUN_00a89b00(NiObject* pObject)
+char __stdcall NiVertWeightsExtraData_IsEqual(NiObject* pObject)
 {
-    char b = FUN_00a7b3d0(pObject);
+    char b = NiExtraData_IsEqual(pObject);
     return b != 0;
 }
 
 extern "C" void* g_011f5b78;
 
 // @fnv 0x00a89b20
-void* __cdecl FUN_00a89b20()
+void* __cdecl NiVertWeightsExtraData_GetRTTI()
 {
     return &g_011f5b78;
 }
@@ -119,12 +119,12 @@ struct A89C70Object : A89C70Base
 {
     static A89C70RTTI ms_kRTTI;
 
-    void FUN_00a89c70(A89C70StringArray* pkStrings);
+    void NiVertWeightsExtraData_GetViewerStrings(A89C70StringArray* pkStrings);
 };
 
 // Calls the base GetViewerStrings, then adds the RTTI name string to the string array.
 // @fnv 0x00a89c70
-void A89C70Object::FUN_00a89c70(A89C70StringArray* pkStrings)
+void A89C70Object::NiVertWeightsExtraData_GetViewerStrings(A89C70StringArray* pkStrings)
 {
     A89C70Base::GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
@@ -139,11 +139,11 @@ struct FUN_00a89b30_cls
     unsigned int unk04;
     unsigned int unk08;
     void FUN_00a7b330(void* obj, unsigned int a1);
-    void* FUN_00a89b30(unsigned int a1);
+    void* NiVertWeightsExtraData_CreateClone(unsigned int a1);
 };
 
 // @fnv 0x00a89b30
-void* FUN_00a89b30_cls::FUN_00a89b30(unsigned int a1)
+void* FUN_00a89b30_cls::NiVertWeightsExtraData_CreateClone(unsigned int a1)
 {
     FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)FUN_00aa13e0(0xc);
     if (p != 0)
@@ -191,7 +191,7 @@ static __forceinline void LoadU32(S_00a89be0_Stream* s, unsigned int* v, unsigne
 }
 
 // @fnv 0x00a89be0
-void __stdcall FUN_00a89be0(S_00a89be0_Stream* s)
+void __stdcall NiVertWeightsExtraData_LoadBinary(S_00a89be0_Stream* s)
 {
     if (s->m_uiFormatVersion < 0x5000010)
     {

@@ -1808,7 +1808,7 @@ struct HeapProvider
     void* FUN_00aa42e0();
 };
 
-HeapProvider* __cdecl FUN_00401020();
+HeapProvider* __cdecl MemoryManager_Instance();
 
 struct FUN_006cf2a0 : FUN_005e0510
 {
@@ -1817,12 +1817,12 @@ struct FUN_006cf2a0 : FUN_005e0510
     void FUN_006b3eb0(int first, int second);
 };
 
-// Sets the vtable, stores heap or a default heap from FUN_00401020, then calls FUN_006b3eb0 with first and second.
+// Sets the vtable, stores heap or a default heap from MemoryManager_Instance, then calls FUN_006b3eb0 with first and second.
 // @fnv 0x006cf2a0
 FUN_006cf2a0::FUN_006cf2a0(int first, int second, void* heap)
 {
     m_vftable = &DAT_0106c968;
-    m_pStreamAllocator = heap ? heap : FUN_00401020()->FUN_00aa42e0();
+    m_pStreamAllocator = heap ? heap : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(first, second);
 }
 
@@ -1831,7 +1831,7 @@ struct DefaultPathSource
 {
     void* FUN_00aa42e0();
 };
-DefaultPathSource* __cdecl FUN_00401020();
+DefaultPathSource* __cdecl MemoryManager_Instance();
 struct FUN_005e04c0
 {
     FUN_005e04c0();
@@ -1850,7 +1850,7 @@ struct FUN_006cf3a0 : FUN_005e04c0
 // @fnv 0x006cf3a0
 FUN_006cf3a0::FUN_006cf3a0(int arg1, int arg2, void* source) : FUN_005e04c0()
 {
-    unk10 = source ? source : FUN_00401020()->FUN_00aa42e0();
+    unk10 = source ? source : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(arg1, arg2);
 }
 }  // namespace fnv_006cf3a0
@@ -1972,7 +1972,7 @@ struct FUN_00aa42e0_cls
     int FUN_00aa42e0();
 };
 
-void* __cdecl FUN_00401020();
+void* __cdecl MemoryManager_Instance();
 
 class FUN_006cfa00 : public FUN_006cfa00_base
 {
@@ -1988,7 +1988,7 @@ class FUN_006cfa00 : public FUN_006cfa00_base
 // @fnv 0x006cfa00
 FUN_006cfa00::FUN_006cfa00(int aiFirst, int aiSecond, int aiValue)
 {
-    m_10 = (aiValue != 0) ? aiValue : ((FUN_00aa42e0_cls*)FUN_00401020())->FUN_00aa42e0();
+    m_10 = (aiValue != 0) ? aiValue : ((FUN_00aa42e0_cls*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006dc440(aiFirst, aiSecond);
 }
 }  // namespace fnv_006cfa00
@@ -2026,7 +2026,7 @@ struct FUN_00aa42e0_obj
     void* __thiscall FUN_00aa42e0();
 };
 
-FUN_00aa42e0_obj* __cdecl FUN_00401020();
+FUN_00aa42e0_obj* __cdecl MemoryManager_Instance();
 
 struct FUN_006cfb20_cls : FUN_00694de0_base
 {
@@ -2040,12 +2040,12 @@ struct FUN_006cfb20_cls : FUN_00694de0_base
     FUN_006cfb20_cls(int a, int b, void* c);
 };
 
-// Constructor: sets vfptr, stores c (or a default from FUN_00401020) in m_10, then calls FUN_006b3eb0(a, b).
+// Constructor: sets vfptr, stores c (or a default from MemoryManager_Instance) in m_10, then calls FUN_006b3eb0(a, b).
 // @fnv 0x006cfb20
 FUN_006cfb20_cls::FUN_006cfb20_cls(int aiArg1, int aiArg2, void* apData)
 {
     vfptr = (int*)&DAT_0106c9f4;
-    m_10 = apData != 0 ? apData : FUN_00401020()->FUN_00aa42e0();
+    m_10 = apData != 0 ? apData : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(aiArg1, aiArg2);
 }
 }  // namespace fnv_006cfb20
@@ -2357,7 +2357,7 @@ struct FUN_006cf570 : FUN_006d0420_Base
 // @fnv 0x006cf570
 FUN_006cf570::FUN_006cf570(unsigned int initialSize, unsigned int growth, void* allocator) : FUN_006d0420_Base()
 {
-    m_pThreadAllocator = allocator ? allocator : FUN_00401020()->FUN_00aa42e0();
+    m_pThreadAllocator = allocator ? allocator : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_0069b940(initialSize, growth);
 }
 

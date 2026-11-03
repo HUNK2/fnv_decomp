@@ -5,7 +5,7 @@
 extern "C" void* g_011f4044;
 
 // @fnv 0x00a52d70
-void* __cdecl FUN_00a52d70()
+void* __cdecl NiBoolTimelineInterpolator_GetRTTI()
 {
     return &g_011f4044;
 }
@@ -93,18 +93,18 @@ struct StrArr
 };
 struct Proxy536d0
 {
-    void FUN_00a536d0(StrArr*);
+    void NiBoolInterpolator_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 struct NiBoolTimelineInterpolator : NiBoolInterpolator
 {
     void AppendString(StrArr*);
 };
-// Appends the string returned by _FUN_00a7d330(g_011f4044) to pkStrings, growing it via SetSize when full, after calling FUN_00a536d0.
+// Appends the string returned by _FUN_00a7d330(g_011f4044) to pkStrings, growing it via SetSize when full, after calling NiBoolInterpolator_GetViewerStrings.
 // @fnv 0x00a53020
 void NiBoolTimelineInterpolator::AppendString(StrArr* pkStrings)
 {
-    ((Proxy536d0*)this)->FUN_00a536d0(pkStrings);
+    ((Proxy536d0*)this)->NiBoolInterpolator_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330((const char*)g_011f4044);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -351,36 +351,36 @@ void __cdecl FUN_00a514d0()
 void __cdecl SaveToStream();
 
 // @fnv 0x00a52d00
-void __cdecl FUN_00a52d00()
+void __cdecl NiBoolTimelineInterpolator_SaveBinary()
 {
     SaveToStream();
 }
 
-extern void FUN_00a53600();
+extern void NiBoolInterpolator_LoadBinary();
 
 // @fnv 0x00a52ce0
-void FUN_00a52ce0()
+void NiBoolTimelineInterpolator_LoadBinary()
 {
-    FUN_00a53600();
+    NiBoolInterpolator_LoadBinary();
 }
 
 extern void FUN_00a3c5b0();
 
 // @fnv 0x00a52cf0
-void FUN_00a52cf0()
+void NiBoolTimelineInterpolator_RegisterStreamables()
 {
     FUN_00a3c5b0();
 }
 
 struct BoolInterpolator
 {
-    bool FUN_00a53220();
-    bool FUN_00a52d10();
+    bool NiBoolInterpolator_IsEqual();
+    bool NiBoolTimelineInterpolator_IsEqual();
 };
 // @fnv 0x00a52d10
-bool BoolInterpolator::FUN_00a52d10()
+bool BoolInterpolator::NiBoolTimelineInterpolator_IsEqual()
 {
-    return FUN_00a53220();
+    return NiBoolInterpolator_IsEqual();
 }
 
 class CloningProcessA52F;
@@ -412,12 +412,12 @@ class InterpA52F : public FUN_00a53280
     bool m_bBoolValue;
 
     void CloneTo(InterpA52F* dest, CloningProcessA52F& cloning);
-    InterpA52F* FUN_00a52f80(CloningProcessA52F& cloning);
+    InterpA52F* NiBoolTimelineInterpolator_CreateClone(CloningProcessA52F& cloning);
 };
 
 // Allocates a new InterpA52F, copies state into it via CloneTo, and returns the clone.
 // @fnv 0x00a52f80
-InterpA52F* InterpA52F::FUN_00a52f80(CloningProcessA52F& cloning)
+InterpA52F* InterpA52F::NiBoolTimelineInterpolator_CreateClone(CloningProcessA52F& cloning)
 {
     InterpA52F* p = new InterpA52F;
     CloneTo(p, cloning);

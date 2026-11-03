@@ -27,7 +27,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f405c;
 
 // @fnv 0x00a55120
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55120()
+GlobalObjectO2_00a7b610* __cdecl NiBoneLODController_GetRTTI()
 {
     return &g_011f405c;
 }
@@ -136,10 +136,10 @@ struct NiBoneLODController : public NiObject
     unsigned int m_uiNumLODs;
     NiBoneLODController* FUN_00a550b0();
     void FUN_00a6cfe0(NiBoneLODController*, CloningProcess*);
-    NiBoneLODController* FUN_00a552c0(CloningProcess&);
+    NiBoneLODController* NiBoneLODController_CreateClone(CloningProcess&);
 };
 // @fnv 0x00a552c0
-NiBoneLODController* NiBoneLODController::FUN_00a552c0(CloningProcess& kCloning)
+NiBoneLODController* NiBoneLODController::NiBoneLODController_CreateClone(CloningProcess& kCloning)
 {
     NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(BSFadeNode::operator new(0x68));
     if (pkObject)
@@ -411,7 +411,7 @@ class NiTimeController : public NiObjectA53
 class NiBoneLODControllerA53 : public NiTimeController
 {
   public:
-    bool FUN_00a53d00(NiStream& kStream);
+    bool NiBoneLODController_RegisterStreamables(NiStream& kStream);
 
     int m_iLOD;
     unsigned int m_uiNumLODs;
@@ -424,7 +424,7 @@ class NiBoneLODControllerA53 : public NiTimeController
 
 // Calls the base RegisterStreamables, then registers the skin instance of every skin info in each LOD skin info set, returning false if the base call fails.
 // @fnv 0x00a53d00
-bool NiBoneLODControllerA53::FUN_00a53d00(NiStream& kStream)
+bool NiBoneLODControllerA53::NiBoneLODController_RegisterStreamables(NiStream& kStream)
 {
     if (!NiTimeController::RegisterStreamables(kStream))
         return false;
@@ -880,7 +880,7 @@ class EqTimeController : public EqObject
 class EqBoneLODController : public EqTimeController
 {
   public:
-    bool FUN_00a53ea0(EqObject* pkObject);
+    bool NiBoneLODController_IsEqual(EqObject* pkObject);
 
     int m_iLOD;
     unsigned int m_uiNumLODs;
@@ -891,7 +891,7 @@ class EqBoneLODController : public EqTimeController
 
 // Compares LOD, LOD counts, node/skin/shape sets and their elements against pkObject after BaseIsEqual, returning false on any mismatch.
 // @fnv 0x00a53ea0
-bool EqBoneLODController::FUN_00a53ea0(EqObject* pkObject)
+bool EqBoneLODController::NiBoneLODController_IsEqual(EqObject* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -1229,7 +1229,7 @@ struct BoneLODLoader
     LinkGroupArray<void*> nodeGroups;
     LinkGroupArray<LinkSkinInfo*> skinGroups;
     LinkGroup<void*> extraLinks;
-    void FUN_00a6d5e0(LODStream*);
+    void NiTimeController_LoadBinary(LODStream*);
     void ReadFromStream(LODStream*);
 };
 // Reads the current LOD, LOD count, node groups, skin groups and extra links from the stream, building the group arrays.
@@ -1237,7 +1237,7 @@ struct BoneLODLoader
 void BoneLODLoader::ReadFromStream(LODStream* stream)
 {
     unsigned int i;
-    FUN_00a6d5e0(stream);
+    NiTimeController_LoadBinary(stream);
     stream->Read32(&currentLOD);
     stream->Read32(&lodCount);
     unsigned int nodeCount = 0;
@@ -1467,7 +1467,7 @@ struct NiStream
 };
 struct BaseHack : NiTimeController
 {
-    virtual void FUN_00a6d730(NiStream& stream);
+    virtual void NiTimeController_SaveBinary(NiStream& stream);
 };
 struct BoneLODSerializer : BaseHack
 {
@@ -1476,7 +1476,7 @@ struct BoneLODSerializer : BaseHack
     NiTPrimitiveArray<NodeCollection*> nodes;
     NiTPrimitiveArray<PairCollection*> skins;
     NodeCollection defaultNodes;
-    virtual void FUN_00a549d0(NiStream& stream);
+    virtual void NiBoneLODController_SaveBinary(NiStream& stream);
 };
 template <class T> inline void SaveStream(NiStream& kStream, const T& value)
 {
@@ -1484,9 +1484,9 @@ template <class T> inline void SaveStream(NiStream& kStream, const T& value)
 }
 // Serializes the LOD level, node groups, skin groups, and default nodes of a bone LOD entry to the stream.
 // @fnv 0x00a549d0
-void BoneLODSerializer::FUN_00a549d0(NiStream& stream)
+void BoneLODSerializer::NiBoneLODController_SaveBinary(NiStream& stream)
 {
-    BaseHack::FUN_00a6d730(stream);
+    BaseHack::NiTimeController_SaveBinary(stream);
     SaveStream(stream, lod);
     SaveStream(stream, lodCount);
     {
@@ -2145,12 +2145,12 @@ struct BoneLODCtrl : NiTimeControllerStub
     NiTArrayStub<NiTPrimitiveSet<NiNode*>*> m_kBoneSetArray;
     NiTArrayStub<NiTPrimitiveSet<GeometrySkinInstancePair*>*> m_kSkinInfoSets;
     NiTPrimitiveSet<NiTriBasedGeom*> m_kShapeGroups;
-    void FUN_00a53d70(NiStream& kStream);
+    void NiBoneLODController_LinkObject(NiStream& kStream);
 };
 
 // Calls the base LinkObject, then loads objects into bone sets, skin pair fields, and shape groups.
 // @fnv 0x00a53d70
-void BoneLODCtrl::FUN_00a53d70(NiStream& kStream)
+void BoneLODCtrl::NiBoneLODController_LinkObject(NiStream& kStream)
 {
     NiTimeControllerStub::LinkObject(kStream);
 

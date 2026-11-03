@@ -72,7 +72,7 @@ class MediaSet : public TESForm, public TESFullName
         float Percent;
         MediaSetEntry();
         ~MediaSetEntry();
-        void FUN_00597850();
+        void MediaSet_MediaLayer_Clear();
     };
 
     enum MEDIASETTYPE

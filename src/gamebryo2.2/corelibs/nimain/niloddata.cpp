@@ -12,7 +12,7 @@ unsigned int NiLODData::Write(const void* buffer, unsigned int count)
 extern const char* const g_011f5ee8_arg1;
 
 // @fnv 0x00aa09e0
-const char* __cdecl FUN_00aa09e0()
+const char* __cdecl NiLODData_GetRTTI()
 {
     return (const char*)&g_011f5ee8_arg1;
 }

@@ -5,7 +5,7 @@
 extern void* g_011f5f48;
 
 // @fnv 0x00a9a5e0
-void* __cdecl FUN_00a9a5e0()
+void* __cdecl NiDitherProperty_GetRTTI()
 {
     return &g_011f5f48;
 }
@@ -29,7 +29,7 @@ struct BSFadeNode
 extern void* DAT_010a0f6c;
 
 // @fnv 0x00a9a640
-void* __cdecl FUN_00a9a640()
+void* __cdecl NiDitherProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x1c);
     if (p)
@@ -54,11 +54,11 @@ struct NiCullingProperty : NiProperty
     int unk14;
     unsigned short unk18;
     void FUN_00a5d7a0(NiCullingProperty*, CloningProcess&);
-    NiCullingProperty* FUN_00a9a5f0(CloningProcess&);
+    NiCullingProperty* NiDitherProperty_CreateClone(CloningProcess&);
 };
 // Allocates and constructs a copy of this NiCullingProperty, runs FUN_00a5d7a0 on it, copies unk18, and returns the copy.
 // @fnv 0x00a9a5f0
-NiCullingProperty* NiCullingProperty::FUN_00a9a5f0(CloningProcess& process)
+NiCullingProperty* NiCullingProperty::NiDitherProperty_CreateClone(CloningProcess& process)
 {
     NiCullingProperty* copy = (NiCullingProperty*)BSFadeNode::operator new(0x1c);
     if (copy)

@@ -197,11 +197,11 @@ FUN_00514500::FUN_00514500()
     reinterpret_cast<TESObjectBOOK*>(this)->ResetFormData();
 }
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int flags);
 };
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int flags);
 };
@@ -216,8 +216,8 @@ struct TESObjectBOOK_GetSaveSize
 unsigned short __thiscall TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0*)this)->GetSaveSize(aiFlags);
-    isize += ((FUN_0048e9b0*)((char*)this + 0x84))->GetSaveSize(aiFlags);
+    isize += ((TESForm_GetSaveSize*)this)->GetSaveSize(aiFlags);
+    isize += ((TESValueForm_GetSaveSize*)((char*)this + 0x84))->GetSaveSize(aiFlags);
     if (aiFlags & 0x20)
         isize += 1;
     return isize;
@@ -258,11 +258,11 @@ struct FUN_0048ea40_holder
 
 struct FUN_00515340_shell
 {
-    void FUN_00515340(BGSSaveFormBuffer* buffer);
+    void TESObjectBOOK_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer);
 };
 
 // @fnv 0x00515340
-void FUN_00515340_shell::FUN_00515340(BGSSaveFormBuffer* buffer)
+void FUN_00515340_shell::TESObjectBOOK_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(buffer);
     reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)->FUN_0048ea40(buffer);
@@ -288,7 +288,7 @@ void* FUN_005146a0_shell::Release(unsigned int flags)
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
     void FUN_0048e9e0(unsigned int);
 };
 struct TESSaveLoadGame
@@ -303,12 +303,12 @@ struct FUN_00515290_shell
     FUN_0051b070_shell m84;
     char _pad1[0x3C];
     char bC1;
-    void FUN_00515290(unsigned int);
+    void TESObjectBOOK_SaveGame(unsigned int);
 };
 // @fnv 0x00515290
-void FUN_00515290_shell::FUN_00515290(unsigned int aiFlags)
+void FUN_00515290_shell::TESObjectBOOK_SaveGame(unsigned int aiFlags)
 {
-    base.FUN_00484c20(aiFlags);
+    base.TESForm_SaveGame(aiFlags);
     m84.FUN_0048e9e0(aiFlags);
     if (aiFlags & 0x20)
         g_TESSaveLoadGame->FUN_008579b0(&bC1, 1);
@@ -317,7 +317,7 @@ void FUN_00515290_shell::FUN_00515290(unsigned int aiFlags)
 namespace fnv_005152e0 {
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {
@@ -334,25 +334,25 @@ struct FUN_005152e0_shell : TESFormStub
     TESValueFormStub val;
     char _pad1[0x3C];
     char byteC1;
-    void FUN_005152e0(unsigned int, unsigned int);
+    void TESObjectBOOK_LoadGame2(unsigned int, unsigned int);
 };
 // @fnv 0x005152e0
-void FUN_005152e0_shell::FUN_005152e0(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_005152e0_shell::TESObjectBOOK_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    TESFormStub::FUN_00484c50(aiFlags, aiCurrentFlags);
+    TESFormStub::TESForm_LoadGame2(aiFlags, aiCurrentFlags);
     val.FUN_0048ea10(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x20)
         g_TESSaveLoadGame->ReadTypedData(&byteC1, 1);
 }
 }  // namespace fnv_005152e0
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -360,7 +360,7 @@ struct S_0048a520
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -368,19 +368,19 @@ struct FUN_0047a240_shell
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct FUN_0047bd70_shell
 {
-    void FUN_0047bd70();
+    void TESEnchantableForm_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void FUN_00482cb0();
+    void TESDescription_Save();
 };
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct FUN_0047b560_holder
 {
@@ -392,9 +392,9 @@ struct Date
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(Date*, int);
+    void TESForm___SaveData(Date*, int);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -407,22 +407,22 @@ struct FUN_00514de0_shell
 // @fnv 0x00514de0
 void FUN_00514de0_shell::Destroy()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x30))->TESFullName_Save();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0xa4))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((FUN_0047bd70_shell*)((char*)this + 0x74))->FUN_0047bd70();
-    ((FUN_00482cb0_shell*)((char*)this + 0x94))->FUN_00482cb0();
-    ((S_00477f20*)((char*)this + 0x9c))->FUN_00477f20();
+    ((S_0048cca0*)((char*)this + 0x68))->TESScriptableForm_Save();
+    ((FUN_0047bd70_shell*)((char*)this + 0x74))->TESEnchantableForm_Save();
+    ((FUN_00482cb0_shell*)((char*)this + 0x94))->TESDescription_Save();
+    ((S_00477f20*)((char*)this + 0x9c))->BGSDestructibleObjectForm_Save();
     ((FUN_0047b560_holder*)((char*)this + 0xb4))->LogFormIDs();
     if (FUN_00401500())
         ((Date*)((char*)this + 0xc0))->Date::~Date();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((Date*)((char*)this + 0xc0), 2);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((Date*)((char*)this + 0xc0), 2);
     if (FUN_00401500())
         ((Date*)((char*)this + 0xc0))->Date::~Date();
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 class FUN_005146d0 : public TESBoundObject,
@@ -561,10 +561,10 @@ class FUN_005153a0_cls
     unsigned char unkC0;
     unsigned char bC1;
     void FUN_00484da0(FUN_005153a0_arg* a);
-    void FUN_005153a0(FUN_005153a0_arg* a1);
+    void TESObjectBOOK_LoadGame(FUN_005153a0_arg* a1);
 };
 // @fnv 0x005153a0
-void FUN_005153a0_cls::FUN_005153a0(FUN_005153a0_arg* a1)
+void FUN_005153a0_cls::TESObjectBOOK_LoadGame(FUN_005153a0_arg* a1)
 {
     unsigned int local;
     FUN_00484da0(a1);
@@ -582,7 +582,7 @@ struct BookDataAccessor307
 };
 struct Book307 : TESObjectBOOK
 {
-    void FUN_004851b0(TESForm* source);
+    void TESForm_CopyAllComponents(TESForm* source);
     void CopyBookData(TESForm* source);
 };
 // @fnv 0x00514ed0
@@ -591,7 +591,7 @@ void Book307::CopyBookData(TESForm* source)
     TESObjectBOOK* book = dynamic_cast<TESObjectBOOK*>(source);
     if (!book)
         return;
-    FUN_004851b0(source);
+    TESForm_CopyAllComponents(source);
     Data = *reinterpret_cast<BookDataAccessor307*>(book)->FUN_00514f30();
 }
 
@@ -610,7 +610,7 @@ class TESObjectWEAP : public TESBoundObject
 struct InventoryItem
 {
     TESBoundObject* GetObject();
-    void* FUN_004bdcc0();
+    void* ItemChange_GetPoison();
 };
 class BaseProcess
 {
@@ -1210,7 +1210,7 @@ void Actor::FUN_0095e6f0(int action)
                          0);
             return;
         }
-        if (item->FUN_004bdcc0())
+        if (item->ItemChange_GetPoison())
         {
             FUN_00703e80(g_011d2814.FUN_00403df0(), 0, 0, FUN_0095e900, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
                          0);
@@ -1228,19 +1228,19 @@ extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 class BookComparison : public TESObjectBOOK
 {
   public:
-    bool FUN_00514f50(TESForm* other);
-    bool FUN_00485270(TESForm* other);
+    bool TESObjectBOOK_Compare(TESForm* other);
+    bool TESForm_CompareAllComponents(TESForm* other);
     BookData* FUN_00514f30();
 };
 
-// Returns true if other is not a TESObjectBOOK or if FUN_00485270 or the BookData comparison is nonzero.
+// Returns true if other is not a TESObjectBOOK or if TESForm_CompareAllComponents or the BookData comparison is nonzero.
 // @fnv 0x00514f50
-bool BookComparison::FUN_00514f50(TESForm* other)
+bool BookComparison::TESObjectBOOK_Compare(TESForm* other)
 {
     TESObjectBOOK* book = dynamic_cast<TESObjectBOOK*>(other);
     if (!book)
         return true;
-    if (FUN_00485270(book))
+    if (TESForm_CompareAllComponents(book))
         return true;
     if (_memcmp(&Data, static_cast<BookComparison*>(book)->FUN_00514f30(), sizeof(BookData)))
         return true;

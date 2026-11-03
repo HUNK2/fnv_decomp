@@ -1517,11 +1517,11 @@ struct AtlasShader : NiMemObjectAllocation {
 };
 struct AtlasPropertyPointer { AtlasShader* pointer;AtlasPropertyPointer(AtlasShader*);~AtlasPropertyPointer();AtlasPropertyPointer& FUN_006e5cc0(const AtlasPropertyPointer&); };
 struct AtlasPropertyNode { AtlasPropertyNode* next;AtlasPropertyNode* previous;AtlasPropertyPointer value; };
-struct AtlasPoolLock {void FUN_0040fbf0(bool);void FUN_0040fba0();};
+struct AtlasPoolLock {void BSSpinLock_Lock(bool);void BSSpinLock_Unlock();};
 extern AtlasPoolLock DAT_011c5f80;
 extern AtlasPropertyNode* DAT_011c5f58;
 void FUN_0043a080();
-struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { DAT_011c5f80.FUN_0040fbf0(false);if(!DAT_011c5f58)FUN_0043a080();AtlasPropertyNode* node=DAT_011c5f58;DAT_011c5f58=DAT_011c5f58->next;node->value.pointer=0;node->next=0;node->previous=0;DAT_011c5f80.FUN_0040fba0();return node;} };
+struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { DAT_011c5f80.BSSpinLock_Lock(false);if(!DAT_011c5f58)FUN_0043a080();AtlasPropertyNode* node=DAT_011c5f58;DAT_011c5f58=DAT_011c5f58->next;node->value.pointer=0;node->next=0;node->previous=0;DAT_011c5f80.BSSpinLock_Unlock();return node;} };
 struct AtlasPropertyList { AtlasPropertyNode* head;AtlasPropertyNode* tail;AtlasNodeAllocator allocator;
  AtlasPropertyNode* NewNode(){return allocator.Allocate();}
  void FUN_0049fa20(AtlasPropertyNode*);
@@ -1582,7 +1582,7 @@ struct AtlasGeometry : NiMemObjectAllocation {
  AtlasGeometry(unsigned short,AtlasVertex*,unsigned,void*,AtlasUV*,unsigned,unsigned,unsigned short,unsigned short*,void*,void*,void*,void*);
  AtlasData* GetData() { AtlasData* result=data;return result; }
  void AssignFixedString(const AtlasString&);
- void FUN_00439410(AtlasShader* shader) { if(shader->GetPropertyType()<7) { AtlasPropertyPointer property(shader);properties.FUN_00439fd0(property); } }
+ void NiAVObject_AttachProperty(AtlasShader* shader) { if(shader->GetPropertyType()<7) { AtlasPropertyPointer property(shader);properties.FUN_00439fd0(property); } }
  void FUN_00a5a040();
 };
 void* FUN_00aa1070(unsigned);
@@ -1630,7 +1630,7 @@ AtlasGeometry* FontAtlasFactory::FUN_00a14da0() {
  geometry_->AssignFixedString(AtlasString(sheetGeometryName));
  geometry_->GetData()->FUN_00a67050(0x4000);
  AtlasShader* shader3=new AtlasShader(false);
- geometry_->FUN_00439410(shader3);
+ geometry_->NiAVObject_AttachProperty(shader3);
  shader3->color=DAT_011a9be0;
  FUN_00b57e30(geometry_,0,0);
  char sourceName7[260];

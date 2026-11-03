@@ -243,7 +243,7 @@ struct Pending_cls
     int unk00;
     int unk04;
     void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
+    void hkBinaryTagfileReader_load(Holder_cls* h, int a, int b);
 };
 struct Owner_cls
 {

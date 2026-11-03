@@ -5,7 +5,7 @@
 extern "C" void* g_01202740;
 
 // @fnv 0x00c2b650
-void* __cdecl FUN_00c2b650()
+void* __cdecl NiPSysEmitterLifeSpanCtlr_GetRTTI()
 {
     return &g_01202740;
 }
@@ -53,13 +53,13 @@ struct StrArr
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 // Appends the string returned by _FUN_00a7d330(g_01202740) to pkStrings, growing the array by its growth step when it is full.
 // @fnv 0x00c2b6d0
-void __stdcall FUN_00c2b6d0(StrArr* pkStrings)
+void __stdcall NiPSysEmitterLifeSpanCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330(g_01202740);
     unsigned int uSize = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int uCap = *(unsigned short*)((char*)pkStrings + 8);
@@ -104,11 +104,11 @@ class C2B680Object : public C2B680Base
     virtual ~C2B680Object();
 
     void CopyMemberData(C2B680Object* pkDest, void* pvCloning);
-    C2B680Object* FUN_00c2b680(void* pvCloning);
+    C2B680Object* NiPSysEmitterLifeSpanCtlr_CreateClone(void* pvCloning);
 };
 
 // @fnv 0x00c2b680
-C2B680Object* C2B680Object::FUN_00c2b680(void* pvCloning)
+C2B680Object* C2B680Object::NiPSysEmitterLifeSpanCtlr_CreateClone(void* pvCloning)
 {
     C2B680Object* pkClone = new C2B680Object;
     CopyMemberData(pkClone, pvCloning);

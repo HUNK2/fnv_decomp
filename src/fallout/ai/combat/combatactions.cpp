@@ -412,11 +412,11 @@ float __cdecl GetWeaponDPSDeficit(CombatController*, int);
 struct FUN_0097b4a0_cls
 {
     float FUN_00979e40(CombatController*, int);
-    float FUN_0097b4a0(CombatController* c, int v);
+    float CombatActionAttackMelee_GetCost(CombatController* c, int v);
 };
 // Returns the sum of FUN_00979e40(c, v) and GetWeaponDPSDeficit(c, 2).
 // @fnv 0x0097b4a0
-float FUN_0097b4a0_cls::FUN_0097b4a0(CombatController* apController, int v)
+float FUN_0097b4a0_cls::CombatActionAttackMelee_GetCost(CombatController* apController, int v)
 {
     return FUN_00979e40(apController, v) + GetWeaponDPSDeficit(apController, 2);
 }
@@ -466,13 +466,13 @@ struct IMH
 };
 struct FUN_0097b840_cls
 {
-    bool FUN_00979e90(CombatController*, CombatStateArray*, int);
-    bool FUN_0097b840(CombatController* c, CombatStateArray* w, int v);
+    bool CombatAction_CanExecute(CombatController*, CombatStateArray*, int);
+    bool CombatActionAttackGrenadeFlushTarget_CanExecute(CombatController* c, CombatStateArray* w, int v);
 };
 // @fnv 0x0097b840
-bool FUN_0097b840_cls::FUN_0097b840(CombatController* apController, CombatStateArray* w, int aiValue)
+bool FUN_0097b840_cls::CombatActionAttackGrenadeFlushTarget_CanExecute(CombatController* apController, CombatStateArray* w, int aiValue)
 {
-    if (!FUN_00979e90(apController, w, aiValue))
+    if (!CombatAction_CanExecute(apController, w, aiValue))
         return false;
     return ((IMH*)apController)->FUN_00586150(0xb)->FUN_0099ac20();
 }
@@ -559,11 +559,11 @@ void __cdecl FUN_0097bed0(CombatController*, int);
 
 struct CombatActionMoveStandIn
 {
-    void FUN_0097bca0(CombatController* apCombatController, int aiActionValue);
+    void CombatActionMove_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097bca0
-void CombatActionMoveStandIn::FUN_0097bca0(CombatController* apCombatController, int aiActionValue)
+void CombatActionMoveStandIn::CombatActionMove_Execute(CombatController* apCombatController, int aiActionValue)
 {
     FUN_0097bed0(apCombatController, aiActionValue);
 }
@@ -634,13 +634,13 @@ struct CombatStateArray;
 bool __cdecl FUN_0097beb0(CombatController*, CombatStateArray*, int);
 struct FUN_0097c490_cls
 {
-    bool FUN_00979e90(CombatController*, CombatStateArray*, int);
+    bool CombatAction_CanExecute(CombatController*, CombatStateArray*, int);
     bool FUN_0097c490(CombatController* c, CombatStateArray* w, int v);
 };
 // @fnv 0x0097c490
 bool FUN_0097c490_cls::FUN_0097c490(CombatController* apController, CombatStateArray* w, int aiValue)
 {
-    if (!FUN_00979e90(apController, w, aiValue))
+    if (!CombatAction_CanExecute(apController, w, aiValue))
         return false;
     return FUN_0097beb0(apController, w, aiValue);
 }
@@ -725,11 +725,11 @@ struct IMH
 
 struct IgnoreBlockedTargetStandIn
 {
-    void FUN_0097ccf0(IMH* apCombatController, int aiActionValue);
+    void CombatActionIgnoreBlockedTarget_Execute(IMH* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097ccf0
-void IgnoreBlockedTargetStandIn::FUN_0097ccf0(IMH* apCombatController, int aiActionValue)
+void IgnoreBlockedTargetStandIn::CombatActionIgnoreBlockedTarget_Execute(IMH* apCombatController, int aiActionValue)
 {
     apCombatController->FUN_00586150()->FUN_0097cd10(0);
 }
@@ -766,12 +766,12 @@ int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 struct CombatActionHideStandIn
 {
     const char* GetCombatActionName();
-    void FUN_0097d370(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
+    void CombatActionHide_GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
 };
 
 // Writes "<name>: <value>" into apDebugText using _sprintf_s, with the name from GetCombatActionName and aiActionValue.
 // @fnv 0x0097d370
-void CombatActionHideStandIn::FUN_0097d370(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
+void CombatActionHideStandIn::CombatActionHide_GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
 {
     _sprintf_s(apDebugText, aiMaxLength, "%s: %i", GetCombatActionName(), aiActionValue);
 }
@@ -787,11 +787,11 @@ struct FUN_00980250_shell
 };
 struct FUN_0097caf0_cls
 {
-    void FUN_0097caf0(FUN_00980250_shell* c, int v);
+    void CombatActionSearch_Execute(FUN_00980250_shell* c, int v);
 };
 // Allocates a new FUN_009d8b60 and passes it to c->FUN_009801b0; v is unused.
 // @fnv 0x0097caf0
-void FUN_0097caf0_cls::FUN_0097caf0(FUN_00980250_shell* c, int aiValue)
+void FUN_0097caf0_cls::CombatActionSearch_Execute(FUN_00980250_shell* c, int aiValue)
 {
     c->FUN_009801b0(new FUN_009d8b60);
 }
@@ -966,12 +966,12 @@ struct FUN_009d3a00
 
 struct FUN_0097b6d0_shell
 {
-    void FUN_0097b6d0(CombatController* apCombatController, int aiActionValue);
+    void CombatActionAttackGrenade_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // Allocates a FUN_009cadf0 and a FUN_009d3a00 and passes each to the combat controller's FUN_00980110 and FUN_009801b0 methods.
 // @fnv 0x0097b6d0
-void FUN_0097b6d0_shell::FUN_0097b6d0(CombatController* apCombatController, int aiActionValue)
+void FUN_0097b6d0_shell::CombatActionAttackGrenade_Execute(CombatController* apCombatController, int aiActionValue)
 {
     ((FUN_00980250_shell*)apCombatController)->FUN_00980110((int)new FUN_009cadf0());
     ((FUN_00980250_shell*)apCombatController)->FUN_009801b0((int)new FUN_009d3a00());
@@ -1013,11 +1013,11 @@ struct FUN_00980250_shell
 
 struct FUN_0097b880_shell
 {
-    void FUN_0097b880(CombatController* apCombatController, int aiActionValue);
+    void CombatActionAttackGrenadeFlushTarget_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097b880
-void FUN_0097b880_shell::FUN_0097b880(CombatController* apCombatController, int aiActionValue)
+void FUN_0097b880_shell::CombatActionAttackGrenadeFlushTarget_Execute(CombatController* apCombatController, int aiActionValue)
 {
     CombatState* pcombatState = (CombatState*)((IMH*)apCombatController)->FUN_00586150();
     CombatAvoidanceSphere* pcombatLocation =
@@ -1058,11 +1058,11 @@ struct FUN_009d2440
 
 struct FUN_0097bab0_shell
 {
-    void FUN_0097bab0(CombatController* apCombatController, int aiActionValue);
+    void CombatActionAttackGrenadeFromCover_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097bab0
-void FUN_0097bab0_shell::FUN_0097bab0(CombatController* apCombatController, int aiActionValue)
+void FUN_0097bab0_shell::CombatActionAttackGrenadeFromCover_Execute(CombatController* apCombatController, int aiActionValue)
 {
     ((FUN_00980250_shell*)apCombatController)->FUN_00980110((int)new FUN_009cadf0());
     ((FUN_00980250_shell*)apCombatController)
@@ -1076,7 +1076,7 @@ struct CombatController;
 
 struct FUN_0097bca0_cls
 {
-    void FUN_0097bca0(CombatController*, int);
+    void CombatActionMove_Execute(CombatController*, int);
 };
 
 struct IMH
@@ -1107,13 +1107,13 @@ struct FUN_00714d70
 
 struct FUN_0097c090_shell : FUN_0097bca0_cls
 {
-    void FUN_0097c090(CombatController* apCombatController, int aiActionValue);
+    void CombatActionMoveAndSwitchToMelee_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097c090
-void FUN_0097c090_shell::FUN_0097c090(CombatController* apCombatController, int aiActionValue)
+void FUN_0097c090_shell::CombatActionMoveAndSwitchToMelee_Execute(CombatController* apCombatController, int aiActionValue)
 {
-    FUN_0097bca0(apCombatController, aiActionValue);
+    CombatActionMove_Execute(apCombatController, aiActionValue);
     TESObjectWEAP* pweapon = ((CombatStateStub*)((IMH*)apCombatController)->FUN_00586150())->FUN_0097c150(2);
     ((FUN_00980270_shell*)apCombatController)->FUN_00980270((int)new FUN_009da720(pweapon));
     ((FUN_00714d70*)apCombatController)->SetField((int)pweapon);
@@ -1214,12 +1214,12 @@ void __cdecl FUN_0097bed0(CombatController*, int);
 
 struct FUN_0097c620_shell
 {
-    void FUN_0097c620(CombatController* apCombatController, int aiActionValue);
+    void CombatActionMoveAndAttackGrenade_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // Allocates a FUN_009cadf0 object, passes it to FUN_00980110 on the controller, then calls FUN_0097bed0 with the action value.
 // @fnv 0x0097c620
-void FUN_0097c620_shell::FUN_0097c620(CombatController* apCombatController, int aiActionValue)
+void FUN_0097c620_shell::CombatActionMoveAndAttackGrenade_Execute(CombatController* apCombatController, int aiActionValue)
 {
     ((FUN_00980250_shell*)apCombatController)->FUN_00980110(reinterpret_cast<int>(new FUN_009cadf0));
     FUN_0097bed0(apCombatController, aiActionValue);
@@ -1313,11 +1313,11 @@ struct FUN_0097bcc0_cls
 
 struct FUN_0097c8e0_shell : FUN_0097bcc0_cls
 {
-    float FUN_0097c8e0(CombatController* apCombatController, int aiActionValue);
+    float CombatActionSwitchWeapon_GetCost(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097c8e0
-float FUN_0097c8e0_shell::FUN_0097c8e0(CombatController* apCombatController, int aiActionValue)
+float FUN_0097c8e0_shell::CombatActionSwitchWeapon_GetCost(CombatController* apCombatController, int aiActionValue)
 {
     if (((TESAmmoInitCalls*)apCombatController)->GetFieldBC() &&
         ((TESAmmoInitCalls*)apCombatController)->GetFieldBC()->IsPlayerTeammate() &&
@@ -1372,11 +1372,11 @@ struct FUN_00980250_shell
 
 struct FUN_0097cdb0_shell
 {
-    void FUN_0097cdb0(CombatController* apCombatController, int aiActionValue);
+    void CombatActionFlee_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097cdb0
-void FUN_0097cdb0_shell::FUN_0097cdb0(CombatController* apCombatController, int aiActionValue)
+void FUN_0097cdb0_shell::CombatActionFlee_Execute(CombatController* apCombatController, int aiActionValue)
 {
     ((BSFaceGenNiNode*)((IMH*)apCombatController)->FUN_00586150())->SetApplyRotToParent(2);
     ((FUN_00980250_shell*)apCombatController)
@@ -1419,11 +1419,11 @@ struct FUN_00980250_shell
 
 struct FUN_0097cf10_shell
 {
-    void FUN_0097cf10(CombatController* apCombatController, int aiActionValue);
+    void CombatActionActivateCombatItem_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // @fnv 0x0097cf10
-void FUN_0097cf10_shell::FUN_0097cf10(CombatController* apCombatController, int aiActionValue)
+void FUN_0097cf10_shell::CombatActionActivateCombatItem_Execute(CombatController* apCombatController, int aiActionValue)
 {
     CombatReferenceEntry* pcombatItem =
         (CombatReferenceEntry*)((C99*)((IMH*)apCombatController)->FUN_00586150())->GetActionAtIndex(aiActionValue - 17);
@@ -1462,12 +1462,12 @@ struct FUN_00980250_shell
 
 struct FUN_0097d060_shell
 {
-    void FUN_0097d060(CombatController* apCombatController, int aiActionValue);
+    void CombatActionUseCombatItem_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // Looks up a TESBoundObject for the given action value minus 17 and, if found, passes a new FUN_009daa10 wrapping it to the combat controller.
 // @fnv 0x0097d060
-void FUN_0097d060_shell::FUN_0097d060(CombatController* apCombatController, int aiActionValue)
+void FUN_0097d060_shell::CombatActionUseCombatItem_Execute(CombatController* apCombatController, int aiActionValue)
 {
     TESBoundObject* pitem =
         (TESBoundObject*)((FUN_0097d110_shell*)((IMH*)apCombatController)->FUN_00586150())->GetAt(aiActionValue - 17);
@@ -1501,12 +1501,12 @@ struct FUN_009d6030
 
 struct FUN_0097d2d0_shell
 {
-    void FUN_0097d2d0(CombatController* apCombatController, int aiActionValue);
+    void CombatActionHide_Execute(CombatController* apCombatController, int aiActionValue);
 };
 
 // Allocates a FUN_009d6030 from the combat controller's IMH value and aiActionValue, then passes it to FUN_009801b0.
 // @fnv 0x0097d2d0
-void FUN_0097d2d0_shell::FUN_0097d2d0(CombatController* apCombatController, int aiActionValue)
+void FUN_0097d2d0_shell::CombatActionHide_Execute(CombatController* apCombatController, int aiActionValue)
 {
     ((FUN_00980250_shell*)apCombatController)
         ->FUN_009801b0(reinterpret_cast<int>(new FUN_009d6030(

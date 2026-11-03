@@ -5,7 +5,7 @@
 extern char const* const g_011f3ee8_arg1;
 
 // @fnv 0x00a43f70
-char const* const* __cdecl FUN_00a43f70()
+char const* const* __cdecl BSAnimNote_GetRTTI()
 {
     return &g_011f3ee8_arg1;
 }
@@ -13,7 +13,7 @@ char const* const* __cdecl FUN_00a43f70()
 extern int g_011f3ee8;
 
 // @fnv 0x00a43f80
-int* __cdecl FUN_00a43f80()
+int* __cdecl BSLookIKNote_GetRTTI()
 {
     return &g_011f3ee8;
 }
@@ -293,12 +293,12 @@ struct S_00a44130_Note : S_00a44130_Base
     int unkC;
     int m_10;
     int m_14;
-    void FUN_00a44130(S_00a44130_Stream& kStream);
+    void BSLookIKNote_LoadBinary(S_00a44130_Stream& kStream);
 };
 
 // Calls the base save, then writes m_10 and m_14 to the stream as binary values.
 // @fnv 0x00a44130
-void S_00a44130_Note::FUN_00a44130(S_00a44130_Stream& kStream)
+void S_00a44130_Note::BSLookIKNote_LoadBinary(S_00a44130_Stream& kStream)
 {
     S_00a44130_Base::ReadBinaryFields(kStream);
     S_00a44130_StreamSaveBinary(*kStream.m_pBackingStream, m_10);
@@ -484,19 +484,19 @@ struct S_00a44190_Base
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00a44a90(S_00a44190_Stream& kStream);
+    void BSAnimNote_SaveBinary(S_00a44190_Stream& kStream);
 };
 struct S_00a44190 : S_00a44190_Base
 {
     float unk10;
     float unk14;
-    void FUN_00a44190(S_00a44190_Stream& kStream);
+    void BSLookIKNote_SaveBinary(S_00a44190_Stream& kStream);
 };
 // Calls the base class save routine, then serializes the two float members unk10 and unk14 to the stream.
 // @fnv 0x00a44190
-void S_00a44190::FUN_00a44190(S_00a44190_Stream& kStream)
+void S_00a44190::BSLookIKNote_SaveBinary(S_00a44190_Stream& kStream)
 {
-    S_00a44190_Base::FUN_00a44a90(kStream);
+    S_00a44190_Base::BSAnimNote_SaveBinary(kStream);
     S_00a44190_SaveBinary(kStream, unk10);
     S_00a44190_SaveBinary(kStream, unk14);
 }
@@ -533,13 +533,13 @@ class A43FF0Interp : public A43FF0Mid
     virtual ~A43FF0Interp();
 
     void CopyMemberData(A43FF0Interp* pkDest, void* pvCloning);
-    A43FF0Interp* FUN_00a43ff0(void* pvCloning);
+    A43FF0Interp* BSLookIKNote_CreateClone(void* pvCloning);
 
     void* m_pUserData;
 };
 
 // @fnv 0x00a43ff0
-A43FF0Interp* A43FF0Interp::FUN_00a43ff0(void* pvCloning)
+A43FF0Interp* A43FF0Interp::BSLookIKNote_CreateClone(void* pvCloning)
 {
     A43FF0Interp* pkClone = new A43FF0Interp;
     CopyMemberData(pkClone, pvCloning);
@@ -663,7 +663,7 @@ struct S_00a441f0_cls
     unsigned int unk0c;
     float m_10;
     int m_14;
-    void FUN_00a44bf0(S_00a441f0_arg* p);
+    void BSAnimNote_GetViewerStrings(S_00a441f0_arg* p);
     void AppendFormattedFields(S_00a441f0_arg* p);
 };
 
@@ -680,7 +680,7 @@ inline void S_Push(S_00a441f0_arg* p, char* s)
 // @fnv 0x00a441f0
 void S_00a441f0_cls::AppendFormattedFields(S_00a441f0_arg* p)
 {
-    FUN_00a44bf0(p);
+    BSAnimNote_GetViewerStrings(p);
     S_Push(p, FUN_00a7d550(str_01097d24, m_10));
     switch (m_14)
     {

@@ -15,11 +15,11 @@ struct NiObject
 
 struct FUN_00c36040_Class
 {
-    void __thiscall FUN_00c36040(NiStream* stream);
+    void __thiscall BSMultiBound_LoadBinary(NiStream* stream);
 };
 
 // @fnv 0x00c36040
-void __thiscall FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
+void __thiscall FUN_00c36040_Class::BSMultiBound_LoadBinary(NiStream* stream)
 {
     ((NiObject*)this)->LoadBinary(*stream);
     stream->ResetStreamState();
@@ -45,10 +45,10 @@ struct Holder : public NiObject
 {
     char _pad[8];
     GO m_go;
-    void FUN_00c36070(class NiStream&);
+    void BSMultiBound_LinkObject(class NiStream&);
 };
 // @fnv 0x00c36070
-void Holder::FUN_00c36070(class NiStream& stream)
+void Holder::BSMultiBound_LinkObject(class NiStream& stream)
 {
     int _u1;
     int _u2;
@@ -60,11 +60,11 @@ void Holder::FUN_00c36070(class NiStream& stream)
 struct FUN_00c36220_class
 {
     void* __thiscall AppendCameraPathEntries(int);
-    void* __thiscall FUN_00c36220(int arg);
+    void* __thiscall BSMultiBound_GetViewerStrings(int arg);
 };
 
 // @fnv 0x00c36220
-void* __thiscall FUN_00c36220_class::FUN_00c36220(int arg)
+void* __thiscall FUN_00c36220_class::BSMultiBound_GetViewerStrings(int arg)
 {
     return AppendCameraPathEntries(arg);
 }
@@ -112,11 +112,11 @@ extern "C" void* g_01202810;
 
 struct FUN_00c36300_Class
 {
-    void* __thiscall FUN_00c36300();
+    void* __thiscall BSMultiBound_GetRTTI();
 };
 
 // @fnv 0x00c36300
-void* __thiscall FUN_00c36300_Class::FUN_00c36300()
+void* __thiscall FUN_00c36300_Class::BSMultiBound_GetRTTI()
 {
     return &g_01202810;
 }
@@ -131,11 +131,11 @@ struct BSMultiBound
 struct FUN_00c35f50_class
 {
     void __thiscall FUN_00c35fe0(BSMultiBound*, int);
-    BSMultiBound* __thiscall FUN_00c35f50(int);
+    BSMultiBound* __thiscall BSMultiBound_CreateClone(int);
 };
 
 // @fnv 0x00c35f50
-BSMultiBound* FUN_00c35f50_class::FUN_00c35f50(int a)
+BSMultiBound* FUN_00c35f50_class::BSMultiBound_CreateClone(int a)
 {
     BSMultiBound* t = new BSMultiBound;
     FUN_00c35fe0(t, a);
@@ -150,7 +150,7 @@ struct A51BF0Base
 };
 
 // @fnv 0x00c361a0
-BSMultiBound* FUN_00c361a0()
+BSMultiBound* BSMultiBound_CreateObject()
 {
     return new BSMultiBound;
 }
@@ -163,9 +163,9 @@ struct S_00c36130
     int unk08;
     int unk0c;
     bool IsSameAs(S_00c36130*);
-    bool FUN_00c36130(S_00c36130*);
+    bool BSMultiBound_IsEqual(S_00c36130*);
 };
-bool S_00c36130::FUN_00c36130(S_00c36130* arg)
+bool S_00c36130::BSMultiBound_IsEqual(S_00c36130* arg)
 {
     bool result = IsSameAs(arg);
     S_00c36130* other = arg;
@@ -206,11 +206,11 @@ struct FUN_00c360f0_shell : fnv_00c36070::NiObject
     int unk04;
     int unk08;
     int val;
-    void FUN_00c360f0(fnv_00c36070::NiStream&);
+    void BSMultiBound_SaveBinary(fnv_00c36070::NiStream&);
 };
 
 // @fnv 0x00c360f0
-void FUN_00c360f0_shell::FUN_00c360f0(fnv_00c36070::NiStream& s)
+void FUN_00c360f0_shell::BSMultiBound_SaveBinary(fnv_00c36070::NiStream& s)
 {
     fnv_00c36070::NiObject::LinkObject(s);
     int tmp = val;

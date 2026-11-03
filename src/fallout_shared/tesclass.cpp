@@ -93,7 +93,7 @@ bool TESClass::Load(TESFile* file)
         case 0x52545441: {
             unsigned char attributes[7];
             file->GetChunkData(attributes, 7);
-            TESAttributes::FUN_00480130(attributes);
+            TESAttributes::TESAttributes_Load(attributes);
             break;
         }
         }
@@ -113,7 +113,7 @@ struct FUN_005f6e20_shell : public TESClass
 
 struct TESClass_Helper
 {
-    ActorValue::Index FUN_005f6dd0();
+    ActorValue::Index TESClass_GetTrainingSkill();
     void SetSkillIndex(int);
 };
 
@@ -121,7 +121,7 @@ struct TESClass_Helper
 bool FUN_005f6e20_shell::ValidateSkillActorValue()
 {
     bool bIsSkill = true;
-    if (!ActorValue::IsSkill(((TESClass_Helper*)this)->FUN_005f6dd0()))
+    if (!ActorValue::IsSkill(((TESClass_Helper*)this)->TESClass_GetTrainingSkill()))
     {
         ((TESClass_Helper*)this)->SetSkillIndex(0x20);
         bIsSkill = false;
@@ -177,11 +177,11 @@ void FUN_005f6c90_shell::SwapEndianData()
 
 struct FUN_005f6dd0_shell
 {
-    int FUN_005f6dd0();
+    int TESClass_GetTrainingSkill();
 };
 
 // @fnv 0x005f6dd0
-int FUN_005f6dd0_shell::FUN_005f6dd0()
+int FUN_005f6dd0_shell::TESClass_GetTrainingSkill()
 {
     int result = *(unsigned char*)((char*)this + 0x5c) + 0x20;
     return result;
@@ -236,47 +236,47 @@ extern "C"
     unsigned char __cdecl _FUN_00401500();
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M(void);
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010(void);
+    void __thiscall TESFullName_Save(void);
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0(void);
+    void __thiscall TESDescription_Save(void);
 };
 struct FUN_00480100_shell
 {
-    unsigned int __thiscall FUN_00480100(void*);
+    unsigned int __thiscall TESAttributes_Save(void*);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M(void);
 };
 
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 
 struct FUN_005f6810_shell
 {
-    void __thiscall FUN_005f6810(void);
+    void __thiscall TESClass_SaveForm(void);
 };
 
 // @fnv 0x005f6810
-void __thiscall FUN_005f6810_shell::FUN_005f6810(void)
+void __thiscall FUN_005f6810_shell::TESClass_SaveForm(void)
 {
     char cAttribData[7];
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
-    reinterpret_cast<FUN_00482cb0_shell*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00482cb0();
-    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x2c)->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->TESFullName_Save();
+    reinterpret_cast<FUN_00482cb0_shell*>(reinterpret_cast<char*>(this) + 0x24)->TESDescription_Save();
+    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x2c)->TESTexture_Save(0x4e4f4349);
     if (_FUN_00401500())
     {
         reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)->SwapEndian();
@@ -286,9 +286,9 @@ void __thiscall FUN_005f6810_shell::FUN_005f6810(void)
     {
         reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)->SwapEndian();
     }
-    reinterpret_cast<FUN_00480100_shell*>(reinterpret_cast<char*>(this) + 0x38)->FUN_00480100(cAttribData);
-    FUN_004856f0(0x52545441, cAttribData, 7);
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<FUN_00480100_shell*>(reinterpret_cast<char*>(this) + 0x38)->TESAttributes_Save(cAttribData);
+    TESForm_AddChunkArray(0x52545441, cAttribData, 7);
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct S_005f66e0
@@ -315,7 +315,7 @@ struct XActor
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
     void CopyFromTESClass(TESForm* apCopy);
 };
 // @fnv 0x005f6d70
@@ -324,7 +324,7 @@ void FUN_005e78f0_t::CopyFromTESClass(TESForm* apCopy)
     TESClass* cl = dynamic_cast<TESClass*>(apCopy);
     if (!cl)
         return;
-    FUN_004851b0(apCopy);
+    TESForm_CopyAllComponents(apCopy);
     __memcpy((void*)((char*)this + 0x44), ((XActor*)cl)->GetExtra(), 0x1c);
 }
 
@@ -389,18 +389,18 @@ class ClassDataAccess : public TESClass
 class ClassComparison : public TESClass
 {
   public:
-    bool FUN_00485270(TESForm*);
-    bool FUN_005f6cf0(TESForm* other);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESClass_Compare(TESForm* other);
 };
 
-// Returns true if the cast fails, FUN_00485270 returns true, or the two TESClassData byte ranges differ.
+// Returns true if the cast fails, TESForm_CompareAllComponents returns true, or the two TESClassData byte ranges differ.
 // @fnv 0x005f6cf0
-bool ClassComparison::FUN_005f6cf0(TESForm* other)
+bool ClassComparison::TESClass_Compare(TESForm* other)
 {
     TESClass* pClass = dynamic_cast<TESClass*>(other);
     if (!pClass)
         return true;
-    if (FUN_00485270(pClass))
+    if (TESForm_CompareAllComponents(pClass))
         return true;
     if (_memcmp(&data, static_cast<ClassDataAccess*>(pClass)->FUN_005d43c0(), sizeof(TESClassData)))
         return true;

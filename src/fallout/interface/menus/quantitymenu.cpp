@@ -165,7 +165,7 @@ extern SettingS_7aba00 DAT_011d29f4;
 extern SettingF_7aba00 DAT_011d3bc8;
 extern Menu_7aba00* DAT_011da618;
 extern void* DAT_011da614;
-IM_7aba00* FUN_004b7210();
+IM_7aba00* InterfaceManager_Instance();
 Audio_7aba00* FUN_00453a70();
 int FUN_007abda0();
 Menu_7aba00* __cdecl FUN_00a09030(int id);
@@ -184,7 +184,7 @@ static const char kChild2_7aba00[] = "QM_Background";
 // @fnv 0x007aba00
 Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
 {
-    IM_7aba00* im4 = FUN_004b7210();
+    IM_7aba00* im4 = InterfaceManager_Instance();
     bool flag_ = false;
     Menu_7aba00* old = FUN_00a09030(FUN_007abda0());
     if (old)

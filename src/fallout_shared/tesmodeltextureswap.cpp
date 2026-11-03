@@ -486,7 +486,7 @@ struct BGSEquipType : public BaseFormComponent
 typedef char _sizecheck_BGSEquipType[sizeof(BGSEquipType) == 8 ? 1 : -1];
 struct FUN_0048a470_shell : public TESModelTextureSwap
 {
-    void FUN_0048a470();
+    void TESModelTextureSwap_InitializeDataComponent();
 };
 
 struct FUN_00489040_shell
@@ -494,7 +494,7 @@ struct FUN_00489040_shell
     void ClearString();
 };
 // @fnv 0x0048a470
-void FUN_0048a470_shell::FUN_0048a470()
+void FUN_0048a470_shell::TESModelTextureSwap_InitializeDataComponent()
 {
     ((FUN_00489040_shell*)this)->ClearString();
 }
@@ -505,10 +505,10 @@ struct FUN_004890e0_shell
 };
 struct FUN_0048a500_shell : public TESModelTextureSwap
 {
-    void FUN_0048a500();
+    void TESModelTextureSwap_ClearDataComponent();
 };
 // @fnv 0x0048a500
-void FUN_0048a500_shell::FUN_0048a500()
+void FUN_0048a500_shell::TESModelTextureSwap_ClearDataComponent()
 {
     ClearTextureSwaps();
     ((FUN_004890e0_shell*)this)->ForwardToMember();
@@ -654,7 +654,7 @@ class FUN_0048a490_TextureSwap : public B48A490Model
 {
   public:
     virtual ~FUN_0048a490_TextureSwap();
-    void FUN_0048a500();
+    void TESModelTextureSwap_ClearDataComponent();
 
     B48A490SimpleList<void*> m_kTextureSwapList;
 };
@@ -662,7 +662,7 @@ class FUN_0048a490_TextureSwap : public B48A490Model
 // @fnv 0x0048a490
 FUN_0048a490_TextureSwap::~FUN_0048a490_TextureSwap()
 {
-    FUN_0048a500();
+    TESModelTextureSwap_ClearDataComponent();
 }
 
 extern "C" char DAT_01183040;
@@ -686,7 +686,7 @@ struct TextureSwapNodeAccessor
 };
 struct FUN_0048aba0_Class
 {
-    void FUN_00489430(unsigned int);
+    void TESModel_CopyComponent(unsigned int);
     void FUN_0048ade0();
     void FUN_0048ae30(const char*, int, unsigned int);
     void ApplyTextureSwapOverrides(unsigned int formID);
@@ -695,7 +695,7 @@ struct FUN_0048aba0_Class
 // @fnv 0x0048aba0
 void FUN_0048aba0_Class::ApplyTextureSwapOverrides(unsigned int formID)
 {
-    FUN_00489430(formID);
+    TESModel_CopyComponent(formID);
     TextureSwapNodeAccessor* list =
         static_cast<TextureSwapNodeAccessor*>(FUN_00ec43fb(formID, 0, &DAT_01183040, &DAT_011831c4, 0));
     if (!list)
@@ -768,7 +768,7 @@ class ObjectRef
     int FUN_0084e3a0();
 };
 
-char* __cdecl FUN_00401000(unsigned int);
+char* __cdecl FormHeap_Allocate(unsigned int);
 unsigned int __cdecl FUN_0044a670(unsigned int);
 bool __cdecl FUN_00401500();
 struct FUN_00401080_tag
@@ -812,7 +812,7 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
             count++;
             iT = iT->FUN_00726070();
         }
-        *apBuffer = FUN_00401000(*auiSize);
+        *apBuffer = FormHeap_Allocate(*auiSize);
         _w = *apBuffer;
         loA2 = count;
         if (FUN_00401500())

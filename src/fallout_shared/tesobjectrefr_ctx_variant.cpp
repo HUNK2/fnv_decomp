@@ -3,7 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 #include "tesobjectrefr_decls.h"
 GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
+void* DecalData_GetDefaultDecalData();
 void FUN_005743f0();
 void FUN_00575c90(unsigned char value);
 float FUN_005790b0();
@@ -63,7 +63,7 @@ struct BaseFormComponent
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00565730_shell : public TESObjectREFR
 {
-    void FUN_00565730();
+    void TESObjectREFR_InitScript();
 };
 
 struct AutoMemHelper
@@ -87,11 +87,11 @@ struct RefH
 };
 struct FUN_00419ed0_shell
 {
-    void FUN_00419ed0(Script*);
+    void ExtraDataList_SetScript(Script*);
 };
 struct FUN_00419f80_shell
 {
-    void FUN_00419f80(ScriptLocals*);
+    void ExtraDataList_SetScriptLocals(ScriptLocals*);
 };
 struct Script
 {
@@ -100,11 +100,11 @@ struct Script
 struct InventoryChanges
 {
     static InventoryChanges* __cdecl CreateForReference(TESObjectREFR*);
-    void FUN_004d1960();
+    void InventoryChanges_InitScripts();
 };
 TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
 TESBoundObject* __fastcall _FNV_GetObjectReference(TESObjectREFR*);
-Script* FUN_004826d0(TESBoundObject*);
+Script* TESScriptableForm_GetFormScript(TESBoundObject*);
 struct ExtraScript
 {
     virtual ~ExtraScript();
@@ -224,7 +224,7 @@ struct VRefStandin
 };
 
 // @fnv 0x00565730
-void FUN_00565730_shell::FUN_00565730()
+void FUN_00565730_shell::TESObjectREFR_InitScript()
 {
     TESBoundObject* pObj;
     ExtraScript* pExtra;
@@ -241,16 +241,16 @@ void FUN_00565730_shell::FUN_00565730()
     pObj = ((VRefStandin*)this)->GetBaseObj();
     if (!pObj)
         pObj = _FNV_GetObjectReference(this);
-    pScript = FUN_004826d0(pObj);
+    pScript = TESScriptableForm_GetFormScript(pObj);
     if (pScript)
     {
-        ((FUN_00419ed0_shell*)((XActor*)this)->GetExtra())->FUN_00419ed0(pScript);
-        ((FUN_00419f80_shell*)((XActor*)this)->GetExtra())->FUN_00419f80(pScript->GetOrCreateScriptLocals());
+        ((FUN_00419ed0_shell*)((XActor*)this)->GetExtra())->ExtraDataList_SetScript(pScript);
+        ((FUN_00419f80_shell*)((XActor*)this)->GetExtra())->ExtraDataList_SetScriptLocals(pScript->GetOrCreateScriptLocals());
     }
     pCont = FUN_0055d310(this);
     if (pCont)
     {
         pinventory = InventoryChanges::CreateForReference(this);
-        pinventory->FUN_004d1960();
+        pinventory->InventoryChanges_InitScripts();
     }
 }

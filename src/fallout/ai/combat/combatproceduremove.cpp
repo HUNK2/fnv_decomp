@@ -144,7 +144,7 @@ struct TESAmmoInitCalls
 };
 struct FUN_00666f00_shell
 {
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
 };
 struct CombatProcedure
 {
@@ -157,7 +157,7 @@ struct CombatProcedureEngageTarget
 struct FUN_009d6c00_shell : CombatProcedureEngageTarget
 {
     Actor* GetFieldBC();
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
     void UpdateCombatMovement();
 };
 // @fnv 0x009d6c00
@@ -166,7 +166,7 @@ void FUN_009d6c00_shell::UpdateCombatMovement()
     Actor* attacker = ((TESAmmoInitCalls*)*(void**)((char*)this + 4))->GetFieldBC();
     if (*(int*)((char*)this + 0x10) == 1 || *(int*)((char*)this + 0x10) == 2)
     {
-        if (!FUN_00666f00())
+        if (!BSTreeModel_IsInstance())
             attacker->StopMoving();
     }
     else if (*(int*)((char*)this + 0x10) == 3)
@@ -196,7 +196,7 @@ struct CombatProcedureSaveGameHelper
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void* buffer);
+    void BGSWorldLocation_SaveGame(void* buffer);
 };
 
 struct GO
@@ -211,18 +211,18 @@ struct FUN_009a5eb0_shell
 
 struct FUN_009d8880_shell
 {
-    void FUN_009d8880(BGSSaveFormBuffer* buffer);
+    void CombatProcedureMove_SaveGame(BGSSaveFormBuffer* buffer);
 };
 
 // @fnv 0x009d8880
-void FUN_009d8880_shell::FUN_009d8880(BGSSaveFormBuffer* buffer)
+void FUN_009d8880_shell::CombatProcedureMove_SaveGame(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<CombatProcedureSaveGameHelper*>(this)->SaveGame(buffer);
 
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4, 0);
 
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x14)->FUN_00527b70(buffer);
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00527b70(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x14)->BGSWorldLocation_SaveGame(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x24)->BGSWorldLocation_SaveGame(buffer);
 
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 4, 0);
 
@@ -256,7 +256,7 @@ struct BGSLoadFormBuffer
 
 struct FUN_00527ba0_Class
 {
-    void FUN_00527ba0(void*);
+    void BGSWorldLocation_LoadGame(void*);
 };
 
 struct TimeoutTimer
@@ -271,19 +271,19 @@ struct CombatProcedureLoadGameHelper
 
 struct FUN_009d89a0_shell : CombatProcedureMove
 {
-    void FUN_009d89a0(BGSLoadFormBuffer*);
+    void CombatProcedureMove_LoadGame(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x009d89a0
-void FUN_009d89a0_shell::FUN_009d89a0(BGSLoadFormBuffer* buffer)
+void FUN_009d89a0_shell::CombatProcedureMove_LoadGame(BGSLoadFormBuffer* buffer)
 {
     ((CombatProcedureLoadGameHelper*)this)->LoadGame(buffer);
 
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
 
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x14)->FUN_00527ba0(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x14)->BGSWorldLocation_LoadGame(buffer);
 
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00527ba0(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x24)->BGSWorldLocation_LoadGame(buffer);
 
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 4);
 
@@ -970,10 +970,10 @@ struct MoveProcedure
     void SetState(int);
     void Reset();
     void Avoid(MoveRequest*);
-    void FUN_009d6ca0();
+    void CombatProcedureMove_Update();
 };
 // @fnv 0x009d6ca0
-void MoveProcedure::FUN_009d6ca0()
+void MoveProcedure::CombatProcedureMove_Update()
 {
     bool changed3;
     bool stop5;
@@ -1659,7 +1659,7 @@ struct Actor052
     virtual void unused1ec();
     virtual void unused1f0();
     virtual Point052& position();
-    void* FUN_00575ca0();
+    void* TESObjectREFR_GetSpace();
     float FUN_008be1b0();
     void* FUN_00931850();
     void BuildPathingRequest(void*, Point052*, void*, float, void*);
@@ -1785,7 +1785,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
         break;
     }
     State052* i = k->FUN_007058c0();
-    if (i && i->type == 1 && !k->FUN_00461580(256) && state != 8 && i->location.FUN_0084e3a0() == a->FUN_00575ca0())
+    if (i && i->type == 1 && !k->FUN_00461580(256) && state != 8 && i->location.FUN_0084e3a0() == a->TESObjectREFR_GetSpace())
     {
         h = *i->location.FUN_006815c0();
         g = k->FUN_009a0b00();
@@ -1974,10 +1974,10 @@ struct DebugReference
     virtual void slot123();
     virtual void slot124();
     virtual const DebugPoint& GetDebugPosition();
-    DebugReference* FUN_00575ca0();
+    DebugReference* TESObjectREFR_GetSpace();
     unsigned int FUN_0084e3a0();
     int FUN_00474cb0();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 struct DebugOwner
 {
@@ -2044,7 +2044,7 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
     }
     DebugPoint position = destination.FUN_006815c0();
     DebugReference* cell = destination.FUN_0084e3a0();
-    if (cell && cell != owner->GetFieldBC()->FUN_00575ca0())
+    if (cell && cell != owner->GetFieldBC()->TESObjectREFR_GetSpace())
         display->Print(x, y, "Destination: %s (%.02f,%.02f,%.02f)", cell->GetDebugName(), position.x, position.y,
                        position.z);
     else
@@ -2053,7 +2053,7 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
     {
         DebugPoint targetPosition = target->GetDebugPosition();
         display->Print(x, y, "Target: '%s' (%08X) - Position: (%.02f,%.02f,%.02f)",
-                       target->FUN_00474cb0() ? target->GetDebugName() : target->FUN_0055d520(), target->FUN_0084e3a0(),
+                       target->FUN_00474cb0() ? target->GetDebugName() : target->TESObjectREFR_GetFullName(), target->FUN_0084e3a0(),
                        targetPosition.x, targetPosition.y, targetPosition.z);
     }
     if (destinationTimer.FUN_0097fa50())
@@ -2074,7 +2074,7 @@ namespace fnv_009d8ad0 {
 using ::TESForm;
 using ::TESObjectREFR;
 
-extern "C" TESForm* __cdecl FUN_004839c0(unsigned int formID);
+extern "C" TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 struct MoveContext
 {
@@ -2104,12 +2104,12 @@ struct ProcedureController
 
     void FUN_004534f0(unsigned int);
 
-    void FUN_009d8ad0(unsigned int);
+    void CombatProcedureMove_InitLoadGame(unsigned int);
 };
 
-// Calls FUN_004534f0, resolves currentForm through FUN_004839c0 and dynamic_cast, then refreshes the command target from context when refresh is set.
+// Calls FUN_004534f0, resolves currentForm through TESForm_GetFormByNumericID and dynamic_cast, then refreshes the command target from context when refresh is set.
 // @fnv 0x009d8ad0
-void ProcedureController::FUN_009d8ad0(unsigned int value)
+void ProcedureController::CombatProcedureMove_InitLoadGame(unsigned int value)
 
 {
 
@@ -2117,7 +2117,7 @@ void ProcedureController::FUN_009d8ad0(unsigned int value)
 
     FUN_004534f0(value);
 
-    currentForm = (unsigned int)(currentForm ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(currentForm)) : 0);
+    currentForm = (unsigned int)(currentForm ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(currentForm)) : 0);
 
     if (refresh)
 

@@ -4,11 +4,11 @@
 
 struct TraitSelectMenu
 {
-    int __thiscall FUN_007e7ac0();
+    int __thiscall TraitSelectMenu_GetClass();
 };
 
 // @fnv 0x007e7ac0
-int __thiscall TraitSelectMenu::FUN_007e7ac0()
+int __thiscall TraitSelectMenu::TraitSelectMenu_GetClass()
 {
     return 0x434;
 }
@@ -121,7 +121,7 @@ void FUN_007e7de0()
 }
 }  // namespace fnv_007e7de0
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
@@ -130,15 +130,15 @@ extern float const runtimeFloatSettingDefault275;
 struct FUN_007e82b0_shell
 {
     void __thiscall FUN_007e8310(float);
-    void __thiscall FUN_007e82b0(int, int);
+    void __thiscall TraitSelectMenu_HandleMousewheel(int, int);
 };
-// Reads a value from FUN_004b7210 and calls FUN_007e8310 with 0.05f when it is negative or with runtimeFloatSettingDefault275 when it is positive.
+// Reads a value from InterfaceManager_Instance and calls FUN_007e8310 with 0.05f when it is negative or with runtimeFloatSettingDefault275 when it is positive.
 // @fnv 0x007e82b0
-void __thiscall FUN_007e82b0_shell::FUN_007e82b0(int, int)
+void __thiscall FUN_007e82b0_shell::TraitSelectMenu_HandleMousewheel(int, int)
 {
-    if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() < 0)
+    if (((FUN_0070ec70_This*)InterfaceManager_Instance())->FUN_0070ec70() < 0)
         FUN_007e8310(0.05f);
-    if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() > 0)
+    if (((FUN_0070ec70_This*)InterfaceManager_Instance())->FUN_0070ec70() > 0)
         FUN_007e8310(runtimeFloatSettingDefault275);
 }
 
@@ -181,10 +181,10 @@ struct TraitSelectMenuStandIn
 {
     char _pad[0x28];
     Tile* m_pTiles[18];
-    void __thiscall FUN_007e8280(int aiID, Tile* apTarget);
+    void __thiscall TraitSelectMenu_HandleMouseover(int aiID, Tile* apTarget);
 };
 // @fnv 0x007e8280
-void __thiscall TraitSelectMenuStandIn::FUN_007e8280(int aiID, Tile* apTarget)
+void __thiscall TraitSelectMenuStandIn::TraitSelectMenu_HandleMouseover(int aiID, Tile* apTarget)
 {
     if (apTarget == 0 && aiID >= 0 && aiID < 0x12)
         apTarget = m_pTiles[aiID];
@@ -197,11 +197,11 @@ struct FUN_007e7e30_shell
 {
     char _pad[0x28];
     Tile* m_pTiles[18];
-    void __thiscall FUN_007e7e30(int aiID, Tile* apTarget);
+    void __thiscall TraitSelectMenu_DoClick(int aiID, Tile* apTarget);
 };
 
 // @fnv 0x007e7e30
-void FUN_007e7e30_shell::FUN_007e7e30(int aiID, Tile* apTarget)
+void FUN_007e7e30_shell::TraitSelectMenu_DoClick(int aiID, Tile* apTarget)
 {
     if (apTarget == 0 && aiID >= 0 && aiID < 0x12)
     {
@@ -550,7 +550,7 @@ float DefaultDepth();
 // @fnv 0x007e7b60
 Tile* __cdecl FUN_007e7b60()
 {
-    ManagerOpen* pManager = (ManagerOpen*)FUN_004b7210();
+    ManagerOpen* pManager = (ManagerOpen*)InterfaceManager_Instance();
     MenuOpen* oldMenu = FindMenu(FUN_007e7d90());
     if (oldMenu)
         delete oldMenu;
@@ -650,9 +650,9 @@ void TraitScrollMenu::UpdateScrollAnimation()
     bool overrideFlag3 = false;
     float horizontal = 0.0f;
     float vertical = 0.0f;
-    if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+    if ((InterfaceManager_Instance(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_Instance())->FUN_00755680())
     {
-        if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+        if ((InterfaceManager_Instance(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_Instance())->FUN_00755680())
         {
             if (FUN_00ec7d40(DAT_011d8a5e) > 7849)
             {
@@ -690,7 +690,7 @@ void TraitScrollMenu::UpdateScrollAnimation()
             selectedTile->FUN_00a012d0(4031, 32.0f, true);
         }
     }
-    if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+    if ((InterfaceManager_Instance(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_Instance())->FUN_00755680())
     {
         unsigned int elapsed = gm_GetTickCount() - updateTick;
         updateTick = gm_GetTickCount();
@@ -796,8 +796,8 @@ void __thiscall TraitSelectMenuCheckState::FUN_007e8470(int aiID, bool abForce)
             m_pTiles[m_iSelectedTrait]->SetInt(0x1005, 1);
         }
 
-        FUN_004b7210();
-        if (FUN_004b71d0() && !reinterpret_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+        InterfaceManager_Instance();
+        if (FUN_004b71d0() && !reinterpret_cast<FUN_00755680_shell*>(InterfaceManager_Instance())->FUN_00755680())
         {
             settings = reinterpret_cast<Tile*>(FUN_00a09030(0x434));
             if (settings != 0 && m_pTiles[15] != 0)

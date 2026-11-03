@@ -233,33 +233,33 @@ void* ScalarHelper::FUN_004facf0(unsigned int flags)
     return this;
 }
 
-int __cdecl FUN_0058e8f0(int);
+int __cdecl BGSImpactDataSet_GetImpactMaterialType(int);
 struct Proxy804
 {
     BGSImpactData* GetImpactDataForMaterial(int);
-    BGSImpactData* FUN_004fb7a0(int);
+    BGSImpactData* BGSImpactDataSet_GetImpactData(int);
 };
 // @fnv 0x004fb7a0
-BGSImpactData* Proxy804::FUN_004fb7a0(int a)
+BGSImpactData* Proxy804::BGSImpactDataSet_GetImpactData(int a)
 {
-    return GetImpactDataForMaterial(FUN_0058e8f0(a));
+    return GetImpactDataForMaterial(BGSImpactDataSet_GetImpactMaterialType(a));
 }
 
 struct FUN_004fb7a0_obj
 {
-    int FUN_004fb7a0(int);
+    int BGSImpactDataSet_GetImpactData(int);
 };
 struct FUN_004fb7d0_shell
 {
     int FUN_004fb7d0(int);
 };
-// If the explosion object returned by FUN_00516bf0 exists, forwards a to its FUN_004fb7a0 and returns the result; otherwise returns 0.
+// If the explosion object returned by FUN_00516bf0 exists, forwards a to its BGSImpactDataSet_GetImpactData and returns the result; otherwise returns 0.
 // @fnv 0x004fb7d0
 int FUN_004fb7d0_shell::FUN_004fb7d0(int a)
 {
     int result = 0;
     if (((BGSExplosion*)this)->FUN_00516bf0())
-        result = ((FUN_004fb7a0_obj*)((BGSExplosion*)this)->FUN_00516bf0())->FUN_004fb7a0(a);
+        result = ((FUN_004fb7a0_obj*)((BGSExplosion*)this)->FUN_00516bf0())->BGSImpactDataSet_GetImpactData(a);
     return result;
 }
 
@@ -276,7 +276,7 @@ bool FUN_00477950_shell::HasAnyFlags(unsigned int mask)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
 };
 
 extern "C" int memcmp(const void*, const void*, unsigned int);
@@ -297,7 +297,7 @@ bool BGSExplosionCompare::CompareTo(TESForm* form)
     BGSExplosion* pOther = dynamic_cast<BGSExplosion*>(form);
     if (!pOther)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOther))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pOther))
         return true;
     if (memcmp((char*)this + 0x74, pOther->FUN_004fadc0(), 0x34))
         return true;
@@ -321,10 +321,10 @@ GlobalObject2_0040c150 g_011cdde0;
 struct FUN_004fb810_shell
 {
     int m_00a4;
-    int* FUN_004fb810();
+    int* BGSExplosion_GetSoundLevelValue();
 };
 // @fnv 0x004fb810
-int* FUN_004fb810_shell::FUN_004fb810()
+int* FUN_004fb810_shell::BGSExplosion_GetSoundLevelValue()
 {
     int result = 0;
     switch (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa4))
@@ -342,14 +342,14 @@ int* FUN_004fb810_shell::FUN_004fb810()
     return (int*)result;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 
 struct FUN_004891d0_obj
@@ -359,22 +359,22 @@ struct FUN_004891d0_obj
 
 struct FUN_0047bd70_shell
 {
-    void FUN_0047bd70();
+    void TESEnchantableForm_Save();
 };
 
 struct FUN_00487450_shell
 {
-    void FUN_00487450();
+    void TESImageSpaceModifiableForm_Save();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(EndianConvertibleData*, int);
+    void TESForm___SaveData(EndianConvertibleData*, int);
 };
 
 struct FUN_004fd380_shell
@@ -387,11 +387,11 @@ void _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_004fb3b0_shell
 {
-    void FUN_004fb3b0();
+    void BGSExplosion_SaveForm();
 };
 
 // @fnv 0x004fb3b0
-void FUN_004fb3b0_shell::FUN_004fb3b0()
+void FUN_004fb3b0_shell::BGSExplosion_SaveForm()
 {
     TESSound* psaveLight;
     TESSound* psaveSound2;
@@ -399,12 +399,12 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
     BGSImpactDataSet* psaveImpact;
     unsigned int psaveSound1;
 
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)->FUN_00487010();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)->TESFullName_Save();
     reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x3C)
         ->WriteToBuffer(0x4C444F4D, 0x54444F4D);
-    reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)->FUN_0047bd70();
-    reinterpret_cast<FUN_00487450_shell*>(reinterpret_cast<unsigned char*>(this) + 0x68)->FUN_00487450();
+    reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)->TESEnchantableForm_Save();
+    reinterpret_cast<FUN_00487450_shell*>(reinterpret_cast<unsigned char*>(this) + 0x68)->TESImageSpaceModifiableForm_Save();
 
     psaveLight = reinterpret_cast<EffectSetting*>(this)->GetCastSound();
     reinterpret_cast<EffectSetting*>(this)->SetCastSound(
@@ -433,7 +433,7 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
     if (_FUN_00401500())
         reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)->Endian();
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(
         reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74), 0x34);
 
     if (_FUN_00401500())
@@ -450,7 +450,7 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
         _FUN_00485910(0x4D414E49, psaveSound1);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 class FUN_004fad20_cls : public TESBoundObject,
@@ -722,7 +722,7 @@ FUN_004fc270::~FUN_004fc270()
 #include <string.h>
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct EffectSetting_shell : EffectSetting
 {
@@ -731,16 +731,16 @@ struct EffectSetting_shell : EffectSetting
 };
 struct BGSExplosion_shell : BGSExplosion
 {
-    void __thiscall FUN_004fb5a0(TESForm* apCopy);
+    void __thiscall BGSExplosion_CopyFrom(TESForm* apCopy);
 };
 // Copies explosion data from apCopy into this, including base fields, a 0x34-byte block, and the associated light.
 // @fnv 0x004fb5a0
-void __thiscall BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
+void __thiscall BGSExplosion_shell::BGSExplosion_CopyFrom(TESForm* apCopy)
 {
     BGSExplosion* pcopy = dynamic_cast<BGSExplosion*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     memcpy(FUN_004fadc0(), pcopy->FUN_004fadc0(), 0x34);
     ((EffectSetting_shell*)this)->SetLight(((EffectSetting_shell*)pcopy)->GetLight());
 }

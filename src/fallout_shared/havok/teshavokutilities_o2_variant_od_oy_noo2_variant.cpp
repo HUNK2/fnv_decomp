@@ -38,12 +38,12 @@ struct Transform
 };
 struct Node
 {
-    const Transform* FUN_00461130() const;
+    const Transform* NiAVObject_GetWorldRotate() const;
 };
 struct WorldObject
 {
     void GetAabb(Aabb* bounds);
-    void FUN_00c8d280(HavokTransform* transform);
+    void bhkRigidBody_GetTransform(HavokTransform* transform);
 };
 struct CollisionObject
 {
@@ -57,7 +57,7 @@ CollisionObject* FUN_004b5260(Node*);
 void FUN_00458620(Point3* out, const __m128* havokPoint);
 Point3* FUN_004a3760(Point3* out, float scale, const Point3* point);
 float FUN_00476b70(float minimum, float maximum);
-bool FUN_0043b300(const RTTI*, WorldObject*);
+bool NiObject_IsKindOf(const RTTI*, WorldObject*);
 Transform* FUN_00624ad0(Transform* out, const HavokTransform* havok);
 // @fnv 0x0062bfb0
 Point3* FUN_0062bfb0(Point3* out, Node* node)
@@ -84,18 +84,18 @@ Point3* FUN_0062bfb0(Point3* out, Node* node)
             Point3 random;
             chosen = *random.FUN_00416870(FUN_00476b70(lower.x, upper.x), FUN_00476b70(lower.y, upper.y),
                                           FUN_00476b70(lower.z, upper.z));
-            if (FUN_0043b300(&g_012683c8, body) || collision->FUN_0044ddc0() != node)
+            if (NiObject_IsKindOf(&g_012683c8, body) || collision->FUN_0044ddc0() != node)
             {
                 HavokTransform bodyHavok;
                 bodyHavok.FUN_0056ded0();
-                body->FUN_00c8d280(&bodyHavok);
+                body->bhkRigidBody_GetTransform(&bodyHavok);
                 Transform bodyWorld;
                 bodyWorld.FUN_00476a80();
                 FUN_00624ad0(&bodyWorld, &bodyHavok);
                 bodyWorld.scale = 1.0f;
                 Transform inverse;
                 inverse.FUN_00476a80();
-                node->FUN_00461130()->FUN_004b4880(&inverse);
+                node->NiAVObject_GetWorldRotate()->FUN_004b4880(&inverse);
                 Transform composed;
                 Point3 transformed;
                 chosen = *inverse.FUN_0062c250(&composed, &bodyWorld)->FUN_00524c40(&transformed, &chosen);

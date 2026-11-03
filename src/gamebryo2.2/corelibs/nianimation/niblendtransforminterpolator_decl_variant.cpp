@@ -7,16 +7,16 @@
 #include "niblendtransforminterpolator_NiObjectNET.h"
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
-    void* FUN_00a40a40();
+    void* NiBlendTransformInterpolator_GetRTTI();
 };
 extern "C" const NiRTTI* g_011f3e64;
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
 {
-    bool FUN_00a40a20(NiObject*);
+    bool NiBlendTransformInterpolator_IsEqual(NiObject*);
 };
 struct FUN_00a36fd0_tgt
 {
-    char FUN_00a36fd0(NiObject*);
+    char NiBlendInterpolator_IsEqual(NiObject*);
 };
 class FUN_00a40980_base
 {
@@ -62,7 +62,7 @@ extern unsigned int DAT_011f3708;
 extern unsigned int DAT_011f370c;
 extern unsigned int DAT_011f3710;
 extern float DAT_01096b8c;
-void __stdcall FUN_00a37980(void* a1);
+void __stdcall NiBlendInterpolator_LoadBinary(void* a1);
 class FUN_00a40ab0_obj
 {
   public:
@@ -135,7 +135,7 @@ class QuatBlockArg
     unsigned int m_1C;
     void Apply(FUN_00a40ab0_obj* apObj);
 };
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1);
+void __stdcall NiBlendTransformInterpolator_LoadBinary(FUN_00a40ab0_obj* a1);
 template <class T> class AGPrimArray
 {
   public:
@@ -162,9 +162,9 @@ template <class T> class AGPrimArray
 };
 typedef AGPrimArray<const char*> AGViewerStrings;
 extern "C" const char* DAT_011f3e64;
-void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
+void __stdcall NiBlendInterpolator_GetViewerStrings(AGViewerStrings* pkStrings);
 const char* __cdecl FUN_00a7d330(const char* pcText);
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings);
+void __stdcall NiBlendTransformInterpolator_GetViewerStrings(AGViewerStrings* pkStrings);
 
 extern const float DAT_01015f5c;
 extern const float DAT_0109696c;

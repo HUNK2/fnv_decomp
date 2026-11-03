@@ -71,12 +71,12 @@ struct StrArr
 struct NiPSysModifierBoolCtlr
 {
     void AppendModifierInfo(StrArr*);
-    void FUN_00c32d30(StrArr*);
+    void NiPSysModifierBoolCtlr_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(char const*);
 extern char const* const g_012026d0_arg1;
 // @fnv 0x00c32d30
-void NiPSysModifierBoolCtlr::FUN_00c32d30(StrArr* pkStrings)
+void NiPSysModifierBoolCtlr::NiPSysModifierBoolCtlr_GetViewerStrings(StrArr* pkStrings)
 {
     AppendModifierInfo(pkStrings);
     char* tmp = _FUN_00a7d330(g_012026d0_arg1);
@@ -220,7 +220,7 @@ class C32CB0Controller
     {
         return ((unsigned char)(m_usFlags >> 5) & 1) != 0;
     }
-    void FUN_00c32cb0(const float& fTime);
+    void NiPSysModifierBoolCtlr_Update(const float& fTime);
 
     int unk04;
     unsigned short m_usFlags;
@@ -239,7 +239,7 @@ class C32CB0Controller
 };
 
 // @fnv 0x00c32cb0
-void C32CB0Controller::FUN_00c32cb0(const float& fTime)
+void C32CB0Controller::NiPSysModifierBoolCtlr_Update(const float& fTime)
 {
     if (GetManagerControlled())
     {

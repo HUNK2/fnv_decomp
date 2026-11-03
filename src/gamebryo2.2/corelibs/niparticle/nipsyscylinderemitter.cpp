@@ -19,7 +19,7 @@ struct BSFadeNode
 extern void* DAT_010bd8b4;
 
 // @fnv 0x00c1fbf0
-void* __cdecl FUN_00c1fbf0()
+void* __cdecl NiPSysCylinderEmitter_CreateObject()
 {
     BSFadeNode* pFadeNode = (BSFadeNode*)BSFadeNode::operator new(0x60);
     if (pFadeNode)
@@ -93,7 +93,7 @@ struct StrArr
 
 extern void* g_01202508;
 
-void __stdcall FUN_00c31db0(StrArr*);
+void __stdcall NiPSysVolumeEmitter_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 char* __cdecl FUN_00a7d550(char const*, float);
 
@@ -109,7 +109,7 @@ struct FUN_00c1fd00_shell
 // @fnv 0x00c1fd00
 void FUN_00c1fd00_shell::AppendShapeParams(StrArr* pkStrings)
 {
-    FUN_00c31db0(pkStrings);
+    NiPSysVolumeEmitter_GetViewerStrings(pkStrings);
 
     char* string = _FUN_00a7d330(g_01202508);
     unsigned int index = pkStrings->_size;
@@ -233,12 +233,12 @@ class NiPSysCylinderEmitterX
     float m_fCylinderRadius;
     float m_fCylinderHeight;
 
-    void FUN_00c1fa50(ThreeByThreeMatrix& kRotate, NiPoint3& kPosition, NiPoint3& kMotionVelocity);
+    void NiPSysCylinderEmitter_ComputeVolumeInitialPositionAndVelocity(ThreeByThreeMatrix& kRotate, NiPoint3& kPosition, NiPoint3& kMotionVelocity);
 };
 
 // Fills kPosition with a random point inside the cylinder and rotates both kPosition and kMotionVelocity by kRotate.
 // @fnv 0x00c1fa50
-void NiPSysCylinderEmitterX::FUN_00c1fa50(ThreeByThreeMatrix& kRotate, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
+void NiPSysCylinderEmitterX::NiPSysCylinderEmitter_ComputeVolumeInitialPositionAndVelocity(ThreeByThreeMatrix& kRotate, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     float fRadius = m_fCylinderRadius * RandomFloat0To1();
     float fAngleDifference = NI_TWO_PI_F * RandomFloat0To1();

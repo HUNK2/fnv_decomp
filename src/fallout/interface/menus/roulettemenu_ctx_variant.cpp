@@ -5,7 +5,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_007b8f30_shell
 {
-    int FUN_007b8f30();
+    int RouletteMenu_GetClass();
 };
 struct Tile
 {
@@ -154,7 +154,7 @@ struct GO
 };
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 struct FUN_007bf840_shell
 {
@@ -4321,7 +4321,7 @@ struct FUN_007bf710_cls
 extern float DAT_0102caf8;
 struct S_007bf7a0_Tile
 {
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiAVObject_SetTranslate(float a, float b, float c);
 };
 struct S_007bf7a0_Val
 {
@@ -4930,7 +4930,7 @@ struct Player
 };
 struct Scene
 {
-    void FUN_00572160();
+    void NiNode_DetachAllChildren();
 };
 struct Pointer
 {
@@ -5155,7 +5155,7 @@ FUN_007b9020::~FUN_007b9020()
     DAT_011da8d0.FUN_0066b0d0(0);
     FUN_00450b80(1)->Detach(DAT_011da8a0.FUN_00559450());
     FUN_00450b80(1)->FUN_00b5d180();
-    DAT_011da8a0.FUN_00559450()->FUN_00572160();
+    DAT_011da8a0.FUN_00559450()->NiNode_DetachAllChildren();
     DAT_011da8a0.FUN_0066b0d0(0);
     table = 0;
     wheel = 0;
@@ -5211,7 +5211,7 @@ struct NiFixedString
 };
 struct Controller
 {
-    void* FUN_0047a520(const NiFixedString&);
+    void* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0048fef0(float);
 };
 struct NiRTTI;
@@ -5283,7 +5283,7 @@ struct Scene : NiMemObject
     virtual void unused53();
     virtual void unused54();
     virtual void Attach(Scene*, bool);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00450f90(bool);
     Scene* FUN_00a5d680();
     void FUN_00a59c60(const NiUpdateData&);
@@ -9457,7 +9457,7 @@ struct BetGeometry
 struct RouletteObject
 {
     NiPoint3& FUN_0043c490();
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 struct RouletteScene
 {
@@ -10032,10 +10032,10 @@ bool RouletteState::FUN_007bed70(int number)
         c = reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))->FUN_0043b4a0(2)->FUN_0043c490();
         reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))
             ->FUN_0043b4a0(unk3fe0)
-            ->FUN_004bc1f0(c.x, c.y, 0.0f);
+            ->NiAVObject_SetTranslate(c.x, c.y, 0.0f);
         reinterpret_cast<RouletteScene*>(static_cast<unsigned int>(g_011da8a0))
             ->FUN_0043b4a0(unk3fe0 + 10)
-            ->FUN_004bc1f0(c.x, c.y, 0.0f);
+            ->NiAVObject_SetTranslate(c.x, c.y, 0.0f);
         FUN_007bf840();
     }
     if (unk3fec + unk3fe8 > unk3ff0)

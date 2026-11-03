@@ -36,7 +36,7 @@ struct Pt
     {
         return NiSqrt(x * x + y * y + z * z);
     }
-    void FUN_004a0c10()
+    void NiPoint3_Unitize()
     {
         float fScaleMultiplier = FUN_00457990();
         if (fScaleMultiplier > 1e-06)
@@ -79,7 +79,7 @@ inline float NiAbs(float fValue)
 Mat3 __cdecl FUN_00c4b600(Pt kWorldPosition)
 {
     Pt kAt = kWorldPosition;
-    kAt.FUN_004a0c10();
+    kAt.NiPoint3_Unitize();
     float fX = NiAbs(kAt.x);
     float fY2 = NiAbs(kAt.y);
     float fZ2 = NiAbs(kAt.z);
@@ -90,12 +90,12 @@ Mat3 __cdecl FUN_00c4b600(Pt kWorldPosition)
         kRight2 = Pt(-kAt.z, 0.0f, kAt.x);
     else
         kRight2 = Pt(-kAt.y, kAt.x, 0.0f);
-    kRight2.FUN_004a0c10();
+    kRight2.NiPoint3_Unitize();
     Pt kUpVal;
     kUpVal = kRight2.FUN_004b3800(kAt);
-    kUpVal.FUN_004a0c10();
+    kUpVal.NiPoint3_Unitize();
     kRight2 = kUpVal.FUN_004b3800(kAt);
-    kRight2.FUN_004a0c10();
+    kRight2.NiPoint3_Unitize();
     Mat3 kMatX;
     kMatX.SetRow(0, kRight2);
     kMatX.SetRow(1, kUpVal);

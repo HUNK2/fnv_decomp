@@ -24,8 +24,8 @@ class ExtraDataList : public BaseExtraList
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges*);
     ExtraRefractionProperty* GetAlphaExtra();
-    void FUN_00418940(SoundPlaybackHandle*);
-    void FUN_0041a090(SoundPlaybackHandle*);
+    void ExtraDataList_GetCreatureAwakeSound(SoundPlaybackHandle*);
+    void ExtraDataList_SetCreatureAwakeSound(SoundPlaybackHandle*);
 };
 #endif
 bool FUN_005b9b00();

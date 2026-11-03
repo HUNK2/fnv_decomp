@@ -125,5 +125,5 @@ FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESObjectLIGH : public TESBoundObject
 {
   public:
-    bool FUN_0046f070();
+    bool TESObjectLIGH_GetCanCarry();
 };

@@ -5,7 +5,7 @@
 extern "C" const void* g_011f5f1c;
 
 // @fnv 0x00a994c0
-const void* __cdecl FUN_00a994c0()
+const void* __cdecl NiLODNode_GetRTTI()
 {
     return &g_011f5f1c;
 }
@@ -24,7 +24,7 @@ extern int DAT_010a0b64;
 
 // Allocates a 0xd4-byte BSFadeNode, runs its constructor, installs the vtable, zeroes two fields, sets a byte flag to 1 and returns the object.
 // @fnv 0x00a99710
-void* __cdecl FUN_00a99710()
+void* __cdecl NiLODNode_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xd4);
     if (p)
@@ -45,10 +45,10 @@ struct NiLODNode : public NiSwitchNode
 {
     bool __thiscall FUN_00a93c40(NiStream*);
     NiStream* m_pBinaryStream;
-    bool __thiscall FUN_00a992e0(NiStream* stream);
+    bool __thiscall NiLODNode_RegisterStreamables(NiStream* stream);
 };
 // @fnv 0x00a992e0
-bool __thiscall NiLODNode::FUN_00a992e0(NiStream* stream)
+bool __thiscall NiLODNode::NiLODNode_RegisterStreamables(NiStream* stream)
 {
     if (!FUN_00a93c40(stream))
         return false;
@@ -124,11 +124,11 @@ struct Helper
 };
 struct LODNodeStandIn
 {
-    void __thiscall FUN_00a99110(class NiUpdateData&);
+    void __thiscall NiLODNode_UpdateWorldData(class NiUpdateData&);
 };
 // Updates this object's world data, then calls Sel on the helper stored at offset 0xCC if it is non-null.
 // @fnv 0x00a99110
-void __thiscall LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
+void __thiscall LODNodeStandIn::NiLODNode_UpdateWorldData(class NiUpdateData& UpdateData)
 {
     ((NiAVObject*)this)->UpdateWorldData(UpdateData);
     Helper* p = *(Helper**)((char*)this + 0xCC);
@@ -154,16 +154,16 @@ struct NiStream
 };
 struct Unk94610
 {
-    void __thiscall FUN_00a94610(NiStream&);
+    void __thiscall NiSwitchNode_SaveBinary(NiStream&);
 };
 struct NodeStandIn
 {
-    void __thiscall FUN_00a99310(NiStream&);
+    void __thiscall NiLODNode_SaveBinary(NiStream&);
 };
 // @fnv 0x00a99310
-void NodeStandIn::FUN_00a99310(NiStream& kStream)
+void NodeStandIn::NiLODNode_SaveBinary(NiStream& kStream)
 {
-    ((Unk94610*)this)->FUN_00a94610(kStream);
+    ((Unk94610*)this)->NiSwitchNode_SaveBinary(kStream);
     kStream.f12(*(int*)((char*)this + 0xCC));
 }
 
@@ -684,7 +684,7 @@ class A99760Node
 {
   public:
     void GetViewerStringsBase(A99760StrArray* pkStrings);
-    void FUN_00a99760(A99760StrArray* pkStrings);
+    void NiLODNode_GetViewerStrings(A99760StrArray* pkStrings);
 
     void* m_ppVirtualMethodTable;
     int unk004;
@@ -741,7 +741,7 @@ class A99760Node
 };
 
 // @fnv 0x00a99760
-void A99760Node::FUN_00a99760(A99760StrArray* pkStrings)
+void A99760Node::NiLODNode_GetViewerStrings(A99760StrArray* pkStrings)
 {
     GetViewerStringsBase(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_011f5f1c));
@@ -920,14 +920,14 @@ struct PropObj
 };
 struct Cls : Holder
 {
-    bool FUN_00a94000(Holder* other);
-    bool FUN_00a99400(Holder* other);
+    bool NiSwitchNode_IsEqual(Holder* other);
+    bool NiLODNode_IsEqual(Holder* other);
 };
-// Calls FUN_00a94000, checks m_sp nullness, then compares v02 results and calls v23 when they match.
+// Calls NiSwitchNode_IsEqual, checks m_sp nullness, then compares v02 results and calls v23 when they match.
 // @fnv 0x00a99400
-bool Cls::FUN_00a99400(Holder* other)
+bool Cls::NiLODNode_IsEqual(Holder* other)
 {
-    if (!FUN_00a94000(other))
+    if (!NiSwitchNode_IsEqual(other))
         return false;
     PropObj* pOtherProp = (PropObj*)other->m_sp;
     if ((m_sp && !pOtherProp) || (!m_sp && pOtherProp))
@@ -1010,8 +1010,8 @@ struct NiRangeLODData : public Obj
 };
 struct LODLoader : Holder
 {
-    void __thiscall FUN_00a94570(NiStream*);
-    void __thiscall FUN_00a994d0(NiStream*);
+    void __thiscall NiSwitchNode_LoadBinary(NiStream*);
+    void __thiscall NiLODNode_LoadBinary(NiStream*);
     void SetLODData(NiRangeLODData* data)
     {
         if (m_sp != data)
@@ -1024,10 +1024,10 @@ struct LODLoader : Holder
     }
 };
 // @fnv 0x00a994d0
-void __thiscall LODLoader::FUN_00a994d0(NiStream* pStream)
+void __thiscall LODLoader::NiLODNode_LoadBinary(NiStream* pStream)
 {
     LODStreamEx* stream = (LODStreamEx*)pStream;
-    FUN_00a94570(stream);
+    NiSwitchNode_LoadBinary(stream);
     if (stream->GetFileVersion() <= 0xa00010b)
     {
         void* memory = FUN_00aa13e0(sizeof(NiRangeLODData));

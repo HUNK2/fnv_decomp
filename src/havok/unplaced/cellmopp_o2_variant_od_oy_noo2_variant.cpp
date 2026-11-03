@@ -189,11 +189,11 @@ struct S_00ca4ec0_Base
     virtual void vac();
     virtual void vb0();
     virtual S_00ca4ec0_Out* vb4(int* out);
-    void FUN_00c84d00(S_00ca4ec0_Stream& kStream);
+    void bhkShape_LoadBinary(S_00ca4ec0_Stream& kStream);
 };
 struct S_00ca4ec0 : S_00ca4ec0_Base
 {
-    void FUN_00ca4ec0(S_00ca4ec0_Stream& kStream);
+    void bhkBvTreeShape_LoadBinary(S_00ca4ec0_Stream& kStream);
 };
 struct NiStream;
 struct FirstInterface
@@ -245,7 +245,7 @@ struct HC1Base
     int unk14;
     int unk18;
     bool __thiscall FUN_00aa0ad0(NiStream* stream);
-    void __thiscall FUN_00ca4f40(NiStream* stream);
+    void __thiscall bhkBvTreeShape_RegisterStreamables(NiStream* stream);
 };
 struct Link
 {
@@ -287,8 +287,8 @@ struct Owner
     int state;
     int flags;
     Node* node;
-    void FUN_00c84d50(Sink*);
-    void FUN_00ca4f80(Sink*);
+    void bhkShape_SaveBinary(Sink*);
+    void bhkBvTreeShape_SaveBinary(Sink*);
     void* getValue()
     {
         if (this)
@@ -343,7 +343,7 @@ struct FUN_00cb0780_class
     int unk04;
     int unk08;
     void* memory;
-    void FUN_00cb0780(bool release);
+    void bhkTriSampledHeightFieldBvTreeShape_KillCinfo(bool release);
 };
 struct ThreadState
 {
@@ -542,8 +542,8 @@ extern GlobalString g_01268350;
 char* __cdecl FUN_00a7d330(const char* text);
 struct StringBuilder
 {
-    void FUN_00ca5190(NiStringArray* array);
-    void FUN_00cb09b0(NiStringArray* array);
+    void bhkBvTreeShape_GetViewerStrings(NiStringArray* array);
+    void bhkTriSampledHeightFieldBvTreeShape_GetViewerStrings(NiStringArray* array);
 };
 struct ThreadStateGuard
 {
@@ -661,8 +661,8 @@ struct QTF
     virtual void f43();
     virtual void f44();
     virtual int M45(void* p);
-    void __thiscall FUN_00c84cc0(EP* p);
-    void FUN_00ca4f00(EP* a1);
+    void __thiscall bhkShape_LinkObject(EP* p);
+    void bhkBvTreeShape_LinkObject(EP* a1);
 };
 struct FUN_00ca4fd0_Value
 {
@@ -728,7 +728,7 @@ class FUN_00ca4fd0_cls
     int unk04;
     Node* m_pReferencedNode;
 
-    void FUN_00ca4fd0(int first, int second);
+    void bhkBvTreeShape_BuildDisplayGeometry(int first, int second);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 void FUN_00ca5080();
@@ -827,7 +827,7 @@ struct FUN_00cb05d0_cls
     virtual void v47();
     virtual void v48();
     virtual void v49(SpawnedObject* obj, int a1);
-    SpawnedObject* FUN_00cb05d0(int a1);
+    SpawnedObject* bhkTriSampledHeightFieldBvTreeShape_CreateClone(int a1);
 };
 struct FUN_00cb06c0_Alloc
 {
@@ -853,7 +853,7 @@ struct FUN_00cb06c0_cls
     void* unk08;
     void* unk0c;
     void FUN_00cb0030(void* value);
-    void* FUN_00cb06c0(bool* out);
+    void* bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* out);
 };
 struct S00cb0820_Alloc
 {

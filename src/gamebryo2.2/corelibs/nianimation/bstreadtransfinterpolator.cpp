@@ -6,11 +6,11 @@ struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    int __thiscall FUN_00a43560(short arg);
+    int __thiscall BSTreadTransfInterpolator_GetKeyCount(short arg);
 };
 
 // @fnv 0x00a43560
-int __thiscall FUN_00a43560_shell::FUN_00a43560(short arg)
+int __thiscall FUN_00a43560_shell::BSTreadTransfInterpolator_GetKeyCount(short arg)
 {
     if (arg == 0)
     {
@@ -214,7 +214,7 @@ struct FUN_00a435e0_shell
     int unk1c;
     int unk20;
 
-    bool __thiscall FUN_00a435e0(int arg);
+    bool __thiscall BSTreadTransfInterpolator_GetChannelPosed(int arg);
 };
 
 // @fnv 0x00a435e0
@@ -333,7 +333,7 @@ inline void FUN_00a435e0_shell::v37()
 inline void FUN_00a435e0_shell::v38(int)
 {}
 
-bool FUN_00a435e0_shell::FUN_00a435e0(int arg)
+bool FUN_00a435e0_shell::BSTreadTransfInterpolator_GetChannelPosed(int arg)
 {
     if (unk20 != 0)
     {
@@ -574,7 +574,7 @@ class A43600Base
 class A43600Controller : public A43600Base
 {
   public:
-    void FUN_00a43600(A43600Stream& kStream);
+    void BSTreadTransfInterpolator_SaveBinary(A43600Stream& kStream);
 
     int unk00;
     int unk04;
@@ -589,7 +589,7 @@ class A43600Controller : public A43600Base
 
 // Saves the base data, entry count, each entry's name and two colors, then the target link ID to the stream.
 // @fnv 0x00a43600
-void A43600Controller::FUN_00a43600(A43600Stream& kStream)
+void A43600Controller::BSTreadTransfInterpolator_SaveBinary(A43600Stream& kStream)
 {
     SaveBinaryBase(kStream);
     A43600SaveBinary(kStream, m_uiNumEntries);
@@ -661,7 +661,7 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     {}
     virtual ~TreadTransfInterpolator();
 
-    TreadTransfInterpolator* FUN_00a439e0(void* kCloning);
+    TreadTransfInterpolator* BSTreadTransfInterpolator_CreateClone(void* kCloning);
     void FUN_00a43690(TreadTransfInterpolator* pkDest, void* kCloning);
 
     unsigned int m_uiUnk0C;
@@ -674,7 +674,7 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
 
 // Allocates a new TreadTransfInterpolator, passes it and kCloning to FUN_00a43690, then returns it.
 // @fnv 0x00a439e0
-TreadTransfInterpolator* TreadTransfInterpolator::FUN_00a439e0(void* kCloning)
+TreadTransfInterpolator* TreadTransfInterpolator::BSTreadTransfInterpolator_CreateClone(void* kCloning)
 {
     TreadTransfInterpolator* pkClone = new TreadTransfInterpolator;
     FUN_00a43690(pkClone, kCloning);

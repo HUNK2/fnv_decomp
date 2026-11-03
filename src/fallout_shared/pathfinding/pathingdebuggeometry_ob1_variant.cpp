@@ -5,7 +5,7 @@
 
 // src/fallout_shared/pathfinding/pathingdebuggeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingdebuggeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-// FUN_00574400 - TESObjectREFR method, /Od /Oy- frame 0x44
+// TESObjectREFR_Disable - TESObjectREFR method, /Od /Oy- frame 0x44
 struct Ref;
 struct ExtraList;
 struct Proc;
@@ -210,33 +210,33 @@ struct Ref
     virtual void vt2fc();
     bool FUN_00440da0();
     ExtraList* FUN_005d43c0();
-    void FUN_00576760();
-    void FUN_00484af0(int a);
+    void TESObjectREFR_CleanUpTraps();
+    void TESForm_SetDisabled(int a);
     Proc* FUN_008d8520();
     void ApplyActorSpells();
     Ref* FUN_008d6f30();
-    bool FUN_005656d0();
+    bool TESObjectREFR_HasScript();
     bool FUN_00564d80();
     void FUN_0093a660(Ref* a);
     void FUN_00967350(Ref* a);
     void FUN_00952c30(Ref* a);
     int FUN_00931850();
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
     void FUN_00881680(int a);
     void FUN_0088d640();
     void FUN_00407800(Proc* a);
-    void FUN_0056c880(unsigned int a, bool b);
-    void* FUN_0056ac90();
+    void TESObjectREFR_SetLoadedDataFlag(unsigned int a, bool b);
+    void* TESObjectREFR_GetEnableStateChildList();
     bool FUN_0056aa70();
-    void FUN_0056c780(int a);
-    void FUN_00573f40();
+    void TESForm_SetDisableFade(int a);
+    void TESObjectREFR_Enable();
     void FUN_00572270();
     void FUN_00579ac0(bool a);
     Ref* FUN_007af430();
-    void FUN_00574400();
+    void TESObjectREFR_Disable();
     void FUN_008b01c0();
     void FUN_00545560(Ref* a);
-    bool FUN_00549580();
+    bool TESForm_HasTalkedToPC();
 };
 struct ExtraList
 {
@@ -566,7 +566,7 @@ struct Proc
 };
 struct ObjX
 {
-    void FUN_00568020(int a);
+    void TESObjectREFR_SetMarkerUsed(int a);
     ObjX* FUN_00586170();
     void FUN_006fcfa0();
 };

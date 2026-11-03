@@ -103,7 +103,7 @@ class MiddleHighProcess : public MiddleLowProcess
     void CastSpellAtTarget(MagicCaster*, SpellItem*, MagicTarget*, bool);
     void SetPixelLightingProperty(BSShaderPPLightingProperty*);
     void FUN_00929260(unsigned char);
-    bool FUN_0044b130();
+    bool BSCriticalSection_TryLock();
     NiNode* GetActorRootNode(BipedAnim*);
     void UpdateActorAppearance(bool, bool, bool);
 

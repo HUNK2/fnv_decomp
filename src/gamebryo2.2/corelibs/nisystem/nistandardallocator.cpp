@@ -24,7 +24,7 @@ struct P03MM
 extern P03MM g_memoryManager;
 
 // @fnv 0x00aa3370
-void __stdcall FUN_00aa3370(void* apBlock, int e, unsigned int s)
+void __stdcall NiStandardAllocator_DeallocateExternal(void* apBlock, int e, unsigned int s)
 {
     if (apBlock)
     {
@@ -88,7 +88,7 @@ extern SmallAlloc* DAT_011f622c;
 unsigned int __cdecl ReadUInt32(void* p);
 void __cdecl FreeAllocatorBlock(void* p);
 // @fnv 0x00aa3150
-void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+void __stdcall NiStandardAllocator_Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (pvMemory)
     {
@@ -131,7 +131,7 @@ union Pun
 // 0x00aa30c0: writes a 4-byte count into a buffer obtained from the memory
 // manager, when the record is a 4-byte type and the caller's flag is clear.
 // @fnv 0x00aa30c0
-unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
+unsigned char* __stdcall NiStandardAllocator_Allocate(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
                                       int a6)
 {
     bool bWriteCount = false;
@@ -365,13 +365,13 @@ struct StdAllocator
                            bool bProvideAccurateSizeOnDeallocate, const char* pcFile, int iLine,
                            const char* pcFunction);
     virtual void Deallocate(void* pvMemory, int aiAllocationType, unsigned int stSizeinBytes);
-    void* FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
+    void* NiStandardAllocator_Reallocate(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment, int aiAllocationType,
                        bool bProvideAccurateSizeOnDeallocate, unsigned int stSizeCurrent, const char* pcFile, int iLine,
                        const char* pcFunction);
 };
 
 // @fnv 0x00aa31b0
-void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
+void* StdAllocator::NiStandardAllocator_Reallocate(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
                                  int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
                                  unsigned int stSizeCurrent, const char* pcFile, int iLine, const char* pcFunction)
 {
@@ -436,7 +436,7 @@ void* _fnv_zlib_memset(void* pvDest, int iValue, int iCount);
 
 // Allocates memory via the memory manager, applying alignment for type 0xe and zeroing the returned block.
 // @fnv 0x00aa33a0
-void* __stdcall FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
+void* __stdcall NiStandardAllocator_ReallocateExternal(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
                              int iUnkCur, int iUnkValue, int iNewUnk, int iTmpUnk)
 {
     void* pNewMem;

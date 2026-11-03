@@ -36,7 +36,7 @@ extern "C"
 }
 
 // @fnv 0x00c2a9b0
-const void* __cdecl FUN_00c2a9b0()
+const void* __cdecl NiPSysGravityFieldModifier_GetRTTI()
 {
     return &g_01202708;
 }
@@ -138,7 +138,7 @@ struct S_00c26db0_Base
     int unk24;
     int unk28;
     int unk2c;
-    bool FUN_00c32060(S_00c26db0_Base* other);
+    bool NiPSysFieldModifier_IsEqual(S_00c26db0_Base* other);
 };
 struct S_00c26db0_Obj : S_00c26db0_Base
 {
@@ -148,7 +148,7 @@ struct S_00c26db0_Obj : S_00c26db0_Base
 // @fnv 0x00c26db0
 char S_00c26db0_Obj::FUN_00c26db0(S_00c26db0_Obj* other)
 {
-    if (!FUN_00c32060(other))
+    if (!NiPSysFieldModifier_IsEqual(other))
         return 0;
     return !other->m_v.FUN_00439090(&m_v);
 }
@@ -197,17 +197,17 @@ struct FUN_00c2aa70_Vec : NiPoint3
 
 struct FUN_00c2aa70_Unit
 {
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct FUN_00c2aa70_Class : NiPSysGravityFieldModifier
 {
-    void FUN_00c2aa70(NiStream& s);
+    void NiPSysGravityFieldModifier_LoadBinary(NiStream& s);
 };
 
-// Loads the base modifier and a NiPoint3 from the stream, copies the point to offset 0x3c and calls FUN_004a0c10 on it.
+// Loads the base modifier and a NiPoint3 from the stream, copies the point to offset 0x3c and calls NiPoint3_Unitize on it.
 // @fnv 0x00c2aa70
-void FUN_00c2aa70_Class::FUN_00c2aa70(NiStream& aStream)
+void FUN_00c2aa70_Class::NiPSysGravityFieldModifier_LoadBinary(NiStream& aStream)
 {
     ((FUN_00c2aa70_Base*)this)->LoadBinary(aStream);
     FUN_00c2aa70_Vec* a = (FUN_00c2aa70_Vec*)((char*)this + 0x30);
@@ -218,12 +218,12 @@ void FUN_00c2aa70_Class::FUN_00c2aa70(NiStream& aStream)
     src[2] = src[2];
     NiPoint3* b = (NiPoint3*)((char*)this + 0x3c);
     *b = *(NiPoint3*)a;
-    ((FUN_00c2aa70_Unit*)b)->FUN_004a0c10();
+    ((FUN_00c2aa70_Unit*)b)->NiPoint3_Unitize();
 }
 
 struct FUN_00c322b0_Obj
 {
-    void __thiscall FUN_00c322b0(NiStream* stream);
+    void __thiscall NiPSysFieldModifier_GetViewerStrings(NiStream* stream);
 };
 
 struct FUN_00c2af80_Array
@@ -252,13 +252,13 @@ void* __cdecl FUN_00a7d330(void* value);
 
 struct FUN_00c2af80_Obj
 {
-    void __thiscall FUN_00c2af80(NiStream* stream);
+    void __thiscall NiPSysGravityFieldModifier_GetViewerStrings(NiStream* stream);
 };
 
 // @fnv 0x00c2af80
-void __thiscall FUN_00c2af80_Obj::FUN_00c2af80(NiStream* stream)
+void __thiscall FUN_00c2af80_Obj::NiPSysGravityFieldModifier_GetViewerStrings(NiStream* stream)
 {
-    reinterpret_cast<FUN_00c322b0_Obj*>(this)->FUN_00c322b0(stream);
+    reinterpret_cast<FUN_00c322b0_Obj*>(this)->NiPSysFieldModifier_GetViewerStrings(stream);
 
     FUN_00c2af80_Array* array = reinterpret_cast<FUN_00c2af80_Array*>(stream);
 

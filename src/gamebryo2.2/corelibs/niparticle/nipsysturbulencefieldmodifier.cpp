@@ -5,7 +5,7 @@
 extern const void* const g_01202698;
 
 // @fnv 0x00c273c0
-const void* __cdecl FUN_00c273c0()
+const void* __cdecl NiPSysTurbulenceFieldModifier_GetRTTI()
 {
     return &g_01202698;
 }
@@ -18,20 +18,20 @@ struct NiObject
 struct NiPSysFieldModifier
 {
     char _pad[0x30];
-    bool __thiscall FUN_00c32060(NiObject* pkObject);
+    bool __thiscall NiPSysFieldModifier_IsEqual(NiObject* pkObject);
 };
 
 struct NiPSysTurbulenceFieldModifier : NiPSysFieldModifier
 {
     float m_fFrequency;
-    bool __thiscall FUN_00c27390(NiObject* pkObject);
+    bool __thiscall NiPSysTurbulenceFieldModifier_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00c27390
-bool __thiscall NiPSysTurbulenceFieldModifier::FUN_00c27390(NiObject* pkObject)
+bool __thiscall NiPSysTurbulenceFieldModifier::NiPSysTurbulenceFieldModifier_IsEqual(NiObject* pkObject)
 {
     NiPSysTurbulenceFieldModifier* pkDest;
-    if (!NiPSysFieldModifier::FUN_00c32060(pkObject))
+    if (!NiPSysFieldModifier::NiPSysFieldModifier_IsEqual(pkObject))
         return false;
     pkDest = (NiPSysTurbulenceFieldModifier*)pkObject;
     if (pkDest->m_fFrequency != m_fFrequency)
@@ -136,7 +136,7 @@ char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
 struct C27A30Base
 {
-    void FUN_00c322b0(C27A30StringArray* pkStrings);
+    void NiPSysFieldModifier_GetViewerStrings(C27A30StringArray* pkStrings);
 };
 
 struct C27A30Object : C27A30Base
@@ -157,14 +157,14 @@ struct C27A30Object : C27A30Base
     int unk2C;
     float m_fFrequency;
 
-    void FUN_00c27a30(C27A30StringArray* pkStrings);
+    void NiPSysTurbulenceFieldModifier_GetViewerStrings(C27A30StringArray* pkStrings);
 };
 
 // Appends the RTTI name and a formatted "Frequency" string for m_fFrequency to pkStrings after calling the base handler.
 // @fnv 0x00c27a30
-void C27A30Object::FUN_00c27a30(C27A30StringArray* pkStrings)
+void C27A30Object::NiPSysTurbulenceFieldModifier_GetViewerStrings(C27A30StringArray* pkStrings)
 {
-    C27A30Base::FUN_00c322b0(pkStrings);
+    C27A30Base::NiPSysFieldModifier_GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
     pcString = FUN_00a7d550("Frequency", m_fFrequency);

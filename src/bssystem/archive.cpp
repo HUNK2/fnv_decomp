@@ -307,10 +307,10 @@ struct MobileObject
 
     bhkCharacterController* GetPhysicsCharacterController(void);
     float GetActorHeight(void) const;
-    bool FUN_008b2f90(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D);
+    bool Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D);
 };
 
-int __fastcall FUN_005c0880(bhkCharacterController*);
+int __fastcall bhkCharacterController_GetState(bhkCharacterController*);
 float __fastcall GetSettingFloat(bhkCharacterController*);
 float __cdecl FUN_004587d0(float);
 bool __fastcall FUN_008a5170(void*);
@@ -320,7 +320,7 @@ extern double gModifierZero;
 extern double DAT_0101db88;
 
 // @fnv 0x008b2f90
-bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D)
+bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool addCharRadius, bool check3D)
 {
     bhkCharacterController* charCtrl;
     {
@@ -328,7 +328,7 @@ bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool ad
         charCtrl = GetPhysicsCharacterController();
         {
             NiPoint3 diff = selfPos - targetPos;
-            if (!check3D && charCtrl && FUN_005c0880(charCtrl))
+            if (!check3D && charCtrl && bhkCharacterController_GetState(charCtrl))
             {
                 diff.z = 0.0f;
             }

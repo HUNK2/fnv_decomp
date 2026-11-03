@@ -421,12 +421,12 @@ struct PathingLocationStandIn
 
 struct FUN_006e3230_shell
 {
-    void FUN_006e3230(BGSSaveFormBuffer*);
+    void PathingRequest_SaveGame(BGSSaveFormBuffer*);
 };
 
 // Serializes this object's fields and two embedded pathing locations into the save buffer, then saves each avoid node referenced at offset 0x94.
 // @fnv 0x006e3230
-void FUN_006e3230_shell::FUN_006e3230(BGSSaveFormBuffer* buffer)
+void FUN_006e3230_shell::PathingRequest_SaveGame(BGSSaveFormBuffer* buffer)
 {
     unsigned int i;
     unsigned int isaveGameCount;

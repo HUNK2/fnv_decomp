@@ -5,7 +5,7 @@
 extern char const* const g_011f5f1c_arg1;
 
 // @fnv 0x00a943f0
-char const* const* __cdecl FUN_00a943f0()
+char const* const* __cdecl NiSwitchNode_GetRTTI()
 {
     return &g_011f5f1c_arg1;
 }
@@ -63,14 +63,14 @@ struct NiObject
 };
 struct NiSwitchNode : public NiObject
 {
-    bool __thiscall FUN_00a5e600(NiObject*);
-    bool __thiscall FUN_00a94000(NiObject*);
+    bool __thiscall NiNode_IsEqual(NiObject*);
+    bool __thiscall NiSwitchNode_IsEqual(NiObject*);
 };
-// Calls FUN_00a5e600, then returns true only if m_0b0 matches and the low bit of m_0ac matches the other object's.
+// Calls NiNode_IsEqual, then returns true only if m_0b0 matches and the low bit of m_0ac matches the other object's.
 // @fnv 0x00a94000
-bool __thiscall NiSwitchNode::FUN_00a94000(NiObject* other)
+bool __thiscall NiSwitchNode::NiSwitchNode_IsEqual(NiObject* other)
 {
-    if (!FUN_00a5e600(other) || m_0b0 != other->m_0b0 || (m_0ac ^ other->m_0ac) & 1)
+    if (!NiNode_IsEqual(other) || m_0b0 != other->m_0b0 || (m_0ac ^ other->m_0ac) & 1)
         return false;
     return true;
 }
@@ -169,10 +169,10 @@ struct NiNodeHack
 };
 struct SwitchHack : public NiObject
 {
-    void FUN_00a94300(NiUpdateData&);
+    void NiSwitchNode_UpdateControllers(NiUpdateData&);
 };
 // @fnv 0x00a94300
-void SwitchHack::FUN_00a94300(NiUpdateData& data)
+void SwitchHack::NiSwitchNode_UpdateControllers(NiUpdateData& data)
 {
     if (m_0ac & 1)
     {
@@ -322,10 +322,10 @@ struct Target : NiObject
     unsigned int unkBC;
     RefObj** arr;
     unsigned short capacity, length, count;
-    void __thiscall FUN_00a93ca0(RefObj*, RefPtr&);
+    void __thiscall NiSwitchNode_DetachChild(RefObj*, RefPtr&);
 };
 // @fnv 0x00a93ca0
-void Target::FUN_00a93ca0(RefObj* child, RefPtr& out)
+void Target::NiSwitchNode_DetachChild(RefObj* child, RefPtr& out)
 {
     unkB8 = 1;
     unsigned int uiIndex = 0;
@@ -855,11 +855,11 @@ class FUN_00a94130_cls
     SwitchSubX m_bc;
 
     void FUN_00a5ded0(NiUpdateData& upd, bool flag);
-    void FUN_00a94130(NiUpdateData& upd, bool flag);
+    void NiSwitchNode_UpdateSelectedDownwardPass(NiUpdateData& upd, bool flag);
 };
 
 // @fnv 0x00a94130
-void FUN_00a94130_cls::FUN_00a94130(NiUpdateData& upd, bool flag)
+void FUN_00a94130_cls::NiSwitchNode_UpdateSelectedDownwardPass(NiUpdateData& upd, bool flag)
 {
     unsigned char* pUpdBytes = (unsigned char*)&upd;
     m_b4 = upd.fTime;
@@ -1047,12 +1047,12 @@ struct Node_a94440
     volatile int m_b8;
     Arr_a94440 m_kArrBC;
     void FUN_00a5ed10(void* a1, int a2);
-    void FUN_00a94440(void* a1, int a2);
+    void NiSwitchNode_AttachChild(void* a1, int a2);
 };
 
 // Calls FUN_00a5ed10 with the given arguments, sets m_b8 to 1, and appends a null entry to m_kArrBC.
 // @fnv 0x00a94440
-void Node_a94440::FUN_00a94440(void* a1, int a2)
+void Node_a94440::NiSwitchNode_AttachChild(void* a1, int a2)
 {
     FUN_00a5ed10(a1, a2);
     m_b8 = 1;
@@ -1278,7 +1278,7 @@ class BA94570Node
 class FUN_00a94570_Node : public BA94570Node
 {
   public:
-    void FUN_00a94570(BA94570Stream& kStream);
+    void NiSwitchNode_LoadBinary(BA94570Stream& kStream);
 
     int unk000;
     int unk004;
@@ -1329,7 +1329,7 @@ class FUN_00a94570_Node : public BA94570Node
 };
 
 // @fnv 0x00a94570
-void FUN_00a94570_Node::FUN_00a94570(BA94570Stream& kStream)
+void FUN_00a94570_Node::NiSwitchNode_LoadBinary(BA94570Stream& kStream)
 {
     BA94570Node::LoadBinary(kStream);
 
@@ -1349,7 +1349,7 @@ char* __cdecl FUN_00a7d370(char const*, bool);
 
 struct FUN_00a5ea70_Obj
 {
-    void FUN_00a5ea70(StrArr* pkStrings);
+    void NiNode_GetViewerStrings(StrArr* pkStrings);
 };
 
 struct StrArrView
@@ -1382,7 +1382,7 @@ struct FUN_00a94680_shell : public NiSwitchNode
 // @fnv 0x00a94680
 void FUN_00a94680_shell::AppendDebugStrings(StrArr* pkStrings)
 {
-    reinterpret_cast<FUN_00a5ea70_Obj*>(this)->FUN_00a5ea70(pkStrings);
+    reinterpret_cast<FUN_00a5ea70_Obj*>(this)->NiNode_GetViewerStrings(pkStrings);
     AddString(pkStrings, FUN_00a7d330(DAT_011f5eb4));
     AddString(pkStrings, FUN_00a7d4d0("m_iIndex", reinterpret_cast<int>(m_0b0)));
     bool bUpdateOnlyActive = m_0ac & 1;
@@ -1514,11 +1514,11 @@ class SwitchNodeUpdate : public SwitchNodeBase
     unsigned int m_uiRevID;        // +0xb8
     SwitchRevList m_kRevList;      // +0xbc
 
-    void FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFlags);
+    void NiSwitchNode_UpdateRigidDownwardPass(FNV_UpdateFlags* apData, unsigned int auiFlags);
 };
 
 // @fnv 0x00a94220
-void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFlags)
+void SwitchNodeUpdate::NiSwitchNode_UpdateRigidDownwardPass(FNV_UpdateFlags* apData, unsigned int auiFlags)
 {
     m_fSwitchValue = apData->time;
     if (m_uiSwitchFlags & 1)
@@ -1801,7 +1801,7 @@ class NiNodeA946
 class NiSwitchNodeA946 : public NiNodeA946
 {
   public:
-    void FUN_00a94610(NiStreamA946& kStream);
+    void NiSwitchNode_SaveBinary(NiStreamA946& kStream);
 
     unsigned short m_usFlags;
     unsigned short unkAE;
@@ -1810,7 +1810,7 @@ class NiSwitchNodeA946 : public NiNodeA946
 
 // Saves the base node, then writes m_usFlags and m_iIndex to the stream.
 // @fnv 0x00a94610
-void NiSwitchNodeA946::FUN_00a94610(NiStreamA946& kStream)
+void NiSwitchNodeA946::NiSwitchNode_SaveBinary(NiStreamA946& kStream)
 {
     NiNodeA946::SaveBinary(kStream);
     A946SaveBinary(kStream, m_usFlags);

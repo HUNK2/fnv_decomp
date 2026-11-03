@@ -112,7 +112,7 @@ bool PerkEntryConditionSet::ContainsTrait(TESObjectREFR* subject, TESObjectREFR*
     state.definiteFalse = false;
     if (target)
     {
-        state.replacement = target->FUN_005693d0();
+        state.replacement = target->TESObjectREFR_GetXTarget();
         if (state.replacement)
             target = state.replacement;
     }
@@ -298,11 +298,11 @@ struct FUN_00680a70_shell
 };
 struct FUN_00404760_shell
 {
-    void FUN_00404760(PerkEntryConditionSet*);
+    void EffectItem_SetConditions(PerkEntryConditionSet*);
 };
 // Passes source to the object at this+0x1c, or an empty value when source is null.
 // @fnv 0x00404760
-void FUN_00404760_shell::FUN_00404760(PerkEntryConditionSet* source)
+void FUN_00404760_shell::EffectItem_SetConditions(PerkEntryConditionSet* source)
 {
     if (source)
         ((FUN_00680a70_shell*)((char*)this + 0x1c))->CopyConditions(source, 0);
@@ -321,7 +321,7 @@ struct FUN_005ea2c0_cls
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_005ea2c0_cls::*callback)());
 
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeap_Free(void* apMemory);
 
 // @fnv 0x005ea2c0
 void* FUN_005ea2c0_cls::FUN_005ea2c0(unsigned int flags)
@@ -332,7 +332,7 @@ void* FUN_005ea2c0_cls::FUN_005ea2c0(unsigned int flags)
 
         if (flags & 1)
         {
-            FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            FormHeap_Free(reinterpret_cast<char*>(this) - 4);
         }
 
         return reinterpret_cast<char*>(this) - 4;
@@ -342,7 +342,7 @@ void* FUN_005ea2c0_cls::FUN_005ea2c0(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00401030(this);
+        FormHeap_Free(this);
     }
 
     return this;

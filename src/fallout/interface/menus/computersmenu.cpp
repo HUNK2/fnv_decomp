@@ -1321,7 +1321,7 @@ struct InterfaceManager
     int unk4d0;
     S8840 unk4d4;
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 struct HH84
 {
     unsigned int GetReferenceFlags();
@@ -1410,7 +1410,7 @@ struct CompMenu
 // @fnv 0x00758470
 void CompMenu::FUN_00758470()
 {
-    if ((bC0 && !FUN_004b7210()->unk4d4.FUN_00718840(0x18)) || unk24 == 2)
+    if ((bC0 && !InterfaceManager_Instance()->unk4d4.FUN_00718840(0x18)) || unk24 == 2)
         return;
     pE8->ProcessQueue();
     UpdateBlink();
@@ -1705,7 +1705,7 @@ class TESSound
 class BGSNote
 {
   public:
-    TESSound* FUN_005e9100();
+    TESSound* BGSNote_GetNoteSound();
 };
 
 class BSAudio
@@ -1738,7 +1738,7 @@ struct Shell_759030
 void Shell_759030::PlayNoteSound(BGSNote* apNote)
 {
     ((FUN_00ad73b0_t*)BSAudio::GetSingleton())
-        ->FUN_00ad73b0(apNote->FUN_005e9100()->GetFormID(), 0x101)
+        ->FUN_00ad73b0(apNote->BGSNote_GetNoteSound()->GetFormID(), 0x101)
         .FUN_00ad8830(false);
 }
 
@@ -3372,7 +3372,7 @@ struct Obj
     Note* m_note;
     void* m_70;
     void SetFlag4(bool);
-    void FUN_00501830(void*);
+    void TERMINAL_MENU_ITEM_RunResultScript(void*);
     bool FUN_00758350();
     bool FUN_00758390();
 };
@@ -3440,11 +3440,11 @@ struct HostF
     void FUN_007586e0(int);
     void FUN_00758a80();
     void RefreshDisplay();
-    void __thiscall FUN_00757f70(int a1, TileF* a2);
+    void __thiscall ComputersMenu_DoClick(int a1, TileF* a2);
 };
 // Processes a tile index and optional tile pointer, updates tile and note display state, and may dispatch a note message to the player.
 // @fnv 0x00757f70
-void __thiscall HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
+void __thiscall HostF::ComputersMenu_DoClick(int aiTileIndex, TileF* apTile)
 {
     if (!apTile && aiTileIndex >= 0 && aiTileIndex < 16)
         apTile = m_pTiles[aiTileIndex];
@@ -3499,14 +3499,14 @@ void __thiscall HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
             else if (obj->m_70)
             {
                 obj->SetFlag4(true);
-                obj->FUN_00501830(m_ac);
+                obj->TERMINAL_MENU_ITEM_RunResultScript(m_ac);
                 m_a8 = obj->m_70;
                 FUN_007586e0(1);
             }
             else
             {
                 obj->SetFlag4(true);
-                obj->FUN_00501830(m_ac);
+                obj->TERMINAL_MENU_ITEM_RunResultScript(m_ac);
                 if (obj->m_str.FUN_00559450())
                 {
                     m_pManager->InsertAtPosition(obj->m_str.FUN_00559450(), m_pTiles[5]->FUN_00a00f30(0xfc4),
@@ -3576,7 +3576,7 @@ struct TextTile
 };
 struct TerminalReference
 {
-    unsigned int FUN_00501270(void*);
+    unsigned int BGSTerminal_GetHackMiniGameValue(void*);
 };
 int __cdecl FUN_00406f60(StrMem*, const char*, ...);
 void __cdecl FUN_00403d30(void*, int, unsigned int);
@@ -3666,7 +3666,7 @@ void TerminalTextMenu::BuildAnimation()
         DAT_0119f278 = promptDelay;
         char password[16];
         FUN_00403d30(password, 0, 16);
-        FUN_00403d30(password, '*', terminal->FUN_00501270(reference));
+        FUN_00403d30(password, '*', terminal->BGSTerminal_GetHackMiniGameValue(reference));
         FUN_00406f60(&text, "%s%s", "> ", password);
         animation->InsertAtPosition(text.FUN_00559450(), (int)passwordTile->FUN_00a00f30(0xfc4),
                                     (int)passwordTile->FindTraitValue(0xfa3), -1);

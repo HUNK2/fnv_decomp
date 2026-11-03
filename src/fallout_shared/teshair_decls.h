@@ -35,7 +35,7 @@ class TESHairRaceResult
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
+    TESHairRaceResult* TESNPC_GetRace();
 };
 
 class TESTextureLoader

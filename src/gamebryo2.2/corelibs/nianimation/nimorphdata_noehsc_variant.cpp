@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_011f3e74;
-void* __cdecl FUN_00a415e0();
+void* __cdecl NiMorphData_GetRTTI();
 extern int DAT_010976fc;
 struct NiRefObject
 {
@@ -326,7 +326,7 @@ struct NiMorphDataX : NiObjBase
     MorphTgt* m_pMorphTargets;
     bool m_bTargetsAreRelative;
 
-    void FUN_00a41d90(NiStreamM& kStream);
+    void NiMorphData_SaveBinary(NiStreamM& kStream);
 };
 struct ViewerStrings
 {
@@ -843,11 +843,11 @@ struct MorphData
     unsigned int m_uiNumVertsPerTarget;
     FUN_00a415f0* m_pMorphTargets;
     bool m_bTargetsAreRelative;
-    void FUN_00a41a40(NiStreamL& kStream);
+    void NiMorphData_LoadBinary(NiStreamL& kStream);
     void LoadBinaryBase(NiStreamL&);
 };
 // @fnv 0x00a41a40
-void MorphData::FUN_00a41a40(NiStreamL& kStream)
+void MorphData::NiMorphData_LoadBinary(NiStreamL& kStream)
 {
     LoadBinaryBase(kStream);
     ReadBinaryValue(kStream, m_uiNumTargets);

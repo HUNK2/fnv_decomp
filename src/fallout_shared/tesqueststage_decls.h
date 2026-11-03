@@ -32,7 +32,7 @@ class QuestStage
     ~QuestStage();
     unsigned char GetIndex();
     void MarkDone(bool done);
-    bool FUN_0060fd70();
+    bool TESQuestStageItem_GetEndQuest();
     bool IsFlag2Set();
     Script* GetOffsetC();
     unsigned char m_done;
@@ -185,7 +185,7 @@ class PlayerCharacter : public TESObjectREFR
 {
   public:
     bool CompleteQuestObjective(PlayerQuestData* item);
-    TESQuest* FUN_005cbb50();
+    TESQuest* PlayerCharacter_GetActiveQuest();
     void FUN_009529d0(int value);
     ScriptContext* FUN_005d43c0(bool first, bool second);
 };
@@ -193,7 +193,7 @@ class PlayerCharacter : public TESObjectREFR
 class ScriptContext
 {
   public:
-    void* FUN_00418830();
+    void* ExtraDataList_GetScriptLocals();
 };
 
 class PackageList

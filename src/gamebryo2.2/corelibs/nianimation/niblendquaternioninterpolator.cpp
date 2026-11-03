@@ -16,11 +16,11 @@ struct NiBlendInterpolator
 
 struct NiBlendQuaternionInterpolator : NiBlendInterpolator
 {
-    void FUN_00a554c0(NiStream&);
+    void NiBlendQuaternionInterpolator_LoadBinary(NiStream&);
 };
 
 // @fnv 0x00a554c0
-void NiBlendQuaternionInterpolator::FUN_00a554c0(NiStream& kStream)
+void NiBlendQuaternionInterpolator::NiBlendQuaternionInterpolator_LoadBinary(NiStream& kStream)
 {
     NiBlendInterpolator::LoadBinary(kStream);
     ((RgbaColor*)((char*)this + 0x30))->LoadBinary(kStream);
@@ -45,18 +45,18 @@ struct NiBlendInterpolator
 struct NiBlendQuaternionInterpolator : NiBlendInterpolator
 {
     NiQuaternion m_kQuaternionValue;
-    void FUN_00a554e0(NiStream*);
+    void NiBlendQuaternionInterpolator_SaveBinary(NiStream*);
 };
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream*);
+    void NiBlendInterpolator_SaveBinary(NiStream*);
 };
 
 // @fnv 0x00a554e0
-void NiBlendQuaternionInterpolator::FUN_00a554e0(NiStream* kStream)
+void NiBlendQuaternionInterpolator::NiBlendQuaternionInterpolator_SaveBinary(NiStream* kStream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(kStream);
+    ((FUN_00a37ec0_tgt*)this)->NiBlendInterpolator_SaveBinary(kStream);
     ((NiQuaternion*)((char*)this + 0x30))->SaveBinary(kStream);
 }
 }  // namespace fnv_00a554e0
@@ -64,7 +64,7 @@ void NiBlendQuaternionInterpolator::FUN_00a554e0(NiStream* kStream)
 extern int g_011f4064;
 
 // @fnv 0x00a55500
-int* __cdecl FUN_00a55500()
+int* __cdecl NiBlendQuaternionInterpolator_GetRTTI()
 {
     return &g_011f4064;
 }
@@ -82,7 +82,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a55470
-void* __cdecl FUN_00a55470()
+void* __cdecl NiBlendQuaternionInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -237,7 +237,7 @@ struct StrArr
 
 struct FUN_00a38080_shell
 {
-    void FUN_00a38080(StrArr*);
+    void NiBlendInterpolator_GetViewerStrings(StrArr*);
 };
 
 struct FUN_00a6e190_shell
@@ -263,7 +263,7 @@ struct FUN_00a55980_shell : NiBlendQuaternionInterpolator
 // @fnv 0x00a55980
 void FUN_00a55980_shell::AppendInterpolatorStrings(StrArr* pkStrings)
 {
-    reinterpret_cast<FUN_00a38080_shell*>(this)->FUN_00a38080(pkStrings);
+    reinterpret_cast<FUN_00a38080_shell*>(this)->NiBlendInterpolator_GetViewerStrings(pkStrings);
 
     char* pString = _FUN_00a7d330(g_011f4064);
 

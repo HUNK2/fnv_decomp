@@ -106,12 +106,12 @@ struct NiD3DShaderProgram : public NiGPUProgram
 typedef char _sizecheck_NiD3DShaderProgram[sizeof(NiD3DShaderProgram) == 44 ? 1 : -1];
 struct FUN_00e89830_shell : public NiD3DShaderProgram
 {
-    void* FUN_00e89830();
+    void* NiD3DShaderProgram_GetRTTI();
 };
 
 extern char const* const g_0126f9ac_arg1;
 // @fnv 0x00e89830
-void* FUN_00e89830_shell::FUN_00e89830()
+void* FUN_00e89830_shell::NiD3DShaderProgram_GetRTTI()
 {
     return (void*)&g_0126f9ac_arg1;
 }

@@ -488,11 +488,11 @@ struct Blend100
     void* singleInterpolator;
     float weightThreshold, singleTime, highSum, nextSum, highEase;
     void FUN_00a88a40(Stream100&);
-    void FUN_00a37980(Stream100&);
+    void NiBlendInterpolator_LoadBinary(Stream100&);
 };
 
 // @fnv 0x00a37980
-void Blend100::FUN_00a37980(Stream100& stream)
+void Blend100::NiBlendInterpolator_LoadBinary(Stream100& stream)
 {
 
     FUN_00a88a40(stream);

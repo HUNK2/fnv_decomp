@@ -184,7 +184,7 @@ void FUN_009ec850_shell::FUN_009ec850(unsigned int a, Actor* pActor)
 
 struct List005fda50
 {
-    void FUN_00616c20(int);
+    void TESReputation_CommitCrime(int);
 };
 struct Crime005fda50
 {
@@ -211,14 +211,14 @@ struct Crime005fda50
     List005fda50* pList38;
     char _pad3C[8];
     int i44;
-    void FUN_005fda50(int, bool);
+    void TESFaction_AddMajorCrime(int, bool);
 };
 // @fnv 0x005fda50
-void Crime005fda50::FUN_005fda50(int aiAmount, bool b)
+void Crime005fda50::TESFaction_AddMajorCrime(int aiAmount, bool b)
 {
     i44 += aiAmount;
     if (pList38 && b)
-        pList38->FUN_00616c20(1);
+        pList38->TESReputation_CommitCrime(1);
     v18(0x80000000);
 }
 
@@ -253,7 +253,7 @@ struct FUN_009eba30_xl
 };
 struct FUN_0041cf00_shell
 {
-    FUN_009eba30_xl* FUN_0041cf00();
+    FUN_009eba30_xl* ExtraDataList_GetPlayerCrimeList();
 };
 struct XActor
 {
@@ -278,7 +278,7 @@ void FUN_009eba30_t::FUN_009eba30()
     while (pnode && *pnode->FUN_006815c0())
     {
         XActor* pActor = *pnode->FUN_006815c0();
-        FUN_009eba30_xl* pList = pActor->GetExtra()->FUN_0041cf00();
+        FUN_009eba30_xl* pList = pActor->GetExtra()->ExtraDataList_GetPlayerCrimeList();
         if (pList)
             pList->Remove(this);
         pnode = pnode->FUN_00726070();
@@ -397,11 +397,11 @@ struct AlarmPackage : public TESForm
 
 struct FUN_009ec780_shell : public AlarmPackage
 {
-    void FUN_009ec780(TESForm* apCopy);
+    void AlarmPackage_CopyFrom(TESForm* apCopy);
 };
 
 // @fnv 0x009ec780
-void FUN_009ec780_shell::FUN_009ec780(TESForm* apCopy)
+void FUN_009ec780_shell::AlarmPackage_CopyFrom(TESForm* apCopy)
 {
     AlarmPackage* pAlarmSource;
     CrimeNode* pCurrentElementNext;
@@ -1105,10 +1105,10 @@ struct Actor
     virtual void d137();
     virtual void d138();
     virtual bool v8b(int a);
-    bool FUN_00437bd0();
+    bool Actor_IsUnConscious();
     TESActorBase* GetActorBase();
     BaseProcess* GetProcess();
-    float FUN_005723b0(Actor* a, int b, int c);
+    float TESObjectREFR_GetDistanceFromReference(Actor* a, int b, int c);
 };
 
 struct ProcVt
@@ -1316,7 +1316,7 @@ struct Cls
     Actor* FUN_00970b30(TESFaction* fac, bool a2, bool a3);
 };
 
-// Scans the actor array for a faction member passing the rank and process checks, optionally picking the one with the lowest value from FUN_005723b0.
+// Scans the actor array for a faction member passing the rank and process checks, optionally picking the one with the lowest value from TESObjectREFR_GetDistanceFromReference.
 // @fnv 0x00970b30
 Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickBest)
 {
@@ -1333,7 +1333,7 @@ Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickB
         g4 = ((Arr*)((char*)this + 4))->GetItem(i);
         if (g4 && g4->v64())
             v20 = g4;
-        if (v20 && !v20->v8b(0) && !v20->FUN_00437bd0() &&
+        if (v20 && !v20->v8b(0) && !v20->Actor_IsUnConscious() &&
             ((TESActorBaseData*)((char*)v20->GetActorBase() + 0x30))->GetFactionRank(pFaction, v20 == g_thePlayer) >
                 -1 &&
             (!bRequireProcess || ((ProcVt*)v20->GetProcess())->v181(g_thePlayer, 0) > 0))
@@ -1341,7 +1341,7 @@ Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickB
             pB = v20;
             if (bPickBest)
             {
-                f24 = v20->FUN_005723b0(g_thePlayer, 0, 0);
+                f24 = v20->TESObjectREFR_GetDistanceFromReference(g_thePlayer, 0, 0);
                 if (f24 < pE)
                 {
                     e8 = v20;
@@ -1540,7 +1540,7 @@ class TESBoundObject : public TESForm
 class TESFaction : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(void*);
+TESForm* __cdecl TESForm_GetFormByNumericID(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct List009
 {
@@ -1585,7 +1585,7 @@ void Host009::ReadFromStream(Reader009* apReader)
     field.FUN_009a5ff0(apReader);
     apReader->FUN_008648e0(&c);
     apReader->FUN_008648e0(&d);
-    f = dynamic_cast<TESBoundObject*>(FUN_004839c0(apReader->FUN_008648a0()));
+    f = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(apReader->FUN_008648a0()));
     apReader->FUN_008648e0(&h);
     {
         unsigned count = apReader->FUN_00864a60();
@@ -1602,7 +1602,7 @@ void Host009::ReadFromStream(Reader009* apReader)
         for (unsigned uiFactionIndex = 0; uiFactionIndex < uiFactionCount; uiFactionIndex++)
         {
             void* pFaction = 0;
-            pFaction = dynamic_cast<TESFaction*>(FUN_004839c0(apReader->FUN_008648a0()));
+            pFaction = dynamic_cast<TESFaction*>(TESForm_GetFormByNumericID(apReader->FUN_008648a0()));
             if (pFaction)
                 strings->FUN_005ae3d0(&pFaction);
         }
@@ -1714,7 +1714,7 @@ using ::Actor;
 class TESObjectREFR : public TESForm
 {
   public:
-    void FUN_00564db0(int flag);
+    void TESObjectREFR_SetTargeted(int flag);
 };
 class Actor : public TESObjectREFR
 {
@@ -1793,6 +1793,6 @@ void AlarmPackageData::FUN_009ec400(void* unused)
     }
     if (ref)
     {
-        ref->FUN_00564db0(1);
+        ref->TESObjectREFR_SetTargeted(1);
     }
 }

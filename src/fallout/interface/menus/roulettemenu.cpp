@@ -4,11 +4,11 @@
 
 struct FUN_007b8f30_shell
 {
-    int FUN_007b8f30();
+    int RouletteMenu_GetClass();
 };
 
 // @fnv 0x007b8f30
-int FUN_007b8f30_shell::FUN_007b8f30()
+int FUN_007b8f30_shell::RouletteMenu_GetClass()
 {
     return 0x43a;
 }
@@ -72,17 +72,17 @@ struct Proc_S
     void* GetNext(void);
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_Instance(void);
 
 struct FUN_007bed00_shell
 {
-    void FUN_007bed00(int aiID, Tile* apTarget);
+    void RouletteMenu_HandleMouseover(int aiID, Tile* apTarget);
 };
 
 // @fnv 0x007bed00
-void FUN_007bed00_shell::FUN_007bed00(int aiID, Tile* apTarget)
+void FUN_007bed00_shell::RouletteMenu_HandleMouseover(int aiID, Tile* apTarget)
 {
-    static_cast<Tile*>(static_cast<Proc_S*>(FUN_004b7210())->GetNext())->Set(0xfa9, 0.0f, true);
+    static_cast<Tile*>(static_cast<Proc_S*>(InterfaceManager_Instance())->GetNext())->Set(0xfa9, 0.0f, true);
 }
 }  // namespace fnv_007bed00
 
@@ -371,7 +371,7 @@ struct GO
 
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 
 struct FUN_007bf840_shell
@@ -418,12 +418,12 @@ void FUN_007bf840_shell::FUN_007bf840()
     reinterpret_cast<FUN_004bc1f0_S*>(
         *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x3f14 +
                                   *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe0) * 4))
-        ->FUN_004bc1f0(loc.x, loc.y, static_cast<float>(level * DAT_01070e78));
+        ->NiAVObject_SetTranslate(loc.x, loc.y, static_cast<float>(level * DAT_01070e78));
 
     reinterpret_cast<FUN_004bc1f0_S*>(
         *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x3f3c +
                                   *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe0) * 4))
-        ->FUN_004bc1f0(loc.x, loc.y, 0.0f);
+        ->NiAVObject_SetTranslate(loc.x, loc.y, 0.0f);
 
     NiUpdateData update1(0.0f, false, false);
     reinterpret_cast<NiNode*>(g_011da8a0.operator unsigned int())->Update(update1);
@@ -4754,7 +4754,7 @@ void FUN_007bf710_cls::ApplyValueToChain(int aiId, float afValue)
 extern float DAT_0102caf8;
 struct S_007bf7a0_Tile
 {
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiAVObject_SetTranslate(float a, float b, float c);
 };
 struct S_007bf7a0_Val
 {
@@ -5291,8 +5291,8 @@ void S_007bf7a0::FUN_007bf7a0()
 {
     for (int i = 0; i < 10; i++)
     {
-        tilesA[i]->FUN_004bc1f0(0.0f, 0.0f, DAT_0102caf8);
-        tilesB[i]->FUN_004bc1f0(0.0f, 0.0f, DAT_0102caf8);
+        tilesA[i]->NiAVObject_SetTranslate(0.0f, 0.0f, DAT_0102caf8);
+        tilesB[i]->NiAVObject_SetTranslate(0.0f, 0.0f, DAT_0102caf8);
     }
     S_007bf7a0_Val v(0.0f, 0, 0);
     DAT_011da8a0.FUN_00559450()->FUN_00a59c60(&v);
@@ -5402,7 +5402,7 @@ struct Player
 };
 struct Scene
 {
-    void FUN_00572160();
+    void NiNode_DetachAllChildren();
 };
 struct Pointer
 {
@@ -5628,7 +5628,7 @@ FUN_007b9020::~FUN_007b9020()
     DAT_011da8d0.FUN_0066b0d0(0);
     FUN_00450b80(1)->Detach(DAT_011da8a0.FUN_00559450());
     FUN_00450b80(1)->FUN_00b5d180();
-    DAT_011da8a0.FUN_00559450()->FUN_00572160();
+    DAT_011da8a0.FUN_00559450()->NiNode_DetachAllChildren();
     DAT_011da8a0.FUN_0066b0d0(0);
     table = 0;
     wheel = 0;
@@ -5685,7 +5685,7 @@ struct NiFixedString
 };
 struct Controller
 {
-    void* FUN_0047a520(const NiFixedString&);
+    void* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0048fef0(float);
 };
 struct NiRTTI;
@@ -5757,7 +5757,7 @@ struct Scene : NiMemObject
     virtual void unused53();
     virtual void unused54();
     virtual void Attach(Scene*, bool);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00450f90(bool);
     Scene* FUN_00a5d680();
     void FUN_00a59c60(const NiUpdateData&);
@@ -9910,8 +9910,8 @@ void Setup::InitRouletteScene()
     bet = g_modelLoader->LoadFile("Meshes\\terminals\\NV_Roulette\\NV_Roulette-Bet.NIF", 0, true, false, false, false);
     tilesA[0] =
         g_modelLoader->LoadFile(((PathOwner*)DAT_011da880)->FUN_00504e00(6)->Path(), 0, true, false, false, false);
-    points->FUN_004bc1f0(0.0f, 0.0f, 0.1f);
-    bet->FUN_004bc1f0(0.0f, 0.0f, 0.1f);
+    points->NiAVObject_SetTranslate(0.0f, 0.0f, 0.1f);
+    bet->NiAVObject_SetTranslate(0.0f, 0.0f, 0.1f);
     selector = FUN_004aae30(bet, "Bet_Selector:0");
     invalid = FUN_004aae30(bet, "Bet_Invalid:0");
     invalid->FUN_00450f90(true);
@@ -9955,9 +9955,9 @@ void Setup::InitRouletteScene()
     if (update)
     {
         controller = update;
-        spin1 = controller->FUN_0047a520(NiFixedString("Spin_1"));
-        spin2 = controller->FUN_0047a520(NiFixedString("Spin_2"));
-        spin3 = controller->FUN_0047a520(NiFixedString("Spin_3"));
+        spin1 = controller->NiControllerManager_GetSequenceByName(NiFixedString("Spin_1"));
+        spin2 = controller->NiControllerManager_GetSequenceByName(NiFixedString("Spin_2"));
+        spin3 = controller->NiControllerManager_GetSequenceByName(NiFixedString("Spin_3"));
         controller->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(model);
     }
@@ -10002,7 +10002,7 @@ struct Interface
 {
     void* FUN_007fd640();
 };
-Interface* FUN_004b7210();
+Interface* InterfaceManager_Instance();
 void* FUN_00450b80(int);
 void FUN_00b6bee0(void*, void*, Scene*);
 void FUN_00b6c0d0(void*, void*, int);
@@ -10015,7 +10015,7 @@ void FUN_007bbcf0()
     scene->FUN_00c4f270(1);
     void* owner = g_011da8d0.FUN_00559450();
     UpdateCameraFrustum(owner, g_011db5ec_arg1);
-    Holder node(FUN_004b7210()->FUN_007fd640());
+    Holder node(InterfaceManager_Instance()->FUN_007fd640());
     scene->FUN_004a0fd0(node.FUN_00559450());
     void* existing = owner ? owner : pOwner->FUN_006629f0();
     FUN_00b6bee0(existing, FUN_00450b80(1), scene);
@@ -10391,7 +10391,7 @@ struct RouletteEntryNode
 struct RouletteObject
 {
     NiPoint3& FUN_0043c490();
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void Update(const NiUpdateData&);
 };
 struct RouletteScene
@@ -10422,14 +10422,14 @@ bool RouletteState::RemoveEntryById(int id)
                 FUN_007bf840();
                 reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
                     ->FUN_0043b4a0(unk3fe0)
-                    ->FUN_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8),
+                    ->NiAVObject_SetTranslate(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8),
                                    reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
                                        ->FUN_0043b4a0(unk3fe0)
                                        ->FUN_0043c490()
                                        .z);
                 reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
                     ->FUN_0043b4a0(unk3fe0 + 10)
-                    ->FUN_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8), 0.0f);
+                    ->NiAVObject_SetTranslate(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8), 0.0f);
                 reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
                     ->FUN_0043b4a0(unk3fe0)
                     ->Update(NiUpdateData(0.0f, false, false));
@@ -15203,7 +15203,7 @@ struct InterfaceMgr
 {
     TileX* FUN_0045cd60();
 };
-InterfaceMgr* __cdecl FUN_004b7210();
+InterfaceMgr* __cdecl InterfaceManager_Instance();
 bool __cdecl FUN_004b71d0();
 
 struct ListNode
@@ -15304,7 +15304,7 @@ struct NiObj
     bool FUN_00456610();
     NiObj* FUN_0043b4a0(int aiIndex);
     NiPoint3X* FUN_0043c490();
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
     void FUN_00a59c60(const ColorFlags& arFlags);
 };
 NiObj* __cdecl FUN_004aae30(NiObj* apRoot, const char* apName);
@@ -15379,7 +15379,7 @@ struct FormX
     int unk00;
     unsigned int GetRefID();
 };
-const char* __cdecl FUN_00482720(FormX* apForm);
+const char* __cdecl TESFullName_GetFullName(FormX* apForm);
 
 struct PlayerX
 {
@@ -15492,8 +15492,8 @@ struct InventoryStackRecord
     int unk08;
     InventoryStackRecord();
     ~InventoryStackRecord();
-    void FUN_004818e0(FormX* apForm, int aiCount, int a3);
-    void FUN_004821a0(PlayerX* apPlayer, int a2);
+    void TESContainer_AddObject(FormX* apForm, int aiCount, int a3);
+    void TESContainer_AddContainerToReference(PlayerX* apPlayer, int a2);
 };
 
 struct CasinoStats
@@ -15519,7 +15519,7 @@ struct CasinoX
 {
     FormX* FUN_007316d0();
     int GetFieldAt210();
-    NotifyObj* FUN_00504e40();
+    NotifyObj* TESCasino_GetQuest();
     CasinoLimits* FUN_00504e60();
 };
 extern CasinoX* DAT_011da880;
@@ -15642,7 +15642,7 @@ class RouletteMenuX
     bool m_bLimitUp;
     int m_iForceWin;
 
-    void FUN_007bd2a0();
+    void RouletteMenu_Update();
     int FUN_0059bb30();
     TileX* FUN_00726070();
     void FUN_00a1d910();
@@ -15660,7 +15660,7 @@ static bool s_bValidBet;
 
 // Updates the roulette menu state machine, handling spin animation, bet resolution, chip movement, and UI feedback based on m_iFadeIndex.
 // @fnv 0x007bd2a0
-void RouletteMenuX::FUN_007bd2a0()
+void RouletteMenuX::RouletteMenu_Update()
 {
     int iElapsed = 0;
     float fMoveX4 = 1.0f;
@@ -15690,17 +15690,17 @@ void RouletteMenuX::FUN_007bd2a0()
     }
     if (!bActive2)
     {
-        FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        InterfaceManager_Instance()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
     }
     else
     {
-        FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 0.0f, true);
+        InterfaceManager_Instance()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 0.0f, true);
     }
     int iStickX3 = 0;
     int iStickY5 = 0;
     int iStickZ4 = 0;
     int iStickMax7 = 0x7fff;
-    FUN_004b7210();
+    InterfaceManager_Instance();
     if (FUN_004b71d0())
     {
         iStickX3 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 7);
@@ -15732,7 +15732,7 @@ void RouletteMenuX::FUN_007bd2a0()
     case 5:
         if (FUN_0059bb30() != 2)
         {
-            FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+            InterfaceManager_Instance()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
             FUN_00726070()->FUN_00700320(0x1772, 1);
             FUN_00a1d910();
             int iChipDiff;
@@ -15740,7 +15740,7 @@ void RouletteMenuX::FUN_007bd2a0()
             {
                 DAT_011dea3c->RemoveItem(DAT_011da880->FUN_007316d0(), 0, -iChipDiff, 0, 0, 0, 0, 0, 1, 0);
                 BSStringX kLostMsg;
-                FUN_00406f60(&kLostMsg, "%i %s%s %s", -iChipDiff, FUN_00482720(DAT_011da880->FUN_007316d0()),
+                FUN_00406f60(&kLostMsg, "%i %s%s %s", -iChipDiff, TESFullName_GetFullName(DAT_011da880->FUN_007316d0()),
                              DAT_011d3114.FUN_00403df0(), DAT_011d3db4.FUN_00403df0());
                 DispatchMessageToSink(kLostMsg.FUN_00559450(), 0,
                                       "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds",
@@ -15749,16 +15749,16 @@ void RouletteMenuX::FUN_007bd2a0()
             else if (iChipDiff > 0)
             {
                 InventoryStackRecord kChange;
-                kChange.FUN_004818e0(DAT_011da880->FUN_007316d0(), iChipDiff, 0);
+                kChange.TESContainer_AddObject(DAT_011da880->FUN_007316d0(), iChipDiff, 0);
                 if (DAT_011da87c->iEarnings < DAT_011da880->GetFieldAt210())
                 {
-                    kChange.FUN_004821a0(DAT_011dea3c, 0);
+                    kChange.TESContainer_AddContainerToReference(DAT_011dea3c, 0);
                 }
                 else
                 {
-                    kChange.FUN_004821a0(DAT_011dea3c, 1);
+                    kChange.TESContainer_AddContainerToReference(DAT_011dea3c, 1);
                     BSStringX kWonMsg;
-                    FUN_00406f60(&kWonMsg, "%i %s%s %s\n%s", iChipDiff, FUN_00482720(DAT_011da880->FUN_007316d0()),
+                    FUN_00406f60(&kWonMsg, "%i %s%s %s\n%s", iChipDiff, TESFullName_GetFullName(DAT_011da880->FUN_007316d0()),
                                  DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0(), DAT_011d3abc.FUN_00403df0());
                     DispatchMessageToSink(kWonMsg.FUN_00559450(), 0,
                                           "Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds",
@@ -15767,7 +15767,7 @@ void RouletteMenuX::FUN_007bd2a0()
             }
             if (m_bLimitUp)
             {
-                NotifyObj* pNotify = DAT_011da880->FUN_00504e40();
+                NotifyObj* pNotify = DAT_011da880->TESCasino_GetQuest();
                 if (pNotify)
                 {
                     pNotify->FUN_0060c9c0(1);
@@ -15798,7 +15798,7 @@ void RouletteMenuX::FUN_007bd2a0()
             FUN_007bf7a0();
             m_iChipNode = 3;
             NiPoint3X kPos = *DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(2)->FUN_0043c490();
-            DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode)->FUN_004bc1f0(kPos.x, kPos.y, 0.0f);
+            DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode)->NiAVObject_SetTranslate(kPos.x, kPos.y, 0.0f);
             FUN_007bf840();
             m_bSpinning = false;
         }
@@ -16034,15 +16034,15 @@ void RouletteMenuX::FUN_007bd2a0()
             m_fCursorY < (double)-13.3f ? m_fCursorY = -13.3f : 0.0f;
             m_fCursorX > 28.0 ? m_fCursorX = 28.0f : 0.0f;
             m_fCursorY > (double)13.1f ? m_fCursorY = 13.1f : 0.0f;
-            DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(2)->FUN_004bc1f0(m_fCursorX, m_fCursorY, m_fCursorZ);
+            DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(2)->NiAVObject_SetTranslate(m_fCursorX, m_fCursorY, m_fCursorZ);
             DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(2)->FUN_00a59c60(ColorFlags(0.0f, false, false));
             if (m_iChipCount < 10)
             {
                 DAT_011da8a0.FUN_00559450()
                     ->FUN_0043b4a0(m_iChipNode)
-                    ->FUN_004bc1f0(m_fCursorX, m_fCursorY,
+                    ->NiAVObject_SetTranslate(m_fCursorX, m_fCursorY,
                                    DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode)->FUN_0043c490()->z);
-                DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode + 10)->FUN_004bc1f0(m_fCursorX, m_fCursorY, 0.0f);
+                DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode + 10)->NiAVObject_SetTranslate(m_fCursorX, m_fCursorY, 0.0f);
                 DAT_011da8a0.FUN_00559450()->FUN_0043b4a0(m_iChipNode)->FUN_00a59c60(ColorFlags(0.0f, false, false));
                 DAT_011da8a0.FUN_00559450()
                     ->FUN_0043b4a0(m_iChipNode + 10)

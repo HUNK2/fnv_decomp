@@ -117,7 +117,7 @@ struct blob12
 };
 struct FUN_00478690_shell : public TESModelList
 {
-    void FUN_00478690();
+    void BGSDestructibleObjectForm_ClearDataComponent();
 };
 
 struct Dummy004753a0
@@ -127,7 +127,7 @@ struct Dummy004753a0
 
 // Releases the object stored at offset 4 by calling its virtual method with 1, then sets that pointer to null.
 // @fnv 0x00478690
-void FUN_00478690_shell::FUN_00478690()
+void FUN_00478690_shell::BGSDestructibleObjectForm_ClearDataComponent()
 {
     Dummy004753a0* p;
     Dummy004753a0* p2;
@@ -155,17 +155,17 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting43;
 struct TESActorBaseData
 {
     bool GetMatchesPCLevel();
-    unsigned short FUN_0047ded0();
+    unsigned short TESActorBaseData_GetLevel();
 };
 
 // Returns the byte at pThis+0x12d, adding the scaled level from the actor base data when it matches the PC level.
 // @fnv 0x005f8f70
-unsigned char __fastcall FUN_005f8f70(char* pThis)
+unsigned char __fastcall TESCreature_GetCombatSkill(char* pThis)
 {
     unsigned char ucLevel = static_cast<unsigned char>(pThis[0x12d]);
     if (reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->GetMatchesPCLevel())
     {
-        short slevel = reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->FUN_0047ded0();
+        short slevel = reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->TESActorBaseData_GetLevel();
         if (slevel < 1)
             slevel = 1;
         ucLevel =
@@ -244,7 +244,7 @@ struct S00489ce0
 {
     char pad[0xc];
     Sub00489ce0 sub;
-    void FUN_00489fa0(const char*);
+    void TESModelList_AddModel(const char*);
     void LoadStringChunk(void* p1, TESFile* apFile);
 };
 // @fnv 0x00489ce0
@@ -262,7 +262,7 @@ void S00489ce0::LoadStringChunk(void* p1, TESFile* apFile)
             apFile->GetChunkData(pChunkBuffer, 0);
             while (*pString)
             {
-                FUN_00489fa0(pString);
+                TESModelList_AddModel(pString);
                 pString += BSStringLength(pString) + 1;
             }
         }
@@ -375,7 +375,7 @@ struct FUN_00489db0_shell : public TESModelList
 
 struct S00489ce0
 {
-    void FUN_00489fa0(const char*);
+    void TESModelList_AddModel(const char*);
 };
 struct PathingLocation;
 struct PathingRequest
@@ -386,7 +386,7 @@ struct FUN_0048a2c0_shell
 {
     void FUN_0048a2c0(PathingLocation*);
 };
-// Casts component to TESModelList, copies each filename via FUN_00489fa0, then copies the origin pathing location.
+// Casts component to TESModelList, copies each filename via TESModelList_AddModel, then copies the origin pathing location.
 // @fnv 0x00489db0
 void FUN_00489db0_shell::CopyModelListFromComponent(BaseFormComponent* component)
 {
@@ -399,7 +399,7 @@ void FUN_00489db0_shell::CopyModelListFromComponent(BaseFormComponent* component
     {
         const char* filename = list->GetItem();
         if (filename)
-            ((S00489ce0*)this)->FUN_00489fa0(filename);
+            ((S00489ce0*)this)->TESModelList_AddModel(filename);
         list = list->GetNext();
     }
     ((FUN_0048a2c0_shell*)((char*)this + 0xc))->FUN_0048a2c0(((PathingRequest*)source)->GetOrigin());
@@ -420,11 +420,11 @@ struct FUN_00489fa0_shell
 {
     char pad[4];
     bool ContainsFile(const char*);
-    void FUN_00489fa0(const char*);
+    void TESModelList_AddModel(const char*);
 };
 // If the string is not already present, allocates a copy of it, copies the text into it, and appends it to the list at this+4.
 // @fnv 0x00489fa0
-void FUN_00489fa0_shell::FUN_00489fa0(const char* apString)
+void FUN_00489fa0_shell::TESModelList_AddModel(const char* apString)
 {
     if (!ContainsFile(apString))
     {
@@ -521,7 +521,7 @@ bool FUN_00489f20_shell::ContainsFile(const char* filename)
 
 unsigned int __cdecl FUN_0044a670(const char* text);
 void __cdecl FUN_00406d30(char* destination, unsigned int capacity, const char* source);
-void __cdecl FUN_004856f0(void* destination, char* source, unsigned int length);
+void __cdecl TESForm_AddChunkArray(void* destination, char* source, unsigned int length);
 
 struct FUN_00489ba0_shell : public TESModelList
 {
@@ -571,7 +571,7 @@ void FUN_00489ba0_shell::CopyModelListToBuffer(void* destination, unsigned int f
             iStack7 = iStack7->GetNext();
         }
         *puStack_18 = 0;
-        FUN_004856f0(destination, puVar4, iStack_8);
+        TESForm_AddChunkArray(destination, puVar4, iStack_8);
         freeBuffer_ = puVar4;
         ::operator delete(freeBuffer_);
     }

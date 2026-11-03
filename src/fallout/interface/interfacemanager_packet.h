@@ -80,7 +80,7 @@ template <class T> class BSSimpleList
 };
 
 extern bool FUN_004b71d0();
-extern InterfaceManager* FUN_004b7210();
+extern InterfaceManager* InterfaceManager_Instance();
 class InputManager
 {
   public:

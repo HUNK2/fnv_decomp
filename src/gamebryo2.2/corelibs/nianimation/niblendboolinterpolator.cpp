@@ -43,7 +43,7 @@ void __fastcall FUN_00a36890(void* pThis);
 extern int DAT_0109a67c;
 
 // @fnv 0x00a565c0
-void* __cdecl FUN_00a565c0()
+void* __cdecl NiBlendBoolInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x34);
     if (p)
@@ -58,12 +58,12 @@ void* __cdecl FUN_00a565c0()
 
 struct FUN_00a568e0_shell : public NiBlendBoolInterpolator
 {
-    void FUN_00a568e0(NiStream*);
+    void NiBlendBoolInterpolator_LoadBinary(NiStream*);
 };
 
 // Loads the base NiBlendInterpolator data from kStream, then reads one byte into this+0x30 and advances the stream position by the bytes read.
 // @fnv 0x00a568e0
-void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
+void FUN_00a568e0_shell::NiBlendBoolInterpolator_LoadBinary(NiStream* kStream)
 {
     NiBlendInterpolator::LoadBinary(*kStream);
     NiBinaryStream* __restrict input = *(NiBinaryStream**)((char*)kStream + 0x24c);
@@ -89,14 +89,14 @@ struct M76Obj
 {
     char pad[0x30];
     bool m_bBoolValue;
-    bool FUN_00a36fd0(M76Obj*);
+    bool NiBlendInterpolator_IsEqual(M76Obj*);
     bool IsBoolValueEqual(M76Obj*);
 };
-// Returns true if FUN_00a36fd0 succeeds and this object's m_bBoolValue equals the passed object's m_bBoolValue.
+// Returns true if NiBlendInterpolator_IsEqual succeeds and this object's m_bBoolValue equals the passed object's m_bBoolValue.
 // @fnv 0x00a565f0
 bool M76Obj::IsBoolValueEqual(M76Obj* pkObject)
 {
-    if (!FUN_00a36fd0(pkObject))
+    if (!NiBlendInterpolator_IsEqual(pkObject))
         return false;
     M76Obj* pkDest = pkObject;
     return m_bBoolValue == pkDest->m_bBoolValue ? true : false;
@@ -108,7 +108,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f407c;
 // @fnv 0x00a56620
-void* __cdecl FUN_00a56620()
+void* __cdecl NiBlendBoolInterpolator_GetRTTI()
 {
     return &g_011f407c;
 }
@@ -139,7 +139,7 @@ struct M76Obj
 };
 // Allocates and initialises an M76Obj, passes it to self's FUN_00a37510 with cloning, copies self's m_bBoolValue into it and returns it.
 // @fnv 0x00a56650
-M76Obj* __fastcall FUN_00a56650(M76Obj* self, int, void* cloning)
+M76Obj* __fastcall NiBlendBoolInterpolator_CreateClone(M76Obj* self, int, void* cloning)
 {
     M76Obj* pkObject = new M76Obj;
     if (pkObject)
@@ -251,15 +251,15 @@ struct M76Stream
 };
 struct M76Obj
 {
-    void FUN_00a37ec0(M76Stream*);
+    void NiBlendInterpolator_SaveBinary(M76Stream*);
     char pad[0x30 - 0];
-    void FUN_00a56920(M76Stream*);
+    void NiBlendBoolInterpolator_SaveBinary(M76Stream*);
 };
-// Writes the object's base data via FUN_00a37ec0, then writes one byte at offset 0x30 through the stream's output bin.
+// Writes the object's base data via NiBlendInterpolator_SaveBinary, then writes one byte at offset 0x30 through the stream's output bin.
 // @fnv 0x00a56920
-void __fastcall FUN_00a56920(M76Obj* self, int, M76Stream* stream)
+void __fastcall NiBlendBoolInterpolator_SaveBinary(M76Obj* self, int, M76Stream* stream)
 {
-    self->FUN_00a37ec0(stream);
+    self->NiBlendInterpolator_SaveBinary(stream);
     M76Bin* __restrict out = stream->output;
     unsigned int size = 1;
     out->position += out->write(out, reinterpret_cast<char*>(self) + 0x30, 1, &size, 1);
@@ -289,7 +289,7 @@ struct M76Obj
 {
     char pad[0x30];
     unsigned char m_bBoolValue;
-    void FUN_00a38080(M76Arr*);
+    void NiBlendInterpolator_GetViewerStrings(M76Arr*);
 };
 struct M76Glob
 {
@@ -298,11 +298,11 @@ struct M76Glob
 extern M76Glob* g_011f407c;
 char* __cdecl FUN_00a7d330(M76Glob*);
 char* __cdecl FUN_00a7d410(const char*, unsigned int);
-// Calls FUN_00a38080, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
+// Calls NiBlendInterpolator_GetViewerStrings, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
 // @fnv 0x00a56960
 void __fastcall AddBoolValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
-    self->FUN_00a38080(pkStrings);
+    self->NiBlendInterpolator_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_011f407c));
     pkStrings->Add(FUN_00a7d410("m_bBoolValue", self->m_bBoolValue));
 }

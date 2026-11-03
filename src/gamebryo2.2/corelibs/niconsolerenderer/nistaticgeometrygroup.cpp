@@ -52,7 +52,7 @@ struct NiGeometryBufferData
     NiVBChip** m_ppkVertexBuffers;
 };
 // @fnv 0x00e94770
-void __stdcall FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+void __stdcall NiStaticGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     NiVBChip* pkChip;
     NiVBBlock* pkBlock;
@@ -90,7 +90,7 @@ struct NiStaticGeometryGroup
     void* vtbl;
     char _04[8];
     NiTMapBaseStub map;
-    void FUN_00e946b0();
+    void NiStaticGeometryGroup_Purge();
     void FUN_00e98710();
     void* Destroy(unsigned int);
 };
@@ -99,7 +99,7 @@ struct NiStaticGeometryGroup
 void* NiStaticGeometryGroup::Destroy(unsigned int flag)
 {
     vtbl = (void*)&DAT_010f0fd4;
-    FUN_00e946b0();
+    NiStaticGeometryGroup_Purge();
     NiTMapBaseStub* pSets = (NiTMapBaseStub*)((char*)this + 12);
     pSets->vtbl = (void*)&DAT_010f0fb4;
     pSets->RemoveAll();
@@ -274,7 +274,7 @@ struct GeomMap
 };
 
 // @fnv 0x00e946b0
-void NiStaticGeometryGroup::FUN_00e946b0()
+void NiStaticGeometryGroup::NiStaticGeometryGroup_Purge()
 {
     GeomMapNode* pFirstNode = 0;
     GeomMap* pMap = (GeomMap*)&map;
@@ -429,7 +429,7 @@ struct S_00e948f0_Y
 extern S_00e948f0_Rtti DAT_011f4a88;
 extern S_00e948f0_Rtti DAT_011f4a70;
 extern unsigned int DAT_011bf558;
-bool __cdecl FUN_0043b300(const S_00e948f0_Rtti* r, S_00e948f0_Obj* o);
+bool __cdecl NiObject_IsKindOf(const S_00e948f0_Rtti* r, S_00e948f0_Obj* o);
 
 struct S_00e948f0_Holder
 {
@@ -471,7 +471,7 @@ void S_00e948f0_Holder::InitData(S_00e948f0_Obj* apObj, int aiUnused, S_00e948f0
         {
             d->m_kind = 4;
         }
-        else if (FUN_0043b300(&DAT_011f4a70, apObj))
+        else if (NiObject_IsKindOf(&DAT_011f4a70, apObj))
         {
             d->m_kind = 5;
         }

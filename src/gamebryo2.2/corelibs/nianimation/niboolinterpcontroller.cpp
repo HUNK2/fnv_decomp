@@ -23,13 +23,13 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a390a0(StrArr*);
+void __stdcall NiSingleInterpController_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 // Appends the string returned by FUN_00a7d330(g_011f3f08_arg1) to the StrArr at index e, growing it by the value at offset 14 plus e when e >= c.
 // @fnv 0x00a57800
-void __stdcall FUN_00a57800(StrArr* apStrings)
+void __stdcall NiBoolInterpController_GetViewerStrings(StrArr* apStrings)
 {
-    FUN_00a390a0(apStrings);
+    NiSingleInterpController_GetViewerStrings(apStrings);
     char* pString = FUN_00a7d330(g_011f3f08_arg1);
     unsigned int e = *(unsigned short*)((char*)apStrings + 10);
     unsigned int c = *(unsigned short*)((char*)apStrings + 8);
@@ -144,10 +144,10 @@ class S2
 class NiBoolInterpControllerShim : public NiBoolInterpController
 {
   public:
-    NiInterpolator* FUN_00a57710(int unused);
+    NiInterpolator* NiBoolInterpController_CreatePoseInterpolator(int unused);
 };
 // @fnv 0x00a57710
-NiInterpolator* NiBoolInterpControllerShim::FUN_00a57710(int unused)
+NiInterpolator* NiBoolInterpControllerShim::NiBoolInterpController_CreatePoseInterpolator(int unused)
 {
     union BoolWord
     {

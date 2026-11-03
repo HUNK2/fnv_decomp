@@ -550,7 +550,7 @@ struct BGSSaveLoadGame
 typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_004523c0_shell : public BGSSaveLoadGame
 {
-    bool FUN_004523c0();
+    bool TESObjectCELL_IsAttaching();
 };
 int __fastcall GetByteAtOffset38(void*);
 struct FUN_00452420_shell
@@ -584,7 +584,7 @@ unsigned char FUN_00452480();
 int __fastcall FUN_009938b0(void*);
 struct FUN_00453470_shell
 {
-    int __thiscall FUN_00453470(void);
+    int __thiscall NiNode_GetChildCount(void);
 };
 struct FUN_004534f0_shell
 {
@@ -605,12 +605,12 @@ struct FNStub
 };
 struct FUN_00454b50_shell
 {
-    char const* FUN_00454b50() const;
+    char const* TESWorldSpace_GetWaterNoiseTextureName() const;
 };
 struct TESFaction_RankDataView
 {
     unsigned char* GetRankDataList(void);
-    bool FUN_00455620(void);
+    bool TESQuest_GetEnabled(void);
 };
 extern int DAT_011c56e8;
 void FUN_00455680();
@@ -622,7 +622,7 @@ struct FUN_004565f0_shell
 extern const void* const g_01202e00;
 struct FUN_00458f20_shell
 {
-    const void* const* FUN_00458f20() const;
+    const void* const* BSTempNode_GetRTTI() const;
 };
 extern "C" void __fastcall FUN_00a5e930(void*);
 extern int DAT_01017d24;
@@ -795,8 +795,8 @@ struct Flt
 extern Flt g_011deb7c;
 unsigned int FUN_0045c670();
 struct TESObjectREFR;
-void FUN_00578060(TESObjectREFR* self);
-void FUN_00578170(TESObjectREFR* self);
+void TESObjectREFR_AddMasterParticleAddonNodes(TESObjectREFR* self);
+void TESObjectREFR_RemoveMasterParticleAddonNodes(TESObjectREFR* self);
 void FUN_0045c680(TESObjectREFR* arg, bool flag);
 extern "C" double _gModifierZero;
 struct NiPoint3
@@ -846,7 +846,7 @@ struct FUN_00459840_shell
 };
 struct FUN_0045a730_shell
 {
-    char* FUN_0045a730();
+    char* TESDataHandler_GetWaterList();
 };
 extern "C" void __cdecl _Deallocate(void*);
 struct FUN_0045ae20_shell

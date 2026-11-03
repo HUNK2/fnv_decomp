@@ -461,7 +461,7 @@ class TESWorldSpace : public TESForm
 class TESObjectCELL : public TESForm
 {
   public:
-    void FUN_00555b10(NiPoint3&, NiPoint3&, bool);
+    void TESObjectCELL_AdjustCoordForNorthRotation(NiPoint3&, NiPoint3&, bool);
 };
 class RegionObjectEntry
 {
@@ -473,9 +473,9 @@ class BGSNote
 {
   public:
     int GetNoteType();
-    TESForm* FUN_005e9100();
-    TESTopic* FUN_005e9240();
-    TESBoundObject* FUN_005e92a0();
+    TESForm* BGSNote_GetNoteSound();
+    TESTopic* BGSNote_GetNoteTopic();
+    TESBoundObject* BGSNote_GetNoteSpeaker();
     bool GetUnk7d();
     void SetSoundNotePlayed(bool);
 };
@@ -715,7 +715,7 @@ extern SettingT_GameSettingCollection_ DAT_011d47bc, DAT_011d4438, DAT_011d4960,
 extern SettingT_GameSettingCollection_* DAT_011a03e4[3];
 extern SettingT_GameSettingCollection_ DAT_011d38ac, DAT_011d204c, DAT_011d5020, DAT_011d28a4, DAT_011d4aec;
 int FUN_00720df0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 bool FUN_004b71d0();
 bool FUN_00798440();
 bool FUN_00709d40();

@@ -15,11 +15,11 @@ void FUN_007316f0_shell::ClearField()
 
 struct BlackJackMenu
 {
-    int __thiscall FUN_00731790();
+    int __thiscall BlackJackMenu_GetClass();
 };
 
 // @fnv 0x00731790
-int __thiscall BlackJackMenu::FUN_00731790()
+int __thiscall BlackJackMenu::BlackJackMenu_GetClass()
 {
     return 0x439;
 }
@@ -99,7 +99,7 @@ struct Tile
 {
     void Set(int, float, bool);
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct DAT_011d9050_S
 {
     char _pad[0x28];
@@ -112,7 +112,7 @@ void FUN_00731d30()
     if (DAT_011d9050 != 0)
     {
         DAT_011d9050->v28 = 13;
-        ((Tile*)((Proc_S*)FUN_004b7210())->GetNext())->Set(0xFA9, 255.0f, true);
+        ((Tile*)((Proc_S*)InterfaceManager_Instance())->GetNext())->Set(0xFA9, 255.0f, true);
     }
 }
 
@@ -296,7 +296,7 @@ void __cdecl FUN_00733500()
     pAccumulator->FUN_00c4f270(1);
     AnimIdle* pCamera = g_011d90bc;
     UpdateCameraFrustum(pCamera, g_011db5ec_arg1);
-    NiPointer<AnimIdle> m_pParentNode(((Mgr_00733500*)FUN_004b7210())->FUN_007fd640());
+    NiPointer<AnimIdle> m_pParentNode(((Mgr_00733500*)InterfaceManager_Instance())->FUN_007fd640());
     pAccumulator->FUN_004a0fd0(m_pParentNode);
     AnimIdle* pRenderCamera = pCamera ? pCamera : pPlayerNode->GetAnimationData();
     FUN_00b6bee0(pRenderCamera, FUN_00450b80(1), pAccumulator);
@@ -1733,7 +1733,7 @@ struct String90
 };
 struct Controller90
 {
-    void* FUN_0047a520(const String90&);
+    void* NiControllerManager_GetSequenceByName(const String90&);
     void FUN_0048fef0(float);
 };
 struct Bound90
@@ -1874,7 +1874,7 @@ extern Pointer90 DAT_011d90bc;
 extern int DAT_011f36ac;
 struct Loader90
 {
-    Node90* FUN_00447080(const char*, int, int, int, int, int);
+    Node90* ModelLoader_LoadFile(const char*, int, int, int, int, int);
 };
 extern Loader90* DAT_011c3b3c;
 Node90* __cdecl FUN_004aae30(Node90*, const char*);
@@ -2804,9 +2804,9 @@ struct Menu90
 // @fnv 0x00732540
 void Menu90::InitBlackjackScene()
 {
-    rootdb8 = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand1.NIF", 0, 1, 0, 0, 0);
-    rootdbc = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand2.NIF", 0, 1, 0, 0, 0);
-    rootdc0 = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Dealer.NIF", 0, 1, 0, 0, 0);
+    rootdb8 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand1.NIF", 0, 1, 0, 0, 0);
+    rootdbc = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand2.NIF", 0, 1, 0, 0, 0);
+    rootdc0 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Dealer.NIF", 0, 1, 0, 0, 0);
     Node90* root8 = rootdb4;
     DAT_011d90bc.FUN_0066b0d0(FUN_004aae30(rootdb4, "object1"));
     ((Pointer90*)&DAT_011d9098)->FUN_0066b0d0(new Node90(0));
@@ -2828,8 +2828,8 @@ void Menu90::InitBlackjackScene()
     if (controller158)
     {
         ctrldf4 = controller158;
-        anime04 = ctrldf4->FUN_0047a520(String90("Players_Discard"));
-        anime08 = ctrldf4->FUN_0047a520(String90("Dealers_Discard"));
+        anime04 = ctrldf4->NiControllerManager_GetSequenceByName(String90("Players_Discard"));
+        anime08 = ctrldf4->NiControllerManager_GetSequenceByName(String90("Dealers_Discard"));
         ctrldf4->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdb4);
     }
@@ -2837,14 +2837,14 @@ void Menu90::InitBlackjackScene()
     if (controller217)
     {
         ctrldf8 = controller217;
-        anime0c = ctrldf8->FUN_0047a520(String90("Hand1_Discard"));
-        anime10 = ctrldf8->FUN_0047a520(String90("Hand1_01"));
-        anime14 = ctrldf8->FUN_0047a520(String90("Hand1_02"));
-        anime18 = ctrldf8->FUN_0047a520(String90("Hand1_03"));
-        anime1c = ctrldf8->FUN_0047a520(String90("Hand1_04"));
-        anime20 = ctrldf8->FUN_0047a520(String90("Hand1_05"));
-        anime24 = ctrldf8->FUN_0047a520(String90("Hand1_06"));
-        anime28 = ctrldf8->FUN_0047a520(String90("Hand1_07"));
+        anime0c = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_Discard"));
+        anime10 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_01"));
+        anime14 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_02"));
+        anime18 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_03"));
+        anime1c = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_04"));
+        anime20 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_05"));
+        anime24 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_06"));
+        anime28 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_07"));
         ctrldf8->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdb8);
     }
@@ -2852,14 +2852,14 @@ void Menu90::InitBlackjackScene()
     if (controller321)
     {
         ctrldfc = controller321;
-        anime2c = ctrldfc->FUN_0047a520(String90("Hand2_Discard"));
-        anime30 = ctrldfc->FUN_0047a520(String90("Hand2_01"));
-        anime34 = ctrldfc->FUN_0047a520(String90("Hand2_02"));
-        anime38 = ctrldfc->FUN_0047a520(String90("Hand2_03"));
-        anime3c = ctrldfc->FUN_0047a520(String90("Hand2_04"));
-        anime40 = ctrldfc->FUN_0047a520(String90("Hand2_05"));
-        anime44 = ctrldfc->FUN_0047a520(String90("Hand2_06"));
-        anime48 = ctrldfc->FUN_0047a520(String90("Hand2_07"));
+        anime2c = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_Discard"));
+        anime30 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_01"));
+        anime34 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_02"));
+        anime38 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_03"));
+        anime3c = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_04"));
+        anime40 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_05"));
+        anime44 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_06"));
+        anime48 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_07"));
         ctrldfc->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdbc);
     }
@@ -2867,15 +2867,15 @@ void Menu90::InitBlackjackScene()
     if (controller415)
     {
         ctrle00 = controller415;
-        anime4c = ctrle00->FUN_0047a520(String90("Dealer_Discard"));
-        anime50 = ctrle00->FUN_0047a520(String90("Dealer_01"));
-        anime54 = ctrle00->FUN_0047a520(String90("Dealer_02"));
-        anime58 = ctrle00->FUN_0047a520(String90("Dealer_03"));
-        anime5c = ctrle00->FUN_0047a520(String90("Dealer_04"));
-        anime60 = ctrle00->FUN_0047a520(String90("Dealer_05"));
-        anime64 = ctrle00->FUN_0047a520(String90("Dealer_06"));
-        anime68 = ctrle00->FUN_0047a520(String90("Dealer_07"));
-        anime6c = ctrle00->FUN_0047a520(String90("Dealer_Reveal"));
+        anime4c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_Discard"));
+        anime50 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_01"));
+        anime54 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_02"));
+        anime58 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_03"));
+        anime5c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_04"));
+        anime60 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_05"));
+        anime64 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_06"));
+        anime68 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_07"));
+        anime6c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_Reveal"));
         ctrle00->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdc0);
     }
@@ -3176,7 +3176,7 @@ int FUN_0044a670(const char*);
 Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
 {
     Menu129* oldMenu = FUN_00a09030(0x439);
-    Interface129* pInterface = (Interface129*)FUN_004b7210();
+    Interface129* pInterface = (Interface129*)InterfaceManager_Instance();
     DAT_011d9058 = casino;
     DAT_0119fe40 = minimum;
     DAT_0119fe3c = maximum;

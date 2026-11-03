@@ -2313,7 +2313,7 @@ inline bool StubIsKindOf(const NiRTTI* pkRTTI, NiObjectStub* pkObj)
 
 struct TextureReceiver
 {
-    NiObjectStub* FUN_004bc320(int a);
+    NiObjectStub* BSRenderedTexture_GetTexture(int a);
 };
 
 typedef void(__cdecl* StubVisitFn)(NiObjectStub* pkObj, int iUnk, void* pvData);
@@ -2405,7 +2405,7 @@ struct VisitOwner
     void VisitObjects(StubVisitFn pfnVisit, void* pvData);
 };
 
-// Calls pfnVisit on m_pkObj and on the object returned by FUN_004bc320(0) for each of m_pkRecv0..m_pkRecv3 when present.
+// Calls pfnVisit on m_pkObj and on the object returned by BSRenderedTexture_GetTexture(0) for each of m_pkRecv0..m_pkRecv3 when present.
 // @fnv 0x00b69e10
 void VisitOwner::VisitObjects(StubVisitFn pfnVisit, void* pvData)
 {
@@ -2415,24 +2415,24 @@ void VisitOwner::VisitObjects(StubVisitFn pfnVisit, void* pvData)
             StubIsKindOf(&DAT_011f4ac4, m_pkObj);
         pfnVisit(m_pkObj, 0, pvData);
     }
-    if (m_pkRecv0 && m_pkRecv0->FUN_004bc320(0))
+    if (m_pkRecv0 && m_pkRecv0->BSRenderedTexture_GetTexture(0))
     {
-        NiObjectStub* p = m_pkRecv0->FUN_004bc320(0);
+        NiObjectStub* p = m_pkRecv0->BSRenderedTexture_GetTexture(0);
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv1 && m_pkRecv1->FUN_004bc320(0))
+    if (m_pkRecv1 && m_pkRecv1->BSRenderedTexture_GetTexture(0))
     {
-        NiObjectStub* p = m_pkRecv1->FUN_004bc320(0);
+        NiObjectStub* p = m_pkRecv1->BSRenderedTexture_GetTexture(0);
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv2 && m_pkRecv2->FUN_004bc320(0))
+    if (m_pkRecv2 && m_pkRecv2->BSRenderedTexture_GetTexture(0))
     {
-        NiObjectStub* p = m_pkRecv2->FUN_004bc320(0);
+        NiObjectStub* p = m_pkRecv2->BSRenderedTexture_GetTexture(0);
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv3 && m_pkRecv3->FUN_004bc320(0))
+    if (m_pkRecv3 && m_pkRecv3->BSRenderedTexture_GetTexture(0))
     {
-        NiObjectStub* p = m_pkRecv3->FUN_004bc320(0);
+        NiObjectStub* p = m_pkRecv3->BSRenderedTexture_GetTexture(0);
         pfnVisit(p, 0, pvData);
     }
 }
@@ -4534,7 +4534,7 @@ struct FUN_00b71b90_class
     int unk28;
 
     void FUN_00b71b90();
-    void FUN_00e814b0();
+    void NiD3DShader_RecreateRendererData();
 };
 
 // @fnv 0x00b71b90
@@ -4567,7 +4567,7 @@ void FUN_00b71b90_class::FUN_00b71b90()
         }
     }
 
-    this->FUN_00e814b0();
+    this->NiD3DShader_RecreateRendererData();
 }
 
 struct S_00b7ac20_Node
@@ -4941,7 +4941,7 @@ struct S_00b7c120_Global1
 
 struct S_00b7c120_Callback
 {
-    void* FUN_004bc320(int value);
+    void* BSRenderedTexture_GetTexture(int value);
 };
 
 struct S_00b7c120_Inner
@@ -5031,7 +5031,7 @@ struct S_00b7c120_Global2
 
 extern S_00b7c120_Global2* DAT_011f91e0;
 
-// Looks up targets[index] and stores the result of callback->FUN_004bc320(0) into its unk08 field.
+// Looks up targets[index] and stores the result of callback->BSRenderedTexture_GetTexture(0) into its unk08 field.
 // @fnv 0x00b7c120
 void __stdcall FUN_00b7c120(int index)
 {
@@ -5043,7 +5043,7 @@ void __stdcall FUN_00b7c120(int index)
     S_00b7c120_Inner* inner = outer->unk00;
     S_00b7c120_Callback* callback = inner->unk10c;
 
-    target->unk08 = callback->FUN_004bc320(0);
+    target->unk08 = callback->BSRenderedTexture_GetTexture(0);
 }
 
 struct FUN_00b7c170_Entry

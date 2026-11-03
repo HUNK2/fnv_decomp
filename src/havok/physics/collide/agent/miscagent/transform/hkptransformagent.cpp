@@ -345,17 +345,17 @@ struct CallData { void* descriptor; float bound; unsigned int value; };
 extern unsigned char DAT_010ce7fc;
 extern float DAT_0104da48;
 struct Wrapper {
-    void FUN_00d42de0(void*, void*, unsigned int, CallData*);
+    void hkpTransformAgent_getClosestPoints(void*, void*, unsigned int, CallData*);
     void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
 };
-// Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
+// Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls hkpTransformAgent_getClosestPoints with second, first and third.
 // @fnv 0x00d434a0
 void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
     CallData data;
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d42de0(second, first, third, &data);
+    hkpTransformAgent_getClosestPoints(second, first, third, &data);
 }
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -1217,7 +1217,7 @@ struct Output {
 struct hkpCdBody; struct GskAgentInput;
 
 struct hkpGskAgent {
-    void FUN_00d42b50(const hkpCdBody& bodyB, const hkpCdBody& bodyA, const GskAgentInput& input, Output& output);
+    void hkpTransformAgent_processCollision(const hkpCdBody& bodyB, const hkpCdBody& bodyA, const GskAgentInput& input, Output& output);
 };
 
 struct hkpSymmetricAgent : public hkpGskAgent {
@@ -1230,7 +1230,7 @@ void hkpSymmetricAgent::FUN_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bo
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
     AlignedPairData* cp = output.m_pAlignedPairData;
 
-    hkpGskAgent::FUN_00d42b50(bodyB, bodyA, input, output);
+    hkpGskAgent::hkpTransformAgent_processCollision(bodyB, bodyA, input, output);
 
     while (cp < output.m_pAlignedPairData) {
         cp->m_vContactPosition.addMul4(cp->m_vSeparatingNormal.getDistanceSimdReal(), cp->m_vSeparatingNormal);
@@ -1558,11 +1558,11 @@ struct S_00d42b50_Cls {
     int unk04;
     int unk08;
     S_00d42b50_Agent* m_pAgent;
-    void FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output);
+    void hkpTransformAgent_processCollision(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output);
 };
 
 // @fnv 0x00d42b50
-void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output)
+void S_00d42b50_Cls::hkpTransformAgent_processCollision(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output)
 {
     union Scratch {
         unsigned int tick;
@@ -1713,14 +1713,14 @@ struct TransformClosestAgent {
     int unk04;
     int unk08;
     TransformClosestChildAgent* m_pAgent;
-    void FUN_00d42de0(const S_00d42d60_CdBody& bodyA,
+    void hkpTransformAgent_getClosestPoints(const S_00d42d60_CdBody& bodyA,
         const S_00d42d60_CdBody& bodyB, const S_00d42d60_Input& input,
         TransformClosestPointCollector& collector);
 };
 
 // Builds a temporary child body from bodyA's contained shape and motion transform, then delegates to m_pAgent to collect closest points with bodyB.
 // @fnv 0x00d42de0
-void TransformClosestAgent::FUN_00d42de0(const S_00d42d60_CdBody& bodyA,
+void TransformClosestAgent::hkpTransformAgent_getClosestPoints(const S_00d42d60_CdBody& bodyA,
     const S_00d42d60_CdBody& bodyB, const S_00d42d60_Input& input,
     TransformClosestPointCollector& collector)
 {

@@ -26,12 +26,12 @@ struct FUN_00e47e50_class
     Vec* m_pPoints;
     int m_iPointCount;
 
-    void FUN_00e47e50(void const*);
+    void hkpLinearParametricCurve_transformPoints(void const*);
 };
 
 // Applies FUN_00c7f640 to each of the m_iPointCount points in m_pPoints, passing data and the point itself.
 // @fnv 0x00e47e50
-void FUN_00e47e50_class::FUN_00e47e50(void const* data)
+void FUN_00e47e50_class::hkpLinearParametricCurve_transformPoints(void const* data)
 {
     int pointCount = m_iPointCount;
     for (int i = 0; i < pointCount; ++i)
@@ -153,7 +153,7 @@ class hkpLinearParametricCurveE474 : public hkBaseObjectE474
   public:
     virtual ~hkpLinearParametricCurveE474() throw();
 
-    void FUN_00e47440(float t, hkVector4E474& kPointOut) const;
+    void hkpLinearParametricCurve_getPoint(float t, hkVector4E474& kPointOut) const;
 
     unsigned int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     hkArrayE474<hkVector4E474> m_kPoints;
@@ -161,7 +161,7 @@ class hkpLinearParametricCurveE474 : public hkBaseObjectE474
 
 // Selects a point from m_kPoints using t, interpolates with the next point when available, and writes the result to kPointOut.
 // @fnv 0x00e47440
-void hkpLinearParametricCurveE474::FUN_00e47440(float afParam, hkVector4E474& kPointOut) const
+void hkpLinearParametricCurveE474::hkpLinearParametricCurve_getPoint(float afParam, hkVector4E474& kPointOut) const
 {
     const int i = (afParam < 0.0f) ? 0 : FUN_00cbfef0(afParam);
     const float fFrac = afParam - i;
@@ -718,7 +718,7 @@ struct LinearParametricCurve : public hkReferencedObject
     QuadView m_kVector4;
     hkArray<hkVector4> m_kPoints;
     hkArray<float> m_fClosestPointDistanceSquared;
-    LinearParametricCurve* FUN_00e48090();
+    LinearParametricCurve* hkpLinearParametricCurve_clone();
     void FUN_00e47e80(const hkVector4*);
 };
 static __forceinline LinearParametricCurve* createCurve()
@@ -752,7 +752,7 @@ static __forceinline void copyFromArray_e48090(hkArray<T>& self, Allocator* allo
     arrCopy_e48090(self.m_data, 0, a.m_data, self.m_iElementCount);
 }
 // @fnv 0x00e48090
-LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
+LinearParametricCurve* LinearParametricCurve::hkpLinearParametricCurve_clone()
 {
     LinearParametricCurve* clone = createCurve();
     int numPoints = this->m_kPoints.m_iElementCount;
@@ -871,12 +871,12 @@ struct LinearCurve : public hkpLinearParametricCurve
     virtual hkReal GetStreamStart() const;
     virtual void GetTangentAt(hkReal t, hkVector4& tangent) const;
 
-    void FUN_00e47cb0(hkReal t, hkVector4& up) const;
+    void hkpLinearParametricCurve_getBinormal(hkReal t, hkVector4& up) const;
 };
 
 // Computes a normalized up vector for the curve at t by crossing or perpendicularizing the tangent against m_kVector4.
 // @fnv 0x00e47cb0
-void LinearCurve::FUN_00e47cb0(hkReal t, hkVector4& up) const
+void LinearCurve::hkpLinearParametricCurve_getBinormal(hkReal t, hkVector4& up) const
 {
     hkVector4q tangent;
     GetTangentAt(t, tangent.m_vec);

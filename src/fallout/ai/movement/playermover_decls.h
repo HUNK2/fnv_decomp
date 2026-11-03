@@ -31,7 +31,7 @@ class PlayerCharacter : public Actor
 {
   public:
     Animation* GetAnimation(bool);
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     bool FUN_0050d4a0();
     bool PlaceAtPosition(NiPoint3&);
     bhkCharacterController* GetPhysicsCharacterController();

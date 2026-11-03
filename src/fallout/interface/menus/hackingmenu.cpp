@@ -20,11 +20,11 @@ void FUN_006ffe80_shell::FUN_006ffe80(int aiFirst, int aiSecond)
 
 struct HackingMenu
 {
-    int __thiscall FUN_00765870();
+    int __thiscall HackingMenu_GetClass();
 };
 
 // @fnv 0x00765870
-int __thiscall HackingMenu::FUN_00765870()
+int __thiscall HackingMenu::HackingMenu_GetClass()
 {
     return 0x41f;
 }
@@ -82,14 +82,14 @@ struct HackingMenu
 {
     HackingMenu();
     void ClearTilePayloadPair();
-    void FUN_00767ff0(int, void*);
+    void HackingMenu_DoLeave(int, void*);
     // ...
     bool m_bHackingInProgress;
     void* coordinate;
 };
 
 // @fnv 0x00767ff0
-void HackingMenu::FUN_00767ff0(int aiID, void* apTarget)
+void HackingMenu::HackingMenu_DoLeave(int aiID, void* apTarget)
 {
     ClearTilePayloadPair();
     ((char*)this)[0x1d8] = 0;
@@ -151,16 +151,16 @@ struct HackingMenu;
 struct FUN_0076a510_shell : HackingMenu
 {
     void __thiscall FUN_0076a510();
-    void __thiscall FUN_0076a540();
+    void __thiscall HackingMenu_TransitionToComputersMenu();
 };
 
-// Calls FUN_0076a540 when gm_GetTickCount() exceeds the tick value stored at this+0x1d0.
+// Calls HackingMenu_TransitionToComputersMenu when gm_GetTickCount() exceeds the tick value stored at this+0x1d0.
 // @fnv 0x0076a510
 void __thiscall FUN_0076a510_shell::FUN_0076a510()
 {
     if (gm_GetTickCount() > *(unsigned int*)((char*)this + 0x1d0))
     {
-        FUN_0076a540();
+        HackingMenu_TransitionToComputersMenu();
     }
 }
 
@@ -550,7 +550,7 @@ struct FUN_007021b0_cls
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
 
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeap_Free(void* apMemory);
 
 // Destroys the object's elements and optionally frees the allocation, returning the object or its base pointer depending on flags.
 // @fnv 0x007021b0
@@ -562,7 +562,7 @@ void* FUN_007021b0_cls::DestroyOrFree(unsigned int flags)
 
         if (flags & 1)
         {
-            FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            FormHeap_Free(reinterpret_cast<char*>(this) - 4);
         }
 
         return reinterpret_cast<char*>(this) - 4;
@@ -572,7 +572,7 @@ void* FUN_007021b0_cls::DestroyOrFree(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00401030(this);
+        FormHeap_Free(this);
     }
 
     return this;
@@ -1555,7 +1555,7 @@ struct Menu_007a8b10
     virtual ~Menu_007a8b10();
 };
 unsigned int __cdecl gm_GetTickCount();
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeap_Free(void*);
 extern SettingColl DAT_011d0b90;
 extern unsigned int DAT_011d95c0;
 extern char DAT_011d9674;
@@ -1608,7 +1608,7 @@ FUN_007658e0::~FUN_007658e0()
     DAT_011d95c0 = gm_GetTickCount() + DAT_011d0b90.FUN_0043d4d0()->v;
     m180.FreeAll();
     void* ptrTmp = ptr1B0;
-    FUN_00401030(ptrTmp);
+    FormHeap_Free(ptrTmp);
     DAT_011d95b8 = 0;
     for (i8 = 0; i8 < 5; i8++)
     {
@@ -1769,7 +1769,7 @@ void HackMenu::RemoveRandomWord()
         positions[index] = positions[index + 1];
     positions[index] = 0x198;
     char* deleted = *word->Get();
-    FUN_00401030(deleted);
+    FormHeap_Free(deleted);
     words.Remove(word->Get());
     --count;
 }
@@ -2316,7 +2316,7 @@ void __cdecl FUN_00406f60(Text83*, const char*, ...);
 unsigned int FUN_0044a670(const char*);
 void* FUN_00401460(void*, const void*, unsigned int);
 void __cdecl FUN_005b5e40(const char*, ...);
-void* FUN_004b7210();
+void* InterfaceManager_Instance();
 bool FUN_004b71d0();
 void operator delete(void*);
 void* operator new[](unsigned int);
@@ -2496,7 +2496,7 @@ void Hack83::BuildHackingPasswordFile()
             new Entry83(text24x17.FUN_00559450(), tile114, "hacking_password_file_template", -1, 2);
         entries[entryIndex7x39]->tile->FUN_00715c60(4012, row104x2);
         entries[entryIndex7x39]->tile->FUN_00715c60(4100, column9x68);
-        FUN_004b7210();
+        InterfaceManager_Instance();
         if (FUN_004b71d0() && !row104x2 && !column9x68)
         {
             tile1c8 = entries[entryIndex7x39]->tile;
@@ -2531,7 +2531,7 @@ struct InterfaceManager
     static bool FUN_004b71d0();
 };
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 bool FUN_00702450(int iMenuID);
 int FUN_00ec86e1(int iChar);
 
@@ -2729,7 +2729,7 @@ class HackingMenu
 // @fnv 0x00767610
 bool HackingMenu::HandleKey(int iKey, int iUnused)
 {
-    if (!FUN_004b7210()->FUN_004b71d0())
+    if (!InterfaceManager_Instance()->FUN_004b71d0())
         return false;
     if (FUN_00702450(0x41f))
     {
@@ -3341,21 +3341,21 @@ struct DummyClass
     void __thiscall UpdateHighlight();
     void __thiscall FUN_0076a3f0();
     void __thiscall FUN_0076a510();
-    void __thiscall FUN_00767c90();
+    void __thiscall HackingMenu_Update();
 };
 
 // Updates tile state based on unk1C4, handling fade, entry positioning, and active node property updates.
 // @fnv 0x00767c90
-void DummyClass::FUN_00767c90()
+void DummyClass::HackingMenu_Update()
 {
     unsigned int bbb;
     int j;
     if (unk24 != 1 || !FUN_00702450(FUN_00766a40()) ||
-        (unk1DA && !((Mgr4B7210*)FUN_004b7210())->m4D4.FUN_00718840(0x13)))
+        (unk1DA && !((Mgr4B7210*)InterfaceManager_Instance())->m4D4.FUN_00718840(0x13)))
     {
         return;
     }
-    if ((FUN_004b7210(), FUN_004b71d0()))
+    if ((InterfaceManager_Instance(), FUN_004b71d0()))
     {
         DAT_011d95bc->mCC = unk1C8;
     }
@@ -3604,7 +3604,7 @@ void H769Menu::FUN_00769830()
     }
 }
 
-// FUN_0076a540 - HackingMenu: open a hacking terminal menu tile.
+// HackingMenu_TransitionToComputersMenu - HackingMenu: open a hacking terminal menu tile.
 // Adapted to the current pack (HackingMenu is fieldless; shell types by address).
 extern char DAT_01072b00;
 void __cdecl FNV_Warning(const char* format);
@@ -3693,7 +3693,7 @@ FORenderedMenu* __cdecl FUN_00707ad0();
 
 // Creates a computer menu tile, updates tile statics, and attaches it to a rendered terminal, creating a new FTerminalPX if none exists.
 // @fnv 0x0076a540
-void FUN_0076a510_shell::FUN_0076a540()
+void FUN_0076a510_shell::HackingMenu_TransitionToComputersMenu()
 {
     (*(Tile**)((char*)this + 4))->Set(0x1772, 1);
     ((FUN_00766aa0_Menu*)this)->FUN_00a1d910();
@@ -3755,8 +3755,8 @@ struct Ref84;
 struct Base84
 {
     bool IsFlagBitSet();
-    int FUN_00501270(Ref84*);
-    float FUN_005017a0(Ref84*);
+    int BGSTerminal_GetHackMiniGameValue(Ref84*);
+    float BGSTerminal_GetMinSkillRequiredToHack(Ref84*);
 };
 struct Ref84
 {
@@ -4275,7 +4275,7 @@ struct Menu84
 };
 extern Menu84* DAT_011d95b8;
 Menu84* FUN_00a09030(int);
-Interface84* FUN_004b7210();
+Interface84* InterfaceManager_Instance();
 float FUN_00a01530();
 extern unsigned int DAT_0119f27c, DAT_0119f280;
 void __cdecl FUN_005b5e40(const char*, ...);
@@ -4314,7 +4314,7 @@ Tile84* FUN_00765b80(Ref84* reference)
     Menu84* old40 = FUN_00a09030(FUN_00766a40());
     if (old40)
         delete old40;
-    DAT_011d95bc = FUN_004b7210();
+    DAT_011d95bc = InterfaceManager_Instance();
     float screen13 = FUN_00a01530();
     FUN_00718b60()->FUN_00719060(3, &DAT_011d9674);
     Base84* terminal14 = reference->FUN_007af430();
@@ -4350,7 +4350,7 @@ Tile84* FUN_00765b80(Ref84* reference)
             DAT_011d95b8->terminal = base14;
             DAT_011d95b8->reference = reference;
             DAT_011d95b8->unk1ac =
-                DAT_011d95b8->terminal ? DAT_011d95b8->terminal->FUN_00501270(DAT_011d95b8->reference) : 12;
+                DAT_011d95b8->terminal ? DAT_011d95b8->terminal->BGSTerminal_GetHackMiniGameValue(DAT_011d95b8->reference) : 12;
             DAT_011d95b8->unk1ac = FUN_0042f5a0(12, DAT_011d95b8->unk1ac);
             DAT_011d95b8->key = DAT_011d95bc->keys.FUN_00718630(19, FUN_00766a40(), 512);
             float skill5 = DAT_011dea3c->values.FUN_0066ef50(40);
@@ -4358,7 +4358,7 @@ Tile84* FUN_00765b80(Ref84* reference)
             unsigned int maximum12 = FUN_0042f5a0(20, *DAT_011d3318.FUN_0043d4d0());
             unsigned int minimum17 = FUN_0042f5a0(maximum12, *DAT_011d3c4c.FUN_0043d4d0());
             float difficulty4 =
-                FUN_0040ebd0(100.0f, FUN_00404010(0.0f, DAT_011d95b8->terminal->FUN_005017a0(reference)));
+                FUN_0040ebd0(100.0f, FUN_00404010(0.0f, DAT_011d95b8->terminal->BGSTerminal_GetMinSkillRequiredToHack(reference)));
             float delta2 = FUN_00404010(0.0f, skill5 - difficulty4);
             float denominator55 = 100.0 - difficulty4;
             float fraction41 = denominator55 != 0.0 ? 1.0f - delta2 / denominator55 : 0.5;
@@ -4768,7 +4768,7 @@ extern HackPlayer* g_thePlayer;
 extern HackSetting g_011d26dc, g_011d1e78, g_011d430c, g_011d47e0, g_011d4f6c, g_011d2604, g_011d3444, g_011d4858,
     g_011d4ae0, g_011d2b2c, g_011d1f74, g_011d3144, g_011d339c, g_011d2e20;
 extern unsigned int DAT_011d95c0;
-void* FUN_004b7210();
+void* InterfaceManager_Instance();
 bool FUN_004b71d0();
 unsigned int gm_GetTickCount();
 int FUN_00ec86e1(int);
@@ -4846,13 +4846,13 @@ struct HackMenu
     void Fill();
     void Display(unsigned int, const char**);
     void Update();
-    void FUN_00766b80(int index, HackTile* tile);
+    void HackingMenu_DoClick(int index, HackTile* tile);
 };
 // Handles a tile click by comparing the entered word to the password, updating the display, and triggering success or failure outcomes based on the match result.
 // @fnv 0x00766b80
-void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
+void HackMenu::HackingMenu_DoClick(int aiButtonIndex, HackTile* tile)
 {
-    FUN_004b7210();
+    InterfaceManager_Instance();
     if (FUN_004b71d0())
         tile = selected;
     if (!tile && aiButtonIndex >= 0 && aiButtonIndex < 8)

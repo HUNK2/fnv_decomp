@@ -155,10 +155,10 @@ struct TargetLocation
 };
 struct DialogueData544 : TESDialoguePackageData
 {
-    void FUN_0067b310(TESPackageData*);
+    void TESDialoguePackageData_CopyFrom(TESPackageData*);
 };
 // @fnv 0x0067b310
-void DialogueData544::FUN_0067b310(TESPackageData* input)
+void DialogueData544::TESDialoguePackageData_CopyFrom(TESPackageData* input)
 {
     TESDialoguePackageData* source = dynamic_cast<TESDialoguePackageData*>(input);
     if (source)

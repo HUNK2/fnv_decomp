@@ -375,7 +375,7 @@ class TESObjectREFR : public TESForm
     NiAVObject* Get3DSimple();
     float GetHealth();
     void FUN_00571b50();
-    bool FUN_00575400(TESBoundObject*);
+    bool TESObjectREFR_WearingObject(TESBoundObject*);
     void EquipObject(TESBoundObject*, int, ExtraDataList*, bool, bool, bool);
     void UpdateSpells(bool);
     bool GetIsUnconscious();
@@ -410,11 +410,11 @@ class Actor : public MobileObject, public MagicCaster
     BaseProcess* GetProcess();
     TESPackage* GetCurrentPackage();
     TESObjectWEAP* GetActiveWeapon();
-    bool FUN_00437bd0();
-    bool FUN_00437bf0();
+    bool Actor_IsUnConscious();
+    bool Actor_IsRestrained();
     bool IsSneaking();
     bool IsPlayerTeammate();
-    bool FUN_00608d80();
+    bool Actor_IsReanimated();
     bool IsEssentialActor();
     bool IsInDeadState();
     bool IsWithinRadius(int);
@@ -586,7 +586,7 @@ class TESActorBaseData : public BaseFormComponent
     virtual void vfn_54();
     virtual unsigned int vfn_58();
     virtual void vfn_5c(unsigned int);
-    unsigned short FUN_0047ded0();
+    unsigned short TESActorBaseData_GetLevel();
     ActorBaseAttributes actorData;
     TESForm* m_pBaseTemplateForm;
     TESForm* m_kFactionList;
@@ -636,10 +636,10 @@ class TESAIForm : public BaseFormComponent
     void FUN_0047f0b0(PackedRecordData*);
     void FUN_0047f500(unsigned int);
     void SetServiceFlags(unsigned int, bool);
-    void FUN_0047ef50(int, bool);
-    void FUN_0047ee00(int, bool);
-    void FUN_0047eed0(int, bool);
-    void FUN_0047ef00(int, bool);
+    void TESAIForm_SetResponsibility(int, bool);
+    void TESAIForm_SetAggression(int, bool);
+    void TESAIForm_SetConfidence(int, bool);
+    void TESAIForm_SetEnergy(int, bool);
 };
 class TESHealthForm : public BaseFormComponent
 {
@@ -810,7 +810,7 @@ class FaceGenUndo;
 class TESRace : public TESForm
 {
   public:
-    TESHair* FUN_00613870(SEX);
+    TESHair* TESRace_GetDefaultHair(SEX);
     float GetHeight(SEX);
     float GetWeight(SEX);
     bool BuildFaceGenHead(BSFaceGenNiNode*&, BSFaceGenNiNode*&, TESNPC*, bool, bool, SEX);
@@ -886,7 +886,7 @@ class TESNPC : public TESActorBase, public TESRaceForm
     void Copy(TESForm*);
     void CopyActorBaseData(TESNPC*);
     void CollectNPCsByRaceAndSex(TESRace*, SEX, BSSimpleArray<TESNPC*, 1024>*);
-    float FUN_00602130();
+    float TESNPC_GetHairLength();
     TESEyes* FUN_00602150();
     unsigned int FUN_004169d0();
     void SetField1F0(TESNPC*);
@@ -909,7 +909,7 @@ class TESNPC : public TESActorBase, public TESRaceForm
     void SetEyes(TESEyes*);
     void FUN_00601c10(float);
     void ResetFaceGen();
-    void FUN_005f20a0(unsigned char);
+    void TESActorBase_Reset3DForLoadedActors(unsigned char);
     FaceGenMatrix<float> (*GetOffsetFaceCoord())[2];
 };
 FNV_STATIC_ASSERT(sizeof(TESActorBase) == 0x10c);
@@ -1089,7 +1089,7 @@ class BSFaceGenNiNode : public NiNode
 class ActorAnimData
 {
   public:
-    class NiControllerManager* FUN_00496940();
+    class NiControllerManager* Animation_GetControllerManager();
 };
 class NiControllerManager
 {
@@ -1203,7 +1203,7 @@ class ExtraDismemberedLimbs
 };
 bool FUN_004abfa0();
 extern BSSimpleList<TESNPC*> DAT_011cb764;
-TESCombatStyle* FUN_00505000();
+TESCombatStyle* TESCombatStyle_GetDefaultCombatStyle();
 class SceneObjectLookup
 {
   public:
@@ -1237,6 +1237,6 @@ class TESHairRaceResult
 class TESHairCanBeNPCData
 {
   public:
-    TESHairRaceResult* FUN_004ac110();
+    TESHairRaceResult* TESNPC_GetRace();
 };
 #endif

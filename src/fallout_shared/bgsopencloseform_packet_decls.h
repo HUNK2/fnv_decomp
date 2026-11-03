@@ -182,7 +182,7 @@ class TESObjectREFR
     void CloseReference(OBJECT_ACTION);
     ExtraDataList* GetExtraData();
     ExtraRadioData* GetExtraRadioData();
-    void FUN_00578a30(const char*);
+    void TESObjectREFR_SetLastFinishedSequence(const char*);
 };
 class NiControllerSequence
 {

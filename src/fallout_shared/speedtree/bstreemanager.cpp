@@ -11,7 +11,7 @@ void BSTreeManager::Create(bool create)
     if (DAT_011d5c48)
     {
         if (create)
-            FUN_00664940();
+            BSTreeManager_Destroy();
         else
             return;
     }
@@ -134,7 +134,7 @@ extern unsigned char* __cdecl _FUN_00664840(bool);
 
 // Returns 1 if GetFirstProcessListByte succeeds and the byte at offset 0x18 of the object from _FUN_00664840(true) is nonzero, otherwise 0.
 // @fnv 0x0054ee20
-unsigned char FUN_0054ee20(bool abCreateIfNotFound)
+unsigned char BSTreeManager_AreTreesVisible(bool abCreateIfNotFound)
 {
     int result;
     if (GetFirstProcessListByte() && ((unsigned char*)(_FUN_00664840(true) + 0x18))[0])
@@ -150,7 +150,7 @@ struct S664990
 };
 // If DAT_011d5c48 is set, calls its DestroyIfFlagged with 1, then clears DAT_011d5c48.
 // @fnv 0x00664940
-void FUN_00664940()
+void BSTreeManager_Destroy()
 {
     void* b;
     if (DAT_011d5c48)
@@ -327,7 +327,7 @@ struct GlobalObject_0044f440;
 extern GlobalObject_0044f440 g_011d5d4c;
 
 // @fnv 0x006652e0
-void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
+void BSTreeManager_Update(NiAVObject* apCamera, bool abMenuMode)
 {
     B006815c0 vecTemp;
     float fcamDir[3];
@@ -703,7 +703,7 @@ class TESObjectTREE : public TESForm
 class TreeReference : public TESObjectREFR
 {
   public:
-    unsigned int FUN_005692d0();
+    unsigned int TESObjectREFR_GetSeed();
     float FUN_00567400();
 };
 class BSTreeModel
@@ -714,7 +714,7 @@ class BSTreeModel
     virtual void f2();
     virtual NiAVObject* CreateInstance(float);
     unsigned int FUN_00726070();
-    bool FUN_0066ac40(TESObjectTREE*, unsigned int);
+    bool BSTreeModel_InitFromBase(TESObjectTREE*, unsigned int);
     bool CloneFromModel(BSTreeModel*);
     void SetByteAtOffset44(unsigned char);
 };
@@ -773,7 +773,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     }
     unsigned int node = 1;
     if (reference)
-        node = reference->FUN_005692d0();
+        node = reference->TESObjectREFR_GetSeed();
     ((TreeModelManager*)FUN_00664840(true))->GetOrCreateModel(tree, node, scale);
     if (!(BSTreeModel*)scale)
         return 0;
@@ -788,7 +788,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     }
     else
     {
-        if (!((BSTreeModel*)scale)->FUN_0066ac40(tree, node))
+        if (!((BSTreeModel*)scale)->BSTreeModel_InitFromBase(tree, node))
             return 0;
         model = scale;
     }
@@ -811,7 +811,7 @@ class NiPixelData
     static void operator delete(void*, unsigned int);
     NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int mipLevels,
                 unsigned int faces);
-    unsigned char* FUN_0064dac0(unsigned int level, unsigned int face);
+    unsigned char* NiPixelData_GetPixels(unsigned int level, unsigned int face);
     void FUN_004f31b0();
     unsigned int unk00;
     unsigned int unk04;
@@ -865,7 +865,7 @@ struct TreeTextureState
 };
 struct TextureLoader
 {
-    void FUN_004568c0(const char* filename, TexturePointer& texture, bool first, bool second);
+    void TES_CreateTextureImage(const char* filename, TexturePointer& texture, bool first, bool second);
 };
 struct TextureFormatPrefs
 {
@@ -878,7 +878,7 @@ NiSourceTexture* FUN_00a5ff10(NiPixelData* pixels, const char* name, const Textu
 
 // Ensures the tree state's shadow texture is loaded from CanopyShadow.dds or generated as a 16x16 white NiPixelData, then returns it.
 // @fnv 0x00665610
-NiSourceTexture* FUN_00665610()
+NiSourceTexture* BSTreeManager_GetCanopyShadow()
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeManager.cpp", 629);
@@ -886,7 +886,7 @@ NiSourceTexture* FUN_00665610()
     {
         if (g_TES)
             ((TextureLoader*)g_TES)
-                ->FUN_004568c0("Data\\Textures\\Trees\\CanopyShadow.dds",
+                ->TES_CreateTextureImage("Data\\Textures\\Trees\\CanopyShadow.dds",
                                ((TreeTextureState*)FUN_00664840(true))->shadow, true, false);
         else
             ((TreeTextureState*)FUN_00664840(true))->shadow.FUN_0066b0d0(0);
@@ -895,7 +895,7 @@ NiSourceTexture* FUN_00665610()
     if (!((TreeTextureState*)FUN_00664840(true))->shadow.FUN_00559450())
     {
         NiPixelData* pixels = new NiPixelData(16, 16, DAT_011aa2e8, 1, 1);
-        unsigned char* pPixelBytes = pixels->FUN_0064dac0(0, 0);
+        unsigned char* pPixelBytes = pixels->NiPixelData_GetPixels(0, 0);
         for (unsigned int y = 0; y < 16; ++y)
         {
             for (unsigned int x = 0; x < 16; ++x)
@@ -936,16 +936,16 @@ struct Map664
 };
 struct Timer664
 {
-    void FUN_004538a0(int);
+    void BSCriticalSection_Enter(int);
     void FUN_004538c0();
 };
 extern "C" char DAT_011d5cc0;
 struct Entry664
 {
-    static void FUN_00664cd0(bool);
+    static void BSTreeManager_ClearModelCache(bool);
 };
 // @fnv 0x00664cd0
-void Entry664::FUN_00664cd0(bool partial)
+void Entry664::BSTreeManager_ClearModelCache(bool partial)
 {
     Ref664* p;
     void* h;
@@ -959,7 +959,7 @@ void Entry664::FUN_00664cd0(bool partial)
     Map664 *k, *ba, *j, *e;
     if (!*(Map664**)_FUN_00664840(true))
         return;
-    ((Timer664*)&DAT_011d5cc0)->FUN_004538a0(0);
+    ((Timer664*)&DAT_011d5cc0)->BSCriticalSection_Enter(0);
     if (partial)
     {
         h = (*(Map664**)_FUN_00664840(true))->FUN_004b9ba0();

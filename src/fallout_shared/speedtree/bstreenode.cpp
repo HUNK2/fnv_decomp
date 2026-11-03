@@ -135,11 +135,11 @@ struct BSTreeNode
 {
     BSTreeNode();
     ~BSTreeNode();
-    bool FUN_0066be30(unsigned char acTest);
+    bool BSTreeNode_SetVisibilityOnBillboard(unsigned char acTest);
 };
 
 // @fnv 0x0066be30
-bool BSTreeNode::FUN_0066be30(unsigned char acTest)
+bool BSTreeNode::BSTreeNode_SetVisibilityOnBillboard(unsigned char acTest)
 {
     if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator unsigned int())
     {
@@ -173,18 +173,18 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 }  // namespace fnv_0066be30
 
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
     void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
 };
 
-// If FUN_0054ee20() returns nonzero, forwards the culling call to FUN_00a5dbe0 with arCuller.
+// If BSTreeManager_AreTreesVisible() returns nonzero, forwards the culling call to FUN_00a5dbe0 with arCuller.
 // @fnv 0x0066bf50
 void __thiscall DummyNode::FUN_0066bf50(NiCullingProcess* arCuller)
 {
-    if (FUN_0054ee20())
+    if (BSTreeManager_AreTreesVisible())
     {
         this->FUN_00a5dbe0(arCuller);
     }
@@ -254,13 +254,13 @@ void FUN_0066d470_shell::FUN_0066d470()
 
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 
 extern const void* g_012683e0;
 
 // @fnv 0x0066d510
-const void* FUN_0066d510_shell::FUN_0066d510()
+const void* FUN_0066d510_shell::bhkMultiSphereShape_GetRTTI()
 {
     return &g_012683e0;
 }
@@ -300,11 +300,11 @@ GlobalObjectO2_00a7b610* FUN_0066d610_shell::GetGlobalObject()
 
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 
 // @fnv 0x0066d730
-unsigned int __thiscall bhkCapsuleShape::FUN_0066d730() const
+unsigned int __thiscall bhkCapsuleShape::bhkCapsuleShape_QCinfoSize() const
 {
     return 0x30;
 }
@@ -510,7 +510,7 @@ extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void __thiscall bhkTransform_setIdentity();
 };
 struct FUN_0066d550_shell
 {
@@ -522,7 +522,7 @@ void* FUN_0066d550_shell::Initialize()
     ((void(__thiscall*)(void*))FUN_004b5020)(this);
     ((unsigned int*)this)[1] = 0;
     ((void(__thiscall*)(void*))FUN_0056e270)((char*)this + 0x10);
-    ((FUN_0056e120_shell*)((char*)this + 0x10))->FUN_0056e120();
+    ((FUN_0056e120_shell*)((char*)this + 0x10))->bhkTransform_setIdentity();
     return this;
 }
 
@@ -856,7 +856,7 @@ void FUN_0066bf80_owner::FUN_0066bf80(FUN_0066bf80_data* data, unsigned int flag
 {
     AutoMemContext context(MEM_CONTEXT_SCENE, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeNode.cpp", 0x20d);
-    if (!FUN_0054ee20())
+    if (!BSTreeManager_AreTreesVisible())
         return;
     if (data->time > gModifierZero)
     {
@@ -1591,7 +1591,7 @@ void C070TreeNode::FUN_0066c070(FUN_0066bf80_data& kUpdate, unsigned int uiFlags
     AutoMemContext kMemContext(MEM_CONTEXT_SCENE, true,
                                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeNode.cpp",
                                0x223);
-    if (!FUN_0054ee20())
+    if (!BSTreeManager_AreTreesVisible())
         return;
     if (kUpdate.time > gModifierZero)
     {
@@ -1661,7 +1661,7 @@ struct S_0066d880_List
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
+    unsigned char BSTreeModel_IsInstance();
     int FUN_008d6f30();
 };
 struct S_0066d880_Holder
@@ -1727,7 +1727,7 @@ struct S_0066d880_Base
     int unkd8;
     int unkdc;
     int unke0;
-    void FUN_00a5ea70(S_0066d880_List* list);
+    void NiNode_GetViewerStrings(S_0066d880_List* list);
 };
 struct S_0066d880 : S_0066d880_Base
 {
@@ -1738,14 +1738,14 @@ struct S_0066d880 : S_0066d880_Base
 // @fnv 0x0066d880
 void S_0066d880::FUN_0066d880(S_0066d880_List* list)
 {
-    FUN_00a5ea70(list);
+    NiNode_GetViewerStrings(list);
     char* name = FUN_00a7d330("BSTreeNode");
     list->FUN_0096a610(&name);
     char* text;
     if (m_e4.FUN_00559450())
     {
         text = new char[0x20];
-        if (m_e4.FUN_00559450()->FUN_00666f00())
+        if (m_e4.FUN_00559450()->BSTreeModel_IsInstance())
             FUN_00406d00(text, 0x20, "Type = Instance");
         else
             FUN_00406d00(text, 0x20, "Type = Base");
@@ -1763,7 +1763,7 @@ void S_0066d880::FUN_0066d880(S_0066d880_List* list)
 }
 
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void* __cdecl FUN_00401000(unsigned int size);
+extern void* __cdecl FormHeap_Allocate(unsigned int size);
 extern float DAT_01016b78;
 extern void* __cdecl GetFltValueAtOffset16();
 
@@ -1838,7 +1838,7 @@ struct TreePointer
 };
 struct TreeLists
 {
-    unsigned short FUN_00669990();
+    unsigned short BSTreeModel_GetNumBranchLODLevels();
     unsigned short FUN_006699d0();
     void* ConvertFloatToUInt();
 };
@@ -1958,7 +1958,7 @@ struct FUN_006694e0
     void FUN_0066b0d0(void* p);
     static void* operator new[](unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
 };
 struct FUN_0066b640
@@ -2019,7 +2019,7 @@ struct FUN_0066b120 : FUN_00b4e150
     FUN_0066b120(void* initial, void* external);
 
     void FUN_00b4dec0(int n);
-    void FUN_004902f0(int n);
+    void NiAVObject_SetSelectiveUpdate(int n);
     void SetChildAt(int type, void* p);
     void SetExtraDataName(void* p);
 };
@@ -2030,7 +2030,7 @@ FUN_0066b120::FUN_0066b120(void* initial, void* external) : m_e4(0), m_f0(0)
 {
     FUN_00b4dec0(6);
     m_e4.FUN_0066b0d0(initial);
-    FUN_004902f0(1);
+    NiAVObject_SetSelectiveUpdate(1);
     FUN_00a5ecb0* pkCurrentObject = new FUN_00a5ecb0(0);
     SetChildAt(0, pkCurrentObject);
     pkCurrentObject = new FUN_00a5ecb0(0);
@@ -2042,7 +2042,7 @@ FUN_0066b120::FUN_0066b120(void* initial, void* external) : m_e4(0), m_f0(0)
     SetChildAt(2, controller);
 
     unsigned short count;
-    unsigned short i = m_e4.FUN_00559450()->FUN_00669990();
+    unsigned short i = m_e4.FUN_00559450()->BSTreeModel_GetNumBranchLODLevels();
     if (i != 0)
     {
         m_e8 = new FUN_006694e0[i];
@@ -2412,7 +2412,7 @@ struct FnvScopedContext
 };
 struct FnvModelElement
 {
-    unsigned short __thiscall FUN_00669990();
+    unsigned short __thiscall BSTreeModel_GetNumBranchLODLevels();
 };
 struct FnvModelReference
 {
@@ -2438,7 +2438,7 @@ bool __thiscall FnvElementCollection::SetSlotObject(unsigned short index, int ty
     FnvScopedContext guard;
     if (!m_model.FUN_00559450() || !m_slots || !type)
         return false;
-    unsigned short maxIndex = m_model.FUN_00559450()->FUN_00669990();
+    unsigned short maxIndex = m_model.FUN_00559450()->BSTreeModel_GetNumBranchLODLevels();
     if (index >= maxIndex)
         return false;
     S_0066ba30_Node* actor = reinterpret_cast<FnvNodeGetter>(

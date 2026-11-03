@@ -37,7 +37,7 @@ struct HandleB09
 {
     int m_iValue;
     bool FUN_00624070();
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct FormB09
 {
@@ -116,7 +116,7 @@ struct RefB09
     void FUN_009b0c90(const NiPoint3B09& kImpulse);
 };
 FormB09* __cdecl FUN_004b5a20(void* pBase);
-void* __cdecl FUN_0056f930(void* pForm);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(void* pForm);
 float __cdecl FUN_0062b520(float fValue, RefB09* pRef, int iFlag);
 float __cdecl FUN_0040ebd0(float fA, float fB);
 float __cdecl FUN_00476b70(float fMin, float fScaledValue);
@@ -274,11 +274,11 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
             {
                 FormB09* pForm = FUN_004b5a20(pRef->FUN_004ae750());
                 void* pBase = pForm ? pForm->FUN_0044ddc0() : 0;
-                void* pOther = FUN_0056f930(pBase);
+                void* pOther = TESObjectREFR_FindReferenceFor3D(pBase);
                 if (pOther && pOther == FUN_009ad610())
                 {
                     HandleB09 kHandle2;
-                    if (pRef->FUN_0043b4f0(&kHandle2)->FUN_0043b4d0() == 20)
+                    if (pRef->FUN_0043b4f0(&kHandle2)->CFilter_GetLayer() == 20)
                         pRef->SetFlagE4(1);
                     fForce *= *g_kSettingDBC.GetFloat();
                     bMatched = true;

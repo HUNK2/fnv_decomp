@@ -59,7 +59,7 @@ class S00458900_Vector
 {
   public:
     S00458900_Vector();                                                       // FUN_006815c0
-    void FUN_00458a10(const S00458900_Vector* a, const S00458900_Vector* b);  // setSub4
+    void hkVector4_setSub4(const S00458900_Vector* a, const S00458900_Vector* b);  // setSub4
     void FUN_00458ad0(const S00458900_Vector* v);                             // setAbs4
     void FUN_004589c0(float f);
     S00458900_Comparison FUN_00458a60(const S00458900_Vector* v) const;  // compareLessThan4
@@ -71,7 +71,7 @@ class S00458900_Vector
 bool S00458900_Vector::FUN_00458900(const S00458900_Vector* v, float epsilon) const
 {
     S00458900_Vector kDiff;
-    kDiff.FUN_00458a10(this, v);
+    kDiff.hkVector4_setSub4(this, v);
     kDiff.FUN_00458ad0(&kDiff);
     S00458900_Vector kEpsilon;
     kEpsilon.FUN_004589c0(epsilon);
@@ -104,11 +104,11 @@ void FUN_004589c0_cls::FUN_004589c0(float value)
 struct S00458a10_Vector
 {
     __m128 m_vComponents;
-    void FUN_00458a10(const S00458a10_Vector* a, const S00458a10_Vector* b);
+    void hkVector4_setSub4(const S00458a10_Vector* a, const S00458a10_Vector* b);
 };
 
 // @fnv 0x00458a10
-void S00458a10_Vector::FUN_00458a10(const S00458a10_Vector* a, const S00458a10_Vector* b)
+void S00458a10_Vector::hkVector4_setSub4(const S00458a10_Vector* a, const S00458a10_Vector* b)
 {
     m_vComponents = _mm_sub_ps(a->m_vComponents, b->m_vComponents);
 }

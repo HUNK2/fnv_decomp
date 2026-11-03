@@ -79,7 +79,7 @@ const char* __cdecl FUN_00e8dd60()
 extern "C" void* g_01270920;
 
 // @fnv 0x00e8ea10
-void* __cdecl FUN_00e8ea10()
+void* __cdecl NiGPUProgramCache_GetRTTI()
 {
     return &g_01270920;
 }

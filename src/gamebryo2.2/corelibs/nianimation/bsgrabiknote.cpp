@@ -5,7 +5,7 @@
 extern "C" void* g_011f3ef0;
 
 // @fnv 0x00a44350
-void* __cdecl FUN_00a44350()
+void* __cdecl BSGrabIKNote_GetRTTI()
 {
     return &g_011f3ef0;
 }
@@ -67,7 +67,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a44380
-void* __cdecl FUN_00a44380()
+void* __cdecl BSGrabIKNote_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(28));
     if (node)
@@ -108,10 +108,10 @@ struct FUN_00a44850_holder
 };
 struct FUN_00a443c0_shell : BSFadeNode
 {
-    void* FUN_00a443c0(CloningProcess* process);
+    void* BSGrabIKNote_CreateClone(CloningProcess* process);
 };
 // @fnv 0x00a443c0
-void* FUN_00a443c0_shell::FUN_00a443c0(CloningProcess* process)
+void* FUN_00a443c0_shell::BSGrabIKNote_CreateClone(CloningProcess* process)
 {
     FUN_00a443c0_shell* node = new FUN_00a443c0_shell;
     if (node)
@@ -343,7 +343,7 @@ struct StreamOwner
 class FUN_00a445c0_cls
 {
   public:
-    void FUN_00a44a90(StreamOwner* stream);
+    void BSAnimNote_SaveBinary(StreamOwner* stream);
     void ReadFromStream(StreamOwner* stream);
 
   public:
@@ -364,7 +364,7 @@ static unsigned int StreamReadPart(StreamFile* f, void* buf)
 // @fnv 0x00a445c0
 void FUN_00a445c0_cls::ReadFromStream(StreamOwner* stream)
 {
-    FUN_00a44a90(stream);
+    BSAnimNote_SaveBinary(stream);
     StreamFile* f = stream->m_250;
     f->m_04 += StreamReadPart(f, &m_10);
     f = stream->m_250;
@@ -410,12 +410,12 @@ struct ArmNote : ArmNoteBase
     unsigned int m_eArm;
     float m_fGain;
     unsigned int m_eAnimationState;
-    void FUN_00a44650(ViewerStrings* pkStrings);
+    void BSGrabIKNote_GetViewerStrings(ViewerStrings* pkStrings);
 };
 
 // Appends the arm, gain and state viewer strings to pkStrings after the base viewer strings.
 // @fnv 0x00a44650
-void ArmNote::FUN_00a44650(ViewerStrings* pkStrings)
+void ArmNote::BSGrabIKNote_GetViewerStrings(ViewerStrings* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     switch (m_eArm)
@@ -441,7 +441,7 @@ void ArmNote::FUN_00a44650(ViewerStrings* pkStrings)
 
 struct TextKeyHandlerBase
 {
-    bool FUN_00a44930(const char* apTextKey);
+    bool BSAnimNote_ParseTextKey(const char* apTextKey);
 };
 struct S00a44430_Str
 {
@@ -465,14 +465,14 @@ struct S00a44430_Obj : TextKeyHandlerBase
     unsigned int m_10;
     float m_14;
     unsigned int m_18;
-    bool FUN_00a44430(const char* apTextKey);
+    bool BSGrabIKNote_ParseTextKey(const char* apTextKey);
 };
 
 // Parses apTextKey for a prefix, side flag, gain value, and mode string, storing results in m_10, m_14, and m_18.
 // @fnv 0x00a44430
-bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
+bool S00a44430_Obj::BSGrabIKNote_ParseTextKey(const char* apTextKey)
 {
-    bool bret = FUN_00a44930(apTextKey);
+    bool bret = BSAnimNote_ParseTextKey(apTextKey);
     const char* ptext = (const char*)*(void**)((char*)apTextKey + 4);
     if (FUN_00ec8a19(ptext, str_01097dc4, 6) == 0)
     {

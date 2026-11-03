@@ -1545,7 +1545,7 @@ void* FUN_00853440_class::FUN_008534d0(unsigned int flags)
 
 struct BSFile
 {
-    void __thiscall FUN_00473180(const char* p, unsigned int n);
+    void __thiscall NiBinaryStream_Write(const char* p, unsigned int n);
 };
 int __cdecl BSStringLength(const char* p);
 struct FUN_00854b80_class
@@ -1556,7 +1556,7 @@ struct FUN_00854b80_class
 void __thiscall FUN_00854b80_class::FUN_00854b80(const char* pcString)
 {
     if (*(int*)((char*)this + 0x18))
-        ((BSFile*)*(int*)((char*)this + 0x18))->FUN_00473180(pcString, BSStringLength(pcString));
+        ((BSFile*)*(int*)((char*)this + 0x18))->NiBinaryStream_Write(pcString, BSStringLength(pcString));
 }
 
 extern "C" void __cdecl Deallocate(void*);
@@ -1869,7 +1869,7 @@ struct TESObjectREFR : TESForm
 {
     virtual ~TESObjectREFR();
 };
-extern "C" TESForm* __cdecl FUN_004839c0(unsigned int);
+extern "C" TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct FUN_0085f070_shell
 {
     void SaveReferenceState(TESObjectREFR*, unsigned int, void*);
@@ -1888,7 +1888,7 @@ void FUN_0085f070_shell::FUN_0085f070()
         void* value2;
         reinterpret_cast<NiTMap*>(*(void**)((char*)this + 0x58))->GetNext(pos2, key, value2);
         if (key)
-            ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(key));
+            ref = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(key));
         else
             ref = g_thePlayer;
         if (ref)
@@ -2396,7 +2396,7 @@ struct FUN_0085f2e0_class
 
 struct FUN_0085f450_class
 {
-    void FUN_0085f450();
+    void TESSaveLoadGame_LoadCharControllers();
 };
 
 struct FUN_0085f5d0_class
@@ -2416,7 +2416,7 @@ struct FUN_00978420_class
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 struct BSOcclusionPlane
@@ -2456,12 +2456,12 @@ void FUN_0085f850_class::FUN_0085f850(bool arg)
 
     reinterpret_cast<FUN_0085f070_shell*>(this)->FUN_0085f070();
     reinterpret_cast<FUN_0085f2e0_class*>(this)->FUN_0085f2e0();
-    reinterpret_cast<FUN_0085f450_class*>(this)->FUN_0085f450();
+    reinterpret_cast<FUN_0085f450_class*>(this)->TESSaveLoadGame_LoadCharControllers();
 
     if (arg)
     {
         DAT_011e0e80.FUN_00978420(0.0f, 0);
-        g_TES->FUN_00453550(0.0f);
+        g_TES->TES_UpdateCellAnimations(0.0f);
 
         int cullResult = _g_thePlayer->GetCullResult();
         if (cullResult)
@@ -2533,7 +2533,7 @@ void* SaveLoadCleanup::FUN_008451a0(unsigned int flags)
     return this;
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 
 struct Obj_b9971
 {
@@ -2544,7 +2544,7 @@ struct Obj_b9971
     Obj_b9971();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
 };
 
@@ -3127,7 +3127,7 @@ struct FUN_008598d0_shell
     void* FUN_00861c00(void*);
     TESForm* FUN_00859a90(unsigned int key, BinaryRecord36* data);
     TESForm* FUN_00859f20(unsigned int key, BinaryRecord44* data);
-    void FUN_00858730(TESForm*);
+    void TESSaveLoadGame_LoadForm(TESForm*);
     void ProcessSourceItem(unsigned int key);
 };
 // @fnv 0x008598d0
@@ -3158,7 +3158,7 @@ void FUN_008598d0_shell::ProcessSourceItem(unsigned int key)
                         delete asSpecial;
                         return;
                     }
-                    FUN_00858730(pCreated);
+                    TESSaveLoadGame_LoadForm(pCreated);
                 }
             }
         }
@@ -3175,7 +3175,7 @@ void FUN_008598d0_shell::ProcessSourceItem(unsigned int key)
                 record2.value10 = FUN_00861c00(record2.value10);
                 TESForm* newObject2 = FUN_00859f20(key, &record2);
                 if (newObject2 != 0)
-                    FUN_00858730(newObject2);
+                    TESSaveLoadGame_LoadForm(newObject2);
                 tracker.FUN_00905330(&key);
             }
         }
@@ -3643,7 +3643,7 @@ void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firs
     }
 }
 
-extern "C" void __cdecl FUN_00401030(void* data);
+extern "C" void __cdecl FormHeap_Free(void* data);
 struct FnvMap
 {
     void* FUN_004b9ba0();
@@ -3656,7 +3656,7 @@ struct FnvQueue
 };
 struct FnvRefMethod
 {
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 };
 struct FnvState
 {
@@ -3676,10 +3676,10 @@ void FUN_0085f5d0_class::ProcessMapEntries()
         unsigned int key;
         void* data;
         reinterpret_cast<FnvState*>(this)->unk64->FUN_006b7f20(cursor, key, data);
-        TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(FUN_004839c0(key));
+        TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(key));
         if (refObject)
         {
-            if (!reinterpret_cast<FnvRefMethod*>(refObject)->FUN_0043fcd0())
+            if (!reinterpret_cast<FnvRefMethod*>(refObject)->TESObjectREFR_Get3D())
             {
                 if (reinterpret_cast<FnvState*>(this)->unk04)
                     reinterpret_cast<FnvState*>(this)->unk04->GetOrCreateNode(refObject, 0);
@@ -3690,7 +3690,7 @@ void FUN_0085f5d0_class::ProcessMapEntries()
             }
             reinterpret_cast<FUN_0085f6c0_Class*>(this)->FUN_0085f6c0((int)refObject, (int)data);
         }
-        FUN_00401030(data);
+        FormHeap_Free(data);
         reinterpret_cast<FnvState*>(this)->unk64->RemoveKey(key);
     }
 }
@@ -4775,8 +4775,8 @@ class TESWorldSpace : public TESForm
 class Controller
 {
   public:
-    bool FUN_005c0860();
-    void FUN_005620e0(NiPoint3*);
+    bool bhkCharacterController_QIsFlying();
+    void bhkCharacterController_SetPosition(NiPoint3*);
 };
 class NiUpdateData
 {
@@ -4797,7 +4797,7 @@ class Extra
 {
   public:
     void* GetExtraData(unsigned char);
-    TESForm* FUN_0041b320();
+    TESForm* ExtraDataList_GetStartingWorldOrCell();
 };
 class RefAccess : public TESObjectREFR
 {
@@ -4970,17 +4970,17 @@ class RefAccess : public TESObjectREFR
     virtual TESObjectCELL* GetSavedCell();
     Extra* FUN_005d43c0();
     void SetLocationOnReference(const NiPoint3&);
-    void FUN_005757d0(float);
-    void FUN_00575700(NiPoint3);
+    void TESObjectREFR_SetAngleOnReferenceZ(float);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3);
     Node* Get3DSimple();
-    ThreeByThreeMatrix FUN_0056fa00();
+    ThreeByThreeMatrix TESObjectREFR_GetOrientation();
 };
 class MobileAccess : public MobileObject
 {
   public:
     Controller* FUN_009306d0();
 };
-void FUN_00573800(RefAccess*, TESObjectCELL*, TESWorldSpace*);
+void TESObjectREFR_MoveRefToNewSpace(RefAccess*, TESObjectCELL*, TESWorldSpace*);
 void FUN_00c6bd00(Node*, bool);
 class RestoreBuffer
 {
@@ -5007,10 +5007,10 @@ bool RestoreBuffer::FUN_00857d10(RefAccess* ref, bool process)
         if (cell6 || world)
         {
             ref->SetLocationOnReference(mobileX->GetPosition());
-            ref->FUN_005757d0(mobileX->GetRotation().z);
+            ref->TESObjectREFR_SetAngleOnReferenceZ(mobileX->GetRotation().z);
             if (process)
                 FUN_004534f0(1);
-            FUN_00573800(ref, cell6, world);
+            TESObjectREFR_MoveRefToNewSpace(ref, cell6, world);
             if (process)
                 FUN_004534f0(0);
             changed = true;
@@ -5023,17 +5023,17 @@ bool RestoreBuffer::FUN_00857d10(RefAccess* ref, bool process)
             NiPoint3 position3 = ref->GetPosition();
             NiPoint3 rotation = ref->GetRotation();
             ref->SetLocationOnReference(position3);
-            ref->FUN_00575700(rotation);
+            ref->TESObjectREFR_SetAngleOnReference(rotation);
             changed = true;
         }
-        TESForm* form7 = ref->FUN_005d43c0()->FUN_0041b320();
+        TESForm* form7 = ref->FUN_005d43c0()->ExtraDataList_GetStartingWorldOrCell();
         if (form7)
         {
             TESObjectCELL* savedCell7 = dynamic_cast<TESObjectCELL*>(form7);
             TESWorldSpace* savedWorld6 = dynamic_cast<TESWorldSpace*>(form7);
             if (savedCell7 || savedWorld6)
             {
-                FUN_00573800(ref, savedCell7, savedWorld6);
+                TESObjectREFR_MoveRefToNewSpace(ref, savedCell7, savedWorld6);
                 changed = true;
             }
         }
@@ -5048,11 +5048,11 @@ bool RestoreBuffer::FUN_00857d10(RefAccess* ref, bool process)
             if (objectA)
             {
                 Controller* controller = ((MobileAccess*)objectA)->FUN_009306d0();
-                if (controller && !controller->FUN_005c0860())
-                    controller->FUN_005620e0(&location9);
+                if (controller && !controller->bhkCharacterController_QIsFlying())
+                    controller->bhkCharacterController_SetPosition(&location9);
             }
             node6->FUN_00440460(location9);
-            node6->FUN_0043fa80(ref->FUN_0056fa00());
+            node6->FUN_0043fa80(ref->TESObjectREFR_GetOrientation());
             FUN_00c6bd00(node6, true);
             NiUpdateData update6(0.0f, false, false);
             node6->FUN_00a59c60(update6);
@@ -5097,7 +5097,7 @@ struct Manager859
     Map859* interiors;
     Map859* worlds;
     bool FUN_0047c850();
-    bool FUN_00858730(Cell859*);
+    bool TESSaveLoadGame_LoadForm(Cell859*);
     void ProcessSourceItem(unsigned);
     bool FUN_00859690(Cell859* cell);
 };
@@ -5107,7 +5107,7 @@ bool Manager859::FUN_00859690(Cell859* cell)
     bool result5 = false;
     if (!FUN_0047c850())
         return result5;
-    result5 = FUN_00858730(cell);
+    result5 = TESSaveLoadGame_LoadForm(cell);
     if (cell->FUN_00425fd0())
     {
         List859* list8;
@@ -5315,7 +5315,7 @@ struct RestoredObject
 struct RestoreForm;
 struct RestoreRef
 {
-    bool FUN_004734d0(RestoreForm*);
+    bool TESFile_FindForm(RestoreForm*);
     unsigned int FUN_00472660();
 };
 struct RestoreLink
@@ -5343,7 +5343,7 @@ extern const char DAT_01080958[], DAT_01080900[];
 extern void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 
 extern bool __cdecl HasFormInGroup(RestoreRef*, unsigned int);
-extern RestoredObject* __cdecl FUN_00564480(unsigned char, int);
+extern RestoredObject* __cdecl TESObjectREFR_CreateReference(unsigned char, int);
 extern void __cdecl FUN_004601d0(RestoredObject*, RestoreRef*);
 extern int __cdecl FUN_00406d90(float);
 extern void __cdecl FUN_005b5e40(const char*, ...);
@@ -5358,7 +5358,7 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
     unsigned int parent = location->id;
     if (!parent)
         parent = location->alternate;
-    void* form2 = FUN_004839c0(parent);
+    void* form2 = TESForm_GetFormByNumericID(parent);
     RestoreForm* cellTmp = (RestoreForm*)FUN_00ec43fb(form2, 0, &DAT_01183028, &DAT_01183fb4, 0);
     RestoreForm* world = (RestoreForm*)FUN_00ec43fb(form2, 0, &DAT_01183028, &DAT_01183fd0, 0);
     int x6 = 0, y4 = 0;
@@ -5370,10 +5370,10 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
         for (i = 0; i < count9; ++i)
         {
             RestoreRef* reference = cellTmp->FUN_00484e60(i)->FUN_004739b0();
-            if (reference->FUN_004734d0(cellTmp) && HasFormInGroup(reference, id))
+            if (reference->TESFile_FindForm(cellTmp) && HasFormInGroup(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
-                object5 = FUN_00564480((unsigned char)type, 1);
+                object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
                 FUN_004601d0(object5, reference);
             }
         }
@@ -5389,7 +5389,7 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
             if (world->SeekToCellInWorld(reference, x6, y4) && HasFormInGroup(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
-                object5 = FUN_00564480((unsigned char)type, 1);
+                object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
                 FUN_004601d0(object5, reference);
             }
         }
@@ -5623,10 +5623,10 @@ void StQ::FUN_0085f2e0()
         unsigned int uiID;
         void* pData_zbax;
         pMap->FUN_006b7f20(pIterator, uiID, pData_zbax);
-        TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiID));
+        TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(uiID));
         if (pRef_zaxvzc)
         {
-            if (!((FnvRefMethod*)pRef_zaxvzc)->FUN_0043fcd0())
+            if (!((FnvRefMethod*)pRef_zaxvzc)->TESObjectREFR_Get3D())
             {
                 if (pQ4)
                     pQ4->GetOrCreateNode(pRef_zaxvzc, 0);
@@ -5637,7 +5637,7 @@ void StQ::FUN_0085f2e0()
             }
             FUN_0085f3d0(pRef_zaxvzc, pData_zbax);
         }
-        FUN_00401030(pData_zbax);
+        FormHeap_Free(pData_zbax);
         pMap->RemoveKey(uiID);
     }
 }
@@ -5702,7 +5702,7 @@ enum
 struct CellView
 {
     bool FUN_00425fd0();
-    void FUN_0054ca90(TESObjectREFR* pkRef);
+    void TESObjectCELL_RemoveReference(TESObjectREFR* pkRef);
 };
 
 struct WorldView
@@ -5853,8 +5853,8 @@ class RefView
     virtual void v224();
     virtual void SetParentCell(TESObjectCELL* pkCell);
 
-    void FUN_00575700(NiPoint3 kAngle);
-    void FUN_00575830(const NiPoint3& kPos);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3 kAngle);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& kPos);
     TESObjectCELL* FUN_008d6f30();
     bool FUN_005653d0();
 };
@@ -5904,7 +5904,7 @@ struct DataHandler
 
 struct ProcessLists
 {
-    void FUN_00445570(TESObjectREFR* pkRef);
+    void ModelLoader_CancelReference(TESObjectREFR* pkRef);
 };
 
 extern SaveGame* DAT_011de45c;
@@ -5913,7 +5913,7 @@ extern ProcessLists* DAT_011c3b3c;
 extern TESObjectREFR* DAT_011dea3c;
 
 int FUN_00406d90(float fValue);
-void FUN_00573800(TESObjectREFR* pkRef, TESObjectCELL* pkCell, TESWorldSpace* pkWorld);
+void TESObjectREFR_MoveRefToNewSpace(TESObjectREFR* pkRef, TESObjectCELL* pkCell, TESWorldSpace* pkWorld);
 void FUN_005b5e40(const char* pcFormat, ...);
 
 struct RefLoader
@@ -5956,12 +5956,12 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
         DAT_011de45c->FUN_008579e0(&kMoveData, 0x24);
         kMoveData.m_uiBaseID = FUN_00861c00(kMoveData.m_uiBaseID);
         kMoveData.m_uiCellID = FUN_00861c00(kMoveData.m_uiCellID);
-        TESForm* pkLocation = FUN_004839c0(kMoveData.m_uiCellID);
+        TESForm* pkLocation = TESForm_GetFormByNumericID(kMoveData.m_uiCellID);
         TESObjectCELL* pkCell = dynamic_cast<TESObjectCELL*>(pkLocation);
         TESWorldSpace* pkWorld = dynamic_cast<TESWorldSpace*>(pkLocation);
         if (kMoveData.m_iType != 2)
         {
-            TESBoundObject* pkBase = dynamic_cast<TESBoundObject*>(FUN_004839c0(kMoveData.m_uiBaseID));
+            TESBoundObject* pkBase = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(kMoveData.m_uiBaseID));
             DAT_011c3f2c->PlaceObjectReference(pkBase, &kMoveData.m_kPos, &kMoveData.m_kAngle, pkCell, pkWorld, pkRef,
                                                0, 0);
             FUN_008624e0(pkRef);
@@ -5976,8 +5976,8 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
             }
             if (pkCell)
                 ((RefView*)pkRef)->SetParentCell(pkCell);
-            ((RefView*)pkRef)->FUN_00575830(kMoveData.m_kPos);
-            ((RefView*)pkRef)->FUN_00575700(kMoveData.m_kAngle);
+            ((RefView*)pkRef)->TESObjectREFR_SetLocationOnReference(kMoveData.m_kPos);
+            ((RefView*)pkRef)->TESObjectREFR_SetAngleOnReference(kMoveData.m_kAngle);
             FUN_008624e0(pkRef);
         }
     }
@@ -5997,18 +5997,18 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
             DAT_011de45c->FUN_008579e0(&kPosition, 0x1c);
             kPosition.m_uiCellID = FUN_00861c00(kPosition.m_uiCellID);
         }
-        ((RefView*)pkRef)->FUN_00575700(kPosition.m_kAngle);
+        ((RefView*)pkRef)->TESObjectREFR_SetAngleOnReference(kPosition.m_kAngle);
         if (pkRef != DAT_011dea3c)
         {
-            ((RefView*)pkRef)->FUN_00575830(kPosition.m_kPos);
+            ((RefView*)pkRef)->TESObjectREFR_SetLocationOnReference(kPosition.m_kPos);
             FUN_008624e0(pkRef);
-            TESForm* pkLocation = FUN_004839c0(kPosition.m_uiCellID);
+            TESForm* pkLocation = TESForm_GetFormByNumericID(kPosition.m_uiCellID);
             TESObjectCELL* pkCell2 = dynamic_cast<TESObjectCELL*>(pkLocation);
             TESWorldSpace* pkWorld2 = dynamic_cast<TESWorldSpace*>(pkLocation);
             if (pkCell2)
             {
                 if (pkCell2 != ((RefView*)pkRef)->FUN_008d6f30())
-                    FUN_00573800(pkRef, pkCell2, 0);
+                    TESObjectREFR_MoveRefToNewSpace(pkRef, pkCell2, 0);
             }
             else if (pkWorld2)
             {
@@ -6018,7 +6018,7 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
                 if ((((RefView*)pkRef)->FUN_008d6f30() &&
                      ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->FUN_00425fd0()) ||
                     ((RefView*)pkRef)->FUN_008d6f30() != pkCell2)
-                    FUN_00573800(pkRef, 0, pkWorld2);
+                    TESObjectREFR_MoveRefToNewSpace(pkRef, 0, pkWorld2);
                 else if (!pkCell2 && !((RefView*)pkRef)->FUN_005653d0())
                     FUN_005b5e40("SAVELOAD: Trying to load non-persistent ref into non-existent cell.");
             }
@@ -6031,9 +6031,9 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
                 else
                 {
                     if (((RefView*)pkRef)->FUN_008d6f30())
-                        ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->FUN_0054ca90(pkRef);
+                        ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->TESObjectCELL_RemoveReference(pkRef);
                     ((RefView*)pkRef)->SetParentCell(0);
-                    DAT_011c3b3c->FUN_00445570(pkRef);
+                    DAT_011c3b3c->ModelLoader_CancelReference(pkRef);
                     ((RefView*)pkRef)->Update3D(0, 1);
                 }
             }
@@ -6489,7 +6489,7 @@ class CharControllerProcess : public BaseProcess
     virtual int GetPhysicsCharacterController();
     void FUN_00926690(MobileObject*);
 };
-// Members the file's MobileObject does not declare yet: vtable slot 76 (name), FUN_00440d80, FUN_00440da0.
+// Members the file's MobileObject does not declare yet: vtable slot 76 (name), TESForm_GetDelete, FUN_00440da0.
 class CharControllerMob : public MobileObject
 {
   public:
@@ -6569,12 +6569,12 @@ class CharControllerMob : public MobileObject
     virtual void slot74();
     virtual void slot75();
     virtual const char* GetName();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     bool FUN_00440da0();
 };
 // Iterates the m_60 FnvMap, resolves each key to a MobileObject, and loads its physics character controller via the HighProcess.
 // @fnv 0x0085f450
-void FUN_0085f450_class::FUN_0085f450()
+void FUN_0085f450_class::TESSaveLoadGame_LoadCharControllers()
 {
     void* pos = ((FnvMap*)((FUN_0085f5a0_Class*)this)->m_60)->FUN_004b9ba0();
     while (pos)
@@ -6582,7 +6582,7 @@ void FUN_0085f450_class::FUN_0085f450()
         unsigned int data;
         void* object;
         ((FnvMap*)((FUN_0085f5a0_Class*)this)->m_60)->FUN_006b7f20(pos, data, object);
-        MobileObject* id = dynamic_cast<MobileObject*>(FUN_004839c0(data));
+        MobileObject* id = dynamic_cast<MobileObject*>(TESForm_GetFormByNumericID(data));
         if (id)
         {
             HighProcess* process = dynamic_cast<HighProcess*>(id->FUN_008d8520());
@@ -6594,7 +6594,7 @@ void FUN_0085f450_class::FUN_0085f450()
                 ((SaveManagerAccess*)DAT_011de45c)->FUN_008579e0(&mode, 2);
                 if (((CharControllerProcess*)process)->GetPhysicsCharacterController())
                     ((CharControllerProcess*)process)->FUN_00926690(id);
-                else if (!((CharControllerMob*)id)->FUN_00440d80() || !((CharControllerMob*)id)->FUN_00440da0())
+                else if (!((CharControllerMob*)id)->TESForm_GetDelete() || !((CharControllerMob*)id)->FUN_00440da0())
                 {
                     FUN_005b5e40(
                         "SAVELOAD: (LoadCharControllers()) Mob %s %08X does not have a character controller to load.",
@@ -6744,14 +6744,14 @@ class Actor : public TESForm
     int FUN_008d6f30();
     int FUN_00575d70();
     void FUN_00893340(int);
-    void FUN_00575830(NiPoint3*);
-    void FUN_00575700(NiPoint3);
-    void FUN_00484af0(int);
+    void TESObjectREFR_SetLocationOnReference(NiPoint3*);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3);
+    void TESForm_SetDisabled(int);
     void FUN_00483710();
 };
 struct CellX
 {
-    void FUN_0054cfd0(NiPoint3*, NiPoint3*);
+    void TESObjectCELL_GetCOCPlacementInfo(NiPoint3*, NiPoint3*);
 };
 struct Entry
 {
@@ -6782,7 +6782,7 @@ struct ActorList
 struct Mgr98
 {
     void FUN_008495b0();
-    void FUN_00456520();
+    void IOManager_LoadAllQueuedPriorities();
 };
 struct Node3d
 {
@@ -6791,7 +6791,7 @@ struct Node3d
 };
 struct Sub10
 {
-    Node3d* FUN_004543c0();
+    Node3d* TESObjectCELL_GetbhkWorld();
 };
 struct Mgr10
 {
@@ -6800,7 +6800,7 @@ struct Mgr10
 };
 struct Mgr3c
 {
-    void FUN_00444850(Actor*, int, int);
+    void ModelLoader_QueueReference(Actor*, int, int);
 };
 struct Owner
 {
@@ -6811,10 +6811,10 @@ extern Mgr10* DAT_011dea10;
 extern Mgr3c* DAT_011c3b3c;
 extern NiPoint3 DAT_011f426c;
 extern NiPoint3 DAT_011a9478;
-void FUN_00573800(Actor*, TESObjectCELL*, int);
+void TESObjectREFR_MoveRefToNewSpace(Actor*, TESObjectCELL*, int);
 Node3d* FUN_00451010();
 void FUN_00451590(int);
-void FUN_0057d0a0(NiPoint3, NiPoint3, float);
+void TESTerrainLODManager_UpdateGrass(NiPoint3, NiPoint3, float);
 void __cdecl operator delete(void*);
 
 struct ActorList2
@@ -6891,19 +6891,19 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
             if (!a->FUN_008d6f30() && !a->FUN_00575d70())
             {
                 unsigned int id = 0;
-                TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(FUN_004839c0(id));
+                TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(TESForm_GetFormByNumericID(id));
                 if (cell)
                 {
                     NiPoint3 pos = DAT_011f426c;
                     NiPoint3 rot = DAT_011f426c;
-                    ((CellX*)cell)->FUN_0054cfd0(&pos, &rot);
-                    a->FUN_00575830(&pos);
-                    a->FUN_00575700(rot);
-                    FUN_00573800(a, cell, 0);
+                    ((CellX*)cell)->TESObjectCELL_GetCOCPlacementInfo(&pos, &rot);
+                    a->TESObjectREFR_SetLocationOnReference(&pos);
+                    a->TESObjectREFR_SetAngleOnReference(rot);
+                    TESObjectREFR_MoveRefToNewSpace(a, cell, 0);
                 }
                 else
                 {
-                    a->FUN_00484af0(1);
+                    a->TESForm_SetDisabled(1);
                 }
             }
             it = it->FUN_00726070();
@@ -6913,15 +6913,15 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
     if (reset)
     {
         NiPoint3 cam;
-        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->FUN_004543c0() : 0;
+        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->TESObjectCELL_GetbhkWorld() : 0;
         if (node1)
             node1->FUN_00c66300();
         if (FUN_00451010())
             FUN_00451010()->FUN_00c66300();
         DAT_011dea10->FUN_00459920();
         if (!((VObj*)DAT_011dea3c)->FUN_00950bb0(0))
-            DAT_011c3b3c->FUN_00444850((Actor*)DAT_011dea3c, 0, 0);
-        DAT_01202d98->FUN_00456520();
+            DAT_011c3b3c->ModelLoader_QueueReference((Actor*)DAT_011dea3c, 0, 0);
+        DAT_01202d98->IOManager_LoadAllQueuedPriorities();
         DAT_01202d98->FUN_008495b0();
         if (node1)
             node1->FUN_00c6b540(0);
@@ -6929,7 +6929,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
             FUN_00451010()->FUN_00c6b540(0);
         cam = *((VObj*)DAT_011dea3c)->GetPos();
         FUN_00451590(0);
-        FUN_0057d0a0(cam, DAT_011a9478, 1.0f);
+        TESTerrainLODManager_UpdateGrass(cam, DAT_011a9478, 1.0f);
         FUN_00451590(1);
     }
     if (ctx && ((Actor*)DAT_011dea3c)->FUN_008d6f30())
@@ -6959,12 +6959,12 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
     }
     if (reset)
     {
-        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->FUN_004543c0() : 0;
+        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->TESObjectCELL_GetbhkWorld() : 0;
         if (node1)
             node1->FUN_00c66300();
         if (FUN_00451010())
             FUN_00451010()->FUN_00c66300();
-        DAT_01202d98->FUN_00456520();
+        DAT_01202d98->IOManager_LoadAllQueuedPriorities();
         if (node1)
             node1->FUN_00c6b540(0);
         if (FUN_00451010())

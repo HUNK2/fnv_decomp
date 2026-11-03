@@ -12,11 +12,11 @@ struct NiPointer
 struct Projectile
 {
     NiPointer m_actorCause;  // +0x120
-    void FUN_00978ed0(ActorCause* apCause);
+    void Projectile_SetActorCause(ActorCause* apCause);
 };
 
 // @fnv 0x00978ed0
-void Projectile::FUN_00978ed0(ActorCause* apCause)
+void Projectile::Projectile_SetActorCause(ActorCause* apCause)
 {
     ((NiPointer*)((char*)this + 0x120))->operator=(apCause);
 }
@@ -50,7 +50,7 @@ namespace fnv_009abf10 {
 struct BGSLoadFormBuffer;
 struct Projectile
 {
-    void FUN_009c58e0(BGSLoadFormBuffer*);
+    void Projectile_Revert(BGSLoadFormBuffer*);
 };
 struct BeamProjectile : Projectile
 {
@@ -60,7 +60,7 @@ struct BeamProjectile : Projectile
 // @fnv 0x009abf10
 void BeamProjectile::FUN_009abf10(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    Projectile::Projectile_Revert(apLoadGameBuffer);
 }
 }  // namespace fnv_009abf10
 
@@ -115,7 +115,7 @@ void FUN_00979bb0_shell::FUN_00979bb0(BGSSaveFormBuffer* apSaveGameBuffer)
 struct S5870_Buf;
 struct S5870_Holder
 {
-    void FUN_009c5870(S5870_Buf*);
+    void Projectile_FinishLoadGame(S5870_Buf*);
 };
 struct FUN_009abef0_shell
 {
@@ -124,7 +124,7 @@ struct FUN_009abef0_shell
 // @fnv 0x009abef0
 void FUN_009abef0_shell::FUN_009abef0(S5870_Buf* apLoadGameBuffer)
 {
-    ((S5870_Holder*)this)->FUN_009c5870(apLoadGameBuffer);
+    ((S5870_Holder*)this)->Projectile_FinishLoadGame(apLoadGameBuffer);
 }
 
 struct NiRTTI;
@@ -149,14 +149,14 @@ struct NiGeometry
 {
     NiGeometryData* FUN_005495f0();
 };
-bool __cdecl FUN_0043b300(NiRTTI const*, NiAVObject*);
+bool __cdecl NiObject_IsKindOf(NiRTTI const*, NiAVObject*);
 extern const NiRTTI g_01202680_arg1;
 extern const NiRTTI g_01202538_arg1;
 extern const NiRTTI g_01202508;
 extern NiPoint3 NiPoint3_ZERO;
 struct FUN_004d7d50_StandIn
 {
-    unsigned int FUN_004d7d50();
+    unsigned int NiParticleSystem_GetModifierCount();
     NiAVObject* GetByIndex(unsigned int i);
 };
 struct TESGrass
@@ -261,15 +261,15 @@ void BeamScale_shell::FUN_009795e0(NiAVObject* apObject, float scale)
         NiGeometryData* data = ((NiGeometry*)apObject)->FUN_005495f0();
         if (data)
         {
-            if (FUN_0043b300(&g_01202680_arg1, (NiAVObject*)data))
+            if (NiObject_IsKindOf(&g_01202680_arg1, (NiAVObject*)data))
             {
-                if (FUN_0043b300(&g_01202538_arg1, apObject))
+                if (NiObject_IsKindOf(&g_01202538_arg1, apObject))
                 {
                     FUN_004d7d50_StandIn* node = (FUN_004d7d50_StandIn*)apObject;
-                    for (unsigned int i = 0; i < node->FUN_004d7d50(); i++)
+                    for (unsigned int i = 0; i < node->NiParticleSystem_GetModifierCount(); i++)
                     {
                         NiAVObject* child = node->GetByIndex(i);
-                        if (FUN_0043b300(&g_01202508, child))
+                        if (NiObject_IsKindOf(&g_01202508, child))
                         {
                             TESGrass* effect = (TESGrass*)child;
                             ((EffectSetting*)effect)->FUN_004ee4b0(effect->GetLowestAllowedSlope() * scale);
@@ -451,7 +451,7 @@ struct Reference
 };
 struct Base
 {
-    bool FUN_004fdf20();
+    bool BGSProjectile_GetCanTurnOff();
     Reference* FUN_00586150();
 };
 struct SoundPlaybackHandle
@@ -1026,15 +1026,15 @@ struct BeamEffect
     bool FUN_00444d00(int);
     void StopSound();
     void FUN_005de0a0(int, bool);
-    Form* FUN_00567790();
+    Form* TESObjectREFR_GetOwner();
     bool IsFightReactionAllowed(int, Actor*, Form*);
-    bool FUN_009c43e0(int, bool);
+    bool Projectile_TurnOff(int, bool);
 };
 // @fnv 0x009c43e0
-bool BeamEffect::FUN_009c43e0(int value, bool silent)
+bool BeamEffect::Projectile_TurnOff(int value, bool silent)
 {
     bool result = false;
-    if (FUN_004181e0()->FUN_004fdf20() && !FUN_00444d00(0x200))
+    if (FUN_004181e0()->BGSProjectile_GetCanTurnOff() && !FUN_00444d00(0x200))
     {
         StopSound();
         if (!silent)
@@ -1057,7 +1057,7 @@ bool BeamEffect::FUN_009c43e0(int value, bool silent)
                     shooter = actor;
                 else
                 {
-                    Form* parent = FUN_00567790();
+                    Form* parent = TESObjectREFR_GetOwner();
                     if (parent)
                     {
                         int iParentType = parent->FUN_00401170();
@@ -1154,7 +1154,7 @@ struct S_00979140_Node
     virtual void vf0b0();
     virtual void vf0b4();
     virtual void vfb8(S_00979140_UpdateData* data);
-    const S_00979140_Mat3& FUN_00461130() const;
+    const S_00979140_Mat3& NiAVObject_GetWorldRotate() const;
 };
 
 struct S_00979140_Holder
@@ -1466,7 +1466,7 @@ void S_00979140_Proj::FUN_00979140()
         {
             S_00979140_UpdateData data(0.0f, false, false);
             node2->vfb8(&data);
-            unk94 = vf1d0()->FUN_00461130().FUN_0043f8d0(other->FUN_00461130().FUN_004b45b0());
+            unk94 = vf1d0()->NiAVObject_GetWorldRotate().FUN_0043f8d0(other->NiAVObject_GetWorldRotate().FUN_004b45b0());
         }
         float t2 = GetFirstLightParameter();
         if (t2 < 1.0)
@@ -1719,7 +1719,7 @@ struct Obj
 struct ArgRef
 {
     Obj* FUN_005495f0();
-    unsigned int FUN_004d7d50();
+    unsigned int NiParticleSystem_GetModifierCount();
     Item* GetByIndex(unsigned int index);
 };
 
@@ -1728,7 +1728,7 @@ extern char DAT_012024e0;
 extern char DAT_01202508;
 extern Vec3 DAT_011f426c;
 
-unsigned char __cdecl FUN_0043b300(const void* typeDesc, const void* obj);
+unsigned char __cdecl NiObject_IsKindOf(const void* typeDesc, const void* obj);
 
 struct FUN_00979840_cls
 {
@@ -1742,15 +1742,15 @@ float FUN_00979840_cls::FUN_00979840(ArgRef* arg)
     float best = 0.0f;
     if (actor != 0)
     {
-        if (FUN_0043b300(&DAT_01202558, actor))
+        if (NiObject_IsKindOf(&DAT_01202558, actor))
         {
-            if (FUN_0043b300(&DAT_012024e0, arg))
+            if (NiObject_IsKindOf(&DAT_012024e0, arg))
             {
                 ArgRef* owner = arg;
-                for (unsigned int i = 0; best == 0.0f && i < owner->FUN_004d7d50(); ++i)
+                for (unsigned int i = 0; best == 0.0f && i < owner->NiParticleSystem_GetModifierCount(); ++i)
                 {
                     Item* item = owner->GetByIndex(i);
-                    if (FUN_0043b300(&DAT_01202508, item))
+                    if (NiObject_IsKindOf(&DAT_01202508, item))
                     {
                         Item* p = item;
                         best = p->FUN_00639b20();
@@ -1826,7 +1826,7 @@ struct S_00979a70_Obj
 
 extern int DAT_011f4acc;
 extern const double DAT_01012060;
-bool __cdecl FUN_0043b300(const void* rtti, S_00979a70_Obj* obj);
+bool __cdecl NiObject_IsKindOf(const void* rtti, S_00979a70_Obj* obj);
 
 struct S_00979a70
 {
@@ -1848,7 +1848,7 @@ void S_00979a70::ScaleNode(S_00979a70_Obj* node, float fScale, float fDivisor)
             v.FUN_00439180(s);
             node->FUN_00440460(&v);
         }
-        if (FUN_0043b300(&DAT_011f4acc, node))
+        if (NiObject_IsKindOf(&DAT_011f4acc, node))
         {
             S_00979a70_Obj* p = node;
             float den = (fDivisor > DAT_01012060) ? fDivisor : FUN_00979840(p);
@@ -1902,7 +1902,7 @@ struct FUN_009b8b10_cls
     unsigned char unk91[0x150 - 0x91];
     int m_i150;
 
-    bool FUN_009b8b10();
+    bool MissileProjectile_ProcessImpacts();
     bool FUN_00444d00(int);
     float GetFirstLightParameter();
     double FUN_009669c0();
@@ -1916,7 +1916,7 @@ struct FUN_009b8b10_cls
 };
 
 // @fnv 0x009b8b10
-bool FUN_009b8b10_cls::FUN_009b8b10()
+bool FUN_009b8b10_cls::MissileProjectile_ProcessImpacts()
 {
     bool bResult = false;
     if (!m_b90 && !m_k88.FUN_008256d0())

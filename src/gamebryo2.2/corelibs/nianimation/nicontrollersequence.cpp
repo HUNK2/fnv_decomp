@@ -5,7 +5,7 @@
 extern const char* const g_011c7d74_arg1;
 
 // @fnv 0x00a31730
-const char* const* __cdecl FUN_00a31730()
+const char* const* __cdecl NiControllerSequence_GetRTTI()
 {
     return &g_011c7d74_arg1;
 }
@@ -264,7 +264,7 @@ struct FUN_00a316a0_shell
 };
 
 // @fnv 0x00a326c0
-void* __cdecl FUN_00a326c0()
+void* __cdecl NiControllerSequence_CreateObject()
 {
     void* p = A51BF0Base::operator new(0x74);
     if (p)
@@ -784,7 +784,7 @@ struct ObjectView
 {
     int vtable;
     int refs;
-    bool FUN_00a5d2f0(StreamView&);
+    bool NiObject_RegisterStreamables(StreamView&);
 };
 struct ItemView
 {
@@ -830,12 +830,12 @@ struct SequenceView : ObjectView
     int unk68;
     RefView** notes;
     unsigned short noteCount;
-    bool FUN_00a30ea0(StreamView&);
+    bool NiControllerSequence_RegisterStreamables(StreamView&);
 };
 // @fnv 0x00a30ea0
-bool SequenceView::FUN_00a30ea0(StreamView& stream)
+bool SequenceView::NiControllerSequence_RegisterStreamables(StreamView& stream)
 {
-    if (!FUN_00a5d2f0(stream))
+    if (!NiObject_RegisterStreamables(stream))
         return false;
     for (unsigned int i = 0; i < count; i++)
     {
@@ -1414,12 +1414,12 @@ struct Sequence
     float end;
     float total;
     void AppendCameraPathEntries(OutputArray*);
-    void FUN_00a34540(OutputArray* output);
+    void NiControllerSequence_GetViewerStrings(OutputArray* output);
 };
 
 // Appends the sequence's base data and per-item key/value entries built from each tag and control priority to the output array.
 // @fnv 0x00a34540
-void Sequence::FUN_00a34540(OutputArray* output)
+void Sequence::NiControllerSequence_GetViewerStrings(OutputArray* output)
 {
     AppendCameraPathEntries(output);
     output->Append(FUN_00a7d330(DAT_011f36dc));
@@ -1855,11 +1855,11 @@ struct SeqEqStand : SequenceA30970
     unsigned int unk54;
     unsigned int unk58;
     void* root5c;
-    unsigned char FUN_00a30fb0(SeqEqStand* other);
+    unsigned char NiControllerSequence_IsEqual(SeqEqStand* other);
 };
 // Compares this sequence with another field by field, including interpolators, tags, text keys and owner, returning true only if all match.
 // @fnv 0x00a30fb0
-unsigned char SeqEqStand::FUN_00a30fb0(SeqEqStand* other)
+unsigned char SeqEqStand::NiControllerSequence_IsEqual(SeqEqStand* other)
 {
     if (!((TCEq*)this)->IsSameAs((NiObject*)other))
         return false;
@@ -2684,11 +2684,11 @@ extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
     void __thiscall FUN_00a33570(void* obj, unsigned int param);
-    void* FUN_00a344f0(unsigned int param);
+    void* NiControllerSequence_CreateClone(unsigned int param);
 };
 
 // @fnv 0x00a344f0
-void* FUN_00a344f0_cls::FUN_00a344f0(unsigned int param)
+void* FUN_00a344f0_cls::NiControllerSequence_CreateClone(unsigned int param)
 {
     void* p = FUN_00aa13e0(0x74);
     void* result = p ? ((FUN_00a316a0_shell*)p)->FUN_00a316a0() : 0;
@@ -3577,14 +3577,14 @@ struct CloneSequence
     void* partner;
     void* root;
     void* object60;
-    void FUN_00a5d430(CloneContext&);
-    void FUN_00a32470(CloneContext&);
+    void NiObject_ProcessClone(CloneContext&);
+    void NiControllerSequence_ProcessClone(CloneContext&);
 };
-// Calls FUN_00a5d430, processes or looks up item objects, then assigns mapped or original pointers to the copy's fields.
+// Calls NiObject_ProcessClone, processes or looks up item objects, then assigns mapped or original pointers to the copy's fields.
 // @fnv 0x00a32470
-void CloneSequence::FUN_00a32470(CloneContext& context)
+void CloneSequence::NiControllerSequence_ProcessClone(CloneContext& context)
 {
-    FUN_00a5d430(context);
+    NiObject_ProcessClone(context);
     CloneObject* clone = 0;
     context.map->FUN_00a53c30((CloneObject*)this, clone);
     CloneSequence* copy = (CloneSequence*)clone;

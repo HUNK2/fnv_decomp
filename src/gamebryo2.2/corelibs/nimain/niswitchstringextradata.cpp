@@ -7,7 +7,7 @@ struct NiRTTI;
 extern NiRTTI g_011f5eac;
 
 // @fnv 0x00a93740
-NiRTTI* __cdecl FUN_00a93740()
+NiRTTI* __cdecl NiSwitchStringExtraData_GetRTTI()
 {
     return &g_011f5eac;
 }
@@ -25,7 +25,7 @@ struct BSFadeNode
 extern int DAT_0109ff64;
 
 // @fnv 0x00a93870
-void* __cdecl FUN_00a93870()
+void* __cdecl NiSwitchStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x18);
     if (p)
@@ -143,12 +143,12 @@ struct FUN_00a93a60_shell
     char** m_ppcValue;
     int m_iIndex;
 
-    void FUN_00a93a60(StrArr* apViewerStrings);
+    void NiSwitchStringExtraData_GetViewerStrings(StrArr* apViewerStrings);
 };
 
 // Appends viewer strings for the base object, m_uiSize, each m_ppcValue[i] and m_iIndex to the given string array.
 // @fnv 0x00a93a60
-void FUN_00a93a60_shell::FUN_00a93a60(StrArr* apViewerStrings)
+void FUN_00a93a60_shell::NiSwitchStringExtraData_GetViewerStrings(StrArr* apViewerStrings)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(apViewerStrings);
 
@@ -375,7 +375,7 @@ struct NiExtraDataView
     unsigned int m_uiNumEntries;
     unsigned int* m_pLinkIds;
     unsigned int m_uiNumLinkIds;
-    void FUN_00a7b2c0(NiStreamView& kStream);
+    void NiExtraData_SaveBinary(NiStreamView& kStream);
     void LoadFromStream(NiStreamView& kStream);
 };
 
@@ -392,7 +392,7 @@ template <class T> __forceinline void ReadBinaryValue(NiStreamView& kStream, T& 
 // @fnv 0x00a939d0
 void NiExtraDataView::LoadFromStream(NiStreamView& kStream)
 {
-    FUN_00a7b2c0(kStream);
+    NiExtraData_SaveBinary(kStream);
     ReadBinaryValue(kStream, m_uiNumEntries);
     for (unsigned int i = 0; i < m_uiNumEntries; ++i)
         kStream.FUN_00a64160(m_pLinkIds[i]);
@@ -486,12 +486,12 @@ class LinkArrayExtraA939 : public NiExtraDataA939
     NiObjectA939** m_ppkObjects;
     unsigned int m_uiValue1;
 
-    void FUN_00a93930(NiStreamA939& kStream);
+    void NiSwitchStringExtraData_LoadBinary(NiStreamA939& kStream);
 };
 
 // Reads m_uiCount, allocates m_ppkObjects and loads each object via kStream, then reads m_uiValue1 from the underlying stream.
 // @fnv 0x00a93930
-void LinkArrayExtraA939::FUN_00a93930(NiStreamA939& kStream)
+void LinkArrayExtraA939::NiSwitchStringExtraData_LoadBinary(NiStreamA939& kStream)
 {
     FUN_00a7b4a0(kStream);
     NiBinaryStreamLoad(kStream.m_pUnderlyingStream, &m_uiCount, 1);

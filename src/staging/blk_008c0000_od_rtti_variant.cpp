@@ -295,7 +295,7 @@ struct B006815c0
 struct TESObjectREFR
 {
     virtual ~TESObjectREFR();  // the original class is polymorphic (rtti_variants.py)
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
 };
 struct HighProcess
 {
@@ -453,7 +453,7 @@ struct Model
 };
 struct GlobalObject_00a7b610
 {
-    bool __cdecl FUN_0045bad0(NiTimeController*);
+    bool __cdecl NiObject_IsExactKindOf(NiTimeController*);
 };
 extern GlobalObject_00a7b610 g_012031b8;
 struct FUN_00571550_shell
@@ -2111,7 +2111,7 @@ struct EventProperty
 };
 struct EventTarget
 {
-    EventProperty* FUN_004ae6a0();
+    EventProperty* bhkWorldObject_GetShape();
 };
 ResourceInfo* __cdecl FUN_004b5260(int source);
 extern float DAT_01016248;
@@ -2130,7 +2130,7 @@ struct EventRecord
     int cursorOffset;
     void FUN_006240d0();
 };
-void __cdecl FUN_00837550(EventRecord*);
+void __cdecl ImpactMixer_PlayCollisionSound(EventRecord*);
 struct Object
 {
     virtual void v0();
@@ -2271,7 +2271,7 @@ struct Holder_cffa0
 struct Target_cls
 {
     int FUN_008ce390();
-    unsigned char FUN_00440d80();
+    unsigned char TESForm_GetDelete();
 };
 struct Arg_cls
 {
@@ -2999,7 +2999,7 @@ struct PathActor
     virtual int state();
     bool IsWithinProcThreshold();
     bool FUN_008b3bb0();
-    float FUN_0057b0a0();
+    float TESObjectREFR_GetRelevantWaterHeight();
     void* FUN_00575d70();
     void* FUN_008d6f30();
     void PathToLocation(PathingRequest*, PathPoint*, void*, void*, float, int);
@@ -3542,7 +3542,7 @@ struct SceneNode
 {
     void FUN_00440460(const NiPoint3&);
     void FUN_00a59c60(NiUpdateData&);
-    RotationMatrix& FUN_00461130();
+    RotationMatrix& NiAVObject_GetWorldRotate();
 };
 struct LoadingState
 {
@@ -3572,7 +3572,7 @@ struct ResourceUpdate
 ResourceUpdate* FUN_004b5260(SceneNode*);
 void FUN_00c6a350(SceneNode*, int, bool, bool, bool);
 NiPoint3 FUN_004a3760(float, const NiPoint3&);
-void FUN_00525340(NiPoint3&);
+void NiPoint3_UnitizeVector(NiPoint3&);
 double FUN_00408820(float);
 float SignOfFloat(float);
 struct MovementState
@@ -4198,13 +4198,13 @@ struct LiveCallback
 };
 struct SourceData
 {
-    int __thiscall FUN_0043b540();
+    int __thiscall hkpCollidable_getCollisionFilterInfo();
 };
 struct StateHandle
 {
     int value;
     void __thiscall FUN_008c71b0(int);
-    int __thiscall FUN_004a3a20();
+    int __thiscall CFilter_GetGroup();
 };
 struct ArgumentData
 {
@@ -4269,8 +4269,8 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
         }
     }
     StateHandle state;
-    state.FUN_008c71b0(source->FUN_0043b540());
-    if (state.FUN_004a3a20() == GetCachedValue())
+    state.FUN_008c71b0(source->hkpCollidable_getCollisionFilterInfo());
+    if (state.CFilter_GetGroup() == GetCachedValue())
         return;
     if (owner && owner == DAT_011dea3c->FUN_0089f4e0())
         return;
@@ -4280,7 +4280,7 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
     ArgumentData argumentBundle;
     argumentBundle.FUN_006815c0();
     FUN_004a3970(&argumentBundle, arg1);
-    if (state.FUN_004a3a20() == 1)
+    if (state.CFilter_GetGroup() == 1)
     {
         target->FUN_008cc740(&first, &argumentBundle);
         return;

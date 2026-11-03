@@ -109,18 +109,18 @@ struct S86870
     virtual void d43() = 0;
     virtual void d44() = 0;
     virtual void* GetLink(char* p) = 0;
-    void FUN_00c87670(NiStream* s);
-    void FUN_00c86870(NiStream* s);
+    void bhkSerializable_LinkObject(NiStream* s);
+    void bhkUnaryAction_LinkObject(NiStream* s);
 };
 // @fnv 0x00c86870
-void S86870::FUN_00c86870(NiStream* s)
+void S86870::bhkUnaryAction_LinkObject(NiStream* s)
 {
     char tmp;
     void* p = GetLink(&tmp);
     NiObject* o = s->GetLoadedObject();
     if (o)
         *(int*)((char*)p + 4) = *(int*)((char*)o + 8);
-    FUN_00c87670(s);
+    bhkSerializable_LinkObject(s);
 }
 
 template <class T> struct NiTMallocInterface
@@ -138,11 +138,11 @@ template <class T, class A> struct NiTPrimitiveArray
 };
 extern const char* const g_0126811c_arg1;
 char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall FUN_00c878c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+void __stdcall bhkSerializable_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 // @fnv 0x00c87be0
-void __stdcall FUN_00c87be0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p)
+void __stdcall bhkAction_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p)
 {
-    FUN_00c878c0(p);
+    bhkSerializable_GetViewerStrings(p);
     char* v = _FUN_00a7d330(g_0126811c_arg1);
     unsigned int idx = p->m_kOutgoingTangent;
     if (idx >= p->m_8)
@@ -211,10 +211,10 @@ struct Holder
     virtual void v44();
     virtual RetVal* MyVirt(int*);
     void FUN_00c87650(NiStream*);
-    void FUN_00c86790(NiStream*);
+    void bhkUnaryAction_LoadBinary(NiStream*);
 };
 // @fnv 0x00c86790
-void Holder::FUN_00c86790(NiStream* stream)
+void Holder::bhkUnaryAction_LoadBinary(NiStream* stream)
 {
     stream->ResetStreamState();
     FUN_00c87650(stream);
@@ -504,11 +504,11 @@ class FUN_00c868f0_cls
     int unk04;
     FUN_00c868f0_inner* m_08;
     bool FUN_00ba87d0(FUN_00c868f0_cls* other);
-    unsigned char FUN_00c868f0(FUN_00c868f0_cls* other);
+    unsigned char bhkUnaryAction_IsEqual(FUN_00c868f0_cls* other);
 };
 
 // @fnv 0x00c868f0
-unsigned char FUN_00c868f0_cls::FUN_00c868f0(FUN_00c868f0_cls* other)
+unsigned char FUN_00c868f0_cls::bhkUnaryAction_IsEqual(FUN_00c868f0_cls* other)
 {
     unsigned char result = this->FUN_00ba87d0(other);
     if (result)
@@ -681,15 +681,15 @@ struct Wrapper86b80
     int unk04;
     HkObject86b80* m_pObject;
 
-    void FUN_00c87be0(StringArray* arr);
-    void FUN_00c86b80(StringArray* arr);
+    void bhkAction_GetViewerStrings(StringArray* arr);
+    void bhkUnaryAction_GetViewerStrings(StringArray* arr);
 };
 
 // @fnv 0x00c86b80
-void Wrapper86b80::FUN_00c86b80(StringArray* arr)
+void Wrapper86b80::bhkUnaryAction_GetViewerStrings(StringArray* arr)
 {
     HeapContextGuard guard(0x10);
-    FUN_00c87be0(arr);
+    bhkAction_GetViewerStrings(arr);
     char* s = _FUN_00a7d330(g_name86b80);
     AddString(arr, s);
     void* p;
@@ -1058,11 +1058,11 @@ class FUN_00c878c0_cls
 {
   public:
     void AddDebugStrings(BC878C0StringArray* pkArray);
-    void FUN_00c878c0(BC878C0StringArray* pkArray);
+    void bhkSerializable_GetViewerStrings(BC878C0StringArray* pkArray);
 };
 
 // @fnv 0x00c878c0
-void FUN_00c878c0_cls::FUN_00c878c0(BC878C0StringArray* pkArray)
+void FUN_00c878c0_cls::bhkSerializable_GetViewerStrings(BC878C0StringArray* pkArray)
 {
     BC878C0AllocTagScope kScope(0x10);
     AddDebugStrings(pkArray);
@@ -1841,11 +1841,11 @@ class FUN_00c868b0_cls
     int unk00, unk04;
     C868_L2* m_08;
     void SaveSerializeData(C868_Iface* a1);
-    void FUN_00c868b0(C868_Iface* a1);
+    void bhkUnaryAction_SaveBinary(C868_Iface* a1);
 };
 
 // @fnv 0x00c868b0
-void FUN_00c868b0_cls::FUN_00c868b0(C868_Iface* a1)
+void FUN_00c868b0_cls::bhkUnaryAction_SaveBinary(C868_Iface* a1)
 {
     C868_L3* l3;
     if (this != 0 && m_08 != 0)
@@ -1906,7 +1906,7 @@ class RefObjC86D : public TESObjectDoorController
 };
 
 // @fnv 0x00c86de0
-RefObjC86D* __cdecl FUN_00c86de0()
+RefObjC86D* __cdecl bhkMouseSpringAction_CreateObject()
 {
     return new RefObjC86D;
 }
@@ -1948,11 +1948,11 @@ class AllocatedNode
 class FUN_00c87010_cls : public FUN_00c86800_Class
 {
   public:
-    AllocatedNode* FUN_00c87010(FUN_00c86800_Table* p);
+    AllocatedNode* bhkMouseSpringAction_CreateClone(FUN_00c86800_Table* p);
 };
 
 // @fnv 0x00c87010
-AllocatedNode* FUN_00c87010_cls::FUN_00c87010(FUN_00c86800_Table* p)
+AllocatedNode* FUN_00c87010_cls::bhkMouseSpringAction_CreateClone(FUN_00c86800_Table* p)
 {
     ScopedAllocationMode mode;
     FUN_00c876f0();
@@ -2175,7 +2175,7 @@ class __declspec(align(16)) Aligned7100
 class Owner7100
 {
   public:
-    Aligned7100* FUN_00c87100(bool* pbCreated);
+    Aligned7100* bhkMouseSpringAction_CreateCinfo(bool* pbCreated);
     void SetObject(Aligned7100* pkObject);
 
     int unk00;
@@ -2185,7 +2185,7 @@ class Owner7100
 };
 
 // @fnv 0x00c87100
-Aligned7100* Owner7100::FUN_00c87100(bool* pbCreated)
+Aligned7100* Owner7100::bhkMouseSpringAction_CreateCinfo(bool* pbCreated)
 {
     AutoMemContext7100 kContext(0x10);
     bool bCreate = m_pPointer == 0;
@@ -2487,11 +2487,11 @@ class EntityOwner_c87b
         World_c87b* pkWorld = GetWorld();
         return pkWorld ? pkWorld->GetPhysWorld() : 0;
     }
-    bool FUN_00c87b40();
+    bool bhkAction_Remove();
 };
 
 // @fnv 0x00c87b40
-bool EntityOwner_c87b::FUN_00c87b40()
+bool EntityOwner_c87b::bhkAction_Remove()
 {
     HeapContextGuard kContext(0x10);
     bool bResult = false;
@@ -2763,7 +2763,7 @@ struct Block86
 };
 struct FUN_00c86790_t
 {
-    void FUN_00c86790(NiStream86* pkStream);
+    void bhkUnaryAction_LoadBinary(NiStream86* pkStream);
 };
 class FUN_00c86e80_t
 {
@@ -2814,12 +2814,12 @@ class FUN_00c86e80_t
     virtual void v43();
     virtual void v44();
     virtual Block86* GetBlock(int* piSize);
-    void FUN_00c86e80(NiStream86* pkStream);
+    void bhkMouseSpringAction_LoadBinary(NiStream86* pkStream);
 };
 // @fnv 0x00c86e80
-void FUN_00c86e80_t::FUN_00c86e80(NiStream86* pkStream)
+void FUN_00c86e80_t::bhkMouseSpringAction_LoadBinary(NiStream86* pkStream)
 {
-    ((FUN_00c86790_t*)this)->FUN_00c86790(pkStream);
+    ((FUN_00c86790_t*)this)->bhkUnaryAction_LoadBinary(pkStream);
     if (pkStream->m_bSameEndian == 1)
         return;
     int iSize;
@@ -3013,12 +3013,12 @@ class FUN_00c86f10_cls
     virtual void v2B();
     virtual void v2C();
     virtual volatile unsigned int* vGet(unsigned char* out);
-    void FUN_00c868b0(FUN_00c86f10_arg* a);
-    void FUN_00c86f10(FUN_00c86f10_arg* a1);
+    void bhkUnaryAction_SaveBinary(FUN_00c86f10_arg* a);
+    void bhkMouseSpringAction_SaveBinary(FUN_00c86f10_arg* a1);
 };
 
 // @fnv 0x00c86f10
-void FUN_00c86f10_cls::FUN_00c86f10(FUN_00c86f10_arg* a1)
+void FUN_00c86f10_cls::bhkMouseSpringAction_SaveBinary(FUN_00c86f10_arg* a1)
 {
     unsigned int tmp;
     volatile unsigned int* p = vGet((unsigned char*)&tmp + 3);
@@ -3037,7 +3037,7 @@ void FUN_00c86f10_cls::FUN_00c86f10(FUN_00c86f10_arg* a1)
         p[14] = _byteswap_ulong(p[14]);
         p[15] = _byteswap_ulong(p[15]);
     }
-    FUN_00c868b0(a1);
+    bhkUnaryAction_SaveBinary(a1);
     if (a1->m_1e4 != 1)
     {
         p[4] = _byteswap_ulong(p[4]);

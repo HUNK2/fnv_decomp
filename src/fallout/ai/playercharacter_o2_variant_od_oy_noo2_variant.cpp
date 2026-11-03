@@ -17,7 +17,7 @@ struct GrabVector
 {
     __m128 value;
     GrabVector& FUN_006815c0();
-    void FUN_00553f70(const GrabVector*);
+    void hkVector4_add4(const GrabVector*);
     void FUN_00961190(void*);
     void FUN_004b4ab0(const GrabVector*);
 };
@@ -62,8 +62,8 @@ struct GrabRay
     int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
     int unka0, unka4, unka8, unkac;
     void FUN_004a3c20();
-    void FUN_004a3f70(int);
-    void FUN_004a3da0(const GrabPoint*);
+    void bhkPickData_SetFilter(int);
+    void bhkPickData_SetFrom(const GrabPoint*);
     void FUN_007f68a0(const GrabPoint*);
     GrabBody* FUN_00c66fd0();
 };
@@ -71,10 +71,10 @@ struct GrabFilter
 {
     int bits;
     GrabFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned);
-    int FUN_004a3a20();
-    int FUN_0043b4d0();
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned);
+    int CFilter_GetGroup();
+    int CFilter_GetLayer();
 };
 struct GrabController
 {
@@ -439,11 +439,11 @@ struct GrabRef
     GrabCell* FUN_008d6f30();
     void* FUN_005d43c0();
     GrabRef* FUN_0044ddc0();
-    GrabMatrix* FUN_00461130();
+    GrabMatrix* NiAVObject_GetWorldRotate();
 };
 struct GrabCell
 {
-    GrabWorld* FUN_004543c0();
+    GrabWorld* TESObjectCELL_GetbhkWorld();
 };
 struct GrabSetting
 {
@@ -930,12 +930,12 @@ extern const float DAT_01017868;
 extern const double DAT_01020998, DAT_0101ffa0, DAT_01018a90, DAT_01011588;
 GrabPhysics* FUN_004b52f0(GrabRef*);
 int GetBSXFlags(GrabRef*, int);
-bool FUN_005ac750(int, void*, unsigned);
+bool Script_SetActionFlag(int, void*, unsigned);
 void GetScalarAndVector(GrabRef*, GrabVector*, float*);
 bool FUN_00703430();
 GrabPhysics* FUN_00960510();
 GrabRef* FUN_004b5a20(GrabBody*);
-GrabRef* FUN_0056f930(GrabRef*);
+GrabRef* TESObjectREFR_FindReferenceFor3D(GrabRef*);
 GrabPhysics* FUN_004b5a80(GrabBody*);
 void FUN_007033d0(GrabPoint*);
 void FUN_00553fc0(GrabVector*, const GrabPoint*);
@@ -969,7 +969,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
         {
             bool character = GetBSXFlags(root, 8) || ref->IsDead();
             target = ref;
-            FUN_005ac750(0, target->FUN_005d43c0(), 0x80000);
+            Script_SetActionFlag(0, target->FUN_005d43c0(), 0x80000);
             mode = newMode;
             distance = range;
             GrabConstraintData data;
@@ -987,7 +987,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             origin.FUN_006815c0();
             GetCameraPosAndDir(&origin, &direction, true);
             bool selected = false;
-            GrabWorld* world = ref->FUN_008d6f30()->FUN_004543c0();
+            GrabWorld* world = ref->FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
             if (mode == 1 && world && !DAT_011ddf38->FUN_0042ce10())
             {
                 if (!FUN_00703430() || !FUN_00960510())
@@ -995,18 +995,18 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                     GrabRay ray;
                     ray.FUN_004a3c20();
                     GrabFilter filter(0);
-                    filter.FUN_004a39f0(0x24);
+                    filter.CFilter_SetLayer(0x24);
                     int filterTemp;
-                    filter.FUN_0059ce80(FUN_00931ed0(&filterTemp)->FUN_004a3a20());
-                    ray.FUN_004a3f70(filter.bits);
-                    ray.FUN_004a3da0(&origin);
+                    filter.CFilter_SetGroup(FUN_00931ed0(&filterTemp)->CFilter_GetGroup());
+                    ray.bhkPickData_SetFilter(filter.bits);
+                    ray.bhkPickData_SetFrom(&origin);
                     ray.FUN_007f68a0(&(direction * distance));
                     if (world->Cast(&ray))
                     {
                         GrabBody* hit = ray.FUN_00c66fd0();
                         GrabRef* hitRef = FUN_004b5a20(hit);
                         GrabRef* hitNode = hitRef ? hitRef->FUN_0044ddc0() : 0;
-                        GrabRef* resolved = FUN_0056f930(hitNode);
+                        GrabRef* resolved = TESObjectREFR_FindReferenceFor3D(hitNode);
                         if (hit && resolved == ref)
                         {
                             if (!character)
@@ -1045,9 +1045,9 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                     scratch.FUN_006815c0();
                     GrabVector rotated;
                     rotated.FUN_006815c0();
-                    FUN_00553fc0(&rotated, &(root->FUN_00461130()->FUN_004b4500(&DAT_011a9484)));
+                    FUN_00553fc0(&rotated, &(root->NiAVObject_GetWorldRotate()->FUN_004b4500(&DAT_011a9484)));
                     data.position.ApplyToAction(&position);
-                    position.FUN_00553f70(&rotated);
+                    position.hkVector4_add4(&rotated);
                     data.position.FUN_004b4db0(&position);
                 }
                 if (!DAT_011ddf38->FUN_0042ce10())
@@ -1115,7 +1115,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                         angularScale *= DAT_01018a90;
                     }
                 }
-                else if (physics->FUN_0043b4f0().FUN_0043b4d0() == 0xe)
+                else if (physics->FUN_0043b4f0().CFilter_GetLayer() == 0xe)
                 {
                     linearScale *= DAT_0101ffa0;
                     angularScale *= DAT_01011588;
@@ -1134,17 +1134,17 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             data.angular.ApplyToAction(&localRotation)
                 ->FUN_004b4ab0(&body->FUN_004b4f00(&localPosition)->FUN_006815c0());
             data.angular.FUN_004b4db0(&localRotation);
-            target->FUN_008d6f30()->FUN_004543c0()->FUN_005533c0();
+            target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_005533c0();
             constraint.FUN_0066b0d0(new GrabConstraint(&data));
             GrabConstraint* created = constraint.FUN_00559450();
-            created->SetWorld(target->FUN_008d6f30()->FUN_004543c0());
-            target->FUN_008d6f30()->FUN_004543c0()->FUN_005533c0();
+            created->SetWorld(target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
+            target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_005533c0();
             mass = FUN_0062c300(ref->Get3D());
         }
         else if (newMode == 2)
         {
             target = ref;
-            FUN_005ac750(0, target->FUN_005d43c0(), 0x80000);
+            Script_SetActionFlag(0, target->FUN_005d43c0(), 0x80000);
             mode = 2;
             distance = range;
         }

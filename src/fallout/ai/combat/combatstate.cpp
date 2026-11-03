@@ -286,7 +286,7 @@ void __fastcall FreeAndClearFieldC4(FUN_009a0a40_shell* thisp)
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 
 struct CombatTargetTimestamp
@@ -299,11 +299,11 @@ struct FUN_009a2d80_shell
     void FUN_009a2d80(void* buffer);
 };
 
-// Calls FUN_00527b70 on this and SaveTimeStamp on the object at offset 0x10, passing buffer to both.
+// Calls BGSWorldLocation_SaveGame on this and SaveTimeStamp on the object at offset 0x10, passing buffer to both.
 // @fnv 0x009a2d80
 void FUN_009a2d80_shell::FUN_009a2d80(void* buffer)
 {
-    reinterpret_cast<CoordinateTriple*>(this)->FUN_00527b70(buffer);
+    reinterpret_cast<CoordinateTriple*>(this)->BGSWorldLocation_SaveGame(buffer);
     reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x10)->SaveTimeStamp(buffer);
 }
 
@@ -507,7 +507,7 @@ struct CoordinateTriple
 
 struct TESObjectREFR_STUB
 {
-    CoordinateTriple FUN_00575650();
+    CoordinateTriple TESObjectREFR_GetWorldLocation();
 };
 
 struct CombatAvoidanceSphere
@@ -521,7 +521,7 @@ struct CombatAvoidanceSphere
 void CombatAvoidanceSphere::FUN_00997400(TESObjectREFR* apRef)
 {
     pRef = apRef;
-    m_cBuffer = reinterpret_cast<TESObjectREFR_STUB*>(pRef)->FUN_00575650();
+    m_cBuffer = reinterpret_cast<TESObjectREFR_STUB*>(pRef)->TESObjectREFR_GetWorldLocation();
 }
 }  // namespace fnv_00997400
 
@@ -534,7 +534,7 @@ struct WL16_997440
 };
 struct Ref_997440
 {
-    WL16_997440 FUN_00575650();
+    WL16_997440 TESObjectREFR_GetWorldLocation();
 };
 struct Outer_997440
 {
@@ -542,12 +542,12 @@ struct Outer_997440
     Ref_997440* pRef;
     void CopyRefValue();
 };
-// If pRef is set, copies the value returned by pRef->FUN_00575650() into loc.
+// If pRef is set, copies the value returned by pRef->TESObjectREFR_GetWorldLocation() into loc.
 // @fnv 0x00997440
 void Outer_997440::CopyRefValue()
 {
     if (pRef)
-        loc = pRef->FUN_00575650();
+        loc = pRef->TESObjectREFR_GetWorldLocation();
 }
 
 extern float DAT_0108df70;
@@ -1314,7 +1314,7 @@ struct BGSSaveFormBuffer
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
     void* field00;
     void* field04;
     void* field08;
@@ -1333,7 +1333,7 @@ struct FUN_009a2bf0_shell : CoordinateTriple
 // @fnv 0x009a2bf0
 void FUN_009a2bf0_shell::FUN_009a2bf0(BGSSaveFormBuffer* a_buffer)
 {
-    FUN_00527b70(a_buffer);
+    BGSWorldLocation_SaveGame(a_buffer);
     a_buffer->SaveData(&field14, 4, 0);
     a_buffer->SaveData(&field18, 4, 0);
     a_buffer->SaveData(&field1C, 4, 0);
@@ -1349,7 +1349,7 @@ struct BGSLoadFormBuffer
 
 struct FUN_00527ba0_Class
 {
-    void __thiscall FUN_00527ba0(void*);
+    void __thiscall BGSWorldLocation_LoadGame(void*);
 };
 
 struct FUN_009a2c60_Class
@@ -1360,7 +1360,7 @@ struct FUN_009a2c60_Class
 // @fnv 0x009a2c60
 void FUN_009a2c60_Class::LoadFormData(void* buffer)
 {
-    ((FUN_00527ba0_Class*)this)->FUN_00527ba0(buffer);
+    ((FUN_00527ba0_Class*)this)->BGSWorldLocation_LoadGame(buffer);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x14), 4);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x18), 4);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x1c), 4);
@@ -1425,7 +1425,7 @@ struct CombatTargetTimestamp
 };
 struct FUN_00527ba0_t
 {
-    void FUN_00527ba0(BGSLoadGameBuffer*);
+    void BGSWorldLocation_LoadGame(BGSLoadGameBuffer*);
 };
 struct FUN_009a2db0_shell : FUN_00527ba0_t
 {
@@ -1434,7 +1434,7 @@ struct FUN_009a2db0_shell : FUN_00527ba0_t
 // @fnv 0x009a2db0
 void FUN_009a2db0_shell::FUN_009a2db0(BGSLoadGameBuffer* buf)
 {
-    FUN_00527ba0(buf);
+    BGSWorldLocation_LoadGame(buf);
     ((CombatTargetTimestamp*)((char*)this + 0x10))->LoadGame(buf);
 }
 }  // namespace fnv_009a2db0
@@ -1447,7 +1447,7 @@ struct BGSSaveFormBuffer
 };
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 struct CombatSaveData
 {
@@ -1467,7 +1467,7 @@ void CombatSaveData::FUN_009a3130(BGSSaveFormBuffer* apSaveGameBuffer)
     apSaveGameBuffer->SaveData(&unk18, 4, 0);
     apSaveGameBuffer->SaveData(&unk1C, 4, 0);
     apSaveGameBuffer->SerializeFormData(pRef, 0);
-    ((CoordinateTriple*)((char*)this + 8))->FUN_00527b70(apSaveGameBuffer);
+    ((CoordinateTriple*)((char*)this + 8))->BGSWorldLocation_SaveGame(apSaveGameBuffer);
 }
 }  // namespace fnv_009a3130
 
@@ -1479,13 +1479,13 @@ struct BGSLoadFormBuffer
 };
 struct Sub08
 {
-    void FUN_00527ba0(BGSLoadFormBuffer*);
+    void BGSWorldLocation_LoadGame(BGSLoadFormBuffer*);
 };
 struct Holder
 {
     void FUN_009a31b0(BGSLoadFormBuffer*);
 };
-// Reads bytes at offsets 0, 1, 0x18 and 0x1C, a value at offset 4, and delegates offset 8 to FUN_00527ba0, all via the load buffer.
+// Reads bytes at offsets 0, 1, 0x18 and 0x1C, a value at offset 4, and delegates offset 8 to BGSWorldLocation_LoadGame, all via the load buffer.
 // @fnv 0x009a31b0
 void Holder::FUN_009a31b0(BGSLoadFormBuffer* pBuffer)
 {
@@ -1494,7 +1494,7 @@ void Holder::FUN_009a31b0(BGSLoadFormBuffer* pBuffer)
     pBuffer->ReadTypedData((void*)((char*)this + 0x18), 4);
     pBuffer->ReadTypedData((void*)((char*)this + 0x1C), 4);
     pBuffer->ReadFormIdentifier((void*)((char*)this + 4));
-    ((Sub08*)((char*)this + 8))->FUN_00527ba0(pBuffer);
+    ((Sub08*)((char*)this + 8))->BGSWorldLocation_LoadGame(pBuffer);
 }
 }  // namespace fnv_009a31b0
 
@@ -2988,7 +2988,7 @@ void FUN_0099cb70_struct::CollectCastSoundPositions(Arr_006cee30* array)
 namespace fnv_009a02a0 {
 struct CoordinateTriple
 {
-    double FUN_00527a40(CoordinateTriple*);
+    double BGSWorldLocation_GetDistanceSquared(CoordinateTriple*);
 };
 
 struct LocationTarget
@@ -3025,7 +3025,7 @@ bool FUN_009a02a0_struct::FUN_009a02a0(const CoordinateTriple& arWorldLocation, 
             (pAssociatedObject->type == 3 && !abIgnoreCombatAreaCheck))
         {
             float fmaxDistance = GetIdleAdjustedValue();
-            if (((CoordinateTriple&)arWorldLocation).FUN_00527a40(&pAssociatedObject->location) >
+            if (((CoordinateTriple&)arWorldLocation).BGSWorldLocation_GetDistanceSquared(&pAssociatedObject->location) >
                 fmaxDistance * fmaxDistance)
             {
                 return false;
@@ -3159,7 +3159,7 @@ struct FieldC4
 
 struct Ref_997440
 {
-    int FUN_00575650(void*, int, float, float);
+    int TESObjectREFR_GetWorldLocation(void*, int, float, float);
 };
 
 struct Local18
@@ -3195,7 +3195,7 @@ void FUN_009a0c50_class::UpdateModifierState(bool arg_8)
         Ref_997440* pRef = (Ref_997440*)field_1C4->GetFieldBC();
         {
             Local18 localData;
-            FUN_009a0910(pRef->FUN_00575650(&localData, 3, f * *originalRuntimeFloatSetting429.Float(), f));
+            FUN_009a0910(pRef->TESObjectREFR_GetWorldLocation(&localData, 3, f * *originalRuntimeFloatSetting429.Float(), f));
         }
     }
 }
@@ -3320,7 +3320,7 @@ extern const float runtimeFloatSettingDefault1296;
 
 struct CoordinateTriple
 {
-    double FUN_00527a40(const CoordinateTriple*);
+    double BGSWorldLocation_GetDistanceSquared(const CoordinateTriple*);
 };
 
 struct CTSHelper
@@ -3375,7 +3375,7 @@ bool FUN_009a0f40_struct::HasItemWithinRadius(const CoordinateTriple* arWorldLoc
             --i;
             continue;
         }
-        if (item->FUN_00527a40(arWorldLocation) < maxDistSq)
+        if (item->BGSWorldLocation_GetDistanceSquared(arWorldLocation) < maxDistSq)
         {
             return true;
         }
@@ -4317,7 +4317,7 @@ struct MyActor
 {
     virtual void v0();
     float FUN_008be1b0();
-    void FUN_00575650(PosHolder* out);
+    void TESObjectREFR_GetWorldLocation(PosHolder* out);
 };
 
 struct MyRef
@@ -4501,7 +4501,7 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
     MyRef* ref = proc->FUN_004030b0();
     float radius = A9->FUN_008be1b0() + 8.0;
     PosHolder h7;
-    A9->FUN_00575650(&h7);
+    A9->TESObjectREFR_GetWorldLocation(&h7);
     Vec3 pp = *h7.Self();
     Vec3 T = *ref->GetPos();
     Picker p4(A9);
@@ -4588,7 +4588,7 @@ struct TargetPosition
 };
 struct TargetRef
 {
-    TargetPosition FUN_00575650();
+    TargetPosition TESObjectREFR_GetWorldLocation();
 };
 struct TargetParameters
 {
@@ -4668,7 +4668,7 @@ void TargetWork::FUN_009a0790(TargetRef* reference, unsigned char flag, float ne
     parameters = new TargetParameters;
     parameters->flag = flag;
     parameters->reference = reference;
-    parameters->position = reference->FUN_00575650();
+    parameters->position = reference->TESObjectREFR_GetWorldLocation();
     parameters->nearRange = FUN_00404010(nearRange, *DAT_011cf0d8.FUN_00403e20());
     parameters->farRange = FUN_00404010(farRange, *DAT_011cf0d8.FUN_00403e20());
 }
@@ -4685,7 +4685,7 @@ class TESObjectREFR : public TESForm
     virtual void v1();
 };
 
-TESForm* __cdecl FUN_004839c0(TESObjectREFR* p);
+TESForm* __cdecl TESForm_GetFormByNumericID(TESObjectREFR* p);
 
 class FUN_009a3220_cls
 {
@@ -4695,11 +4695,11 @@ class FUN_009a3220_cls
     void FUN_009a3220(int unkArg);
 };
 
-// Re-resolves m_04 through FUN_004839c0 and dynamic_cast to TESObjectREFR, or clears it to null when m_04 is null.
+// Re-resolves m_04 through TESForm_GetFormByNumericID and dynamic_cast to TESObjectREFR, or clears it to null when m_04 is null.
 // @fnv 0x009a3220
 void FUN_009a3220_cls::FUN_009a3220(int unkArg)
 {
-    m_04 = m_04 != 0 ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(m_04)) : 0;
+    m_04 = m_04 != 0 ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(m_04)) : 0;
 }
 
 struct ElementProxy
@@ -5266,7 +5266,7 @@ struct CombatWorld
     int a, b, c, d;
     void* FUN_0084e3a0();
     float ComputeWeightedDistance(const CombatWorld&, const NiPoint3Ex&);
-    float FUN_00527a40(const CombatWorld&);
+    float BGSWorldLocation_GetDistanceSquared(const CombatWorld&);
 };
 struct CombatActor
 {
@@ -5396,8 +5396,8 @@ struct CombatActor
     virtual void slot123();
     virtual void slot124();
     virtual NiPoint3Ex* GetPosition();
-    void* FUN_00575ca0();
-    CombatWorld* FUN_00575650(CombatWorld*);
+    void* TESObjectREFR_GetSpace();
+    CombatWorld* TESObjectREFR_GetWorldLocation(CombatWorld*);
     unsigned char FUN_004997b0();
     bool FUN_00894900();
 };
@@ -5406,7 +5406,7 @@ struct CombatTimers
     int a, b;
     bool FUN_0097fa50();
     bool FUN_008d7f80();
-    void FUN_00910b10();
+    void TESWeightForm_InitializeDataComponent();
     void FUN_008d7f40(float);
     void FUN_0097f220();
 };
@@ -5444,7 +5444,7 @@ struct CombatController
     CombatPackage* FUN_004f9bf0();
     bool FUN_00981940(int);
     bool FUN_00981300();
-    bool FUN_0067a700();
+    bool TESPackage_GetContinueDuringCombat();
     void FUN_00981380();
     bool FUN_00998a30();
     void SetFieldC7(unsigned char);
@@ -5689,8 +5689,8 @@ void CombatUpdate::FUN_00997cf0()
     owner_21 = controller->GetFieldBC();
     {
         target4 = controller->FUN_004030b0();
-        space_41 = owner_21->FUN_00575ca0();
-        if (target4 && space_41 != target4->FUN_00575ca0())
+        space_41 = owner_21->TESObjectREFR_GetSpace();
+        if (target4 && space_41 != target4->TESObjectREFR_GetSpace())
         {
             if (!differentSpace)
             {
@@ -5744,7 +5744,7 @@ void CombatUpdate::FUN_00997cf0()
             if (pathTimer.FUN_008d7f80())
             {
                 FUN_009a03d0(false);
-                pathTimer.FUN_00910b10();
+                pathTimer.TESWeightForm_InitializeDataComponent();
             }
         }
         else if (path && path->index != -1 && !path->path.FUN_006e4650(path->index))
@@ -5791,12 +5791,12 @@ void CombatUpdate::FUN_00997cf0()
             if (mode->type == 3 && mode->world.FUN_0084e3a0() != space_41)
                 UpdateModifierState(true);
             if (mode->actor)
-                mode->world = *mode->actor->FUN_00575650(&worldAB);
+                mode->world = *mode->actor->TESObjectREFR_GetWorldLocation(&worldAB);
             weights_26.FUN_00416870(1.0f, 1.0f, 0.25f);
-            distance_1 = mode->world.ComputeWeightedDistance(*owner_21->FUN_00575650(&worldB), weights_26);
+            distance_1 = mode->world.ComputeWeightedDistance(*owner_21->TESObjectREFR_GetWorldLocation(&worldB), weights_26);
             fleeing_3 = false;
             if ((mode->type == 0 || mode->type == 1) && target4 && controller->FUN_00981300() &&
-                !controller->FUN_0067a700())
+                !controller->TESPackage_GetContinueDuringCombat())
                 fleeing_3 = true;
             if (fleeing_3)
                 mode->active = true;
@@ -5851,11 +5851,11 @@ void CombatUpdate::FUN_00997cf0()
                             else if (stanceTimer.FUN_008d7f80())
                             {
                                 controller->SetFieldC7(stance);
-                                stanceTimer.FUN_00910b10();
+                                stanceTimer.TESWeightForm_InitializeDataComponent();
                             }
                         }
                         else
-                            stanceTimer.FUN_00910b10();
+                            stanceTimer.TESWeightForm_InitializeDataComponent();
                     }
                     else if (controller->GetByteAtOffsetC7())
                         controller->SetFieldC7(0);
@@ -5883,9 +5883,9 @@ void CombatUpdate::FUN_00997cf0()
         }
         if (target4 && chaseDistance > 0.0)
         {
-            owner_21->FUN_00575650(&ownLocation3);
-            target4->FUN_00575650(&targetLocation);
-            if (ownLocation3.FUN_00527a40(targetLocation) < chaseDistance * chaseDistance)
+            owner_21->TESObjectREFR_GetWorldLocation(&ownLocation3);
+            target4->TESObjectREFR_GetWorldLocation(&targetLocation);
+            if (ownLocation3.BGSWorldLocation_GetDistanceSquared(targetLocation) < chaseDistance * chaseDistance)
                 chaseTimer.FUN_0097f220();
         }
         if (updateNow || (chaseTimer.FUN_0097fa50() && chaseTimer.FUN_008d7f80()))
@@ -6420,11 +6420,11 @@ struct Location
 {
     Point point;
     void* cell;
-    float FUN_00527a40(const Location&);
+    float BGSWorldLocation_GetDistanceSquared(const Location&);
 };
 struct Effects
 {
-    float FUN_00405c00(int, int, int);
+    float EffectItemList_GetEffectScore(int, int, int);
 };
 struct Item
 {
@@ -6448,7 +6448,7 @@ struct Item
 };
 struct Extra
 {
-    bool FUN_00418b10();
+    bool ExtraDataList_GetCanNotWear();
 };
 struct Extras
 {
@@ -6457,7 +6457,7 @@ struct Extras
 struct Entry
 {
     Weapon* FUN_0044ddc0();
-    float FUN_004bcdb0(int);
+    float ItemChange_GetItemHealth(int);
     Extras* FUN_00559450();
 };
 struct AmmoState
@@ -6574,10 +6574,10 @@ struct Projectile
 };
 struct Weapon : Item
 {
-    Ammo* FUN_00525980(Actor*);
+    Ammo* TESObjectWEAP_GetCurrentAmmo(Actor*);
     unsigned char GetByteAt102();
-    int FUN_00522c80();
-    bool FUN_0046e8c0();
+    int TESObjectWEAP_GetCombatWeaponType();
+    bool TESObjectWEAP_IsEmbeddedWeapon();
     Projectile* GetOrFallback(Actor*);
 };
 struct InventoryIterator
@@ -6595,7 +6595,7 @@ struct Inventory
 {
     bool AdvanceInventoryIterator(InventoryIterator*, Entry**, int);
     Ammo* FindInventoryItem(Weapon*, bool*);
-    int FUN_004c8f30(Ammo*);
+    int InventoryChanges_GetObjectCount(Ammo*);
 };
 Inventory* FUN_004bf220(Actor*);
 struct Actor
@@ -6726,7 +6726,7 @@ struct Actor
     virtual void slot1ec();
     virtual void slot1f0();
     virtual const Point& Position();
-    Location FUN_00575650();
+    Location TESObjectREFR_GetWorldLocation();
     bool FUN_008bc9d0(Weapon*, int);
     Process* FUN_008d8520();
     bool FUN_008a8870();
@@ -6920,9 +6920,9 @@ void Manager::EvaluateWeaponScores()
     float distance = 0.0f;
     if (target)
     {
-        Location sourcePointSlot0 = actor->FUN_00575650();
-        Location targetPointSlot14 = target->FUN_00575650();
-        distance = sourcePointSlot0.FUN_00527a40(targetPointSlot14);
+        Location sourcePointSlot0 = actor->TESObjectREFR_GetWorldLocation();
+        Location targetPointSlot14 = target->TESObjectREFR_GetWorldLocation();
+        distance = sourcePointSlot0.BGSWorldLocation_GetDistanceSquared(targetPointSlot14);
     }
     FUN_0099a2a0();
     flag = 0;
@@ -6955,12 +6955,12 @@ void Manager::EvaluateWeaponScores()
                 switch (effect)
                 {
                 case 17:
-                    scoreSlot25 = aid->effects.FUN_00405c00(0, 0, 16);
-                    scoreSlot25 += aid->effects.FUN_00405c00(34, 0, 16);
+                    scoreSlot25 = aid->effects.EffectItemList_GetEffectScore(0, 0, 16);
+                    scoreSlot25 += aid->effects.EffectItemList_GetEffectScore(34, 0, 16);
                     break;
                 case 18:
                     if (!dataSlot17->HasCombatFlag(256))
-                        scoreSlot25 = aid->effects.FUN_00405c00(12, 0, 77);
+                        scoreSlot25 = aid->effects.EffectItemList_GetEffectScore(12, 0, 77);
                     break;
                 }
                 if (scoreSlot25 > aidScoresSlot19[n])
@@ -6980,7 +6980,7 @@ void Manager::EvaluateWeaponScores()
                 unsigned int index = scoresSlot20.FUN_007881d0();
                 FUN_00403d30(&scoresSlot20.FUN_006b3160(index), 0, 20);
                 scoresSlot20.FUN_006b3160(index).weapon = weaponSlot32Slot15;
-                scoresSlot20.FUN_006b3160(index).health = entry->FUN_004bcdb0(1) / 100.0f;
+                scoresSlot20.FUN_006b3160(index).health = entry->ItemChange_GetItemHealth(1) / 100.0f;
             }
             break;
         }
@@ -6992,7 +6992,7 @@ void Manager::EvaluateWeaponScores()
     Weapon* forcedSlot30 = 0;
     Entry* equippedSlot10 = actor->FUN_008d8520()->Equipped();
     if (equippedSlot10 && equippedSlot10->FUN_00559450() && *equippedSlot10->FUN_00559450()->FUN_006815c0() &&
-        (*equippedSlot10->FUN_00559450()->FUN_006815c0())->FUN_00418b10())
+        (*equippedSlot10->FUN_00559450()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
         forcedSlot30 = equippedSlot10->FUN_0044ddc0();
     if (!forcedSlot30)
     {
@@ -7004,7 +7004,7 @@ void Manager::EvaluateWeaponScores()
             WeaponScore* scoreSlot25 = &scoresSlot20.FUN_006dad90(i);
             Weapon* weaponSlot32Slot15 = scoreSlot25->weapon;
             Actor* ownerSlot16 = (equippedSlot10 && weaponSlot32Slot15 == equippedSlot10->FUN_0044ddc0()) ? actor : 0;
-            Ammo* ammoSlot1 = weaponSlot32Slot15->FUN_00525980(ownerSlot16);
+            Ammo* ammoSlot1 = weaponSlot32Slot15->TESObjectWEAP_GetCurrentAmmo(ownerSlot16);
             if (ammoSlot1 && !ammosSlot1.FUN_009962f0(ammoSlot1))
             {
                 bool special = false;
@@ -7018,7 +7018,7 @@ void Manager::EvaluateWeaponScores()
                         if (!busySlot0)
                         {
                             Process* process = actor->FUN_008d8520();
-                            int countSlot11 = inventorySlot40->FUN_004c8f30(alternativeSlot0);
+                            int countSlot11 = inventorySlot40->InventoryChanges_GetObjectCount(alternativeSlot0);
                             Equip* replacement = new Equip(alternativeSlot0, countSlot11);
                             process->EquipAmmo(replacement);
                             process->Ammunition()->FUN_006ecd40(0);
@@ -7059,7 +7059,7 @@ void Manager::EvaluateWeaponScores()
             }
             scoreSlot25->inRange = 1;
             scoreSlot25->range = 0.0f;
-            int categorySlot22 = scoreSlot25->weapon->FUN_00522c80();
+            int categorySlot22 = scoreSlot25->weapon->TESObjectWEAP_GetCombatWeaponType();
             if (target && (categorySlot22 == 1 || categorySlot22 == 0))
             {
                 float nearRange = 0.0f;
@@ -7088,7 +7088,7 @@ void Manager::EvaluateWeaponScores()
         {
             WeaponScore* candidateSlot0 = &scoresSlot20.FUN_006dad90(j);
             Weapon* weapon2Slot11 = candidateSlot0->weapon;
-            int category2Slot19 = candidateSlot0->weapon->FUN_00522c80();
+            int category2Slot19 = candidateSlot0->weapon->TESObjectWEAP_GetCombatWeaponType();
             float value = candidateSlot0->damage;
             if (weapon2Slot11 == current)
                 value += DAT_0106b798;
@@ -7100,7 +7100,7 @@ void Manager::EvaluateWeaponScores()
                 if (candidateSlot0->range > maxRange && candidateSlot0->damage > bestInsideSlot33)
                     maxRange = candidateSlot0->range;
             }
-            if (weapon2Slot11->FUN_0046e8c0() && candidateSlot0->inRange)
+            if (weapon2Slot11->TESObjectWEAP_IsEmbeddedWeapon() && candidateSlot0->inRange)
                 ranged.FUN_007cb2e0(weapon2Slot11);
             maxDamage = FUN_00404010(maxDamage, candidateSlot0->damage);
             if (category2Slot19 == 1 || category2Slot19 == 0)
@@ -7120,7 +7120,7 @@ void Manager::EvaluateWeaponScores()
     }
     else
     {
-        int category3 = forcedSlot30->FUN_00522c80();
+        int category3 = forcedSlot30->TESObjectWEAP_GetCombatWeaponType();
         bestWeapons[category3] = forcedSlot30;
         categoryScore[category3] = DAT_0108dfac;
         types |= 1 << category3;
@@ -8317,7 +8317,7 @@ struct PickLoc
 {
     float x, y, z;
     unsigned space;
-    float FUN_00527a40(PickLoc*);
+    float BGSWorldLocation_GetDistanceSquared(PickLoc*);
 };
 struct PickBase
 {
@@ -8325,7 +8325,7 @@ struct PickBase
 };
 struct PickNode
 {
-    bool FUN_00418b10();
+    bool ExtraDataList_GetCanNotWear();
 };
 struct PickWrap
 {
@@ -8424,7 +8424,7 @@ struct PickProc
 };
 struct PickExtra
 {
-    float FUN_004186f0();
+    float ExtraDataList_GetHealth();
     void* GetExtraAmmo();
 };
 struct PickLock
@@ -8437,9 +8437,9 @@ struct PickForm
 };
 struct PickWeapon
 {
-    bool FUN_004c0c30();
+    bool TESObjectWEAP_IsRangedWeapon();
     bool FUN_006450c0();
-    void* FUN_00525980(PickActor*);
+    void* TESObjectWEAP_GetCurrentAmmo(PickActor*);
 };
 struct PickRef
 {
@@ -8569,12 +8569,12 @@ struct PickRef
     virtual void v123();
     virtual void v124();
     virtual PickVec* Pos();
-    PickLoc FUN_00575650();
+    PickLoc TESObjectREFR_GetWorldLocation();
     PickExtra* FUN_005d43c0();
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     PickWeapon* FUN_007af430();
-    PickLock* FUN_00569160();
-    void* FUN_00567790();
+    PickLock* TESObjectREFR_GetLock();
+    void* TESObjectREFR_GetOwner();
     bool FUN_005785e0(PickActor*, bool);
     unsigned FUN_00575610(void*);
 };
@@ -8604,7 +8604,7 @@ struct PickController
 };
 struct PickEntry
 {
-    float FUN_004bcdb0(int);
+    float ItemChange_GetItemHealth(int);
     PickWeapon* FUN_0044ddc0();
 };
 struct PickIter
@@ -8799,10 +8799,10 @@ bool WeaponSearch::SelectBestWeaponTarget()
     }
     PickPtr* aId = aC1->FUN_008d8520()->GetActive();
     if (aId && aId->FUN_00559450() && aId->FUN_00559450()->FUN_006815c0()->node &&
-        aId->FUN_00559450()->FUN_006815c0()->node->FUN_00418b10())
+        aId->FUN_00559450()->FUN_006815c0()->node->ExtraDataList_GetCanNotWear())
         return false;
     g_011f1a60.FUN_00483710();
-    PickLoc aI4 = aC1->FUN_00575650();
+    PickLoc aI4 = aC1->TESObjectREFR_GetWorldLocation();
     PickRef* aCr = 0;
     PickWeapon* aB8 = 0;
     PickRef* aB4 = 0;
@@ -8821,7 +8821,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
         aPE = *DAT_011cf908.FUN_00403e20();
     float aPa = 0.0f;
     float aIt = 0.0f;
-    if (aC2 || (aFg && aFg->FUN_004c0c30()))
+    if (aC2 || (aFg && aFg->TESObjectWEAP_IsRangedWeapon()))
     {
         aPa = *DAT_011cfb44.FUN_00403e20();
         aIt = *DAT_011cef08.FUN_00403e20();
@@ -8841,8 +8841,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
         bool apX = false;
         if (aFB)
         {
-            PickLoc bpA = aFB->FUN_00575650();
-            if (aI4.FUN_00527a40(&bpA) < 589824.0)
+            PickLoc bpA = aFB->TESObjectREFR_GetWorldLocation();
+            if (aI4.BGSWorldLocation_GetDistanceSquared(&bpA) < 589824.0)
                 apX = true;
         }
         if (!apX && unk05c > 0.0 && unk058 > 0.0)
@@ -8861,8 +8861,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
     PickEntry* aPb = 0;
     while (DAT_011c95c8->FindNextRef(&ap8, &aFC, &aPb, 3))
     {
-        float cbX = aPb ? aPb->FUN_004bcdb0(0) : aFC->FUN_005d43c0()->FUN_004186f0();
-        if (aFC->FUN_00477ba0() || cbX == 0.0)
+        float cbX = aPb ? aPb->ItemChange_GetItemHealth(0) : aFC->FUN_005d43c0()->ExtraDataList_GetHealth();
+        if (aFC->TESForm_GetDestroyed() || cbX == 0.0)
             continue;
         PickWeapon* aRy = aPb ? aPb->FUN_0044ddc0() : aFC->FUN_007af430();
         float ap9 = 1.0f;
@@ -8873,7 +8873,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
             ch3 *= *DAT_011cf0c8.FUN_00403e20();
         if (ch3 <= aKB)
             continue;
-        if (aC2 && !aRy->FUN_004c0c30())
+        if (aC2 && !aRy->TESObjectWEAP_IsRangedWeapon())
             continue;
         if (!aC1->FUN_008bc9d0(aRy, 0))
             continue;
@@ -8888,8 +8888,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
             float b10 = aPa + d_2 * (aIt - aPa);
             cbA = b10 * b10;
         }
-        PickLoc aPH = aFC->FUN_00575650();
-        float aM4 = aPH.FUN_00527a40(&aI4);
+        PickLoc aPH = aFC->TESObjectREFR_GetWorldLocation();
+        float aM4 = aPH.BGSWorldLocation_GetDistanceSquared(&aI4);
         if (aM4 >= cbA)
             continue;
         if (!FUN_009a02a0(&aPH, 1, 0))
@@ -8899,15 +8899,15 @@ bool WeaponSearch::SelectBestWeaponTarget()
             PickWeapon* base = aFC->FUN_007af430();
             if (base)
             {
-                if (aFC->FUN_00569160() && aFC->FUN_00569160()->FUN_005021a0())
+                if (aFC->TESObjectREFR_GetLock() && aFC->TESObjectREFR_GetLock()->FUN_005021a0())
                     continue;
-                if (aFC->FUN_00567790() && !aFC->FUN_005785e0(aC1, true))
+                if (aFC->TESObjectREFR_GetOwner() && !aFC->FUN_005785e0(aC1, true))
                     continue;
             }
         }
         PickRef* ch8 = 0;
         bool ap3 = true;
-        void* ap7 = aRy->FUN_00525980(aC1);
+        void* ap7 = aRy->TESObjectWEAP_GetCurrentAmmo(aC1);
         if (ap7)
         {
             ap3 = false;
@@ -8929,8 +8929,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
                 PickEntry* e2x = 0;
                 while (DAT_011c95c8->FindNextRef(&dy9, &cbB, &e2x, 3))
                 {
-                    PickLoc fA8 = cbB->FUN_00575650();
-                    float fEA = fA8.FUN_00527a40(&aI4) + fA8.FUN_00527a40(&aPH);
+                    PickLoc fA8 = cbB->TESObjectREFR_GetWorldLocation();
+                    float fEA = fA8.BGSWorldLocation_GetDistanceSquared(&aI4) + fA8.BGSWorldLocation_GetDistanceSquared(&aPH);
                     if (fEA > cbA || fEA > cb3)
                         continue;
                     if (!FUN_009a02a0(&fA8, 1, 0))
@@ -9556,11 +9556,11 @@ class Holder9A2
     void ResolveRef(TESFile9A2* pkFile);
 };
 
-// Replaces m_pkRef with the result of FUN_004839c0 cast to TESObjectREFR, or null if m_pkRef is null.
+// Replaces m_pkRef with the result of TESForm_GetFormByNumericID cast to TESObjectREFR, or null if m_pkRef is null.
 // @fnv 0x009a2cc0
 void Holder9A2::ResolveRef(TESFile9A2* pkFile)
 {
-    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(m_pkRef)) : 0;
+    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(m_pkRef)) : 0;
 }
 
 namespace fnv_0099b5a0 {
@@ -9591,7 +9591,7 @@ struct Snd99
 };
 struct Mob99
 {
-    void* FUN_00575ca0();
+    void* TESObjectREFR_GetSpace();
 };
 struct Ammo99
 {
@@ -9664,7 +9664,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
             s2.FUN_0097ede0();
             if (!p1c4->FUN_004fb070(spellB, &s2)->GetDetectedTargetLocation())
                 continue;
-            if (s2.FUN_0084e3a0() != mobj3->FUN_00575ca0())
+            if (s2.FUN_0084e3a0() != mobj3->TESObjectREFR_GetSpace())
                 continue;
             v9 = *s2.FUN_006815c0();
         }
@@ -10228,7 +10228,7 @@ struct Pos9f48
 {
     float x, y, z;
     float w;
-    float FUN_00527a40(const Pos9f48& kOther);
+    float BGSWorldLocation_GetDistanceSquared(const Pos9f48& kOther);
 };
 
 struct Tile9f48
@@ -10511,7 +10511,7 @@ struct Actor9f48
     virtual void W265();
     virtual Process9f48* GetProcess();
     bool IsTargetIn360View(void* pkTarget);
-    int FUN_00575650(Pos9f48* pkPosition);
+    int TESObjectREFR_GetWorldLocation(Pos9f48* pkPosition);
     float FUN_008be1b0();
 };
 
@@ -10571,7 +10571,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
     }
     Actor9f48* pkOwner = m_pkController->GetFieldBC();
     Pos9f48 kOwnerPos;
-    pkOwner->FUN_00575650(&kOwnerPos);
+    pkOwner->TESObjectREFR_GetWorldLocation(&kOwnerPos);
     Actor9f48* pkAlly = 0;
     float fClosest = 67108864.0f;
     unsigned int ItemUpdateArray = pkGroupList->FUN_00990890();
@@ -10589,8 +10589,8 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
         if (!bUsable)
             continue;
         Pos9f48 kPos;
-        pkMember->FUN_00575650(&kPos);
-        float fDistance = kPos.FUN_00527a40(kOwnerPos);
+        pkMember->TESObjectREFR_GetWorldLocation(&kPos);
+        float fDistance = kPos.BGSWorldLocation_GetDistanceSquared(kOwnerPos);
         if (fDistance >= fClosest)
             continue;
         if (!FUN_009a02a0(&kPos, 1, 0))
@@ -10761,8 +10761,8 @@ struct CombatRef
     float FUN_008be1b0();
     float FUN_008be420();
     float FUN_00571600();
-    void* FUN_00575ca0();
-    CombatPos FUN_00575650();
+    void* TESObjectREFR_GetSpace();
+    CombatPos TESObjectREFR_GetWorldLocation();
 };
 
 struct CombatSpot
@@ -11054,14 +11054,14 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
     if (bFound)
     {
         if (!pFinalSpot->CallReferencedFunction())
-            pFinalSpot->FUN_0099b520(pActorOld->FUN_00575ca0());
+            pFinalSpot->FUN_0099b520(pActorOld->TESObjectREFR_GetSpace());
         CombatPos kSpotPosTmp = *pFinalSpot->FUN_006815c0();
         if (kSpotPosTmp.FUN_006815c0()->FUN_004390c0(&DAT_011f426c) || FUN_009a02a0(&kSpotPosTmp, 1, bFlag))
         {
             float fDistance = 0.0f;
             if (DAT_011a5650[aiType].bMeasure)
             {
-                CombatPos kActorPos = pActorOld->FUN_00575650();
+                CombatPos kActorPos = pActorOld->TESObjectREFR_GetWorldLocation();
                 fDistance = FUN_0097acb0(pController, &kActorPos, &kSpotPosTmp);
             }
             pLocationsRes->SetEntry(aiType, pFinalSpot, fDistance);
@@ -11536,11 +11536,11 @@ void FUN_0099a2a0_s::FUN_0099a2a0()
 
 struct RefCalls_9a2a30
 {
-    void FUN_00564db0(bool);
+    void TESObjectREFR_SetTargeted(bool);
 };
 class BGSLoadFormBuffer;
 
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct RefSlot
 {
     TESObjectREFR* ref;
@@ -11698,14 +11698,14 @@ void HostA::FUN_009a2a30(BGSLoadFormBuffer* buffer)
     {
         if (slots[i])
         {
-            slots[i]->ref = slots[i]->ref ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)slots[i]->ref)) : 0;
+            slots[i]->ref = slots[i]->ref ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID((unsigned int)slots[i]->ref)) : 0;
             if (slots[i]->ref)
-                ((RefCalls_9a2a30*)slots[i]->ref)->FUN_00564db0(true);
+                ((RefCalls_9a2a30*)slots[i]->ref)->TESObjectREFR_SetTargeted(true);
         }
     }
     if (member18C)
         member18C->ResolveRef(buffer);
-    actor = actor ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)actor)) : 0;
+    actor = actor ? dynamic_cast<Actor*>(TESForm_GetFormByNumericID((unsigned int)actor)) : 0;
     if (index != -1)
         SetMode(index);
     for (unsigned int j = 0; j < 7; j++)

@@ -7,7 +7,7 @@ struct NiRTTI;
 extern const NiRTTI g_011f3f50;
 
 // @fnv 0x00a48150
-const NiRTTI* __cdecl FUN_00a48150()
+const NiRTTI* __cdecl NiRotData_GetRTTI()
 {
     return &g_011f3f50;
 }
@@ -291,11 +291,11 @@ struct FUN_00a48160_shell
     TimedRotationKey* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    bool FUN_00a48160(void* pkObject);
+    bool NiRotData_IsEqual(void* pkObject);
 };
 
 // @fnv 0x00a48160
-bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
+bool FUN_00a48160_shell::NiRotData_IsEqual(void* pkObject)
 {
     FUN_00a48160_shell* pkData = (FUN_00a48160_shell*)pkObject;
     if (!((A46BB0Object*)this)->IsEqual((A46BB0Object*)pkObject))
@@ -656,12 +656,12 @@ struct FUN_00a48380_cls : public NiObject
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
 
-    void FUN_00a48380(NiStream& kStream);
+    void NiRotData_LoadBinary(NiStream& kStream);
 };
 
 // Loads the key count and key type from the stream, creates and fills the key array, then stores it via FUN_00a48220.
 // @fnv 0x00a48380
-void FUN_00a48380_cls::FUN_00a48380(NiStream& kStream)
+void FUN_00a48380_cls::NiRotData_LoadBinary(NiStream& kStream)
 {
     NiObject::LoadBinary(kStream);
 
@@ -884,12 +884,12 @@ struct RotDataLink_cls : public NiObject2
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
 
-    void FUN_00a48440(NiStream2& kStream);
+    void NiRotData_SaveBinary(NiStream2& kStream);
 };
 
 // Loads the object header, key count, request type, and key array from the stream using the key link function table.
 // @fnv 0x00a48440
-void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
+void RotDataLink_cls::NiRotData_SaveBinary(NiStream2& kStream)
 {
     NiObject2::FUN_00a89af0(kStream);
     NiStreamLoadBinary2(kStream, m_uiNumKeys);

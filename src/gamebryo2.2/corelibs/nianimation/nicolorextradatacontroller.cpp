@@ -8,7 +8,7 @@ extern "C"
 }
 
 // @fnv 0x00a4fb00
-void* __cdecl FUN_00a4fb00()
+void* __cdecl NiColorExtraDataController_GetRTTI()
 {
     return &g_011f3fdc;
 }
@@ -45,7 +45,7 @@ extern int DAT_0109947c;
 
 // Allocates a 0x40-byte BSFadeNode, initialises it via InitTimeController, sets its vtable to DAT_0109947c, and returns it (or null on allocation failure).
 // @fnv 0x00a4fac0
-void* __cdecl FUN_00a4fac0()
+void* __cdecl NiColorExtraDataController_CreateObject()
 {
     void* mem = BSFadeNode::operator new(0x40);
     if (mem)
@@ -62,7 +62,7 @@ struct Holder_00a55f80
     void* __thiscall FUN_00a55f80(int, float, int);
 };
 // @fnv 0x00a4fa70
-void* __stdcall FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
+void* __stdcall NiColorExtraDataController_CreateBlendInterpolator(int a1, int a2, int a3, float a4, int a5)
 {
     void* p = BSFadeNode::operator new(0x44);
     if (p)
@@ -87,10 +87,10 @@ struct Ctrl9
 {
     char _0[0x3c];
     Holder9* fld3c;
-    void* __thiscall FUN_00a4fb30(unsigned short);
+    void* __thiscall NiColorExtraDataController_CreatePoseInterpolator(unsigned short);
 };
 // @fnv 0x00a4fb30
-void* __thiscall Ctrl9::FUN_00a4fb30(unsigned short usIndex)
+void* __thiscall Ctrl9::NiColorExtraDataController_CreatePoseInterpolator(unsigned short usIndex)
 {
     void* mem = BSFadeNode::operator new(0x24);
     if (mem)
@@ -154,7 +154,7 @@ struct StrArr
 };
 struct Base57420
 {
-    void __thiscall FUN_00a57420(StrArr*);
+    void __thiscall NiExtraDataController_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 struct FUN_00a4fd90_shell : Base57420
@@ -165,7 +165,7 @@ struct FUN_00a4fd90_shell : Base57420
 // @fnv 0x00a4fd90
 void __thiscall FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
 {
-    FUN_00a57420(pkStrings);
+    NiExtraDataController_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330((const char*)g_011f3fdc);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usAlloc)

@@ -9,7 +9,7 @@ extern "C"
 {
     extern const void* g_011f4100;
 }
-const void* __cdecl FUN_00a56c00();
+const void* __cdecl NiGeomMorpherUpdateTask_GetRTTI();
 struct NiGeomMorpherUpdateTask;
 extern int DAT_011a9414;
 extern int DAT_011a941c;
@@ -120,7 +120,7 @@ struct NiGeomMorpherUpdateTask : BaseTask
     int _pad[2];
     MorphController* m_pkMorphController;
     FakeGeo* m_spReferencedObject;
-    void FUN_00a56bb0();
+    void NiGeomMorpherUpdateTask_DoTask();
 };
 struct NiRefObject
 {

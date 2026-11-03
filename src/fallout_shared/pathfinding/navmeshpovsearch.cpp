@@ -3306,20 +3306,20 @@ class B6A1330NodePtr
 
 extern B6A1330NodePtr g_spB6A1330Root;
 
-B6A1330Node* __cdecl FUN_004b3890(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
+B6A1330Node* __cdecl MakeLine(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
 
 // @fnv 0x006a1330
 void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
 {
-    B6A1330NodePtr spNode7 = FUN_004b3890(pcPath, iParamB, iParamA, iParamB, true);
+    B6A1330NodePtr spNode7 = MakeLine(pcPath, iParamB, iParamA, iParamB, true);
     B6A1330UpdateData kData(0.0f, false, false);
     spNode7->UpdatePropertiesUpward();
     spNode7->Update(kData);
     g_spB6A1330Root->AttachChildInAvailableSlot(spNode7, true);
 }
 
-void* FUN_00401000(unsigned int uiSize);
-void FUN_00401030(void* pvMem);
+void* FormHeap_Allocate(unsigned int uiSize);
+void FormHeap_Free(void* pvMem);
 
 class NiPoint369E
 {
@@ -3348,11 +3348,11 @@ class Helper69E
 
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00401000(uiSize);
+        return FormHeap_Allocate(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        FUN_00401030(pvMem);
+        FormHeap_Free(pvMem);
     }
 
     int unk00, unk04, unk08, unk0C;
@@ -8230,7 +8230,7 @@ struct Vec
     Vec operator+(const Vec&) const;
     Vec operator*(float) const;
     Vec& operator+=(const Vec&);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct Mesh;
 struct Handle
@@ -10394,7 +10394,7 @@ bool Walker::FindPath(const Start* start, const Vec& target, Output* output)
     Vec origin6 = start->position;
     Vec destination5 = target;
     Vec direction = destination5 - origin6;
-    direction.FUN_004a0c10();
+    direction.NiPoint3_Unitize();
     Vec current = origin6;
     Handle handle8;
     handle8.FUN_006c4350(start->handle);

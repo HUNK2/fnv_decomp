@@ -132,7 +132,7 @@ struct AtmoNode
     {
         AtmoFree(pvMem);
     }
-    void FUN_004902f0(bool bAppCulled);
+    void NiAVObject_SetSelectiveUpdate(bool bAppCulled);
     void FUN_00440460(void* pkProperty);
 };
 
@@ -150,7 +150,7 @@ struct AtmoPropertyList
 };
 struct AtmoShaderMgr
 {
-    AtmoPropertyList* FUN_00558310();
+    AtmoPropertyList* BSSceneGraph_GetCameraRoot();
 };
 AtmoShaderMgr* __cdecl FUN_0045c670();
 void __cdecl FUN_00b899a0(AtmoPtr<AtmoNode>* pspNode);
@@ -158,7 +158,7 @@ void __cdecl FUN_00b55540(int iUnk, AtmoProperty* pkFog);
 void __cdecl FUN_005b5e40(const char* pFormat, ...);
 extern unsigned char g_bNoSky_011f941e;
 extern char g_kNiNodeRTTI_011f4a40[];
-bool __cdecl FUN_0043b300(void* pkRTTI, AtmoObject* pkObject);
+bool __cdecl NiObject_IsKindOf(void* pkRTTI, AtmoObject* pkObject);
 
 struct AtmoObject
 {
@@ -205,10 +205,10 @@ void AtmosphereImpl::SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog)
     if (!g_bNoSky_011f941e)
     {
         FUN_00b899a0(&m_spSkyShape);
-        m_spSkyShape.FUN_00559450()->FUN_004902f0(true);
-        m_spSkyShape.FUN_00559450()->FUN_00440460(FUN_0045c670()->FUN_00558310()->FUN_0043c490());
+        m_spSkyShape.FUN_00559450()->NiAVObject_SetSelectiveUpdate(true);
+        m_spSkyShape.FUN_00559450()->FUN_00440460(FUN_0045c670()->BSSceneGraph_GetCameraRoot()->FUN_0043c490());
         m_spSkyNode.FUN_0066b0d0(new AtmoNode(0));
-        m_spSkyNode.FUN_00559450()->FUN_004902f0(true);
+        m_spSkyNode.FUN_00559450()->NiAVObject_SetSelectiveUpdate(true);
         m_spSkyNode.FUN_00559450()->AttachChildInAvailableSlot(m_spSkyShape.FUN_00559450(), 1);
         m_spRootNode.FUN_00559450()->AttachChildInAvailableSlot(m_spSkyNode.FUN_00559450(), 1);
     }
@@ -224,7 +224,7 @@ void AtmosphereImpl::SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog)
         {
             if (pkObjectOut->IsGeometry())
                 pkMeshRes = pkObjectOut->FUN_0045bc00(0);
-            else if (FUN_0043b300(g_kNiNodeRTTI_011f4a40, pkObjectOut))
+            else if (NiObject_IsKindOf(g_kNiNodeRTTI_011f4a40, pkObjectOut))
                 pkMeshRes = (AtmoNode*)pkObjectOut;
         }
         if (!pkMeshRes)
@@ -233,7 +233,7 @@ void AtmosphereImpl::SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog)
             return;
         }
         m_spAtmosphere.FUN_0066b0d0(pkMeshRes);
-        m_spAtmosphere.FUN_00559450()->FUN_004902f0(true);
+        m_spAtmosphere.FUN_00559450()->NiAVObject_SetSelectiveUpdate(true);
         m_spRootNode.FUN_00559450()->AttachChildInAvailableSlot(m_spAtmosphere.FUN_00559450(), 1);
     }
     m_spFog.FUN_0066b0d0(pkFog);
@@ -272,7 +272,7 @@ struct NiCamera
 };
 struct FUN_00507700_cls : NiCamera
 {
-    void FUN_00507700(float f);
+    void NiCamera_SetMaxFarNearRatio(float f);
 };
 struct Stub_00a6faf0 : FUN_00507700_cls
 {
@@ -325,7 +325,7 @@ struct BSMultiBoundRoom : FUN_009a5480_class
 };
 struct Node : BSMultiBoundRoom
 {
-    int FUN_00476c90();
+    int Sky_GetMode();
     NiPoint3* FUN_00624700();
     NiPoint3* FUN_0050d100();
     NiPoint3* FUN_009c1a50();
@@ -336,7 +336,7 @@ struct Node : BSMultiBoundRoom
 struct Probe
 {
     int FUN_008d6f30();
-    float FUN_0057b0a0();
+    float TESObjectREFR_GetRelevantWaterHeight();
 };
 struct Info
 {
@@ -422,7 +422,7 @@ extern float DAT_011f9190;
 Fog* __cdecl FUN_00b55520(int a0);
 void __cdecl FUN_00b55540(int a0, Fog* a1);
 BSFaceGenNiNode* __cdecl FUN_0045c670();
-void* __fastcall FUN_00558310(BSFaceGenNiNode* w);
+void* __fastcall BSSceneGraph_GetCameraRoot(BSFaceGenNiNode* w);
 Info* __fastcall FUN_0045bb80(void* p);
 struct Atm
 {
@@ -468,13 +468,13 @@ void Atm::UpdateAtmosphere(Node* node, float f)
                                         if (FUN_00b55520(0) != unk0c.FUN_00559450())
                                             FUN_00b55540(0, unk0c.FUN_00559450());
                                         FUN_008d0600(node, f);
-                                        if (node->FUN_00476c90() == 3 || 2 == node->FUN_00476c90())
+                                        if (node->Sky_GetMode() == 3 || 2 == node->Sky_GetMode())
                                         {
                                             if (!(unk08.FUN_00559450()))
                                                 return;
                                             if (DAT_011dea3c != 0 && DAT_011dea3c->FUN_008d6f30() &&
-                                                FUN_0045bb80(FUN_00558310(FUN_0045c670()))->unk08 <
-                                                    DAT_011dea3c->FUN_0057b0a0())
+                                                FUN_0045bb80(BSSceneGraph_GetCameraRoot(FUN_0045c670()))->unk08 <
+                                                    DAT_011dea3c->TESObjectREFR_GetRelevantWaterHeight())
                                             {
                                                 DAT_011ff8e0 = *pData.FUN_00414430(node->FUN_00624700()->x,
                                                                                    node->FUN_00624700()->y,
@@ -539,7 +539,7 @@ void Atm::UpdateAtmosphere(Node* node, float f)
                             if (farv != tmp.unk14)
                             {
                                 tmp.unk14 = farv;
-                                u->FUN_00507700(farv / tmp.unk10);
+                                u->NiCamera_SetMaxFarNearRatio(farv / tmp.unk10);
                                 u->FUN_00a6faf0(&tmp);
                             }
                         }
@@ -583,16 +583,16 @@ struct FUN_00633cc0 : FUN_00633cc0_SkyObject
     unsigned char m_5a;
 
     void FUN_00633d90();
-    void FUN_00634930();
+    void Clouds_ClearTransTextures();
     FUN_00633cc0();
     virtual void vf();
 };
 
-// Initializes the object: clears m_58, calls FUN_00633d90 and FUN_00634930, then sets m_5a to 0.
+// Initializes the object: clears m_58, calls FUN_00633d90 and Clouds_ClearTransTextures, then sets m_5a to 0.
 // @fnv 0x00633cc0
 FUN_00633cc0::FUN_00633cc0() : m_58(0)
 {
     FUN_00633d90();
-    FUN_00634930();
+    Clouds_ClearTransTextures();
     m_5a = 0;
 }

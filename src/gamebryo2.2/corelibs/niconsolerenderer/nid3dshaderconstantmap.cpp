@@ -113,7 +113,7 @@ unsigned int __cdecl FUN_00a9c0a0(const char* name)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f7c4;
 // @fnv 0x00b7e400
-GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400()
+GlobalObjectO2_00a7b610* __cdecl NiD3DShaderConstantMap_GetRTTI()
 {
     return &g_0126f7c4;
 }
@@ -128,7 +128,7 @@ char* __fastcall FUN_00bc5c20(char* self)
 }
 
 // @fnv 0x00e826c0
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i)
+void* __fastcall NiD3DShaderConstantMap_GetEntryAtIndex(char* self, int unused, unsigned int i)
 {
     return (*(void***)(self + 0x10))[i];
 }
@@ -214,7 +214,7 @@ struct FUN_00e84b60_prog
 const void* __stdcall GetConstantData(void*);
 // Looks up data for entry via GetConstantData and, if found, calls prog->SetConstant with it, returning 0 on success, 1 if no data, or 0x50 on failure.
 // @fnv 0x00e84b60
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
+unsigned int __stdcall NiD3DShaderConstantMap_SetConstantConstant(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
 {
     const void* pvData = GetConstantData(entry);
     if (!pvData)
@@ -529,14 +529,14 @@ struct FUN_00e81d70_t
     virtual EntrySI* GetEntry(const char*);
     char _p[0x30];
     unsigned int m_uiErrorCode;
-    unsigned int FUN_00e81d70(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+    unsigned int NiD3DShaderConstantMap_AddEntry(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                               unsigned int uiShaderRegister, unsigned int uiRegisterCount, const char* pszVariableName,
                               unsigned int uiConstantDataSize, unsigned int uiDataStride, const void* pvDataSource,
                               bool bCopyData);
 };
 
 // @fnv 0x00e81d70
-unsigned int FUN_00e81d70_t::FUN_00e81d70(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+unsigned int FUN_00e81d70_t::NiD3DShaderConstantMap_AddEntry(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                                           unsigned int uiShaderRegister, unsigned int uiRegisterCount,
                                           const char* pszVariableName, unsigned int uiConstantDataSize,
                                           unsigned int uiDataStride, const void* pvDataSource, bool bCopyData)
@@ -574,7 +574,7 @@ unsigned int FUN_00e81d70_t::FUN_00e81d70(const char* pszKey, unsigned int uiFla
 
 struct FUN_00e81f10_shell : public NiD3DShaderConstantMap
 {
-    unsigned int FUN_00e81f10(char*, unsigned int, unsigned int, char*, unsigned int, unsigned int, void*, bool);
+    unsigned int NiD3DShaderConstantMap_AddPredefinedEntry(char*, unsigned int, unsigned int, char*, unsigned int, unsigned int, void*, bool);
 };
 
 struct BSFadeNode
@@ -583,7 +583,7 @@ struct BSFadeNode
 };
 struct CtorShim
 {
-    NiShaderConstantMapEntry* FUN_00401000();
+    NiShaderConstantMapEntry* FormHeap_Allocate();
 };
 struct NiGlobalStringTable
 {
@@ -642,12 +642,12 @@ struct EntryLayout
 
 // Allocates and fills an entry, copies or references constant data, then passes it to a virtual call and conditionally another.
 // @fnv 0x00e81f10
-unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra, unsigned int uiShaderRegister,
+unsigned int FUN_00e81f10_shell::NiD3DShaderConstantMap_AddPredefinedEntry(char* pszKey, unsigned int uiExtra, unsigned int uiShaderRegister,
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
 {
     void* mem = BSFadeNode::operator new(0x38);
-    NiShaderConstantMapEntry* pkEntry = mem ? ((CtorShim*)mem)->FUN_00401000() : 0;
+    NiShaderConstantMapEntry* pkEntry = mem ? ((CtorShim*)mem)->FormHeap_Allocate() : 0;
     EntryLayout* e = (EntryLayout*)pkEntry;
     e->m_kControlPoint = pszKey;
     e->m_uiValue2 = uiExtra;
@@ -1593,7 +1593,7 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b60;
 extern GlobalObjectO2_00a7b610 g_011f5b68;
 
-bool __cdecl FUN_0045bad0(void*, void*);
+bool __cdecl NiObject_IsExactKindOf(void*, void*);
 
 struct ExtraDataStandIn
 {
@@ -1673,7 +1673,7 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ex
         }
         if (type == 7)
         {
-            if (FUN_0045bad0(&g_011f5b60, extraData))
+            if (NiObject_IsExactKindOf(&g_011f5b60, extraData))
             {
                 const float* pf = extraData->pfVal;
                 DAT_0126f7cc[0] = pf[0];
@@ -1682,7 +1682,7 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ex
                 DAT_0126f7cc[3] = pf[3];
                 return DAT_0126f7cc;
             }
-            if (FUN_0045bad0(&g_011f5b68, extraData))
+            if (NiObject_IsExactKindOf(&g_011f5b68, extraData))
             {
                 DAT_0126f7cc[0] = extraData->c0;
                 DAT_0126f7cc[1] = extraData->c1;
@@ -2033,7 +2033,7 @@ extern float DAT_0126f7e0[12];
 
 // For supported uiType values, copies or passes pkEntry->data to SetConstant, returning 0x50 if that call fails.
 // @fnv 0x00e84d00
-unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
+unsigned int __stdcall NiD3DShaderConstantMap_SetGlobalConstant(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
                                     unsigned int uiPass)
 {
     unsigned int uiResult = 0;
@@ -2131,7 +2131,7 @@ class NiPoint3_ext : public NiPoint3
   public:
     NiPoint3_ext& operator*=(float);
     NiPoint3* FUN_00439ef0(NiPoint3*, const NiPoint3&) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     float Dot(const NiPoint3&) const;
 };
 
@@ -2164,7 +2164,7 @@ class NiBound
 
 struct NiRTTI;
 extern const NiRTTI DAT_011f4a98;
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
+bool __cdecl NiObject_IsKindOf(const NiRTTI*, void*);
 void __cdecl FUN_00b71a40(float* d, const ThreeByThreeMatrix& r, const NiPoint3& t, float s);
 void __cdecl FUN_00b799a0(float* d, const char* t);
 extern const NiPoint3 DAT_011f426c;
@@ -2560,7 +2560,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                             ->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
                     point = *r;
                 }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
+                ((NiPoint3_ext*)&point)->NiPoint3_Unitize();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2594,7 +2594,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                             ->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
                     point = *r;
                 }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
+                ((NiPoint3_ext*)&point)->NiPoint3_Unitize();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2702,7 +2702,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         float* fData = (float*)apConstantData;
         if (apTargetLight)
         {
-            if (FUN_0043b300(&DAT_011f4a98, apTargetLight))
+            if (NiObject_IsKindOf(&DAT_011f4a98, apTargetLight))
             {
                 fData[0] = apTargetLight->m_kWorldLocation.x;
                 fData[1] = apTargetLight->m_kWorldLocation.y;
@@ -3425,14 +3425,14 @@ struct FUN_00e87220_shell
     unsigned int LoadConstant(bool bSecond, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* kWorld, const void* kWorldBound, unsigned int uiPass);
 
-    unsigned int FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
+    unsigned int NiD3DShaderConstantMap_SetOperatorConstant(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound,
                               unsigned int uiPass);
 };
 
 // Resolves two operand entries, dispatches their evaluation by type, then applies the operator to the shader program and returns the result.
 // @fnv 0x00e87220
-unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry,
+unsigned int FUN_00e87220_shell::NiD3DShaderConstantMap_SetOperatorConstant(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry,
                                               const void* pkSkin, const void* pkState, const void* pkEffects,
                                               const void* kWorld, const void* kWorldBound, unsigned int uiPass)
 {
@@ -4363,12 +4363,12 @@ struct ConstantMap
     unsigned int u34;
     unsigned int u38;
     Renderer* renderer;
-    unsigned int FUN_00e83db0(Program*, Entry*, Geometry*, Skin*, Partition*, void*, Properties*, Effects*, const void*,
+    unsigned int NiD3DShaderConstantMap_SetDefinedConstant(Program*, Entry*, Geometry*, Skin*, Partition*, void*, Properties*, Effects*, const void*,
                               const void*, unsigned int);
 };
 // Writes a shader constant (matrix, vector, or scalar) to the program based on the entry type, applying optional inverse or transpose to renderer matrices.
 // @fnv 0x00e83db0
-unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* geom, Skin* skin, Partition* partition,
+unsigned int ConstantMap::NiD3DShaderConstantMap_SetDefinedConstant(Program* prog, Entry* entry, Geometry* geom, Skin* skin, Partition* partition,
                                        void* buffer, Properties* props, Effects* effects, const void* transform,
                                        const void* bound, unsigned int pass)
 {

@@ -145,10 +145,10 @@ extern const char DAT_010eec18[];
 extern const char DAT_010eec28[];
 extern const char DAT_010eec38[];
 extern "C" void* g_011f4430;
-void* __cdecl FUN_00a5f200();
+void* __cdecl NiVertexColorProperty_GetRTTI();
 extern "C" int g_011f443c;
-int __cdecl FUN_00a5f4f0();
-int __cdecl FUN_00a5f500();
+int __cdecl NiZBufferProperty_GetRTTI();
+int __cdecl NiZBufferProperty_Type();
 int __cdecl FUN_00dc9e60();
 struct NiDX9Renderer
 {
@@ -164,7 +164,7 @@ struct FUN_00e695f0_shell
 };
 struct FUN_00e69600_shell
 {
-    unsigned int __thiscall FUN_00e69600();
+    unsigned int __thiscall NiDX9Renderer_GetDefaultRenderTargetGroup();
 };
 struct FUN_00e69900_shell
 {
@@ -251,7 +251,7 @@ struct FUN_00e72e50_shell
     void* __thiscall FUN_00e72e50();
 };
 extern "C" void* g_0126f0f0;
-void* __cdecl FUN_00e757b0();
+void* __cdecl NiDX9Renderer_GetRTTI();
 struct FUN_00e757c0_shell
 {
     unsigned char* data;
@@ -265,10 +265,10 @@ struct FUN_00e75840_shell
 {
     unsigned int pad[0x5e0 / 4];
     unsigned int color;
-    void FUN_00e75840(float* param);
+    void NiDX9Renderer_SetBackgroundColor(float* param);
 };
 extern "C" void* g_01270900;
-void* __cdecl FUN_00e766f0();
+void* __cdecl NiShaderDeclaration_GetRTTI();
 struct FUN_00e758f0_shell
 {
     void PackColorToUInt(float* floats);

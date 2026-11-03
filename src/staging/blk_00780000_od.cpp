@@ -271,7 +271,7 @@ struct ArrSI
 
 struct FUN_004bddd0_t : public ArrSI
 {
-    bool FUN_004bddd0(bool a);
+    bool ItemChange_GetWorn(bool a);
 };
 
 struct G2
@@ -292,7 +292,7 @@ struct FUN_007832a0_class
 // @fnv 0x007832a0
 void __cdecl FUN_007832a0_class::FUN_007832a0(FUN_004bddd0_t* a)
 {
-    if (a != 0 && a->FUN_004bddd0(false))
+    if (a != 0 && a->ItemChange_GetWorn(false))
     {
         int flags = static_cast<int>(a->GetFlags());
         reinterpret_cast<G2*>(reinterpret_cast<char*>(InventoryMenu::ms_pInventoryMenu) + 0x11c)->AddHead(&flags);

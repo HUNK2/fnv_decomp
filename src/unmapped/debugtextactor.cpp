@@ -17,14 +17,14 @@ int __cdecl FUN_00406d50(char* dst, unsigned int size, const char* src);
 
 struct S_009aae70
 {
-    unsigned int FUN_005bd5c0(int type);
+    unsigned int FontManager_GetFont(int type);
     void FormatFlagsString(char* buf, unsigned int size, int type);
 };
 
 // @fnv 0x009aae70
 void S_009aae70::FormatFlagsString(char* pBuffer, unsigned int size, int type)
 {
-    unsigned int mask = FUN_005bd5c0(type);
+    unsigned int mask = FontManager_GetFont(type);
     if (DAT_011a55b4[type].flag)
     {
         bool any = false;

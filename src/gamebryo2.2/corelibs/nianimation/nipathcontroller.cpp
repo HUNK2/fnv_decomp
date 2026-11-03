@@ -7,7 +7,7 @@ typedef void NiRTTI;
 extern NiRTTI* g_011f3f80;
 
 // @fnv 0x00a49e00
-NiRTTI* __cdecl FUN_00a49e00()
+NiRTTI* __cdecl NiPathController_GetRTTI()
 {
     return &g_011f3f80;
 }
@@ -74,7 +74,7 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a6d830(StrArr*);
+void __stdcall NiTimeController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 struct NiPathController
 {
@@ -84,7 +84,7 @@ struct NiPathController
 // @fnv 0x00a4b2e0
 void NiPathController::AppendString(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
+    NiTimeController_GetViewerStrings(pkStrings);
     char* pStr = _FUN_00a7d330((const char*)g_011f3f80);
     unsigned int nSize = *(unsigned short*)((char*)pkStrings + 0xa);
     if (nSize >= *(unsigned short*)((char*)pkStrings + 8))
@@ -149,10 +149,10 @@ struct NiPathController : NiTimeController
 {
     NiPtr m_pPathObject;
     NiPtr m_pPathInterp;
-    void FUN_00a49c80(CloningProcess&);
+    void NiPathController_ProcessClone(CloningProcess&);
 };
 // @fnv 0x00a49c80
-void NiPathController::FUN_00a49c80(CloningProcess& kCloning)
+void NiPathController::NiPathController_ProcessClone(CloningProcess& kCloning)
 {
     NiTimeController::ProcessClone(kCloning);
     NiTimeController* pkPathData = m_pPathObject.m_pObject;
@@ -194,18 +194,18 @@ struct FakeObj
 struct Base40
 {
     char _pad[0x40];
-    bool FUN_00a6d0f0(NiStream&);
+    bool NiTimeController_RegisterStreamables(NiStream&);
 };
 struct NiPathController : public Base40
 {
     FakeObj* m_pPathObject;
     FakeObj* m_pPathInterp;
-    bool FUN_00a49cc0(NiStream&);
+    bool NiPathController_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00a49cc0
-bool NiPathController::FUN_00a49cc0(NiStream& kStream)
+bool NiPathController::NiPathController_RegisterStreamables(NiStream& kStream)
 {
-    if (!FUN_00a6d0f0(kStream))
+    if (!NiTimeController_RegisterStreamables(kStream))
         return false;
     FakeObj* pkPath = m_pPathObject;
     if (pkPath)
@@ -240,7 +240,7 @@ float FUN_00a4a6a0_cls::FUN_00a4a6a0(int a1, int a2, float afScale)
 }
 
 struct StrArr;
-void __stdcall FUN_00a6d730(StrArr*);
+void __stdcall NiTimeController_SaveBinary(StrArr*);
 struct S_00a4aeb0_Source
 {
     int unk00;
@@ -278,7 +278,7 @@ inline int S_00a4aeb0_Read(S_00a4aeb0_Source* s, void* p, int n)
 void S_00a4aeb0_Controller::LoadFromStream(S_00a4aeb0_Stream& kStream)
 {
     unsigned char* controller = reinterpret_cast<unsigned char*>(this);
-    FUN_00a6d730(reinterpret_cast<StrArr*>(&kStream));
+    NiTimeController_SaveBinary(reinterpret_cast<StrArr*>(&kStream));
     {
         S_00a4aeb0_Source* src =
             *reinterpret_cast<S_00a4aeb0_Source**>(reinterpret_cast<unsigned char*>(&kStream) + 0x250);
@@ -347,7 +347,7 @@ struct SpawnedObject
 
 // Allocates a 0x64-byte SpawnedObject, runs InitBase, sets its vtable and initializes its fields, returning the object or null on allocation failure.
 // @fnv 0x00a4b270
-SpawnedObject* __cdecl FUN_00a4b270() throw()
+SpawnedObject* __cdecl NiPathController_CreateObject() throw()
 {
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x64);
     if (p != 0)
@@ -921,12 +921,12 @@ struct NiPathControllerStub : NiTimeControllerStub
         return ((m_uiObjectFlags >> n) & 1) ? true : false;
     }
     void GetLengths(unsigned int* a, unsigned int* count, int* c, unsigned char* d);
-    bool FUN_00a4a710(NiObject* pkObject);
+    bool NiPathController_IsEqual(NiObject* pkObject);
 };
 
 // Compares this NiPathControllerStub with pkObject, checking path, interpolation, part lengths, and various flags and fields for equality.
 // @fnv 0x00a4a710
-bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
+bool NiPathControllerStub::NiPathController_IsEqual(NiObject* pkObject)
 {
     if (!TimeControllerIsEqual(pkObject))
         return false;
@@ -1258,7 +1258,7 @@ class NiPoint3
     NiPoint3(float a, float b, float c) : x(a), y(b), z(c)
     {}
     NiPoint3 operator+(const NiPoint3&) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     NiPoint3 Cross(const NiPoint3&) const;
     __declspec(noinline) NiPoint3 FUN_0053d1a0(const NiPoint3& v) const
     {
@@ -1438,7 +1438,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
                                            (const AnimationKey*)((const char*)base + size * (adjacent + 1)), type,
                                            &vScratch, &vOther, &normal, &otherCurvature);
                         vTangent = FUN_004a3760(w0, vTangent) + FUN_004a3760(w1, vOther);
-                        vTangent.FUN_004a0c10();
+                        vTangent.NiPoint3_Unitize();
                         curvature = w1 * otherCurvature + w0 * curvature;
                         normal = position.Cross(vTangent);
                     }
@@ -1458,7 +1458,7 @@ void PathController::FUN_00a49e70(unsigned aiFirstKey, unsigned aiSecondKey, flo
                                            (const AnimationKey*)((const char*)base + size * adjacent), type, &vScratch,
                                            &vOther, &normal, &otherCurvature);
                         vTangent = FUN_004a3760(w0, vTangent) + FUN_004a3760(w1, vOther);
-                        vTangent.FUN_004a0c10();
+                        vTangent.NiPoint3_Unitize();
                         curvature = w1 * otherCurvature + w0 * curvature;
                         normal = position.Cross(vTangent);
                     }

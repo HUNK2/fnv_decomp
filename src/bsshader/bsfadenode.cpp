@@ -429,7 +429,7 @@ struct FadeViewer
     unsigned int fielda8;
     float nearDist, farDist, lastFade, currentFade, boundRadius, timeSinceUpdate;
     int multType, frameCounter;
-    void FUN_00a5ea70(Strings*);
+    void NiNode_GetViewerStrings(Strings*);
     Extra* FUN_00a5bdd0(void*);
     void FUN_00b4ed70(Strings* strings);
 };
@@ -437,7 +437,7 @@ struct FadeViewer
 // @fnv 0x00b4ed70
 void FadeViewer::FUN_00b4ed70(Strings* strings)
 {
-    FUN_00a5ea70(strings);
+    NiNode_GetViewerStrings(strings);
     {
         char* text = FUN_00a7d330(DAT_011f9140);
         strings->Add(text);
@@ -510,23 +510,23 @@ void FUN_00b4ded0()
     FUN_00a5dd70();
 }
 
-void FUN_00a5dd40();
+void NiNode_LoadBinary();
 // @fnv 0x00b4dee0
 void FUN_00b4dee0()
 {
-    FUN_00a5dd40();
+    NiNode_LoadBinary();
 }
 
 struct Cls00b4df20
 {
-    bool FUN_00a5e600(Cls00b4df20* other);
+    bool NiNode_IsEqual(Cls00b4df20* other);
     bool FUN_00b4df20(Cls00b4df20* other);
 };
 
 // @fnv 0x00b4df20
 bool Cls00b4df20::FUN_00b4df20(Cls00b4df20* other)
 {
-    return FUN_00a5e600(other);
+    return NiNode_IsEqual(other);
 }
 
 struct Vec
@@ -872,7 +872,7 @@ extern char DAT_011f4288[];
 
 float FUN_0040ebd0(float a, float b);
 float FUN_00404010(float a, float b);
-bool FUN_0043b300(void* list, FadeQueue* q);
+bool NiObject_IsKindOf(void* list, FadeQueue* q);
 
 struct FadeNodeObj;
 void FUN_00b6bb30(FadeNodeObj* node, float fade);
@@ -1026,7 +1026,7 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
     if (IsFadedIn() && fTarget > 0.0f && fTarget < 1.0f)
     {
         FadeQueue* m_pPrimaryTaskProcessor = DAT_011f4748->m_pQueue;
-        if (FUN_0043b300(&DAT_011fa000, m_pPrimaryTaskProcessor))
+        if (NiObject_IsKindOf(&DAT_011fa000, m_pPrimaryTaskProcessor))
         {
             m_pPrimaryTaskProcessor->RenderBound(m_pcName ? m_pcName : DAT_011f4288, 1);
             bFadeQueuedCur = true;
@@ -1062,8 +1062,8 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
 }  // namespace fnv_00b4e490
 
 // @fnv 0x00b4df10
-extern "C" void __cdecl FUN_00a5e880();
+extern "C" void __cdecl NiNode_SaveBinary();
 void __cdecl FUN_00b4df10()
 {
-    FUN_00a5e880();
+    NiNode_SaveBinary();
 }

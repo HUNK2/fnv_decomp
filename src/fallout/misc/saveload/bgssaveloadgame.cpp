@@ -891,7 +891,7 @@ void __cdecl LogWarning(const char* format, ...);
 struct BGSSaveLoadGameImpl : public BGSSaveLoadGame
 {
     unsigned int LoadFormData(SaveLoadFile* apFile, LoadFormBufferH* apLoadGameBuffer, FormIDConverter* apOldFormIDMap);
-    void FUN_0084a880(TESForm* form);
+    void BGSSaveLoadGame_ClearForm(TESForm* form);
     void DeleteForm(TESForm* form);
 };
 
@@ -928,7 +928,7 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             }
             if (bclearForm)
             {
-                FUN_0084a880(pform);
+                BGSSaveLoadGame_ClearForm(pform);
                 apLoadGameBuffer->SetForm(0);
                 apLoadGameBuffer->SetChangeFlags(0);
                 pform = 0;
@@ -1303,17 +1303,17 @@ void FUN_0084a840_shell::FUN_0084a840()
 void* __cdecl _GetFormByNumericID(unsigned int);
 struct FUN_0084a880_shell
 {
-    void FUN_0084a880(void*);
+    void BGSSaveLoadGame_ClearForm(void*);
 };
 struct FUN_0084a9c0_shell
 {
     void LookupFormByID(unsigned int);
 };
-// Resolves the form for the given numeric ID and forwards it to FUN_0084a880 on this object.
+// Resolves the form for the given numeric ID and forwards it to BGSSaveLoadGame_ClearForm on this object.
 // @fnv 0x0084a9c0
 void FUN_0084a9c0_shell::LookupFormByID(unsigned int a1)
 {
-    ((FUN_0084a880_shell*)this)->FUN_0084a880(_GetFormByNumericID(a1));
+    ((FUN_0084a880_shell*)this)->BGSSaveLoadGame_ClearForm(_GetFormByNumericID(a1));
 }
 
 struct Fake0084
@@ -2079,14 +2079,14 @@ struct Reference
     int unk60;
     LoadedData* loaded;
     bool IsExterior();
-    void FUN_00575830(Position* input);
+    void TESObjectREFR_SetLocationOnReference(Position* input);
 };
 bool IsPersistent(void*);
 World* __fastcall FindWorld(Reference*);
 void UpdateScene(Scene*, bool);
 // Validates the input position against world bounds, falls back to GetFallback when invalid, removes/reinserts the reference in its world, and updates the scene.
 // @fnv 0x00575830
-void Reference::FUN_00575830(Position* apPosition)
+void Reference::TESObjectREFR_SetLocationOnReference(Position* apPosition)
 {
     bool changedVal = false;
     Position fallbackX = NiPoint3_ZERO;
@@ -2372,7 +2372,7 @@ struct W20Save
     W20History* history;
     void SetFlag4(bool);
     void SaveCompiledFileList(W20File*);
-    void FUN_00847850(W20File*);
+    void BGSSaveLoadGame_SaveGame(W20File*);
 };
 extern W20Manager* DAT_011de134;
 void FUN_0084dff0(W20History*, const char*, ...);
@@ -2380,12 +2380,12 @@ void FUN_00845cc0(const char*, ...);
 void ForwardToShell(W20File*, void*, int);
 unsigned int FUN_00847d70(W20File*);
 unsigned int FUN_00847d90(W20File*);
-W20Form* FUN_004839c0(unsigned int);
+W20Form* TESForm_GetFormByNumericID(unsigned int);
 void FUN_0084eb80(W20Buffer*, W20Form*, unsigned int);
 
 // Writes the save file: logs the save, writes a header, serializes each changed form, then rewrites the header with offsets and sizes.
 // @fnv 0x00847850
-void W20Save::FUN_00847850(W20File* file)
+void W20Save::BGSSaveLoadGame_SaveGame(W20File* file)
 {
     SetFlag4(true);
     char k[260];
@@ -2417,7 +2417,7 @@ void W20Save::FUN_00847850(W20File* file)
         }
         else
         {
-            W20Form* form = FUN_004839c0(j);
+            W20Form* form = TESForm_GetFormByNumericID(j);
             if (form)
             {
                 l.FUN_00847db0();
@@ -2521,7 +2521,7 @@ struct FormExtra : TESForm
 {
     unsigned int FUN_00401170();
     const char* FUN_00440e30();
-    void FUN_0046a010(bool);
+    void TESForm_SetStillLoading(bool);
 };
 struct ReferenceExtra : FormExtra
 {
@@ -2584,7 +2584,7 @@ struct BufferArray
 };
 struct FormQueue
 {
-    void FUN_00843630(FormExtra*, bool);
+    void BGSReconstructFormsInAllFilesMap_AddForm(FormExtra*, bool);
 };
 struct ReferenceMap
 {
@@ -2704,7 +2704,7 @@ void __cdecl ReadFileIntoBuffer(SaveFile*, unsigned char*, unsigned int);
 void __cdecl FUN_00848e40(unsigned int);
 void __cdecl FUN_0084c270(unsigned int);
 void __cdecl LoadGlobalDataRanges(SaveFile*, unsigned int);
-FormExtra* __cdecl FUN_004839c0(unsigned int);
+FormExtra* __cdecl TESForm_GetFormByNumericID(unsigned int);
 const char* __cdecl GetStringForByte(unsigned int);
 void __cdecl FUN_00845cc0(const char*, ...);
 UnloadFlags __cdecl FUN_00841120(UnloadFlags, UnloadFlags, unsigned int, bool);
@@ -2720,7 +2720,7 @@ struct ReconstructSession : BGSSaveLoadGame
     void FUN_00848ca0(bool);
     void FUN_007d6bd0(bool);
     unsigned int LoadFormData(SaveFile*, BGSLoadFormBuffer*, FUN_00846b60*);
-    void FUN_0084a880(FormExtra*);
+    void BGSSaveLoadGame_ClearForm(FormExtra*);
     bool RevertReference(FormExtra**, UnloadFlags, bool);
     void FUN_00848e70(FUN_00845550*, FUN_00846b60*);
     void FUN_0084a5b0();
@@ -2806,7 +2806,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                         }
                         pendingChanges->ApplyFormQuantityChange(index, changed);
                         current->FUN_0086cf00(currentVal);
-                        FormExtra* form_ = FUN_004839c0(index);
+                        FormExtra* form_ = TESForm_GetFormByNumericID(index);
                         current->FUN_007037c0(form_);
                         unsigned int position3 = LoadFormData(pSaveFile, current, oldState5);
                         current->FUN_00864580(pSaveFile, position3);
@@ -2828,7 +2828,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                             {
                                 if (((HandlerMethods*)g_dataHandler)->FUN_00469860(index))
                                 {
-                                    FUN_0084a880(form_);
+                                    BGSSaveLoadGame_ClearForm(form_);
                                     current->FUN_007037c0(0);
                                     current->FUN_0086cf00(FUN_008c71b0(0));
                                     overrideFlag3 = true;
@@ -2849,7 +2849,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                                 {
                                     if (!RevertReference((FormExtra**)&form_, combined, false))
                                     {
-                                        ((StatePrefix*)this)->queue->FUN_00843630(form_, false);
+                                        ((StatePrefix*)this)->queue->BGSReconstructFormsInAllFilesMap_AddForm(form_, false);
                                         current->FUN_0042ce50(true);
                                     }
                                 }
@@ -2921,7 +2921,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                             FUN_0084f330(current, form_, current->FUN_00428110());
                             if (current->GetForm() && !IsFlag80Set())
                             {
-                                form_->FUN_0046a010(true);
+                                form_->TESForm_SetStillLoading(true);
                                 form_->LoadGame(current);
                             }
                         }
@@ -2981,21 +2981,21 @@ class IOManager
   public:
     void FUN_008495b0();
     void FUN_00c3e340();
-    void FUN_00456520();
+    void IOManager_LoadAllQueuedPriorities();
 };
 extern IOManager* DAT_01202d98;
 class TES
 {
   public:
     void FUN_00459920();
-    void FUN_0045cda0();
+    void TES_ActivateAllSubmergedReferencesIslands();
 };
 extern TES* g_TES;
 extern TESObjectREFR* _g_thePlayer;
 class CellPhysics
 {
   public:
-    void* FUN_004543c0();
+    void* TESObjectCELL_GetbhkWorld();
     void RemoveReference(TESObjectREFR*);
 };
 class PhysicsWorld
@@ -3042,7 +3042,7 @@ void __cdecl FUN_00867f90(TESObjectREFR*);
 class FormState
 {
   public:
-    void FUN_0046a010(bool);
+    void TESForm_SetStillLoading(bool);
 };
 class FUN_008492b0_shell
 {
@@ -3082,12 +3082,12 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
     {
         g_TES->FUN_00459920();
         DAT_01202d98->FUN_00c3e340();
-        DAT_01202d98->FUN_00456520();
+        DAT_01202d98->IOManager_LoadAllQueuedPriorities();
         TESObjectCELL* cell = _g_thePlayer->GetParentCell();
-        PhysicsWorld* world = cell ? (PhysicsWorld*)((CellPhysics*)cell)->FUN_004543c0() : 0;
+        PhysicsWorld* world = cell ? (PhysicsWorld*)((CellPhysics*)cell)->TESObjectCELL_GetbhkWorld() : 0;
         if (world)
             world->FUN_00c6a870();
-        g_TES->FUN_0045cda0();
+        g_TES->TES_ActivateAllSubmergedReferencesIslands();
     }
     changes->FUN_00865360();
     for (unsigned int j = 0; j < buffers.GetSize(); ++j)
@@ -3115,7 +3115,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
                         ((CellPhysics*)cell)->RemoveReference(ref);
                     FUN_00867f90(ref);
                 }
-                ((FormState*)form)->FUN_0046a010(false);
+                ((FormState*)form)->TESForm_SetStillLoading(false);
             }
             delete buffer;
         }
@@ -3432,14 +3432,14 @@ struct Form84
     virtual void vfn_1f0();
     virtual Pt3f* vfn_1f4();
     int FUN_00401170();
-    unsigned int FUN_00546af0();
+    unsigned int TESObjectCELL_GetDetachTime();
     bool FUN_00425fd0();
     Obj84* FUN_0054ddd0();
     unsigned int FUN_00544c30();
     unsigned int FUN_00544c60();
     Obj84* FUN_008d6f30();
     Obj84* FUN_00575d70();
-    void FUN_00561ef0(int);
+    void TESObjectREFR_MoveToEditorLocation(int);
 };
 struct Buf84
 {
@@ -3518,10 +3518,10 @@ struct ThisHist84
     char pad[0x1c];
     void* m_pNoteHandler;
 };
-Form84* __cdecl FUN_004839c0(unsigned int);
+Form84* __cdecl TESForm_GetFormByNumericID(unsigned int);
 int __cdecl FUN_0084e730(unsigned int, int, unsigned int);
 int __cdecl FUN_0084e930(void*, int, void*);
-unsigned int __cdecl FUN_00526100();
+unsigned int __cdecl TESObjectCELL_GetHoursToRespawnCell();
 int __cdecl PackShortPair(short, short);
 int __cdecl FUN_00406d90(float);
 unsigned int __cdecl FUN_0084e800(int);
@@ -3531,14 +3531,14 @@ void __cdecl _fnv_call_845cc0(const char*, ...);
 
 struct FUN_0084ab20_shell : public BGSSaveLoadGame
 {
-    bool FUN_004623f0(bool);
+    bool BGSSaveLoadGame_SetThreadAllowChanges(bool);
     void FUN_0084ab20();
 };
 
 // @fnv 0x0084ab20
 void FUN_0084ab20_shell::FUN_0084ab20()
 {
-    bool allowOld = FUN_004623f0(false);
+    bool allowOld = BGSSaveLoadGame_SetThreadAllowChanges(false);
     Map84 map(0x25);
     unsigned int start = g_calendar.FUN_00867e30();
     int count1 = 0;
@@ -3575,13 +3575,13 @@ void FUN_0084ab20_shell::FUN_0084ab20()
             }
             else
             {
-                Form84* form = FUN_004839c0(fid);
+                Form84* form = TESForm_GetFormByNumericID(fid);
                 if (form != 0)
                 {
                     if (form->FUN_00401170() == 0x39)
                     {
                         Form84* cell = form;
-                        size = cell->FUN_00546af0();
+                        size = cell->TESObjectCELL_GetDetachTime();
                         if (!cell->FUN_00425fd0())
                         {
                             idCopy = cell->FUN_0054ddd0()->FUN_0084e3a0();
@@ -3593,7 +3593,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
             }
             if (size != 0)
             {
-                if (start - size > FUN_00526100())
+                if (start - size > TESObjectCELL_GetHoursToRespawnCell())
                 {
                     unsigned __int64 key = (unsigned __int64)idCopy;
                     if (maxXA != 0x7fffffff)
@@ -3638,7 +3638,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
             }
             else
             {
-                Form84* formT = FUN_004839c0(fm);
+                Form84* formT = TESForm_GetFormByNumericID(fm);
                 if (formT != 0)
                 {
                     ek = (unsigned int)formT->FUN_00401170();
@@ -3705,7 +3705,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                     {
                         FUN_0084e930(ev->buffer.FUN_00866390(), res100, &info2);
                         ((RefMap84*)m_pReferencesMap)->FUN_0084b470(fm);
-                        Form84* formX = FUN_004839c0((unsigned int)info2.f00);
+                        Form84* formX = TESForm_GetFormByNumericID((unsigned int)info2.f00);
                         if (formX != 0 && formX->FUN_00401170() == 0x41)
                         {
                             ((RefMap84*)m_pReferencesMap)
@@ -3754,7 +3754,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                     }
                     if (ft != 0)
                     {
-                        ft->FUN_00561ef0(0);
+                        ft->TESObjectREFR_MoveToEditorLocation(0);
                     }
                 }
             }
@@ -3768,7 +3768,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
         }
     }
     map.FUN_00438af0();
-    FUN_004623f0(allowOld);
+    BGSSaveLoadGame_SetThreadAllowChanges(allowOld);
 }
 }  // namespace fnv_0084ab20
 
@@ -3815,7 +3815,7 @@ class RevertFormChangesView
     unsigned int unk00;
     char* unk04;
     bool TestFormChangeFlags(TESForm*);
-    void FUN_00843630(TESForm*, int);
+    void BGSReconstructFormsInAllFilesMap_AddForm(TESForm*, int);
     void FUN_00843750(TESForm*, unsigned int, int);
     void FUN_008439e0();
     void Clear();
@@ -3876,7 +3876,7 @@ class CF845
 class TES
 {
   public:
-    bool FUN_004511e0(TESForm*, int);
+    bool TES_IsCellLoaded(TESForm*, int);
 };
 class ReconstructLoadContext
 {
@@ -3890,11 +3890,11 @@ class ReconstructLoadContext
     unsigned int unk18;
     unsigned int unk1c;
     RevertFormChangesView* pFileMap;
-    void FUN_0084a880(TESForm*);
+    void BGSSaveLoadGame_ClearForm(TESForm*);
     bool RevertReference(TESForm**, const char*, int);
     void FUN_00848e70(BGSSaveLoadChangesMap*, TESFile*);
 };
-extern TESForm* __cdecl FUN_004839c0(unsigned int);
+extern TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 extern int __cdecl FUN_0084e730(unsigned int, const char*, unsigned int);
 extern void __cdecl FUN_0084e930(char*, int, ReconstructScratch*);
@@ -3914,12 +3914,12 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
         unsigned int form = 0;
         RevertFormChangesView* key = 0;
         pMap->GetNext(pos, *(TESFile**)&form, *(::BGSReconstructFormsInFileMap**)&key);
-        current = FUN_004839c0(form);
+        current = TESForm_GetFormByNumericID(form);
         if (current)
         {
             if (((DataHandlerOps*)g_dataHandler)->FUN_00469860(form))
             {
-                FUN_0084a880(current);
+                BGSSaveLoadGame_ClearForm(current);
                 ((ChangesMapOps*)changes)->FUN_00845a20(form);
                 continue;
             }
@@ -3935,7 +3935,7 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
                 if (!RevertReference(&current, (const char*)name, 1))
                 {
                     if (current)
-                        pFileMap->FUN_00843630(current, 8);
+                        pFileMap->BGSReconstructFormsInAllFilesMap_AddForm(current, 8);
                 }
             }
             if (current && key->TestFormChangeFlags(current))
@@ -3964,7 +3964,7 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
                         scratch.FUN_0084e6a0(&reconstructed, &old);
                         if (reconstructed)
                         {
-                            if (g_TES->FUN_004511e0(reconstructed, 0))
+                            if (g_TES->TES_IsCellLoaded(reconstructed, 0))
                                 pFileMap->FUN_00843750(reconstructed, form, 8);
                         }
                     }
@@ -4016,12 +4016,12 @@ static const char kRenumberedMsg[] =
 
 struct SLGame84a880 : public BGSSaveLoadGame
 {
-    void FUN_0084a880(TESForm* form);
+    void BGSSaveLoadGame_ClearForm(TESForm* form);
 };
 
 // Deletes forms of listed types, assigns new IDs to listed types and others, and logs for the default case.
 // @fnv 0x0084a880
-void SLGame84a880::FUN_0084a880(TESForm* form)
+void SLGame84a880::BGSSaveLoadGame_ClearForm(TESForm* form)
 {
     if (!form)
         return;

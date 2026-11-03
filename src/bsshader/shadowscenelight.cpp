@@ -1581,7 +1581,7 @@ struct ShadowVector : NiPoint3
         z += p.z;
         return *this;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     ShadowVector* FUN_0053d1a0(ShadowVector*, const ShadowVector&) const;
     ShadowVector& FUN_0063c8a0(const ShadowVector&);
 };
@@ -1813,7 +1813,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation.y - lightTransform.translation.y,
             reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation.z -
                 lightTransform.translation.z);
-        a.direction.FUN_004a0c10();
+        a.direction.NiPoint3_Unitize();
         ShadowVector::Set(e.axis, -DAT_011a9484.x, -DAT_011a9484.y, -DAT_011a9484.z);
         a.direction.FUN_0053d1a0(&b.side, e.axis);
         if (b.side.x < DAT_01031148 && b.side.x > DAT_010b7ea0 && b.side.y < DAT_01031148 && b.side.y > DAT_010b7ea0 &&
@@ -2236,7 +2236,7 @@ extern RenderState* DAT_011f4748;
 struct RenderTextureView
 {
     void* GetGroup();
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 void FUN_00b6b8d0(unsigned int, void*);
 struct PassAccumulator : NiRefObject
@@ -3194,7 +3194,7 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
     }
     if (m_bLightFlag4)
     {
-        void* texture = reinterpret_cast<RenderTextureView*>(m_spLightRenderedTexture.m_pObject)->FUN_004bc320(0);
+        void* texture = reinterpret_cast<RenderTextureView*>(m_spLightRenderedTexture.m_pObject)->BSRenderedTexture_GetTexture(0);
         PassDebug* debug = FUN_00b55560(9);
         debug->AddTexture(texture);
     }

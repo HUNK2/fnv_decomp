@@ -77,7 +77,7 @@ struct FurniturePackage
     int FUN_0041ca90();
     unsigned int FUN_00676280(::Actor*);
     bool FUN_006728a0(::Actor*, float*);
-    ::NiPoint3 FUN_00675de0(::Actor*);
+    ::NiPoint3 TESPackage_GetLocationCoord(::Actor*);
 };
 struct FurnitureCell
 {
@@ -85,7 +85,7 @@ struct FurnitureCell
 };
 struct FurnitureRef : ::TESObjectREFR
 {
-    ::TESForm* FUN_00567790();
+    ::TESForm* TESObjectREFR_GetOwner();
 };
 struct FurnitureList
 {
@@ -153,7 +153,7 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
     else
     {
         reinterpret_cast<FurnitureSearchManager*>(DAT_011c3f2c)
-            ->FUN_0046f280(a, p, i, f->FUN_00675de0(actor), i, FUN_00922960, actor);
+            ->FUN_0046f280(a, p, i, f->TESPackage_GetLocationCoord(actor), i, FUN_00922960, actor);
     }
     reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)->FUN_00470470();
     FurnitureList* cf = &DAT_011e0424;
@@ -177,8 +177,8 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
             {
                 ::TESObjectREFR* barterA = eb->FUN_006815c0();
                 ::TESObjectREFR* found = h->FUN_006815c0();
-                if (!static_cast<FurnitureRef*>(barterA)->FUN_00567790() &&
-                    static_cast<FurnitureRef*>(found)->FUN_00567790())
+                if (!static_cast<FurnitureRef*>(barterA)->TESObjectREFR_GetOwner() &&
+                    static_cast<FurnitureRef*>(found)->TESObjectREFR_GetOwner())
                 {
                     eb->FUN_00726c60(found);
                     h->FUN_00726c60(barterA);

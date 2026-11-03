@@ -248,7 +248,7 @@ struct FUN_00caa840_shell
 {
     void* m_iWordAt00;
     Data_00caa840* m_data;
-    void FUN_00c8a280(Ctx_00caa840* ctx);
+    void hkConstraintCinfo_SaveBinary(Ctx_00caa840* ctx);
     void SaveShape(int n, Ctx_00caa840* ctx);
     void WriteToStream(Ctx_00caa840* ctx);
 };
@@ -686,7 +686,7 @@ struct FUN_00c98250_Class
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_00c98250(int, int, int);
+    void* __thiscall hkpNullContactMgrFactory_createContactMgr(int, int, int);
 };
 void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
 void __stdcall FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
@@ -2687,7 +2687,7 @@ struct FUN_00d53200_class
     void* m_unk00;
     Data_caa6a0* m_data;
 
-    void FUN_00c8a230(NiStream& stream);
+    void hkConstraintCinfo_LoadBinary(NiStream& stream);
     hkReferencedObject* FUN_00c8a330(NiStream& stream);
 
     void ReadFromStream(NiStream& stream);
@@ -2950,7 +2950,7 @@ struct Owner
 {
     int unk00;
     Constraint* unk04;
-    void FUN_00c8a560(Strings*);
+    void hkConstraintCinfo_GetViewerStrings(Strings*);
     void AppendConstraintToStrings(Strings*);
 };
 class hkRefObjCBFB

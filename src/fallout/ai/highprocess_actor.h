@@ -32,7 +32,7 @@ class TESBoundObject : public TESForm
 {
   public:
     void FUN_0050eb90(NiPoint3*);
-    NiPoint3* FUN_0050ead0(NiPoint3*);
+    NiPoint3* TESBoundObject_GetBoundMin(NiPoint3*);
 };
 class TESTopicInfo
 {
@@ -47,7 +47,7 @@ class ExtraDataList
     void ClearActivePackage();
     void SetActivePackage(FleePackage*);
     ExtraRefractionProperty* GetAlphaExtra();
-    ScriptLocals* FUN_00418830();
+    ScriptLocals* ExtraDataList_GetScriptLocals();
     Script* GetScriptLocalData();
     TESPackage* GetPackageOverride();
 };
@@ -386,7 +386,7 @@ class TESObjectREFR : public TESForm
     unsigned char layout04[0x64];
     bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
     void Disable();
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
     TESObjectCELL* GetParentCell();
 };
 class TESObjectREFRHelper : public TESObjectREFR
@@ -416,7 +416,7 @@ class Actor : public MobileObject
 {
   public:
     bool FUN_008c0050();
-    bool FUN_00608d80();
+    bool Actor_IsReanimated();
     bool IsCombatTargetHostile(Actor*);
     bool IsCurrentlyAlerted();
     bool FUN_00579670();
@@ -424,7 +424,7 @@ class Actor : public MobileObject
     bool IsWithinDistanceOfPoint(const NiPoint3&, float);
     int CalculateDetectionLevel(int, Actor*, bool*, bool, int, bool, bool*);
     void FUN_008c8bb0(int);
-    bool FUN_00437bd0();
+    bool Actor_IsUnConscious();
     bool HasFaction(TESForm*);
     bool CanBeDetected();
     float GetCombatRating(float);
@@ -450,7 +450,7 @@ class Actor : public MobileObject
     static float GetActorScale();
     unsigned char layout88[0x1c];
     ActorValueOwner actorValueOwner;
-    bool FUN_00437bf0();
+    bool Actor_IsRestrained();
     bool IsCombatEngaged();
     bool HasIdleInFormArray(TESIdleForm*);
     int GetAnimAction();
@@ -464,7 +464,7 @@ class PlayerCharacter : public Actor
   public:
     bool FUN_00953c50(bool*);
     int GetPlayerLevel();
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     bool HasCombatState();
     void UpdateRadiationEffects();
 };

@@ -315,19 +315,19 @@ void TaskQueueInterface::ProcessPackedTask(const BSPackedTask& task)
     }
 }
 
-// If FUN_004b7210() returns an object whose GetIndex() is nonzero, forwards input to its FUN_00984f60 method.
+// If InterfaceManager_Instance() returns an object whose GetIndex() is nonzero, forwards input to its FUN_00984f60 method.
 // @fnv 0x007034c0
 void TaskQueueInterface::ThreadProcessInput(unsigned int input)
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        FUN_004b7210()->FUN_00984f60(input);
+    if (InterfaceManager_Instance() && reinterpret_cast<QuestStage*>(InterfaceManager_Instance())->GetIndex())
+        InterfaceManager_Instance()->FUN_00984f60(input);
 }
 
 // @fnv 0x00703490
 void TaskQueueInterface::ThreadProcessSecondaryInput()
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        FUN_004b7210()->ClearActivatePickResults();
+    if (InterfaceManager_Instance() && reinterpret_cast<QuestStage*>(InterfaceManager_Instance())->GetIndex())
+        InterfaceManager_Instance()->ClearActivatePickResults();
 }
 
 // Dispatches a packed task by its opcode, calling the matching engine routine for each case.
@@ -367,7 +367,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
                              akTask.m_akPackedTaskVariantData[4].fData);
                 break;
             case 0x1009:
-                FUN_005c0b10(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].pcDataA[0],
+                Script_SetAngleBase(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].pcDataA[0],
                              akTask.m_akPackedTaskVariantData[4].fData);
                 break;
             case 0x113c:
@@ -815,7 +815,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         bhkCharacterController* pController = pActor->GetPhysicsCharacterController();
         if (pController)
         {
-            pController->FUN_005620e0(pActor->SetBipedAnim());
+            pController->bhkCharacterController_SetPosition(pActor->SetBipedAnim());
             pController->FUN_0080fb00(FUN_00458b20());
             pController->FUN_005d10f0();
             pController->FUN_0087cee0();
@@ -835,11 +835,11 @@ struct FUN_0043b370_cls
 {
     char pad[0x30];
     unsigned int flags;
-    void FUN_0043b370(bool set, unsigned int m);
+    void NiAVObject_SetBit(bool set, unsigned int m);
 };
 // Sets or clears the bits of m in flags depending on set.
 // @fnv 0x0043b370
-void FUN_0043b370_cls::FUN_0043b370(bool set, unsigned int auiMask)
+void FUN_0043b370_cls::NiAVObject_SetBit(bool set, unsigned int auiMask)
 {
     if (set)
         flags |= auiMask;

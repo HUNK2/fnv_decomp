@@ -411,9 +411,9 @@ int __cdecl CompareSecondElement(unsigned int* pFirst, unsigned int* pSecond)
     return iResult;
 }
 
-extern "C" unsigned char __cdecl FUN_005548a0(unsigned char a);
+extern "C" unsigned char __cdecl TESObjectCELL_IsFormTypeCellChild(unsigned char a);
 
-// Returns 1 for characters 0x39 and 0x44, otherwise delegates to FUN_005548a0 with the same character.
+// Returns 1 for characters 0x39 and 0x44, otherwise delegates to TESObjectCELL_IsFormTypeCellChild with the same character.
 // @fnv 0x00588a60
 unsigned char __cdecl FUN_00588a60(unsigned char a)
 {
@@ -421,7 +421,7 @@ unsigned char __cdecl FUN_00588a60(unsigned char a)
         return 1;
     if (a == 0x44)
         return 1;
-    return FUN_005548a0(a);
+    return TESObjectCELL_IsFormTypeCellChild(a);
 }
 
 void __cdecl Deallocate(void*);
@@ -647,10 +647,10 @@ struct NiFormArray
 };
 struct FUN_0058b680_Class
 {
-    unsigned int __thiscall FUN_0058b680(TESForm* form);
+    unsigned int __thiscall BGSCameraPath_GetIndexForChild(TESForm* form);
 };
 // @fnv 0x0058b680
-unsigned int __thiscall FUN_0058b680_Class::FUN_0058b680(TESForm* form)
+unsigned int __thiscall FUN_0058b680_Class::BGSCameraPath_GetIndexForChild(TESForm* form)
 {
     unsigned int result = 0xFFFFFFFF;
     if (reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x2C)[0])
@@ -695,7 +695,7 @@ void FUN_0058b6c0_shell::RemoveSoundAt(unsigned int index)
 
 struct Holder680
 {
-    int __thiscall FUN_0058b680(int);
+    int __thiscall BGSCameraPath_GetIndexForChild(int);
 };
 struct Holder6c0
 {
@@ -705,16 +705,16 @@ struct Holder730
 {
     char _pad[0x2c];
     int m_2c;
-    void __thiscall FUN_0058b730(int);
+    void __thiscall BGSCameraPath_RemoveChild(int);
 };
-// If a1 and m_2c are both nonzero, calls FUN_0058b680 with a1 and passes its result to RemoveSoundAt.
+// If a1 and m_2c are both nonzero, calls BGSCameraPath_GetIndexForChild with a1 and passes its result to RemoveSoundAt.
 // @fnv 0x0058b730
-void __thiscall Holder730::FUN_0058b730(int a1)
+void __thiscall Holder730::BGSCameraPath_RemoveChild(int a1)
 {
     int v;
     if (a1 != 0 && m_2c != 0)
     {
-        v = ((Holder680*)this)->FUN_0058b680(a1);
+        v = ((Holder680*)this)->BGSCameraPath_GetIndexForChild(a1);
         ((Holder6c0*)this)->RemoveSoundAt(v);
     }
 }
@@ -800,12 +800,12 @@ int __thiscall FUN_0058cb60_Class::FUN_0058cb60(unsigned int* a, int* piValue, u
 
 struct FUN_0058f7f0_Class
 {
-    int* __thiscall FUN_0058f7f0(int a);
+    int* __thiscall ImpactSwap_GetAltFootstepMaterialName(int a);
 };
 
 // Returns a pointer to the entry at offset 0x30 plus a*0x1e if its first byte is nonzero, otherwise returns 0.
 // @fnv 0x0058f7f0
-int* __thiscall FUN_0058f7f0_Class::FUN_0058f7f0(int aiIndex)
+int* __thiscall FUN_0058f7f0_Class::ImpactSwap_GetAltFootstepMaterialName(int aiIndex)
 {
     if (*(char*)((char*)this + 0x30 + aiIndex * 0x1e))
         return (int*)((char*)this + 0x30 + aiIndex * 0x1e);
@@ -1086,14 +1086,14 @@ struct TESModel : FNStub
     void WriteToStream();
 };
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl _FUN_00485910(int, int);
 void __cdecl _FUN_00485910(int, float);
 
 // @fnv 0x00589560
 void TESModel::WriteToStream()
 {
-    FUN_004856f0(0x4c4c5546, GetFullName(), GetModelLength() + 1);
+    TESForm_AddChunkArray(0x4c4c5546, GetFullName(), GetModelLength() + 1);
 
     if (m_24 != 0)
         _FUN_00485910(0x4d414e43, m_24);

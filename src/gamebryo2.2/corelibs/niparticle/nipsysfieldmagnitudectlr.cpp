@@ -19,7 +19,7 @@ void __thiscall NiPSysFieldMagnitudeCtlr::FUN_00c29ea0(float& fValue)
 extern "C" void* g_01202718;
 
 // @fnv 0x00c2b140
-void* __cdecl FUN_00c2b140()
+void* __cdecl NiPSysFieldMagnitudeCtlr_GetRTTI()
 {
     return &g_01202718;
 }
@@ -46,12 +46,12 @@ struct StrArr
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00c2b1b0
-void __stdcall FUN_00c2b1b0(StrArr* pkStrings)
+void __stdcall NiPSysFieldMagnitudeCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcStr = FUN_00a7d330((const char*)g_01202718);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiCap = pkStrings->m_usAlloc;
@@ -79,11 +79,11 @@ struct Node : Base
 struct Owner
 {
     void FUN_00c32de0(Node* node, int arg);
-    Node* FUN_00c2b160(int arg);
+    Node* NiPSysFieldMagnitudeCtlr_CreateClone(int arg);
 };
 
 // @fnv 0x00c2b160
-Node* Owner::FUN_00c2b160(int arg)
+Node* Owner::NiPSysFieldMagnitudeCtlr_CreateClone(int arg)
 {
     Node* node = new Node();
     FUN_00c32de0(node, arg);

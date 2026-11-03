@@ -84,11 +84,11 @@ void TESFaction::LoadGame(BGSLoadFormBuffer* buffer)
 
 struct FUN_005fc840_shell : public TESFaction
 {
-    void FUN_005fc840();
+    void TESFaction_ClearData();
 };
 
 // @fnv 0x005fc840
-void FUN_005fc840_shell::FUN_005fc840()
+void FUN_005fc840_shell::TESFaction_ClearData()
 {
     ClearReactions();
 }
@@ -134,7 +134,7 @@ FUN_005fc900::~FUN_005fc900()
 
 struct FUN_005fcf80_shell : public TESFaction
 {
-    void FUN_005fcf80();
+    void TESFaction_InitItem();
 };
 
 class TESReputation;
@@ -156,7 +156,7 @@ struct TESDataHandlerRepHelper
 
 // Initializes the faction's reaction form, marks it initialized, and resolves its reputation from the data handler.
 // @fnv 0x005fcf80
-void FUN_005fcf80_shell::FUN_005fcf80()
+void FUN_005fcf80_shell::TESFaction_InitItem()
 {
     if (reinterpret_cast<const TESFormInitHelper*>(this)->IsFormInitialized())
         return;
@@ -174,7 +174,7 @@ void FUN_005fcf80_shell::FUN_005fcf80()
 
 struct FUN_005fd3b0_shell : public TESFaction
 {
-    int FUN_005fd3b0(TESFaction*);
+    int TESFaction_GetFactionReaction(TESFaction*);
 };
 
 struct Dummy_0048bf50
@@ -183,7 +183,7 @@ struct Dummy_0048bf50
 };
 
 // @fnv 0x005fd3b0
-int FUN_005fd3b0_shell::FUN_005fd3b0(TESFaction* pFaction)
+int FUN_005fd3b0_shell::TESFaction_GetFactionReaction(TESFaction* pFaction)
 {
     return ((Dummy_0048bf50*)((char*)this + 0x24))->FindValueByKey(pFaction);
 }
@@ -214,14 +214,14 @@ struct F005fd430
     virtual void v11();
     virtual void v12(int);
     char pad[0x24 - 4];
-    void FUN_0048c220(F005fd430*, int);
-    void FUN_005fd430(F005fd430* f, int r);
+    void TESReactionForm_SetFightReaction(F005fd430*, int);
+    void TESFaction_SetFactionFightReaction(F005fd430* f, int r);
 };
-// Forwards f and r to the object at this+0x24 via FUN_0048c220, then calls v12(4).
+// Forwards f and r to the object at this+0x24 via TESReactionForm_SetFightReaction, then calls v12(4).
 // @fnv 0x005fd430
-void F005fd430::FUN_005fd430(F005fd430* f, int r)
+void F005fd430::TESFaction_SetFactionFightReaction(F005fd430* f, int r)
 {
-    ((F005fd430*)((char*)this + 0x24))->FUN_0048c220(f, r);
+    ((F005fd430*)((char*)this + 0x24))->TESReactionForm_SetFightReaction(f, r);
     v12(4);
 }
 
@@ -257,12 +257,12 @@ int FUN_005fd460_shell::FUN_005fd460()
 
 struct FUN_005fd730_shell : public TESFaction
 {
-    void FUN_005fd730(BGSLoadFormBuffer*);
+    void TESFaction_LoadGame(BGSLoadFormBuffer*);
 };
 
 // Loads the form, then reads the reaction buffer and, per change flags, reads 4-byte values into offsets 0x34, 0x44 and 0x48.
 // @fnv 0x005fd730
-void FUN_005fd730_shell::FUN_005fd730(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_005fd730_shell::TESFaction_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
     ((TESReactionFormBufferAccess*)((char*)this + 0x24))->FUN_0048ca90(apLoadGameBuffer);
@@ -279,11 +279,11 @@ void FUN_005fd730_shell::FUN_005fd730(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct FUN_005fd800_shell : public TESFaction
 {
-    void FUN_005fd800(BGSLoadFormBuffer*);
+    void TESFaction_Revert(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x005fd800
-void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_005fd800_shell::TESFaction_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert((unsigned int)apLoadGameBuffer);
     if (apLoadGameBuffer->GetOldChangeFlags(0x80000000))
@@ -378,14 +378,14 @@ void* FUN_005fc730_shell::FUN_005fc730(unsigned int flags)
 }
 }  // namespace fnv_005fc730
 
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int);
 };
 
 struct FUN_0048c2e0_shell
 {
-    unsigned short __thiscall FUN_0048c2e0(unsigned int);
+    unsigned short __thiscall TESReactionForm_GetSaveSize(unsigned int);
 };
 
 struct FUN_005fd550_shell
@@ -398,8 +398,8 @@ struct FUN_005fd550_shell
 unsigned short FUN_005fd550_shell::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0*)this)->GetSaveSize(aiFlags);
-    isize += ((FUN_0048c2e0_shell*)((char*)this + 0x24))->FUN_0048c2e0(aiFlags);
+    isize += ((TESForm_GetSaveSize*)this)->GetSaveSize(aiFlags);
+    isize += ((FUN_0048c2e0_shell*)((char*)this + 0x24))->TESReactionForm_GetSaveSize(aiFlags);
     if (aiFlags & 2)
         isize += 4;
     return isize;
@@ -412,11 +412,11 @@ struct NiFormArray
 
 struct FUN_005ff520_shell
 {
-    unsigned int FUN_005ff520(unsigned int flags);
+    unsigned int TESIdleForm_GetIndexForChild(unsigned int flags);
 };
 
 // @fnv 0x005ff520
-unsigned int FUN_005ff520_shell::FUN_005ff520(unsigned int apForm)
+unsigned int FUN_005ff520_shell::TESIdleForm_GetIndexForChild(unsigned int apForm)
 {
     unsigned int index = 0xffffffff;
     if (*reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x40))
@@ -449,7 +449,7 @@ void Class005a6b10::FUN_005a6b10()
 
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
 };
 struct PC7d
 {
@@ -461,12 +461,12 @@ struct S24
 };
 struct FUN_005fd5c0_shell
 {
-    void FUN_005fd5c0(unsigned int);
+    void TESFaction_SaveGame(unsigned int);
 };
 // @fnv 0x005fd5c0
-void FUN_005fd5c0_shell::FUN_005fd5c0(unsigned int aiFlags)
+void FUN_005fd5c0_shell::TESFaction_SaveGame(unsigned int aiFlags)
 {
-    ((FUN_0051b070_shell*)this)->FUN_00484c20(aiFlags);
+    ((FUN_0051b070_shell*)this)->TESForm_SaveGame(aiFlags);
     ((S24*)((char*)this + 0x24))->WriteReactionList(aiFlags);
     if (aiFlags & 2)
         ((PC7d*)this)->FUN_00484ce0((unsigned int)((char*)this + 0x34), 4);
@@ -474,7 +474,7 @@ void FUN_005fd5c0_shell::FUN_005fd5c0(unsigned int aiFlags)
 
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct STR24
 {
@@ -486,12 +486,12 @@ struct STR00
 };
 struct FUN_005fd610_shell
 {
-    void FUN_005fd610(unsigned int, unsigned int);
+    void TESFaction_LoadGame2(unsigned int, unsigned int);
 };
 // @fnv 0x005fd610
-void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_005fd610_shell::TESFaction_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    ((TESFormStub*)this)->FUN_00484c50(aiFlags, aiCurrentFlags);
+    ((TESFormStub*)this)->TESForm_LoadGame2(aiFlags, aiCurrentFlags);
     ((STR24*)((char*)this + 0x24))->LoadReactions(aiFlags, aiCurrentFlags);
     if (aiFlags & 2)
         ((STR00*)this)->FUN_00484d00((void*)((char*)this + 0x34), 4);
@@ -520,11 +520,11 @@ struct Holder
     virtual void v18(int) = 0;
     char _pad[0x30];
     int m_flags;
-    void FUN_005fc970(int flag, bool value);
+    void TESFaction_SetFlag(int flag, bool value);
 };
 // Sets or clears the given bit in m_flags based on value, then calls v18(2).
 // @fnv 0x005fc970
-void Holder::FUN_005fc970(int flag, bool value)
+void Holder::TESFaction_SetFlag(int flag, bool value)
 {
     value ? m_flags |= flag : m_flags &= ~flag;
     v18(2);
@@ -557,10 +557,10 @@ struct Unk_005fd3d0
     virtual void v18(int v);
     char pad[32];
     HackReact m_hack;
-    void FUN_005fd3d0(struct TESForm* form, int v);
+    void TESFaction_SetFactionReaction(struct TESForm* form, int v);
 };
 // @fnv 0x005fd3d0
-void Unk_005fd3d0::FUN_005fd3d0(struct TESForm* form, int v)
+void Unk_005fd3d0::TESFaction_SetFactionReaction(struct TESForm* form, int v)
 {
     m_hack.SetReactionValue(form, v);
     v18(4);
@@ -568,7 +568,7 @@ void Unk_005fd3d0::FUN_005fd3d0(struct TESForm* form, int v)
 
 struct Helper_48c0b0
 {
-    void FUN_0048c0b0(int, int);
+    void TESReactionForm_ModReaction(int, int);
 };
 struct Outer_5fd400
 {
@@ -593,13 +593,13 @@ struct Outer_5fd400
     virtual void v18(int);
     int _pad[8];
     Helper_48c0b0 _h;
-    void FUN_005fd400(int, int);
+    void TESFaction_ModFactionReaction(int, int);
 };
-// Calls the helper's FUN_0048c0b0 with a and b, then invokes virtual v18 with 4.
+// Calls the helper's TESReactionForm_ModReaction with a and b, then invokes virtual v18 with 4.
 // @fnv 0x005fd400
-void Outer_5fd400::FUN_005fd400(int aiArg1, int aiArg2)
+void Outer_5fd400::TESFaction_ModFactionReaction(int aiArg1, int aiArg2)
 {
-    _h.FUN_0048c0b0(aiArg1, aiArg2);
+    _h.TESReactionForm_ModReaction(aiArg1, aiArg2);
     v18(4);
 }
 
@@ -616,11 +616,11 @@ struct Holder : SkyObject
 {
     char _pad[0x24];
     MidObj mid;
-    void FUN_005fd660(unsigned int, unsigned int);
+    void TESFaction_InitLoadGameTES(unsigned int, unsigned int);
 };
 // Calls SkyObject::Update and then mid.ResolveGroupReactionForms with the same two arguments.
 // @fnv 0x005fd660
-void Holder::FUN_005fd660(unsigned int auiArg1, unsigned int auiArg2)
+void Holder::TESFaction_InitLoadGameTES(unsigned int auiArg1, unsigned int auiArg2)
 {
     SkyObject::Update(auiArg1, auiArg2);
     mid.ResolveGroupReactionForms(auiArg1, auiArg2);
@@ -629,7 +629,7 @@ void Holder::FUN_005fd660(unsigned int auiArg1, unsigned int auiArg2)
 
 struct Unk38
 {
-    void FUN_00616c20(int);
+    void TESReputation_CommitCrime(int);
 };
 struct FakeFaction
 {
@@ -663,13 +663,13 @@ void FakeFaction::ModifyReputation(int aiCount, bool bModRep)
 {
     i48 += aiCount;
     if (p38 != 0 && bModRep)
-        p38->FUN_00616c20(0);
+        p38->TESReputation_CommitCrime(0);
     F18(0x80000000);
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct NiAVObject
 {
@@ -695,19 +695,19 @@ struct Flt
 
 struct FUN_005fd210_shell : TESFaction
 {
-    void FUN_005fd210(TESForm* apCopy);
+    void TESFaction_CopyFrom(TESForm* apCopy);
 };
 
 // Copies faction data from apCopy: base copy, rotation, noon sound, then deep-copies each rank entry into this faction's rank list.
 // @fnv 0x005fd210
-void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
+void FUN_005fd210_shell::TESFaction_CopyFrom(TESForm* apCopy)
 {
     BSSimpleList<FactionRankPresentation*>* pDestRankList;
     {
         TESFaction* faction = dynamic_cast<TESFaction*>(apCopy);
         if (!faction)
             return;
-        ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+        ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
         __memcpy((char*)this + 0x34, ((NiAVObject*)faction)->GetRotate(), 4);
         ((BGSAcousticSpace*)this)->SetNoonSound(((TESTopicInfo*)faction)->GetConversationData());
         ClearReactions();
@@ -735,18 +735,18 @@ struct BGSSaveFormBuffer
 {
     void SaveData(void*, int, int);
     void SaveIfChanged(BGSSaveFormBuffer*);
-    void FUN_0048c9d0(BGSSaveFormBuffer*);
+    void TESReactionForm_SaveGame(BGSSaveFormBuffer*);
     FormChangeMask GetChangeFlags(unsigned int);
 };
 struct FUN_005fd690_s
 {
-    void FUN_005fd690(BGSSaveFormBuffer* buffer);
+    void TESFaction_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x005fd690
-void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
+void FUN_005fd690_s::TESFaction_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buffer)
 {
     ((BGSSaveFormBuffer*)this)->SaveIfChanged(buffer);
-    ((BGSSaveFormBuffer*)((char*)this + 0x24))->FUN_0048c9d0(buffer);
+    ((BGSSaveFormBuffer*)((char*)this + 0x24))->TESReactionForm_SaveGame(buffer);
     if (buffer->GetChangeFlags(2))
         buffer->SaveData((char*)this + 0x34, 4, 0);
     if (buffer->GetChangeFlags(0x80000000))
@@ -770,11 +770,11 @@ struct TgtOps
 };
 struct _FactionSub
 {
-    int FUN_0048c1b0(TESFaction*);
+    int TESReactionForm_GetFightReaction(TESFaction*);
 };
 struct F005fd430
 {
-    void FUN_005fd430(F005fd430*, int);
+    void TESFaction_SetFactionFightReaction(F005fd430*, int);
 };
 struct Reaction_5fd850
 {
@@ -801,7 +801,7 @@ void ValidateFactionReactions()
                     (pReaction->eReaction == 3 || pReaction->eReaction == 2))
                 {
                     TESFaction* pOther = pReaction->pFaction;
-                    int iFactionReaction = ((_FactionSub*)((char*)pOther + 0x24))->FUN_0048c1b0(pFaction);
+                    int iFactionReaction = ((_FactionSub*)((char*)pOther + 0x24))->TESReactionForm_GetFightReaction(pFaction);
                     if (iFactionReaction != 2 && iFactionReaction != 3)
                     {
                         FNV_Warning(
@@ -809,7 +809,7 @@ void ValidateFactionReactions()
                             pFaction->GetName(), pFaction->GetFormID(), pOther->GetName(), pOther->GetFormID(),
                             pOther->GetName(), pOther->GetFormID(), pFaction->GetName(), pFaction->GetFormID(),
                             pOther->GetName(), pFaction->GetName(), pFaction->GetName(), pFaction->GetFormID());
-                        ((F005fd430*)pOther)->FUN_005fd430((F005fd430*)pFaction, 3);
+                        ((F005fd430*)pOther)->TESFaction_SetFactionFightReaction((F005fd430*)pFaction, 3);
                     }
                 }
                 pRIter = pRIter->GetNext();
@@ -1048,7 +1048,7 @@ bool FactionLoader::LoadFactionRecord(TESFile* file)
 #include <string.h>
 struct FactionCompareAccess : TESFaction
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
     const FactionSaveData* FUN_006a9540();
     TESReputation* GetField38();
     BSSimpleList<FactionRankPresentation*>* FUN_005a8080();
@@ -1069,7 +1069,7 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
     FactionCompareAccess* faction2 = static_cast<FactionCompareAccess*>(dynamic_cast<TESFaction*>(other));
     if (!faction2)
         return true;
-    if (FUN_00485270(faction2))
+    if (TESForm_CompareAllComponents(faction2))
         return true;
     if (memcmp(&data, faction2->FUN_006a9540(), 4))
         return true;

@@ -8,7 +8,7 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4a48;
 
 // @fnv 0x00a74790
-const GlobalObjectO2_00a7b610* FUN_00a74790()
+const GlobalObjectO2_00a7b610* NiLines_GetRTTI()
 {
     return &g_011f4a48;
 }
@@ -36,7 +36,7 @@ struct NiUpdateData
 };
 struct FUN_00a59f90_holder
 {
-    void __thiscall FUN_00a59f90(NiUpdateData& data, unsigned int value);
+    void __thiscall NiAVObject_UpdateDownwardPass(NiUpdateData& data, unsigned int value);
 };
 struct ParticleDownwardPassReceiver
 {
@@ -87,10 +87,10 @@ struct ParticleDownwardPassReceiver
     virtual void slot44();
     virtual void slot45();
     virtual void dispatch(void* data);
-    void __thiscall FUN_00c1ad90(void* data, unsigned int value);
+    void __thiscall NiParticleSystem_UpdateDownwardPass(void* data, unsigned int value);
 };
 // @fnv 0x00c1ad90
-void ParticleDownwardPassReceiver::FUN_00c1ad90(void* data, unsigned int value)
+void ParticleDownwardPassReceiver::NiParticleSystem_UpdateDownwardPass(void* data, unsigned int value)
 {
     NiUpdateData* update = (NiUpdateData*)data;
     if (update->deferUpdate != 0)
@@ -99,7 +99,7 @@ void ParticleDownwardPassReceiver::FUN_00c1ad90(void* data, unsigned int value)
         return;
     }
     dispatch(data);
-    ((FUN_00a59f90_holder*)this)->FUN_00a59f90(*(NiUpdateData*)data, value);
+    ((FUN_00a59f90_holder*)this)->NiAVObject_UpdateDownwardPass(*(NiUpdateData*)data, value);
 }
 
 class NiStream;
@@ -149,14 +149,14 @@ struct EntryArray
 };
 
 extern const char* const g_011f4a20_arg1;
-void __stdcall FUN_00a80e70(EntryArray*);
+void __stdcall NiGeometry_GetViewerStrings(EntryArray*);
 char* __cdecl FUN_00a7d330(const char*);
 }
 
 // @fnv 0x00a897c0
-void __stdcall FUN_00a897c0(TriGeomViewerDetail::EntryArray* entries)
+void __stdcall NiTriBasedGeom_GetViewerStrings(TriGeomViewerDetail::EntryArray* entries)
 {
-    TriGeomViewerDetail::FUN_00a80e70(entries);
+    TriGeomViewerDetail::NiGeometry_GetViewerStrings(entries);
     char* label = TriGeomViewerDetail::FUN_00a7d330(TriGeomViewerDetail::g_011f4a20_arg1);
     entries->Append(label);
 }
@@ -166,14 +166,14 @@ class BinaryDataRecord;
 class LineReceiver : public ::NiGeometry
 {
   public:
-    void FUN_00a80bf0(BinaryDataRecord& stream);
+    void NiGeometry_LoadBinary(BinaryDataRecord& stream);
     void FUN_00a9b180(BinaryDataRecord& stream);
 };
 
 // @fnv 0x00a9b180
 void LineReceiver::FUN_00a9b180(BinaryDataRecord& stream)
 {
-    FUN_00a80bf0(stream);
+    NiGeometry_LoadBinary(stream);
 }
 }
 

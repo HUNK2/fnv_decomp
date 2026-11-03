@@ -127,7 +127,7 @@ struct NiNode
 };
 struct TESObjectCELL
 {
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
 };
 extern int g_TES;
 
@@ -142,13 +142,13 @@ struct FUN_005287b0_shell
     void FUN_005287b0(TESObjectCELL* apCell);
 };
 
-// If apCell is non-null and its FUN_00545cb0() node is non-null, calls AddCellToBuffer on the global g_TES object with apCell.
+// If apCell is non-null and its TESObjectCELL_Get3D() node is non-null, calls AddCellToBuffer on the global g_TES object with apCell.
 // @fnv 0x005287b0
 void FUN_005287b0_shell::FUN_005287b0(TESObjectCELL* apCell)
 {
     if (apCell)
     {
-        if (apCell->FUN_00545cb0())
+        if (apCell->TESObjectCELL_Get3D())
         {
             ((FUN_00454b90_shell*)(g_TES))->AddCellToBuffer(apCell);
         }
@@ -217,7 +217,7 @@ struct LoaderDummy
 };
 struct CellRefDummy
 {
-    void FUN_005571a0(int i);
+    void TESObjectCELL_QueueReferences(int i);
 };
 struct MyCellEx
 {
@@ -229,13 +229,13 @@ struct FUN_00527cb0_shell
     char _pad[0x18];
     LoaderDummy* pLoader;
     IntPoint2D* m_pGridCoordinates;
-    void FUN_00527cb0();
+    void ExteriorCellLoaderTask_Run();
 };
 // @fnv 0x00527cb0
-void FUN_00527cb0_shell::FUN_00527cb0()
+void FUN_00527cb0_shell::ExteriorCellLoaderTask_Run()
 {
     pLoader->FUN_00528620(m_pGridCoordinates);
-    ((MyCellEx*)m_pGridCoordinates)->pObj->FUN_005571a0(1);
+    ((MyCellEx*)m_pGridCoordinates)->pObj->TESObjectCELL_QueueReferences(1);
 }
 
 bool __fastcall FUN_00449130(int*);
@@ -245,11 +245,11 @@ struct FUN_00527d00_shell
     char _pad[0x18];
     FUN_005287b0_shell* pLoader;
     char* m_pGridCoordinates;
-    void FUN_00527d00();
+    void ExteriorCellLoaderTask_PostProcess();
 };
 
 // @fnv 0x00527d00
-void FUN_00527d00_shell::FUN_00527d00()
+void FUN_00527d00_shell::ExteriorCellLoaderTask_PostProcess()
 {
     if (!FUN_00449130((int*)this))
     {
@@ -273,28 +273,28 @@ struct NiPoint2
 };
 struct WorldSpaceAccess : TESWorldSpace
 {
-    CellEffects* __thiscall FUN_00585b30(int x, int y);
+    CellEffects* __thiscall TESWorldSpace_LoadCell(int x, int y);
 };
 struct NodeEffects : NiNode
 {
-    void __thiscall FUN_00535b90(bool value);
-    void __thiscall FUN_0053fa40(unsigned char value);
-    void __thiscall FUN_0053f440();
+    void __thiscall TESObjectLAND_LoadVertices(bool value);
+    void __thiscall TESObjectLAND_DrawLandBorder(unsigned char value);
+    void __thiscall TESObjectLAND_GetMinMaxLandHeight();
 };
 struct CellEffects : TESObjectCELL
 {
     void __thiscall GetOrCreateWidget();
-    NodeEffects* __thiscall FUN_00546fb0();
-    NodeEffects* __thiscall FUN_00546fb0(NiPoint2* outPosition);
+    NodeEffects* __thiscall TESObjectCELL_GetLand();
+    NodeEffects* __thiscall TESObjectCELL_GetLand(NiPoint2* outPosition);
     bool __thiscall FUN_00451cd0();
-    float __thiscall FUN_005471e0();
+    float __thiscall TESObjectCELL_GetWaterHeight();
     void __thiscall SetFlag2(bool value);
-    bool __thiscall FUN_004518e0();
+    bool __thiscall TESObjectCELL_HasWater();
     void __thiscall SetByteAt54(bool value);
 };
 struct GameWorld : TES
 {
-    CellEffects* __thiscall FUN_00461330(int mode, int x, int y, WorldSpaceAccess* worldSpace);
+    CellEffects* __thiscall TESDataHandler_NewCell(int mode, int x, int y, WorldSpaceAccess* worldSpace);
 };
 extern GameWorld* DAT_011c3f2c;
 extern FUN_00528790_shell* DAT_011dea10;
@@ -320,22 +320,22 @@ void CellLoader::FUN_00528620(CellLoadData* pLoadData)
     if (pLoadData != 0)
     {
         if (pLoadData->cell == 0)
-            pLoadData->cell = pLoadData->worldSpace->FUN_00585b30(pLoadData->iX, pLoadData->iY);
+            pLoadData->cell = pLoadData->worldSpace->TESWorldSpace_LoadCell(pLoadData->iX, pLoadData->iY);
         if (pLoadData->cell == 0)
-            pLoadData->cell = DAT_011c3f2c->FUN_00461330(0, pLoadData->iX, pLoadData->iY, pLoadData->worldSpace);
+            pLoadData->cell = DAT_011c3f2c->TESDataHandler_NewCell(0, pLoadData->iX, pLoadData->iY, pLoadData->worldSpace);
         pLoadData->cell->GetOrCreateWidget();
-        NodeEffects* pNode = pLoadData->cell->FUN_00546fb0();
+        NodeEffects* pNode = pLoadData->cell->TESObjectCELL_GetLand();
         if (pNode != 0)
         {
-            pNode->FUN_00535b90(true);
-            pNode->FUN_0053fa40(DAT_011dea10->GetUnk60Byte());
+            pNode->TESObjectLAND_LoadVertices(true);
+            pNode->TESObjectLAND_DrawLandBorder(DAT_011dea10->GetUnk60Byte());
         }
         if (!pLoadData->cell->FUN_00451cd0())
         {
             NiPoint2 position;
-            pLoadData->cell->FUN_00546fb0(&position)->FUN_0053f440();
-            pLoadData->cell->SetFlag2(position.x < pLoadData->cell->FUN_005471e0());
-            if (*DAT_011c7adc.FUN_00408d60() && pLoadData->cell->FUN_004518e0() && !pLoadData->cell->FUN_00451cd0())
+            pLoadData->cell->TESObjectCELL_GetLand(&position)->TESObjectLAND_GetMinMaxLandHeight();
+            pLoadData->cell->SetFlag2(position.x < pLoadData->cell->TESObjectCELL_GetWaterHeight());
+            if (*DAT_011c7adc.FUN_00408d60() && pLoadData->cell->TESObjectCELL_HasWater() && !pLoadData->cell->FUN_00451cd0())
             {
                 FUN_0049c860(pLoadData->cell);
             }

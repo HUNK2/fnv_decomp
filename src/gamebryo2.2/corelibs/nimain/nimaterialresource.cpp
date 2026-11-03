@@ -5,7 +5,7 @@
 extern char const* const g_0126fa40_arg1;
 
 // @fnv 0x00be0ae0
-char const* const* __cdecl FUN_00be0ae0()
+char const* const* __cdecl NiD3DPixelShader_GetRTTI()
 {
     return &g_0126fa40_arg1;
 }

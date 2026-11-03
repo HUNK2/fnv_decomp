@@ -28,7 +28,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a409d0
-void* __cdecl FUN_00a409d0()
+void* __cdecl NiBlendTransformInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x30);
     if (p)
@@ -49,7 +49,7 @@ struct BSFadeNode
 };
 // Allocates a 0x40-byte BSFadeNode, initialises it via InitTimeController, sets its vtable to DAT_010975fc and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a411f0
-int* __cdecl FUN_00a411f0()
+int* __cdecl NiFloatExtraDataController_CreateObject()
 {
     int* p = static_cast<int*>(BSFadeNode::operator new(0x40));
     if (p)
@@ -201,7 +201,7 @@ void FUN_00a57870_Class::ReleaseString()
 
 // Allocates a 0x34-byte BSFadeNode, runs FUN_00a36890 on it, zeroes the float at offset 0x30, sets its vtable, and returns it (or null).
 // @fnv 0x00a42f90
-void* __cdecl FUN_00a42f90()
+void* __cdecl BSBlendTreadTransfInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x34);
     if (p)
@@ -263,7 +263,7 @@ struct BaseHolder
 };
 // Allocates a 0x24-byte BSFadeNode, initialises it via FUN_00a57f20, sets its vtable and a 0xffff field, and returns it (or null).
 // @fnv 0x00a50ad0
-void* __cdecl FUN_00a50ad0()
+void* __cdecl NiBSplineFloatInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x24);
     if (p)
@@ -280,7 +280,7 @@ void __fastcall _Call_a5d3a0(void*);
 extern int DAT_01099e54;
 
 // @fnv 0x00a51e10
-void* __cdecl FUN_00a51e10()
+void* __cdecl NiBSplineData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x18);
     if (p)
@@ -604,7 +604,7 @@ struct FUN_00a47bd0_class
 };
 
 // @fnv 0x00a47f20
-void* FUN_00a47f20()
+void* NiSequence_CreateObject()
 {
     FUN_00a47bd0_class* p = static_cast<FUN_00a47bd0_class*>(A51BF0Base::operator new(0x34));
 
@@ -3190,10 +3190,10 @@ void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, flo
 
 struct FUN_00a44840_stub
 {
-    void* __thiscall FUN_00a44840(unsigned int);
+    void* __thiscall NiObject_CreateClone(unsigned int);
 };
 // @fnv 0x00a44840
-void* __thiscall FUN_00a44840_stub::FUN_00a44840(unsigned int)
+void* __thiscall FUN_00a44840_stub::NiObject_CreateClone(unsigned int)
 {
     return this;
 }
@@ -3292,12 +3292,12 @@ Ptr Arr::FUN_00a47540(unsigned int uiIndex) throw()
 }
 }
 
-extern "C" void __cdecl FUN_00a39010();
+extern "C" void __cdecl NiSingleInterpController_SaveBinary();
 
 // @fnv 0x00a57c00
 void __cdecl FUN_00a57c00()
 {
-    FUN_00a39010();
+    NiSingleInterpController_SaveBinary();
 }
 
 struct FUN_00a5d320_Class
@@ -3307,11 +3307,11 @@ struct FUN_00a5d320_Class
 
 struct FUN_00a5d430_Class
 {
-    void __thiscall FUN_00a5d430(unsigned int param_1);
+    void __thiscall NiObject_ProcessClone(unsigned int param_1);
 };
 
 // @fnv 0x00a5d430
-void __thiscall FUN_00a5d430_Class::FUN_00a5d430(unsigned int param_1)
+void __thiscall FUN_00a5d430_Class::NiObject_ProcessClone(unsigned int param_1)
 {
 
     void* map_ptr = *(void**)(param_1 + 4);
@@ -4354,7 +4354,7 @@ struct FUN_00a5abe0_lock
 {
     int m_pOwnerObject;
     int m_uiItemCount;
-    void FUN_0040fbf0(int mode);
+    void BSSpinLock_Lock(int mode);
 };
 extern FUN_00a5abe0_lock DAT_011f42a0;
 
@@ -4429,7 +4429,7 @@ struct FUN_00a5abe0_list
 // @fnv 0x00a5abe0
 void __stdcall FUN_00a5abe0(FUN_00a5abe0_owner* apOwner, void* apList, void* volatile apContext)
 {
-    DAT_011f42a0.FUN_0040fbf0(0);
+    DAT_011f42a0.BSSpinLock_Lock(0);
     FUN_00a5abe0_node* node = ((FUN_00a5abe0_list*)apList)->m_pFirstNode;
     while (node != 0)
     {
@@ -4567,12 +4567,12 @@ struct StreamDev
 
 struct FUN_00a5d2f0_class
 {
-    void FUN_00a5d2f0(StreamDev* pStream);
+    void NiObject_RegisterStreamables(StreamDev* pStream);
 };
 
 // Invokes the virtual vf09 on pStream, passing this object as the owner argument.
 // @fnv 0x00a5d2f0
-void FUN_00a5d2f0_class::FUN_00a5d2f0(StreamDev* pStream)
+void FUN_00a5d2f0_class::NiObject_RegisterStreamables(StreamDev* pStream)
 {
     pStream->vf09(this);
 }
@@ -4975,11 +4975,11 @@ struct Owner
     Ref68* m_pkRef68;
     Ref58* m_pkRef58;
 
-    int FUN_00a5f970();
+    int NiSourceTexture_GetHeight();
 };
 
 // @fnv 0x00a5f970
-int Owner::FUN_00a5f970()
+int Owner::NiSourceTexture_GetHeight()
 {
     if (m_pkSource)
         return m_pkSource->m_iValue;
@@ -5407,12 +5407,12 @@ class Controller
     bool m_b42;
 
     bool FUN_00a62140(Controller* pkOther);
-    bool FUN_00a5fae0(Controller* pkOther);
+    bool NiSourceTexture_IsEqual(Controller* pkOther);
 };
 
 // Returns true if FUN_00a62140 passes and m_i18, m_i1c, m_i20, m_i30, the three bool flags, and objects m_spA and m_spB all match pkOther.
 // @fnv 0x00a5fae0
-bool Controller::FUN_00a5fae0(Controller* pkOther)
+bool Controller::NiSourceTexture_IsEqual(Controller* pkOther)
 {
     if (!FUN_00a62140(pkOther))
         return false;

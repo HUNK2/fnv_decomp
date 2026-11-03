@@ -16,7 +16,7 @@ void __cdecl FUN_00a62ae0()
 extern char const* const g_0126f0f0_arg1;
 
 // @fnv 0x00a62b50
-char const* const* __cdecl FUN_00a62b50()
+char const* const* __cdecl NiRenderer_GetRTTI()
 {
     return &g_0126f0f0_arg1;
 }
@@ -46,7 +46,7 @@ void __stdcall AppendCameraPathEntries(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330 to the StrArr, growing its size when it is full.
 // @fnv 0x00a63260
-void __stdcall FUN_00a63260(StrArr* pkStrings)
+void __stdcall NiRenderer_GetViewerStrings(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* psz = _FUN_00a7d330(g_0126f0f0_arg1);
@@ -199,7 +199,7 @@ class NiPoint3
     NiPoint3(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
     {}
     // NiPoint3::Unitize
-    __declspec(noalias) void __thiscall FUN_004a0c10();
+    __declspec(noalias) void __thiscall NiPoint3_Unitize();
     NiPoint3 operator+(const NiPoint3& pt) const
     {
         NiPoint3 r;
@@ -299,7 +299,7 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
         const NiPoint3* current = basis[0];
         const NiPoint3& currentNormal = *current;
         NiPoint3 axis = direction.Cross(*basis[0]);
-        axis.FUN_004a0c10();
+        axis.NiPoint3_Unitize();
         rotMatrix.FUN_004168a0(AcosClamped(currentNormal * direction), axis.x, axis.y, axis.z);
         const NiPoint3& basisRight = *basis[1];
         right = rotMatrix.FUN_004b4500(basisRight);
@@ -310,27 +310,27 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
     {
         direction = target->Sub(*center);
         right = NiPoint3(0.0f, 0.1f, 1.0f);
-        right.FUN_004a0c10();
+        right.NiPoint3_Unitize();
         up = right.Cross(direction);
-        up.FUN_004a0c10();
+        up.NiPoint3_Unitize();
         right = up.Cross(direction);
-        right.FUN_004a0c10();
+        right.NiPoint3_Unitize();
     }
     else
     {
         NiPoint3 delta = *target - *center;
-        delta.FUN_004a0c10();
+        delta.NiPoint3_Unitize();
         direction = *normal + delta;
-        direction.FUN_004a0c10();
+        direction.NiPoint3_Unitize();
         const NiPoint3& currentNormal = *basis[0];
         NiPoint3 axis = direction.Cross(*basis[0]);
-        axis.FUN_004a0c10();
+        axis.NiPoint3_Unitize();
         float angle = AcosClamped(direction * currentNormal);
         rotMatrix.MakeAxisAngleRotation(angle, axis);
         right = rotMatrix.FUN_004b4500(*basis[1]);
         up = rotMatrix.FUN_004b4500(*basis[2]);
     }
-    direction.FUN_004a0c10();
+    direction.NiPoint3_Unitize();
     corners[0] = center->Add(up * (float)(width * 0.5));
     corners[1] = center->Sub(up * (float)(width * 0.5));
     corners[2] = center->Add(right * (float)(width * 0.5));

@@ -41,7 +41,7 @@ struct S_00d3c3c0_Obj {
     int unk04;
     S_00d3c3c0_Holder* unk08;
     unsigned short unk0c;
-    void FUN_00d3c3c0(int arg);
+    void hkpSphereBoxAgent_cleanup(int arg);
 };
 struct AllocHolder {
     int unk00;
@@ -143,7 +143,7 @@ struct Simplex
 };
 struct AgentBase
 {
-    void FUN_00d3c5b0(int a, int b, int c, Simplex* s);
+    void hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 struct Agent : AgentBase
 {
@@ -552,7 +552,7 @@ __forceinline void S3c5_SphereBoxAgent::processContact(const S3c5_CdBody& bodyA,
 }
 
 // @fnv 0x00d3c5b0
-void AgentBase::FUN_00d3c5b0(int a, int b, int c, Simplex* s)
+void AgentBase::hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s)
 {
     ((S3c5_SphereBoxAgent*)this)->processContact(*(const S3c5_CdBody*)a, *(const S3c5_CdBody*)b, *(const S3c5_CollisionInput*)c, *(S3c5_ProcessCollisionOutput*)s);
 }

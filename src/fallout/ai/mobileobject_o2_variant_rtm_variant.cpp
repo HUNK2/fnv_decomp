@@ -807,7 +807,7 @@ struct MovementController {
     S00c73170_RefPtr ref638;
     HitArray hits;
     void SubtractVectors(S00c73170_Vec*);
-    void FUN_005620e0(Point*);
+    void bhkCharacterController_SetPosition(Point*);
     void ClearList();
     Inspect* FUN_00621ad0();
     void FUN_00c6d150();
@@ -841,7 +841,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         FUN_00458620(&temp,&position);
         }
         AddMovement(temp,in->displacement);
-        self->FUN_005620e0(&temp);
+        self->bhkCharacterController_SetPosition(&temp);
         self->actions->FUN_00cbc510(self->actionIndex)->update(self);
         Point* v;
         if(in->dt>0) {

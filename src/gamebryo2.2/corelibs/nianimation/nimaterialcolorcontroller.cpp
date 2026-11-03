@@ -5,7 +5,7 @@
 extern "C" void* g_011f3f88;
 
 // @fnv 0x00a4b570
-void* __cdecl FUN_00a4b570()
+void* __cdecl NiMaterialColorController_GetRTTI()
 {
     return &g_011f3f88;
 }
@@ -21,7 +21,7 @@ extern int DAT_01098a14;
 
 // Allocates a 0x3c-byte BSFadeNode, runs its constructor, zeroes the field at offset 0x38, sets its vtable, and returns the object or null.
 // @fnv 0x00a4b790
-void* __cdecl FUN_00a4b790()
+void* __cdecl NiMaterialColorController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x3c);
     if (p)
@@ -45,14 +45,14 @@ struct GlobalObjectO2_00a7b610
     char const* m_str;
 };
 extern GlobalObjectO2_00a7b610 g_011f3f88;
-void __stdcall FUN_00a57d10(StrArr*);
+void __stdcall NiPoint3InterpController_GetViewerStrings(StrArr*);
 char* __cdecl FUN_00a7d330(char const*);
 
 // Appends the string returned by FUN_00a7d330(g_011f3f88.m_str) to pkStrings, growing it when the length reaches the count.
 // @fnv 0x00a4b880
-void __stdcall FUN_00a4b880(StrArr* pkStrings)
+void __stdcall NiMaterialColorController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a57d10(pkStrings);
+    NiPoint3InterpController_GetViewerStrings(pkStrings);
     char* pStr = FUN_00a7d330(g_011f3f88.m_str);
     unsigned int len = *(unsigned short*)(pkStrings + 0xa);
     unsigned int cnt = *(unsigned short*)(pkStrings + 0x8);
@@ -348,11 +348,11 @@ struct FUN_00a4b4b0_cls : StreamableBase
 {
     ThingPtr m_spThing;
 
-    void FUN_00a4b4b0(NiStreamLike* apStream);
+    void NiMaterialColorController_LinkObject(NiStreamLike* apStream);
 };
 
 // @fnv 0x00a4b4b0
-void FUN_00a4b4b0_cls::FUN_00a4b4b0(NiStreamLike* apStream)
+void FUN_00a4b4b0_cls::NiMaterialColorController_LinkObject(NiStreamLike* apStream)
 {
     StreamableBase::FUN_00a57630(apStream);
 
@@ -374,12 +374,12 @@ struct NiMaterialColorController
 {
     unsigned char mFlags[0x38];
     bool __thiscall FUN_00a57c10(NiObject*);
-    bool __thiscall FUN_00a4b540(NiObject* pkObject);
+    bool __thiscall NiMaterialColorController_IsEqual(NiObject* pkObject);
 };
 
 // Returns true if pkObject passes FUN_00a57c10 and its mFlags[0x38] low 3 bits match this object's mFlags[0x38] low 3 bits.
 // @fnv 0x00a4b540
-bool __thiscall NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
+bool __thiscall NiMaterialColorController::NiMaterialColorController_IsEqual(NiObject* pkObject)
 {
     if (!FUN_00a57c10(pkObject))
         return false;
@@ -517,7 +517,7 @@ class NiMaterialColorControllerA4B5
 
     virtual void vfn_00();
     bool FUN_00a36250(float fTime);
-    void FUN_00a4b580(NiUpdateDataA4B5& kUpdateData);
+    void NiMaterialColorController_Update(NiUpdateDataA4B5& kUpdateData);
 
     bool GetManagerControlled() const
     {
@@ -541,7 +541,7 @@ class NiMaterialColorControllerA4B5
 
 // Sets controller time for manager-controlled updates, then may evaluate the interpolator and update a material color channel.
 // @fnv 0x00a4b580
-void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
+void NiMaterialColorControllerA4B5::NiMaterialColorController_Update(NiUpdateDataA4B5& kUpdateData)
 {
     if (GetManagerControlled())
     {
@@ -732,12 +732,12 @@ FUN_00bc2980::FUN_00bc2980() : NiNode(0)
     m_ac = 0;
 }
 
-void __cdecl FUN_00a5ea70();
+void __cdecl NiNode_GetViewerStrings();
 
 // @fnv 0x00bc29c0
 void __cdecl FUN_00bc29c0()
 {
-    FUN_00a5ea70();
+    NiNode_GetViewerStrings();
 }
 
 namespace fnv_00bc29e0 {

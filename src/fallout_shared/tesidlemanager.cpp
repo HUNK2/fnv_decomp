@@ -342,7 +342,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
 extern int _fnv_tesidlemanager_used_item;
 
 // @fnv 0x00600900
-void FUN_00600900(int param)
+void TESIdleManager_SetUsedItem(int param)
 {
     _fnv_tesidlemanager_used_item = param;
 }
@@ -552,7 +552,7 @@ struct FUN_00600030_list
 {
     unsigned char unk00[0x18];
     unsigned int FUN_0084e3a0();
-    FUN_00600030_item* FUN_004d6170(unsigned int index);
+    FUN_00600030_item* NiFormArray_GetFormAt(unsigned int index);
     void ClearItems();
 };
 
@@ -560,11 +560,11 @@ struct FUN_00600030_cls
 {
     void* FUN_004b9ba0();
     void FUN_006b7f20(void** a, void** b, FUN_00600030_list** c);
-    void FUN_00600030();
+    void TESIdleManager_DestroyRootIdleArrayForms();
 };
 
 // @fnv 0x00600030
-void FUN_00600030_cls::FUN_00600030()
+void FUN_00600030_cls::TESIdleManager_DestroyRootIdleArrayForms()
 {
     void* a = FUN_004b9ba0();
     while (a != 0)
@@ -585,7 +585,7 @@ void FUN_00600030_cls::FUN_00600030()
             unsigned int jF;
             for (i = 0; i < nG; i++)
             {
-                TD = c->FUN_004d6170(i);
+                TD = c->NiFormArray_GetFormAt(i);
                 q = TD;
                 BQ = q;
                 BQ != 0 ? BQ->v10(1) : 0;
@@ -594,7 +594,7 @@ void FUN_00600030_cls::FUN_00600030()
             nG = reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->FUN_0084e3a0();
             for (jF = 0; jF < nG; jF++)
             {
-                DQ = reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->FUN_004d6170(jF);
+                DQ = reinterpret_cast<FUN_00600030_list*>(reinterpret_cast<unsigned char*>(c) + 0x18)->NiFormArray_GetFormAt(jF);
                 EQ = DQ;
                 F = EQ;
                 F != 0 ? F->v10(1) : 0;

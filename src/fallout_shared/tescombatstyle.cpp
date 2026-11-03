@@ -7,11 +7,11 @@ TESCombatStyle::TESCombatStyle()
     SetFormType((ENUM_FORM_ID)0x4a);
     ResetFormData();
 }
-// Copies 0x5c, 0x54 and 0x40 bytes from the combat style returned by FUN_00505000 into Data and two other members, or zeroes them if none.
+// Copies 0x5c, 0x54 and 0x40 bytes from the combat style returned by TESCombatStyle_GetDefaultCombatStyle into Data and two other members, or zeroes them if none.
 // @fnv 0x005050d0
 void TESCombatStyle::ResetFormData()
 {
-    TESCombatStyle* style = FUN_00505000();
+    TESCombatStyle* style = TESCombatStyle_GetDefaultCombatStyle();
     if (style)
     {
         memcpy(&Data, &((NiAVObject*)style)->FUN_0043c490(), 0x5c);
@@ -93,7 +93,7 @@ class TESCombatStyle;
 
 struct FUN_00505550_shell
 {
-    bool FUN_00485270(TESCombatStyle*);
+    bool TESForm_CompareAllComponents(TESCombatStyle*);
     bool IsCombatStyleDifferent(TESForm* apCompare);
 };
 
@@ -103,7 +103,7 @@ bool FUN_00505550_shell::IsCombatStyleDifferent(TESForm* apCompare)
     TESCombatStyle* pcomp = dynamic_cast<TESCombatStyle*>(apCompare);
     if (!pcomp)
         return true;
-    if (FUN_00485270(pcomp))
+    if (TESForm_CompareAllComponents(pcomp))
         return true;
     if (memcmp(&((NiAVObject*)this)->FUN_0043c490(), &((NiAVObject*)pcomp)->FUN_0043c490(), 0x5c))
         return true;
@@ -144,11 +144,11 @@ struct FUN_004855a0_shell
 
 struct FUN_005053c0_shell : FUN_004855a0_shell
 {
-    void FUN_005053c0();
+    void TESCombatStyle_SaveForm();
 };
 
 // @fnv 0x005053c0
-void __thiscall FUN_005053c0_shell::FUN_005053c0()
+void __thiscall FUN_005053c0_shell::TESCombatStyle_SaveForm()
 {
     M();
     if (FUN_00401500())
@@ -173,18 +173,18 @@ void __memcpy(void* __dst, const void* __src, unsigned int __n);
 
 struct FUN_005054b0_shell : public NiAVObject
 {
-    void FUN_004851b0(TESForm* apCopy);
+    void TESForm_CopyAllComponents(TESForm* apCopy);
     void CopyFromCombatStyle(TESForm* apCopy);
 };
 
-// Casts apCopy to TESCombatStyle, calls FUN_004851b0, then memcpy's three sub-objects (0x5c, 0x54, 0x40 bytes) from the copy into this.
+// Casts apCopy to TESCombatStyle, calls TESForm_CopyAllComponents, then memcpy's three sub-objects (0x5c, 0x54, 0x40 bytes) from the copy into this.
 // @fnv 0x005054b0
 void FUN_005054b0_shell::CopyFromCombatStyle(TESForm* apCopy)
 {
     TESForm* pcopy = dynamic_cast<TESForm*>(dynamic_cast<TESCombatStyle*>(apCopy));
     if (!pcopy)
         return;
-    FUN_004851b0(pcopy);
+    TESForm_CopyAllComponents(pcopy);
     __memcpy(&FUN_0043c490(), &reinterpret_cast<NiAVObject*>(pcopy)->FUN_0043c490(), 0x5c);
     __memcpy(reinterpret_cast<CombatStyleAccess*>(this)->FUN_006ab360(),
              reinterpret_cast<CombatStyleAccess*>(pcopy)->FUN_006ab360(), 0x54);

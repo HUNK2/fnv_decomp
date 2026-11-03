@@ -119,7 +119,7 @@ Derived::Derived()
 }  // namespace fnv_0050e690
 
 // FUN_0050e6a0 is an MSVC this-adjusting (adjustor) thunk:
-//     sub ecx, 0x8c ; jmp FUN_0050e580
+//     sub ecx, 0x8c ; jmp TESObjectLIGH_LoadGame2
 // It is emitted for a virtual that lives in the first base of a multiply
 // inherited class but is reached through the second base's vtable slot: the
 // slot holds a thunk that walks `this` back to the derived object (the size of
@@ -179,7 +179,7 @@ ThunkDerived::ThunkDerived()
 {}
 
 namespace fnv_0050e6b0 {
-// sub ecx,0x8c; jmp FUN_0050e550
+// sub ecx,0x8c; jmp TESObjectLIGH_SaveGame
 // MSVC this-adjusting (adjustor) thunk: a derived class declares a virtual that
 // both of its bases declare, so the secondary base's vtable slot holds a thunk
 // that walks `this` back to the secondary base subobject (the size of the

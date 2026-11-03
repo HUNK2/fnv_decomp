@@ -6,7 +6,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b34;
 
 // @fnv 0x00a86d20
-GlobalObjectO2_00a7b610* __cdecl FUN_00a86d20()
+GlobalObjectO2_00a7b610* __cdecl BSResizableTriShape_GetRTTI()
 {
     return &g_011f5b34;
 }
@@ -108,10 +108,10 @@ struct FUN_00a744c0_holder
 };
 struct FUN_00a86e80_shell : BSResizableTriShape
 {
-    NiObject* __thiscall FUN_00a86e80(CloningProcess& kCloning);
+    NiObject* __thiscall BSResizableTriShape_CreateClone(CloningProcess& kCloning);
 };
 // @fnv 0x00a86e80
-NiObject* __thiscall FUN_00a86e80_shell::FUN_00a86e80(CloningProcess& kCloning)
+NiObject* __thiscall FUN_00a86e80_shell::BSResizableTriShape_CreateClone(CloningProcess& kCloning)
 {
     BSResizableTriShape* pkObject;
     pkObject = (BSResizableTriShape*)BSFadeNode::operator new(0xD8);
@@ -147,10 +147,10 @@ struct FUN_00a71d10_shell
 };
 struct FUN_00a86ed0_shell : BSResizableTriShape
 {
-    void __thiscall FUN_00a86ed0(NiStream&);
+    void __thiscall BSResizableTriShape_SaveBinary(NiStream&);
 };
 // @fnv 0x00a86ed0
-void __thiscall FUN_00a86ed0_shell::FUN_00a86ed0(NiStream& stream)
+void __thiscall FUN_00a86ed0_shell::BSResizableTriShape_SaveBinary(NiStream& stream)
 {
     ((FUN_00a71d10_shell*)this)->FUN_00a71d10(stream);
     NiBinaryStream* __restrict input = stream.m_pBackingStream;
@@ -278,7 +278,7 @@ struct StrArr
 
 struct Caller74690
 {
-    void __thiscall FUN_00a74690(StrArr* strings);
+    void __thiscall NiTriShape_GetViewerStrings(StrArr* strings);
 };
 
 char* __cdecl _FUN_00a7d330(char* value);
@@ -291,17 +291,17 @@ struct FUN_00a86f50_shell : Caller74690
     unsigned char _00[0xc3];
     char* _c4;
 
-    void __thiscall FUN_00a86f50(StrArr* strings);
+    void __thiscall BSResizableTriShape_GetViewerStrings(StrArr* strings);
 };
 
 // @fnv 0x00a86f50
-void FUN_00a86f50_shell::FUN_00a86f50(StrArr* strings)
+void FUN_00a86f50_shell::BSResizableTriShape_GetViewerStrings(StrArr* strings)
 {
     char* value;
     unsigned int index;
     unsigned int count;
 
-    FUN_00a74690(strings);
+    NiTriShape_GetViewerStrings(strings);
 
     value = _FUN_00a7d330(*reinterpret_cast<char**>(&g_011f5b34));
     index = strings->_0a;
@@ -375,13 +375,13 @@ struct FUN_00a86e00_cls
     unsigned int m_ic0;
     unsigned int m_ic4;
     NiBound m_bound;
-    void FUN_00a745c0();
-    void FUN_00a86e00();
+    void NiTriShape_RenderImmediate();
+    void BSResizableTriShape_RenderImmediate();
 };
 
-// Copies m_bound into the object pointed to by m_pBound, then calls FUN_00a745c0.
+// Copies m_bound into the object pointed to by m_pBound, then calls NiTriShape_RenderImmediate.
 // @fnv 0x00a86e00
-void FUN_00a86e00_cls::FUN_00a86e00()
+void FUN_00a86e00_cls::BSResizableTriShape_RenderImmediate()
 {
     NiBound* pBound = m_pBound;
     float w = m_bound.m_w;
@@ -389,7 +389,7 @@ void FUN_00a86e00_cls::FUN_00a86e00()
     pBound->m_uiY = m_bound.m_uiY;
     pBound->m_uiZ = m_bound.m_uiZ;
     pBound->m_w = w;
-    FUN_00a745c0();
+    NiTriShape_RenderImmediate();
 }
 
 void __cdecl FUN_00a98eb0();

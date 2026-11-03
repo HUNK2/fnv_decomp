@@ -27,7 +27,7 @@ class NiNode
 {
   public:
     void Update(const NiUpdateData& data);
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 
 class FUN_00622c80

@@ -2,7 +2,7 @@
 // src/fallout_shared/pathfinding/pathingdebuggeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingdebuggeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// FUN_00574400 - TESObjectREFR method, /Od /Oy- frame 0x44
+// TESObjectREFR_Disable - TESObjectREFR method, /Od /Oy- frame 0x44
 struct Ref;
 struct ExtraList;
 struct Proc;
@@ -208,33 +208,33 @@ struct Ref
     virtual void vt2fc();
     bool FUN_00440da0();
     ExtraList* FUN_005d43c0();
-    void FUN_00576760();
-    void FUN_00484af0(int a);
+    void TESObjectREFR_CleanUpTraps();
+    void TESForm_SetDisabled(int a);
     Proc* FUN_008d8520();
     void ApplyActorSpells();
     Ref* FUN_008d6f30();
-    bool FUN_005656d0();
+    bool TESObjectREFR_HasScript();
     bool FUN_00564d80();
     void FUN_0093a660(Ref* a);
     void FUN_00967350(Ref* a);
     void FUN_00952c30(Ref* a);
     int FUN_00931850();
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
     void FUN_00881680(int a);
     void FUN_0088d640();
     void FUN_00407800(Proc* a);
-    void FUN_0056c880(unsigned int a, bool b);
-    void* FUN_0056ac90();
+    void TESObjectREFR_SetLoadedDataFlag(unsigned int a, bool b);
+    void* TESObjectREFR_GetEnableStateChildList();
     bool FUN_0056aa70();
-    void FUN_0056c780(int a);
-    void FUN_00573f40();
+    void TESForm_SetDisableFade(int a);
+    void TESObjectREFR_Enable();
     void FUN_00572270();
     void FUN_00579ac0(bool a);
     Ref* FUN_007af430();
-    void FUN_00574400();
+    void TESObjectREFR_Disable();
     void FUN_008b01c0();
     void FUN_00545560(Ref* a);
-    bool FUN_00549580();
+    bool TESForm_HasTalkedToPC();
 };
 struct ExtraList
 {
@@ -565,7 +565,7 @@ struct Proc
 };
 struct ObjX
 {
-    void FUN_00568020(int a);
+    void TESObjectREFR_SetMarkerUsed(int a);
     ObjX* FUN_00586170();
     void FUN_006fcfa0();
 };
@@ -589,7 +589,7 @@ int __cdecl FUN_00570f60();
 void __cdecl FUN_00835980(Ref* a);
 
 // @fnv 0x00574400
-void Ref::FUN_00574400()
+void Ref::TESObjectREFR_Disable()
 {
     Ref* p;
     Iter* val;
@@ -617,13 +617,13 @@ void Ref::FUN_00574400()
                         {
                             if (FUN_007af430() != DAT_011ca280)
                             {
-                                var1->FUN_00574400();
+                                var1->TESObjectREFR_Disable();
                             }
                         }
                     }
-                    FUN_00576760();
+                    TESObjectREFR_CleanUpTraps();
                     vtc8(1);
-                    FUN_00484af0(1);
+                    TESForm_SetDisabled(1);
                     p = 0;
                     if (vtfc())
                         p = this;
@@ -645,7 +645,7 @@ void Ref::FUN_00574400()
                                 DAT_011e0e80.RemoveActor(q);
                                 if (FUN_008d6f30() != 0)
                                 {
-                                    if (FUN_005656d0())
+                                    if (TESObjectREFR_HasScript())
                                     {
                                         FUN_008d6f30()->FUN_00545560(this);
                                     }
@@ -678,7 +678,7 @@ void Ref::FUN_00574400()
                                     }
                                     else
                                     {
-                                        if (p->FUN_00574900())
+                                        if (p->MobileObject_IsTalkingActivator())
                                         {
                                             p->vt288();
                                         }
@@ -701,7 +701,7 @@ void Ref::FUN_00574400()
                                     }
                                     else
                                     {
-                                        p->FUN_008d8520()->vt4c8()->FUN_00568020(p->FUN_008d8520()->vt4d0(0));
+                                        p->FUN_008d8520()->vt4c8()->TESObjectREFR_SetMarkerUsed(p->FUN_008d8520()->vt4d0(0));
                                     }
                                 }
                                 d1 = p->FUN_008d8520();
@@ -711,13 +711,13 @@ void Ref::FUN_00574400()
                             }
                         }
                     }
-                    if (FUN_007af430()->FUN_00549580())
+                    if (FUN_007af430()->TESForm_HasTalkedToPC())
                     {
                         DAT_011dea10->FUN_004fd3e0(this, 1)->FUN_00586170()->FUN_006fcfa0();
                     }
-                    FUN_0056c880(1, 0);
+                    TESObjectREFR_SetLoadedDataFlag(1, 0);
                     DAT_011dea3c->FUN_00952c30(this);
-                    it1 = (Iter*)FUN_0056ac90();
+                    it1 = (Iter*)TESObjectREFR_GetEnableStateChildList();
                     while (it1 != 0 && !it1->FUN_008256d0())
                     {
                         procCopy = *it1->FUN_006815c0();
@@ -725,13 +725,13 @@ void Ref::FUN_00574400()
                         {
                             if (procCopy->FUN_005d43c0()->FUN_0041dbd0())
                             {
-                                procCopy->FUN_0056c780(1);
+                                procCopy->TESForm_SetDisableFade(1);
                             }
-                            procCopy->FUN_00573f40();
+                            procCopy->TESObjectREFR_Enable();
                         }
                         else
                         {
-                            procCopy->FUN_00574400();
+                            procCopy->TESObjectREFR_Disable();
                         }
                         it1 = it1->FUN_00726070();
                     }

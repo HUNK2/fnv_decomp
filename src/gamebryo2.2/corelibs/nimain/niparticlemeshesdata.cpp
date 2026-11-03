@@ -6,7 +6,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5f0c;
 
 // @fnv 0x00a98b00
-GlobalObjectO2_00a7b610* __cdecl FUN_00a98b00()
+GlobalObjectO2_00a7b610* __cdecl NiParticleMeshesData_GetRTTI()
 {
     return &g_011f5f0c;
 }
@@ -21,10 +21,10 @@ struct NiParticlesData
 };
 struct NiParticleMeshesData : NiParticlesData
 {
-    void FUN_00a98a10(NiStream&);
+    void NiParticleMeshesData_LoadBinary(NiStream&);
 };
 // @fnv 0x00a98a10
-void NiParticleMeshesData::FUN_00a98a10(NiStream& stream)
+void NiParticleMeshesData::NiParticleMeshesData_LoadBinary(NiStream& stream)
 {
     NiParticlesData::LoadBinary(stream);
     stream.ResetStreamState();
@@ -102,11 +102,11 @@ struct FUN_00a98a30_This
     unsigned short m50;
     char _p2[0x1E];
     Helper00a98a30* p70;
-    void FUN_00a98a30(unsigned short);
+    void NiParticleMeshesData_SetActiveVertexCount(unsigned short);
 };
 // Calls Target on p70 for each index from usActive up to m50, then clamps m50 to the smaller of usActive and m8.
 // @fnv 0x00a98a30
-void FUN_00a98a30_This::FUN_00a98a30(unsigned short usActive)
+void FUN_00a98a30_This::NiParticleMeshesData_SetActiveVertexCount(unsigned short usActive)
 {
     unsigned short i;
     for (i = usActive; i < m50; ++i)
@@ -148,11 +148,11 @@ struct FakeNode
 };
 struct FUN_00a98a80_Holder : NiLinesData
 {
-    bool FUN_00a98a80(NiStream&);
+    bool NiParticleMeshesData_RegisterStreamables(NiStream&);
 };
 // Registers the base NiLinesData streamables, then registers the streamables of the node at offset 0x70; returns false if the base call fails.
 // @fnv 0x00a98a80
-bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
+bool FUN_00a98a80_Holder::NiParticleMeshesData_RegisterStreamables(NiStream& kStream)
 {
     if (!NiLinesData::RegisterStreamables(kStream))
         return 0;
@@ -163,7 +163,7 @@ bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
 struct NiNode;
 struct FUN_00a97290_holder
 {
-    void FUN_00a97290(NiStream&);
+    void NiParticlesData_SaveBinary(NiStream&);
 };
 struct FakeStream
 {
@@ -183,13 +183,13 @@ struct FakeStream
 };
 struct FUN_00a98ab0_shell : NiParticleMeshesData
 {
-    void FUN_00a98ab0(NiStream&);
+    void NiParticleMeshesData_SaveBinary(NiStream&);
 };
 // @fnv 0x00a98ab0
-void FUN_00a98ab0_shell::FUN_00a98ab0(NiStream& kStream)
+void FUN_00a98ab0_shell::NiParticleMeshesData_SaveBinary(NiStream& kStream)
 {
     NiNode* pkNode;
-    ((FUN_00a97290_holder*)this)->FUN_00a97290(kStream);
+    ((FUN_00a97290_holder*)this)->NiParticlesData_SaveBinary(kStream);
     pkNode = *(NiNode**)((char*)this + 0x70);
     ((FakeStream*)&kStream)->f12(pkNode);
 }
@@ -223,7 +223,7 @@ struct MeshNode
 };
 struct HookBase
 {
-    bool FUN_00a96a30(void*);
+    bool NiParticlesData_IsEqual(void*);
 };
 struct Holder
 {
@@ -236,7 +236,7 @@ struct Holder
 bool Holder::IsMeshNodeEqual(void* pkObject)
 {
     Holder* pkPart = (Holder*)pkObject;
-    if (!((HookBase*)this)->FUN_00a96a30(pkObject))
+    if (!((HookBase*)this)->NiParticlesData_IsEqual(pkObject))
         return false;
     MeshNode* mine = m_pMeshNode;
     MeshNode* other = pkPart->m_pMeshNode;
@@ -264,11 +264,11 @@ struct Holder00a98d60
 {
     char _pad[0x70];
     FakeObj543* m_sp;
-    void FUN_00a98d60(NiStream&);
+    void NiParticleMeshesData_LinkObject(NiStream&);
 };
 // Links the object to kStream, then swaps m_sp to the stream's object, releasing the old one and retaining the new one.
 // @fnv 0x00a98d60
-void Holder00a98d60::FUN_00a98d60(NiStream& kStream)
+void Holder00a98d60::NiParticleMeshesData_LinkObject(NiStream& kStream)
 {
     ((NiLinesData*)this)->LinkObject(kStream);
     FakeObj543* pkNew = ((StreamHelper543*)&kStream)->GetLoadedObject();
@@ -557,7 +557,7 @@ struct A98BF0ParticlesData
     int unk4C;
     unsigned short m_usActiveVertices;
 
-    void FUN_00a964c0(unsigned short usParticle);
+    void NiParticlesData_RemoveParticle(unsigned short usParticle);
 };
 
 struct A98BF0ParticleMeshesData : A98BF0ParticlesData
@@ -591,7 +591,7 @@ void A98BF0ParticleMeshesData::RemoveParticleMesh(unsigned short usParticle)
         if (pkFinal)
             pkFinal->DecRefCount();
     }
-    FUN_00a964c0(usParticle);
+    NiParticlesData_RemoveParticle(usParticle);
 }
 
 extern "C" double __cdecl fabs(double);
@@ -607,7 +607,7 @@ struct NiMatrix3_a98
 struct NiQuaternion_a98
 {
     float w, x, y, z;
-    void FUN_004f0180(NiMatrix3_a98& kRot) const;
+    void NiQuaternion_ToRotation(NiMatrix3_a98& kRot) const;
 };
 
 struct Mesh_a98
@@ -729,7 +729,7 @@ void FUN_00a98c90_shell::UpdateParticleMeshes()
         {
             pkMesh->m_kTranslate = m_pkVertex[i];
             if (m_pkRotations)
-                m_pkRotations[i].FUN_004f0180(pkMesh->m_kRotate);
+                m_pkRotations[i].NiQuaternion_ToRotation(pkMesh->m_kRotate);
             pkMesh->m_fScale = fabs(m_pfSizes[i] * m_pfRadii[i]);
         }
     }
@@ -745,7 +745,7 @@ inline void* __cdecl operator new(unsigned int, void* where)
 }
 // Allocates a 0x78-byte object, constructs it, sets the bool at offset 0x40 to true, and returns it.
 // @fnv 0x00a98d30
-FUN_00a98b10* __cdecl FUN_00a98d30()
+FUN_00a98b10* __cdecl NiParticleMeshesData_CreateObject()
 {
     FUN_00a98b10* pObject = new (NiMemObject::operator new(0x78)) FUN_00a98b10();
     *(bool*)&pObject->unk40 = true;
@@ -763,13 +763,13 @@ struct FUN_0096ad30_This
     void FUN_0096ad30(unsigned int);
     void FUN_0096ae90(unsigned int, void*);
 };
-void __stdcall FUN_00a97420(void*);
+void __stdcall NiParticlesData_GetViewerStrings(void*);
 void* __cdecl FUN_00a7d330(void*);
-// Calls FUN_00a97420 on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
+// Calls NiParticlesData_GetViewerStrings on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
 // @fnv 0x00a98de0
-void __stdcall FUN_00a98de0(FUN_0096ad30_This* pContainer)
+void __stdcall NiParticleMeshesData_GetViewerStrings(FUN_0096ad30_This* pContainer)
 {
-    FUN_00a97420(pContainer);
+    NiParticlesData_GetViewerStrings(pContainer);
     void* item = FUN_00a7d330(*(void**)&g_011f5f0c);
     unsigned int count = pContainer->m_uiItemCount;
     unsigned int capacity = pContainer->m_pRayCursor;

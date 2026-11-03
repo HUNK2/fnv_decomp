@@ -20,7 +20,7 @@ struct TESUseItemPackageData
     virtual ~TESUseItemPackageData();  // the original class is polymorphic (rtti_variants.py)
     TESPackageData base;
     LocationDescriptor* m_pPackageTarget;
-    void FUN_0067c9d0();
+    void TESUseItemPackageData_Save();
 };
 struct FUN_0067c7a0_shell : TESUseItemPackageData
 {

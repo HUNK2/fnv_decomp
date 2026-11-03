@@ -5,7 +5,7 @@
 #include "havok/hkpStiffSpringConstraintData.h"
 
 // @fnv 0x00d4f090
-void __stdcall FUN_00d4f090(char a, int* pData)
+void __stdcall hkpStiffSpringConstraintData_getRuntimeInfo(char a, int* pData)
 {
     if (a)
     {

@@ -5,19 +5,19 @@
 extern "C" void* g_011f5b40;
 
 // @fnv 0x00a86fe0
-void* __cdecl FUN_00a86fe0()
+void* __cdecl BSSegmentedTriShape_GetRTTI()
 {
     return &g_011f5b40;
 }
 
 void __cdecl FinalizeEntries();
-void __cdecl FUN_00a745c0();
+void __cdecl NiTriShape_RenderImmediate();
 
 // @fnv 0x00a87120
-void __cdecl FUN_00a87120()
+void __cdecl BSSegmentedTriShape_RenderImmediate()
 {
     FinalizeEntries();
-    FUN_00a745c0();
+    NiTriShape_RenderImmediate();
 }
 
 struct FUN_00a86ff0_shell
@@ -872,14 +872,14 @@ struct S00a87620_Obj
     Entry* entries;
     unsigned int count;
     unsigned char active;
-    void FUN_00a74690(ItemList* list);
+    void NiTriShape_GetViewerStrings(ItemList* list);
     void AddToItemList(ItemList* list);
 };
 
 // @fnv 0x00a87620
 void S00a87620_Obj::AddToItemList(ItemList* apItemList)
 {
-    this->FUN_00a74690(apItemList);
+    this->NiTriShape_GetViewerStrings(apItemList);
     apItemList->Add(FUN_00a7d330(g_011f5b40));
     apItemList->Add(FUN_00a7d510(DAT_0109e95c, this->count));
 

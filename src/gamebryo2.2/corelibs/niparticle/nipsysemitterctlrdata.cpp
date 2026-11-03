@@ -5,7 +5,7 @@
 extern "C" void* g_01202760;
 
 // @fnv 0x00c2baa0
-void* __cdecl FUN_00c2baa0()
+void* __cdecl NiPSysEmitterCtlrData_GetRTTI()
 {
     return &g_01202760;
 }
@@ -317,12 +317,12 @@ class NiPSysEmitterCtlrDataStub : public NiObjectStub
     void* m_pVisibilityKeys;
     unsigned int m_uiNumVisibilityKeys;
 
-    void FUN_00c2bdf0(NiStream& kStream);
+    void NiPSysEmitterCtlrData_SaveBinary(NiStream& kStream);
 };
 
 // Loads the emitter controller data from kStream: key count and keys via DAT_011f3a50, then a loop reading values via DAT_011f3ac8.
 // @fnv 0x00c2bdf0
-void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
+void NiPSysEmitterCtlrDataStub::NiPSysEmitterCtlrData_SaveBinary(NiStream& kStream)
 {
     NiObjectStub::LoadBinary(kStream);
 
@@ -580,12 +580,12 @@ void __stdcall ReadGroup(NiStreamView&);
 struct FUN_00c2bc90_shell : FUN_00c2bb70_shell
 {
     void FUN_00c2bbd0(void*, unsigned int, int);
-    void FUN_00c2bc90(NiStreamView& kStream);
+    void NiPSysEmitterCtlrData_LoadBinary(NiStreamView& kStream);
 };
 
 // Reads birth rate and emitter active key groups from the stream, creating and filling keys based on the key type and format version.
 // @fnv 0x00c2bc90
-void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
+void FUN_00c2bc90_shell::NiPSysEmitterCtlrData_LoadBinary(NiStreamView& kStream)
 {
     ReadGroup(kStream);
 

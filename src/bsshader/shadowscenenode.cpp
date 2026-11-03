@@ -996,7 +996,7 @@ struct StrArr
 };
 struct FUN_00c51570_Class
 {
-    void* FUN_00a5ea70(void*);
+    void* NiNode_GetViewerStrings(void*);
 };
 char* FUN_00a7d330(const char*);
 char* __cdecl FUN_00a7d490(const char*, unsigned short);
@@ -1038,7 +1038,7 @@ struct ShadowSceneNodeS : FUN_00c51570_Class
 // @fnv 0x00b5c7d0
 void ShadowSceneNodeS::AppendLightStats(StrArr* pkStrings)
 {
-    FUN_00c51570_Class::FUN_00a5ea70(pkStrings);
+    FUN_00c51570_Class::NiNode_GetViewerStrings(pkStrings);
     char* s = FUN_00a7d330(g_011f9e80);
     pkStrings->Add(s);
     s = FUN_00a7d490("light count", InitializeTESResources());
@@ -5299,7 +5299,7 @@ struct FUN_00b5ddb0_self
 struct LocalLock
 {
     unsigned owner, count;
-    void FUN_0040fbf0(char*);
+    void BSSpinLock_Lock(char*);
     void unlock()
     {
         if (--count == 0)
@@ -5824,8 +5824,8 @@ void LocalTarget::FUN_00b5ddf0(LocalContext* apContext)
 {
     if (apContext != context)
     {
-        DAT_011f9ea0.FUN_0040fbf0(0);
-        DAT_011f9ec0.FUN_0040fbf0(0);
+        DAT_011f9ea0.BSSpinLock_Lock(0);
+        DAT_011f9ec0.BSSpinLock_Lock(0);
         dirty = false;
         listA.RemoveAll();
         listB.RemoveAll();
@@ -6473,7 +6473,7 @@ inline float maximum(float a, float b)
 struct WeightVec
 {
     float x, y, z;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     WeightVec operator*(float s) const
     {
         WeightVec r;
@@ -6721,8 +6721,8 @@ float WeightScene::FUN_00b5b610(WeightVec position, int* count, float* ambient, 
     color.x = target.x - position.x;
     color.y = target.y - position.y;
     color.z = target.z - position.z;
-    color.FUN_004a0c10();
-    direction.FUN_004a0c10();
+    color.NiPoint3_Unitize();
+    direction.NiPoint3_Unitize();
     target = color * 0.75f;
     float factor = target.Dot(direction);
     factor += 0.25;
@@ -7705,7 +7705,7 @@ struct S00b5d9f0_Lock
     unsigned int m_pOwnerObject;
     int m_uiItemCount;
 
-    void __thiscall FUN_0040fbf0(int spin);
+    void __thiscall BSSpinLock_Lock(int spin);
 };
 
 extern S00b5d9f0_Lock DAT_011f9ec0;
@@ -7824,7 +7824,7 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj, unsigned char flag)
     if (obj == 0)
         return;
 
-    DAT_011f9ec0.FUN_0040fbf0(0);
+    DAT_011f9ec0.BSSpinLock_Lock(0);
 
     switch (!flag)
     {

@@ -483,11 +483,11 @@ void S00551440::FUN_00551440(bool v)
 
 struct FUN_00576d30_shell : public TESForm
 {
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
 };
 
 // @fnv 0x00576d30
-bool FUN_00576d30_shell::FUN_00576d30()
+bool FUN_00576d30_shell::TESForm_IsStillLoading()
 {
     return (m_uiFormFlags & 0x200000) ? true : false;
 }
@@ -531,7 +531,7 @@ FUN_00483630_holder::~FUN_00483630_holder()
 
 struct FUN_00483c70_shell : public TESForm
 {
-    void FUN_00483c70();
+    void TESForm_RemoveFromDataStructures();
 };
 
 struct TESTopicInfo;
@@ -545,7 +545,7 @@ struct DH
 };
 extern DH* g_dataHandler;
 // @fnv 0x00483c70
-void FUN_00483c70_shell::FUN_00483c70()
+void FUN_00483c70_shell::TESForm_RemoveFromDataStructures()
 {
     if (IsTemporary())
         return;
@@ -1036,13 +1036,13 @@ bool FUN_004011f0_shell::FUN_004011f0()
 struct S3c60
 {
     int GetArchetype(void);
-    int FUN_00408a40(void);
+    int EffectSetting_GetObjectTypeName(void);
 };
 
 extern "C" int __cdecl GetEntryByIndex(int);
 
 // @fnv 0x00408a40
-int S3c60::FUN_00408a40()
+int S3c60::EffectSetting_GetObjectTypeName()
 {
     return GetEntryByIndex(GetArchetype());
 }
@@ -1113,12 +1113,12 @@ void FUN_004849d0_shell::SetFlag200(bool abVal)
 
 struct FUN_00484bf0_shell
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int aiFlags);
+    unsigned short __thiscall TESForm_GetSaveSize(unsigned int aiFlags);
 };
 
 // Returns 4 when bit 0 of aiFlags is set, otherwise 0.
 // @fnv 0x00484bf0
-unsigned short __thiscall FUN_00484bf0_shell::FUN_00484bf0(unsigned int aiFlags)
+unsigned short __thiscall FUN_00484bf0_shell::TESForm_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 1)
@@ -1157,25 +1157,25 @@ void __cdecl FUN_004856d0(int arg)
 void __cdecl AppendChunk(void* a1, void* a2, void* a3);
 
 // @fnv 0x004856f0
-void __cdecl FUN_004856f0(void* apArg1, void* apArg2, void* apArg3)
+void __cdecl TESForm_AddChunkArray(void* apArg1, void* apArg2, void* apArg3)
 {
     AppendChunk(apArg1, apArg2, apArg3);
 }
 
-void __cdecl FUN_00485750(void* arg0, void* arg1, void* arg2);
+void __cdecl TESForm_AddChunkArray32(void* arg0, void* arg1, void* arg2);
 
 // @fnv 0x00485710
 void __cdecl FUN_00485710(void* arg0, void* arg1, void* arg2)
 {
-    FUN_00485750(arg0, arg1, arg2);
+    TESForm_AddChunkArray32(arg0, arg1, arg2);
 }
 
-extern void __cdecl FUN_00485820(void*, void*, void*);
+extern void __cdecl TESForm_AddChunkArray16(void*, void*, void*);
 
 // @fnv 0x00485730
 void __cdecl FUN_00485730(void* apArg1, void* apArg2, void* apArg3)
 {
-    FUN_00485820(apArg1, apArg2, apArg3);
+    TESForm_AddChunkArray16(apArg1, apArg2, apArg3);
 }
 
 extern void* DAT_011c54cc;
@@ -1196,14 +1196,14 @@ void FUN_00485b30_shell::ResetGlobalPointer()
 
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm___SaveData(int, int);
+    void __thiscall TESForm_SaveData();
 };
 
 // @fnv 0x00485e00
-void __thiscall FUN_00485e00_shell::FUN_00485e00()
+void __thiscall FUN_00485e00_shell::TESForm_SaveData()
 {
-    FUN_00485e20(0, 0);
+    TESForm___SaveData(0, 0);
 }
 
 struct NodePoolView
@@ -1261,7 +1261,7 @@ bool FUN_005516c0::IsCellPersistent()
     }
 }
 
-extern "C" void __cdecl FUN_005548a0(int);
+extern "C" void __cdecl TESObjectCELL_IsFormTypeCellChild(int);
 
 struct FUN_00554880_shell
 {
@@ -1271,7 +1271,7 @@ struct FUN_00554880_shell
 // @fnv 0x00554880
 void __thiscall FUN_00554880_shell::FUN_00554880(unsigned char arg)
 {
-    FUN_005548a0(arg);
+    TESObjectCELL_IsFormTypeCellChild(arg);
 }
 
 extern unsigned char __cdecl FUN_00588a60(unsigned char);
@@ -1292,11 +1292,11 @@ extern "C" void __cdecl FUN_004856d0(int);
 
 struct FUN_005e9690_shell
 {
-    void __thiscall FUN_005e9690();
+    void __thiscall BGSPerkEntry_FinishPerkEntry();
 };
 
 // @fnv 0x005e9690
-void __thiscall FUN_005e9690_shell::FUN_005e9690()
+void __thiscall FUN_005e9690_shell::BGSPerkEntry_FinishPerkEntry()
 {
     FUN_004856d0(0x464b5250);
 }
@@ -1383,12 +1383,12 @@ struct FUN_00484a70_shell
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00484a70(bool value);
+    void TESForm_SetFireOff(bool value);
 };
 
 // Sets or clears bit 0x80 in m_08 according to value.
 // @fnv 0x00484a70
-void FUN_00484a70_shell::FUN_00484a70(bool abSet)
+void FUN_00484a70_shell::TESForm_SetFireOff(bool abSet)
 {
     if (abSet)
         m_08 |= 0x80;
@@ -1515,10 +1515,10 @@ void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 void __cdecl BSEndian(int*, EndianSizeTag<4>);
 struct FUN_00470650_shell
 {
-    void __thiscall FUN_00470650();
+    void __thiscall FORM_Endian();
 };
 // @fnv 0x00470650
-void __thiscall FUN_00470650_shell::FUN_00470650()
+void __thiscall FUN_00470650_shell::FORM_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<1>());
     BSEndian((unsigned char*)((char*)this + 4), EndianSizeTag<1>());
@@ -1535,7 +1535,7 @@ struct DummyPointerMap
 };
 // Looks up aiSearchID in the form map and returns the stored TESForm pointer, or 0 if the map is null or has no entry.
 // @fnv 0x004839c0
-TESForm* FUN_004839c0(unsigned int aiSearchID)
+TESForm* TESForm_GetFormByNumericID(unsigned int aiSearchID)
 {
     TESForm* pTempForm = 0;
     if (TESForm::ms_pFormIDMap &&
@@ -1566,7 +1566,7 @@ unsigned char FUN_00483d20_shell::SaveIfNotTemporary(TESFile* apFile)
 
 struct TESFileShell
 {
-    void FUN_00472e60(TESForm* p);
+    void TESFile_StartForm(TESForm* p);
     void FUN_00473090();
 };
 struct FUN_00483fc0_shell : TESForm
@@ -1580,7 +1580,7 @@ bool FUN_00483fc0_shell::WriteToFile(TESFile* apFile)
         return false;
     if (IsDeleted())
     {
-        ((TESFileShell*)apFile)->FUN_00472e60(this);
+        ((TESFileShell*)apFile)->TESFile_StartForm(this);
         ((TESFileShell*)apFile)->FUN_00473090();
         return true;
     }
@@ -1629,11 +1629,11 @@ struct Fake84860
     {}
     virtual void v18(int)
     {}
-    void FUN_00484860(bool);
+    void TESForm_SetQuestObject(bool);
 };
 // Sets or clears bit 0x400 in _flags according to abQuest, then calls v18(1).
 // @fnv 0x00484860
-void Fake84860::FUN_00484860(bool abQuest)
+void Fake84860::TESForm_SetQuestObject(bool abQuest)
 {
     if (abQuest)
     {
@@ -1649,11 +1649,11 @@ void Fake84860::FUN_00484860(bool abQuest)
 struct PC7d
 {
     void FUN_00484ce0(unsigned int, int);
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
 };
 // If bit 0 of aiFlags is set, calls FUN_00484ce0 on the object at this+8 with 4.
 // @fnv 0x00484c20
-void PC7d::FUN_00484c20(unsigned int aiFlags)
+void PC7d::TESForm_SaveGame(unsigned int aiFlags)
 {
     if (aiFlags & 1)
         FUN_00484ce0((unsigned int)((char*)this + 8), 4);
@@ -1716,11 +1716,11 @@ struct Fake440e30
 };
 struct Mid485170
 {
-    bool FUN_00485170(TESForm*);
+    bool TESForm_Compare(TESForm*);
 };
 // Warns that no compare function exists for the form types and returns false.
 // @fnv 0x00485170
-bool Mid485170::FUN_00485170(TESForm* apCopy)
+bool Mid485170::TESForm_Compare(TESForm* apCopy)
 {
     _FNV_Warning("FORMS: Trying to compare form \"%s\".\r\nNo compare function for %s form types.\r\n",
                  apCopy->GetName(), ((Fake440e30*)apCopy)->FUN_00440e30());
@@ -1734,14 +1734,14 @@ struct MyForm
 {
     int _00;
     int length;
-    void FUN_00470650();
+    void FORM_Endian();
 };
 struct Holder : public TESForm
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 // @fnv 0x00485680
-void Holder::FUN_00485680()
+void Holder::TESForm_CloseForm()
 {
     MyForm* pForm;
     if (IsTemporary())
@@ -1749,19 +1749,19 @@ void Holder::FUN_00485680()
     pForm = (MyForm*)DAT_011c54cc;
     pForm->length = DAT_011c54d0 - 0x18;
     if (FUN_00401500())
-        pForm->FUN_00470650();
+        pForm->FORM_Endian();
 }
 
 struct FUN_00485b60
 {
-    unsigned int FUN_00485bc0();
-    bool FUN_00485be0(unsigned int);
+    unsigned int TESForm_GetFormIDWithoutIndex();
+    bool TESForm_FormIDMatchesWithoutIndex(unsigned int);
 };
-// Returns true when the low 24 bits of aiID equal the value returned by FUN_00485bc0, otherwise false.
+// Returns true when the low 24 bits of aiID equal the value returned by TESForm_GetFormIDWithoutIndex, otherwise false.
 // @fnv 0x00485be0
-bool FUN_00485b60::FUN_00485be0(unsigned int aiID)
+bool FUN_00485b60::TESForm_FormIDMatchesWithoutIndex(unsigned int aiID)
 {
-    if ((aiID & 0x00FFFFFF) != FUN_00485bc0())
+    if ((aiID & 0x00FFFFFF) != TESForm_GetFormIDWithoutIndex())
         return false;
     return true;
 }
@@ -1811,25 +1811,25 @@ struct FNStub
 {
     char const* GetFullName();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_00487010_shell
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 // @fnv 0x00487010
-void FUN_00487010_shell::FUN_00487010()
+void FUN_00487010_shell::TESFullName_Save()
 {
     if (((TESModel*)this)->GetModelLength())
-        FUN_004856f0(0x4C4C5546, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
+        TESForm_AddChunkArray(0x4C4C5546, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
 }
 
 struct FUN_00549580_shell
 {
-    bool FUN_00549580() const;
+    bool TESForm_HasTalkedToPC() const;
 };
 
 // @fnv 0x00549580
-bool FUN_00549580_shell::FUN_00549580() const
+bool FUN_00549580_shell::TESForm_HasTalkedToPC() const
 {
     return (((const TESForm*)this)->m_uiFormFlags & 64) ? true : false;
 }
@@ -1879,10 +1879,10 @@ struct FUN_004846e0_shell
     virtual void v18(int);
     unsigned int _4;
     unsigned int _8;
-    void FUN_004846e0(bool);
+    void TESForm_SetVATSTarget(bool);
 };
 // @fnv 0x004846e0
-void FUN_004846e0_shell::FUN_004846e0(bool abSet)
+void FUN_004846e0_shell::TESForm_SetVATSTarget(bool abSet)
 {
     if (abSet)
         _8 |= 0x4000000;
@@ -2256,12 +2256,12 @@ struct ActorValueInfo : public TESForm, public TESFullName, public TESDescriptio
 typedef char _sizecheck_ActorValueInfo[sizeof(ActorValueInfo) == 196 ? 1 : -1];
 struct FUN_00484730_shell : public TESForm
 {
-    void FUN_00484730(bool);
+    void TESForm_SetAltered(bool);
 };
 
 struct Pathing
 {
-    bool FUN_00460340();
+    bool TESForm_GetAltered();
 };
 struct FormArray
 {
@@ -2278,11 +2278,11 @@ struct NiTLargeArray_TESTopicInfo
 };
 
 // @fnv 0x00484730
-void FUN_00484730_shell::FUN_00484730(bool abAltered)
+void FUN_00484730_shell::TESForm_SetAltered(bool abAltered)
 {
     if (abAltered)
     {
-        if (!((Pathing*)this)->FUN_00460340() && !IsTemporary() && ms_pAllForms)
+        if (!((Pathing*)this)->TESForm_GetAltered() && !IsTemporary() && ms_pAllForms)
         {
             bool bAddToList = true;
             for (unsigned int iIndex = 0; iIndex < ((TESForm*)ms_pAllForms)->GetFormID(); iIndex++)
@@ -2302,7 +2302,7 @@ void FUN_00484730_shell::FUN_00484730(bool abAltered)
     }
     else
     {
-        if (((Pathing*)this)->FUN_00460340() && ms_pAllForms)
+        if (((Pathing*)this)->TESForm_GetAltered() && ms_pAllForms)
         {
             for (unsigned int iIndex = 0; iIndex < ((TESForm*)ms_pAllForms)->GetFormID(); iIndex++)
             {
@@ -2415,7 +2415,7 @@ struct TESWeightForm : public BaseFormComponent
 typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct FUN_00486620_shell : public TESForm
 {
-    unsigned int FUN_00486620();
+    unsigned int TESForm_GetDataSizeAdded();
 };
 
 struct TESAttackDamageForm : public BaseFormComponent
@@ -2433,7 +2433,7 @@ struct FUN_009d2510_shell
 
 // Sums the save sizes contributed by the form's Uses, Value, Health, Weight, Quality, AttackDamage, Attributes and ClipRounds components.
 // @fnv 0x00486620
-unsigned int FUN_00486620_shell::FUN_00486620()
+unsigned int FUN_00486620_shell::TESForm_GetDataSizeAdded()
 {
     TESAttributes* pAttributes;
     BGSClipRoundsForm* pClipRounds;
@@ -2515,7 +2515,7 @@ struct ArrSI
 };
 struct Pathing
 {
-    bool FUN_00460340();
+    bool TESForm_GetAltered();
 };
 struct FUN_00485340_shell : public TESForm
 {
@@ -2528,8 +2528,8 @@ void FUN_00485340_shell::FUN_00485340(BaseFormComponent* apCopyFC)
     TESForm* pCopy = dynamic_cast<TESForm*>(apCopyFC);
     if (!pCopy)
         return;
-    if (((Pathing*)this)->FUN_00460340() != ((Pathing*)pCopy)->FUN_00460340())
-        SetAltered(((Pathing*)pCopy)->FUN_00460340());
+    if (((Pathing*)this)->TESForm_GetAltered() != ((Pathing*)pCopy)->TESForm_GetAltered())
+        SetAltered(((Pathing*)pCopy)->TESForm_GetAltered());
     *((unsigned char*)this + 4) = pCopy->GetFormType();
     m_uiFormFlags = ((ArrSI*)pCopy)->GetFlags() & 0xffffbfff | (m_uiFormFlags & 0x4000);
 }
@@ -2555,7 +2555,7 @@ FUN_00436180::~FUN_00436180()
 
 struct FUN_00484580_shell : TESForm
 {
-    void FUN_00484580(bool set);
+    void TESForm_SetEmpty(bool set);
 };
 
 struct TESSaveLoadGameLoader
@@ -2564,7 +2564,7 @@ struct TESSaveLoadGameLoader
 };
 
 // @fnv 0x00484580
-void FUN_00484580_shell::FUN_00484580(bool set)
+void FUN_00484580_shell::TESForm_SetEmpty(bool set)
 {
     if (set)
     {
@@ -2662,7 +2662,7 @@ class ArrSI : public TESForm
 {
   public:
     unsigned int GetFlags();
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 
 extern void* DAT_011c54cc;
@@ -2679,7 +2679,7 @@ extern FormEnumEntry DAT_01187008[];
 int __cdecl FUN_00470bb0();
 
 // @fnv 0x004855a0
-void ArrSI::FUN_004855a0()
+void ArrSI::TESForm_StartForm()
 {
     FormRecordHeader* pForm;
 
@@ -2872,10 +2872,10 @@ struct FUN_0047c050
 };
 struct FormCloneOperation
 {
-    void FUN_004851b0(void* targetForm);
+    void TESForm_CopyAllComponents(void* targetForm);
 };
 // @fnv 0x004851b0
-void FormCloneOperation::FUN_004851b0(void* targetForm)
+void FormCloneOperation::TESForm_CopyAllComponents(void* targetForm)
 {
     FUN_0047c050 z;
     FUN_0047c050 a;
@@ -2892,7 +2892,7 @@ struct FUN_00509540_obj
     ~FUN_00509540_obj();
     void FUN_0047c070(void* apOther);
     bool CompareComponents(FUN_00509540_obj* apOther);
-    bool FUN_00485270(TESForm* apArg);
+    bool TESForm_CompareAllComponents(TESForm* apArg);
     int unk00;
     int unk04;
     int unk08;
@@ -2934,7 +2934,7 @@ struct FUN_00509540_obj
 };
 
 // @fnv 0x00485270
-bool FUN_00509540_obj::FUN_00485270(TESForm* apArg)
+bool FUN_00509540_obj::TESForm_CompareAllComponents(TESForm* apArg)
 {
     if (apArg == 0)
         return true;
@@ -3080,7 +3080,7 @@ struct FUN_004867a0_cls : FUN_004867a0_vbase
 {
     void* GetA();
     void* GetB();
-    void* FUN_004867a0(void* unused, void* arg);
+    void* TESForm_CreateDuplicateForm(void* unused, void* arg);
 };
 
 struct FUN_004867a0_arg
@@ -3091,7 +3091,7 @@ struct FUN_004867a0_arg
 void* FUN_00465110(void* p);
 
 // @fnv 0x004867a0
-void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
+void* FUN_004867a0_cls::TESForm_CreateDuplicateForm(void* unused, void* arg)
 {
     FUN_004867a0_vbase* obj = (FUN_004867a0_vbase*)FUN_00465110(GetA());
     if (obj != 0)
@@ -3116,13 +3116,13 @@ struct S4868f0_host
     unsigned int FUN_0084e3a0();
     unsigned int FUN_00401280();
     unsigned int FUN_00440e30();
-    void FUN_004868f0(unsigned int a);
+    void TESForm_GetFormDetailedString(unsigned int a);
 };
 
 extern "C" int __cdecl FUN_00406f60(unsigned int, const char*, unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x004868f0
-void S4868f0_host::FUN_004868f0(unsigned int a)
+void S4868f0_host::TESForm_GetFormDetailedString(unsigned int a)
 {
     FUN_00406f60(a, "%s Form '%s' (%08X)", FUN_00440e30(), FUN_00401280(), FUN_0084e3a0());
 }
@@ -3182,10 +3182,10 @@ struct FUN_005e9620_class
     unsigned int unk00;
     unsigned char unk04;
     unsigned char unk05;
-    void __thiscall FUN_005e9620(unsigned char value);
+    void __thiscall BGSPerkEntry_StartPerkEntry(unsigned char value);
 };
 // @fnv 0x005e9620
-void __thiscall FUN_005e9620_class::FUN_005e9620(unsigned char value)
+void __thiscall FUN_005e9620_class::BGSPerkEntry_StartPerkEntry(unsigned char value)
 {
     Record data;
     data.field2 = unk05;
@@ -3259,11 +3259,11 @@ void CompressSaveLoadRecord()
     {
         CompressionRecord* c = (CompressionRecord*)DAT_011c54cc;
         if (FUN_00401500())
-            ((FUN_00470650_shell*)c)->FUN_00470650();
+            ((FUN_00470650_shell*)c)->FORM_Endian();
         if (c->flags & 0x40000)
         {
             if (FUN_00401500())
-                ((FUN_00470650_shell*)c)->FUN_00470650();
+                ((FUN_00470650_shell*)c)->FORM_Endian();
             return;
         }
         unsigned int q = DAT_011c54d0 - 24;
@@ -3300,7 +3300,7 @@ void CompressSaveLoadRecord()
         c->flags |= 0x40000;
         c->size = k - 24;
         if (FUN_00401500())
-            ((FUN_00470650_shell*)c)->FUN_00470650();
+            ((FUN_00470650_shell*)c)->FORM_Endian();
         __memcpy(j, c, 24);
         j += 24;
         unsigned int b = q;
@@ -3421,16 +3421,16 @@ extern unsigned char DAT_011c54b9;
 void __cdecl FUN_00461300();
 struct FUN_00485c10_shell : public TESForm
 {
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
     const char* FUN_00440e30();
-    void FUN_00485c10(unsigned int id, bool notify);
+    void TESForm_SetFormID(unsigned int id, bool notify);
 };
 // @fnv 0x00485c10
-void FUN_00485c10_shell::FUN_00485c10(unsigned int id, bool notify)
+void FUN_00485c10_shell::TESForm_SetFormID(unsigned int id, bool notify)
 {
     if (id == iFormID)
         return;
-    if (!FUN_004077c0())
+    if (!TESForm_GetTemporary())
     {
         DebugTarget* debug = 0;
         if (iFormID != 0)
@@ -3489,11 +3489,11 @@ struct SDSaveForm : TESForm
     int GetSaveOffset();
     char* GetSaveBuffer();
     bool ReserveSaveData(char* apStart, unsigned short ausSize);
-    void FUN_00485e20(const void* apData, unsigned int auiSize);
+    void TESForm___SaveData(const void* apData, unsigned int auiSize);
 };
 
 // @fnv 0x00485e20
-void SDSaveForm::FUN_00485e20(const void* apData, unsigned int auiSize)
+void SDSaveForm::TESForm___SaveData(const void* apData, unsigned int auiSize)
 {
     if (auiSize > 0xffff)
     {
@@ -3679,8 +3679,8 @@ FUN_00483370::FUN_00483370()
 
 bool __cdecl FUN_00401500();
 void __cdecl AppendChunk(void*, void*, void*);
-void* __cdecl FUN_00401000(unsigned int size);
-void __cdecl FUN_00401030(void* p);
+void* __cdecl FormHeap_Allocate(unsigned int size);
+void __cdecl FormHeap_Free(void* p);
 void* __cdecl FUN_00401460(void* dst, void* src, unsigned int size);
 void __cdecl FUN_00401080(void* p, bool value);
 
@@ -3694,17 +3694,17 @@ struct Slot4
     unsigned int value;
     static void* operator new[](unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     static void operator delete[](void* p)
     {
-        FUN_00401030(p);
+        FormHeap_Free(p);
     }
 };
 
 // When FUN_00401500() is true, copies arg1 into a temporary array, calls FUN_00401080 on each element with false, then appends it.
 // @fnv 0x00485750
-void __cdecl FUN_00485750(void* apDestination, void* apSource, void* aiCount)
+void __cdecl TESForm_AddChunkArray32(void* apDestination, void* apSource, void* aiCount)
 {
     Slot4* p4;
     unsigned int bytes7 = (unsigned int)aiCount * 4;
@@ -4019,12 +4019,12 @@ class QualityFormX : public BaseFormComponent
 class AttackDamageFormX : public BaseFormComponent
 {
   public:
-    void FUN_0047ff50(unsigned short) throw();
+    void TESAttackDamageForm_SetAttackDamage(unsigned short) throw();
 };
 class AttributesX : public BaseFormComponent
 {
   public:
-    unsigned int FUN_00480130(void*) throw();
+    unsigned int TESAttributes_Load(void*) throw();
 };
 class ClipRoundsFormX : public BaseFormComponent
 {
@@ -4034,12 +4034,12 @@ class ClipRoundsFormX : public BaseFormComponent
 
 struct Form_004861f0 : TESForm
 {
-    void FUN_004861f0(TESFile* file, void* dest, unsigned short count);
+    void TESForm_LoadData(TESFile* file, void* dest, unsigned short count);
 };
 
 // Reads a chunk from the file into a stack buffer, copies it to dest, and parses form fields into the component objects.
 // @fnv 0x004861f0
-void Form_004861f0::FUN_004861f0(TESFile* file, void* dest, unsigned short count)
+void Form_004861f0::TESForm_LoadData(TESFile* file, void* dest, unsigned short count)
 {
     AttributesX* pAttr9;
     ClipRoundsFormX* pClip;
@@ -4118,11 +4118,11 @@ void Form_004861f0::FUN_004861f0(TESFile* file, void* dest, unsigned short count
         pos4 += 2;
         if (file->IsEndianConversionRequired())
             FUN_00407a90(&damage9, Swap_004861f0());
-        pDamage5->FUN_0047ff50(damage9);
+        pDamage5->TESAttackDamageForm_SetAttackDamage(damage9);
     }
     if (pAttr9)
     {
-        pos4 += pAttr9->FUN_00480130(buffer2 + pos4);
+        pos4 += pAttr9->TESAttributes_Load(buffer2 + pos4);
     }
     if (pClip && pos4 < chunkSize3)
     {
@@ -4141,12 +4141,12 @@ extern char DAT_011841cc[];
 struct TESFormLoadProxy : public ::TESForm
 {
     void FUN_00484d00(void*, unsigned int);
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 
 // When bit 0 of flags is set, reads a value into itempFormFlags and merges masked bits into m_uiFormFlags according to whether pref is nonnull.
 // @fnv 0x00484c50
-void TESFormLoadProxy::FUN_00484c50(unsigned int flags, unsigned int currentFlags)
+void TESFormLoadProxy::TESForm_LoadGame2(unsigned int flags, unsigned int currentFlags)
 {
     ::TESObjectREFR* pref;
     unsigned int itempFormFlags;

@@ -34,8 +34,8 @@ class FUN_009b3fa0 : public FUN_009bbc70
 };
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
-    bool FUN_009b4700(int, bool);
+    bool Projectile_TurnOff(int, bool);
+    bool GrenadeProjectile_TurnOff(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
         f32(), f33(), f34(), f35(), f36(), f37(), f38(), f39(), f40(), f41(), f42(), f43(), f44(), f45(), f46(), f47(),
@@ -66,11 +66,11 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
+    void __thiscall Projectile_Revert(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void __thiscall GrenadeProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 #include <xmmintrin.h>

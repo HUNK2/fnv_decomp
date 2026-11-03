@@ -177,10 +177,10 @@ struct TileStandin
     char _1[0x44];
     VShader* vs[3];
     PShader* ps[3];
-    void FUN_00be08b0();
+    void NiDX9FragmentShader_RecreateRendererData();
     void FUN_00bca070();
 };
-// Calls UnkA0 on each non-null vertex shader when unk28 is set, then Unk88 on each non-null pixel shader, and finally calls FUN_00be08b0.
+// Calls UnkA0 on each non-null vertex shader when unk28 is set, then Unk88 on each non-null pixel shader, and finally calls NiDX9FragmentShader_RecreateRendererData.
 // @fnv 0x00bca070
 void TileStandin::FUN_00bca070()
 {
@@ -200,7 +200,7 @@ void TileStandin::FUN_00bca070()
         if (p)
             p->Unk88();
     }
-    FUN_00be08b0();
+    NiDX9FragmentShader_RecreateRendererData();
 }
 
 void __cdecl _delete(void*, unsigned int);

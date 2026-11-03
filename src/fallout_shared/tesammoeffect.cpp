@@ -276,43 +276,43 @@ void* FUN_00599cd0_StandIn::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 bool __cdecl FUN_00401500();
 struct FUN_00599ef0_shell
 {
-    void FUN_00599ef0();
+    void TESAmmoEffect_SaveForm();
 };
 // @fnv 0x00599ef0
-void FUN_00599ef0_shell::FUN_00599ef0()
+void FUN_00599ef0_shell::TESAmmoEffect_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
     if (FUN_00401500())
         ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x24), 0xc);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x24), 0xc);
     if (FUN_00401500())
         ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_00599f60_t : TESAmmoEffect
@@ -326,7 +326,7 @@ void FUN_00599f60_t::CopyFromAmmoEffect(TESForm* apCopy)
     if (pmisc == 0)
         return;
     __memcpy(effectData, pmisc->effectData, 12);
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 struct AmmoEffectValue
@@ -392,11 +392,11 @@ extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int Ite
 struct FUN_00599fc0_shell : public TESAmmoEffect
 {
     bool CompareFullName(TESForm* pkForm);
-    bool FUN_00599fc0(TESForm* pkForm);
+    bool TESAmmoEffect_Compare(TESForm* pkForm);
 };
 
 // @fnv 0x00599fc0
-bool FUN_00599fc0_shell::FUN_00599fc0(TESForm* pkForm)
+bool FUN_00599fc0_shell::TESAmmoEffect_Compare(TESForm* pkForm)
 {
     TESAmmoEffect* pkOther = dynamic_cast<TESAmmoEffect*>(pkForm);
     if (!pkOther)

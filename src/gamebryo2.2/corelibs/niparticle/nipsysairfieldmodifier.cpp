@@ -5,7 +5,7 @@
 extern "C" void* g_012027a8;
 
 // @fnv 0x00c2f590
-void* __cdecl FUN_00c2f590()
+void* __cdecl NiPSysAirFieldModifier_GetRTTI()
 {
     return &g_012027a8;
 }
@@ -88,9 +88,9 @@ struct TmpVec3
     int x;
     int y;
     int z;
-    void __thiscall FUN_004a0c10();
+    void __thiscall NiPoint3_Unitize();
 };
-// Copies three ints from param into this+0x40 and this+0x4c, calls FUN_004a0c10, and replaces the vector with DAT_011a946c/70/74 if it equals DAT_011f426c/70/74.
+// Copies three ints from param into this+0x40 and this+0x4c, calls NiPoint3_Unitize, and replaces the vector with DAT_011a946c/70/74 if it equals DAT_011f426c/70/74.
 // @fnv 0x00c2f500
 void AirTmp::FUN_00c2f500(void* pSource)
 {
@@ -103,7 +103,7 @@ void AirTmp::FUN_00c2f500(void* pSource)
     v->x = p[0];
     v->y = p[1];
     v->z = p[2];
-    v->FUN_004a0c10();
+    v->NiPoint3_Unitize();
     if (*(float*)&v->x == DAT_011f426c && *(float*)&v->y == DAT_011f4270 && *(float*)&v->z == DAT_011f4274)
     {
         v->x = *(int*)&DAT_011a946c;
@@ -138,15 +138,15 @@ struct FUN_00c2fb10_cls
     int unk3c;
     SubObject40 m_40;
 
-    bool FUN_00c32060(void* other);
-    bool FUN_00c2fb10(void* other);
+    bool NiPSysFieldModifier_IsEqual(void* other);
+    bool NiPSysAirFieldModifier_IsEqual(void* other);
 };
 
 // @fnv 0x00c2fb10
-bool FUN_00c2fb10_cls::FUN_00c2fb10(void* other)
+bool FUN_00c2fb10_cls::NiPSysAirFieldModifier_IsEqual(void* other)
 {
     FUN_00c2fb10_cls* p = (FUN_00c2fb10_cls*)other;
-    if (FUN_00c32060(other) == false)
+    if (NiPSysFieldModifier_IsEqual(other) == false)
     {
         return false;
     }
@@ -370,12 +370,12 @@ struct NiPSysGravityFieldModifier : NiPSysFieldModifierBase
     bool m_b62;
     float m_f64;
 
-    void FUN_00c302a0(NiStream& stream);
+    void NiPSysAirFieldModifier_SaveBinary(NiStream& stream);
 };
 
 // Saves the base field modifier, a color, m_f58, m_f5C, the three bools m_b60-m_b62 and m_f64 to the stream.
 // @fnv 0x00c302a0
-void NiPSysGravityFieldModifier::FUN_00c302a0(NiStream& stream)
+void NiPSysGravityFieldModifier::NiPSysAirFieldModifier_SaveBinary(NiStream& stream)
 {
     NiPSysFieldModifierBase::SaveBinary(stream);
     m_kFogTint.SaveBinary(stream);
@@ -503,7 +503,7 @@ struct FUN_00c303c0_cls
     bool m_62;
     float m_64;
 
-    void FUN_00c322b0(ViewerStrings* s);
+    void NiPSysFieldModifier_GetViewerStrings(ViewerStrings* s);
     void FUN_0096ad30(unsigned int newSize);
     void FUN_0096ae90(unsigned int index, void** value);
     void BuildViewerStrings(ViewerStrings* s);
@@ -523,7 +523,7 @@ static void AddViewerString(ViewerStrings* s, void* value)
 // @fnv 0x00c303c0
 void FUN_00c303c0_cls::BuildViewerStrings(ViewerStrings* s)
 {
-    FUN_00c322b0(s);
+    NiPSysFieldModifier_GetViewerStrings(s);
     void* v = FUN_00a7d330(g_012027a8);
     AddViewerString(s, v);
     v = m_40.FUN_00a59af0("Direction");
@@ -887,11 +887,11 @@ struct S00c30170_Obj : AirTmp
     bool m_62;
     float m_64;
     void __thiscall LoadFromStream(NiStream*);
-    void __thiscall FUN_00c30170(NiStream* stream);
+    void __thiscall NiPSysAirFieldModifier_LoadBinary(NiStream* stream);
 };
 // Calls LoadFromStream, reads m_40, applies FUN_00c2f500 to it, then reads m_58, m_5c, m_60, m_61, m_62, and m_64.
 // @fnv 0x00c30170
-void __thiscall S00c30170_Obj::FUN_00c30170(NiStream* stream)
+void __thiscall S00c30170_Obj::NiPSysAirFieldModifier_LoadBinary(NiStream* stream)
 {
     LoadFromStream(stream);
     m_40.FUN_00a59be0(stream);
@@ -997,7 +997,7 @@ struct AirPoint3
     {}
     bool FUN_00439090(const AirPoint3&) const;
     float FUN_00457910();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     AirPoint3 FUN_0053d280(float) const;
     AirPoint3 operator+(const AirPoint3& v) const
     {
@@ -1101,11 +1101,11 @@ struct AirModifier
     float spread;
     void UpdateParticleAirFriction(float, AirParticles*);
     void UpdateAirFriction(float, AirParticles*);
-    void FUN_00c2fb40(float, AirParticles*);
+    void NiPSysAirFieldModifier_Update(float, AirParticles*);
 };
 // Updates particle velocities using the field direction and magnitude, with optional spread, distance limiting, attenuation, and inherited velocity.
 // @fnv 0x00c2fb40
-void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
+void AirModifier::NiPSysAirFieldModifier_Update(float time, AirParticles* apParticles)
 {
     if (apParticles->count == 0 || !source)
         return;
@@ -1163,7 +1163,7 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
             if (enableSpread)
             {
                 velocity = offset;
-                velocity.FUN_004a0c10();
+                velocity.NiPoint3_Unitize();
                 float dot = fieldVelocity.Dot(velocity);
                 if (dot < fMinDot)
                     continue;

@@ -205,11 +205,11 @@ TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0087a090_shell
 {
-    void __thiscall FUN_0087a090(unsigned short);
+    void __thiscall SeenData_LoadGame(unsigned short);
 };
 
 // @fnv 0x0087a090
-void __thiscall FUN_0087a090_shell::FUN_0087a090(unsigned short)
+void __thiscall FUN_0087a090_shell::SeenData_LoadGame(unsigned short)
 {
     g_TESSaveLoadGame->ReadTypedData((void*)((char*)this + 4), 0x20);
 }
@@ -256,11 +256,11 @@ struct Proxy87060
 {
     int _0;
     int _4;
-    void FUN_0087a060(bool abRecursing);
+    void SeenData_SaveGame(bool abRecursing);
 };
 // Passes the address of _4 and size 0x20 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0087a060
-void Proxy87060::FUN_0087a060(bool abRecursing)
+void Proxy87060::SeenData_SaveGame(bool abRecursing)
 {
     g_TESSaveLoadGame->FUN_008579b0(&_4, 0x20);
 }
@@ -350,7 +350,7 @@ class TESSaveLoadGame
 
 struct FUN_0087a090_shell
 {
-    void FUN_0087a090(unsigned short value);
+    void SeenData_LoadGame(unsigned short value);
 };
 
 struct FUN_0087a3e0_vtable
@@ -366,13 +366,13 @@ struct FUN_0087a3e0_vtable
 
 struct FUN_0087a3e0_shell
 {
-    void FUN_0087a3e0(unsigned short aiCount);
+    void IntSeenData_LoadGame(unsigned short aiCount);
 };
 
 // @fnv 0x0087a3e0
-void FUN_0087a3e0_shell::FUN_0087a3e0(unsigned short aiCount)
+void FUN_0087a3e0_shell::IntSeenData_LoadGame(unsigned short aiCount)
 {
-    reinterpret_cast<FUN_0087a090_shell*>(this)->FUN_0087a090(0xffff);
+    reinterpret_cast<FUN_0087a090_shell*>(this)->SeenData_LoadGame(0xffff);
 
     if (aiCount == 0xffff)
         reinterpret_cast<TESSaveLoadGame*>(DAT_011de45c)->ReadTypedData(&aiCount, 2);
@@ -406,7 +406,7 @@ struct Position
 };
 struct Marker
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 Marker* __cdecl CreateSquareLines(float, ImageSpaceEffectParam*, int);
 void __cdecl FUN_00879bd0(unsigned int, Position&);
@@ -491,7 +491,7 @@ void SeenDataShell::AttachMarkersForSeenData(Parent* parent, const NiPoint3& off
                 position.FUN_0063c8a0(offset);
                 Marker* marker3 = CreateSquareLines(DAT_011a31e8, &effectColor, 1);
                 parent->Attach(marker3, 1);
-                marker3->FUN_004bc1f0(position.x + half, position.y + half, position.z);
+                marker3->NiAVObject_SetTranslate(position.x + half, position.y + half, position.z);
             }
         }
     }
@@ -577,12 +577,12 @@ class A2A0Object : public A2A0Base
     int unk24;
     A2A0Child* m_pkChild;
 
-    unsigned short FUN_0087a2a0(bool bFull);
+    unsigned short IntSeenData_GetSaveSize(bool bFull);
 };
 
 // Computes the save size: base size, plus 2 when not full, plus 2, plus the child's save size if m_pkChild is set.
 // @fnv 0x0087a2a0
-unsigned short A2A0Object::FUN_0087a2a0(bool bFull)
+unsigned short A2A0Object::IntSeenData_GetSaveSize(bool bFull)
 {
     unsigned short usSize = 0;
     usSize += GetBaseSaveSize(false);
@@ -617,7 +617,7 @@ struct FUN_0087a330_shell : SeenData
     unsigned short layoutPadding26;
     FUN_0087a330_shell* m_pNext;
 
-    void FUN_0087a060(bool abRecursing);
+    void SeenData_SaveGame(bool abRecursing);
     void SaveSeenSection(bool abRecursing);
 };
 
@@ -626,7 +626,7 @@ struct FUN_0087a330_shell : SeenData
 void FUN_0087a330_shell::SaveSeenSection(bool abRecursing)
 {
     FUN_0087a330_shell* pSection;
-    FUN_0087a060(false);
+    SeenData_SaveGame(false);
     if (!abRecursing)
     {
         unsigned short usSectionCount;

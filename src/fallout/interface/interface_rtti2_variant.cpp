@@ -129,7 +129,7 @@ bool __cdecl FUN_00702680(int, int);
 // @fnv 0x00704e10
 void __cdecl FUN_00704e10(int id)
 {
-    if (FUN_004b7210() && ((InterfaceGate704*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && ((InterfaceGate704*)InterfaceManager_Instance())->FUN_009373f0())
     {
         bool b = FUN_00702680(0x3eb, 0xb);
         if (b)

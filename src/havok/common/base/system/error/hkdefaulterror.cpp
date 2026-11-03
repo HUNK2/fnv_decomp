@@ -11,10 +11,10 @@ struct FUN_00d2b3b0_Class
     int unk00;
     int unk04;
     FUN_00626490_Class helper;
-    unsigned char* FUN_00d2b3b0(unsigned char* result, int value);
+    unsigned char* hkDefaultError_isEnabled(unsigned char* result, int value);
 };
 // @fnv 0x00d2b3b0
-unsigned char* FUN_00d2b3b0_Class::FUN_00d2b3b0(unsigned char* result, int value)
+unsigned char* FUN_00d2b3b0_Class::hkDefaultError_isEnabled(unsigned char* result, int value)
 {
     *result = (helper.LookupHashEntry(value, 0) == 0);
     return result;
@@ -31,11 +31,11 @@ struct D2B3D0Owner
     int unk04;
     D2B3D0Map m_map;
 
-    void FUN_00d2b3d0();
+    void hkDefaultError_enableAll();
 };
 
 // @fnv 0x00d2b3d0
-void D2B3D0Owner::FUN_00d2b3d0()
+void D2B3D0Owner::hkDefaultError_enableAll()
 {
     m_map.clear();
 }
@@ -59,11 +59,11 @@ struct FUN_00d2b5c0_class
     int unk00;
     int unk04;
     FUN_00cb18f0_t sub;
-    void FUN_00d2b5c0(int value, char flag);
+    void hkDefaultError_setEnabled(int value, char flag);
 };
 // If flag is set, forwards value to sub.FUN_00cb1fb0; otherwise passes manager->unk10 and value to sub.FUN_00cb1870.
 // @fnv 0x00d2b5c0
-void FUN_00d2b5c0_class::FUN_00d2b5c0(int value, char flag)
+void FUN_00d2b5c0_class::hkDefaultError_setEnabled(int value, char flag)
 {
     if (flag != 0)
     {
@@ -353,10 +353,10 @@ struct FUN_00d2b5b0_Class
     int unk10;
     int unk14;
     int unk18;
-    void FUN_00d2b5b0();
+    void hkDefaultError_sectionEnd();
 };
 // @fnv 0x00d2b5b0
-void FUN_00d2b5b0_Class::FUN_00d2b5b0()
+void FUN_00d2b5b0_Class::hkDefaultError_sectionEnd()
 {
     unk18--;
 }
@@ -397,12 +397,12 @@ struct D2ErrorHost
         }
     } items;
     void FUN_00d2b3e0(const char* name, int key, int a3, int a4, int a5, Bool8 flags);
-    int FUN_00d2b4f0(int mode, int index, int a3, int a4, int a5);
+    int hkDefaultError_message(int mode, int index, int a3, int a4, int a5);
 };
 
 // Resolves index to last item if -1, validates it via v14, maps mode to a name and flag, calls FUN_00d2b3e0, returns 1 for modes 2 or 3.
 // @fnv 0x00d2b4f0
-int D2ErrorHost::FUN_00d2b4f0(int mode, int index, int aiArg3, int aiArg4, int aiArg5)
+int D2ErrorHost::hkDefaultError_message(int mode, int index, int aiArg3, int aiArg4, int aiArg5)
 {
     if (index == -1)
     {

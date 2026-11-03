@@ -15,7 +15,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void __thiscall Explosion_SetActorCause(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -265,15 +265,15 @@ struct FUN_00cbc650_cls
     virtual void v2B();
     virtual void v2C();
     virtual FUN_00cbc650_obj* vGet(FUN_00cbc650_obj* volatile* pp);
-    void FUN_00c86790(FUN_00cbc650_obj* a);
-    void FUN_00cbc650(FUN_00cbc650_obj* volatile a1);
+    void bhkUnaryAction_LoadBinary(FUN_00cbc650_obj* a);
+    void bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1);
 };
 
 // @fnv 0x00cbc650
-void FUN_00cbc650_cls::FUN_00cbc650(FUN_00cbc650_obj* volatile a1)
+void FUN_00cbc650_cls::bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1)
 {
     FUN_00cbc650_obj* obj = a1;
-    FUN_00c86790(obj);
+    bhkUnaryAction_LoadBinary(obj);
     if (obj->m_1e5 != 1)
     {
         volatile unsigned int* p = (volatile unsigned int*)vGet(&a1);
@@ -318,7 +318,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf19();
     virtual void vf20();
     virtual void vf21();
-    virtual void FUN_00cbc6a0(unsigned char* arg);
+    virtual void bhkLiquidAction_SaveBinary(unsigned char* arg);
     virtual void vf23();
     virtual void vf24();
     virtual void vf25();
@@ -342,11 +342,11 @@ struct FUN_00cbc6a0_Class
     virtual void vf43();
     virtual void vf44();
     virtual FUN_00cbc6a0_Data* vf45(int* value);
-    void __thiscall FUN_00c868b0(unsigned char* arg);
+    void __thiscall bhkUnaryAction_SaveBinary(unsigned char* arg);
 };
 
 // @fnv 0x00cbc6a0
-void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
+void FUN_00cbc6a0_Class::bhkLiquidAction_SaveBinary(unsigned char* arg)
 {
     unsigned char value;
     FUN_00cbc6a0_Data* data = vf45((int*)&value);
@@ -359,7 +359,7 @@ void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
         data->unk14 = _byteswap_ulong(data->unk14);
     }
 
-    FUN_00c868b0(arg);
+    bhkUnaryAction_SaveBinary(arg);
 
     if (arg[0x1E4] != 1)
     {
@@ -414,10 +414,10 @@ struct FUN_00cbc550_class
 struct FUN_00cbca20_class
 {
     void __thiscall FUN_00c86800(FUN_00cbc550_class* obj, int flags);
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    FUN_00cbc550_class* __thiscall bhkLiquidAction_CreateClone(int flags);
 };
 // @fnv 0x00cbca20
-FUN_00cbc550_class* __thiscall FUN_00cbca20_class::FUN_00cbca20(int flags)
+FUN_00cbc550_class* __thiscall FUN_00cbca20_class::bhkLiquidAction_CreateClone(int flags)
 {
     AutoMemContext context;
     FUN_00c876f0();
@@ -638,20 +638,20 @@ class NiViewerStringArray
 class FUN_00cbd650_base
 {
   public:
-    void FUN_00c86b80(NiViewerStringArray* pkStrings);
+    void bhkUnaryAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 class FUN_00cbd650_cls : public FUN_00cbd650_base
 {
   public:
-    void FUN_00cbd650(NiViewerStringArray* pkStrings);
+    void bhkLiquidAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 char* __cdecl FUN_00a7d330(const char* pcString);
 extern const char* DAT_01268420;
 // @fnv 0x00cbd650
-void FUN_00cbd650_cls::FUN_00cbd650(NiViewerStringArray* pkStrings)
+void FUN_00cbd650_cls::bhkLiquidAction_GetViewerStrings(NiViewerStringArray* pkStrings)
 {
     AutoMemContext kContext;
-    FUN_00c86b80(pkStrings);
+    bhkUnaryAction_GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(DAT_01268420));
 }
 
@@ -687,10 +687,10 @@ struct StateOwner
     float unk1c;
     float unk20;
     void __thiscall FUN_00c867d0(SmallAlignedState* state);
-    SmallAlignedState* FUN_00cbcad0(bool* created);
+    SmallAlignedState* bhkLiquidAction_CreateCinfo(bool* created);
 };
 // @fnv 0x00cbcad0
-SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
+SmallAlignedState* StateOwner::bhkLiquidAction_CreateCinfo(bool* created)
 {
     AutoMemContext context;
     *created = !unk0c;

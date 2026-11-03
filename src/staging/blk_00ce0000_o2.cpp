@@ -107,7 +107,7 @@ int __thiscall FUN_00ce4a20_cls::FUN_00ce4a20(int a)
 
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
-void __cdecl FUN_00cf69a0(int* a)
+void __cdecl finishLoadedObject_hkReferencedObject(int* a)
 {
     if (a)
         *a = (int)&DAT_0102e378;
@@ -458,7 +458,7 @@ void FUN_00cf4490_cls::FUN_00cf4490(void* stream)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
 // @fnv 0x00cf45f0
-CpuOpaque* __cdecl FUN_00cf45f0()
+CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI()
 {
     return &DAT_01268740;
 }
@@ -925,13 +925,13 @@ void FUN_00cf4f70_cls::InitFromSource(FUN_00cf4f70_src* pSource)
 
 struct FUN_00cf6980_class
 {
-    virtual void FUN_00cf6980(int);
+    virtual void cleanupLoadedObject_hkReferencedObject(int);
 };
 
 // @fnv 0x00cf6980
-void __cdecl FUN_00cf6980(FUN_00cf6980_class* object)
+void __cdecl cleanupLoadedObject_hkReferencedObject(FUN_00cf6980_class* object)
 {
-    object->FUN_00cf6980(0);
+    object->cleanupLoadedObject_hkReferencedObject(0);
 }
 
 extern int DAT_01268748;
@@ -1570,7 +1570,7 @@ FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
 extern int DAT_01268730;
 
 // @fnv 0x00cf41b0
-int* FUN_00cf41b0()
+int* bhkPositionConstraintMotor_GetRTTI()
 {
     return &DAT_01268730;
 }
@@ -1616,7 +1616,7 @@ void SerializedRecord::FUN_00cf41c0(StreamView* view)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
 // @fnv 0x00cf43f0
-CpuOpaque* __cdecl FUN_00cf43f0()
+CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI()
 {
     return &DAT_01268738;
 }

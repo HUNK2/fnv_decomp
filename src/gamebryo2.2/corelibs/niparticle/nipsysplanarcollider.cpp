@@ -44,14 +44,14 @@ void NiPSysPlanarCollider::LoadBinary(NiStream& stream)
 
 struct FUN_00c299d0_shell : public NiPSysPlanarCollider
 {
-    void* FUN_00c299d0();
+    void* NiPSysPlanarCollider_GetRTTI();
 };
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026c8;
 
 // @fnv 0x00c299d0
-void* FUN_00c299d0_shell::FUN_00c299d0()
+void* FUN_00c299d0_shell::NiPSysPlanarCollider_GetRTTI()
 {
     return &g_012026c8;
 }
@@ -355,12 +355,12 @@ class FUN_00c297f0_cls
     FUN_00c297f0_sub m_38;
     FUN_00c297f0_sub m_44;
     void Pre(FUN_00c297f0_owner* o);
-    void FUN_00c297f0(FUN_00c297f0_owner* o);
+    void NiPSysPlanarCollider_SaveBinary(FUN_00c297f0_owner* o);
 };
 
 // Calls Pre, writes m_2c via o->v30, then reads 4 bytes into m_30 and m_34 through o->m_250's read callback, and calls m_38 and m_44.
 // @fnv 0x00c297f0
-void FUN_00c297f0_cls::FUN_00c297f0(FUN_00c297f0_owner* apOwner)
+void FUN_00c297f0_cls::NiPSysPlanarCollider_SaveBinary(FUN_00c297f0_owner* apOwner)
 {
     Pre(apOwner);
     apOwner->v30(m_2c);
@@ -458,7 +458,7 @@ struct CollisionHelper
 extern CollisionHelper* __cdecl FUN_00aa13e0(unsigned int);
 
 // @fnv 0x00c29af0
-int __cdecl FUN_00c29af0()
+int __cdecl NiPSysPlanarCollider_CreateObject()
 {
     CollisionHelper* helper = FUN_00aa13e0(0x100);
     if (helper)
@@ -543,12 +543,12 @@ struct NiPSysColliderView : public NiPSysCollider
 
 struct NiPSysPlanarColliderView : public NiPSysPlanarCollider
 {
-    void FUN_00c29b70(NiViewerStringsArray* pkStrings);
+    void NiPSysPlanarCollider_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // Appends the base collider strings plus collider object name, width, height and X/Y axis strings to pkStrings.
 // @fnv 0x00c29b70
-void NiPSysPlanarColliderView::FUN_00c29b70(NiViewerStringsArray* pkStrings)
+void NiPSysPlanarColliderView::NiPSysPlanarCollider_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     static_cast<NiPSysColliderView*>(static_cast<NiPSysCollider*>(this))->GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_012026c8.m_pcName));
@@ -600,13 +600,13 @@ struct Coll
     float m_f34;
     Call_439090_tgt m_k38;
     Call_439090_tgt m_k44;
-    bool FUN_00c326b0(Coll* p);
-    bool FUN_00c29870(Coll* p);
+    bool NiPSysCollider_IsEqual(Coll* p);
+    bool NiPSysPlanarCollider_IsEqual(Coll* p);
 };
 // @fnv 0x00c29870
-bool Coll::FUN_00c29870(Coll* p)
+bool Coll::NiPSysPlanarCollider_IsEqual(Coll* p)
 {
-    if (!FUN_00c326b0(p))
+    if (!NiPSysCollider_IsEqual(p))
         return false;
     if ((m_spSub && !p->m_spSub) || (!m_spSub && p->m_spSub) ||
         (m_spSub && p->m_spSub && !m_spSub->IsEqual(p->m_spSub)))
@@ -619,7 +619,7 @@ bool Coll::FUN_00c29870(Coll* p)
 
 struct FUN_00c32680_Obj
 {
-    bool FUN_00c32680(void* a1);
+    bool NiPSysCollider_RegisterStreamables(void* a1);
 };
 struct FUN_00c28d00_cls
 {
@@ -628,7 +628,7 @@ struct FUN_00c28d00_cls
 // @fnv 0x00c28d00
 bool FUN_00c28d00_cls::FUN_00c28d00(void* a1)
 {
-    return reinterpret_cast<FUN_00c32680_Obj*>(this)->FUN_00c32680(a1);
+    return reinterpret_cast<FUN_00c32680_Obj*>(this)->NiPSysCollider_RegisterStreamables(a1);
 }
 
 extern "C" double __cdecl fabs(double);
@@ -734,12 +734,12 @@ struct RotationHelper
 };
 struct PlanarColliderExt : NiPSysPlanarCollider
 {
-    NiPSysCollider* FUN_00c28d10(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
+    NiPSysCollider* NiPSysPlanarCollider_Resolve(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
     NiPSysCollider* ResolveTail(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
 };
 // Tests a particle against the planar collider's half-space plane, computes a collision fraction if crossing, and falls back to ResolveTail.
 // @fnv 0x00c28d10
-NiPSysCollider* PlanarColliderExt::FUN_00c28d10(float time, float* collisionTime, BoundDataBlock* data,
+NiPSysCollider* PlanarColliderExt::NiPSysPlanarCollider_Resolve(float time, float* collisionTime, BoundDataBlock* data,
                                                 unsigned short particleId)
 {
     bool bCollided = false;

@@ -413,11 +413,11 @@ FUN_0071f5d0::FUN_0071f5d0() : s()
 
 struct FUN_0071fb20_Class
 {
-    int __thiscall FUN_0071fb20();
+    int __thiscall TextEditMenu_GetClass();
 };
 
 // @fnv 0x0071fb20
-int __thiscall FUN_0071fb20_Class::FUN_0071fb20()
+int __thiscall FUN_0071fb20_Class::TextEditMenu_GetClass()
 {
     return 0x41b;
 }
@@ -473,18 +473,18 @@ struct FUN_009bdf60_class
 {
     void FUN_009bdf60(int);
 };
-extern "C" void* __cdecl FUN_004b7210();
+extern "C" void* __cdecl InterfaceManager_Instance();
 
-// If FUN_004b7210 returns an object whose GetKey is nonzero, calls FUN_009bdf60 on it with arg.
+// If InterfaceManager_Instance returns an object whose GetKey is nonzero, calls FUN_009bdf60 on it with arg.
 // @fnv 0x00703310
 void FUN_00703310(int arg)
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey())
-        ((FUN_009bdf60_class*)FUN_004b7210())->FUN_009bdf60(arg);
+    if (InterfaceManager_Instance() && ((Modifier*)InterfaceManager_Instance())->GetKey())
+        ((FUN_009bdf60_class*)InterfaceManager_Instance())->FUN_009bdf60(arg);
 }
 
 namespace fnv_00703430 {
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct Modifier
 {
     unsigned char GetKey();
@@ -492,8 +492,8 @@ struct Modifier
 // @fnv 0x00703430
 unsigned char __cdecl FUN_00703430()
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey())
-        return ((FUN_00703470_Class*)FUN_004b7210())->GetByteAt110();
+    if (InterfaceManager_Instance() && ((Modifier*)InterfaceManager_Instance())->GetKey())
+        return ((FUN_00703470_Class*)InterfaceManager_Instance())->GetByteAt110();
     return 0;
 }
 }  // namespace fnv_00703430
@@ -503,17 +503,17 @@ struct Modifier
 {
     unsigned char GetKey();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct FUN_00715ec0_Class
 {
     void __thiscall SetSafeZone(int a);
 };
-// If FUN_004b7210 returns a non-null object whose GetKey is nonzero, calls SetSafeZone on it with param.
+// If InterfaceManager_Instance returns a non-null object whose GetKey is nonzero, calls SetSafeZone on it with param.
 // @fnv 0x007038e0
 void FUN_007038e0(int param)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<FUN_00715ec0_Class*>(FUN_004b7210())->SetSafeZone(param);
+    if (InterfaceManager_Instance() && reinterpret_cast<Modifier*>(InterfaceManager_Instance())->GetKey())
+        reinterpret_cast<FUN_00715ec0_Class*>(InterfaceManager_Instance())->SetSafeZone(param);
 }
 }  // namespace fnv_007038e0
 
@@ -526,14 +526,14 @@ struct Tile
 {
     static void UpdateAll(bool);
 };
-void* __cdecl FUN_004b7210();
-// If FUN_004b7210 returns a non-null object whose GetKey is nonzero, calls SetByteAtOffsetEC(1) on it and Tile::UpdateAll(false).
+void* __cdecl InterfaceManager_Instance();
+// If InterfaceManager_Instance returns a non-null object whose GetKey is nonzero, calls SetByteAtOffsetEC(1) on it and Tile::UpdateAll(false).
 // @fnv 0x00703920
 void __cdecl FUN_00703920()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_Instance() && reinterpret_cast<Modifier*>(InterfaceManager_Instance())->GetKey())
     {
-        reinterpret_cast<FUN_00703960_Class*>(FUN_004b7210())->SetByteAtOffsetEC(1);
+        reinterpret_cast<FUN_00703960_Class*>(InterfaceManager_Instance())->SetByteAtOffsetEC(1);
         Tile::UpdateAll(false);
     }
 }
@@ -555,7 +555,7 @@ struct Modifier
 {
     unsigned char GetKey();
 };
-Modifier* __cdecl FUN_004b7210();
+Modifier* __cdecl InterfaceManager_Instance();
 struct TESObjectREFR;
 struct HUDMainMenu
 {
@@ -564,7 +564,7 @@ struct HUDMainMenu
 // @fnv 0x007062e0
 bool __cdecl FUN_007062e0(TESObjectREFR* apRefr, bool abFlag1, bool abFlag2)
 {
-    if (FUN_004b7210() && FUN_004b7210()->GetKey())
+    if (InterfaceManager_Instance() && InterfaceManager_Instance()->GetKey())
     {
         return HUDMainMenu::UpdateTargetReference(apRefr, abFlag1, abFlag2);
         goto done;
@@ -576,12 +576,12 @@ done:;
 
 namespace fnv_00707b30 {
 struct InterfaceManager;
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 void FUN_00717990();
 // @fnv 0x00707b30
 void FUN_00707b30()
 {
-    FUN_004b7210();
+    InterfaceManager_Instance();
     FUN_00717990();
 }
 }  // namespace fnv_00707b30
@@ -1207,7 +1207,7 @@ void FUN_00701500_cls::ResetSub()
     m18.Reset();
 }
 
-extern "C" void* __cdecl FUN_004b7210();
+extern "C" void* __cdecl InterfaceManager_Instance();
 
 struct FUN_009373f0_StandIn
 {
@@ -1232,9 +1232,9 @@ struct ThreeInts
 // @fnv 0x007033d0
 int* __cdecl FUN_007033d0(int* pOut)
 {
-    if (FUN_004b7210() && ((FUN_009373f0_StandIn*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && ((FUN_009373f0_StandIn*)InterfaceManager_Instance())->FUN_009373f0())
     {
-        ((FUN_009b7010_StandIn*)FUN_004b7210())->FUN_009b7010(pOut);
+        ((FUN_009b7010_StandIn*)InterfaceManager_Instance())->FUN_009b7010(pOut);
         return pOut;
     }
 
@@ -1798,7 +1798,7 @@ void FUN_007031e0(DbgRef* ref)
     }
 }
 
-extern "C" void* __cdecl FUN_004b7210();
+extern "C" void* __cdecl InterfaceManager_Instance();
 extern "C" void* __cdecl FUN_00a09030(int);
 
 class Menu
@@ -1822,7 +1822,7 @@ struct TileStandIn
 // @fnv 0x00705190
 TESSound* GetDialogCastSound()
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_Instance() && ((Modifier*)InterfaceManager_Instance())->GetKey())
     {
         TileStandIn* pTile = (TileStandIn*)FUN_00a09030(0x3f1);
         DialogMenu* pDialogMenu = pTile != 0 ? dynamic_cast<DialogMenu*>(pTile->GetMenu()) : 0;
@@ -1851,7 +1851,7 @@ struct ConsoleFont
 };
 struct ConsoleFontManager
 {
-    ConsoleFont* FUN_005bd5c0(int);
+    ConsoleFont* FontManager_GetFont(int);
 };
 ConsoleFontManager* __cdecl FUN_005bd5b0();
 struct ConsoleTextQueue
@@ -1888,7 +1888,7 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
     WriteLine(a.String());
     int s = 1200;
     int p = 0;
-    int h = FUN_005bd5b0()->FUN_005bd5c0(*g_011d8d38.FUN_0043d4d0() - 1)->FUN_00a160c0(&a, &s, &p, 0, 0);
+    int h = FUN_005bd5b0()->FontManager_GetFont(*g_011d8d38.FUN_0043d4d0() - 1)->FUN_00a160c0(&a, &s, &p, 0, 0);
     if (h == 0)
         return;
     char i[2048];
@@ -2328,7 +2328,7 @@ struct MenuFrame
 extern MenuFrameProvider* DAT_011dea0c;
 struct MenuGate
 {
-    bool FUN_00451530();
+    bool TES_IsRunningCellTests();
 };
 extern MenuGate* DAT_011dea10;
 extern char DAT_0106ef50;
@@ -2465,7 +2465,7 @@ void MenuState::UpdateMenuSelection()
         }
     }
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) == 4 &&
-        (!*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) || DAT_011dea10->FUN_00451530()))
+        (!*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) || DAT_011dea10->TES_IsRunningCellTests()))
     {
         cursor->FUN_00a237b0();
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 1;

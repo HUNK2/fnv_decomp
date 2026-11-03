@@ -125,11 +125,11 @@ void FUN_00480d50_shell::FUN_00480d50(bool abVal)
 
 struct FUN_00480d90_shell : public TESBipedModelForm
 {
-    bool FUN_00480d90();
+    bool TESBipedModelForm_GetPlayable();
 };
 
 // @fnv 0x00480d90
-bool FUN_00480d90_shell::FUN_00480d90()
+bool FUN_00480d90_shell::TESBipedModelForm_GetPlayable()
 {
     if (*((unsigned char*)this + 8) & 0x40)
         return false;
@@ -202,10 +202,10 @@ struct FUN_004811e0_shell
 {
     char _pad[12];
     TESModelTextureSwap bipedModel[2];
-    const char* FUN_004811e0(int aeSex);
+    const char* TESBipedModelForm_GetBipedModel(int aeSex);
 };
 // @fnv 0x004811e0
-const char* FUN_004811e0_shell::FUN_004811e0(int aeSex)
+const char* FUN_004811e0_shell::TESBipedModelForm_GetBipedModel(int aeSex)
 {
     if (bipedModel[aeSex].GetModelLength() == 0 && aeSex == 1)
         aeSex = 0;
@@ -234,7 +234,7 @@ struct FUN_00489240_Class
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 
 struct BIPED_MODEL_ENDIAN : BipedModelForm
@@ -277,7 +277,7 @@ void FUN_00480610_shell::InitBipedModel()
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x4c)
         ->ProcessAndFreeData(0x32444f4d, 0x54324f4d, 0x53324f4d);
 
-    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x8c)->TESTexture_Save(0x4e4f4349);
     reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0xa4)->FUN_0047a240(0x4f43494d);
 
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x2c)
@@ -287,7 +287,7 @@ void FUN_00480610_shell::InitBipedModel()
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x6c)
         ->ProcessAndFreeData(0x34444f4d, 0x54344f4d, 0x53344f4d);
 
-    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x98)->FUN_0048e370(0x324f4349);
+    reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x98)->TESTexture_Save(0x324f4349);
     reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0xb4)->FUN_0047a240(0x3243494d);
 
     reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0xc4)->WriteToBuffer(0x54434d42, 0);
@@ -503,12 +503,12 @@ struct FUN_004804d0_shell
 
     FUN_004804d0_standin unkC4;
 
-    void FUN_004804d0();
+    void TESBipedModelForm_InitializeDataComponent();
 };
 
 // Clears unk04 and unk08, then calls Call on the seven embedded objects at unk0c, unk4c, unk8c, unk2c, unk6c, unk98 and unkC4.
 // @fnv 0x004804d0
-void FUN_004804d0_shell::FUN_004804d0()
+void FUN_004804d0_shell::TESBipedModelForm_InitializeDataComponent()
 {
     unk04 = 0;
     unk08 = 0;
@@ -526,12 +526,12 @@ void FUN_004804d0_shell::FUN_004804d0()
 class BipedComparison : public TESBipedModelForm
 {
   public:
-    bool FUN_004808f0(BaseFormComponent* other);
+    bool TESBipedModelForm_CompareComponent(BaseFormComponent* other);
 };
 
 // Compares this BipedComparison against another BaseFormComponent, returning true if the cast fails or any biped model, icon, or facegen field differs.
 // @fnv 0x004808f0
-bool BipedComparison::FUN_004808f0(BaseFormComponent* other)
+bool BipedComparison::TESBipedModelForm_CompareComponent(BaseFormComponent* other)
 {
     TESBipedModelForm* compared = dynamic_cast<TESBipedModelForm*>(other);
     if (!compared)
@@ -562,12 +562,12 @@ bool BipedComparison::FUN_004808f0(BaseFormComponent* other)
 class BipedModelCopy : public TESBipedModelForm
 {
   public:
-    void FUN_004807a0(BaseFormComponent* component);
+    void TESBipedModelForm_CopyComponent(BaseFormComponent* component);
 };
 
 // Copies all biped model fields from a source TESBipedModelForm into this BipedModelCopy after casting the component.
 // @fnv 0x004807a0
-void BipedModelCopy::FUN_004807a0(BaseFormComponent* component)
+void BipedModelCopy::TESBipedModelForm_CopyComponent(BaseFormComponent* component)
 {
     TESBipedModelForm* source;
     source = dynamic_cast<TESBipedModelForm*>(component);

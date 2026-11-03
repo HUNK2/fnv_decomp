@@ -239,7 +239,7 @@ struct BSShaderManager
     static void __cdecl UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
 };
 
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL*);
+NiAVObject* __fastcall TESObjectCELL_MarkerNode(TESObjectCELL*);
 NiAVObject* __cdecl FUN_00c56680(float, int, int, RgbaColor const&);
 NiAVObject* __cdecl FUN_00c5a0f0(NiPoint3 const&, NiPoint3 const&, float, float, RgbaColor const&, RgbaColor const&);
 void __cdecl AttachLightingPropertyRecursive(unsigned int);
@@ -561,7 +561,7 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
     }
     *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x38) = 0;
     if (!reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell() ||
-        !FUN_00524cf0(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
+        !TESObjectCELL_MarkerNode(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
     {
         return;
     }
@@ -617,7 +617,7 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
         BSShaderManager::UpdateObjectTypeRecurse(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
                                                      *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))),
                                                  false, false);
-        reinterpret_cast<VtblStandIn*>(FUN_00524cf0(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
+        reinterpret_cast<VtblStandIn*>(TESObjectCELL_MarkerNode(reinterpret_cast<TESObjectREFR*>(g_thePlayer)->GetParentCell()))
             ->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
                                              *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))),
                                          true);
@@ -713,7 +713,7 @@ struct CombatTimerStandIn
 {
     void FUN_008d7f40(float);
     bool FUN_008d7f80();
-    void FUN_00910b10();
+    void TESWeightForm_InitializeDataComponent();
     bool FUN_0097fa50();
 };
 
@@ -1141,7 +1141,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
     {
         if (bplayCombatMusic)
         {
-            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00910b10();
+            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->TESWeightForm_InitializeDataComponent();
             FUN_00435de0_ctor ts1;
             ts1.FUN_00435de0(FUN_00435dd0());
             *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts1;
@@ -1156,7 +1156,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
             FUN_00435de0_ctor ts2;
             ts2.FUN_00435de0(-DAT_0108d9b0);
             *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts2;
-            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00910b10();
+            reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)->TESWeightForm_InitializeDataComponent();
         }
     }
     return reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)->GetX() != -DAT_0108d9b0;
@@ -2868,7 +2868,7 @@ struct ActorShell_00991f80 : Actor
 {
     bool FUN_00566950();
     int FUN_00474cb0();
-    unsigned int FUN_0055d520();
+    unsigned int TESObjectREFR_GetFullName();
     unsigned int FUN_0084e3a0();
 };
 typedef void(__thiscall* SetCombatGroupProc_00991f80)(Actor*, ActorCombatGroup*);
@@ -2877,10 +2877,10 @@ extern const char UNK_0108dab0[];
 void __cdecl FUN_005b5e40(const char*, unsigned int, unsigned int);
 struct FUN_00991f80_shell : CombatManager
 {
-    FUN_00985d10* FUN_00991f80(Actor* actor);
+    FUN_00985d10* CombatManager_SplitPlayerCombatGroup(Actor* actor);
 };
 // @fnv 0x00991f80
-FUN_00985d10* FUN_00991f80_shell::FUN_00991f80(Actor* apActor)
+FUN_00985d10* FUN_00991f80_shell::CombatManager_SplitPlayerCombatGroup(Actor* apActor)
 {
     ActorCombatGroup* pGroup = g_thePlayer->GetCombatGroup();
     ((CombatGroupShell_00991f80*)pGroup)->FUN_009869a0(apActor);
@@ -2908,7 +2908,7 @@ FUN_00985d10* FUN_00991f80_shell::FUN_00991f80(Actor* apActor)
                     FUN_005b5e40(UNK_0108dab0,
                                  ((ActorShell_00991f80*)piVar5)->FUN_00474cb0()
                                      ? ((GetActorValueProc_00991f80)(*(void***)piVar5)[0x130 / 4])(piVar5)
-                                     : ((ActorShell_00991f80*)piVar5)->FUN_0055d520(),
+                                     : ((ActorShell_00991f80*)piVar5)->TESObjectREFR_GetFullName(),
                                  ((ActorShell_00991f80*)piVar5)->FUN_0084e3a0());
                 }
             }
@@ -3037,7 +3037,7 @@ struct ThreatActor
     int unk9c;
     int unka0;
     ThreatValueOwner values;
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
     float FUN_006a78f0();
     ThreatState* FUN_008a7f80();
 };
@@ -3057,7 +3057,7 @@ bool ThreatManager::IsThreatWithinLimits(ThreatActor* actor, ThreatActor* target
 {
     if (!target)
         return true;
-    float strength = target->FUN_00477900();
+    float strength = target->BGSExplosion_GetRadiusBSUnits();
     float distance = target->FUN_006a78f0();
     if (distance < *DAT_011cf3f0.FUN_00403e20())
         return true;

@@ -73,19 +73,19 @@ void MagicItemForm::InitItem()
     SetInitializationState(true);
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
-void __fastcall FUN_004056d0(void*);
+void __fastcall EffectItemList_Save(void*);
 struct V18
 {
     virtual void v0();
@@ -107,23 +107,23 @@ struct V18
 };
 struct FUN_0040c1d0_obj
 {
-    void FUN_0040c1d0();
+    void MagicItemForm_SaveForm();
 };
-// Calls M on the object, runs FUN_00487010 and v14/v15 on the sub-object at offset 0x18, then FUN_004056d0 on offset 0x24 and M again.
+// Calls M on the object, runs TESFullName_Save and v14/v15 on the sub-object at offset 0x18, then EffectItemList_Save on offset 0x24 and M again.
 // @fnv 0x0040c1d0
-void FUN_0040c1d0_obj::FUN_0040c1d0()
+void FUN_0040c1d0_obj::MagicItemForm_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
     ((V18*)((char*)this + 0x18))->v14();
     ((V18*)((char*)this + 0x18))->v15();
-    FUN_004056d0((void*)((char*)this + 0x24));
-    ((FUN_00485680*)this)->M();
+    EffectItemList_Save((void*)((char*)this + 0x24));
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct FUN_0040c450_MagicItem
@@ -150,18 +150,18 @@ struct FUN_0040c450_EffectItemList
 
 struct FUN_0040c450_shell
 {
-    bool FUN_0040c450(TESForm*);
+    bool MagicItemForm_Compare(TESForm*);
 };
 
 // @fnv 0x0040c450
-bool FUN_0040c450_shell::FUN_0040c450(TESForm* apCompare)
+bool FUN_0040c450_shell::MagicItemForm_Compare(TESForm* apCompare)
 {
     MagicItemForm* pmagicItem = dynamic_cast<MagicItemForm*>(apCompare);
 
     if (!pmagicItem)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(apCompare))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(apCompare))
         return true;
 
     if (reinterpret_cast<FUN_0040c450_MagicItem*>(reinterpret_cast<char*>(this) + 0x18)
@@ -219,21 +219,21 @@ struct FUN_0040c510_cls
     int unk14;
     MagicComp m18;
     EndianComp m24;
-    void FUN_004851b0(TESForm* form);
-    void FUN_0040c510(TESForm* form);
+    void TESForm_CopyAllComponents(TESForm* form);
+    void MagicItemForm_CopyFrom(TESForm* form);
 };
 
 FUN_0040c510_cls* __cdecl FUN_00ec43fb(TESForm* form, int a2, const char* a3, const char* a4, int a5);
 
 // @fnv 0x0040c510
-void FUN_0040c510_cls::FUN_0040c510(TESForm* form)
+void FUN_0040c510_cls::MagicItemForm_CopyFrom(TESForm* form)
 {
     FUN_0040c510_cls* rec = FUN_00ec43fb(form, 0, DAT_01183028, DAT_0118395c, 0);
     if (rec == 0)
     {
         return;
     }
-    FUN_004851b0(form);
+    TESForm_CopyAllComponents(form);
     m18.v0D(rec ? &rec->m18 : (MagicComp*)0);
     m24.CopyItemsFromList(rec ? &rec->m24 : (EndianComp*)0);
 }

@@ -108,7 +108,7 @@ struct H4280
 {
     unsigned int GetLengthPlusOne();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_004f3e40Shell
 {
     char _pad[8];
@@ -118,14 +118,14 @@ struct FUN_004f3e40Shell
         Flt f;
         H4280 h;
     } u;
-    void FUN_004f3e40();
+    void TESRegionDataMap_Save();
 };
 // @fnv 0x004f3e40
-void FUN_004f3e40Shell::FUN_004f3e40()
+void FUN_004f3e40Shell::TESRegionDataMap_Save()
 {
     ((H14c0*)this)->WriteSaveData();
     if (u.s.Length())
-        FUN_004856f0(0x504D4452, (void*)(unsigned int)u.f, u.h.GetLengthPlusOne());
+        TESForm_AddChunkArray(0x504D4452, (void*)(unsigned int)u.f, u.h.GetLengthPlusOne());
 }
 
 namespace fnv_004f3f10 {
@@ -141,11 +141,11 @@ struct S004f3f10
 {
     char _p[8];
     Flt _f;
-    void FUN_004f3f10(BSStr&);
+    void TESRegionDataMap_GetMapName(BSStr&);
 };
 // Calls Set on the BSStr with the float value converted to unsigned int as the string pointer and length 0.
 // @fnv 0x004f3f10
-void S004f3f10::FUN_004f3f10(BSStr& a)
+void S004f3f10::TESRegionDataMap_GetMapName(BSStr& a)
 {
     a.Set((const char*)(unsigned int)_f, 0);
 }
@@ -161,10 +161,10 @@ struct FUN_004f3f40_shell
 {
     char _pad[8];
     BSStr str;
-    bool FUN_004f3f40(char const*);
+    bool TESRegionDataMap_SetMapName(char const*);
 };
 // @fnv 0x004f3f40
-bool FUN_004f3f40_shell::FUN_004f3f40(char const* apMapName)
+bool FUN_004f3f40_shell::TESRegionDataMap_SetMapName(char const* apMapName)
 {
     if (str.StrCmp(apMapName, true))
     {
@@ -278,7 +278,7 @@ struct RegionMapMerge : TESRegionDataMap
     bool FUN_004f1540();
     void FUN_004f15a0(bool value);
     unsigned char FUN_005bb4d0();
-    bool FUN_004f15c0(unsigned char value);
+    bool TESRegionData_SetPriority(unsigned char value);
     void MergeMapData(RegionMapMerge* data, void* context);
 };
 float __cdecl floor(float value);
@@ -292,7 +292,7 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
     if (m_bHasRegionData)
     {
         FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        TESRegionData_SetPriority(other->FUN_005bb4d0());
         SetRegionMapName(other->ReadMapName());
     }
     else if (other->m_bHasRegionData)
@@ -304,7 +304,7 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
         if (other->FUN_004f1540() && other->FUN_005bb4d0() > FUN_005bb4d0())
         {
             FUN_004f15a0(other->FUN_004f1540());
-            FUN_004f15c0(other->FUN_005bb4d0());
+            TESRegionData_SetPriority(other->FUN_005bb4d0());
             SetRegionMapName(other->ReadMapName());
         }
         return;
@@ -312,7 +312,7 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
     else if (other->FUN_004f1540())
     {
         FUN_004f15a0(other->FUN_004f1540());
-        FUN_004f15c0(other->FUN_005bb4d0());
+        TESRegionData_SetPriority(other->FUN_005bb4d0());
         SetRegionMapName(other->ReadMapName());
     }
     else
@@ -322,6 +322,6 @@ void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)
         float priority = FUN_005bb4d0() * FUN_005bb4d0() + (100 - FUN_005bb4d0()) * other->FUN_005bb4d0();
         priority += (100 - other->FUN_005bb4d0()) * FUN_005bb4d0() + other->FUN_005bb4d0() * other->FUN_005bb4d0();
         priority *= 0.005f;
-        FUN_004f15c0((unsigned char)floor(priority));
+        TESRegionData_SetPriority((unsigned char)floor(priority));
     }
 }

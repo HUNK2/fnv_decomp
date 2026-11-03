@@ -47,7 +47,7 @@ Derived::Derived()
 {}
 
 namespace fnv_004f9ca0 {
-// sub ecx,0x74; jmp FUN_0051b020 == MSVC adjustor thunk: Derived overrides a virtual that both bases declare;
+// sub ecx,0x74; jmp TESObjectMISC_GetSaveSize == MSVC adjustor thunk: Derived overrides a virtual that both bases declare;
 // the secondary base's vtable gets a thunk moving this back by sizeof(PrimaryBase) = 0x74.
 struct PrimaryBase
 {
@@ -334,7 +334,7 @@ Derived::Derived()
 }  // namespace fnv_00515410
 
 namespace fnv_00515420 {
-// sub ecx,0x84; jmp FUN_00515290  ==  MSVC adjustor thunk for the second base's vtable.
+// sub ecx,0x84; jmp TESObjectBOOK_SaveGame  ==  MSVC adjustor thunk for the second base's vtable.
 // PrimaryBase is vptr + 32 int fields = 0x84 bytes.
 struct PrimaryBase
 {
@@ -530,7 +530,7 @@ Own_0051a660* make_0051a660()
     return &o;
 }
 
-// sub ecx,0x7c; jmp FUN_0051a5d0: adjustor thunk from multiple inheritance.
+// sub ecx,0x7c; jmp TESObjectIMOD_LoadGame2: adjustor thunk from multiple inheritance.
 // PrimaryBase is vptr + 30 dwords = 0x7c bytes.
 struct PrimaryBase
 {
@@ -582,7 +582,7 @@ struct AdjustedObject : PrimaryBase, SecondaryBase
 AdjustedObject::AdjustedObject()
 {}
 
-// 0x51a690 = VC9 adjustor thunk (sub ecx,0x7c; jmp ?FUN_0051a5a0@...@@QAEXI@Z).
+// 0x51a690 = VC9 adjustor thunk (sub ecx,0x7c; jmp ?TESObjectIMOD_SaveGame@...@@QAEXI@Z).
 // Recipe: primary base of size 0x7c, secondary base re-declaring the same virtual,
 // derived override declared-only, static instance forces both vftables -> thunk comdat.
 struct AdjPrim

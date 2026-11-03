@@ -452,7 +452,7 @@ void FUN_006fd010_shell::RunAndDispatch(FUN_00485b60* a1)
 
 struct S_00587f40_Lock
 {
-    void FUN_004538a0(int a);
+    void BSCriticalSection_Enter(int a);
     void FUN_004538c0();
 };
 extern S_00587f40_Lock DAT_011ca60c;
@@ -505,7 +505,7 @@ struct S_00587f40
 // @fnv 0x00587f40
 void S_00587f40::ClearAllLists()
 {
-    DAT_011ca60c.FUN_004538a0(0);
+    DAT_011ca60c.BSCriticalSection_Enter(0);
     m_kNode.RemoveAll();
     void* pos = m_map.GetFirstPos();
     while (pos)
@@ -703,13 +703,13 @@ void __cdecl SetRectCenterAndHalfExtents(tagRECT*);
 struct TES
 {
     void FUN_00451020(tagRECT*, float);
-    void FUN_0045cac0();
+    void TES_InitDistantTextureBlending();
 };
 extern TES* g_TES;
 
 struct NiNode
 {
-    void FUN_00572160();
+    void NiNode_DetachAllChildren();
 };
 struct NiNodeHolder
 {
@@ -931,7 +931,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             pOld->FUN_006fce00();
             if (DAT_011d86bc)
             {
-                ((NiNode*)DAT_011d86bc)->FUN_00572160();
+                ((NiNode*)DAT_011d86bc)->NiNode_DetachAllChildren();
             }
         }
         DAT_011d8670 = this;
@@ -944,7 +944,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             if (b1)
             {
                 lodNode->UpdateTerrainNode(pos, b4);
-                g_TES->FUN_0045cac0();
+                g_TES->TES_InitDistantTextureBlending();
                 if (*DAT_011d869c.Bool())
                 {
                     lodNode->UpdateBlock(pos, b2);

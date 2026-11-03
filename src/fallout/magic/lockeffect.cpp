@@ -35,7 +35,7 @@ struct LockExtraData
 struct TESObjectREFR
 {
     LockExtraData* GetLock();
-    LockExtraData* FUN_005690a0();
+    LockExtraData* TESObjectREFR_AddLock();
     void FUN_005789b0();
     void Lock();
 };
@@ -81,7 +81,7 @@ void ActiveEffect::ApplyLockEffect()
         return;
     }
 
-    pLock = pTarget->GetParent()->FUN_005690a0();
+    pLock = pTarget->GetParent()->TESObjectREFR_AddLock();
     pLock->m_cOwner = (char)GetFloatAtOffset1C();
     pLock->m_iArrayLength = 0;
     pLock->m_cActionFlags = 2;

@@ -181,11 +181,11 @@ void BGSMessage::ClearButtons()
 
 struct FUN_00590d00_shell : public BGSMessage
 {
-    bool FUN_00590d00();
+    bool BGSMessage_GetIsMessageBox();
 };
 
 // @fnv 0x00590d00
-bool FUN_00590d00_shell::FUN_00590d00()
+bool FUN_00590d00_shell::BGSMessage_GetIsMessageBox()
 {
     return (*(unsigned int*)((char*)this + 0x38) & 1) ? true : false;
 }
@@ -203,12 +203,12 @@ bool FUN_00590ed0_shell::IsFlagSet()
 
 struct FUN_005911d0_shell : public BGSMessage
 {
-    void FUN_005911d0(PerkButtonEntry*);
+    void BGSMessage_AddButton(PerkButtonEntry*);
 };
 
 // If apItem is non-null, appends it to the BSSimpleList at offset 0x30 of this object.
 // @fnv 0x005911d0
-void FUN_005911d0_shell::FUN_005911d0(PerkButtonEntry* apItem)
+void FUN_005911d0_shell::BGSMessage_AddButton(PerkButtonEntry* apItem)
 {
     if (apItem != 0)
     {
@@ -371,12 +371,12 @@ void MessageCopyAccess::CopyFromMessage(TESForm* form)
 struct Component0bc0
 {
     int unk00, unk04, unk08;
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct Description0bc0
 {
     int unk00, unk04;
-    void FUN_00482cb0();
+    void TESDescription_Save();
 };
 struct Icon0bc0
 {
@@ -404,7 +404,7 @@ struct List0bc0
 };
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 int __cdecl FUN_0044a670(const char*);
-void __cdecl FUN_004856f0(unsigned int, const char*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, const char*, unsigned int);
 struct Target0bc0
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -413,23 +413,23 @@ struct Target0bc0
     Icon0bc0* icon;
     int unk30, unk34;
     unsigned int flags, time;
-    void FUN_004855a0();
+    void TESForm_StartForm();
     Icon0bc0* FUN_0055b980();
-    bool FUN_00590d00();
+    bool BGSMessage_GetIsMessageBox();
     List0bc0* FUN_00436aa0();
-    void FUN_00485680();
+    void TESForm_CloseForm();
     void WriteToStream();
 };
 // @fnv 0x00590bc0
 void Target0bc0::WriteToStream()
 {
-    FUN_004855a0();
-    description.FUN_00482cb0();
-    fullName.FUN_00487010();
+    TESForm_StartForm();
+    description.TESDescription_Save();
+    fullName.TESFullName_Save();
     unsigned int id = FUN_0055b980() ? FUN_0055b980()->FUN_0084e3a0() : 0;
     FUN_00485910(0x4d414e49, id);
     FUN_00485910(0x4d414e44, flags);
-    if (!FUN_00590d00())
+    if (!BGSMessage_GetIsMessageBox())
         FUN_00485910(0x4d414e54, time);
     List0bc0* node = FUN_00436aa0();
     while (node && !node->FUN_008256d0())
@@ -437,12 +437,12 @@ void Target0bc0::WriteToStream()
         Button0bc0* button = node->FUN_006815c0();
         node = node->FUN_00726070();
         if (button->text.FUN_00559450())
-            FUN_004856f0(0x54585449, button->text.FUN_00559450(), FUN_0044a670(button->text.FUN_00559450()) + 1);
+            TESForm_AddChunkArray(0x54585449, button->text.FUN_00559450(), FUN_0044a670(button->text.FUN_00559450()) + 1);
         else
             FUN_00485910(0x54585449, 0);
         button->conditions.ProcessItems();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct ButtonConditionView
@@ -465,11 +465,11 @@ struct ButtonListView
 struct MessageCompare : BGSMessage
 {
     unsigned int FUN_0055b980();
-    bool FUN_00590d00();
+    bool BGSMessage_GetIsMessageBox();
     bool IsFlagSet();
     unsigned int FUN_00639b40();
     ButtonListView* FUN_00436aa0();
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
     bool IsNotEqual(TESForm*);
 };
 // @fnv 0x00590f40
@@ -480,7 +480,7 @@ bool MessageCompare::IsNotEqual(TESForm* form)
         return true;
     if (FUN_0055b980() != right->FUN_0055b980())
         return true;
-    if (FUN_00590d00() != right->FUN_00590d00())
+    if (BGSMessage_GetIsMessageBox() != right->BGSMessage_GetIsMessageBox())
         return true;
     if (IsFlagSet() != right->IsFlagSet())
         return true;
@@ -501,7 +501,7 @@ bool MessageCompare::IsNotEqual(TESForm* form)
         other = other->FUN_00726070();
         left = left->FUN_00726070();
     }
-    if (FUN_00485270(form))
+    if (TESForm_CompareAllComponents(form))
         return true;
     return false;
 }

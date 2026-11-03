@@ -5,7 +5,7 @@
 
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiSkinPartition_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -641,7 +641,7 @@ class SkinPartitionOwner : public SkinObjectBase
     NiSkinPartition::Partition* m_pPartitions;
 
     virtual ~SkinPartitionOwner();
-    void FUN_00a846e0(SkinViewerStrings* pkStrings);
+    void NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 struct NiBinaryStreamFake
 {
@@ -950,7 +950,7 @@ class SaverA83C : public FUN_00a89af0_helper
     unsigned int m_uiCount;
     ElemA83C* m_pkElems;
 
-    void FUN_00a83ce0(NiStreamA83C& kStream);
+    void NiSkinPartition_SaveBinary(NiStreamA83C& kStream);
 };
 
 struct LBBinaryStream
@@ -1176,11 +1176,11 @@ struct LBSkinPartition : LBObject
     unsigned int m_uiPartitionCount;
     LBPartition* m_pPartitions;
 
-    void FUN_00a83c30(LBStream& arStream);
+    void NiSkinPartition_LoadBinary(LBStream& arStream);
 };
 
 // @fnv 0x00a83c30
-void LBSkinPartition::FUN_00a83c30(LBStream& arStream)
+void LBSkinPartition::NiSkinPartition_LoadBinary(LBStream& arStream)
 {
     LBObject::LoadBinary(arStream);
     LBStreamLoadBinary(arStream, m_uiPartitionCount);

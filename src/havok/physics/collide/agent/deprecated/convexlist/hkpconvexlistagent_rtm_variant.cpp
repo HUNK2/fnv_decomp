@@ -21,7 +21,7 @@ extern "C"
 }
 struct FUN_00d33c80_class
 {
-    void __thiscall FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void __thiscall hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
 };
 struct hkpCollisionDispatcher
 {
@@ -48,7 +48,7 @@ extern void* __cdecl FUN_00d34510();
 void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self);
 struct FUN_00d337f0_self
 {
-    void __thiscall FUN_00dacb20(int a);
+    void __thiscall hkpGskfAgent_removePoint(int a);
     void __thiscall FUN_00d337f0(int a);
 };
 struct hkpGskfAgent

@@ -42,7 +42,7 @@ class TESActorBase : public TESBoundObject
     virtual bool SetPlayable();
     void NotifyFormIDChanged(int);
     virtual void LoadGame(BGSLoadFormBuffer*);
-    void FUN_005f20a0(bool);
+    void TESActorBase_Reset3DForLoadedActors(bool);
 };
 
 class MissileProjectile
@@ -62,7 +62,7 @@ class TESActorBaseData
 class TESAIForm
 {
   public:
-    void FUN_0047f980(BGSLoadFormBuffer*);
+    void TESAIForm_LoadGame(BGSLoadFormBuffer*);
 };
 
 class TESAttributes
@@ -556,7 +556,7 @@ class TESObjectREFR
 class Actor : public TESObjectREFR
 {
   public:
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     BaseProcess* GetProcess();
     TESActorBase* GetActorBase();
 };

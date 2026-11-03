@@ -4,7 +4,7 @@
 #pragma optimize("", off)
 int TruncateFloatToInt(float value);
 // @fnv 0x005394a0
-bool TESPackage::FUN_005394a0()
+bool TESPackage::TESObjectLAND_IsLoaded()
 {
     if (flags & 8)
         return true;

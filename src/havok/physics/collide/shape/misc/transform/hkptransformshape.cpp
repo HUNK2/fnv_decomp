@@ -282,11 +282,11 @@ class TransformShape_cf5a
     __m128 m_kColumn2;
     __m128 m_vTranslation;
 
-    float FUN_00cf5a20(const __m128& direction);
+    float hkpTransformShape_getMaximumProjection(const __m128& direction);
 };
 
 // @fnv 0x00cf5a20
-float TransformShape_cf5a::FUN_00cf5a20(const __m128& direction)
+float TransformShape_cf5a::hkpTransformShape_getMaximumProjection(const __m128& direction)
 {
     __m128 c0 = m_kColumn0;
     __m128 c1 = m_kColumn1;

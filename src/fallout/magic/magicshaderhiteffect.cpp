@@ -8,7 +8,7 @@ bool MagicShaderHitEffect::Init()
     if (GetEffect())
     {
         m_fFirstFloatValue = GetEffect()->GetAge();
-        bWasPlaying = !GetEffect()->GetEffectSetting()->FUN_00403e60(0x400);
+        bWasPlaying = !GetEffect()->GetEffectSetting()->EffectSetting_IsFlagSet(0x400);
         if (GetEffect()->HasFlag(0x10))
             m_fEffectShaderScale = 100.0f;
     }
@@ -185,7 +185,7 @@ bool MagicShaderHitEffect::Init()
                             else
                                 object->IsSceneNode()->AddObject(clone, true);
                             m_fAddonModelTimer = 0.0f;
-                            m_fAddonModelScale = FUN_00404010(0.01f, m_pEffectShader->FUN_00567470());
+                            m_fAddonModelScale = FUN_00404010(0.01f, m_pEffectShader->TESCreature_GetBaseScale());
                             clone->FUN_00440490(m_fAddonModelScale);
                             NiTimeController::UpdateControllersForTarget(clone);
                             m_kAddonModelObjects.FUN_006c61b0(clone);
@@ -217,7 +217,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
     {
         if (pTargetActor != g_thePlayer)
             pBiped = pTargetActor->GetBipedAnim();
-        else if (g_thePlayer->FUN_00490f80() && g_thePlayer->GetField6A4() == this)
+        else if (g_thePlayer->PlayerCharacter_GetInventory3D() && g_thePlayer->GetField6A4() == this)
             bWeapon = true;
         else
             pBiped = g_thePlayer->GetBipedAnimation(!b3rdPerson);
@@ -523,7 +523,7 @@ class ShaderLoadView : public MagicShaderHitEffect
 {
   public:
     void SaveLoad(ActiveEffect* effect, TESObjectREFR* target);
-    void FUN_00821ed0(ActiveEffect* effect, TESObjectREFR* target);
+    void MagicShaderHitEffect_LoadGame(ActiveEffect* effect, TESObjectREFR* target);
 };
 
 extern TESSaveLoadGame* g_TESSaveLoadGame;
@@ -752,16 +752,16 @@ struct BGSSaveFormBuffer
 };
 struct FUN_0081be80_s
 {
-    void FUN_0081be80(BGSSaveFormBuffer*);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 struct FUN_00822250_shell
 {
-    void FUN_00822250(BGSSaveFormBuffer*);
+    void MagicShaderHitEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 // @fnv 0x00822250
-void FUN_00822250_shell::FUN_00822250(BGSSaveFormBuffer* pBuffer)
+void FUN_00822250_shell::MagicShaderHitEffect_SaveGameBGS(BGSSaveFormBuffer* pBuffer)
 {
-    reinterpret_cast<FUN_0081be80_s*>(this)->FUN_0081be80(pBuffer);
+    reinterpret_cast<FUN_0081be80_s*>(this)->MagicHitEffect_SaveGameBGS(pBuffer);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x28, 1, 0);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x34, 4, 0);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x60, 4, 0);
@@ -828,11 +828,11 @@ struct Shell00822060
     virtual void v50();
     virtual void v51();
     virtual unsigned short v52(int, int);
-    unsigned short FUN_00822060();
+    unsigned short MagicShaderHitEffect_GetSaveSize();
 };
 // Computes a size: starts at 0, adds 4 twice, then adds the result of v52(0, _f), and returns it.
 // @fnv 0x00822060
-unsigned short Shell00822060::FUN_00822060()
+unsigned short Shell00822060::MagicShaderHitEffect_GetSaveSize()
 {
     unsigned short isize;
     isize = 0;
@@ -1235,14 +1235,14 @@ struct FUN_00821e40_shell
 {
     char base[0x2c];
     TESForm* m_pAffectedArmorObject;
-    void FUN_0081bd80(ActiveEffect*, TESObjectREFR*);
-    void FUN_00821e40(ActiveEffect* a1, TESObjectREFR* a2);
+    void MagicHitEffect_SaveGame(ActiveEffect*, TESObjectREFR*);
+    void MagicShaderHitEffect_SaveGame(ActiveEffect* a1, TESObjectREFR* a2);
 };
 
 // @fnv 0x00821e40
-void FUN_00821e40_shell::FUN_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
+void FUN_00821e40_shell::MagicShaderHitEffect_SaveGame(ActiveEffect* pEffect, TESObjectREFR* a2)
 {
-    FUN_0081bd80(pEffect, a2);
+    MagicHitEffect_SaveGame(pEffect, a2);
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x34, 4);
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x37)
     {
@@ -1270,14 +1270,14 @@ struct FUN_0081bed0_s
 };
 struct FUN_008222f0_s : public FUN_0081bed0_s
 {
-    void FUN_008222f0(BGSLoadGameBuffer*);
+    void MagicShaderHitEffect_LoadGameBGS(BGSLoadGameBuffer*);
 };
 struct TESBoundObject;
 struct TESEffectShader;
 TESForm* GetFormByID(unsigned int);
 // Loads the base form data, then reads several fields from the buffer and resolves two form IDs into a TESBoundObject and a TESEffectShader.
 // @fnv 0x008222f0
-void FUN_008222f0_s::FUN_008222f0(BGSLoadGameBuffer* buffer)
+void FUN_008222f0_s::MagicShaderHitEffect_LoadGameBGS(BGSLoadGameBuffer* buffer)
 {
     LoadFormData((BGSLoadFormBuffer*)buffer);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData(this + 0x28, 1);
@@ -1738,12 +1738,12 @@ struct FUN_008220c0_cls
     void* m_1c;
     unsigned int unk20, unk24, unk28, unk2c;
     void* m_30;
-    void FUN_008220c0();
+    void MagicShaderHitEffect_SaveGameTES();
 };
 
 // Writes the values returned by FUN_0084e3a0 for m_1c and m_30 to DAT_011de45c, then calls v53(0, m_1c).
 // @fnv 0x008220c0
-void FUN_008220c0_cls::FUN_008220c0()
+void FUN_008220c0_cls::MagicShaderHitEffect_SaveGameTES()
 {
     unsigned int a = (unsigned int)FUN_0084e3a0(m_1c);
     DAT_011de45c->FUN_00857a10(&a, 4);
@@ -2736,12 +2736,12 @@ struct Data
     float FUN_00821660();
     float GetFloatAt144();
     float GetValue();
-    float FUN_00567470();
+    float TESCreature_GetBaseScale();
     float FUN_00821680();
     void UpdateShaderState(Texture*, float, float, float, bool);
 };
 Data* FUN_0080d0d0();
-bool FUN_0043b300(void*, Scene*);
+bool NiObject_IsKindOf(void*, Scene*);
 extern unsigned int DAT_011f9140;
 extern double DAT_0106d508, DAT_01012060, DAT_0101a6b0;
 extern float DAT_0106682c, DAT_01013ea4;
@@ -2824,11 +2824,11 @@ struct Effect
     float scale;
     Ref<Texture> texture;
     bool UpdateMagicHitEffect(float);
-    bool FUN_00820f30(float);
+    bool MagicShaderHitEffect_Update(float);
 };
 // Advances the effect timer, updates properties, addons and texture, and finishes the effect when all parts are done.
 // @fnv 0x00820f30
-bool Effect::FUN_00820f30(float afDeltaTime)
+bool Effect::MagicShaderHitEffect_Update(float afDeltaTime)
 {
     if (!UpdateMagicHitEffect(afDeltaTime) || !target || !target->SceneGraph())
     {
@@ -2848,7 +2848,7 @@ bool Effect::FUN_00820f30(float afDeltaTime)
             target->FUN_008c4640();
         }
         Scene* scene = target->SceneGraph();
-        if (FUN_0043b300(&DAT_011f9140, scene))
+        if (NiObject_IsKindOf(&DAT_011f9140, scene))
         {
             Scene* castScene = scene;
             multiplier = castScene->GetFieldB4Float();
@@ -2887,7 +2887,7 @@ bool Effect::FUN_00820f30(float afDeltaTime)
             delta = afDeltaTime / (!finished ? data->GetFloatAt144() : data->GetValue() * DAT_0101a6b0);
             scale = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, scale + delta));
             float maximumSlot16 = 1.0f;
-            float minimum = !finished ? FUN_00404010(DAT_01013ea4, data->FUN_00567470())
+            float minimum = !finished ? FUN_00404010(DAT_01013ea4, data->TESCreature_GetBaseScale())
                                       : FUN_00404010(DAT_01013ea4, data->FUN_00821680());
             float factorSlot13 = minimum + (maximumSlot16 - minimum) * scale;
             for (unsigned int index3 = 0; index3 < addons.FUN_0044ddc0(); index3++)
@@ -3247,7 +3247,7 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
 namespace fnv_00822130 {
 struct Node
 {
-    bool FUN_00450ff0();
+    bool TESObjectCELL_IsAttached();
 };
 struct Ref
 {
@@ -3259,7 +3259,7 @@ struct Manager
 };
 extern Manager* DAT_011de45c;
 extern char DAT_011841cc, DAT_01183918, DAT_01183028;
-TESForm* __cdecl FUN_004839c0(void*);
+TESForm* __cdecl TESForm_GetFormByNumericID(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 class Effect
 {
@@ -3328,21 +3328,21 @@ class Effect
     bool unk14;
     void* unk18;
     Ref* unk1c;
-    bool FUN_00822130();
+    bool MagicShaderHitEffect_LoadGameTES();
 };
 // Reads two 4-byte values, resolves reference and shader forms, calls vfnd8, and calls vfndc and vfne0 when both resolve.
 // @fnv 0x00822130
-bool Effect::FUN_00822130()
+bool Effect::MagicShaderHitEffect_LoadGameTES()
 {
     bool result2 = true;
     void* firstB;
     DAT_011de45c->FUN_00857aa0(&firstB, 4);
-    unk1c = reinterpret_cast<Ref*>(dynamic_cast<TESObjectREFR*>(FUN_004839c0(firstB)));
-    if (!unk1c || !unk1c->FUN_008d6f30() || !unk1c->FUN_008d6f30()->FUN_00450ff0())
+    unk1c = reinterpret_cast<Ref*>(dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(firstB)));
+    if (!unk1c || !unk1c->FUN_008d6f30() || !unk1c->FUN_008d6f30()->TESObjectCELL_IsAttached())
         result2 = false;
     void* second;
     DAT_011de45c->FUN_00857aa0(&second, 4);
-    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(FUN_004839c0(second));
+    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(TESForm_GetFormByNumericID(second));
     if (!other7)
         result2 = false;
     vfnd8(0, unk1c);
@@ -3388,7 +3388,7 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // Reads effect shader scale, particle effects flag, and affected armor object ID from the save stream.
 // @fnv 0x00821ed0
-void ShaderLoadView::FUN_00821ed0(ActiveEffect* effect, TESObjectREFR* target)
+void ShaderLoadView::MagicShaderHitEffect_LoadGame(ActiveEffect* effect, TESObjectREFR* target)
 {
     SaveLoad(effect, target);
     g_TESSaveLoadGame->ReadTypedData(&m_fEffectShaderScale, 4);

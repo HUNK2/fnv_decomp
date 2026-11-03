@@ -268,7 +268,7 @@ struct Data_00caa840 {
 struct FUN_00caa840_shell {
     void* m_iWordAt00;
     Data_00caa840* m_data;
-    void FUN_00c8a280(Ctx_00caa840* ctx);
+    void hkConstraintCinfo_SaveBinary(Ctx_00caa840* ctx);
     void SaveShape(int n, Ctx_00caa840* ctx);
     void WriteToStream(Ctx_00caa840* ctx);
 };
@@ -276,7 +276,7 @@ struct FUN_00caa840_shell {
 // @fnv 0x00caa840
 void FUN_00caa840_shell::WriteToStream(Ctx_00caa840* ctx)
 {
-    FUN_00c8a280(ctx);
+    hkConstraintCinfo_SaveBinary(ctx);
     Data_00caa840* d = m_data;
     SerializeValue(*ctx, d->m_20);
     SerializeValue(*ctx, d->m_60);
@@ -1101,11 +1101,11 @@ struct FUN_00c98250_Class {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_00c98250(int, int, int);
+    void* __thiscall hkpNullContactMgrFactory_createContactMgr(int, int, int);
 };
 
 // @fnv 0x00c98250
-void* __thiscall FUN_00c98250_Class::FUN_00c98250(int, int, int)
+void* __thiscall FUN_00c98250_Class::hkpNullContactMgrFactory_createContactMgr(int, int, int)
 {
     return (void*)((char*)this + 8);
 }
@@ -5228,7 +5228,7 @@ struct FUN_00d53200_class {
     void* m_unk00;
     Data_caa6a0* m_data;
 
-    void FUN_00c8a230(NiStream& stream);
+    void hkConstraintCinfo_LoadBinary(NiStream& stream);
     hkReferencedObject* FUN_00c8a330(NiStream& stream);
 
     void ReadFromStream(NiStream& stream);
@@ -5238,7 +5238,7 @@ struct FUN_00d53200_class {
 // @fnv 0x00caa6a0
 void FUN_00d53200_class::ReadFromStream(NiStream& stream)
 {
-    FUN_00c8a230(stream);
+    hkConstraintCinfo_LoadBinary(stream);
 
     Data_caa6a0* const data = m_data;
 
@@ -5505,13 +5505,13 @@ struct Constraint {
 };
 struct Owner {
  int unk00; Constraint* unk04;
- void FUN_00c8a560(Strings*);
+ void hkConstraintCinfo_GetViewerStrings(Strings*);
  void AppendConstraintToStrings(Strings*);
 };
 // @fnv 0x00caa960
 void Owner::AppendConstraintToStrings(Strings* strings) {
  MemoryScope scope;
- FUN_00c8a560(strings);
+ hkConstraintCinfo_GetViewerStrings(strings);
  Constraint* constraint=unk04;
  if(constraint) {
   Point3 temp;
@@ -13789,11 +13789,11 @@ public:
 };
 class LimitedHingeWrapper {
 public: unsigned int unk00;hkpLimitedHingeConstraintData* data;
- unsigned int FUN_00caa3f0();
+ unsigned int hkLimitedHingeConstraintCinfo_CreateData();
 };
 // Ensures the hkpLimitedHingeConstraintData is allocated and returns its size.
 // @fnv 0x00caa3f0
-unsigned int LimitedHingeWrapper::FUN_00caa3f0()
+unsigned int LimitedHingeWrapper::hkLimitedHingeConstraintCinfo_CreateData()
 {
  AutoMemoryContext context(0x10);
  if(!data) data=new hkpLimitedHingeConstraintData;
@@ -14078,12 +14078,12 @@ public:
     caa4a0_TblHost* unk08;
     caa4a0_TblFirst* unk0c;
     void FUN_00c89730(bhkRefObject* obj, unsigned int param);
-    bhkRefObject* FUN_00caa4a0(unsigned int param);
+    bhkRefObject* bhkLimitedHingeConstraint_CreateClone(unsigned int param);
 };
 
 // Allocates a bhkRefObject, calls FUN_00c89730, and if a table entry is set, invokes slot04 on the object from slotb4.
 // @fnv 0x00caa4a0
-bhkRefObject* caa4a0_Target::FUN_00caa4a0(unsigned int param) {
+bhkRefObject* caa4a0_Target::bhkLimitedHingeConstraint_CreateClone(unsigned int param) {
     TlsGuard_caa4a0 guard;
     FUN_00c876f0();
     bhkRefObject* obj = new bhkRefObject();
@@ -14712,7 +14712,7 @@ void __cdecl FUN_00cbd9e0(float scale, ShapeCAA* shape);
 class ShapeClonerCAA {
 public:
     ShapeCAA* ReleaseObject(ShapeCAA* shape, ShapeCinfoCAA* cinfo);
-    ShapeCAA* FUN_00caa250(ShapeCAA* dst, ShapeCinfoCAA* cinfo);
+    ShapeCAA* hkLimitedHingeConstraintCinfo_CloneData(ShapeCAA* dst, ShapeCinfoCAA* cinfo);
 
     int unk00;
     ShapeCAA* m_pCollisionShape;
@@ -14720,7 +14720,7 @@ public:
 
 // Copies fields from m_pCollisionShape into dst (new if null), applies cinfo->m_vScale if not 1.0, copies the child atom, and returns FUN_00c8a1b0(dst, cinfo).
 // @fnv 0x00caa250
-ShapeCAA* ShapeClonerCAA::FUN_00caa250(ShapeCAA* apDstShape, ShapeCinfoCAA* cinfo)
+ShapeCAA* ShapeClonerCAA::hkLimitedHingeConstraintCinfo_CloneData(ShapeCAA* apDstShape, ShapeCinfoCAA* cinfo)
 {
     AutoMemContextCAA kContext(0x10);
     ShapeCAA* src = m_pCollisionShape;

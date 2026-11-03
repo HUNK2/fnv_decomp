@@ -1065,7 +1065,7 @@ struct ActorValueOwner
 typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct FUN_009e9390_shell : public DetailedActorPathHandler
 {
-    void FUN_009e9390(BGSLoadFormBuffer*);
+    void DetailedActorPathHandler_LoadGame(BGSLoadFormBuffer*);
 };
 
 struct BGSLoadFormBuffer
@@ -1077,7 +1077,7 @@ struct BGSLoadFormBuffer
 };
 
 // @fnv 0x009e9390
-void FUN_009e9390_shell::FUN_009e9390(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009e9390_shell::DetailedActorPathHandler_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData((char*)this + 0x1c, 0xc);
     apLoadGameBuffer->ReadTypedData((char*)this + 0x28, 0xc);
@@ -2165,14 +2165,14 @@ class MobileObject
     virtual void Vfn173();
     virtual void Vfn174();
     virtual float GetCurrentTargetDistance(bool bForce);
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
 };
 
 class Actor : public MobileObject
 {
   public:
-    bool FUN_00437bd0();
-    bool FUN_00437bf0();
+    bool Actor_IsUnConscious();
+    bool Actor_IsRestrained();
     float FUN_00897b50(int iType);
 };
 
@@ -2232,7 +2232,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
     unsigned int uiMoveFlags3;
     unsigned int uiOldFlagsVal;
 
-    if ((*(Actor**)((char*)this + 4))->FUN_00437bf0() || (*(Actor**)((char*)this + 4))->FUN_00437bd0())
+    if ((*(Actor**)((char*)this + 4))->Actor_IsRestrained() || (*(Actor**)((char*)this + 4))->Actor_IsUnConscious())
     {
         *(unsigned int*)((char*)this + 0x60) = 0;
         return true;
@@ -2249,7 +2249,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
     }
     uiMoveMode3 = (*(ActorMover**)((char*)this + 8))->GetPreferredMoveModeType();
     uiMoveFlags3 = *(unsigned int*)((char*)this + 0x60) & 0x3f;
-    if ((*(Actor**)((char*)this + 4))->FUN_005a2030() && (*(Actor**)((char*)this + 4))->IsAnimationDriven())
+    if ((*(Actor**)((char*)this + 4))->Actor_IsSwimming() && (*(Actor**)((char*)this + 4))->IsAnimationDriven())
     {
         *(unsigned int*)((char*)this + 0x60) = uiMoveMode3 | 1;
         return true;
@@ -2286,7 +2286,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
             fDesiredHeading_2 = (*(Actor**)((char*)this + 4))->GetCurrentTargetDistance(false);
         }
         NiPoint3Ex kAngles = GetPitchYaw(*(*(Actor**)((char*)this + 4))->GetPos(), *(NiPoint3*)((char*)this + 0x34));
-        if ((*(Actor**)((char*)this + 4))->FUN_005a2030() &&
+        if ((*(Actor**)((char*)this + 4))->Actor_IsSwimming() &&
             _fabs(std::abs(kAngles.x) - 1.5707963267948966) < 0.2617993950843811)
             fDesiredHeadingAngle = fDesiredHeading_2;
         else
@@ -2301,7 +2301,7 @@ bool FUN_009e2aa0_shell::FUN_009e2aa0(float fTimeDelta)
                 float fDegrees2 = fDesiredHeading * 57.2957763671875;
                 if (std::abs(fDegrees2) > 135.0 && (*(Actor**)((char*)this + 4))->GetAnimation()->IsGroupQueued(4) &&
                     (_fabs(std::abs(kAngles.x) - 1.5707963267948966) >= 0.2617993950843811 ||
-                     !(*(Actor**)((char*)this + 4))->FUN_005a2030()))
+                     !(*(Actor**)((char*)this + 4))->Actor_IsSwimming()))
                 {
                     uiMoveFlags3 = 2;
                 }
@@ -2654,7 +2654,7 @@ struct MobileObject
     virtual void vfn_174();
     virtual float vfn_175(bool);
 
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
     float GetRelevantWaterHeight() const;
     bhkCharacterController* GetPhysicsCharacterController();
     float GetActorHeight() const;
@@ -2701,7 +2701,7 @@ struct B006815c0
 struct HighProcessVector
 {
     void Subtract(NiPoint3*);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct FUN_00524ac0_shell
@@ -2740,7 +2740,7 @@ extern double const DAT_01064f50;
 // @fnv 0x009e3560
 void FUN_009e3560_shell::UpdatePathRotation(float afDeltaT)
 {
-    if (((DetailedActorPathHandler_Layout*)this)->pActor->FUN_005a2030())
+    if (((DetailedActorPathHandler_Layout*)this)->pActor->Actor_IsSwimming())
     {
         NiPoint3 deltaToTargetPoint = ((DetailedActorPathHandler_Layout*)this)->m_kPathVector3;
         float fwaterHeight = ((DetailedActorPathHandler_Layout*)this)->pActor->GetRelevantWaterHeight();
@@ -2770,7 +2770,7 @@ void FUN_009e3560_shell::UpdatePathRotation(float afDeltaT)
             deltaToTargetPoint.z = 0.0f;
         }
         B006815c0 rot;
-        ((HighProcessVector*)&deltaToTargetPoint)->FUN_004a0c10();
+        ((HighProcessVector*)&deltaToTargetPoint)->NiPoint3_Unitize();
         FUN_005330e0(deltaToTargetPoint.z, -1.0f, 1.0f);
         float fangle;
         if (deltaToTargetPoint.z >= _gModifierZero)
@@ -3729,7 +3729,7 @@ class Actor
     virtual void Vfn174();
     virtual float GetCurrentTargetDistance(bool abFlag);
     const NiPoint3_ext& FUN_008b3d50();
-    bool FUN_004938e0();
+    bool Actor_IsMoving();
     float ProcessCoverLOSResult();
 };
 
@@ -3854,7 +3854,7 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
                 float fTimeToTarget;
                 float fOtherDist;
                 kRelOffset = kIntersectionOffset;
-                if (pAvoidActor->FUN_004938e0())
+                if (pAvoidActor->Actor_IsMoving())
                 {
                     ThreeByThreeMatrix kOtherRot;
                     kOtherRot.SetRotationMatrix(pAvoidActor->GetCurrentTargetDistance(false));
@@ -4440,7 +4440,7 @@ struct MobileObject
     virtual void Vfunc124();
     virtual const NiPoint3& GetPos();
     const char* GetFullName();
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
 };
 
 // Checks the actor's distance to its pathing goal or transition node and returns a pathing status code (0, 2 or 5).
@@ -4536,7 +4536,7 @@ int FUN_009e8000_shell::UpdatePathingGoal()
             }
             if (bvalidCheck)
             {
-                if (!(*(MobileObject**)((char*)this + 4))->FUN_005a2030())
+                if (!(*(MobileObject**)((char*)this + 4))->Actor_IsSwimming())
                 {
                     if (std::abs(diff.z) <=
                         ((PathingRequest_S*)(unsigned int)*(Flt*)((char*)this + 0x10))->GetSmoothingRandomness())
@@ -4545,7 +4545,7 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                     }
                     else if (*(unsigned int*)((char*)this + 0x64) + 1 >=
                                  GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)) &&
-                             !(*(MobileObject**)((char*)this + 4))->FUN_005a2030())
+                             !(*(MobileObject**)((char*)this + 4))->Actor_IsSwimming())
                     {
                         Warning("PATHFINDING: Actor %s failed pathing due to goal Z difference %f, being too large",
                                 ((BGSCameraPath*)*(MobileObject**)((char*)this + 4))->HasNameForWarning()
@@ -5240,10 +5240,10 @@ struct S009e2860
     virtual float vf6();
     char _pad[0x68];
     float m_fPathValue2;
-    float FUN_009e2860();
+    float DetailedActorPathHandler_GetDistanceRemaining();
 };
 // @fnv 0x009e2860
-float S009e2860::FUN_009e2860()
+float S009e2860::DetailedActorPathHandler_GetDistanceRemaining()
 {
     float flength;
     flength = m_fPathValue2 - vf6();
@@ -5273,10 +5273,10 @@ struct FakePathHandler
     }
     char _pad[0x68];
     float m_fPathValue2;
-    float FUN_009e28a0();
+    float DetailedActorPathHandler_GetPercentTraveled();
 };
 // @fnv 0x009e28a0
-float FakePathHandler::FUN_009e28a0()
+float FakePathHandler::DetailedActorPathHandler_GetPercentTraveled()
 {
     float fRatio;
     if (m_fPathValue2 <= _gModifierZero)
@@ -5312,11 +5312,11 @@ void FUN_009e3360_Class::SetMode(unsigned int mode)
 
 struct FUN_009e3be0_class
 {
-    bool FUN_009e3be0();
+    bool DetailedActorPathHandler_IsMovementBlocked();
 };
 
 // @fnv 0x009e3be0
-bool FUN_009e3be0_class::FUN_009e3be0()
+bool FUN_009e3be0_class::DetailedActorPathHandler_IsMovementBlocked()
 {
     return *(bool*)((char*)this + 0xde);
 }
@@ -6337,7 +6337,7 @@ struct ActorValueOwner
 typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct FUN_009e9760_shell : public DetailedActorPathHandler
 {
-    void FUN_009e9760(BGSLoadFormBuffer*);
+    void DetailedActorPathHandler_InitLoadGame(BGSLoadFormBuffer*);
 };
 
 struct TESObjectREFRHelper
@@ -6360,7 +6360,7 @@ struct AvoidActorListNode
 ::TESForm* _ref_004839c0(unsigned int);
 
 // @fnv 0x009e9760
-void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009e9760_shell::DetailedActorPathHandler_InitLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     AvoidActorListNode* pCurrentElementNext;
     AvoidActorListNode* plastList;
@@ -7711,7 +7711,7 @@ struct PathAngleMover : ActorMover
 struct PathAngleActor : Actor
 {
     float FUN_008be1b0();
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
 };
 NiPoint3_ext __cdecl FUN_009a8050(Actor*);
 NiPoint3_ext __cdecl FUN_009a88e0(Actor*, NiPoint3_ext);
@@ -7763,7 +7763,7 @@ void PathAngles::GetPathAngles(float& headingOut, float& lookingOut)
         else
         {
             NiPoint3_ext angles = FUN_009a88e0(pActor, target);
-            if (!((PathAngleActor*)pActor)->FUN_005a2030())
+            if (!((PathAngleActor*)pActor)->Actor_IsSwimming())
                 looking = angles.x;
             if (((PathAngleActor*)pActor)->FUN_008be1b0() >= 100.0)
             {
@@ -7790,7 +7790,7 @@ void PathAngles::GetPathAngles(float& headingOut, float& lookingOut)
             (NiPoint3&)destination = m_kPathVector3;
         }
         NiPoint3_ext direction = destination.FUN_00439ef0(*pActor->GetPos());
-        if (((PathAngleActor*)pActor)->FUN_005a2030() &&
+        if (((PathAngleActor*)pActor)->Actor_IsSwimming() &&
             direction.FUN_00457990() * 0.949999988079071 <= std::abs(direction.z))
         {
             angle = pActor->GetCurrentTargetDistance(false);
@@ -7799,7 +7799,7 @@ void PathAngles::GetPathAngles(float& headingOut, float& lookingOut)
         {
             angle = GetDirectionAngle(direction);
         }
-        if (((PathAngleActor*)pActor)->FUN_005a2030())
+        if (((PathAngleActor*)pActor)->Actor_IsSwimming())
             looking = 0.0f;
     }
     headingOut = angle;
@@ -7896,7 +7896,7 @@ struct ControllerView
 {
     CollidableView* FUN_00c6fd60();
 };
-CollisionObjectView* __cdecl FUN_0056f930(void*);
+CollisionObjectView* __cdecl TESObjectREFR_FindReferenceFor3D(void*);
 struct MotionActor
 {
     virtual void v000();
@@ -8025,7 +8025,7 @@ struct MotionActor
     virtual void v1ec();
     virtual void v1f0();
     virtual const MotionVec& GetPosition();
-    bool FUN_005a2030();
+    bool Actor_IsSwimming();
     ControllerView* FUN_009306d0();
     TESWorldSpace* FUN_00575d70();
     TESObjectCELL* FUN_008d6f30();
@@ -8150,7 +8150,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
     MotionVec f = eb - lastPosition;
     bool a = false;
     bool s = false;
-    if (!actor->FUN_005a2030())
+    if (!actor->Actor_IsSwimming())
     {
         float cf = 20.0f;
         float q = i.Horizontal();
@@ -8166,7 +8166,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                 CollisionObjectView* j = 0;
                 CollidableView* c = k->FUN_00c6fd60();
                 void* e = c ? c->FUN_00810660() : 0;
-                CollisionObjectView* l = FUN_0056f930(e);
+                CollisionObjectView* l = TESObjectREFR_FindReferenceFor3D(e);
                 j = l && l->IsObstacle() ? l : 0;
                 if (j)
                     s = true;
@@ -8190,7 +8190,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                 CollisionObjectView* j = 0;
                 CollidableView* c = k->FUN_00c6fd60();
                 void* e = c ? c->FUN_00810660() : 0;
-                CollisionObjectView* l = FUN_0056f930(e);
+                CollisionObjectView* l = TESObjectREFR_FindReferenceFor3D(e);
                 j = l && l->IsObstacle() ? l : 0;
                 if (j)
                     s = true;
@@ -8759,7 +8759,7 @@ struct AvoidActor
     bool FUN_00552470() const;
     AvoidController* FUN_009306d0();
     float FUN_008be1b0();
-    bool FUN_004938e0();
+    bool Actor_IsMoving();
     bool DispatchToReceiver();
     bool FUN_008b3860(AvoidLocation*);
     unsigned int GetVtbl20Result();
@@ -8933,7 +8933,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
         else
         {
             bool moving = false;
-            if (obstacle->FUN_004938e0() && !obstacle->DispatchToReceiver())
+            if (obstacle->Actor_IsMoving() && !obstacle->DispatchToReceiver())
                 moving = true;
             AvoidLocation location;
             if (obstacle->FUN_008b3860(&location))
@@ -9084,7 +9084,7 @@ struct FUN_008843a0_shell
 
 struct FUN_00493bb0_shell
 {
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 };
 
 struct ActorMover_Helper : public ActorMover
@@ -9157,11 +9157,11 @@ float FUN_009e7d70_shell::FUN_009e7d70(float afDeltaTime)
         float var_10 = ((VCallHelper_354*)this->pActor)->v213() * DAT_01023128 * afDeltaTime;
         if (!this->pActor->Unk_87())
         {
-            var_10 *= ((FUN_00493bb0_shell*)this->pActor)->FUN_00493bb0() ? *g_011f2ac4.Float() : *g_011f2ad8.Float();
+            var_10 *= ((FUN_00493bb0_shell*)this->pActor)->Actor_IsInCombat() ? *g_011f2ac4.Float() : *g_011f2ad8.Float();
         }
         else
         {
-            var_10 *= ((FUN_00493bb0_shell*)this->pActor)->FUN_00493bb0() ? *g_011f2b10.Float() : *g_011f2c10.Float();
+            var_10 *= ((FUN_00493bb0_shell*)this->pActor)->Actor_IsInCombat() ? *g_011f2b10.Float() : *g_011f2c10.Float();
         }
         if (var_10 > std::abs(var4))
         {
@@ -9521,11 +9521,11 @@ struct PFThis
     bool bDD;
     bool bDE;
     bool bDF;
-    void FUN_009e8b50(Ctx* pOutput, int a2, int a3);
+    void DetailedActorPathHandler_PrintCurrentStatus(Ctx* pOutput, int a2, int a3);
 };
 // Writes the actor's position, pathing state, and avoidance state to pOutput using formatted strings.
 // @fnv 0x009e8b50
-void PFThis::FUN_009e8b50(Ctx* pOutput, int a2, int a3)
+void PFThis::DetailedActorPathHandler_PrintCurrentStatus(Ctx* pOutput, int a2, int a3)
 {
     char acDetailText[0x104];
     char acStateText[0x104];
@@ -10227,7 +10227,7 @@ struct Ref
     virtual Ref* GetCombatTarget();
     float FUN_008be420();
     float FUN_008be1b0();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     Proc* GetCurrentProcess();
 };
 
@@ -10311,7 +10311,7 @@ bool __cdecl FUN_009e6900(Ref* apActor, Group* apGroup, Ref* apTarget, const Pt3
     {
         if (std::abs(kDelta.z) < 180.0)
         {
-            if (!apActor->FUN_00493bb0() || apTarget != apActor->GetCombatTarget())
+            if (!apActor->Actor_IsInCombat() || apTarget != apActor->GetCombatTarget())
             {
                 Target* pTarget = apActor->GetCurrentProcess() ? apActor->GetCurrentProcess()->GetTarget() : 0;
                 if (pTarget && pTarget->GetOwner() == apTarget)
@@ -10382,7 +10382,7 @@ class PathingRequest_1d50
 {
   public:
     unsigned char GetByteAtOffset9F();
-    bool FUN_00505c00();
+    bool PathingRequest_GetFaceTargetAtGoal();
     float FUN_00507e10();
 };
 
@@ -10746,7 +10746,7 @@ int PackageProcW_1d50::FUN_009e1d50(int iUnused)
     }
     else
     {
-        if (m_pPathingRequest && ((PathingRequest_1d50*)m_pPathingRequest)->FUN_00505c00() && bAtEnd)
+        if (m_pPathingRequest && ((PathingRequest_1d50*)m_pPathingRequest)->PathingRequest_GetFaceTargetAtGoal() && bAtEnd)
         {
             fHeading9 = ((PathingRequest_1d50*)m_pPathingRequest)->FUN_00507e10();
         }
@@ -10796,7 +10796,7 @@ struct EndRotateHandler : DetailedActorPathHandler
 // @fnv 0x009e7550
 bool EndRotateHandler::FUN_009e7550()
 {
-    if (((PathingRequest_1d50*)m_pPathingRequest.operator->())->FUN_00505c00() &&
+    if (((PathingRequest_1d50*)m_pPathingRequest.operator->())->PathingRequest_GetFaceTargetAtGoal() &&
         ((MoverW_1d50*)m_pActorMover)->m_usPathCount + 1 ==
             ((PathingSolution_1d50*)pCurrentPathingSolution.operator->())->FUN_005a4320() &&
         pActor->Unk_85() != 4 && pActor->Unk_85() != 9)

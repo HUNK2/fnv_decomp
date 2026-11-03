@@ -220,10 +220,10 @@ struct MorphLoad : LoadBase
     bool m_bUpdateNormals;
     bool m_bNeedsUpdate;
     bool m_bUpdateBounds;
-    void FUN_00a3b150(MorphStream& stream);
+    void NiGeomMorpherController_LoadBinary(MorphStream& stream);
 };
 // @fnv 0x00a3b150
-void MorphLoad::FUN_00a3b150(MorphStream& stream)
+void MorphLoad::NiGeomMorpherController_LoadBinary(MorphStream& stream)
 {
     LoadBase::LoadBinary(stream);
     if (stream.version < 0x0a000102)

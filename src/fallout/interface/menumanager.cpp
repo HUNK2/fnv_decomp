@@ -162,22 +162,22 @@ void* StatsMenu::FUN_0071f6d0(unsigned int flags)
 
 struct FUN_0071feb0_shell
 {
-    int __thiscall FUN_0071feb0();
+    int __thiscall SurgeryMenu_GetClass();
 };
 
 // @fnv 0x0071feb0
-int __thiscall FUN_0071feb0_shell::FUN_0071feb0()
+int __thiscall FUN_0071feb0_shell::SurgeryMenu_GetClass()
 {
     return 0x41e;
 }
 
 struct FUN_00720100_shell
 {
-    int __thiscall FUN_00720100();
+    int __thiscall VATSMenu_GetClass();
 };
 
 // @fnv 0x00720100
-int __thiscall FUN_00720100_shell::FUN_00720100()
+int __thiscall FUN_00720100_shell::VATSMenu_GetClass()
 {
     return 0x420;
 }
@@ -195,11 +195,11 @@ int FUN_00720320_shell::GetClass()
 
 struct FUN_00720760_shell
 {
-    int FUN_00720760();
+    int LoveTesterMenu_GetClass();
 };
 
 // @fnv 0x00720760
-int FUN_00720760_shell::FUN_00720760()
+int FUN_00720760_shell::LoveTesterMenu_GetClass()
 {
     return 0x432;
 }
@@ -565,7 +565,7 @@ struct FUN_006317a0_struct
     int AddEight(int);
 };
 struct IMH;
-IMH* __cdecl FUN_004b7210(void);
+IMH* __cdecl InterfaceManager_Instance(void);
 struct Tile
 {
     Menu* GetMenu();
@@ -597,11 +597,11 @@ Menu* FUN_00720e60_shell::FindTopMenu()
 {
     Menu* ptop = 0;
     float fMaxDepth = -100000000.0f;
-    void* pListElem = (void*)(unsigned int)*(Flt*)((char*)FUN_004b7210()->FUN_00586150() + 4);
+    void* pListElem = (void*)(unsigned int)*(Flt*)((char*)InterfaceManager_Instance()->FUN_00586150() + 4);
     while (pListElem)
     {
         Tile* pmenutile =
-            *(Tile**)((FUN_006317a0_struct*)((char*)FUN_004b7210()->FUN_00586150() + 4))->AddEight((int)pListElem);
+            *(Tile**)((FUN_006317a0_struct*)((char*)InterfaceManager_Instance()->FUN_00586150() + 4))->AddEight((int)pListElem);
         Menu* pmenu = 0;
         if (pmenutile)
             pmenu = pmenutile->GetMenu();
@@ -615,7 +615,7 @@ Menu* FUN_00720e60_shell::FindTopMenu()
                 ptop = pmenu;
             }
         }
-        pListElem = ((NiTPointerList<TESObjectREFR*>*)((char*)FUN_004b7210()->FUN_00586150() + 4))
+        pListElem = ((NiTPointerList<TESObjectREFR*>*)((char*)InterfaceManager_Instance()->FUN_00586150() + 4))
                         ->DereferenceIfNotNull(pListElem);
     }
     return ptop;
@@ -863,11 +863,11 @@ void* FUN_0071e3b0_shell::FUN_0071e3b0(unsigned int flags)
 
 struct FUN_0071f2d0_shell
 {
-    int FUN_0071f2d0();
+    int TutorialMenu_GetClass();
 };
 
 // @fnv 0x0071f2d0
-int __thiscall FUN_0071f2d0_shell::FUN_0071f2d0()
+int __thiscall FUN_0071f2d0_shell::TutorialMenu_GetClass()
 {
     return 0x423;
 }
@@ -924,11 +924,11 @@ void TutorialMenu::SetTile(int aiID, Tile* apTile)
 
 struct QuantityMenu
 {
-    int FUN_00720a30();
+    int QuantityMenu_GetClass();
 };
 
 // @fnv 0x00720a30
-int QuantityMenu::FUN_00720a30()
+int QuantityMenu::QuantityMenu_GetClass()
 {
     return 0x3f8;
 }
@@ -1452,11 +1452,11 @@ struct S0071
     unsigned char _pad[0x2c];
     Tile* m_pTiles[18];
     int __thiscall FUN_00720010(int);
-    void __thiscall FUN_0071ffe0(int, Tile*);
+    void __thiscall SurgeryMenu_SetTile(int, Tile*);
 };
 // Stores apTile in the slot returned by FUN_00720010(aiID) when aiID is in 1..0x12.
 // @fnv 0x0071ffe0
-void __thiscall S0071::FUN_0071ffe0(int aiID, Tile* apTile)
+void __thiscall S0071::SurgeryMenu_SetTile(int aiID, Tile* apTile)
 {
     if (aiID > 0 && aiID <= 0x12)
     {
@@ -1469,11 +1469,11 @@ struct FUN_00720140_Holder
 {
     char _pad[0x28];
     Tile* m_pTiles[32];
-    void FUN_00720140(int aiID, Tile* apTile);
+    void VATSMenu_SetTile(int aiID, Tile* apTile);
 };
 // Stores apTile into the holder's tile slot indexed by aiID when aiID is between 1 and 0x1F.
 // @fnv 0x00720140
-void FUN_00720140_Holder::FUN_00720140(int aiID, Tile* apTile)
+void FUN_00720140_Holder::VATSMenu_SetTile(int aiID, Tile* apTile)
 {
     if (aiID > 0 && aiID <= 0x1F)
     {
@@ -1773,15 +1773,15 @@ struct InterfaceManager_helper
     void* FUN_00586150();
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_Instance(void);
 
 // @fnv 0x00720f90
 bool FUN_00720f90_shell::FUN_00720f90(int param_1)
 {
-    int* cursor = (int*)((NiPtrStub*)((char*)((InterfaceManager_helper*)FUN_004b7210())->FUN_00586150() + 4))->GetPtr();
+    int* cursor = (int*)((NiPtrStub*)((char*)((InterfaceManager_helper*)InterfaceManager_Instance())->FUN_00586150() + 4))->GetPtr();
     while (cursor)
     {
-        int item = *((ListStandIn*)((char*)((InterfaceManager_helper*)FUN_004b7210())->FUN_00586150() + 4))
+        int item = *((ListStandIn*)((char*)((InterfaceManager_helper*)InterfaceManager_Instance())->FUN_00586150() + 4))
                         ->FUN_0057cbe0(&cursor);
         VtMenu* menu = 0;
         if (item)

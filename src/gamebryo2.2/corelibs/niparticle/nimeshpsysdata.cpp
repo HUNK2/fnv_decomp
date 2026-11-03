@@ -8,7 +8,7 @@ extern "C"
 }
 
 // @fnv 0x00c30a80
-void* __cdecl FUN_00c30a80()
+void* __cdecl NiMeshPSysData_GetRTTI()
 {
     return &g_012027c0;
 }
@@ -107,11 +107,11 @@ struct This308
     unsigned short m50;
     char _52[0x2A];
     Mesh308* m7c;
-    void __thiscall FUN_00c308d0(unsigned short);
+    void __thiscall NiMeshPSysData_SetActiveVertexCount(unsigned short);
 };
 // Calls T on m7c for each slot from usActive up to m50, then sets m50 to the smaller of usActive and m08.
 // @fnv 0x00c308d0
-void __thiscall This308::FUN_00c308d0(unsigned short usStartIndex)
+void __thiscall This308::NiMeshPSysData_SetActiveVertexCount(unsigned short usStartIndex)
 {
     unsigned short us;
     for (us = usStartIndex; us < m50; us++)
@@ -156,11 +156,11 @@ struct NiNodeHelper
 };
 struct FUN_00c30940_shell
 {
-    bool __thiscall FUN_00c30940(NiStream&);
+    bool __thiscall NiMeshPSysData_RegisterStreamables(NiStream&);
 };
 // Registers the streamables of this object and of the NiNodeHelper stored at offset 0x7c, returning false if the first registration fails.
 // @fnv 0x00c30940
-bool FUN_00c30940_shell::FUN_00c30940(NiStream& kStream)
+bool FUN_00c30940_shell::NiMeshPSysData_RegisterStreamables(NiStream& kStream)
 {
     if (!((NiPSysData_Helper*)this)->RegisterStreamables(kStream))
         return false;
@@ -184,14 +184,14 @@ struct S_00c30a90
     unsigned short us78;
     unsigned short us7a;
     FakeNode00c30a90* sp;
-    void __thiscall FUN_00c30a90();
+    void __thiscall NiMeshPSysData_ResolveAddedParticles();
 };
 struct BaseCall00c30a90
 {
-    void __thiscall FUN_00c24d20();
+    void __thiscall NiPSysData_ResolveAddedParticles();
 };
 // @fnv 0x00c30a90
-void __thiscall S_00c30a90::FUN_00c30a90()
+void __thiscall S_00c30a90::NiMeshPSysData_ResolveAddedParticles()
 {
     unsigned short us;
     NiAVObject* pkMesh;
@@ -201,7 +201,7 @@ void __thiscall S_00c30a90::FUN_00c30a90()
         if (pkMesh)
             pkMesh->m_uiObjectFlags &= ~1;
     }
-    ((BaseCall00c30a90*)this)->FUN_00c24d20();
+    ((BaseCall00c30a90*)this)->NiPSysData_ResolveAddedParticles();
 }
 
 struct NiObject;
@@ -220,10 +220,10 @@ struct Hae0
 };
 struct Holder_00c30c50
 {
-    NiObject* __thiscall FUN_00c30c50(CloningProcess&);
+    NiObject* __thiscall NiMeshPSysData_CreateClone(CloningProcess&);
 };
 // @fnv 0x00c30c50
-NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
+NiObject* __thiscall Holder_00c30c50::NiMeshPSysData_CreateClone(CloningProcess& kCloning)
 {
     NiMeshPSysData* pkObject;
     void* pMemory = BSFadeNode::operator new(0x98);
@@ -245,12 +245,12 @@ struct StrArr
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00c255b0(StrArr*);
+void __stdcall NiPSysData_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // @fnv 0x00c31210
-void __stdcall FUN_00c31210(StrArr* pkStrings)
+void __stdcall NiMeshPSysData_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c255b0(pkStrings);
+    NiPSysData_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330((const char*)g_012027c0);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiAlloc = pkStrings->m_usAlloc;
@@ -301,11 +301,11 @@ struct NiMeshPSysData_00c30920 : NiObject
 {
     char _pad[0x7c - 4];
     NiNode_00c30920* m_pMeshNode;
-    void __thiscall FUN_00c30920(CloningProcess& kCloning);
+    void __thiscall NiMeshPSysData_ProcessClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c30920
-void NiMeshPSysData_00c30920::FUN_00c30920(CloningProcess& kCloning)
+void NiMeshPSysData_00c30920::NiMeshPSysData_ProcessClone(CloningProcess& kCloning)
 {
     NiObject::ProcessClone(kCloning);
     m_pMeshNode->ProcessClone(kCloning);
@@ -385,13 +385,13 @@ struct Mesh308Compat
 };
 struct DerivedThis308 : This308
 {
-    char __thiscall FUN_00c24de0(This308*);
-    char __thiscall FUN_00c30970(This308*);
+    char __thiscall NiPSysData_IsEqual(This308*);
+    char __thiscall NiMeshPSysData_IsEqual(This308*);
 };
 // @fnv 0x00c30970
-char __thiscall DerivedThis308::FUN_00c30970(This308* other)
+char __thiscall DerivedThis308::NiMeshPSysData_IsEqual(This308* other)
 {
-    if (!FUN_00c24de0(other))
+    if (!NiPSysData_IsEqual(other))
         return 0;
     Mesh308Compat* thisMesh = reinterpret_cast<Mesh308Compat*>(m7c);
     Mesh308* otherMesh = other->m7c;
@@ -532,10 +532,10 @@ struct NiMeshPSysData308
 {
     char _0[0x7c];
     NiObject* m_pMeshNode;
-    void __thiscall FUN_00c30b70(NiStream& kStream);
+    void __thiscall NiMeshPSysData_LinkObject(NiStream& kStream);
 };
 // @fnv 0x00c30b70
-void __thiscall NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
+void __thiscall NiMeshPSysData308::NiMeshPSysData_LinkObject(NiStream& kStream)
 {
     ((NiPSysDataLinkHelper*)this)->LinkObject(kStream);
     NiObject* pkNode = ((NiStreamStandIn*)&kStream)->GetLoadedObject();
@@ -771,14 +771,14 @@ struct MeshSave
     unsigned int unk88;
     SavedElement** elements;
     unsigned short capacity, count, growth, unk96;
-    void FUN_00c25560(SaveStream&);
+    void NiPSysData_SaveBinary(SaveStream&);
     void WriteToStream(SaveStream&);
 };
-// Calls FUN_00c25560, then writes value, active, count and each element's id (or zero) to the stream, and saves a link to particleMeshes.
+// Calls NiPSysData_SaveBinary, then writes value, active, count and each element's id (or zero) to the stream, and saves a link to particleMeshes.
 // @fnv 0x00c30cc0
 void MeshSave::WriteToStream(SaveStream& stream)
 {
-    FUN_00c25560(stream);
+    NiPSysData_SaveBinary(stream);
     stream.buffer->Write(&value, 4);
     {
         bool bActive = active;
@@ -1180,7 +1180,7 @@ struct NiParticleInfoSI
 
 struct NiPSysData_StandIn
 {
-    void FUN_00c24cc0(unsigned short usParticle);
+    void NiPSysData_RemoveParticle(unsigned short usParticle);
 };
 
 struct NiMeshPSysDataSI : NiPSysData_StandIn
@@ -1220,16 +1220,16 @@ struct NiMeshPSysDataSI : NiPSysData_StandIn
     NiNodeSI* m_pMeshNode;
 
     void ReleaseSlotRef(unsigned int uiGeneration, NiAVObjectPtrSI spParticle);
-    void FUN_00c30e80(unsigned short usParticle);
+    void NiMeshPSysData_RemoveParticle(unsigned short usParticle);
 };
 
 // @fnv 0x00c30e80
-void NiMeshPSysDataSI::FUN_00c30e80(unsigned short usParticleIndex)
+void NiMeshPSysDataSI::NiMeshPSysData_RemoveParticle(unsigned short usParticleIndex)
 {
     unsigned short usLastParticle = m_usActive - 1;
     unsigned short usParticleGeneration = m_pkParticleInfo[usParticleIndex].m_usFirstValue;
 
-    FUN_00c24cc0(usParticleIndex);
+    NiPSysData_RemoveParticle(usParticleIndex);
 
     NiAVObjectPtrSI spParticle = 0;
     if (usParticleIndex == usLastParticle)
@@ -1609,7 +1609,7 @@ struct PSysDataBase
 struct NiMeshPSysDataStub : PSysDataBase
 {
     void FillPools(bool bFill);
-    void FUN_00c31090(NiStream& kStream);
+    void NiMeshPSysData_LoadBinary(NiStream& kStream);
 };
 
 struct NiMeshPSysDataLayout : NiMeshPSysDataStub
@@ -1656,7 +1656,7 @@ inline void S00c31090_AddPool(PoolArrayArray& kPools, unsigned int uiIndex, Pool
 
 // Loads base particle data, fills pools for older versions, and otherwise reads pool sizes and creates a pool for each nonzero size.
 // @fnv 0x00c31090
-void NiMeshPSysDataStub::FUN_00c31090(NiStream& kStream)
+void NiMeshPSysDataStub::NiMeshPSysData_LoadBinary(NiStream& kStream)
 {
     NiMeshPSysDataLayout* pkThis = (NiMeshPSysDataLayout*)this;
     unsigned int uiPoolSize;

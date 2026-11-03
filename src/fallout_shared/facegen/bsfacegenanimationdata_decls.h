@@ -13,7 +13,7 @@ class NiQuaternion
 class RotationValues
 {
   public:
-    float FUN_005dd4e0(unsigned);
+    float BSFaceGenKeyframeMultiple_GetQuantity(unsigned);
 };
 void* __cdecl operator new(unsigned);
 enum BS_FACEGEN_MORPH_TYPE
@@ -53,7 +53,7 @@ class BSFaceGenKeyframeMultiple : public BSFaceGenKeyframe
     unsigned count;
     BSFaceGenKeyframeMultiple(BS_FACEGEN_MORPH_TYPE, unsigned);
     virtual ~BSFaceGenKeyframeMultiple();
-    bool FUN_0064a4d0(unsigned, float);
+    bool BSFaceGenKeyframeMultiple_SetQuantity(unsigned, float);
     bool InsertIntoKeyframeList(NiTPointerList<BSFaceGenKeyframe*>*);
 };
 

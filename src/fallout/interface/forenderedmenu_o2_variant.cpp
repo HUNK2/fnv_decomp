@@ -25,7 +25,7 @@ struct FUN_007fad10
     NP npbc;
     char pad_c0[0x14];
     NP npd4;
-    void FUN_007fadf0();
+    void FORenderedMenu_ResetNifs();
 };
 struct FUN_007fc6f0_shell : public FORenderedMenu
 {
@@ -109,7 +109,7 @@ extern char DAT_0118abb1;
 void FUN_007f8160(char value);
 struct FUN_007fadf0_shell : public FORenderedMenu
 {
-    void FUN_007fadf0();
+    void FORenderedMenu_ResetNifs();
 };
 unsigned char __fastcall GetByteAtOffsetB9(void* thisPtr);
 extern char* DAT_011f35cc;

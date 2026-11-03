@@ -203,7 +203,7 @@ bool FUN_009ab9c0_struct::FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, v
 struct NiRTTI;
 struct NiAVObject;
 
-bool __cdecl FUN_0043b300(NiRTTI const*, NiAVObject*);
+bool __cdecl NiObject_IsKindOf(NiRTTI const*, NiAVObject*);
 extern char const* const g_011f4a48_arg1;
 
 struct NiGeometryData
@@ -245,7 +245,7 @@ void FUN_009abe40_struct::MarkGeometryDataMutable(NiAVObject* ap3D)
 {
     if (ap3D)
     {
-        if (FUN_0043b300((const NiRTTI*)&g_011f4a48_arg1, ap3D))
+        if (NiObject_IsKindOf((const NiRTTI*)&g_011f4a48_arg1, ap3D))
         {
             NiGeometry* pgeom = (NiGeometry*)ap3D;
             NiGeometryData* pdata = pgeom->FUN_005495f0();
@@ -666,10 +666,10 @@ struct ScAVObject
     virtual void FUN_vd8(void* pkArg);
     ScTransform* GetSourceFilesFromForm();
     ScGeom* FUN_005495f0();
-    unsigned int FUN_004d7d50();
+    unsigned int NiParticleSystem_GetModifierCount();
     ScAVObject* GetByIndex(unsigned int uiIndex);
 };
-bool __cdecl FUN_0043b300(ScRTTI* pkRTTI, void* pkObject);
+bool __cdecl NiObject_IsKindOf(ScRTTI* pkRTTI, void* pkObject);
 void* __cdecl FUN_0043c4b0();
 
 struct ScScaler
@@ -688,15 +688,15 @@ void ScScaler::ScaleObject(ScAVObject* pkObject, float fScale)
         ScGeom* pkGeom = pkObject->FUN_005495f0();
         if (pkGeom)
         {
-            if (FUN_0043b300(&g_kRTTI_01202558, pkGeom))
+            if (NiObject_IsKindOf(&g_kRTTI_01202558, pkGeom))
             {
-                if (FUN_0043b300(&g_kRTTI_012024e0, pkObject))
+                if (NiObject_IsKindOf(&g_kRTTI_012024e0, pkObject))
                 {
                     ScAVObject* pkNode = pkObject;
-                    for (unsigned int i = 0; i < pkNode->FUN_004d7d50(); i++)
+                    for (unsigned int i = 0; i < pkNode->NiParticleSystem_GetModifierCount(); i++)
                     {
                         ScAVObject* pkChild = pkNode->GetByIndex(i);
-                        if (FUN_0043b300(&g_kRTTI_01202508, pkChild))
+                        if (NiObject_IsKindOf(&g_kRTTI_01202508, pkChild))
                         {
                             ScChild* pkTarget = (ScChild*)pkChild;
                             pkTarget->FUN_004ee4b0(pkTarget->FUN_00639b20() * fScale);
@@ -802,7 +802,7 @@ class AlignSceneObject
     virtual void Unk_02C();
     virtual void Unk_02D();
     virtual void UpdateWorldData(NiUpdateData& kData);  // +0xb8
-    AlignMatrix& FUN_00461130();                        // rotation
+    AlignMatrix& NiAVObject_GetWorldRotate();                        // rotation
 };
 
 class AlignTargetSource
@@ -1122,7 +1122,7 @@ void AlignOwner::UpdateAlignment()
         {
             NiUpdateData kData2(0.0f, false, false);
             pkObject2->UpdateWorldData(kData2);
-            m_kRotate = Get3D()->FUN_00461130().FUN_0043f8d0(pkTarget2->FUN_00461130().FUN_004b45b0());
+            m_kRotate = Get3D()->NiAVObject_GetWorldRotate().FUN_0043f8d0(pkTarget2->NiAVObject_GetWorldRotate().FUN_004b45b0());
         }
     }
 }
@@ -1155,7 +1155,7 @@ struct Rtti_bd00
 {
 };
 extern Rtti_bd00 DAT_011f4acc;
-bool __cdecl FUN_0043b300(const Rtti_bd00*, AVObject_bd00*);
+bool __cdecl NiObject_IsKindOf(const Rtti_bd00*, AVObject_bd00*);
 
 struct BeamScaler_bd00
 {
@@ -1178,7 +1178,7 @@ void BeamScaler_bd00::FUN_009abd00(AVObject_bd00* apObject, float f1, float f2)
             apObject->FUN_00440460(translate8);
         }
 
-        if (FUN_0043b300(&DAT_011f4acc, apObject))
+        if (NiObject_IsKindOf(&DAT_011f4acc, apObject))
         {
             AVObject_bd00* target2 = apObject;
             float val3 = (f2 > 0.0f) ? f2 : this->FUN_00979840(target2);

@@ -69,7 +69,7 @@ void NiBackToFrontAccumulator::QuickSort(int left, int right)
 struct NiObject;
 unsigned char __stdcall FUN_00ba87d0(NiObject*);
 // @fnv 0x00aa0ae0
-unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
+unsigned char __stdcall NiBackToFrontAccumulator_IsEqual(NiObject* pkObject)
 {
     unsigned char r = FUN_00ba87d0(pkObject);
     return r != 0;
@@ -77,7 +77,7 @@ unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
 
 extern const char g_011f5f74_arg1[];
 // @fnv 0x00aa0e50
-const char* __cdecl FUN_00aa0e50()
+const char* __cdecl NiBackToFrontAccumulator_GetRTTI()
 {
     return g_011f5f74_arg1;
 }
@@ -155,7 +155,7 @@ struct S_00aa0d00_Pool
 struct S_00aa0d00_Aux
 {
     int unk00;
-    void FUN_0040fbf0(int a);
+    void BSSpinLock_Lock(int a);
 };
 extern S_00aa0d00_Aux DAT_011c5f80;
 extern S_00aa0d00_Node* DAT_011c5f58;
@@ -253,7 +253,7 @@ void S_00aa0d00_Base::ReleaseAllItems()
             else
                 tail = 0;
             pNode->data = 0;
-            DAT_011c5f80.FUN_0040fbf0(0);
+            DAT_011c5f80.BSSpinLock_Lock(0);
             pNode->prev = 0;
             pNode->next = DAT_011c5f58;
             --DAT_011c5f84;
@@ -347,11 +347,11 @@ class BackToFront_aa0 : public FUN_00aa0fc0
     virtual void v00();
 
     void FUN_00aa1000(BackToFront_aa0* pkClone, CloningProcess& kCloning);
-    BackToFront_aa0* FUN_00aa0f50(CloningProcess& kCloning);
+    BackToFront_aa0* NiBackToFrontAccumulator_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00aa0f50
-BackToFront_aa0* BackToFront_aa0::FUN_00aa0f50(CloningProcess& kCloning)
+BackToFront_aa0* BackToFront_aa0::NiBackToFrontAccumulator_CreateClone(CloningProcess& kCloning)
 {
     BackToFront_aa0* pkObject = new BackToFront_aa0;
     FUN_00aa1000(pkObject, kCloning);
@@ -404,7 +404,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
         }
 
         item->data = 0;
-        DAT_011c5f80.FUN_0040fbf0(0);
+        DAT_011c5f80.BSSpinLock_Lock(0);
         item->prev = 0;
         item->next = DAT_011c5f58;
 

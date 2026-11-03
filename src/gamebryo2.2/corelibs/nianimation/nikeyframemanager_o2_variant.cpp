@@ -7,7 +7,7 @@
 extern "C" void* g_011f3fb4;
 
 // @fnv 0x00a4da80
-void* __cdecl FUN_00a4da80()
+void* __cdecl NiKeyframeManager_GetRTTI()
 {
     return &g_011f3fb4;
 }
@@ -40,7 +40,7 @@ struct AllocatedAnimationController
     void* __thiscall FUN_00a4da20();
 };
 // @fnv 0x00a4db60
-void* __cdecl FUN_00a4db60()
+void* __cdecl NiKeyframeManager_CreateObject()
 {
     void* storage = FUN_00aa13e0(0x48);
     if (storage != 0)
@@ -172,11 +172,11 @@ struct NiStreamR
 struct SeqController : NiTimeController
 {
     void FUN_00a4dac0(char* p1, char* p2, unsigned int ui);
-    void FUN_00a4db80(NiStreamR& kStream);
+    void NiKeyframeManager_LoadBinary(NiStreamR& kStream);
 };
 
 // @fnv 0x00a4db80
-void SeqController::FUN_00a4db80(NiStreamR& kStream)
+void SeqController::NiKeyframeManager_LoadBinary(NiStreamR& kStream)
 {
     NiTimeController::LoadBinary(kStream);
     unsigned int uiCountB;
@@ -394,10 +394,10 @@ struct TargetD810
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     MapD810 map;
     void FUN_00a6d500(StreamD810&);
-    void FUN_00a4d810(StreamD810& akStream);
+    void NiKeyframeManager_LinkObject(StreamD810& akStream);
 };
 // @fnv 0x00a4d810
-void TargetD810::FUN_00a4d810(StreamD810& akStream)
+void TargetD810::NiKeyframeManager_LinkObject(StreamD810& akStream)
 {
     FUN_00a6d500(akStream);
     if (akStream.version < 0x4010003)

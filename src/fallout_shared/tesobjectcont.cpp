@@ -225,7 +225,7 @@ void* S2::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_00516b60_shell
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
     unsigned char* GetTESChallengeList();
     TESSound* GetAreaSound();
     void SetAreaSound(TESSound*);
@@ -241,7 +241,7 @@ void FUN_00516b60_shell::CopyFromContainer(TESForm* apCopy)
     TESObjectCONT* cont = dynamic_cast<TESObjectCONT*>(apCopy);
     if (!cont)
         return;
-    ((FUN_00516b60_shell*)this)->FUN_004851b0(apCopy);
+    ((FUN_00516b60_shell*)this)->TESForm_CopyAllComponents(apCopy);
     *(unsigned char*)((char*)this + 0x98) = *((FUN_00516b60_shell*)cont)->GetTESChallengeList();
     ((FUN_00516b60_shell*)this)->SetAreaSound(((FUN_00516b60_shell*)cont)->GetAreaSound());
     ((FUN_00516b60_shell*)this)->FUN_004fb0b0(((FUN_00516b60_shell*)cont)->GetTempRef());
@@ -250,7 +250,7 @@ void FUN_00516b60_shell::CopyFromContainer(TESForm* apCopy)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct PlayerMover
 {
@@ -279,7 +279,7 @@ bool FUN_00516c10_shell::IsNotMatchingContainer(TESForm* apCompare)
     TESObjectCONT* pComp = dynamic_cast<TESObjectCONT*>(apCompare);
     if (!pComp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pComp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pComp))
         return true;
     if (*(signed char*)((char*)this + 0x98) != *(signed char*)((FUN_00461150_shell*)pComp)->GetTESChallengeList())
         return true;
@@ -294,7 +294,7 @@ bool FUN_00516c10_shell::IsNotMatchingContainer(TESForm* apCompare)
 
 struct FUN_00516a20_shell
 {
-    void FUN_00516a20();
+    void TESObjectCONT_SaveForm();
 };
 
 struct FUN_00481b40_shell
@@ -302,19 +302,19 @@ struct FUN_00481b40_shell
     void FUN_00481b40();
 };
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 
 struct DoorPart3c
@@ -324,39 +324,39 @@ struct DoorPart3c
 
 struct DoorPart5c
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 
 struct DoorPart68
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(TESForm*, int);
+    void TESForm___SaveData(TESForm*, int);
 };
 
 bool _FUN_00401500();
 void _FUN_00485910(unsigned int, unsigned int);
 
 // @fnv 0x00516a20
-void FUN_00516a20_shell::FUN_00516a20()
+void FUN_00516a20_shell::TESObjectCONT_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x3c)->FUN_00487010();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x3c)->TESFullName_Save();
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x48)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x68)->FUN_0048cca0();
+    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x68)->TESScriptableForm_Save();
     reinterpret_cast<FUN_00481b40_shell*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00481b40();
-    reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_00477f20();
+    reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x7c)->BGSDestructibleObjectForm_Save();
 
     if (_FUN_00401500())
     {
         reinterpret_cast<TESForm*>(reinterpret_cast<char*>(this) + 0x98)->TESForm::ClearData();
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(
         reinterpret_cast<TESForm*>(reinterpret_cast<char*>(this) + 0x98), 1);
 
     if (_FUN_00401500())
@@ -388,7 +388,7 @@ void FUN_00516a20_shell::FUN_00516a20()
         }
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct PrimaryBase_b4857

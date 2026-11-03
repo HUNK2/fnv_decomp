@@ -36,12 +36,12 @@ struct FUN_0047c880
     char pad[0x28];
     IntList list;
     virtual ~FUN_0047c880();
-    void FUN_0047c9b0();
+    void TESActorBaseData_ClearDataComponent();
 };
 // @fnv 0x0047c880
 FUN_0047c880::~FUN_0047c880()
 {
-    FUN_0047c9b0();
+    TESActorBaseData_ClearDataComponent();
 }
 
 struct PackedRecordData;
@@ -210,12 +210,12 @@ void DummyClass_0047cce0::FUN_0047cce0(int index, bool set)
 
 struct FUN_0047cd40_shell : public TESActorBaseData
 {
-    bool FUN_0047cd40(int);
+    bool TESActorBaseData_GetTemplateUseFlag(int);
 };
 
 // Returns true if the 16-bit flag word at offset 0x1a has the bit for aeFlag set; out-of-range flags return true.
 // @fnv 0x0047cd40
-bool FUN_0047cd40_shell::FUN_0047cd40(int aeFlag)
+bool FUN_0047cd40_shell::TESActorBaseData_GetTemplateUseFlag(int aeFlag)
 {
     if (aeFlag >= 0 && aeFlag < 16)
     {
@@ -240,28 +240,28 @@ void FUN_0047cd90_shell::FUN_0047cd90(unsigned short asVal)
 
 struct FUN_0047cdb0_shell : public TESActorBaseData
 {
-    bool FUN_0047cdb0();
+    bool TESActorBaseData_GetUsesLeveledTemplate();
 };
 
-bool __fastcall FUN_0047cdd0(TESActorBaseData*);
+bool __fastcall TESActorBaseData_IsTemplateLeveled(TESActorBaseData*);
 
 // @fnv 0x0047cdb0
-bool FUN_0047cdb0_shell::FUN_0047cdb0()
+bool FUN_0047cdb0_shell::TESActorBaseData_GetUsesLeveledTemplate()
 {
-    bool bretval = FUN_0047cdd0(this);
+    bool bretval = TESActorBaseData_IsTemplateLeveled(this);
     return bretval;
 }
 
 struct FUN_0047cdd0_shell : public TESActorBaseData
 {
-    bool FUN_0047cdd0();
+    bool TESActorBaseData_IsTemplateLeveled();
 };
 
 int __fastcall _FNV_GetFormType(void*);
 
 // Returns true if the pointer at offset 0x24 is non-null and its form type is 0x2c or 0x2d.
 // @fnv 0x0047cdd0
-bool FUN_0047cdd0_shell::FUN_0047cdd0()
+bool FUN_0047cdd0_shell::TESActorBaseData_IsTemplateLeveled()
 {
     bool bretval = false;
     if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24))
@@ -378,7 +378,7 @@ struct DummyActorBase : DummyBase1, DummyBase2
 };
 
 // @fnv 0x0047d130
-TESActorBase* __cdecl FUN_0047d130(TESActorBase* apOriginalBase, TESActorBase* apTemplateBase)
+TESActorBase* __cdecl TESActorBaseData_CreateTemplateActorBase(TESActorBase* apOriginalBase, TESActorBase* apTemplateBase)
 {
     DummyActorBase* pnewbase;
     bool breset = g_BGSSaveLoadGame->SetThreadAllowChanges(false);
@@ -498,11 +498,11 @@ unsigned short FUN_0047d370_shell::FUN_0047d370()
 
 struct FUN_0047d390_shell : public TESActorBaseData
 {
-    unsigned short FUN_0047d390();
+    unsigned short TESActorBaseData_GetCalcLevelMin();
 };
 
 // @fnv 0x0047d390
-unsigned short FUN_0047d390_shell::FUN_0047d390()
+unsigned short FUN_0047d390_shell::TESActorBaseData_GetCalcLevelMin()
 {
     return *(unsigned short*)((char*)this + 0xe);
 }
@@ -622,17 +622,17 @@ int FUN_0047d680_shell::GetFactionRank(TESFaction* apFaction, bool abPC)
 
 struct FUN_0047dd30_shell : public TESActorBaseData
 {
-    void FUN_0047dd30(int);
+    void TESActorBaseData_SetFlags(int);
 };
 
-void FUN_0047e2a0();
+void TESActorBaseData_AddFormChange();
 
-// Stores aiNewFlags into the field at offset 4 of this and calls FUN_0047e2a0 with 2.
+// Stores aiNewFlags into the field at offset 4 of this and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047dd30
-void FUN_0047dd30_shell::FUN_0047dd30(int aiNewFlags)
+void FUN_0047dd30_shell::TESActorBaseData_SetFlags(int aiNewFlags)
 {
     *(int*)((char*)this + 4) = aiNewFlags;
-    ((void(__thiscall*)(void*, int)) & FUN_0047e2a0)(this, 2);
+    ((void(__thiscall*)(void*, int)) & TESActorBaseData_AddFormChange)(this, 2);
 }
 
 namespace fnv_0047de40 {
@@ -640,15 +640,15 @@ struct TABStub
 {
     char pad[0xe];
     unsigned short v;
-    void FUN_0047e2a0(int);
-    void FUN_0047de40(unsigned short a);
+    void TESActorBaseData_AddFormChange(int);
+    void TESActorBaseData_SetCalcLevelMin(unsigned short a);
 };
-// Stores the given unsigned short into v and calls FUN_0047e2a0 with 2.
+// Stores the given unsigned short into v and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047de40
-void TABStub::FUN_0047de40(unsigned short ausValue)
+void TABStub::TESActorBaseData_SetCalcLevelMin(unsigned short ausValue)
 {
     v = ausValue;
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 }  // namespace fnv_0047de40
 
@@ -657,15 +657,15 @@ struct TABStub
 {
     char pad[0x10];
     unsigned short v;
-    void FUN_0047e2a0(int);
-    void FUN_0047de70(unsigned short a);
+    void TESActorBaseData_AddFormChange(int);
+    void TESActorBaseData_SetCalcLevelMax(unsigned short a);
 };
-// Stores the given value in v and calls FUN_0047e2a0 with 2.
+// Stores the given value in v and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047de70
-void TABStub::FUN_0047de70(unsigned short ausValue)
+void TABStub::TESActorBaseData_SetCalcLevelMax(unsigned short ausValue)
 {
     v = ausValue;
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 }  // namespace fnv_0047de70
 
@@ -674,15 +674,15 @@ struct TABStub
 {
     char pad[0xc];
     unsigned short v;
-    void FUN_0047e2a0(int);
-    void FUN_0047dfe0(unsigned short a);
+    void TESActorBaseData_AddFormChange(int);
+    void TESActorBaseData_SetLevel(unsigned short a);
 };
-// Stores the given value in v and calls FUN_0047e2a0 with 2.
+// Stores the given value in v and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047dfe0
-void TABStub::FUN_0047dfe0(unsigned short ausValue)
+void TABStub::TESActorBaseData_SetLevel(unsigned short ausValue)
 {
     v = ausValue;
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 }  // namespace fnv_0047dfe0
 
@@ -691,15 +691,15 @@ struct TABStub
 {
     char pad[8];
     unsigned short v;
-    void FUN_0047e2a0(int);
-    void FUN_0047e010(unsigned short a);
+    void TESActorBaseData_AddFormChange(int);
+    void TESActorBaseData_SetFatigue(unsigned short a);
 };
-// Stores the given value in v and calls FUN_0047e2a0 with 2.
+// Stores the given value in v and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047e010
-void TABStub::FUN_0047e010(unsigned short ausValue)
+void TABStub::TESActorBaseData_SetFatigue(unsigned short ausValue)
 {
     v = ausValue;
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 }  // namespace fnv_0047e010
 
@@ -721,9 +721,9 @@ struct Actor
 };
 extern StartMenu* DAT_01186d20[][50];
 extern const char DAT_01011584[];
-unsigned int __cdecl FUN_0047e040(float);
+unsigned int __cdecl TESActorBaseData_GetAlignmentForKarma(float);
 // @fnv 0x0047e0e0
-const char* FUN_0047e0e0(Actor* actor)
+const char* TESActorBaseData_GetKarmicTitle(Actor* actor)
 {
     const char* result = 0;
     if (actor)
@@ -736,7 +736,7 @@ const char* FUN_0047e0e0(Actor* actor)
             level = 0x31;
         if (level < 0)
             level = 0;
-        kind = FUN_0047e040((float)actor->sub.V2(0x17));
+        kind = TESActorBaseData_GetAlignmentForKarma((float)actor->sub.V2(0x17));
         if (kind > 2)
         {
             if (kind == 3)
@@ -763,10 +763,10 @@ struct S47b
 {
     char pad[0x14];
     float v;
-    void FUN_0047e2a0(int);
+    void TESActorBaseData_AddFormChange(int);
     void SetClampedValue(float a);
 };
-// Stores a into v, clamps v between the two runtime float settings, then calls FUN_0047e2a0(2).
+// Stores a into v, clamps v between the two runtime float settings, then calls TESActorBaseData_AddFormChange(2).
 // @fnv 0x0047e1c0
 void S47b::SetClampedValue(float afValue)
 {
@@ -775,7 +775,7 @@ void S47b::SetClampedValue(float afValue)
         v = *originalRuntimeFloatSetting25.Float();
     else if (v < *originalRuntimeFloatSetting24.Float())
         v = *originalRuntimeFloatSetting24.Float();
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 }  // namespace fnv_0047e1c0
 
@@ -783,15 +783,15 @@ struct S47
 {
     char pad[0xa];
     short v;
-    void FUN_0047e2a0(int);
+    void TESActorBaseData_AddFormChange(int);
     void SetValue(short a);
 };
-// Stores the given short into v and calls FUN_0047e2a0 with 2.
+// Stores the given short into v and calls TESActorBaseData_AddFormChange with 2.
 // @fnv 0x0047e240
 void S47::SetValue(short asValue)
 {
     v = asValue;
-    FUN_0047e2a0(2);
+    TESActorBaseData_AddFormChange(2);
 }
 
 namespace fnv_0047e270 {
@@ -800,14 +800,14 @@ struct FUN_0047e270_shell : public TESActorBaseData
     void SetSpeedMult(unsigned short);
 };
 
-void __fastcall FUN_0047e2a0(void*, int, int);
+void __fastcall TESActorBaseData_AddFormChange(void*, int, int);
 
-// Stores asSpeedMult at offset 0x12 of this object and calls FUN_0047e2a0 with this and 2.
+// Stores asSpeedMult at offset 0x12 of this object and calls TESActorBaseData_AddFormChange with this and 2.
 // @fnv 0x0047e270
 void FUN_0047e270_shell::SetSpeedMult(unsigned short asSpeedMult)
 {
     *(unsigned short*)((char*)this + 0x12) = asSpeedMult;
-    ((void(__thiscall*)(void*, int))FUN_0047e2a0)(this, 2);
+    ((void(__thiscall*)(void*, int))TESActorBaseData_AddFormChange)(this, 2);
 }
 }  // namespace fnv_0047e270
 
@@ -857,11 +857,11 @@ struct blob12
 };
 struct FUN_0047e2a0_shell : public TESActorBaseData
 {
-    void FUN_0047e2a0(int);
+    void TESActorBaseData_AddFormChange(int);
 };
 
 // @fnv 0x0047e2a0
-void FUN_0047e2a0_shell::FUN_0047e2a0(int aiChangeFlags)
+void FUN_0047e2a0_shell::TESActorBaseData_AddFormChange(int aiChangeFlags)
 {
     TESActorBase* pactbase = this ? reinterpret_cast<TESActorBase*>(reinterpret_cast<char*>(this) - 0x30) : 0;
     TESForm* pform = reinterpret_cast<TESForm*>(pactbase);
@@ -970,7 +970,7 @@ extern Setting_S originalRuntimeFloatSetting23;
 
 // Maps a karma value to a level code (0-4) by comparing it against four runtime float thresholds.
 // @fnv 0x0047e040
-int FUN_0047e040(float afKarma)
+int TESActorBaseData_GetAlignmentForKarma(float afKarma)
 {
     int iLevel = 1;
     if (afKarma <= *originalRuntimeFloatSetting20.Float())
@@ -1043,11 +1043,11 @@ void __thiscall FUN_0047e360_Cls::ClearFlags(unsigned int mask)
 
 struct ABD_0047c790
 {
-    bool FUN_0047c790() const;
+    bool TESActorBaseData_GetAllowPCDialogue() const;
 };
 
 // @fnv 0x0047c790
-bool ABD_0047c790::FUN_0047c790() const
+bool ABD_0047c790::TESActorBaseData_GetAllowPCDialogue() const
 {
     return ((const TESActorBaseData*)this)->GetFlag(0x200000);
 }
@@ -1055,7 +1055,7 @@ bool ABD_0047c790::FUN_0047c790() const
 struct TESActorBaseData_0047c7b0
 {
     bool GetFlag(unsigned int flag) const;
-    bool FUN_0047c7b0() const;
+    bool TESActorBaseData_GetAllowPickPocket() const;
 };
 
 bool TESActorBaseData_0047c7b0::GetFlag(unsigned int flag) const
@@ -1064,7 +1064,7 @@ bool TESActorBaseData_0047c7b0::GetFlag(unsigned int flag) const
 }
 
 // @fnv 0x0047c7b0
-bool TESActorBaseData_0047c7b0::FUN_0047c7b0() const
+bool TESActorBaseData_0047c7b0::TESActorBaseData_GetAllowPickPocket() const
 {
     return GetFlag(0x10000000);
 }
@@ -1076,10 +1076,10 @@ struct FUN_0047c9d0_shell
 };
 struct FUN_0047c9b0_shell : public FUN_0047c9d0_shell
 {
-    void FUN_0047c9b0();
+    void TESActorBaseData_ClearDataComponent();
 };
 // @fnv 0x0047c9b0
-void FUN_0047c9b0_shell::FUN_0047c9b0()
+void FUN_0047c9b0_shell::TESActorBaseData_ClearDataComponent()
 {
     DeleteRegionColorEntries();
 }
@@ -1101,11 +1101,11 @@ bool FUN_0047d720Class::HasFactionFlag8() const
 struct FUN_0047d7c0_Class
 {
     int __dummy;
-    bool FUN_0047d7c0() const;
+    bool TESFaction_GetEvil() const;
 };
 
 // @fnv 0x0047d7c0
-bool FUN_0047d7c0_Class::FUN_0047d7c0() const
+bool FUN_0047d7c0_Class::TESFaction_GetEvil() const
 {
     return (*(const int*)((const char*)this + 0x34) & 2) ? true : false;
 }
@@ -1157,7 +1157,7 @@ struct TgtOps
 };
 struct FUN_0047dd30_shell
 {
-    void FUN_0047dd30(int);
+    void TESActorBaseData_SetFlags(int);
 };
 struct BSShaderPPLightingProperty
 {
@@ -1166,7 +1166,7 @@ struct BSShaderPPLightingProperty
 struct S47
 {
     void SetValue(short);
-    void FUN_0047dea0(short);
+    void TESActorBaseData_SetBaseDisposition(short);
 };
 struct FUN_0047d370_shell
 {
@@ -1174,7 +1174,7 @@ struct FUN_0047d370_shell
 };
 struct FUN_0047d390_shell
 {
-    unsigned short FUN_0047d390();
+    unsigned short TESActorBaseData_GetCalcLevelMin();
 };
 struct FUN_0047d3b0_shell
 {
@@ -1203,11 +1203,11 @@ struct TESRecipe
 };
 struct ABDHelper_47d220
 {
-    void FUN_0047e010(unsigned short);
+    void TESActorBaseData_SetFatigue(unsigned short);
     void SetClampedValue(float);
-    void FUN_0047dfe0(unsigned short);
-    void FUN_0047de40(unsigned short);
-    void FUN_0047de70(unsigned short);
+    void TESActorBaseData_SetLevel(unsigned short);
+    void TESActorBaseData_SetCalcLevelMin(unsigned short);
+    void TESActorBaseData_SetCalcLevelMax(unsigned short);
     void SetSpeedMult(unsigned short);
     void CopyFactionRanks(TESActorBaseData*);
     void FUN_0050f9a0(TESLevItem*);
@@ -1223,15 +1223,15 @@ void ABD_47d220::CopyFromActorBaseData(BaseFormComponent* apCopyFC)
     TESActorBaseData* pCopy = dynamic_cast<TESActorBaseData*>(apCopyFC);
     if (!pCopy)
         return;
-    ((FUN_0047dd30_shell*)this)->FUN_0047dd30(*(int*)((TgtOps*)pCopy)->GetPosition());
-    ((ABDHelper_47d220*)this)->FUN_0047e010(pCopy->GetFatigue());
+    ((FUN_0047dd30_shell*)this)->TESActorBaseData_SetFlags(*(int*)((TgtOps*)pCopy)->GetPosition());
+    ((ABDHelper_47d220*)this)->TESActorBaseData_SetFatigue(pCopy->GetFatigue());
     ((ABDHelper_47d220*)this)->SetClampedValue(pCopy->GetHealthRegeneration());
     ((S47*)this)->SetValue(((BSShaderPPLightingProperty*)pCopy)->GetDiffuseTextureIndex());
-    ((ABDHelper_47d220*)this)->FUN_0047dfe0(((FUN_0047d370_shell*)pCopy)->FUN_0047d370());
-    ((ABDHelper_47d220*)this)->FUN_0047de40(((FUN_0047d390_shell*)pCopy)->FUN_0047d390());
-    ((ABDHelper_47d220*)this)->FUN_0047de70(((FUN_0047d3b0_shell*)pCopy)->FUN_0047d3b0());
+    ((ABDHelper_47d220*)this)->TESActorBaseData_SetLevel(((FUN_0047d370_shell*)pCopy)->FUN_0047d370());
+    ((ABDHelper_47d220*)this)->TESActorBaseData_SetCalcLevelMin(((FUN_0047d390_shell*)pCopy)->TESActorBaseData_GetCalcLevelMin());
+    ((ABDHelper_47d220*)this)->TESActorBaseData_SetCalcLevelMax(((FUN_0047d3b0_shell*)pCopy)->FUN_0047d3b0());
     ((ABDHelper_47d220*)this)->SetSpeedMult(GetShortAtOffset12((const char*)pCopy));
-    ((S47*)this)->FUN_0047dea0(((FUN_0047d3d0_shell*)pCopy)->FUN_0047d3d0());
+    ((S47*)this)->TESActorBaseData_SetBaseDisposition(((FUN_0047d3d0_shell*)pCopy)->FUN_0047d3d0());
     ((ABDHelper_47d220*)this)->CopyFactionRanks(pCopy);
     ((ABDHelper_47d220*)this)->FUN_0050f9a0((TESLevItem*)((BGSTerrainManager*)pCopy)->GetMinLevel());
     ((RegionPointList*)this)->SetDistanceInsideAtMax((unsigned int)pCopy->GetVoiceType());
@@ -1351,7 +1351,7 @@ struct Interface
 
 struct TESActorBaseData_0047e380
 {
-    unsigned short __thiscall FUN_0047e380(unsigned int aiFlags);
+    unsigned short __thiscall TESActorBaseData_GetSaveSize(unsigned int aiFlags);
 };
 
 extern TESSaveLoadGame* DAT_011de45c;
@@ -1360,7 +1360,7 @@ TESForm* __cdecl _ref_004839c0(unsigned int);
 
 // Computes the save size of the actor base data from flags and race list, optionally logging the size and form details.
 // @fnv 0x0047e380
-unsigned short TESActorBaseData_0047e380::FUN_0047e380(unsigned int aiFlags)
+unsigned short TESActorBaseData_0047e380::TESActorBaseData_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short pform;
     unsigned short pheader;
@@ -1410,11 +1410,11 @@ struct FUN_0047c770_cls
 {
     int unk00;
     void Helper(unsigned int flags);
-    void FUN_0047c770();
+    void TESActorBaseData_GetNoVATSMelee();
 };
 
 // @fnv 0x0047c770
-void FUN_0047c770_cls::FUN_0047c770()
+void FUN_0047c770_cls::TESActorBaseData_GetNoVATSMelee()
 {
     Helper(0x100000);
 }
@@ -1460,7 +1460,7 @@ void Header47cb90::SwapEndianness()
 class FactionRec
 {
   public:
-    bool FUN_0047d7c0();
+    bool TESFaction_GetEvil();
 };
 
 struct FactionLink
@@ -1493,7 +1493,7 @@ bool FormNode::CheckFactionLinks()
         FactionLink* x = *p->FUN_006815c0();
         if (x != 0)
         {
-            if (!x->pFaction->FUN_0047d7c0())
+            if (!x->pFaction->TESFaction_GetEvil())
             {
                 bValid = false;
             }
@@ -1530,8 +1530,8 @@ struct FlagSet
     unsigned int unk00;
     unsigned int m_04;
     void FUN_0047dd50(int aMask, unsigned char aSet, unsigned char aForce);
-    void FUN_0047e2a0(const char* s);
-    void FUN_0047e2a0(int n);
+    void TESActorBaseData_AddFormChange(const char* s);
+    void TESActorBaseData_AddFormChange(int n);
     void ApplyToForm(const char* s);
 };
 
@@ -1548,7 +1548,7 @@ void FlagSet::FUN_0047dd50(int aMask, unsigned char aSet, unsigned char aForce)
             {
                 if (!DAT_011ddf38->Test(r, NameRef("")))
                 {
-                    FUN_0047e2a0("");
+                    TESActorBaseData_AddFormChange("");
                 }
                 else
                 {
@@ -1558,7 +1558,7 @@ void FlagSet::FUN_0047dd50(int aMask, unsigned char aSet, unsigned char aForce)
         }
         else if (aForce)
         {
-            FUN_0047e2a0(2);
+            TESActorBaseData_AddFormChange(2);
         }
     }
     (aSet ? (m_04 |= aMask) : (m_04 = (~aMask) & m_04));
@@ -1670,7 +1670,7 @@ struct FUN_0047d410_cls : public TESActorBaseData
     void* FUN_00717e50();
     unsigned short FUN_0047d3f0();
     unsigned short FUN_0047d370();
-    unsigned short FUN_0047d390();
+    unsigned short TESActorBaseData_GetCalcLevelMin();
     unsigned short FUN_0047d3b0();
     int FUN_00441110();
     unsigned short GetShortAtOffset12();
@@ -1710,7 +1710,7 @@ bool FUN_0047d410_cls::IsDifferentFrom(BaseFormComponent* component)
     {
         return true;
     }
-    if (this->FUN_0047d390() != other->FUN_0047d390())
+    if (this->TESActorBaseData_GetCalcLevelMin() != other->TESActorBaseData_GetCalcLevelMin())
     {
         return true;
     }
@@ -1876,14 +1876,14 @@ struct TESChildCell
 typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_0047ce10_shell : public TESActorBaseData
 {
-    void FUN_0047ce10(TESObjectREFR*);
+    void TESActorBaseData_CalcTemplateForRef(TESObjectREFR*);
 };
 
 struct ExtraShell
 {
     int FUN_00418520();
     void FUN_0041aeb0();
-    void FUN_0041af50();
+    void ExtraDataList_RemoveScript();
 };
 struct FormShell
 {
@@ -1936,18 +1936,18 @@ class RefShell
         v129(), v130(), v131(), v132(), v133(), v134(), v135(), v136(), v137(), v138(), v139(), v140(), v141(), v142(),
         v143(), v144();
     virtual void update();
-    bool FUN_0056afc0();
+    bool TESObjectREFR_HasLeveledCreatureCalced();
     void* FUN_008d8520();
     ExtraShell* FUN_005d43c0();
     void FUN_00884f80();
     void* FUN_007af430();
-    void FUN_0056b020(void*, void*);
-    void FUN_00575690(void*);
-    void FUN_00565730();
+    void TESObjectREFR_SetLeveledCreature(void*, void*);
+    void TESObjectREFR_SetObjectReference(void*);
+    void TESObjectREFR_InitScript();
 };
 struct GlobalShell
 {
-    bool FUN_004121b0();
+    bool BGSSaveLoadGame_GetReconstructingForms();
 };
 struct StateShell
 {
@@ -1956,25 +1956,25 @@ struct StateShell
 };
 struct InvShell
 {
-    void FUN_004d1440();
-    void FUN_004d1610();
-    void FUN_004d1960();
+    void InventoryChanges_InitLeveledItems();
+    void InventoryChanges_InitFromContainerExtra();
+    void InventoryChanges_InitScripts();
     bool FUN_0042cde0();
 };
 extern "C" char DAT_011ddf38;
 StateShell* GetPathManager();
-void* FUN_0047d130(void*, void*);
+void* TESActorBaseData_CreateTemplateActorBase(void*, void*);
 InvShell* FUN_004bf220(RefShell*);
 struct OwnerShell
 {
-    bool FUN_0047cdb0();
+    bool TESActorBaseData_GetUsesLeveledTemplate();
     FormShell* FUN_0059bb30();
-    void FUN_0047ce10(RefShell* ref);
+    void TESActorBaseData_CalcTemplateForRef(RefShell* ref);
 };
 // @fnv 0x0047ce10
-void OwnerShell::FUN_0047ce10(RefShell* ref)
+void OwnerShell::TESActorBaseData_CalcTemplateForRef(RefShell* ref)
 {
-    if (!ref || !FUN_0047cdb0() || ref->FUN_0056afc0())
+    if (!ref || !TESActorBaseData_GetUsesLeveledTemplate() || ref->TESObjectREFR_HasLeveledCreatureCalced())
         return;
     LeveledShell* level = 0;
     if (FUN_0059bb30()->FUN_00401170() == 45)
@@ -1992,7 +1992,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
         TESContainer container;
         level->AddLeveledItemsToContainer(ref, &container);
         void* base6 = (*container.FUN_00717e50()->FUN_006815c0())->value;
-        if (!*(GlobalShell**)&DAT_011ddf38 || !(*(GlobalShell**)&DAT_011ddf38)->FUN_004121b0())
+        if (!*(GlobalShell**)&DAT_011ddf38 || !(*(GlobalShell**)&DAT_011ddf38)->BGSSaveLoadGame_GetReconstructingForms())
         {
             if (ref->isActor())
             {
@@ -2005,21 +2005,21 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
         if (GetPathManager()->FUN_00559450())
             GetPathManager()->FUN_006ebd10(ref->FUN_005d43c0()->FUN_00418520());
         ref->FUN_005d43c0()->FUN_0041aeb0();
-        ref->FUN_005d43c0()->FUN_0041af50();
+        ref->FUN_005d43c0()->ExtraDataList_RemoveScript();
         if (ref->isOther())
         {
             RefShell* other3 = ref;
             other3->FUN_00884f80();
         }
         void* oldbase2 = ref->FUN_007af430();
-        void* newbase = FUN_0047d130(oldbase2, base6);
-        ref->FUN_0056b020(oldbase2, base6);
-        ref->FUN_00575690(newbase);
-        ref->FUN_00565730();
+        void* newbase = TESActorBaseData_CreateTemplateActorBase(oldbase2, base6);
+        ref->TESObjectREFR_SetLeveledCreature(oldbase2, base6);
+        ref->TESObjectREFR_SetObjectReference(newbase);
+        ref->TESObjectREFR_InitScript();
         InvShell* inventory = FUN_004bf220(ref);
-        inventory->FUN_004d1440();
-        inventory->FUN_004d1610();
-        inventory->FUN_004d1960();
+        inventory->InventoryChanges_InitLeveledItems();
+        inventory->InventoryChanges_InitFromContainerExtra();
+        inventory->InventoryChanges_InitScripts();
         if (inventory->FUN_0042cde0())
         {
             ref->FUN_005d43c0()->FUN_0041aeb0();
@@ -2151,7 +2151,7 @@ extern SettingRef DAT_011de4e8;
 
 void __cdecl FUN_005b5e40(const char* fmt, const char* file, int line);
 int __cdecl FUN_0040fbe0(const char* fmt, ...);
-FormObj* __cdecl FUN_004839c0(unsigned int formId);
+FormObj* __cdecl TESForm_GetFormByNumericID(unsigned int formId);
 
 class FUN_0047e4a0_cls : public TESActorBaseData
 {
@@ -2222,7 +2222,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
         aRefF = DAT_011de45c->GetSavedRef();
         if (aRefF)
         {
-            _obj = FUN_004839c0(aRefF->formId);
+            _obj = TESForm_GetFormByNumericID(aRefF->formId);
             FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          endPos - startPosP, aRefF->formId, _obj->GetName(),
                          *(unsigned int*)((unsigned char*)aRefF + 5), 0xc77,
@@ -2415,7 +2415,7 @@ class FactionReaction
 };
 
 void* __cdecl operator new(unsigned int);
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl FNV_Warning(const char*, ...);
 
 struct TESActorBaseData_Shell : public TESActorBaseData
@@ -2452,7 +2452,7 @@ void TESActorBaseData_Shell::FUN_0047e6f0(unsigned int changeFlags, void* pBuffe
             loadBuffer = g_TESSaveLoadGame->FUN_004fd3c0();
             if (loadBuffer)
             {
-                loadedForm = FUN_004839c0(loadBuffer->formID);
+                loadedForm = TESForm_GetFormByNumericID(loadBuffer->formID);
                 FNV_Warning(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBaseData.cpp", 3200,
@@ -2484,7 +2484,7 @@ void TESActorBaseData_Shell::FUN_0047e6f0(unsigned int changeFlags, void* pBuffe
     {
         g_TESSaveLoadGame->FUN_00857aa0(&factID, 4);
         g_TESSaveLoadGame->FUN_008579e0(&val, 1);
-        form2 = FUN_004839c0(factID);
+        form2 = TESForm_GetFormByNumericID(factID);
         if (form2)
         {
             rank2 = new FactionReaction;
@@ -2500,7 +2500,7 @@ void TESActorBaseData_Shell::FUN_0047e6f0(unsigned int changeFlags, void* pBuffe
         info = g_TESSaveLoadGame->FUN_004fd3c0();
         if (info)
         {
-            formVal = FUN_004839c0(info->formID);
+            formVal = TESForm_GetFormByNumericID(info->formID);
             if (curOff > (unsigned int)(readSize + offsetA))
             {
                 FNV_Warning(
@@ -2760,12 +2760,12 @@ struct FormHelper
 struct ActorBaseInitItemView : public TESActorBaseData
 {
 
-    void FUN_0047d8b0(TESForm* param);
+    void TESActorBaseData_InitItem(TESForm* param);
 };
 
 // Updates faction and template pointers using the file from param->GetFile(-1), then adjusts actorData.m_fField10 for recognized values.
 // @fnv 0x0047d8b0
-void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
+void ActorBaseInitItemView::TESActorBaseData_InitItem(TESForm* param)
 
 {
 
@@ -2801,7 +2801,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
                 ResolveFormID((unsigned int*)&faction, file4);
 
                 link5->pFaction =
-                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)FUN_004839c0((unsigned int)faction));
+                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)TESForm_GetFormByNumericID((unsigned int)faction));
             }
 
             if (link5->pFaction != 0)
@@ -2829,7 +2829,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)TESForm_GetFormByNumericID((unsigned int)form4));
     }
 
     form4 = (TESForm*)m_pBaseTemplateForm;
@@ -2839,7 +2839,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)TESForm_GetFormByNumericID((unsigned int)form4));
 
         if (m_pBaseTemplateForm == 0)
         {
@@ -2856,7 +2856,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_ppTemplateForms = (TESForm*)FUN_004839c0((unsigned int)form4);
+        m_ppTemplateForms = (TESForm*)TESForm_GetFormByNumericID((unsigned int)form4);
 
         if (m_ppTemplateForms == 0)
         {
@@ -2866,7 +2866,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
         }
     }
 
-    if (!(m_ppTemplateForms != 0 && ((FUN_0047cd40_shell*)this)->FUN_0047cd40(0)))
+    if (!(m_ppTemplateForms != 0 && ((FUN_0047cd40_shell*)this)->TESActorBaseData_GetTemplateUseFlag(0)))
     {
 
         if (DAT_01186f78 == -1)
@@ -2875,7 +2875,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
             for (i2 = 0; i2 < 5; i2++)
             {
 
-                if ((int)FUN_0047e040(DAT_01186d08[i2]) != i2)
+                if ((int)TESActorBaseData_GetAlignmentForKarma(DAT_01186d08[i2]) != i2)
                 {
 
                     DAT_01186f78 = 1;

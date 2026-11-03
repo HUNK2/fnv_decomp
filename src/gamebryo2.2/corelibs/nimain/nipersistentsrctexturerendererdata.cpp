@@ -131,11 +131,11 @@ struct NiPersistentSrcTextureRendererData
 {
     char _pad0[0x90];
     PaletteHelper* m_spPalette;
-    bool FUN_00a98170(NiStream&);
+    bool NiPersistentSrcTextureRendererData_RegisterStreamables(NiStream&);
 };
 // Registers the object's streamables with kStream, then registers m_spPalette's streamables if it is set; returns false on failure.
 // @fnv 0x00a98170
-bool NiPersistentSrcTextureRendererData::FUN_00a98170(NiStream& kStream)
+bool NiPersistentSrcTextureRendererData::NiPersistentSrcTextureRendererData_RegisterStreamables(NiStream& kStream)
 {
     if (!((NiObjectHelper*)this)->NiObjectHelper::RegisterStreamables(kStream))
         return false;
@@ -244,12 +244,12 @@ struct NiPersistentSrcTextureRendererData_s : RendererDataBase_s
     unsigned int m_uiPaletteSize;
     unsigned int m_uiPaletteEntryCount;
     void* m_spPalette;
-    void FUN_00a984b0(NiStream& kStream);
+    void NiPersistentSrcTextureRendererData_SaveBinary(NiStream& kStream);
 };
 
 // Writes the renderer data to the stream: pixel format, palette link ID, mipmap levels, per-level dimensions and offsets, faces, and pixel data.
 // @fnv 0x00a984b0
-void NiPersistentSrcTextureRendererData_s::FUN_00a984b0(NiStream& kStream)
+void NiPersistentSrcTextureRendererData_s::NiPersistentSrcTextureRendererData_SaveBinary(NiStream& kStream)
 {
     RendererDataBase_s::LinkObject(kStream);
 
@@ -365,7 +365,7 @@ class PSTRData_s : public NiObj_s
 {
   public:
     static NiRTTI ms_kRTTI;
-    bool FUN_00a982f0(NiObj_s* pkObject);
+    bool NiPersistentSrcTextureRendererData_IsEqual(NiObj_s* pkObject);
 
     int unk08;
     int unk0C;
@@ -403,7 +403,7 @@ inline bool IsKindOf_s(const NiRTTI* pkRTTI, NiObj_s* pkObject)
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x00a982f0
-bool PSTRData_s::FUN_00a982f0(NiObj_s* pkObject)
+bool PSTRData_s::NiPersistentSrcTextureRendererData_IsEqual(NiObj_s* pkObject)
 {
     if (!IsKindOf_s(&ms_kRTTI, pkObject))
         return false;

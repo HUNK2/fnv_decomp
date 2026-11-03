@@ -5,7 +5,7 @@
 class TimeoutTimer
 {
   public:
-    void FUN_00910b10();
+    void TESWeightForm_InitializeDataComponent();
     bool CheckTimer();
     void LoadGame(BGSLoadFormBuffer*);
     float m_fStartTime;  // +0x0

@@ -128,11 +128,11 @@ struct TaskQueueInterface
 struct FUN_00979e60_shell
 {
     char* GetCombatActionName();
-    void FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
+    void CombatAction_GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
 };
 
 // @fnv 0x00979e60
-void FUN_00979e60_shell::FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
+void FUN_00979e60_shell::CombatAction_GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
 {
     TaskQueueInterface::CopyStringToBuffer(apDebugText, aiMaxLength, GetCombatActionName());
 }
@@ -171,11 +171,11 @@ struct FUN_00979f70_shell
 struct FUN_00979e90_shell
 {
     bool FUN_00979f50(int, int*);
-    bool FUN_00979e90(CombatController* apCombatController, CombatStateArray* apWorldStateArray, int aiActionValue);
+    bool CombatAction_CanExecute(CombatController* apCombatController, CombatStateArray* apWorldStateArray, int aiActionValue);
 };
 
 // @fnv 0x00979e90
-bool FUN_00979e90_shell::FUN_00979e90(CombatController* apCombatController, CombatStateArray* apWorldStateArray,
+bool FUN_00979e90_shell::CombatAction_CanExecute(CombatController* apCombatController, CombatStateArray* apWorldStateArray,
                                       int aiActionValue)
 {
     UnsignedIdHandle* pWorldState4;
@@ -309,7 +309,7 @@ float FUN_0097ac90_shell::FUN_0097ac90(int aiIndex)
 struct CombatController;
 struct CoordinateTriple
 {
-    double FUN_00527a40(CoordinateTriple*);
+    double BGSWorldLocation_GetDistanceSquared(CoordinateTriple*);
 };
 float __cdecl FUN_0040ebd0(float, float);
 float __cdecl FUN_00404010(float, float);
@@ -322,7 +322,7 @@ float FUN_0097acb0(CombatController* apCombatController, CoordinateTriple* arSta
 {
     float fmovementCost;
 
-    fmovementCost = arStartWorldLoc->FUN_00527a40(arEndWorldLoc) / DAT_0108cb08;
+    fmovementCost = arStartWorldLoc->BGSWorldLocation_GetDistanceSquared(arEndWorldLoc) / DAT_0108cb08;
     fmovementCost = FUN_0040ebd0(fmovementCost, DAT_0108cb00);
     fmovementCost = FUN_00404010(fmovementCost, 0.01f);
     return fmovementCost;

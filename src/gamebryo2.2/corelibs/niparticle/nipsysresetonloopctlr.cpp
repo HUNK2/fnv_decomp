@@ -8,7 +8,7 @@ extern "C"
 }
 
 // @fnv 0x00c28400
-void* __cdecl FUN_00c28400()
+void* __cdecl NiPSysResetOnLoopCtlr_GetRTTI()
 {
     return &g_012026a8;
 }
@@ -73,13 +73,13 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a6d830(StrArr*);
+void __stdcall NiTimeController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 // Appends the string returned by _FUN_00a7d330(g_012026a8) to pkStrings, growing the array if the position is at or past its size.
 // @fnv 0x00c28520
-void __stdcall FUN_00c28520(StrArr* pkStrings)
+void __stdcall NiPSysResetOnLoopCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a6d830(pkStrings);
+    NiTimeController_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330(g_012026a8);
     unsigned int uiPos = pkStrings->_sA;
     unsigned int uiSize = pkStrings->_s8;
@@ -165,11 +165,11 @@ struct FUN_00c28490_shell
     int unk30;
     float unk34;
     char FUN_00a36250(float value);
-    void FUN_00c28490(float* p);
+    void NiPSysResetOnLoopCtlr_Update(float* p);
 };
 // Clears two flags, and if unk2c is set and FUN_00a36250(*p) returns 0, resets unk34 to unk28 and sets unk2c[0xd8] when unk34 exceeds unk28.
 // @fnv 0x00c28490
-void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
+void FUN_00c28490_shell::NiPSysResetOnLoopCtlr_Update(float* pfValue)
 {
     flags &= 0xfff9;
     if (unk2c != 0)
@@ -185,12 +185,12 @@ void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
     }
 }
 
-void __cdecl FUN_00a6d0f0();
+void __cdecl NiTimeController_RegisterStreamables();
 
 // @fnv 0x00a2f8b0
 void __cdecl FUN_00a2f8b0()
 {
-    FUN_00a6d0f0();
+    NiTimeController_RegisterStreamables();
 }
 
 struct NiStream
@@ -200,7 +200,7 @@ struct NiStream
 
 struct BaseHack
 {
-    void FUN_00a6d730(NiStream& s);
+    void NiTimeController_SaveBinary(NiStream& s);
 };
 
 struct C27120Class : BaseHack
@@ -211,26 +211,26 @@ struct C27120Class : BaseHack
 // @fnv 0x00c27120
 void C27120Class::FUN_00c27120(NiStream& s)
 {
-    FUN_00a6d730(s);
+    NiTimeController_SaveBinary(s);
 }
 
 struct NiStream;
 
 struct SubNiPSysResetOnLoopCtlr : NiPSysResetOnLoopCtlr
 {
-    void FUN_00a6d5e0(NiStream& stream);
+    void NiTimeController_LoadBinary(NiStream& stream);
     void FUN_00c283e0(NiStream& stream);
 };
 
 // @fnv 0x00c283e0
 void SubNiPSysResetOnLoopCtlr::FUN_00c283e0(NiStream& stream)
 {
-    FUN_00a6d5e0(stream);
+    NiTimeController_LoadBinary(stream);
 }
 
-void __cdecl FUN_00a6cc80();
+void __cdecl NiTimeController_IsEqual();
 // @fnv 0x00c283f0
 void __cdecl FUN_00c283f0()
 {
-    FUN_00a6cc80();
+    NiTimeController_IsEqual();
 }

@@ -170,7 +170,7 @@ class TESObjectCELL
     void SetLightingTemplate(void* value);
     int GetCellStandValue();
     InteriorCellData* GetInteriorData();
-    bool FUN_00558b80(int mask);
+    bool TESObjectCELL_GetLightingTemplateInheritanceFlag(int mask);
     CellLightingTemplate* GetLightingTemplate();
     float GetInteriorLightValue();
     BSSimpleList<BGSPerkEntry*>* FUN_009604f0();
@@ -178,7 +178,7 @@ class TESObjectCELL
     void ClearCellReferenceList();
     NiAVObject* GetCellChildAt(int index);
     NiAVObject* GetDynamicNode();
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
     BGSEncounterZone* FindEncounterZone() const;
 };
 

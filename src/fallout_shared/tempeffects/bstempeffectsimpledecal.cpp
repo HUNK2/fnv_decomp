@@ -275,7 +275,7 @@ struct Date
     {}
 };
 
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 void NiFree(void* pointer);
 
 struct FUN_0068b220_shell
@@ -291,7 +291,7 @@ void FUN_0068b220_shell::FUN_0068b220()
 
     if (!reinterpret_cast<unsigned char*>(this)[0x2d])
     {
-        pAllocator = FUN_00401020()->GetGeneralAllocator();
+        pAllocator = MemoryManager_Instance()->GetGeneralAllocator();
 
         if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc))
             pAllocator->Deallocate(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xcc));
@@ -518,7 +518,7 @@ FUN_0068ad20::FUN_0068ad20(int p1, float m_fParticleParameter5, DecalData* pData
 
 extern const double DAT_01012060;
 extern const double DAT_01012070;
-void* __cdecl FUN_004af350();
+void* __cdecl NiMaterialProperty_GetType();
 
 struct DecalEffect
 {
@@ -551,7 +551,7 @@ struct DecalHost
     int unk20;
     int unk24;
     DecalRef decalRef;
-    bool FUN_006828a0(float alpha);
+    bool BSTempEffect_Update(float alpha);
     double FUN_00621b00();
     double FUN_00488d50();
     bool UpdateDecalFade(float alpha);
@@ -559,7 +559,7 @@ struct DecalHost
 // @fnv 0x0068c8e0
 bool DecalHost::UpdateDecalFade(float alpha)
 {
-    bool changed = FUN_006828a0(alpha);
+    bool changed = BSTempEffect_Update(alpha);
     DecalTarget* pDecalTarget;
     if (!changed && decalRef.FUN_00559450())
     {
@@ -568,7 +568,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
         if (elapsed >= DAT_01012060 && elapsed <= DAT_01012070)
         {
             intensity = (float)((1.0 - elapsed) / DAT_01012070);
-            DecalEffect* pDecalEffect = decalRef.FUN_00559450()->FUN_00a59d30(FUN_004af350());
+            DecalEffect* pDecalEffect = decalRef.FUN_00559450()->FUN_00a59d30(NiMaterialProperty_GetType());
             DecalEffect* pEffect = pDecalEffect;
             if (pEffect && pEffect->FUN_00598040() != intensity)
                 pEffect->FUN_0068c9f0(intensity);
@@ -1879,7 +1879,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
     if (positions == 0)
     {
         DecalHeap* vertex_;
-        vertex_ = reinterpret_cast<DecalMemoryManager*>(FUN_00401020())->FUN_00aa42e0();
+        vertex_ = reinterpret_cast<DecalMemoryManager*>(MemoryManager_Instance())->FUN_00aa42e0();
         positions = (DecalPoint*)vertex_->FUN_00aa54a0(6144, DAT_010a2720);
         normals = (DecalPoint*)vertex_->FUN_00aa54a0(6144, DAT_010a2720);
         texcoords = vertex_->FUN_00aa54a0(4096, DAT_010a2720);
@@ -1980,7 +1980,7 @@ struct FixedName
 struct Geometry
 {
     Point* FUN_0049ec60();
-    Point* FUN_004a8030();
+    Point* NiGeometry_GetNormals();
     UnsignedShortBuffer* FUN_005495f0();
     FixedName& FUN_00413f40();
     unsigned short FUN_004a1ff0();
@@ -2002,7 +2002,7 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
 {
     Geometry* data = input;
     Point* normals = data->FUN_0049ec60();
-    Point* geometry = data->FUN_004a8030();
+    Point* geometry = data->NiGeometry_GetNormals();
     UnsignedShortBuffer* vertices = data->FUN_005495f0();
     if (normals && !geometry)
     {
@@ -2235,7 +2235,7 @@ struct Param
     P3* FUN_0045bb80();
     float FUN_008d01e0();
     M3* FUN_006a9540();
-    M3* FUN_00461130();
+    M3* NiAVObject_GetWorldRotate();
 };
 struct Sub28
 {
@@ -2267,7 +2267,7 @@ struct Node8
     V2* secondary;
 };
 
-bool __cdecl FUN_0043b300(const char*, Param*);
+bool __cdecl NiObject_IsKindOf(const char*, Param*);
 void __cdecl FUN_00a582f0(M3*, const char*, int, P3*, P3*);
 void __cdecl FUN_00c4b600(M3*, P3);
 int __cdecl CreateB68CA10Object(int);
@@ -2378,7 +2378,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
     aValue1.FUN_006815c0();
 
     bValue0.FUN_006815c0();
-    if (apParam && FUN_0043b300((const char*)&DAT_011f4a20, apParam))
+    if (apParam && NiObject_IsKindOf((const char*)&DAT_011f4a20, apParam))
     {
 
         c34Value43 = m_34;
@@ -2393,7 +2393,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
         if (flag140)
             m1Value12 = *apParam->FUN_006a9540();
         else
-            m1Value12 = *apParam->FUN_00461130();
+            m1Value12 = *apParam->NiAVObject_GetWorldRotate();
 
         m1Value12.FUN_004b45b0(&mecValue16);
         fValue3 = mecValue16.FUN_004b4500(&d40Value6);

@@ -172,11 +172,11 @@ void ThisHolder::FUN_0058ffd0()
     }
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -195,12 +195,12 @@ struct _ref_00726070_shell
 };
 struct FUN_0058fcc0_shell
 {
-    void FUN_0058fcc0();
+    void BGSListForm_SaveForm();
 };
 // @fnv 0x0058fcc0
-void FUN_0058fcc0_shell::FUN_0058fcc0()
+void FUN_0058fcc0_shell::BGSListForm_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     PerkEntryConditionSet* pCondition = ((BGSCameraPath*)this)->GetConditions();
     while (pCondition && !(((_ref_008256d0_shell*)pCondition)->_ref_008256d0()))
     {
@@ -209,7 +209,7 @@ void FUN_0058fcc0_shell::FUN_0058fcc0()
         _FUN_00485910(0x4d414e4c, formID6);
         pCondition = ((_ref_00726070_shell*)pCondition)->_ref_00726070();
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct BSSimpleListTESRaceSize
@@ -226,7 +226,7 @@ struct _ref_006815c0_shell2
 };
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct BSSimpleListGetNext
 {
@@ -256,14 +256,14 @@ bool FUN_0058fbc0_shell::IsNotEqual(TESForm* apCompare)
         pCurrentElementNext = ((BSSimpleListGetNext*)pCurrentElementNext)->GetNext();
         pcomplist = ((BSSimpleListGetNext*)pcomplist)->GetNext();
     }
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcompare))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcompare))
         return true;
     return false;
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct SoundListView
 {
@@ -273,7 +273,7 @@ struct FUN_0058fb30_shell : BGSCameraPath
 {
     void CopyConditionsFromListForm(TESForm* apCopy);
 };
-// Casts apCopy to BGSListForm, appends each of its condition entries to this object's condition list, then calls FUN_004851b0 with the list form.
+// Casts apCopy to BGSListForm, appends each of its condition entries to this object's condition list, then calls TESForm_CopyAllComponents with the list form.
 // @fnv 0x0058fb30
 void FUN_0058fb30_shell::CopyConditionsFromListForm(TESForm* apCopy)
 {
@@ -288,7 +288,7 @@ void FUN_0058fb30_shell::CopyConditionsFromListForm(TESForm* apCopy)
         reinterpret_cast<SoundListView*>(GetConditions())->AddTail(reinterpret_cast<char* const&>(pform));
         pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)->GetNext());
     }
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(reinterpret_cast<TESForm*>(pListForm));
+    reinterpret_cast<FUN_005e78f0_t*>(this)->TESForm_CopyAllComponents(reinterpret_cast<TESForm*>(pListForm));
 }
 
 struct FUN_0058ff60_shell : BGSCameraPath

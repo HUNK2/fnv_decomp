@@ -92,14 +92,14 @@ void* __fastcall FUN_00a8f440(void* apObject)
 
 extern const char* const g_011f603c_arg1;
 // @fnv 0x00a8f1b0
-const char* const* __fastcall FUN_00a8f1b0(void* p, int)
+const char* const* __fastcall Ni2DBuffer_GetRTTI(void* p, int)
 {
     return &g_011f603c_arg1;
 }
 
 extern const char* const g_0126f75c_arg1;
 // @fnv 0x00a8f480
-const char* const* __fastcall FUN_00a8f480(void* p, int)
+const char* const* __fastcall NiShader_GetRTTI(void* p, int)
 {
     return &g_0126f75c_arg1;
 }

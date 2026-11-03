@@ -47,7 +47,7 @@ void __cdecl FUN_0047a290(TeleportableReference* pObject, TESFile* pFile)
 
 struct FUN_0047a380_shell : public BGSMessageIcon
 {
-    void FUN_0047a380(char*);
+    void BGSMessageIcon_SetMessageIconTextureName(char*);
 };
 
 class TESFullName
@@ -57,7 +57,7 @@ class TESFullName
 };
 
 // @fnv 0x0047a380
-void FUN_0047a380_shell::FUN_0047a380(char* apTexture)
+void FUN_0047a380_shell::BGSMessageIcon_SetMessageIconTextureName(char* apTexture)
 {
     reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(this) + 4)->SetFullName(apTexture);
 }
@@ -81,7 +81,7 @@ struct BGSTESTexture
 {
     unsigned int GetModelLength() const;
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_0047a240_shell
 {
     void FUN_0047a240(unsigned int);
@@ -90,49 +90,49 @@ struct FUN_0047a240_shell
 void FUN_0047a240_shell::FUN_0047a240(unsigned int a1)
 {
     if (((BGSTESTexture*)((char*)this + 4))->GetModelLength())
-        FUN_004856f0(a1, (void*)((FNStub*)((char*)this + 4))->GetFullName(),
+        TESForm_AddChunkArray(a1, (void*)((FNStub*)((char*)this + 4))->GetFullName(),
                      ((BGSTESTexture*)((char*)this + 4))->GetModelLength() + 1);
 }
 
 namespace fnv_0047a2b0 {
 struct FUN_0047a300_shell
 {
-    char* FUN_0047a300();
+    char* BGSMessageIcon_GetMessageIconTextureName();
 };
 struct FUN_0047a380_shell
 {
-    void FUN_0047a380(char*);
+    void BGSMessageIcon_SetMessageIconTextureName(char*);
 };
 struct FUN_0047a2b0_shell
 {
-    void FUN_0047a2b0(BaseFormComponent*);
+    void BGSMessageIcon_CopyComponent(BaseFormComponent*);
 };
 // @fnv 0x0047a2b0
-void FUN_0047a2b0_shell::FUN_0047a2b0(BaseFormComponent* component)
+void FUN_0047a2b0_shell::BGSMessageIcon_CopyComponent(BaseFormComponent* component)
 {
     BGSMessageIcon* msgIcon = dynamic_cast<BGSMessageIcon*>(component);
     if (!msgIcon)
         return;
-    ((FUN_0047a380_shell*)this)->FUN_0047a380(((FUN_0047a300_shell*)msgIcon)->FUN_0047a300());
+    ((FUN_0047a380_shell*)this)->BGSMessageIcon_SetMessageIconTextureName(((FUN_0047a300_shell*)msgIcon)->BGSMessageIcon_GetMessageIconTextureName());
 }
 }  // namespace fnv_0047a2b0
 
 int _stricmp(const char*, const char*);
 struct Caller300
 {
-    const char* FUN_0047a300();
+    const char* BGSMessageIcon_GetMessageIconTextureName();
 };
 struct ThisStandIn
 {
-    bool FUN_0047a320(BaseFormComponent*);
+    bool BGSMessageIcon_CompareComponent(BaseFormComponent*);
 };
 // @fnv 0x0047a320
-bool ThisStandIn::FUN_0047a320(BaseFormComponent* apComponent)
+bool ThisStandIn::BGSMessageIcon_CompareComponent(BaseFormComponent* apComponent)
 {
     BGSMessageIcon* icon = dynamic_cast<BGSMessageIcon*>(apComponent);
     if (!icon)
         return true;
-    if (_stricmp(((Caller300*)this)->FUN_0047a300(), ((Caller300*)icon)->FUN_0047a300()))
+    if (_stricmp(((Caller300*)this)->BGSMessageIcon_GetMessageIconTextureName(), ((Caller300*)icon)->BGSMessageIcon_GetMessageIconTextureName()))
         return true;
     return false;
 }
@@ -145,11 +145,11 @@ struct FNStub
 
 struct FUN_0047a300_shell : FNStub
 {
-    const char* FUN_0047a300();
+    const char* BGSMessageIcon_GetMessageIconTextureName();
 };
 
 // @fnv 0x0047a300
-const char* FUN_0047a300_shell::FUN_0047a300()
+const char* FUN_0047a300_shell::BGSMessageIcon_GetMessageIconTextureName()
 {
     return reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 4)->GetFullName();
 }

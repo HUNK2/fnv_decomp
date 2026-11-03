@@ -709,7 +709,7 @@ struct NiPoint3
     float y;
     float z;
     NiPoint3();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct NiPoint2
 {
@@ -817,7 +817,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 1].x = sAh;
         arrA3[iy + 1].y = 0.0f;
         arrA3[iy + 1].z = raw8h;
@@ -826,7 +826,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 2].x = -sAh;
         arrA3[iy + 2].y = 0.0f;
         arrA3[iy + 2].z = 0.0f;
@@ -835,7 +835,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 3].x = sAh;
         arrA3[iy + 3].y = 0.0f;
         arrA3[iy + 3].z = 0.0f;
@@ -844,7 +844,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 4].x = 0.0f;
         arrA3[iy + 4].y = -sAh;
         arrA3[iy + 4].z = raw8h;
@@ -853,7 +853,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 5].x = 0.0f;
         arrA3[iy + 5].y = sAh;
         arrA3[iy + 5].z = raw8h;
@@ -862,7 +862,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 6].x = 0.0f;
         arrA3[iy + 6].y = -sAh;
         arrA3[iy + 6].z = 0.0f;
@@ -871,7 +871,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
         arrA3[iy + 7].x = 0.0f;
         arrA3[iy + 7].y = sAh;
         arrA3[iy + 7].z = 0.0f;
@@ -880,7 +880,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].NiPoint3_Unitize();
     }
     w4 = 0;
     for (ju = 0; ju < cntA3 * 3; ju += 6)
@@ -1493,7 +1493,7 @@ struct FUN_006240d0
 {
     float x, y, z, radius;
     FUN_006240d0();
-    void FUN_004a51d0(const NiPoint3Ex&, float);
+    void NiBound_SetCenterAndRadius(const NiPoint3Ex&, float);
     float FUN_0084d030();
 };
 struct TreeGeometry
@@ -1608,7 +1608,7 @@ FUN_006240d0 TreeBoundsOwner::ComputeTreeBounds(BoundTreeBlock* block)
     }
     NiPoint3Ex center = count + (limit - count).FUN_0053d280(2.0f);
     float radius = (limit - center).Length() + block->geometry.FUN_00559450()->GetBound()->FUN_0084d030();
-    bound.FUN_004a51d0(center, radius);
+    bound.NiBound_SetCenterAndRadius(center, radius);
     return bound;
 }
 

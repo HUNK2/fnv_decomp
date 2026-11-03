@@ -18,17 +18,17 @@ struct FUN_00c543e0_shell : NiAVObject
 extern int g_012031c4;
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* __thiscall BSFurnitureMarker_GetRTTI();
 };
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int __thiscall BSFurnitureMarker_CreateClone(int param_1);
 };
 
 extern char const* const g_012043a4_arg1;
 
 // @fnv 0x00a99940
-char const* const* __cdecl FUN_00a99940()
+char const* const* __cdecl NiIntegersExtraData_GetRTTI()
 {
     return &g_012043a4_arg1;
 }
@@ -91,7 +91,7 @@ struct NiExtraDataShell : NiExtraData
     void FUN_00a7b2e0();
 };
 // @fnv 0x00a99a10
-NiExtraData* FUN_00a99a10()
+NiExtraData* NiIntegersExtraData_CreateObject()
 {
     NiExtraData* data = static_cast<NiExtraData*>(BSFadeNode::operator new(0x14));
     if (data)
@@ -138,10 +138,10 @@ struct Extra_00a998e0
     unsigned char _pad0[12];
     unsigned int m_uiSize;
     int* m_piValue;
-    bool FUN_00a998e0(Extra_00a998e0* pObject);
+    bool NiIntegersExtraData_IsEqual(Extra_00a998e0* pObject);
 };
 // @fnv 0x00a998e0
-bool Extra_00a998e0::FUN_00a998e0(Extra_00a998e0* pObject)
+bool Extra_00a998e0::NiIntegersExtraData_IsEqual(Extra_00a998e0* pObject)
 {
     Extra_00a998e0* pExtra = pObject;
     unsigned int i;
@@ -244,11 +244,11 @@ struct NiIntegersExtraDataView : NiExtraData
     unsigned int m_uiSize;
     int* m_piValue;
     void BaseGetViewerStrings(NiViewerStringsArray* pkStrings);
-    void FUN_00a99b20(NiViewerStringsArray* pkStrings);
+    void NiIntegersExtraData_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // @fnv 0x00a99b20
-void NiIntegersExtraDataView::FUN_00a99b20(NiViewerStringsArray* pkStrings)
+void NiIntegersExtraDataView::NiIntegersExtraData_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     pkStrings->Add(CreateDebugString(g_011f5f24));
@@ -287,11 +287,11 @@ class NiPSysOwnerA99
 {
   public:
     void CopyMemberData(NiPSysBaseA99* pkDest, void* pvProcess);
-    NiPSysBaseA99* FUN_00a999b0(void* pvProcess);
+    NiPSysBaseA99* NiIntegersExtraData_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00a999b0
-NiPSysBaseA99* NiPSysOwnerA99::FUN_00a999b0(void* pvProcess)
+NiPSysBaseA99* NiPSysOwnerA99::NiIntegersExtraData_CreateClone(void* pvProcess)
 {
     NiPSysDerivedA99* pkClone = new NiPSysDerivedA99;
     CopyMemberData(pkClone, pvProcess);

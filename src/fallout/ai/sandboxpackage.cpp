@@ -677,7 +677,7 @@ struct SandBoxChoiceListItem_ext : public SandboxProcedureData
 };
 struct FUN_005682c0_caller
 {
-    int FUN_005682c0(bool);
+    int TESObjectREFR_GetFirstFreeMarkerIndex(bool);
 };
 struct SandBoxActorPackageData_ext : public SandBoxActorPackageData
 {
@@ -877,7 +877,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         ritem = m_kProcedureList.GetAt(i);
         eProcedure = ritem.GetProcedure();
         m_pCurrentTarget = ritem.GetTarget();
-        iIndex = m_pCurrentTarget ? reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)->FUN_005682c0(false) : -1;
+        iIndex = m_pCurrentTarget ? reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)->TESObjectREFR_GetFirstFreeMarkerIndex(false) : -1;
         m_ucProcedureIndex = iIndex < 0 ? 0 : (unsigned char)iIndex;
         iactorEnergy = static_cast<Actor_ext*>(apActor)->FUN_0087f990();
         m_fProcedureTime = FUN_006435c0((void*)iactorEnergy, eProcedure);
@@ -2312,14 +2312,14 @@ struct ChoiceTargetRef
     virtual void slot1c8();
     virtual void slot1cc();
     virtual void* GetFurnitureSlot();
-    bool FUN_00440d80();
-    bool FUN_004077c0();
+    bool TESForm_GetDelete();
+    bool TESForm_GetTemporary();
     bool FUN_00440da0();
     bool FUN_008859e0(ChoiceTargetRef*);
-    bool FUN_0057b500();
+    bool TESObjectREFR_GetIgnoredBySandbox();
     ChoiceBaseForm* FUN_007af430();
     ChoicePermissions* FUN_009344a0();
-    void* FUN_00567790();
+    void* TESObjectREFR_GetOwner();
     bool FUN_005785e0(ChoiceTargetRef*, int);
 };
 struct ChoicePermissions
@@ -2334,7 +2334,7 @@ struct ChoiceMarkerData
 {
     unsigned GetByte5();
     unsigned FUN_00479e80();
-    bool FUN_00479fb0(ChoiceTargetRef*, ChoiceTargetRef*);
+    bool BGSIdleCollection_HasIdleForActor(ChoiceTargetRef*, ChoiceTargetRef*);
 };
 struct ChoiceBaseForm
 {
@@ -2396,24 +2396,24 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
         return false;
     if (!actor || !actor->FUN_007af430())
         return false;
-    if (!target || target->FUN_00440d80() || target->FUN_004077c0() || target->FUN_00440da0() ||
+    if (!target || target->TESForm_GetDelete() || target->TESForm_GetTemporary() || target->FUN_00440da0() ||
         (actor->CanActivateSlot(0) && !actor->FUN_008859e0(target)))
         return false;
     ChoicePermissions* permissions = actor->FUN_009344a0();
     if (!permissions)
         return false;
-    if (target->FUN_0057b500())
+    if (target->TESObjectREFR_GetIgnoredBySandbox())
         return false;
     switch (target->FUN_007af430()->FUN_00401170())
     {
     case 48:
-        if (permissions->IsFlag8Clear() && (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        if (permissions->IsFlag8Clear() && (!target->TESObjectREFR_GetOwner() || target->FUN_005785e0(actor, 1)))
         {
             ChoiceBaseForm* markerBase = target->FUN_007af430();
             unsigned markerCount2 = markerBase->markers.GetByte5();
             unsigned markerFlags = markerBase->markers.FUN_00479e80();
             bool markerUsed = false;
-            if (markerBase->markers.FUN_00479fb0(actor, target))
+            if (markerBase->markers.BGSIdleCollection_HasIdleForActor(actor, target))
                 planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 4, 1));
         }
         break;
@@ -2434,19 +2434,19 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
             return false;
         ChoiceBaseForm* furnitureBase2 = target->FUN_007af430();
         if (permissions->IsFlag2Clear() && furnitureBase2->FUN_00509420() &&
-            (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+            (!target->TESObjectREFR_GetOwner() || target->FUN_005785e0(actor, 1)))
         {
             planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 1, 1));
             planner->flag37 = true;
         }
         else if (permissions->FUN_009f4620() && furnitureBase2->FUN_005093f0() &&
-                 (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+                 (!target->TESObjectREFR_GetOwner() || target->FUN_005785e0(actor, 1)))
         {
             planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1));
             planner->flag36 = true;
         }
         else if (permissions->FUN_009f4620() && !furnitureBase2->FUN_005093f0() && !furnitureBase2->FUN_00509420() &&
-                 (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+                 (!target->TESObjectREFR_GetOwner() || target->FUN_005785e0(actor, 1)))
         {
             planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 0, 1));
             planner->flag36 = true;
@@ -2455,7 +2455,7 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
     }
     case 29:
     case 47:
-        if (permissions->IsFlagBit0Clear() && (!target->FUN_00567790() || target->FUN_005785e0(actor, 1)))
+        if (permissions->IsFlagBit0Clear() && (!target->TESObjectREFR_GetOwner() || target->FUN_005785e0(actor, 1)))
         {
             planner->choices.AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 2, 1));
             planner->flag35 = true;

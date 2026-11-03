@@ -56,7 +56,7 @@ struct Extra96
 };
 struct Cell96
 {
-    void FUN_00548880(Ref96*, int);
+    void TESObjectCELL_AttachReference3D(Ref96*, int);
 };
 struct Ref96
 {
@@ -396,7 +396,7 @@ struct Physics96
 };
 struct Descriptor96
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 struct Node96
 {
@@ -406,10 +406,10 @@ struct Filter96
 {
     int value;
     Filter96(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 Physics96* FUN_004b5a50(Node96*);
-Ref96* FUN_0056f930(Node96*);
+Ref96* TESObjectREFR_FindReferenceFor3D(Node96*);
 Geometry96* FUN_004b5a80(const void*);
 unsigned int GetBSXFlags(unsigned int, unsigned int);
 struct Shadow96
@@ -420,15 +420,15 @@ Shadow96* FUN_00450b80(unsigned int);
 extern void* DAT_011ca27c;
 extern void* DAT_011ca280;
 extern char DAT_012681c0;
-bool FUN_0043b300(const void*, Geometry96*);
+bool NiObject_IsKindOf(const void*, Geometry96*);
 void FUN_00c6a350(Node96*, int, bool, bool, bool);
 struct Manager96
 {
-    void FUN_00624720(Input96*);
+    void FOIslandActivationListener_entityRemovedCallback(Input96*);
 };
 
 // @fnv 0x00624720
-void Manager96::FUN_00624720(Input96* input)
+void Manager96::FOIslandActivationListener_entityRemovedCallback(Input96* input)
 {
     if (!input)
         return;
@@ -439,7 +439,7 @@ void Manager96::FUN_00624720(Input96* input)
         Node96* node = items->FUN_00629ab0(i);
         Physics96* physics = FUN_004b5a50(node);
         Node96* linked = physics ? physics->FUN_0044ddc0() : 0;
-        Ref96* ref = linked ? FUN_0056f930(linked) : 0;
+        Ref96* ref = linked ? TESObjectREFR_FindReferenceFor3D(linked) : 0;
         void* model = ref ? ref->FUN_005d43c0()->FUN_0042e250() : 0;
         bool flag8 = ref && GetBSXFlags(ref->GetNode(), 8) ? true : false;
         bool flag128 = ref && GetBSXFlags(ref->GetNode(), 128) ? true : false;
@@ -451,7 +451,7 @@ void Manager96::FUN_00624720(Input96* input)
             {
                 Cell96* cell = ref->FUN_008d6f30();
                 if (cell)
-                    cell->FUN_00548880(ref, 0);
+                    cell->TESObjectCELL_AttachReference3D(ref, 0);
                 if (ref->NeedsUpdate())
                     FUN_00624bd0();
             }
@@ -463,10 +463,10 @@ void Manager96::FUN_00624720(Input96* input)
             if (ref->FUN_007af430() == DAT_011ca27c || ref->FUN_007af430() == DAT_011ca280)
                 FUN_00c6a350(linked, 5, true, false, true);
         }
-        if (Filter96(node->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
+        if (Filter96(node->FUN_00460140()->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() == 20 && ref && !ref->IsDisabled())
         {
             Geometry96* geometry = FUN_004b5a80(node);
-            if (geometry && FUN_0043b300(&DAT_012681c0, geometry))
+            if (geometry && NiObject_IsKindOf(&DAT_012681c0, geometry))
             {
                 Geometry96* target = geometry;
                 target->SetFlags(4);

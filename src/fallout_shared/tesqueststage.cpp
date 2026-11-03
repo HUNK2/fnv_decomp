@@ -121,12 +121,12 @@ void QuestStage::MarkDone(bool done)
     {
         m_pCompletionDate = new Date(g_calendar.GetGameHour(), g_calendar.GetCurrentMonth(), g_calendar.FUN_00867c60());
 
-        if (FUN_0060fd70())
+        if (TESQuestStageItem_GetEndQuest())
         {
             if (m_pSharedOwner)
             {
                 m_pSharedOwner->MarkCompleted(true);
-                if (m_pSharedOwner == g_thePlayer->FUN_005cbb50())
+                if (m_pSharedOwner == g_thePlayer->PlayerCharacter_GetActiveQuest())
                     g_thePlayer->FUN_009529d0(0);
             }
         }
@@ -135,7 +135,7 @@ void QuestStage::MarkDone(bool done)
             if (m_pSharedOwner)
             {
                 m_pSharedOwner->SetQuestCompleted(true);
-                if (m_pSharedOwner == g_thePlayer->FUN_005cbb50())
+                if (m_pSharedOwner == g_thePlayer->PlayerCharacter_GetActiveQuest())
                     g_thePlayer->FUN_009529d0(0);
             }
         }
@@ -146,7 +146,7 @@ void QuestStage::MarkDone(bool done)
         if (FUN_005ac740() && script && reinterpret_cast<TESAIForm*>(script)->GetPackageList()->packages)
         {
             reinterpret_cast<TESAIForm*>(script)->GetPackageList()->m_ucPackageFlag = 0;
-            script->Run(g_thePlayer, g_thePlayer->FUN_005d43c0(false, true)->FUN_00418830());
+            script->Run(g_thePlayer, g_thePlayer->FUN_005d43c0(false, true)->ExtraDataList_GetScriptLocals());
         }
     }
 }
@@ -261,10 +261,10 @@ struct StageHolder
 {
     bool GetDone();
     BSSimpleList<QuestStage*>* GetConditions();
-    void FUN_0060f4a0(TESQuest* quest, bool done);
+    void TESQuestStage_SetDone(TESQuest* quest, bool done);
 };
 // @fnv 0x0060f4a0
-void StageHolder::FUN_0060f4a0(TESQuest* quest, bool done)
+void StageHolder::TESQuestStage_SetDone(TESQuest* quest, bool done)
 {
     QuestStage* stage;
     BSSimpleList<QuestStage*>* list;
@@ -333,11 +333,11 @@ FUN_0060f520::FUN_0060f520()
 
 struct FUN_0060fd70_shell : public PlayerQuestData
 {
-    bool FUN_0060fd70();
+    bool TESQuestStageItem_GetEndQuest();
 };
 
 // @fnv 0x0060fd70
-bool FUN_0060fd70_shell::FUN_0060fd70()
+bool FUN_0060fd70_shell::TESQuestStageItem_GetEndQuest()
 {
     return (*(unsigned char*)this & 1) != 0;
 }

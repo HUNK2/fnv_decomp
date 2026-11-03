@@ -99,7 +99,7 @@ void BGSProjectile::InitItem()
         reinterpret_cast<InterfaceManager*>(this)->FUN_00500a20(
             reinterpret_cast<Tile*>(dynamic_cast<TESObjectWEAP*>(TESForm::GetFormByID(formID))));
     }
-    if (!FUN_004fd360())
+    if (!BGSProjectile_GetHasExplosion())
         reinterpret_cast<EffectSetting*>(this)->SetBoltSound(0);
     SetInitializationState(true);
 }
@@ -224,18 +224,18 @@ struct BGSProjectile_GetFlag_Helper : public BGSProjectile
 };
 
 // @fnv 0x004fd360
-bool BGSProjectile::FUN_004fd360()
+bool BGSProjectile::BGSProjectile_GetHasExplosion()
 {
     return ((const BGSProjectile_GetFlag_Helper*)this)->GetFlag(2);
 }
 
 struct FUN_004fd420_shell : public BGSProjectile
 {
-    bool FUN_004fd420(int);
+    bool BGSProjectile_IsFlagSet(int);
 };
 
 // @fnv 0x004fd420
-bool FUN_004fd420_shell::FUN_004fd420(int aeFlag)
+bool FUN_004fd420_shell::BGSProjectile_IsFlagSet(int aeFlag)
 {
     return (*(int*)((TESDataHandler*)this)->GetTESRaceList() & aeFlag) ? true : false;
 }
@@ -352,7 +352,7 @@ void* __memcpy(void*, const void*, unsigned int);
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 
 struct FUN_004fdcf0_subobject
@@ -376,7 +376,7 @@ void FUN_004fdcf0_shell::CopyFromProjectile(TESForm* apCopy)
     if (!pcopy)
         return;
 
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
 
     ((FUN_004fdcf0_subobject*)((char*)this + 0xB4))->FUN_004fdcf0_copy((FUN_004fdcf0_subobject*)((char*)pcopy + 0xB4));
 
@@ -388,7 +388,7 @@ void FUN_004fdcf0_shell::CopyFromProjectile(TESForm* apCopy)
 struct FUN_005e79a0_t
 {
   public:
-    bool FUN_00485270(TESForm* pForm);
+    bool TESForm_CompareAllComponents(TESForm* pForm);
 };
 
 struct BSFadeNode
@@ -423,7 +423,7 @@ bool FUN_004fdd80_shell::IsNotEqual(TESForm* apCompare)
     if (!pcomp)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcomp))
         return true;
 
     if (_memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(this) + 0x60),

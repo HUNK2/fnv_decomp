@@ -68,10 +68,10 @@ struct FUN_00aa7630_t
     void* m_pPoolBase;
     void* m_pCurrent;
     int m_iAllocationCount;
-    void FUN_00aa7630(MemoryHeapStats* apStats, bool abFullBlockInfo);
+    void ZeroOverheadHeap_GetHeapStats(MemoryHeapStats* apStats, bool abFullBlockInfo);
 };
 // @fnv 0x00aa7630
-void FUN_00aa7630_t::FUN_00aa7630(MemoryHeapStats* apStats, bool abFullBlockInfo)
+void FUN_00aa7630_t::ZeroOverheadHeap_GetHeapStats(MemoryHeapStats* apStats, bool abFullBlockInfo)
 {
     if (!apStats)
         return;

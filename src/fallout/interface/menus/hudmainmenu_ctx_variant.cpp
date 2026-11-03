@@ -90,7 +90,7 @@ class InterfaceManager
 class ATMStub
 {
   public:
-    void FUN_004538a0(int value);
+    void BSCriticalSection_Enter(int value);
     void FUN_004538c0();
 };
 class FontManagerStub
@@ -166,7 +166,7 @@ class NiNode
     void DecRefCount();
     void FUN_0043fa80(const ThreeByThreeMatrix& rotate);
     void FUN_00440490(float scale);
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
     void FUN_00a59c60(NiUpdateData& data);
     NiBoundStub* FUN_0043d450();
     NiNode* FUN_0043b4a0(int index);
@@ -176,7 +176,7 @@ class NiNode
 class NiControllerManagerStub
 {
   public:
-    void* FUN_0047a520(const NiFixedString& name);
+    void* NiControllerManager_GetSequenceByName(const NiFixedString& name);
     void FUN_0048fef0(float time);
     void FUN_0047aab0(void* sequence, int a, int b, float weight, float easeIn, int c);
 };
@@ -262,7 +262,7 @@ extern SettingString DAT_011d300c;
 extern SettingInt DAT_011d32d0;
 extern SettingFloat DAT_011d9774;
 extern float DAT_011d979c;
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_Instance();
 unsigned int __cdecl FUN_00706f20();
 TileMenu* __cdecl FUN_00a09030(unsigned int id);
 float __cdecl FUN_00a01530();
@@ -327,14 +327,14 @@ Tile* FUN_0076bfe0()
     Tile* pMenuTileN;
     TileMenu* pOldMenuT;
 
-    if (!FUN_004b7210())
+    if (!InterfaceManager_Instance())
         return 0;
     pOldMenuT = FUN_00a09030(FUN_00706f20());
     if (pOldMenuT)
         delete pOldMenuT;
-    pInterfaceMgrY = FUN_004b7210();
+    pInterfaceMgrY = InterfaceManager_Instance();
     fTileAlphaM = FUN_00a01530();
-    FUN_00713d70()->FUN_004538a0(0);
+    FUN_00713d70()->BSCriticalSection_Enter(0);
     pMenuTileN = pInterfaceMgrY->FUN_00586150()->FUN_00a01b00("Data\\Menus\\Main\\hud_main_menu.xml");
     pMenuXB = pMenuTileN->FUN_00a03c90();
     if (pMenuXB && pMenuXB->vf34() == FUN_00706f20())
@@ -893,7 +893,7 @@ Tile* FUN_0076bfe0()
         kRotXYB.FUN_004a0c90(1.5707964f);
         DAT_011d9770->FUN_0043fa80(kRotZXB.FUN_0043f8d0(kRotXYB));
         DAT_011d9770->FUN_00440490(0.1f);
-        DAT_011d9770->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
+        DAT_011d9770->NiAVObject_SetTranslate(380.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateSceneY(0.0f, false, false);
         DAT_011d9770->FUN_00a59c60(kUpdateSceneY);
         DAT_011d975c = ((MenuStub*)HUDMainMenu_pme)->FUN_0077ee50();
@@ -909,7 +909,7 @@ Tile* FUN_0076bfe0()
         if (pController27)
         {
             NiControllerManagerStub* l_114 = (NiControllerManagerStub*)pController27;
-            HUDMainMenu_pme->m_pHudAnimationSequence = l_114->FUN_0047a520(NiFixedString("Forward"));
+            HUDMainMenu_pme->m_pHudAnimationSequence = l_114->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
             l_114->FUN_0048fef0(0.0f);
             if (HUDMainMenu_pme->m_pHudAnimationSequence)
                 l_114->FUN_0047aab0(HUDMainMenu_pme->m_pHudAnimationSequence, 0, 1, 1.0f, 0.0f, 0);

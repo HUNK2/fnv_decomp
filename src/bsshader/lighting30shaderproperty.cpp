@@ -9,7 +9,7 @@ extern GlobalObjectO2_00a7b610 g_011f4a5c;
 
 // Returns the address of the global object g_011f4a5c.
 // @fnv 0x00a756c0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a756c0()
+GlobalObjectO2_00a7b610* __cdecl NiMaterialProperty_GetRTTI()
 {
     return &g_011f4a5c;
 }
@@ -22,7 +22,7 @@ struct BSFadeNode
 void* __fastcall FUN_00a75650(void*);
 
 // @fnv 0x00a756d0
-void* __cdecl FUN_00a756d0()
+void* __cdecl NiMaterialProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x4c);
     if (p)

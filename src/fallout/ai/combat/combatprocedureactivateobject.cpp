@@ -223,7 +223,7 @@ class Actor
     virtual void v120();
     virtual S_Idle* GetIdle();
     S_BaseProcess* GetProcess();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
 };
 
 class S_BaseProcess
@@ -254,7 +254,7 @@ class S_FileEntry
 class S_Idle
 {
   public:
-    bool FUN_004985f0();
+    bool Animation_SpecialIdleDonePlaying();
     bool HasIdleForm(void* form);
     bool FUN_00498f80();
     S_FileEntry* GetFileEntry();
@@ -300,7 +300,7 @@ class C_Ranged
     S_REFR* target;
     unsigned int refID;
     signed char status;
-    void FUN_009ca760();
+    void CombatProcedureActivateObject_Update();
     void FUN_009caac0(const char* msg);
     Actor* FUN_00996de0();
     void SetState();
@@ -308,7 +308,7 @@ class C_Ranged
 
 // Checks the target and actor idle state, updates status, activates the target reference, and may evaluate weapon scores.
 // @fnv 0x009ca760
-void C_Ranged::FUN_009ca760()
+void C_Ranged::CombatProcedureActivateObject_Update()
 {
     if (this->target == 0)
     {
@@ -321,7 +321,7 @@ void C_Ranged::FUN_009ca760()
     {
         if (this->status == 0)
         {
-            if (idle && (!idle->FUN_004985f0() || idle->HasIdleForm(0)))
+            if (idle && (!idle->Animation_SpecialIdleDonePlaying() || idle->HasIdleForm(0)))
                 return;
             S_BaseProcess* proc = actor->GetProcess();
             bool ok = proc->FUN_008ff0b0(actor, this->target->GetRefID(), this->target);
@@ -337,7 +337,7 @@ void C_Ranged::FUN_009ca760()
         }
         else if (this->status == 1 || this->status == 3)
         {
-            if (idle && (!idle->FUN_004985f0() || idle->FUN_00498f80()))
+            if (idle && (!idle->Animation_SpecialIdleDonePlaying() || idle->FUN_00498f80()))
             {
                 if (this->status == 1)
                 {
@@ -398,7 +398,7 @@ void C_Ranged::FUN_009ca760()
             tile->FUN_0099a780((int)this->target);
             this->target->Activate(actor, 1, 0, 1);
         }
-        if (!actor->FUN_00493bb0())
+        if (!actor->Actor_IsInCombat())
             return;
         tile->EvaluateWeaponScores();
     }
@@ -451,12 +451,12 @@ struct CombatProcedureActivateObject : CombatProcedureBase
 {
     TESObjectREFR* m_pReference;  // +0x10
 
-    void FUN_009cab00(TESObjectREFR* apRef);
+    void CombatProcedureActivateObject_ClearReferencePointers(TESObjectREFR* apRef);
 };
 
 // If m_pReference matches apRef, clears it and passes a message string to FUN_009caac0.
 // @fnv 0x009cab00
-void CombatProcedureActivateObject::FUN_009cab00(TESObjectREFR* apRef)
+void CombatProcedureActivateObject::CombatProcedureActivateObject_ClearReferencePointers(TESObjectREFR* apRef)
 {
     if (m_pReference == apRef)
     {
@@ -622,11 +622,11 @@ struct FUN_009cab30_shell : public CombatProcedure
     TESObjectREFR* pTarget;
     int iUnk14;
     char cAnimState;
-    void FUN_009cab30(FUN_009cab30_TextOutput* apOutput, int aiX, int aiY);
+    void CombatProcedureActivateObject_DisplayDebugText(FUN_009cab30_TextOutput* apOutput, int aiX, int aiY);
 };
 // Prints the current animation state and, if pTarget is set, its name, form ID, and position to apOutput at aiX, aiY.
 // @fnv 0x009cab30
-void FUN_009cab30_shell::FUN_009cab30(FUN_009cab30_TextOutput* apOutput, int aiX, int aiY)
+void FUN_009cab30_shell::CombatProcedureActivateObject_DisplayDebugText(FUN_009cab30_TextOutput* apOutput, int aiX, int aiY)
 {
     switch (cAnimState)
     {
@@ -665,11 +665,11 @@ struct FUN_009cacb0_shell : CombatProcedure
     TESBoundObject* m_pBaseObject;
     char bFlag;
     void SaveGame(BGSSaveFormBuffer*);
-    void FUN_009cacb0(BGSSaveFormBuffer*);
+    void CombatProcedureActivateObject_SaveGame(BGSSaveFormBuffer*);
 };
 // Saves the combat procedure state by calling SaveGame, serializing m_pReference and m_pBaseObject, and saving bFlag.
 // @fnv 0x009cacb0
-void FUN_009cacb0_shell::FUN_009cacb0(BGSSaveFormBuffer* apSaveBuffer)
+void FUN_009cacb0_shell::CombatProcedureActivateObject_SaveGame(BGSSaveFormBuffer* apSaveBuffer)
 {
     SaveGame(apSaveBuffer);
     apSaveBuffer->SerializeFormData(m_pReference, 0);
@@ -683,24 +683,24 @@ struct CPStandIn004534f0
 };
 struct CPStandIn00564db0
 {
-    void FUN_00564db0(int);
+    void TESObjectREFR_SetTargeted(int);
 };
-extern "C" TESForm* __cdecl FUN_004839c0(TESObjectREFR*);
+extern "C" TESForm* __cdecl TESForm_GetFormByNumericID(TESObjectREFR*);
 
 struct FUN_009cad70_shell : public CombatProcedure
 {
     TESObjectREFR* m_pReference;
-    void FUN_009cad70(unsigned int);
+    void CombatProcedureActivateObject_InitLoadGame(unsigned int);
 };
 
-// Calls FUN_004534f0 with arg, assigns the cast result of FUN_004839c0 to m_pReference, then calls FUN_00564db0(1) if non-null.
+// Calls FUN_004534f0 with arg, assigns the cast result of TESForm_GetFormByNumericID to m_pReference, then calls TESObjectREFR_SetTargeted(1) if non-null.
 // @fnv 0x009cad70
-void FUN_009cad70_shell::FUN_009cad70(unsigned int arg)
+void FUN_009cad70_shell::CombatProcedureActivateObject_InitLoadGame(unsigned int arg)
 {
     ((CPStandIn004534f0*)this)->FUN_004534f0(arg);
-    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(m_pReference)) : 0;
+    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(m_pReference)) : 0;
     if (m_pReference)
-        ((CPStandIn00564db0*)m_pReference)->FUN_00564db0(1);
+        ((CPStandIn00564db0*)m_pReference)->TESObjectREFR_SetTargeted(1);
 }
 
 class TESScriptableForm
@@ -735,22 +735,22 @@ class TESBoundObject
   public:
     virtual void v0();
 };
-::TESForm* __cdecl FUN_004839c0(unsigned int);
+::TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct ActivateObjectLoadView : CombatProcedure
 {
     void* m_pReference;
     TESBoundObject* m_pBaseObject;
     char bFlag;
     void FUN_00996ef0(BGSLoadFormBuffer*);
-    void FUN_009cad00(BGSLoadFormBuffer*);
+    void CombatProcedureActivateObject_LoadGame(BGSLoadFormBuffer*);
 };
 // Reads the activate object load view from a form buffer, loading the reference, base object, and flag.
 // @fnv 0x009cad00
-void ActivateObjectLoadView::FUN_009cad00(BGSLoadFormBuffer* apBuffer)
+void ActivateObjectLoadView::CombatProcedureActivateObject_LoadGame(BGSLoadFormBuffer* apBuffer)
 {
     FUN_00996ef0(apBuffer);
     apBuffer->ReadFormIdentifier(&m_pReference);
     m_pBaseObject =
-        dynamic_cast< ::TESBoundObject*>(FUN_004839c0(((BGSLoadGameBuffer*)apBuffer)->ReadFormIdentifier()));
+        dynamic_cast< ::TESBoundObject*>(TESForm_GetFormByNumericID(((BGSLoadGameBuffer*)apBuffer)->ReadFormIdentifier()));
     apBuffer->ReadTypedData(&bFlag, 1);
 }

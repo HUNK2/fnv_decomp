@@ -124,7 +124,7 @@ class Sky
     void FUN_0063c9f0();
     void ResetWeather();
     void UpdateColors();
-    void FUN_0063bce0();
+    void Sky_UpdateFog();
     void UpdateWeatherTransition(float);
 };
 

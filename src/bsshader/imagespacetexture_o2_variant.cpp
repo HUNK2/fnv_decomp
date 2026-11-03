@@ -62,7 +62,7 @@ struct BeamStage
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int);
+    TextureReceiver* BSRenderedTexture_GetTexture(int);
 };
 struct UnkBA38F0
 {
@@ -82,7 +82,7 @@ void UnkBA38F0::FUN_00ba38f0(BeamStage* pkStage)
     pkStage->FUN_00e7def0(pThis->m_8);
     if (pThis->m_cByteAtOffset1)
     {
-        pkStage->m_8 = ((TextureReceiver*)pThis->m_iWordAt04)->FUN_004bc320(0);
+        pkStage->m_8 = ((TextureReceiver*)pThis->m_iWordAt04)->BSRenderedTexture_GetTexture(0);
     }
     else
     {
@@ -281,7 +281,7 @@ struct FUN_00ba3780_struct
 TextureReceiver* FUN_00ba3780_struct::FUN_00ba3780()
 {
     if (flag)
-        return ptr->FUN_004bc320(0);
+        return ptr->BSRenderedTexture_GetTexture(0);
     return ptr;
 }
 

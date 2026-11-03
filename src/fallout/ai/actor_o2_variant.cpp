@@ -28,7 +28,7 @@ void* bhkRagdollController::FUN_00c7de30(unsigned int flag)
 extern "C" void* g_012685f8;
 
 // @fnv 0x00c7fa60
-void* __cdecl FUN_00c7fa60()
+void* __cdecl bhkStiffSpringConstraint_GetRTTI()
 {
     return &g_012685f8;
 }
@@ -1069,7 +1069,7 @@ class BCB9810Registry
 {
   public:
     void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+    void bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
     int unk04;
@@ -1078,7 +1078,7 @@ class BCB9810Registry
 };
 
 // @fnv 0x00cb9810
-void BCB9810Registry::FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode)
+void BCB9810Registry::bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode)
 {
     BCB9810AllocTagScope kScope(0x10);
     bool bFound = false;

@@ -42,7 +42,7 @@ struct ArrSI
 };
 struct FUN_004d7d50_StandIn
 {
-    unsigned int __thiscall FUN_004d7d50();
+    unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
 struct FUN_004d8510_StandIn
 {
@@ -51,7 +51,7 @@ struct FUN_004d8510_StandIn
 };
 struct TESObjectREFR;
 struct bhkShape;
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
 {
@@ -149,7 +149,7 @@ struct GlobalObject_004aff00
 };
 struct FUN_004def90_Class
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 struct GO
 {
@@ -482,7 +482,7 @@ struct FUN_004d4f70
 
     FUN_004d4f70(unsigned int ItemUpdateArray, int iParam);
 };
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeap_Free(void*);
 struct FUN_004d5080_Class
 {
     void* unk00;
@@ -660,7 +660,7 @@ void __cdecl FUN_00403d30(void* destination, int pNodeValue, unsigned int size);
 typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
 struct FUN_004d74c0_Value
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 struct FUN_004d74c0_Node
 {
@@ -722,7 +722,7 @@ class NiStream
     NiStream();
     ~NiStream();
     void InsertObject(NiObject* pkObject);
-    bool FUN_00a640b0(const char* pcFileName);
+    bool NiStream_Save(const char* pcFileName);
     int m_kNextStreamField[0x172];
 };
 int FUN_004d78c0(NiObject* pkObject, int iType, int iCommand);
@@ -917,8 +917,8 @@ struct Palette4d86;
 struct Object4d86
 {
     Palette4d86* GetStringAtOffset();
-    unsigned int FUN_00495d00();
-    MediaSet4d86* FUN_00495d20(unsigned int uiIndex);
+    unsigned int NiControllerManager_GetSequenceCount();
+    MediaSet4d86* NiControllerManager_GetSequenceAt(unsigned int uiIndex);
 };
 struct TreeCtrl4d86
 {
@@ -1075,7 +1075,7 @@ struct FUN_004de2d0_StandIn : FUN_004de2b0_StandIn
 {
     FUN_004de2b0_StandIn* __thiscall FUN_004de2d0(char c);
 };
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeap_Free(void*);
 struct FUN_004de3f0_Class
 {
     void __thiscall FUN_004de420();
@@ -1099,7 +1099,7 @@ struct FUN_00559450_Helper
 };
 struct FUN_0066b0d0_Helper
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void FUN_0066b0d0(int);
 };
 void FUN_004def20();

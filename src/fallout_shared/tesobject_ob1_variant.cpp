@@ -131,7 +131,7 @@ inline G16 GetG()
 {
     return FUN_00ec38a9();
 }
-void* FUN_00401000(unsigned n);
+void* FormHeap_Allocate(unsigned n);
 struct StrX
 {
     char buf[0x1c];
@@ -204,7 +204,7 @@ struct ObjX : B1
     G16 m8;
     static void* operator new(unsigned n)
     {
-        return FUN_00401000(n);
+        return FormHeap_Allocate(n);
     }
     static void operator delete(void* p)
     {}
@@ -338,14 +338,14 @@ struct FileReader
     int fileSize;
     FileReader(FileString);
     ~FileReader();
-    bool FUN_00ac4910(FileString);
+    bool FutBinaryFileC_openForOverwrite(FileString);
 };
 bool FUN_00ab7f40(FileReader*, void*);
 // @fnv 0x00ab7e30
 bool FUN_00ab7e30(const FileString& fileName, void* output)
 {
     FileReader reader(FileString("FRTRI003"));
-    if (!reader.FUN_00ac4910(fileName))
+    if (!reader.FutBinaryFileC_openForOverwrite(fileName))
         return false;
     D18();
     return FUN_00ab7f40(&reader, output);
@@ -4146,7 +4146,7 @@ FUN_00b2e740::FUN_00b2e740(const FUN_00b2e740& kOther)
 {}
 
 void* __cdecl FUN_00ad5370(int count, int flags);
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeap_Free(void* p);
 
 struct SubObj0C
 {
@@ -4194,7 +4194,7 @@ Entry48* Owner::FUN_00ad1960(int a, int b, int c, int d, bool e)
     }
     catch (...)
     {
-        FUN_00401030(mem);
+        FormHeap_Free(mem);
         throw;
     }
     return (Entry48*)mem;
@@ -4227,7 +4227,7 @@ static __forceinline void Pad()
     int dq[17];
 }
 // @fnv 0x00ac4910
-bool FileReader::FUN_00ac4910(FileString kPath)
+bool FileReader::FutBinaryFileC_openForOverwrite(FileString kPath)
 {
     ((GvBinaryFile*)this)->FUN_00ac5430();
     ((GvBinaryFile*)this)->pFile =

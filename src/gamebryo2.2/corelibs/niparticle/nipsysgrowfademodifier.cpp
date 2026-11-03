@@ -18,7 +18,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026f8;
 
 // @fnv 0x00c2a360
-GlobalObjectO2_00a7b610* __cdecl FUN_00c2a360()
+GlobalObjectO2_00a7b610* __cdecl NiPSysGrowFadeModifier_GetRTTI()
 {
     return &g_012026f8;
 }
@@ -46,11 +46,11 @@ struct NiObject
 
 struct FUN_00c2a2f0_shell : NiPSysGrowFadeModifier
 {
-    bool FUN_00c2a2f0(NiObject* pkObject);
+    bool NiPSysGrowFadeModifier_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00c2a2f0
-bool FUN_00c2a2f0_shell::FUN_00c2a2f0(NiObject* pkObject)
+bool FUN_00c2a2f0_shell::NiPSysGrowFadeModifier_IsEqual(NiObject* pkObject)
 {
     FUN_00c2a2f0_shell* pkDest = (FUN_00c2a2f0_shell*)pkObject;
     if (((NiObject*)this)->IsEqual(pkObject) && m_fGrowthTime == pkDest->m_fGrowthTime &&
@@ -194,7 +194,7 @@ struct StrArr
 };
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr* pkStrings);
+    void NiPSysModifier_GetViewerStrings(StrArr* pkStrings);
 };
 struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
 {
@@ -203,7 +203,7 @@ struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
 // @fnv 0x00c2a6e0
 void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
 {
-    ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
+    ((Base00c319e0*)this)->NiPSysModifier_GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(*(char**)&g_012026f8);
     pkStrings->Add(pcString);
     pcString = FUN_00a7d550("Grow Time", m_fGrowthTime);
@@ -249,11 +249,11 @@ class A4b0Cls : public FUN_00c31720
         m_24 = 0;
         m_28 = 0.0f;
     }
-    FUN_00c31720* __thiscall FUN_00c2a4b0(A4b0Clone* cloning);
+    FUN_00c31720* __thiscall NiPSysGrowFadeModifier_CreateClone(A4b0Clone* cloning);
 };
 // Allocates an A4b0Cls, copies the base via FUN_00c31780, then copies m_18, m_1c, m_20, m_24 and m_28 from this object and returns it.
 // @fnv 0x00c2a4b0
-FUN_00c31720* A4b0Cls::FUN_00c2a4b0(A4b0Clone* cloning)
+FUN_00c31720* A4b0Cls::NiPSysGrowFadeModifier_CreateClone(A4b0Clone* cloning)
 {
     void* mem = FUN_00aa13e0(sizeof(A4b0Cls));
     A4b0Cls* p = mem ? new (mem) A4b0Cls : 0;

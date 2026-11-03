@@ -69,10 +69,10 @@ struct __declspec(align(16)) xAllHits
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
+    void bhkPickData_SetFrom(xP3*);
     void FUN_004a3eb0(const xP3&);
-    void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
+    void bhkPickData_SetFilter(xFilter);
+    void bhkPickData_SetAllCollector(xAllHits*);
     char m_buf[0xb0];
 };
 struct xWorld
@@ -382,11 +382,11 @@ void xActor::FUN_0081eba0()
         FILTER = OWNER->FUN_0070c440();
     else
         FILTER = xg_player_11dea3c->FUN_00931ed0();
-    PICK.FUN_004a3f70(FILTER);
-    PICK.FUN_004a3da0(&PLPOS);
+    PICK.bhkPickData_SetFilter(FILTER);
+    PICK.bhkPickData_SetFrom(&PLPOS);
     PICK.FUN_004a3eb0(PLPOS + DIR);
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
+    PICK.bhkPickData_SetAllCollector(&HITS);
     bool DONE = false;
     if (xg_player_11dea3c->FUN_008d6f30() && xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30())->FUN_c8(&PICK))
     {
@@ -423,7 +423,7 @@ struct ImpactState
 struct ImpactType
 {
     int value;
-    int __thiscall FUN_0043b4d0();
+    int __thiscall CFilter_GetLayer();
 };
 struct __declspec(align(16)) ImpactVector
 {
@@ -480,7 +480,7 @@ struct ImpactObject
     virtual void unknown_0094();
     virtual ImpactState* unknown_0098();
     void __thiscall FUN_0043b4f0(ImpactType*);
-    float __thiscall FUN_004b5400();
+    float __thiscall bhkRigidBody_GetMass();
     ImpactResult* __thiscall FUN_004ae750(ImpactVector*, ImpactVector*);
 };
 struct ImpactOwner
@@ -498,7 +498,7 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
         float scale = DAT_010546cc;
         ImpactType type;
         object->FUN_0043b4f0(&type);
-        switch (type.FUN_0043b4d0())
+        switch (type.CFilter_GetLayer())
         {
         case 14:
             scale *= *DAT_011ce3e4.FUN_00403e20();
@@ -515,7 +515,7 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
             scale *= *DAT_011ce798.FUN_00403e20();
             break;
         }
-        float weight = object->FUN_004b5400();
+        float weight = object->bhkRigidBody_GetMass();
         if (weight < *DAT_011cf114.FUN_00403e20())
             scale = weight / *DAT_011cf114.FUN_00403e20() * scale;
         scale *= *DAT_011ce224.FUN_00403e20();
@@ -585,7 +585,7 @@ struct xCtl
 };
 struct xCell
 {
-    void FUN_00548230(void*, bool);
+    void TESObjectCELL_AddReference(void*, bool);
 };
 struct xOwner
 {
@@ -635,10 +635,10 @@ struct xProj : xBase
     xOwner* m_c0;
     xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner);
     xEffect* FUN_004fd400();
-    void FUN_00570f70(void*);
-    void FUN_0081e570(int);
+    void TESObjectREFR_Set3DSimple(void*);
+    void MagicProjectile_Load3D(int);
     void ResetProjectileIdleAnimation();
-    void FUN_0080feb0();
+    void MagicBallProjectile_InitHavok();
     xCtl* FUN_009306d0();
     xCell* FUN_008d6f30();
     xSound PlaySoundByFormID(void*, int, unsigned int, int);
@@ -654,14 +654,14 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     m_b0 = 1.0f;
     m_c0 = 0;
     if (apE)
-        FUN_00570f70(apE);
+        TESObjectREFR_Set3DSimple(apE);
     else
-        FUN_0081e570(0);
+        MagicProjectile_Load3D(0);
     ResetProjectileIdleAnimation();
-    FUN_0080feb0();
+    MagicBallProjectile_InitHavok();
     xVec4 V(-xg_107a510, 0.0f, 0.0f, 0.0f);
     FUN_009306d0()->FUN_0080fb00(&V);
-    FUN_008d6f30()->FUN_00548230(this, false);
+    FUN_008d6f30()->TESObjectCELL_AddReference(this, false);
     if (FUN_004fd400()->FUN_004fd3c0())
     {
         void* NAME = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();

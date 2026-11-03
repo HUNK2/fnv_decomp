@@ -147,7 +147,7 @@ class TESObjectREFR
     virtual void SetBipedAnim(BipedAnim*);
     TESBoundObject* GetObjectReference();
     bool HasLeveledCreatureCalced();
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     void FUN_00693ef0(bool);
 };
 class TESFile
@@ -169,7 +169,7 @@ class TESObjectBound
   public:
     TESBoundPoint min, max;
     void FUN_0050e9c0();
-    void FUN_0050ed30();
+    void TESBoundObject_BOUND_DATA_Endian();
 };
 class TESObjectREFR;
 class NiAVObject;
@@ -616,7 +616,7 @@ class NiExtraData
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     NiExtraData();
-    void FUN_00519230(bool, bool);
+    void BSXFlags_SetFlags(bool, bool);
 };
 class TESObjectDOOR : public TESBoundObject
 {

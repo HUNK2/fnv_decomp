@@ -81,16 +81,16 @@ class ExtraDataList
     void FUN_0041f650(TESForm*, bool);
 };
 void ResolveFormID(unsigned int*, TESFile*);
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 void FUN_005b5e40(const char*, ...);
 void __cdecl operator delete(void*);
 struct ReflectReferences554 : BSExtraData
 {
     BSSimpleList<ReflectReference554*> references;
-    void FUN_00433ed0(TESForm* form);
+    void ExtraReflectorRefs_InitItem(TESForm* form);
 };
 // @fnv 0x00433ed0
-void ReflectReferences554::FUN_00433ed0(TESForm* form)
+void ReflectReferences554::ExtraReflectorRefs_InitItem(TESForm* form)
 {
     BSSimpleList<ReflectReference554*>* position = &references;
     BSSimpleList<ReflectReference554*>* previous = 0;
@@ -100,7 +100,7 @@ void ReflectReferences554::FUN_00433ed0(TESForm* form)
         ReflectReference554* item3 = position->GetItem();
         unsigned int formID5 = reinterpret_cast<unsigned int>(item3->m_pWorldReferenceInfo);
         ResolveFormID(&formID5, form->FUN_00484e60(-1));
-        TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID5));
+        TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(formID5));
         if (!reference_2 || !reference_2->FUN_005653d0())
         {
             if (!reference_2)

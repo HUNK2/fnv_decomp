@@ -6,7 +6,7 @@
 extern "C" void* g_011f3fcc;
 
 // @fnv 0x00a4ef60
-void* __cdecl FUN_00a4ef60()
+void* __cdecl NiFloatsExtraDataController_GetRTTI()
 {
     return &g_011f3fcc;
 }
@@ -21,7 +21,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a4f000
-int* __cdecl FUN_00a4f000()
+int* __cdecl NiFloatsExtraDataController_CreateObject()
 {
     int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
     if (p)
@@ -72,11 +72,11 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
     void* m_pVtbl;
     int m_iFloatsExtraDataIndex;
     int m_kCtlrID;
-    NiFloatsExtraDataController* FUN_00a4efb0(CloningProcess&);
+    NiFloatsExtraDataController* NiFloatsExtraDataController_CreateClone(CloningProcess&);
 };
 // Allocates and constructs a NiFloatsExtraDataController copy, runs the clone helper, then copies the extra data index from this object.
 // @fnv 0x00a4efb0
-NiFloatsExtraDataController* NiFloatsExtraDataController::FUN_00a4efb0(CloningProcess& kCloning)
+NiFloatsExtraDataController* NiFloatsExtraDataController::NiFloatsExtraDataController_CreateClone(CloningProcess& kCloning)
 {
     NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(BSFadeNode::operator new(0x48));
     if (pkObject)
@@ -204,10 +204,10 @@ struct NiPSysModifierCtlr
 struct NiFloatsExtraDataController : NiPSysModifierCtlr
 {
     float m_fValue;
-    void FUN_00a4f150(NiStream&);
+    void NiFloatsExtraDataController_LoadBinary(NiStream&);
 };
 // @fnv 0x00a4f150
-void NiFloatsExtraDataController::FUN_00a4f150(NiStream& kStream)
+void NiFloatsExtraDataController::NiFloatsExtraDataController_LoadBinary(NiStream& kStream)
 {
     NiPSysModifierCtlr::LoadBinary(kStream);
     kStream.m_pUnderlyingStream->ReadFloat(m_fValue);
@@ -231,7 +231,7 @@ struct StreamStub
     void FUN_0096ae90(unsigned int index, void** result);
 };
 
-void __stdcall FUN_00a57420(StreamStub* stream);
+void __stdcall NiExtraDataController_GetViewerStrings(StreamStub* stream);
 void* __cdecl FUN_00a7d330(void* source);
 void* __cdecl FUN_00a7d4d0(int* name, void* object);
 
@@ -242,13 +242,13 @@ struct ControllerStub
     int unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C;
     void* unk40;
-    void FUN_00a4f1e0(StreamStub* stream);
+    void NiFloatsExtraDataController_GetViewerStrings(StreamStub* stream);
 };
 
 // @fnv 0x00a4f1e0
-void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
+void ControllerStub::NiFloatsExtraDataController_GetViewerStrings(StreamStub* stream)
 {
-    FUN_00a57420(stream);
+    NiExtraDataController_GetViewerStrings(stream);
     void* value = FUN_00a7d330(g_011f3fcc);
     unsigned int index = stream->unk0A;
     if (index >= stream->unk08)
@@ -397,11 +397,11 @@ struct FloatController
     {
         return ((unsigned char)(flags >> 5) & 1) != 0;
     }
-    void FUN_00a4f0c0(float* updateData);
+    void NiFloatsExtraDataController_Update(float* updateData);
 };
 // Updates lastTime for managed controllers, evaluates the interpolator when present, and writes a successful value to extraData.
 // @fnv 0x00a4f0c0
-void FloatController::FUN_00a4f0c0(float* updateData)
+void FloatController::NiFloatsExtraDataController_Update(float* updateData)
 {
     if (IsManaged())
     {

@@ -135,7 +135,7 @@ struct TESLeveledList : public BaseFormComponent
 typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 struct FUN_00487a00_shell : public TESLeveledList
 {
-    void FUN_00487a00(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
+    void TESLeveledList_AddScriptAddedLeveledObject(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
 };
 struct G2
 {
@@ -266,7 +266,7 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg);
 };
 struct FUN_00488fd0_shell
 {
@@ -552,7 +552,7 @@ class BGSDestructibleObjectForm : public BaseFormComponent
   public:
     DestructibleData* pkData;
     void EnsureCurrentEntry();
-    void FUN_00478690();
+    void BGSDestructibleObjectForm_ClearDataComponent();
     DestructibleData* FUN_00726070();
     DestructionStage** AllocateSpawnedItemArray(unsigned int);
 };
@@ -575,7 +575,7 @@ struct DestructionStageChunk
     TESForm* explosion;
     TESForm* debris;
     unsigned int debrisCount;
-    void FUN_00478130();
+    void SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian();
 };
 extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
@@ -599,7 +599,7 @@ void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
             TESForm* form = dynamic_cast<TESForm*>(component);
             FUN_005b5e40("MASTERFILE: Old Destruction data found on form %08X %s.  It needs to be resaved.",
                          form->GetFormID(), form->GetName());
-            component->FUN_00478690();
+            component->BGSDestructibleObjectForm_ClearDataComponent();
             return;
         }
         file->GetChunkData(&header, 0);
@@ -617,7 +617,7 @@ void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
         memset(&stage, 0, sizeof(stage));
         file->GetChunkData(&stage, sizeof(stage));
         if (file->IsEndianConversionRequired())
-            stage.FUN_00478130();
+            stage.SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian();
         unsigned char index = stage.index;
         if (index < pkData->stageCount)
         {

@@ -3,7 +3,7 @@
 
 #include "tesspelllist.h"
 
-// sub ecx,0x7c; jmp FUN_005f18c0
+// sub ecx,0x7c; jmp TESActorBase_SaveGame
 // MSVC adjustor thunk: a class derives from two bases that both declare the same
 // virtual, so the secondary base's vtable entry is an adjustor thunk that moves
 // `this` back by the size of the primary base (0x7c = vptr + thirty int fields).
@@ -111,7 +111,7 @@ Derived::Derived()
 
 namespace fnv_005fc020 {
 // Adjustor (this-adjusting) thunk for FUN_005fc020:
-//     sub ecx, 0x7c ; jmp FUN_005f1b30
+//     sub ecx, 0x7c ; jmp TESActorBase_LoadGame2
 // MSVC emits such a thunk in the vftable of a class that inherits the same
 // virtual from two bases: it converts the secondary base sub-object pointer
 // back to the derived object pointer by subtracting the size of the primary

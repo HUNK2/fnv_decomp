@@ -289,12 +289,12 @@ struct MemoryManager
 };
 typedef char _sizecheck_MemoryManager[sizeof(MemoryManager) == 844 ? 1 : -1];
 
-MemoryManager* __cdecl FUN_00401020(void);
+MemoryManager* __cdecl MemoryManager_Instance(void);
 
 // @fnv 0x00401030
-void __cdecl FUN_00401030(void* ptr)
+void __cdecl FormHeap_Free(void* ptr)
 {
-    FUN_00401020()->Deallocate(ptr);
+    MemoryManager_Instance()->Deallocate(ptr);
 }
 
 // @fnv 0x00845d20

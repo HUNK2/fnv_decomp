@@ -15,7 +15,7 @@ struct FUN_00666f00_shell
 {
     int m_04;
     int m_08;
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
 };
 struct GlobalObject_0044f440
 {
@@ -84,7 +84,7 @@ struct NiAlphaProperty
     void FUN_0094db80(unsigned char);
     static void* operator new(unsigned int);
 };
-NiAlphaProperty* FUN_006698f0();
+NiAlphaProperty* BSTreeModel_CreateAlphaProperty();
 struct RefBase
 {
     virtual ~RefBase();
@@ -223,9 +223,9 @@ struct TreeModelX
     char _pad18[0xc];
     PtrX<LeafShapeX>* pLeafShapes;
 
-    bool FUN_00666f00();
-    unsigned short FUN_00669990();
-    void FUN_00667470();
+    bool BSTreeModel_IsInstance();
+    unsigned short BSTreeModel_GetNumBranchLODLevels();
+    void BSTreeModel_CreateBranchGeometry();
 };
 struct ModelHolder_b5531
 {
@@ -234,7 +234,7 @@ struct ModelHolder_b5531
 };
 struct GlobalObject_0044fae0
 {
-    void FUN_004538a0(int);
+    void BSCriticalSection_Enter(int);
     void WaitForTasksDuringRendering();
 };
 extern GlobalObject_0044fae0 g_011d5df8;
@@ -288,8 +288,8 @@ struct TreeCloneView
     float unk3c;
     unsigned int unk40, unk44;
     float unk48, unk4c;
-    bool FUN_00666f00();
-    unsigned short FUN_00669990();
+    bool BSTreeModel_IsInstance();
+    unsigned short BSTreeModel_GetNumBranchLODLevels();
     unsigned short FUN_006699d0();
     bool CloneFromModel(TreeCloneView*);
 };
@@ -382,9 +382,9 @@ struct ModelName
 };
 struct FUN_00667190_shell : public TreeCloneView
 {
-    void FUN_00667470();
-    void FUN_00668500(TESObjectTREE* apTree);
-    void FUN_00669500(TESObjectTREE* apTree);
+    void BSTreeModel_CreateBranchGeometry();
+    void BSTreeModel_CreateLeafGeometry(TESObjectTREE* apTree);
+    void BSTreeModel_CreateBillboardGeometry(TESObjectTREE* apTree);
     void LoadTreeCollision(TESObjectTREE* apTree);
 };
 namespace TreeBuild {
@@ -481,7 +481,7 @@ struct Property
     void FUN_00baa000();
     void FUN_00b66ad0(const char*, Object*);
 };
-Property* FUN_006698f0();
+Property* BSTreeModel_CreateAlphaProperty();
 void* FUN_00b55560(int);
 struct Geometry
 {
@@ -537,7 +537,7 @@ struct Geometry
     static void* operator new(unsigned int);
     static void operator delete(void*);
     Geometry(GeometryData*);
-    void FUN_00439410(Property*);
+    void NiAVObject_AttachProperty(Property*);
     ShaderState* FUN_005495f0();
     void FUN_00539ef0(Shader*);
     void FUN_00874460(void*);
@@ -771,9 +771,9 @@ struct Model
     int unk30, unk34, unk38, unk3c, unk40, unk44;
     float radius, height;
     Object* ConvertFloatToUInt();
-    unsigned short FUN_00669990();
+    unsigned short BSTreeModel_GetNumBranchLODLevels();
     unsigned short FUN_006699d0();
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
     Tree* CreateTree(float);
 };
 // @fnv 0x00669fd0
@@ -802,7 +802,7 @@ Tree* Model::CreateTree(float scale)
     Property* alpha;
     if (branches && branchProperties)
     {
-        count3 = FUN_00669990();
+        count3 = BSTreeModel_GetNumBranchLODLevels();
         shader = FUN_00b55560(4);
         unusedB = tree5->GetBranches();
         for (i = 0; i < count3; i++)
@@ -810,27 +810,27 @@ Tree* Model::CreateTree(float scale)
             if (!branches[i].FUN_00559450())
                 continue;
             geometryX = new Geometry(branches[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
             {
                 alpha->FUN_004393c0(0);
-                geometryX->FUN_00439410(alpha);
+                geometryX->NiAVObject_AttachProperty(alpha);
             }
             if (branchProperties[i].FUN_00559450())
             {
                 branchProperties[i].FUN_00559450()->FUN_00baa000();
-                geometryX->FUN_00439410(branchProperties[i].FUN_00559450());
+                geometryX->NiAVObject_AttachProperty(branchProperties[i].FUN_00559450());
                 if (!geometryX->FUN_005495f0()->FUN_004a8a90())
                 {
                     Shader* created = branchProperties[i].FUN_00559450()->CreateShader(geometryX);
                     geometryX->FUN_00539ef0(created);
                 }
             }
-            if (FUN_00666f00())
+            if (BSTreeModel_IsInstance())
                 geometryX->FUN_00874460(shader);
             tree5->SetBranch(i, geometryX);
         }
-        if (!FUN_00666f00())
+        if (!BSTreeModel_IsInstance())
         {
             for (i = 0; i < count3; i++)
             {
@@ -854,13 +854,13 @@ Tree* Model::CreateTree(float scale)
             if (!leaves[i].FUN_00559450())
                 continue;
             geometryX = new Leaves(leaves[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
-                geometryX->FUN_00439410(alpha);
+                geometryX->NiAVObject_AttachProperty(alpha);
             if (leafProperties[i].FUN_00559450())
             {
                 leafProperties[i].FUN_00559450()->FUN_00baa000();
-                geometryX->FUN_00439410(leafProperties[i].FUN_00559450());
+                geometryX->NiAVObject_AttachProperty(leafProperties[i].FUN_00559450());
             }
             tree5->SetLeaf(i, geometryX);
             geometryX->FUN_00874460(shader);

@@ -159,11 +159,11 @@ struct bhkNiCollisionObject;
 struct bhkRigidBody;
 struct FUN_00e81420_shell : public NiD3DShader
 {
-    void FUN_00e81420(NiD3DShaderDeclaration*);
+    void NiD3DShader_SetShaderDecl(NiD3DShaderDeclaration*);
 };
 
 // @fnv 0x00e81420
-void FUN_00e81420_shell::FUN_00e81420(NiD3DShaderDeclaration* pkShaderDecl)
+void FUN_00e81420_shell::NiD3DShader_SetShaderDecl(NiD3DShaderDeclaration* pkShaderDecl)
 {
     NiRefObject*& pObj = *reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x28);
     NiRefObject* pNew = reinterpret_cast<NiRefObject*>(pkShaderDecl);
@@ -179,13 +179,13 @@ void FUN_00e81420_shell::FUN_00e81420(NiD3DShaderDeclaration* pkShaderDecl)
 
 struct FUN_00e818c0_shell : public NiD3DShaderInterface
 {
-    void* FUN_00e818c0();
+    void* NiD3DShaderInterface_GetRTTI();
 };
 
 extern const char* const g_0126f754_arg1;
 
 // @fnv 0x00e818c0
-void* FUN_00e818c0_shell::FUN_00e818c0()
+void* FUN_00e818c0_shell::NiD3DShaderInterface_GetRTTI()
 {
     return (void*)&g_0126f754_arg1;
 }
@@ -232,10 +232,10 @@ struct StateStandIn
 };
 struct ShaderStandIn
 {
-    unsigned int FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int NiD3DShader_PreProcessPipeline(void*, void*, void*, void*, void*, void*, void*);
 };
 // @fnv 0x00e81170
-unsigned int ShaderStandIn::FUN_00e81170(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
+unsigned int ShaderStandIn::NiD3DShader_PreProcessPipeline(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     if (!*(bool*)((char*)this + 0x10))
         return 0xFFFFFFFF;
@@ -483,10 +483,10 @@ struct UnkShader
     bool b10;
     char _11[7];
     int i18;
-    void FUN_00e814b0();
+    void NiD3DShader_RecreateRendererData();
 };
 // @fnv 0x00e814b0
-void UnkShader::FUN_00e814b0()
+void UnkShader::NiD3DShader_RecreateRendererData()
 {
     if (i18)
     {
@@ -512,11 +512,11 @@ void __fastcall FUN_00e7ef40(void*);
 
 struct FUN_00e805f0_shell
 {
-    unsigned int FUN_00e805f0(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int NiD3DShader_PostProcessPipeline(void*, void*, void*, void*, void*, void*, void*);
 };
 
 // @fnv 0x00e805f0
-unsigned int FUN_00e805f0_shell::FUN_00e805f0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
+unsigned int FUN_00e805f0_shell::NiD3DShader_PostProcessPipeline(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     void* decl = *(void**)((char*)this + 0x2c);
     if (decl)
@@ -1976,7 +1976,7 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
 extern "C" void __cdecl FUN_00e81a90();
 
 // @fnv 0x00e80570
-void __cdecl FUN_00e80570()
+void __cdecl NiD3DShader_Initialize()
 {
     FUN_00e81a90();
 }
@@ -1994,10 +1994,10 @@ struct FnvCpu_FUN_00eea530_CpuObject
     unsigned int unk20;
     unsigned int unk24;
     int value;
-    int FUN_00eea530();
+    int NiD3DShader_GetShaderDecl();
 };
 // @fnv 0x00eea530
-int FnvCpu_FUN_00eea530_CpuObject::FUN_00eea530()
+int FnvCpu_FUN_00eea530_CpuObject::NiD3DShader_GetShaderDecl()
 {
     return value;
 }

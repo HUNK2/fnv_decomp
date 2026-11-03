@@ -23,18 +23,18 @@ struct Actor;
 
 struct BaseEffect
 {
-    virtual void FUN_0082cd10(Actor* apActor);
+    virtual void ValueModifierEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 struct ParalysisEffect : BaseEffect
 {
-    void FUN_00826550(Actor* apActor);
+    void ParalysisEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 // @fnv 0x00826550
-void ParalysisEffect::FUN_00826550(Actor* apActor)
+void ParalysisEffect::ParalysisEffect_FinishInitLoadGame(Actor* apActor)
 {
-    BaseEffect::FUN_0082cd10(apActor);
+    BaseEffect::ValueModifierEffect_FinishInitLoadGame(apActor);
 }
 }  // namespace fnv_00826550
 
@@ -318,7 +318,7 @@ void* ParalysisController::CreateEffect()
     return effect;
 }
 
-// Decompiled FUN_008263c0 (thiscall, void).
+// Decompiled ParalysisEffect_Start (thiscall, void).
 struct ParalysisEffectSubject
 {
     virtual void vfunc000();
@@ -474,13 +474,13 @@ struct ParalysisSourceHolder
 struct FUN_008263c0_cls
 {
     ParalysisSourceHolder* FUN_0059bb30();
-    void FUN_0082c000();
-    void FUN_008263c0();
+    void ValueModifierEffect_Start();
+    void ParalysisEffect_Start();
 };
 
-// Gets the paralysis subject via FUN_0059bb30/FUN_00822b40, calls FUN_00934250 on it, reads IsSubjectActive, then calls FUN_0082c000.
+// Gets the paralysis subject via FUN_0059bb30/FUN_00822b40, calls FUN_00934250 on it, reads IsSubjectActive, then calls ValueModifierEffect_Start.
 // @fnv 0x008263c0
-void FUN_008263c0_cls::FUN_008263c0()
+void FUN_008263c0_cls::ParalysisEffect_Start()
 {
     bool active;
     {
@@ -492,7 +492,7 @@ void FUN_008263c0_cls::FUN_008263c0()
         {
             subject->FUN_00934250();
             active = subject->IsSubjectActive();
-            this->FUN_0082c000();
+            this->ValueModifierEffect_Start();
         }
     }
 }
@@ -509,12 +509,12 @@ void __cdecl ApplyHavokOperation(NiAVObject*, int, int);
 struct ParalysisRevertEffect : ParalysisEffect
 {
     void FUN_004534f0(TESObjectREFR* actor);
-    void FUN_00826570(TESObjectREFR* actor);
+    void ParalysisEffect_Revert(TESObjectREFR* actor);
 };
 
 // Calls FUN_004534f0 with actor, then calls FUN_00c8f210 with 0 and 1 if actor->Get3DSimple() is non-null.
 // @fnv 0x00826570
-void ParalysisRevertEffect::FUN_00826570(TESObjectREFR* actor)
+void ParalysisRevertEffect::ParalysisEffect_Revert(TESObjectREFR* actor)
 {
     NiAVObject* object;
     FUN_004534f0(actor);

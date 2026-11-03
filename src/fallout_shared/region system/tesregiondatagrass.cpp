@@ -33,11 +33,11 @@ struct FUN_004f16c0
 
 struct FUN_004f1b60_shell : TESRegionDataGrass
 {
-    TESRegionData* FUN_004f1b60();
+    TESRegionData* TESRegionDataGrass_Copy();
 };
 
 // @fnv 0x004f1b60
-TESRegionData* FUN_004f1b60_shell::FUN_004f1b60()
+TESRegionData* FUN_004f1b60_shell::TESRegionDataGrass_Copy()
 {
     FUN_004f16c0* pdata = new FUN_004f16c0((const void*)this);
 
@@ -245,7 +245,7 @@ struct GrassMergeRegion : TESRegionData
     bool FUN_004f1540();
     unsigned char FUN_005bb4d0();
     void FUN_004f15a0(int value);
-    bool FUN_004f15c0(unsigned char value);
+    bool TESRegionData_SetPriority(unsigned char value);
     void MergeGrassRegion(GrassMergeRegion* data, void* context);
 };
 // Merges another grass region's data into this one when the source type is 6, choosing between override, priority and weighted blending of the grass lists.
@@ -259,7 +259,7 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
     if (m_bHasRegionData)
     {
         FUN_004f15a0(priority->FUN_004f1540());
-        FUN_004f15c0(priority->FUN_005bb4d0());
+        TESRegionData_SetPriority(priority->FUN_005bb4d0());
         GetGrassList()->ClearList();
         priority->GetGrassList()->CopyTargetList(GetGrassList());
     }
@@ -272,7 +272,7 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
         if (priority->FUN_004f1540() && priority->FUN_005bb4d0() > FUN_005bb4d0())
         {
             FUN_004f15a0(priority->FUN_004f1540());
-            FUN_004f15c0(priority->FUN_005bb4d0());
+            TESRegionData_SetPriority(priority->FUN_005bb4d0());
             GetGrassList()->ClearList();
             priority->GetGrassList()->CopyTargetList(GetGrassList());
         }
@@ -280,7 +280,7 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
     else if (priority->FUN_004f1540())
     {
         FUN_004f15a0(priority->FUN_004f1540());
-        FUN_004f15c0(priority->FUN_005bb4d0());
+        TESRegionData_SetPriority(priority->FUN_005bb4d0());
         GetGrassList()->ClearList();
         priority->GetGrassList()->CopyTargetList(GetGrassList());
     }
@@ -291,6 +291,6 @@ void GrassMergeRegion::MergeGrassRegion(GrassMergeRegion* apPriority, void* cont
         source +=
             (100 - priority->FUN_005bb4d0()) * FUN_005bb4d0() + priority->FUN_005bb4d0() * priority->FUN_005bb4d0();
         source *= 0.005f;
-        FUN_004f15c0((unsigned char)floor(source));
+        TESRegionData_SetPriority((unsigned char)floor(source));
     }
 }

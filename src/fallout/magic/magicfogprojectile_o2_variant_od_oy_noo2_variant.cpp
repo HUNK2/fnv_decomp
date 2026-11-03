@@ -45,8 +45,8 @@ extern xFltSetting xg_11d15f8;
 float xFUN_00404010(float, float);
 struct xItem
 {
-    int FUN_004044d0();
-    int FUN_00404420();
+    int EffectItem_GetDuration();
+    int EffectItem_GetArea();
 };
 void xFUN_0080fae0(float);
 struct xRadius
@@ -67,7 +67,7 @@ struct xCtl
 };
 struct xCell
 {
-    void FUN_00548230(void*, bool);
+    void TESObjectCELL_AddReference(void*, bool);
 };
 struct xOwner
 {
@@ -122,10 +122,10 @@ struct xProj : xBase
     xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner);
     xEffect* FUN_004fd400();
     xItem* FUN_00586150();
-    void FUN_00570f70(void*);
-    void FUN_0081e570(int);
+    void TESObjectREFR_Set3DSimple(void*);
+    void MagicProjectile_Load3D(int);
     void InitProjectileEffect();
-    void FUN_00819ca0();
+    void MagicFogProjectile_InitHavok();
     xCtl* FUN_009306d0();
     xCell* FUN_008d6f30();
     xSound PlaySoundByFormID(void*, int, unsigned int, int);
@@ -135,8 +135,8 @@ struct xProj : xBase
 // @fnv 0x00819360
 xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner) : xBase(a, b, c, d, kP1, kP2)
 {
-    m_ac = xFUN_00404010((float)FUN_00586150()->FUN_004044d0(), *xg_11d1b74.FUN_00403e20());
-    m_b0 = xFUN_00404010((float)FUN_00586150()->FUN_00404420(), *xg_11d15c8.FUN_00403e20());
+    m_ac = xFUN_00404010((float)FUN_00586150()->EffectItem_GetDuration(), *xg_11d1b74.FUN_00403e20());
+    m_b0 = xFUN_00404010((float)FUN_00586150()->EffectItem_GetArea(), *xg_11d15c8.FUN_00403e20());
     m_88 = ((xRadius*)FUN_004fd400())->FUN_009b0bd0() * *xg_11d16f8.FUN_00403e20();
     m_b4 = 0;
     m_a8 = 0.0f;
@@ -144,14 +144,14 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     m_cc = 0;
     m_c8 = 0;
     if (apE)
-        FUN_00570f70(apE);
+        TESObjectREFR_Set3DSimple(apE);
     else
-        FUN_0081e570(0);
+        MagicProjectile_Load3D(0);
     InitProjectileEffect();
-    FUN_00819ca0();
+    MagicFogProjectile_InitHavok();
     xVec4 V(-xg_107ad40, 0.0f, 0.0f, 0.0f);
     FUN_009306d0()->FUN_0080fb00(&V);
-    FUN_008d6f30()->FUN_00548230(this, false);
+    FUN_008d6f30()->TESObjectCELL_AddReference(this, false);
     if (FUN_004fd400()->FUN_004fd3c0())
     {
         void* NAME = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();

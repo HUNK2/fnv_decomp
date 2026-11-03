@@ -92,11 +92,11 @@ float FUN_005081b0_shell::GetFloatAtOffset58()
 
 struct FUN_00509aa0_shell : TESGrass
 {
-    unsigned char FUN_00509aa0();
+    unsigned char TESGrass_GetMaxSlopeDegrees();
 };
 
 // @fnv 0x00509aa0
-unsigned char FUN_00509aa0_shell::FUN_00509aa0()
+unsigned char FUN_00509aa0_shell::TESGrass_GetMaxSlopeDegrees()
 {
     return ((unsigned char*)this)[0x4a];
 }
@@ -105,11 +105,11 @@ struct TESGrass_shell
 {
     char m_auiShapeKeys[0x4c];
     unsigned short m_4c;
-    void FUN_00509b20(unsigned short state);
+    void TESGrass_SetDistanceFromWater(unsigned short state);
 };
 
 // @fnv 0x00509b20
-void TESGrass_shell::FUN_00509b20(unsigned short state)
+void TESGrass_shell::TESGrass_SetDistanceFromWater(unsigned short state)
 {
     m_4c = state;
 }
@@ -171,12 +171,12 @@ void* FUN_00509c90_shell::DestroyIfFlagged(unsigned int flags)
 struct FUN_00509d30_shell
 {
     char field_48;
-    bool FUN_00509d30(unsigned char a);
+    bool TESGrass_SetDensity(unsigned char a);
 };
 
 // Stores the byte argument into the field at offset 0x48 and returns true if it is at most 0x64, otherwise returns false.
 // @fnv 0x00509d30
-bool FUN_00509d30_shell::FUN_00509d30(unsigned char aucValue)
+bool FUN_00509d30_shell::TESGrass_SetDensity(unsigned char aucValue)
 {
     if (aucValue <= 0x64)
     {
@@ -188,12 +188,12 @@ bool FUN_00509d30_shell::FUN_00509d30(unsigned char aucValue)
 
 struct FUN_00509d60_class
 {
-    bool FUN_00509d60(unsigned char value);
+    bool TESGrass_SetMinSlopeDegrees(unsigned char value);
 };
 
 // Stores value at offset 0x49 and returns true when value is <= 0x5a and <= the byte at offset 0x4a; otherwise returns false.
 // @fnv 0x00509d60
-bool FUN_00509d60_class::FUN_00509d60(unsigned char value)
+bool FUN_00509d60_class::TESGrass_SetMinSlopeDegrees(unsigned char value)
 {
     if (value <= 0x5a && value <= ((unsigned char*)this)[0x4a])
     {
@@ -296,26 +296,26 @@ struct Grass00509ac0
 {
     char _pad[0x49];
     unsigned char m49;
-    float FUN_00509ac0();
+    float TESGrass_GetMinSlope();
 };
 // Returns the product of m49 and DAT_01023128.
 // @fnv 0x00509ac0
-float Grass00509ac0::FUN_00509ac0()
+float Grass00509ac0::TESGrass_GetMinSlope()
 {
     return m49 * DAT_01023128;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 extern "C" unsigned char __cdecl FUN_00401500();
 struct FUN_004891d0_shell
@@ -324,24 +324,24 @@ struct FUN_004891d0_shell
 };
 struct FUN_0050a1d0_shell
 {
-    void FUN_0050a1d0();
+    void TESGrass_SaveForm();
 };
 // @fnv 0x0050a1d0
-void FUN_0050a1d0_shell::FUN_0050a1d0()
+void FUN_0050a1d0_shell::TESGrass_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     ((FUN_004891d0_shell*)((char*)this + 0x30))->WriteToBuffer(0x4c444f4d, 0x54444f4d);
     if (FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x48), 0x20);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x48), 0x20);
     if (FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct R00624700
 {
@@ -359,7 +359,7 @@ void FUN_0050a240_shell::CopyGrassData(TESForm* apCopy)
     pcopy = dynamic_cast<TESGrass*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(((R00624700*)this)->_ref_00624700(), ((R00624700*)pcopy)->_ref_00624700(), 0x20);
 }
 
@@ -496,11 +496,11 @@ struct FUN_00509ea0_Class
 {
     char _pad[0x60];
     float m_60;
-    bool FUN_00509ea0(float value);
+    bool TESGrass_SetWavePeriod(float value);
 };
 // Stores value in m_60 and returns true when value is greater than _gModifierZero and at most g_d100; otherwise returns false.
 // @fnv 0x00509ea0
-bool FUN_00509ea0_Class::FUN_00509ea0(float value)
+bool FUN_00509ea0_Class::TESGrass_SetWavePeriod(float value)
 {
     if (value > _gModifierZero && value <= g_d100)
     {
@@ -593,7 +593,7 @@ class B50F600ModelLoader
 extern B50F600ModelLoader* g_pkB50F600ModelLoader;
 
 class B50F600Ref;
-const char* __cdecl FUN_004895b0(B50F600Ref* pkRef);
+const char* __cdecl TESModel_GetModel(B50F600Ref* pkRef);
 
 class B50F600Ref
 {
@@ -693,13 +693,13 @@ class B50F600Ref
     virtual void VFunc170();
     virtual B50F600Node* Get3D(int iIndex);
 
-    bool FUN_0050f600(int iUnused);
+    bool TESBoundObject_ReplaceModel_5F(int iUnused);
 };
 
 // @fnv 0x0050f600
-bool B50F600Ref::FUN_0050f600(int iUnused)
+bool B50F600Ref::TESBoundObject_ReplaceModel_5F(int iUnused)
 {
-    g_pkB50F600ModelLoader->FUN_0045a5e0(FUN_004895b0(this));
+    g_pkB50F600ModelLoader->FUN_0045a5e0(TESModel_GetModel(this));
     B50F600Node* pkNode2 = Get3D(0);
     pkNode2->FUN_00a5a040();
     B50F600UpdateData kUpdateData(0.0f, false, false);
@@ -710,7 +710,7 @@ bool B50F600Ref::FUN_0050f600(int iUnused)
 namespace GrassCompare50A2A0Detail {
 struct BaseComparison
 {
-    bool FUN_00485270(::TESForm*);
+    bool TESForm_CompareAllComponents(::TESForm*);
 };
 
 class VirtualView : public ::TESGrass
@@ -770,12 +770,12 @@ struct Argument
 
 // Returns true if the form is not TESGrass, base comparison reports a difference, or any compared accessor differs.
 // @fnv 0x0050a2a0
-bool __fastcall FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
+bool __fastcall TESGrass_Compare(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
 {
     ::TESGrass* pCompareGrass = dynamic_cast< ::TESGrass*>(apCompare.form);
     if (pCompareGrass == 0)
         return true;
-    if (reinterpret_cast<GrassCompare50A2A0Detail::BaseComparison*>(apGrass)->FUN_00485270(pCompareGrass))
+    if (reinterpret_cast<GrassCompare50A2A0Detail::BaseComparison*>(apGrass)->TESForm_CompareAllComponents(pCompareGrass))
         return true;
     if (reinterpret_cast<GrassCompare50A2A0Detail::VirtualView*>(apGrass)->GetMaximumSlopeLimit() !=
         reinterpret_cast<GrassCompare50A2A0Detail::VirtualView*>(pCompareGrass)->GetMaximumSlopeLimit())

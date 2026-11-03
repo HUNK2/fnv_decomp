@@ -43,7 +43,7 @@ struct Actor
 };
 struct FUN_00498910_shell
 {
-    void FUN_00498910(bool, bool);
+    void Animation_SpecialIdleFree(bool, bool);
 };
 struct Node
 {
@@ -380,7 +380,7 @@ class PackageL8
 void __cdecl FUN_00c82870(int iLayer, unsigned __int64 ulMask);
 void* __cdecl FUN_005dbe10();
 void* __cdecl FUN_004b5820(void* pvCollidable);
-RefL8* __cdecl FUN_0056f930(void* pvCollidable);
+RefL8* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvCollidable);
 
 class CheckerL8
 {
@@ -424,7 +424,7 @@ bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
     {
         HitL8 kHit(kQuery.GetHits()->GetList()->GetAt(i));
         void* pvCollidable = FUN_004b5820(kHit.m_pvCollidable);
-        RefL8* pkRef = FUN_0056f930(pvCollidable);
+        RefL8* pkRef = TESObjectREFR_FindReferenceFor3D(pvCollidable);
         if (pvCollidable)
         {
             if (pkRef == pkTarget || pkRef == g_pkPlayerL8)

@@ -163,7 +163,7 @@ unsigned char FUN_00702140()
 struct Form
 {
     int FUN_00401170();
-    bool FUN_004c0bf0();
+    bool TESObjectWEAP_IsThrownWeapon();
 };
 struct Data
 {
@@ -174,7 +174,7 @@ struct Entry
     Data* FUN_00559450();
     Form* FUN_0044ddc0();
     int FUN_00726070();
-    bool FUN_004bddd0(bool);
+    bool ItemChange_GetWorn(bool);
     Entry* FUN_004459e0(bool);
 };
 struct Inventory
@@ -820,7 +820,7 @@ void Wheel::FUN_00701e80()
     Entry* entry5 = inv3 ? inv3->FindEntryWithExtraListType(*(int*)((char*)this + 0x28)) : 0;
     void* extra = entry5 && entry5->FUN_00559450() ? *entry5->FUN_00559450()->FUN_006815c0() : 0;
     bool ammo4 =
-        (entry5 && entry5->FUN_0044ddc0()->FUN_00401170() == 0x28 && entry5->FUN_0044ddc0()->FUN_004c0bf0()) ? 1 : 0;
+        (entry5 && entry5->FUN_0044ddc0()->FUN_00401170() == 0x28 && entry5->FUN_0044ddc0()->TESObjectWEAP_IsThrownWeapon()) ? 1 : 0;
     if (!*((unsigned char*)this + 0x24) || !inv3 || !entry5)
         return;
     if (DAT_011dea3c->FUN_008a7570() != -1 && entry5->FUN_0044ddc0()->FUN_00401170() == 0x18)
@@ -835,7 +835,7 @@ void Wheel::FUN_00701e80()
     }
     else
     {
-        if (!entry5->FUN_004bddd0(false))
+        if (!entry5->ItemChange_GetWorn(false))
             DAT_011dea3c->FUN_0088c650(entry5->FUN_0044ddc0(), ammo4 ? entry5->FUN_00726070() : 1, extra, 0, 0, 1);
         else
             DAT_011dea3c->FUN_0088c790(entry5->FUN_0044ddc0(), ammo4 ? entry5->FUN_00726070() : 1, extra, 0, 0, 1);

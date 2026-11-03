@@ -131,13 +131,13 @@ NiColorInterpolator* __fastcall NiColorInterpolatorConstructor(NiColorInterpolat
 
 struct FUN_00a3bd70_shell : public NiColorInterpolator
 {
-    void* FUN_00a3bd70();
+    void* NiColorInterpolator_GetRTTI();
 };
 
 extern "C" void* g_011f3730;
 
 // @fnv 0x00a3bd70
-void* FUN_00a3bd70_shell::FUN_00a3bd70()
+void* FUN_00a3bd70_shell::NiColorInterpolator_GetRTTI()
 {
     return &g_011f3730;
 }
@@ -212,10 +212,10 @@ struct NiColorA_SaveHelper
 };
 struct FUN_00a3bce0_shell : NiColorInterpolator
 {
-    void FUN_00a3bce0(NiStream&);
+    void NiColorInterpolator_SaveBinary(NiStream&);
 };
 // @fnv 0x00a3bce0
-void FUN_00a3bce0_shell::FUN_00a3bce0(NiStream& kStream)
+void FUN_00a3bce0_shell::NiColorInterpolator_SaveBinary(NiStream& kStream)
 {
     ((FUN_00a95ca0_helper*)this)->FUN_00a95ca0(&kStream);
     ((NiColorA_SaveHelper*)&m_kColorValue)->SaveBinary(&kStream);
@@ -239,7 +239,7 @@ extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
 // @fnv 0x00a3c130
-BSFadeNode* FUN_00a3c130()
+BSFadeNode* NiColorInterpolator_CreateObject()
 {
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x24);
     if (p)
@@ -511,14 +511,14 @@ struct FUN_00a3c270_cls
     unsigned int m_unk14;
     unsigned int m_unk18;
     unsigned int m_uiFilterValue;
-    void FUN_00a3cbf0(ViewerArray* out);
+    void NiKeyBasedInterpolator_GetViewerStrings(ViewerArray* out);
     void AppendColorProperties(ViewerArray* out);
 };
 
 // @fnv 0x00a3c270
 void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
 {
-    this->FUN_00a3cbf0(out);
+    this->NiKeyBasedInterpolator_GetViewerStrings(out);
     void* pValue = FUN_00a7d330(g_011f3730);
     unsigned int uiIndex = out->m_usNext;
     if (uiIndex >= out->m_usMax)
@@ -620,12 +620,12 @@ class FUN_00a3c190_C : public NiObjA3C
     NiColorA3C m_kColorValue;
     NiPointer<NiObjA3C> m_spColorData;
 
-    bool FUN_00a3c190(NiObjA3C* pkObject);
+    bool NiColorInterpolator_IsEqual(NiObjA3C* pkObject);
 };
 
 // Returns false when the base check, color check, or color-data check fails; otherwise returns true.
 // @fnv 0x00a3c190
-bool FUN_00a3c190_C::FUN_00a3c190(NiObjA3C* pkObject)
+bool FUN_00a3c190_C::NiColorInterpolator_IsEqual(NiObjA3C* pkObject)
 {
     if (!FUN_00c85800(pkObject))
         return false;

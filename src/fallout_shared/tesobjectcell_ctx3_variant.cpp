@@ -100,7 +100,7 @@ int __fastcall GetReferenceFlags(void*);
 NavMeshPtr __cdecl MakeNavMeshPointer(NavMesh*);
 struct S004867a0
 {
-    TESForm* FUN_004867a0(bool, void*);
+    TESForm* TESForm_CreateDuplicateForm(bool, void*);
 };
 struct CellX
 {
@@ -148,11 +148,11 @@ struct LNode
 
 struct FUN_005436e0_shell : TESObjectCELL
 {
-    TESForm* FUN_005436e0(bool abCreateEditorID, void* apCopyMap);
+    TESForm* TESObjectCELL_CreateDuplicateForm(bool abCreateEditorID, void* apCopyMap);
 };
 
 // @fnv 0x005436e0
-TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap)
+TESForm* FUN_005436e0_shell::TESObjectCELL_CreateDuplicateForm(bool abCreateEditorID, void* apCopyMap)
 {
     TESObjectCELL* pdupcell = 0;
     if (IsCellInterior())
@@ -161,7 +161,7 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
     else
     {
         BSSimpleList<TESObjectREFR*>* pCurrentElementNext;
-        pdupcell = dynamic_cast<TESObjectCELL*>(((S004867a0*)this)->FUN_004867a0(false, apCopyMap));
+        pdupcell = dynamic_cast<TESObjectCELL*>(((S004867a0*)this)->TESForm_CreateDuplicateForm(false, apCopyMap));
         TESObjectLAND* pland;
         pland = *(TESObjectLAND**)((char*)this + 0x4c);
         if (pland)

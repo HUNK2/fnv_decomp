@@ -135,7 +135,7 @@ class MersenneTwister
 };
 }
 void FUN_004ee7d0();
-void FUN_004a42a0();
+void BGSDecalManager_RemoveAllDecals();
 class MagicShaderHitEffect;
 class NiAVObject;
 class BGSTerrainManager
@@ -145,5 +145,5 @@ class BGSTerrainManager
 };
 class GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_011dc804;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 #endif

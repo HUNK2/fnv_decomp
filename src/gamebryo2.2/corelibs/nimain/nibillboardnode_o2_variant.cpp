@@ -67,10 +67,10 @@ struct NiNode
 };
 struct UnkBoard : NiNode
 {
-    void FUN_00a7da80(NiUpdateData&, unsigned int);
+    void NiBillboardNode_UpdateSelectedDownwardPass(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7da80
-void UnkBoard::FUN_00a7da80(NiUpdateData& a, unsigned int b)
+void UnkBoard::NiBillboardNode_UpdateSelectedDownwardPass(NiUpdateData& a, unsigned int b)
 {
     *(float*)((char*)this + 0xB0) = a.m_fTime;
     NiNode::UpdateSelectedDownwardPass(a, b);
@@ -88,10 +88,10 @@ struct BaseNode
 };
 struct StandIn
 {
-    void FUN_00a7dab0(NiUpdateData&, unsigned int);
+    void NiBillboardNode_UpdateRigidDownwardPass(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7dab0
-void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
+void StandIn::NiBillboardNode_UpdateRigidDownwardPass(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     *(float*)((char*)this + 0xb0) = UpdateData.m_fTime;
     ((BaseNode*)this)->FUN_00a5e1f0(UpdateData, uFlags);
@@ -200,10 +200,10 @@ struct NiNode
     char _pad2[2];
     float m_uiCommandId;
     void UpdateDownwardPass(NiUpdateData&, unsigned int);
-    void FUN_00a7dae0(NiUpdateData&, unsigned int);
+    void NiBillboardNode_UpdateDownwardPass(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7dae0
-void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
+void NiNode::NiBillboardNode_UpdateDownwardPass(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     m_uiCommandId = UpdateData.m_fTime;
     if (UpdateData.m_bUpdate)
@@ -218,18 +218,18 @@ void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
 class NiObject;
 struct BaseForCall
 {
-    bool FUN_00a5e600(NiObject* pkObject);
+    bool NiNode_IsEqual(NiObject* pkObject);
 };
 struct MyNode
 {
     char _pad[0xAD];
-    unsigned char FUN_00a7db30(NiObject* pkObject);
+    unsigned char NiBillboardNode_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a7db30
-unsigned char MyNode::FUN_00a7db30(NiObject* pkObject)
+unsigned char MyNode::NiBillboardNode_IsEqual(NiObject* pkObject)
 {
     NiBillboardNode* pkNode = (NiBillboardNode*)pkObject;
-    if (!((BaseForCall*)this)->FUN_00a5e600(pkObject))
+    if (!((BaseForCall*)this)->NiNode_IsEqual(pkObject))
         return 0;
     return ((((unsigned char*)pkNode)[0xAC] ^ ((unsigned char*)this)[0xAC]) & 7) == 0;
 }
@@ -248,18 +248,18 @@ struct NiStream
 };
 struct NiNodeBase
 {
-    void FUN_00a5e880(NiStream&);
+    void NiNode_SaveBinary(NiStream&);
 };
 struct StandIn
 {
     char _pad[172];
     short m_field;
-    void FUN_00a7e850(NiStream&);
+    void NiBillboardNode_SaveBinary(NiStream&);
 };
 // @fnv 0x00a7e850
-void StandIn::FUN_00a7e850(NiStream& kStream)
+void StandIn::NiBillboardNode_SaveBinary(NiStream& kStream)
 {
-    ((NiNodeBase*)this)->FUN_00a5e880(kStream);
+    ((NiNodeBase*)this)->NiNode_SaveBinary(kStream);
     NiBinaryStream* __restrict pkOstr = kStream.m_pBackingStream;
     unsigned int size = 2;
     pkOstr->m_pos += pkOstr->m_pfnWrite(pkOstr, &m_field, 2, &size, 1);
@@ -421,14 +421,14 @@ class Prop
     char unk00[0xac];
     unsigned short m_usFlags;
 
-    void FUN_00a5dd40(NiStreamImpl& stream);
-    void FUN_00a7e7b0(NiStreamImpl& stream);
+    void NiNode_LoadBinary(NiStreamImpl& stream);
+    void NiBillboardNode_LoadBinary(NiStreamImpl& stream);
 };
 
 // @fnv 0x00a7e7b0
-void Prop::FUN_00a7e7b0(NiStreamImpl& stream)
+void Prop::NiBillboardNode_LoadBinary(NiStreamImpl& stream)
 {
-    FUN_00a5dd40(stream);
+    NiNode_LoadBinary(stream);
     if (stream.GetFileVersion() < 0x0a000102)
     {
         m_usFlags = stream.m_usOldFlags;
@@ -580,11 +580,11 @@ class NiNodeA7E
     int unkA4;
     unsigned short m_usChildCount;
 
-    void FUN_00a7e630();
+    void NiBillboardNode_UpdateWorldBound();
 };
 
 // @fnv 0x00a7e630
-void NiNodeA7E::FUN_00a7e630()
+void NiNodeA7E::NiBillboardNode_UpdateWorldBound()
 {
     if (!m_usChildCount)
         return;
@@ -621,7 +621,7 @@ struct StrArr
 
 struct FUN_00a5ea70_t
 {
-    void FUN_00a5ea70(StrArr* array);
+    void NiNode_GetViewerStrings(StrArr* array);
 };
 
 class GlobalObjectO2_00a7b610
@@ -635,13 +635,13 @@ char* __cdecl FUN_00a7db60(const char* pName, unsigned int uiValue);
 
 struct PropTarget : Prop
 {
-    void FUN_00a7e890(StrArr* array);
+    void NiBillboardNode_GetViewerStrings(StrArr* array);
 };
 
 // @fnv 0x00a7e890
-void PropTarget::FUN_00a7e890(StrArr* array)
+void PropTarget::NiBillboardNode_GetViewerStrings(StrArr* array)
 {
-    ((FUN_00a5ea70_t*)this)->FUN_00a5ea70(array);
+    ((FUN_00a5ea70_t*)this)->NiNode_GetViewerStrings(array);
     array->Add(FUN_00a7d330(g_011f4aa0.m_pString));
     unsigned int uiFlags = m_usFlags & 7;
     array->Add(FUN_00a7db60("m_eMode", uiFlags));
@@ -1049,11 +1049,11 @@ struct BillboardClone : StandIn
 struct BillboardCloneSource : StandIn
 {
     void FUN_00a5dc80(BillboardClone* dest, void* context);
-    BillboardClone* FUN_00a7e710(void* context);
+    BillboardClone* NiBillboardNode_CreateClone(void* context);
 };
 
 // @fnv 0x00a7e710
-BillboardClone* BillboardCloneSource::FUN_00a7e710(void* context)
+BillboardClone* BillboardCloneSource::NiBillboardNode_CreateClone(void* context)
 {
     void* storage = FUN_00aa13e0(sizeof(BillboardClone));
     BillboardClone* clone = storage ? new (storage) BillboardClone() : 0;

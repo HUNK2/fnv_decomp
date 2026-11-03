@@ -22,14 +22,14 @@ void Precipitation::Load(const char* path)
             model->UpdateDownwardPass(kUpdateData, 0);
             m_pPrecipitationNode = reinterpret_cast<NiNode*>(new NiSortAdjustNode(0));
             fEmissionRate = 0.0f;
-            for (unsigned int index = 0; index < model->FUN_00453470(); ++index)
+            for (unsigned int index = 0; index < model->NiNode_GetChildCount(); ++index)
             {
                 NiAVObject* m_pShaderGeometry = model->FUN_0043b4a0(index)->vfn_000c();
                 SkyShaderProperty* pShaderProperty =
                     m_pShaderGeometry ? FUN_00653270(&DAT_012024e0, m_pShaderGeometry->FUN_0045bc00(false)) : 0;
                 if (!pShaderProperty)
                     continue;
-                NiAVObject* precipParticle = CreateParticleShape(pShaderProperty, pParent->FUN_00461130(bIsSnow));
+                NiAVObject* precipParticle = CreateParticleShape(pShaderProperty, pParent->NiAVObject_GetWorldRotate(bIsSnow));
                 if (precipParticle)
                     static_cast<NiNode*>(m_pPrecipitationNode)->AddObject(precipParticle, true);
             }

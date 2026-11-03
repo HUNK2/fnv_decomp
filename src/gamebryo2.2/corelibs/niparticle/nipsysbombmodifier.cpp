@@ -22,10 +22,10 @@ struct NiPSysBombModifier : NiPSysModifier
 {
     char _pad[20];
     NiObject* m_pkBombObject;
-    void FUN_00c2e610(CloningProcess&);
+    void NiPSysBombModifier_ProcessClone(CloningProcess&);
 };
 // @fnv 0x00c2e610
-void NiPSysBombModifier::FUN_00c2e610(CloningProcess& kCloning)
+void NiPSysBombModifier::NiPSysBombModifier_ProcessClone(CloningProcess& kCloning)
 {
     bool bFound;
     NiObject* pkClone;
@@ -87,14 +87,14 @@ struct BombMod : NiPSysBombModifier
     {
         return (NiObjVt*)m_pkBombObject;
     }
-    bool FUN_00c31830(NiObject* pkObject);
-    bool FUN_00c2eaf0(NiObject* pkObject);
+    bool NiPSysModifier_IsEqual(NiObject* pkObject);
+    bool NiPSysBombModifier_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00c2eaf0
-bool BombMod::FUN_00c2eaf0(NiObject* pkObject)
+bool BombMod::NiPSysBombModifier_IsEqual(NiObject* pkObject)
 {
-    if (!FUN_00c31830(pkObject))
+    if (!NiPSysModifier_IsEqual(pkObject))
         return false;
 
     BombMod* pkDest = (BombMod*)pkObject;
@@ -161,7 +161,7 @@ struct BombModBase
 {
     virtual void vfunc00();
     char pad04[0x14];
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 
 struct BombMod : BombModBase
@@ -209,7 +209,7 @@ struct BombMod : BombModBase
 // @fnv 0x00c2ed00
 void BombMod::AppendToStrings(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
+    NiPSysModifier_GetViewerStrings(pkStrings);
 
     pkStrings->Add(FUN_00a7d330(g_01202790));
     pkStrings->Add(FUN_00a7d5e0("Bomb Object", m_pkBombObject ? m_pkBombObject->m_kName : "None"));
@@ -411,11 +411,11 @@ struct BombLoader
     DecayType decayType;
     SymmetryType symmetryType;
     void FUN_00c318b0(ParticleStream&);
-    void FUN_00c2eb80(ParticleStream& stream);
+    void NiPSysBombModifier_LoadBinary(ParticleStream& stream);
 };
 // Loads the base data, then reads axis, decay, delta, decayType and symmetryType from the stream's input.
 // @fnv 0x00c2eb80
-void BombLoader::FUN_00c2eb80(ParticleStream& stream)
+void BombLoader::NiPSysBombModifier_LoadBinary(ParticleStream& stream)
 {
     FUN_00c318b0(stream);
     stream.FUN_00a645b0();
@@ -653,7 +653,7 @@ class NiPSysModifierC2E
 class NiPSysEmitterC2E : public NiPSysModifierC2E
 {
   public:
-    void FUN_00c2ec40(NiStreamC2E& kStream);
+    void NiPSysBombModifier_SaveBinary(NiStreamC2E& kStream);
 
     void* m_pkTarget;
     NiColorC2E m_kFogTint;
@@ -665,7 +665,7 @@ class NiPSysEmitterC2E : public NiPSysModifierC2E
 
 // Saves the modifier base, the target link ID, the color, and the four float values to the stream.
 // @fnv 0x00c2ec40
-void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
+void NiPSysEmitterC2E::NiPSysBombModifier_SaveBinary(NiStreamC2E& kStream)
 {
     NiPSysModifierC2E::SaveBinary(kStream);
     kStream.SaveLinkID(m_pkTarget);
@@ -720,11 +720,11 @@ struct C2E570_Modifier : C2E570_Base
         m_34 = 0;
     }
     void FUN_00c31780(C2E570_Modifier* clone, int arg);
-    C2E570_Modifier* FUN_00c2e570(int arg);
+    C2E570_Modifier* NiPSysBombModifier_CreateClone(int arg);
 };
 // Creates a new modifier, calls FUN_00c31780 on it, copies m_1C, m_20, m_24, m_28, m_2C, m_30, and m_34, then returns it.
 // @fnv 0x00c2e570
-C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(int arg)
+C2E570_Modifier* C2E570_Modifier::NiPSysBombModifier_CreateClone(int arg)
 {
     C2E570_Modifier* clone = new C2E570_Modifier;
     FUN_00c31780(clone, arg);
@@ -753,7 +753,7 @@ struct BombPoint
     {
         memcpy(this, &p, sizeof(*this));
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     float Dot(const BombPoint& p) const
     {
         return x * p.x + y * p.y + z * p.z;
@@ -909,12 +909,12 @@ struct NiPSysModifierStandIn
 
 struct BombModShell : BombMod
 {
-    void FUN_00c2e670(float fTime, NiPSysData* pkData);
+    void NiPSysBombModifier_Update(float fTime, NiPSysData* pkData);
 };
 
 // Applies velocity impulses to particles based on bomb direction, symmetry type, and distance decay over the elapsed time step.
 // @fnv 0x00c2e670
-void BombModShell::FUN_00c2e670(float fTime, NiPSysData* pkData)
+void BombModShell::NiPSysBombModifier_Update(float fTime, NiPSysData* pkData)
 {
     Point3ParameterData* pkInfo;
     (void)pkInfo;
@@ -938,7 +938,7 @@ void BombModShell::FUN_00c2e670(float fTime, NiPSysData* pkData)
 
         kTargetCenter = kBombToTarget.m_kTranslation;
         kBombAxis = kBombToTarget.m_kOrientation.FUN_004b4500(m_kBombDirection);
-        kBombAxis.FUN_004a0c10();
+        kBombAxis.NiPoint3_Unitize();
     }
 
     for (unsigned short i = 0; i < pkData->m_usNumParticles; ++i)

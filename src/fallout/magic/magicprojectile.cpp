@@ -51,15 +51,15 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_0081e830_shell
 {
     unsigned short GetSaveRecordSize(unsigned int a);
-    unsigned int __thiscall FUN_00931ff0(unsigned int);
+    unsigned int __thiscall MobileObject_GetSaveSize(unsigned int);
 };
 
-// Computes a save record size: adds the result of FUN_00931ff0(a) plus 12, and 4 more each when the save version is at least 0x48 and 0x64.
+// Computes a save record size: adds the result of MobileObject_GetSaveSize(a) plus 12, and 4 more each when the save version is at least 0x48 and 0x64.
 // @fnv 0x0081e830
 unsigned short FUN_0081e830_shell::GetSaveRecordSize(unsigned int a)
 {
     unsigned short usSize = 0;
-    usSize += (unsigned short)FUN_00931ff0(a);
+    usSize += (unsigned short)MobileObject_GetSaveSize(a);
     usSize += 4;
     usSize += 4;
     usSize += 4;
@@ -88,14 +88,14 @@ struct FUN_00818be0_shell
 };
 struct FUN_0040a1e0_shell
 {
-    unsigned int FUN_0040a1e0();
+    unsigned int MagicItem_GetMagicItemFormID();
 };
 struct FUN_0081e8c0_shell : FUN_00932070_shell
 {
-    void FUN_0081e8c0(unsigned int aiFlags);
+    void MagicProjectile_SaveGame(unsigned int aiFlags);
 };
 // @fnv 0x0081e8c0
-void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
+void FUN_0081e8c0_shell::MagicProjectile_SaveGame(unsigned int aiFlags)
 {
     SaveProcess(aiFlags);
     unsigned int icasterID =
@@ -104,7 +104,7 @@ void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&icasterID), 4);
     unsigned int ispellID =
         reinterpret_cast<FUN_0040a1e0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x98))
-            ->FUN_0040a1e0();
+            ->MagicItem_GetMagicItemFormID();
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&ispellID), 4);
     reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
         reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0xa4), 4);
@@ -127,10 +127,10 @@ struct FUN_00484d40_Host
 struct FUN_0081e980_shell
 {
     void __thiscall SetProcessLevel(unsigned int, unsigned int);
-    void __thiscall FUN_0081e980(unsigned int, unsigned int);
+    void __thiscall MagicProjectile_LoadGame2(unsigned int, unsigned int);
 };
 // @fnv 0x0081e980
-void __thiscall FUN_0081e980_shell::FUN_0081e980(unsigned int a, unsigned int b)
+void __thiscall FUN_0081e980_shell::MagicProjectile_LoadGame2(unsigned int a, unsigned int b)
 {
     SetProcessLevel(a, b);
     unsigned int icasterID;
@@ -1361,16 +1361,16 @@ struct FUN_0081dbb0 : MobileObject
 {
     float unk88, unk8c, unk90;
     int unk94, unk98, unk9c, unka0;
-    void FUN_0046a010(bool);
+    void TESForm_SetStillLoading(bool);
     void* FUN_007af430();
-    void FUN_00575690(void*);
+    void TESObjectREFR_SetObjectReference(void*);
     FUN_0081dbb0();
 };
-// Initializes the object, zeroes its float and int fields, allocates a HighProcess, and calls FUN_00575690 with the result of FUN_007af430.
+// Initializes the object, zeroes its float and int fields, allocates a HighProcess, and calls TESObjectREFR_SetObjectReference with the result of FUN_007af430.
 // @fnv 0x0081dbb0
 FUN_0081dbb0::FUN_0081dbb0()
 {
-    FUN_0046a010(true);
+    TESForm_SetStillLoading(true);
     unk90 = 0.0f;
     unk94 = 0;
     unk98 = 0;
@@ -1379,7 +1379,7 @@ FUN_0081dbb0::FUN_0081dbb0()
     unk88 = 0.0f;
     unk8c = 0.0f;
     process = new HighProcess;
-    FUN_00575690(FUN_007af430());
+    TESObjectREFR_SetObjectReference(FUN_007af430());
 }
 
 struct MarkerErrorSub
@@ -1466,7 +1466,7 @@ struct MADObject
     float GetFloatAt64();
     void AssignFixedString(const MADName& kName);
     void FUN_00440460(const void* pData);
-    void FUN_00439410(FUN_00a75650* pProperty);
+    void NiAVObject_AttachProperty(FUN_00a75650* pProperty);
 };
 struct MADNode : MADObject
 {
@@ -1477,7 +1477,7 @@ struct MADNode : MADObject
 };
 struct MADCount
 {
-    int FUN_00404420();
+    int EffectItem_GetArea();
 };
 struct MADSetting
 {
@@ -1524,7 +1524,7 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
     MADNode* pNode2 = pRoot->IsSceneNode();
     if (pNode2)
     {
-        float fRadius3 = FUN_00586150()->FUN_00404420() * *DAT_011d15e0.FUN_00403e20() / pRoot->GetFloatAt64();
+        float fRadius3 = FUN_00586150()->EffectItem_GetArea() * *DAT_011d15e0.FUN_00403e20() / pRoot->GetFloatAt64();
         MADObject* pDisplaySphere = FUN_00c56680(fRadius3, 10, 10, 0);
         pDisplaySphere->AssignFixedString(MADName("MagicAreaDisplay"));
         pDisplaySphere->FUN_00440460(DAT_011f426c);
@@ -1534,7 +1534,7 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
         pMaterial->FUN_004534f0(DAT_011a9b7c);
         pMaterial->FUN_004534f0(DAT_011a9b7c);
         pMaterial->FUN_004bc450(kZero_);
-        pDisplaySphere->FUN_00439410(pMaterial);
+        pDisplaySphere->NiAVObject_AttachProperty(pMaterial);
         pNode2->AttachChildInAvailableSlot(pDisplaySphere, true);
         pNode2->FUN_00a5a040();
     }
@@ -1796,7 +1796,7 @@ struct GameTimerRecord
 
 struct S86a0
 {
-    int FUN_004086a0();
+    int EffectSetting_GetProjectileType();
 };
 
 void* __cdecl operator new(unsigned int size);
@@ -1848,7 +1848,7 @@ FUN_00819360::FUN_00819360(void*, int, GameTimerRecord*, unsigned int, Vector3, 
 FUN_00822920::FUN_00822920(void*, int, GameTimerRecord*, unsigned int, Vector3, Vector3)
 {}
 
-// Constructs one of four class instances based on projectile->FUN_004086a0() and passes it to DAT_011e0e80.
+// Constructs one of four class instances based on projectile->EffectSetting_GetProjectileType() and passes it to DAT_011e0e80.
 // @fnv 0x0081e040
 void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTimerRecord* timer, S86a0* projectile,
                           Vector3 first, Vector3 second)
@@ -1858,7 +1858,7 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
 
     currentTime = projectile ? (unsigned int)projectile : timer->GetTime();
 
-    switch (projectile->FUN_004086a0())
+    switch (projectile->EffectSetting_GetProjectileType())
     {
     case 0:
         result = new FUN_0080f810(a, d, timer, currentTime, first, second, b, c);

@@ -30,11 +30,11 @@ struct NiParticleSystem
 };
 struct NiPSysModifierCtlr_shell : public NiTimeController, public NiParticleSystem
 {
-    void FUN_00c31500(NiObjectNET* pkTarget);
+    void NiPSysModifierCtlr_SetTarget(NiObjectNET* pkTarget);
 };
 // Clears the pointer at offset 0x3c, calls NiTimeController::SetTarget, and if the pointer at 0x2c is set, invokes the particle system method.
 // @fnv 0x00c31500
-void NiPSysModifierCtlr_shell::FUN_00c31500(NiObjectNET* pkTarget)
+void NiPSysModifierCtlr_shell::NiPSysModifierCtlr_SetTarget(NiObjectNET* pkTarget)
 {
     *(void**)((char*)this + 0x3c) = 0;
     NiTimeController::SetTarget(pkTarget);
@@ -49,7 +49,7 @@ struct NiStream
 
 struct FUN_00a39010_shell
 {
-    void FUN_00a39010(NiStream&);
+    void NiSingleInterpController_SaveBinary(NiStream&);
 };
 
 struct FUN_00a57130_shell
@@ -61,7 +61,7 @@ struct FUN_00a57130_shell
 void FUN_00a57130_shell::FUN_00a57130(NiStream& kStream)
 {
     FUN_00a39010_shell* pBase = (FUN_00a39010_shell*)this;
-    pBase->FUN_00a39010(kStream);
+    pBase->NiSingleInterpController_SaveBinary(kStream);
     kStream.SerializeString((char const*)((char*)this + 0x38));
 }
 
@@ -316,7 +316,7 @@ struct FUN_00c315b0_cls
     void AppendModifierInfo(void* arg);
 };
 
-extern void __stdcall FUN_00a390a0(FUN_00c315b0_arr* arr);
+extern void __stdcall NiSingleInterpController_GetViewerStrings(FUN_00c315b0_arr* arr);
 extern void* __cdecl FUN_00a7d330(void* p);
 extern void* __cdecl FUN_00a7d5e0(const char* fmt, void* p);
 extern void* DAT_012027c8;
@@ -325,7 +325,7 @@ extern void* DAT_012027c8;
 void FUN_00c315b0_cls::AppendModifierInfo(void* arg)
 {
     FUN_00c315b0_arr* arr = (FUN_00c315b0_arr*)arg;
-    FUN_00a390a0(arr);
+    NiSingleInterpController_GetViewerStrings(arr);
     void* v1 = FUN_00a7d330(DAT_012027c8);
     unsigned int count = arr->m_iArrayLength;
     if (count >= arr->m_iCap)

@@ -54,7 +54,7 @@ class NiPoint3
         return NiPoint3(s * x, s * y, s * z);
     }
     float Length() const;
-    inline void FUN_004a0c10()
+    inline void NiPoint3_Unitize()
     {
         float len = Length();
         if (len > DAT_01017cf8)
@@ -300,16 +300,16 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     Pt tmp4c;
     FUN_00c35c10(aCorners);
     tmp4c = (&aCorners[0])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.NiPoint3_Unitize();
     aCorners[4] = (&aCorners[0])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[1])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.NiPoint3_Unitize();
     aCorners[5] = (&aCorners[1])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[2])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.NiPoint3_Unitize();
     aCorners[6] = (&aCorners[2])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[3])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.NiPoint3_Unitize();
     aCorners[7] = (&aCorners[3])->operator+((&tmp4c)->operator*(DAT_010500cc));
     unsigned short t13[8][2];
     t13[0][0] = 0;

@@ -225,25 +225,25 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
 
 struct FUN_005a7110_shell : public TESLoadScreen
 {
-    bool FUN_005a7110();
+    bool TESLoadScreen_IsDefaultLoadScreen();
 };
 
 bool __fastcall _ref_008256d0(void*);
 
 // @fnv 0x005a7110
-bool FUN_005a7110_shell::FUN_005a7110()
+bool FUN_005a7110_shell::TESLoadScreen_IsDefaultLoadScreen()
 {
     return _ref_008256d0((char*)this + 0x2c);
 }
 
 struct FUN_005a7130_shell : public TESLoadScreen
 {
-    int FUN_005a7130();
+    int TESLoadScreen_GetLoadScreenTypeDataType();
 };
 
 // Returns the int at offset 0x18 of the object stored at this+0x34, or 0 if that pointer is null.
 // @fnv 0x005a7130
-int FUN_005a7130_shell::FUN_005a7130()
+int FUN_005a7130_shell::TESLoadScreen_GetLoadScreenTypeDataType()
 {
     int eRetVal = 0;
     if (*(int**)((char*)this + 0x34))
@@ -255,23 +255,23 @@ int FUN_005a7130_shell::FUN_005a7130()
 
 struct FUN_005a68b0_shell
 {
-    void FUN_005a68b0();
+    void TESLoadScreen_SaveForm();
 };
 
 struct FUN_004855a0_standin
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00485680_standin
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 
 // @fnv 0x005a68b0
-void FUN_005a68b0_shell::FUN_005a68b0()
+void FUN_005a68b0_shell::TESLoadScreen_SaveForm()
 {
-    ((FUN_004855a0_standin*)this)->FUN_004855a0();
-    ((FUN_00485680_standin*)this)->FUN_00485680();
+    ((FUN_004855a0_standin*)this)->TESForm_StartForm();
+    ((FUN_00485680_standin*)this)->TESForm_CloseForm();
 }
 
 // TESLoadScreen destructor: clear the form data; members and base components are destroyed afterwards.
@@ -405,12 +405,12 @@ class FormT
     int unk24;
     int unk28;
     ListX kList;
-    bool FUN_00485270(FormT*);
+    bool TESForm_CompareAllComponents(FormT*);
     int FUN_005f36f0();
-    bool FUN_005a6d30(void* pOther);
+    bool TESLoadScreen_Compare(void* pOther);
 };
 // @fnv 0x005a6d30
-bool FormT::FUN_005a6d30(void* pOther)
+bool FormT::TESLoadScreen_Compare(void* pOther)
 {
     FormT* pOtherForm = (FormT*)FUN_00ec43fb(pOther, 0, &DAT_01183028, &DAT_01186260, 0);
     if (!pOtherForm)
@@ -424,7 +424,7 @@ bool FormT::FUN_005a6d30(void* pOther)
             return true;
         it = it->FUN_00726070();
     }
-    if (FUN_00485270(pOtherForm))
+    if (TESForm_CompareAllComponents(pOtherForm))
         return true;
     if (FUN_005f36f0() != pOtherForm->FUN_005f36f0())
         return true;

@@ -54,7 +54,7 @@ class NiAVObject : public NiObject
   public:
     virtual void ProcessClone(CloningProcess&);
     virtual void LoadBinary(NiStream&);
-    void FUN_00c87c50(NiObject*);
+    void bhkRefObject_SethkObject(NiObject*);
 };
 class hkReferencedObject
 {

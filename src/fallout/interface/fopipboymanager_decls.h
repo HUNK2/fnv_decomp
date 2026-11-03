@@ -53,9 +53,9 @@ class NiPointLight : public NiDirectionalLight
 {
   public:
     void SetEffectColor(const NiPoint3&);
-    void FUN_0050c630(float);
-    void FUN_0050c660(float);
-    void FUN_0050c690(float);
+    void NiPointLight_SetConstantAttenuation(float);
+    void NiPointLight_SetLinearAttenuation(float);
+    void NiPointLight_SetQuadraticAttenuation(float);
     void FUN_0050dd20(float);
     void FUN_0050dd50(const NiPoint3&);
 };
@@ -76,7 +76,7 @@ class BSShaderProperty : public NiProperty
     void SetAlpha(float);
 };
 class NiGeometry;
-unsigned int FUN_004af350();
+unsigned int NiMaterialProperty_GetType();
 unsigned int FUN_00438220();
 class NiAVObject
 {
@@ -138,7 +138,7 @@ class NiNode : public NiAVObject
   public:
     NiAVObject* FUN_0045bc00(unsigned int);
     NiAVObject* GetAt(unsigned int);
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
 };
 NiAVObject* NiDynamicCast(const NiRTTI*, NiAVObject*);
 extern NiRTTI DAT_011f4428;
@@ -204,7 +204,7 @@ class Interface
     unsigned char interfaceState[0x174];
     FOPipboyManager* pPipboyManager;
     FOPipboyManager* GetPipboyManager();
-    static Interface* FUN_004b7210();
+    static Interface* InterfaceManager_Instance();
     NiNode* GetRoot();
 };
 class SystemColorManager

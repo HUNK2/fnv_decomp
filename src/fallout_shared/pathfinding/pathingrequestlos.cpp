@@ -67,11 +67,11 @@ struct PathingRequest
 };
 struct PathingRequestLOS_ : public PathingRequest
 {
-    void FUN_006e5c00(BGSLoadFormBuffer* buffer);
+    void PathingRequestLOS_LoadGame(BGSLoadFormBuffer* buffer);
 };
 // Calls LoadGame, then reads a count and that many 12-byte nodes into the array at offset 0xb4, followed by fields at 0xc4, 0xc8 and 0xd4.
 // @fnv 0x006e5c00
-void PathingRequestLOS_::FUN_006e5c00(BGSLoadFormBuffer* buffer)
+void PathingRequestLOS_::PathingRequestLOS_LoadGame(BGSLoadFormBuffer* buffer)
 {
     LoadGame(buffer);
     unsigned int count = buffer->ReadElementCount();
@@ -122,10 +122,10 @@ struct BSSimpleArray_1024
 };
 struct FUN_006e5a80_shell : public PathingRequest
 {
-    void FUN_006e5a80(PathingRequest* apDest);
+    void PathingRequestLOS_CopyTo(PathingRequest* apDest);
 };
 // @fnv 0x006e5a80
-void FUN_006e5a80_shell::FUN_006e5a80(PathingRequest* apDest)
+void FUN_006e5a80_shell::PathingRequestLOS_CopyTo(PathingRequest* apDest)
 {
     PathingRequest* pdest = apDest;
     ((PathingRequestCopyHelper*)this)->CopyTo(pdest);
@@ -147,7 +147,7 @@ struct BGSSaveFormBuffer : public BGSSaveGameBuffer
 
 struct StandIn5740
 {
-    void FUN_006e3230(BGSSaveFormBuffer* buffer);
+    void PathingRequest_SaveGame(BGSSaveFormBuffer* buffer);
 };
 
 struct TESObjectREFR_GetFlags_Helper
@@ -157,13 +157,13 @@ struct TESObjectREFR_GetFlags_Helper
 
 struct FUN_006e5b20_shell : public PathingRequestLOS_
 {
-    void FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer);
+    void PathingRequestLOS_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // @fnv 0x006e5b20
-void FUN_006e5b20_shell::FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_006e5b20_shell::PathingRequestLOS_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<StandIn5740*>(this)->FUN_006e3230(apSaveGameBuffer);
+    reinterpret_cast<StandIn5740*>(this)->PathingRequest_SaveGame(apSaveGameBuffer);
 
     unsigned int isaveGameCount =
         (reinterpret_cast<unsigned int>(this) + 0xB4) != 0

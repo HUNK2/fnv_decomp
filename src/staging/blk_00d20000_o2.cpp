@@ -587,14 +587,14 @@ void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher)
     }
 }
 
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
+struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
     int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d2f3d0
 int SearchObject::FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
-    unsigned int uiResult = (unsigned int)((CallTarget_00d2f760*)this)->FUN_00d2f760((int)arg1, (int)arg0, (int)arg2, (int)arg3);
+    unsigned int uiResult = (unsigned int)((CallTarget_00d2f760*)this)->hkpBvTreeAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
 }
 
@@ -1651,7 +1651,7 @@ void __thiscall FUN_00d219e0_cls::SetLists(FUN_00d219e0_node* pFirstList, FUN_00
 
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
+extern "C" void __cdecl FormHeap_Free(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -1662,7 +1662,7 @@ FUN_00d26210::FUN_00d26210(char construct)
 {
     m_ppVirtualMethodTable = &DAT_0101e594;
     if (construct & 1)
-        FUN_00401030((VtblStub_0101e594*)this);
+        FormHeap_Free((VtblStub_0101e594*)this);
 }
 
 struct PairEntry
@@ -1784,7 +1784,7 @@ struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d2c7d0
-void __cdecl FUN_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
+void __cdecl cleanupLoadedObject_hkLiquidAction(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
 {
     object->Invoke(0);
 }
@@ -2207,11 +2207,11 @@ struct D34ac0Struct {
 };
 
 struct FUN_00d33c80_class {
-    void FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
     void FUN_00d34ac0(void* a, void* b, void* c, void* d);
 };
 
-// Builds a local struct holding &DAT_010ce81c, 0 and d, then calls FUN_00d33c80 with b, a, c and a pointer to the struct.
+// Builds a local struct holding &DAT_010ce81c, 0 and d, then calls hkpConvexListAgent_getPenetrations with b, a, c and a pointer to the struct.
 // @fnv 0x00d34ac0
 void FUN_00d33c80_class::FUN_00d34ac0(void* a, void* b, void* c, void* d)
 {
@@ -2219,7 +2219,7 @@ void FUN_00d33c80_class::FUN_00d34ac0(void* a, void* b, void* c, void* d)
     s.g = d;
     s.f = 0;
     s.e = &DAT_010ce81c;
-    FUN_00d33c80(b, a, c, &s);
+    hkpConvexListAgent_getPenetrations(b, a, c, &s);
 }
 
 struct D3C380_Allocator {

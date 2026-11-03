@@ -12,7 +12,7 @@ void NiBSplineCompFloatInterpolator::LoadBinary(NiStream& stream)
 extern int g_011f401c;
 
 // @fnv 0x00a51520
-int* __cdecl FUN_00a51520()
+int* __cdecl NiBSplineCompFloatInterpolator_GetRTTI()
 {
     return &g_011f401c;
 }
@@ -219,7 +219,7 @@ struct FObj : FBase
         pfScalars[1] = kMaxCompScalar;
     }
     virtual void LoadBinary(NiStream&);
-    FObj* __thiscall FUN_00a515c0(int arg);
+    FObj* __thiscall NiBSplineCompFloatInterpolator_CreateClone(int arg);
 };
 
 struct FUN_00a50aa0_shell
@@ -228,7 +228,7 @@ struct FUN_00a50aa0_shell
 };
 
 // @fnv 0x00a515c0
-FObj* __thiscall FObj::FUN_00a515c0(int arg)
+FObj* __thiscall FObj::NiBSplineCompFloatInterpolator_CreateClone(int arg)
 {
     FObj* p = (FObj*)FUN_00aa13e0(0x2c);
     if (p)
@@ -280,7 +280,7 @@ class Object51620 : public Base51620
 
 // Allocates and returns a new Object51620 instance with default constructor values.
 // @fnv 0x00a51620
-Base51620* FUN_00a51620()
+Base51620* NiBSplineCompFloatInterpolator_CreateObject()
 {
     return new Object51620;
 }

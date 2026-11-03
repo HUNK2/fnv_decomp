@@ -18,7 +18,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void __thiscall Explosion_SetActorCause(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -254,8 +254,8 @@ struct FUN_00cbc650_cls
     virtual void v2B();
     virtual void v2C();
     virtual FUN_00cbc650_obj* vGet(FUN_00cbc650_obj* volatile* pp);
-    void FUN_00c86790(FUN_00cbc650_obj* a);
-    void FUN_00cbc650(FUN_00cbc650_obj* volatile a1);
+    void bhkUnaryAction_LoadBinary(FUN_00cbc650_obj* a);
+    void bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1);
 };
 struct FUN_00cbc6a0_Data
 {
@@ -290,7 +290,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf19();
     virtual void vf20();
     virtual void vf21();
-    virtual void FUN_00cbc6a0(unsigned char* arg);
+    virtual void bhkLiquidAction_SaveBinary(unsigned char* arg);
     virtual void vf23();
     virtual void vf24();
     virtual void vf25();
@@ -314,7 +314,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf43();
     virtual void vf44();
     virtual FUN_00cbc6a0_Data* vf45(int* value);
-    void __thiscall FUN_00c868b0(unsigned char* arg);
+    void __thiscall bhkUnaryAction_SaveBinary(unsigned char* arg);
 };
 extern __declspec(thread) int g_memoryContext;
 void __cdecl FUN_00c876f0();
@@ -360,7 +360,7 @@ struct FUN_00cbc550_class
 struct FUN_00cbca20_class
 {
     void __thiscall FUN_00c86800(FUN_00cbc550_class* obj, int flags);
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    FUN_00cbc550_class* __thiscall bhkLiquidAction_CreateClone(int flags);
 };
 struct HavokAllocator
 {
@@ -532,12 +532,12 @@ class NiViewerStringArray
 class FUN_00cbd650_base
 {
   public:
-    void FUN_00c86b80(NiViewerStringArray* pkStrings);
+    void bhkUnaryAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 class FUN_00cbd650_cls : public FUN_00cbd650_base
 {
   public:
-    void FUN_00cbd650(NiViewerStringArray* pkStrings);
+    void bhkLiquidAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 char* __cdecl FUN_00a7d330(const char* pcString);
 extern const char* DAT_01268420;
@@ -573,7 +573,7 @@ struct StateOwner
     float unk1c;
     float unk20;
     void __thiscall FUN_00c867d0(SmallAlignedState* state);
-    SmallAlignedState* FUN_00cbcad0(bool* created);
+    SmallAlignedState* bhkLiquidAction_CreateCinfo(bool* created);
 };
 
 #include <xmmintrin.h>
@@ -763,7 +763,7 @@ struct Proj
 };
 struct Cell
 {
-    Obj* __thiscall FUN_004543c0();
+    Obj* __thiscall TESObjectCELL_GetbhkWorld();
 };
 struct This
 {
@@ -979,7 +979,7 @@ struct Local70
 };
 struct Extra
 {
-    void __thiscall FUN_00519230(int a, int b);
+    void __thiscall BSXFlags_SetFlags(int a, int b);
 };
 const FixedStr& __cdecl FUN_00448a80();
 struct FloatConfiguredObject
@@ -1041,7 +1041,7 @@ struct BigObj : BSFadeNode
     int unka8;
     BigObj(int);
     void* __thiscall FUN_00a5ecb0(int a);
-    void __thiscall FUN_004bc1f0(float a, float b, float c);
+    void __thiscall NiAVObject_SetTranslate(float a, float b, float c);
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1318,10 +1318,10 @@ struct NodeU
 {
     void __thiscall Update(Upd* a);
 };
-void* __cdecl FUN_004543c0(void* a);
+void* __cdecl TESObjectCELL_GetbhkWorld(void* a);
 void __cdecl FUN_00c69f50(Obj* a, int b, int c);
-bool __cdecl FUN_005784b0(void* a);
-void __cdecl FUN_00578060(void* a);
+bool __cdecl TESObjectREFR_HasAddonFlags(void* a);
+void __cdecl TESObjectREFR_AddMasterParticleAddonNodes(void* a);
 bool __cdecl FUN_004bae00(void* a);
 void __cdecl EnsureLightingProperty(Obj* a);
 struct Ctrl
@@ -1329,7 +1329,7 @@ struct Ctrl
     int __thiscall FUN_0045bc00(int a);
     void* __thiscall FUN_0043b4a0(int a);
     void* __thiscall GetNext();
-    void* __thiscall FUN_0047a520(FixedStr* a);
+    void* __thiscall NiControllerManager_GetSequenceByName(FixedStr* a);
     void __thiscall FUN_0048fef0(float a);
     void __thiscall FUN_0047aab0(void* a, int b, int c, float d, float e, int f);
     void __thiscall FUN_0047aa40(int a);
@@ -1340,7 +1340,7 @@ struct Seq
     void __thiscall Free();
 };
 extern void* g_011f36ac;
-bool __cdecl FUN_0043b300(void* rtti, void* a);
+bool __cdecl NiObject_IsKindOf(void* rtti, void* a);
 void __cdecl FUN_00a6d2d0(Obj* a);
 struct Fade
 {
@@ -1399,13 +1399,13 @@ void This::FUN_009ad670()
             if (extra)
             {
                 Extra* flags = (Extra*)extra;
-                flags->FUN_00519230(0x10, 1);
+                flags->BSXFlags_SetFlags(0x10, 1);
             }
             for (int i = 0; i < *g_011d0fe4.Int(); ++i)
             {
                 FloatConfiguredObject guard(1.0f);
                 BigObj* node = new BigObj(0);
-                node->FUN_004bc1f0((float)(((Rnd*)FUN_00476c00())->F() * 10.0),
+                node->NiAVObject_SetTranslate((float)(((Rnd*)FUN_00476c00())->F() * 10.0),
                                    (float)(((Rnd*)FUN_00476c00())->F() * 10.0),
                                    (float)(((Rnd*)FUN_00476c00())->F() * 10.0 + 32.0));
                 InitObj* collision = new InitObj(node);
@@ -1434,32 +1434,32 @@ void This::FUN_009ad670()
                 A140* action = new A140(&actionInfo);
                 body->FUN_00c8ef80(action);
             }
-            if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0())
+            if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld())
             {
-                FUN_008d6f30()->FUN_004543c0();
+                FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                 FUN_00c69f50(obj, 1, 1);
                 Upd update;
                 update.Ctor(0.0f, 0, 0);
                 obj->Update(&update);
-                Obj* world = (Obj*)FUN_008d6f30()->FUN_004543c0();
+                Obj* world = (Obj*)FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                 world->Vd0(obj, 1, 1, 0, 1);
             }
         }
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0())
+        if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld())
         {
-            FUN_008d6f30()->FUN_004543c0();
+            FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
             FUN_00c69f50(obj, 1, 1);
             Upd update;
             update.Ctor(0.0f, 0, 0);
             obj->Update(&update);
-            Obj* world = (Obj*)FUN_008d6f30()->FUN_004543c0();
+            Obj* world = (Obj*)FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
             world->Vd0(obj, 1, 1, 0, 1);
         }
-        if (obj->V0c() && FUN_005784b0(obj->V0c()))
-            FUN_00578060(obj->V0c());
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_008d6f30()->FUN_004543c0()->FUN_004bae00())
+        if (obj->V0c() && TESObjectREFR_HasAddonFlags(obj->V0c()))
+            TESObjectREFR_AddMasterParticleAddonNodes(obj->V0c());
+        if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_004bae00())
         {
-            Obj* world = (Obj*)FUN_008d6f30()->FUN_004543c0();
+            Obj* world = (Obj*)FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
             world->Vd8(obj, 1);
             EnsureLightingProperty(obj);
         }
@@ -1473,7 +1473,7 @@ void This::FUN_009ad670()
         Ctrl* manager = 0;
         while (ctrl)
         {
-            if (FUN_0043b300(&g_011f36ac, ctrl))
+            if (NiObject_IsKindOf(&g_011f36ac, ctrl))
             {
                 manager = ctrl;
                 break;
@@ -1481,7 +1481,7 @@ void This::FUN_009ad670()
             ctrl = (Ctrl*)ctrl->GetNext();
         }
         Seq* sequence;
-        if (manager && (sequence = (Seq*)manager->FUN_0047a520(FUN_005c1490())) != 0)
+        if (manager && (sequence = (Seq*)manager->NiControllerManager_GetSequenceByName(FUN_005c1490())) != 0)
         {
             manager->FUN_0048fef0(0.0f);
             manager->FUN_0047aab0(sequence, 0, 0, 1.0f, 0.0f, 0);

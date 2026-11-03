@@ -35,7 +35,7 @@ struct FUN_00ccf890_t : BSFadeNode
     FUN_00ccf890_t();
     ~FUN_00ccf890_t();
 };
-BSFadeNode* FUN_00ccf890();
+BSFadeNode* bhkConvexListShape_CreateObject();
 class hkVisualDebugger;
 struct FUN_00cd1e40_target
 {
@@ -304,10 +304,10 @@ struct VisualDebugger523 : DebuggerReference523
     int numFrames;
     void ActivateEntry(int, float);
     void RemovePair(int);
-    void FUN_00cd0ec0(float timeStep);
+    void hkVisualDebugger_step(float timeStep);
 };
 // @fnv 0x00cd0ec0
-void VisualDebugger523::FUN_00cd0ec0(float timeStep)
+void VisualDebugger523::hkVisualDebugger_step(float timeStep)
 {
     float stepTime = 16.0f;
     if (timingEnabled)

@@ -19,7 +19,7 @@ struct FUN_00e47e50_class
     Vec* m_pPoints;
     int m_iPointCount;
 
-    void FUN_00e47e50(void const*);
+    void hkpLinearParametricCurve_transformPoints(void const*);
 };
 struct CpuObject
 {
@@ -102,7 +102,7 @@ class hkpLinearParametricCurveE474 : public hkBaseObjectE474
   public:
     virtual ~hkpLinearParametricCurveE474() throw();
 
-    void FUN_00e47440(float t, hkVector4E474& kPointOut) const;
+    void hkpLinearParametricCurve_getPoint(float t, hkVector4E474& kPointOut) const;
 
     unsigned int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     hkArrayE474<hkVector4E474> m_kPoints;
@@ -207,7 +207,7 @@ struct LinearParametricCurve : public hkReferencedObject
     QuadView m_kVector4;
     hkArray<hkVector4> m_kPoints;
     hkArray<float> m_fClosestPointDistanceSquared;
-    LinearParametricCurve* FUN_00e48090();
+    LinearParametricCurve* hkpLinearParametricCurve_clone();
     void FUN_00e47e80(const hkVector4*);
 };
 static __forceinline LinearParametricCurve* createCurve()
@@ -331,7 +331,7 @@ struct LinearCurve : public hkpLinearParametricCurve
     virtual hkReal GetStreamStart() const;
     virtual void GetTangentAt(hkReal t, hkVector4& tangent) const;
 
-    void FUN_00e47cb0(hkReal t, hkVector4& up) const;
+    void hkpLinearParametricCurve_getBinormal(hkReal t, hkVector4& up) const;
 };
 
 extern "C" __m128 _mm_add_ss(__m128, __m128);

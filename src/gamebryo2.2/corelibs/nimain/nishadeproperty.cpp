@@ -718,7 +718,7 @@ struct BSFadeNode
 extern int DAT_0109e274;
 
 // @fnv 0x00a814e0
-BSFadeNode* FUN_00a814e0()
+BSFadeNode* NiShadeProperty_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x20));
     if (node)
@@ -748,14 +748,14 @@ struct NiShadeProperty : NiProperty
     unsigned short m_uiObjectFlags;
     char _pad1[2];
     int m_iShaderType;
-    NiObject* FUN_00a81480(CloningProcess&);
+    NiObject* NiShadeProperty_CreateClone(CloningProcess&);
 };
 inline void* __cdecl operator new(unsigned int, void* p)
 {
     return p;
 }
 // @fnv 0x00a81480
-NiObject* NiShadeProperty::FUN_00a81480(CloningProcess& kCloning)
+NiObject* NiShadeProperty::NiShadeProperty_CreateClone(CloningProcess& kCloning)
 {
     NiShadeProperty* pkObject = (NiShadeProperty*)BSFadeNode::operator new(32);
     if (pkObject)

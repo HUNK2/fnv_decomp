@@ -128,7 +128,7 @@ class Clouds
 class Precipitation
 {
   public:
-    void FUN_00636ed0(float);
+    void Precipitation_Update(float);
 };
 class SkySound : public SoundPlaybackHandle
 {
@@ -169,7 +169,7 @@ class TES
 {
   public:
     Sky* GetLogDate();
-    void FUN_00455690();
+    void TES_UpdateRefSounds();
 };
 class TESObjectCELL
 {

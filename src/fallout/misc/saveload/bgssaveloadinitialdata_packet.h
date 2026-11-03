@@ -307,7 +307,7 @@ class TESObjectREFR : public TESForm
     void SetLocationOnReference(const NiPoint3&);
     void SetReferencePosition(NiPoint3);
     ExtraDataList* GetExtraData();
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
     void PostLoad();
     TESObjectCELL* GetParentCell();
     bool GetReferencePersistence();

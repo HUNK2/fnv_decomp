@@ -108,7 +108,7 @@ class NavMeshVertexMap
 class NavMeshTriangle
 {
   public:
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
     unsigned short FUN_0068f2c0(int);
     bool IsEdgeFlagSet(int);
     void FUN_00691570(unsigned int);

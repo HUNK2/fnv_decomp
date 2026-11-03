@@ -6,7 +6,7 @@ struct NiRTTI;
 extern NiRTTI g_012026f0;
 
 // @fnv 0x00c2a1a0
-const NiRTTI* __cdecl FUN_00c2a1a0()
+const NiRTTI* __cdecl NiPSysInitialRotAngleCtlr_GetRTTI()
 {
     return &g_012026f0;
 }
@@ -69,11 +69,11 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 char* __cdecl FUN_00a7d330(const char*);
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 // @fnv 0x00c2a260
-void __stdcall FUN_00c2a260(StrArr* pkStrings)
+void __stdcall NiPSysInitialRotAngleCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pStr = FUN_00a7d330(g_012026f0.m_pcName);
     unsigned int iCount = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int iSize = *(unsigned short*)((char*)pkStrings + 8);

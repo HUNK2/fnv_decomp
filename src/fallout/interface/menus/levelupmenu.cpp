@@ -69,11 +69,11 @@ void* LBList::FindItemData(Tile* apTile)
 
 struct FUN_00784b80_shell
 {
-    int __thiscall FUN_00784b80();
+    int __thiscall LevelUpMenu_GetClass();
 };
 
 // @fnv 0x00784b80
-int __thiscall FUN_00784b80_shell::FUN_00784b80()
+int __thiscall FUN_00784b80_shell::LevelUpMenu_GetClass()
 {
     return 0x403;
 }
@@ -885,11 +885,11 @@ struct LevelView
     int unk60;
     SkillList skills;
     SkillList perks;
-    void FUN_00785280(int, ViewTile*);
+    void LevelUpMenu_HandleMouseover(int, ViewTile*);
 };
 // Handles hover for ids 11-14: fills the skill or perk name/description tiles, toggles their visibility and notifies, or selects the parent skill list.
 // @fnv 0x00785280
-void LevelView::FUN_00785280(int id, ViewTile* tile)
+void LevelView::LevelUpMenu_HandleMouseover(int id, ViewTile* tile)
 {
     char description[512];
     switch (id)
@@ -1327,7 +1327,7 @@ struct Perk
     int unk10;
     int unk14;
     PerkName name;
-    unsigned char FUN_005d4ee0();
+    unsigned char BGSPerk_GetNumRanks();
 };
 struct FallbackSetting
 {
@@ -1342,7 +1342,7 @@ int FUN_0066ec10(int, unsigned char);
 const char* FUN_0066e950(int);
 void CompareActorValueNames();
 int MinInt(int, int);
-bool FUN_00406d70(int, unsigned int);
+bool ActorValue_GetFlag(int, unsigned int);
 int strcpy_s(char*, unsigned int, const char*);
 int FUN_00406d00(char*, unsigned int, const char*, ...);
 unsigned int FUN_0044a670(const char*);
@@ -1388,7 +1388,7 @@ void SkillsMenu::UpdateSkillsAndPerks()
     for (unsigned int i = 0; i < FUN_0066ecf0(2); ++i)
     {
         int iSkillId = FUN_0066ec10(2, (unsigned char)i);
-        if (!FUN_00406d70(iSkillId, 0x2000))
+        if (!ActorValue_GetFlag(iSkillId, 0x2000))
         {
             SkillTile* tile = skills.AddListEntry(iSkillId, FUN_0066e950(iSkillId), 0, 0);
             tile->SetName(FUN_0066e950(iSkillId));
@@ -1412,7 +1412,7 @@ void SkillsMenu::UpdateSkillsAndPerks()
                 strcpy_s(acPerkLabel, 64, ((Perk*)*node->_ref_006815c0())->name.FUN_00408da0());
                 if (!FUN_0044a670(acPerkLabel))
                     strcpy_s(acPerkLabel, 64, DAT_011d35b8.FUN_00403df0());
-                if (((Perk*)*node->_ref_006815c0())->FUN_005d4ee0() > 1 && iPerkRank > 0)
+                if (((Perk*)*node->_ref_006815c0())->BGSPerk_GetNumRanks() > 1 && iPerkRank > 0)
                     FUN_00406d00(acPerkLabel, 64, str_0106eb00, acPerkLabel, iPerkRank + 1);
                 perkTile = perks.AddItemTile(*node->_ref_006815c0(), acPerkLabel, 0, 0);
                 perkTile->FUN_00700320(0xfaa, 12);
@@ -2241,7 +2241,7 @@ class Menu;
 struct InterfaceManager;
 int FUN_00a01860(const char* apName);
 float FUN_0040ebd0(float afA, float afB);
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 bool FUN_004b71d0();
 struct IMStandIn
 {
@@ -2303,7 +2303,7 @@ void FUN_00787600_shell::UpdateScrollTile(bool abFlag)
         pScrollTile->FUN_00a012d0(FUN_00a01860("_current_value"), fValue, false);
         ((FUN_00a01290_shell*)pScrollTile)->SetTraitAndReset(FUN_00a01860("_SetInCode"), 1.0f);
         pTile = Unk_05((unsigned int)FUN_0040ebd0(fScrollPos, (float)FUN_007879f0(0) - 1.0));
-        ((IMStandIn*)FUN_004b7210())->FUN_00715860((int)pTile, 0xfc3, abFlag);
+        ((IMStandIn*)InterfaceManager_Instance())->FUN_00715860((int)pTile, 0xfc3, abFlag);
         Unk_00(pTile);
         if (!FUN_004b71d0())
         {
@@ -3797,7 +3797,7 @@ extern int DAT_011da034;
 extern int DAT_011c3f2c;
 extern int DAT_011cd074;
 void* FUN_00a09030(int);
-void* FUN_004b7210();
+void* InterfaceManager_Instance();
 int FUN_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
 int FUN_00406d00(char*, int, const char*, ...);
@@ -3816,7 +3816,7 @@ struct ConditionList_t
 };
 struct FUN_00460fb0_class
 {
-    void* FUN_00460fb0();
+    void* TESDataHandler_GetPerkList();
 };
 struct FUN_006aabf0_shell
 {
@@ -3824,7 +3824,7 @@ struct FUN_006aabf0_shell
 };
 struct FUN_005d4ee0Class
 {
-    char FUN_005d4ee0();
+    char BGSPerk_GetNumRanks();
 };
 struct FUN_005eb5e0_t
 {
@@ -3856,7 +3856,7 @@ int FUN_00784c80()
 {
     void* objB = FUN_00a09030(0x403);
     void* menu;
-    void* objA = FUN_004b7210();
+    void* objA = InterfaceManager_Instance();
     if (objB)
         delete (DelObj*)objB;
     menu = ((TileB*)((ResourceProvider*)objA)->FUN_00586150(s_xml))->FUN_00a01b00();
@@ -3873,7 +3873,7 @@ int FUN_00784c80()
         {
             ((FUN_00a012d0_t*)menu)->FUN_00a012d0(0xfad, FUN_00a01530(1));
         }
-        ((MgrObj*)((char*)FUN_004b7210() + 0x4d4))->FUN_00718630(0x10, FUN_00785180(), 0x200);
+        ((MgrObj*)((char*)InterfaceManager_Instance() + 0x4d4))->FUN_00718630(0x10, FUN_00785180(), 0x200);
         {
             char buf[64];
             FUN_00406d00(buf, 0x40, ((InventoryMenuSetting*)&DAT_011d4048)->FUN_00403df0(),
@@ -3899,14 +3899,14 @@ int FUN_00784c80()
         if (FUN_0087f9f0((void*)(unsigned int)DAT_011dea3c) % FUN_0043d4d0(&DAT_011cd074) == 0)
         {
             ContNode* node;
-            for (node = (ContNode*)((FUN_00460fb0_class*)(void*)(unsigned int)DAT_011c3f2c)->FUN_00460fb0();
+            for (node = (ContNode*)((FUN_00460fb0_class*)(void*)(unsigned int)DAT_011c3f2c)->TESDataHandler_GetPerkList();
                  node && *((ConditionList_t*)node)->FUN_006815c0(); node = FUN_00726070(node))
             {
                 TESConditionItem* item = *((ConditionList_t*)node)->FUN_006815c0();
                 if ((char)((FUN_006aabf0_shell*)item)->GetByteAt39() > 0)
                 {
                     if (((ActorV*)(void*)(unsigned int)DAT_011dea3c)->FUN_v4a0(item, 0) <
-                            (int)(unsigned char)((FUN_005d4ee0Class*)item)->FUN_005d4ee0() &&
+                            (int)(unsigned char)((FUN_005d4ee0Class*)item)->BGSPerk_GetNumRanks() &&
                         !(unsigned char)GetByteAtOffset56((char*)item) && ((ItemO*)item)->FUN_005eba00(DAT_011dea3c) &&
                         ((FUN_005eb5e0_t*)item)->CheckPlayerConditions())
                     {
@@ -4090,7 +4090,7 @@ class LevelGamepadView
     virtual void vfunc11();
     virtual void vfunc12();
     virtual void vfunc13();
-    virtual bool FUN_00785ed0(int code, float val);
+    virtual bool LevelUpMenu_HandleSpecialKeyInput(int code, float val);
 
     int unk04;
     int unk08;
@@ -4122,7 +4122,7 @@ class LevelGamepadView
 
 // Processes gamepad button codes to select and activate level-up tiles, returning whether the input was handled.
 // @fnv 0x00785ed0
-bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
+bool LevelGamepadView::LevelUpMenu_HandleSpecialKeyInput(int aiButtonCode, float afValue)
 {
     bool bHandled = false;
     switch (aiButtonCode)
@@ -4160,7 +4160,7 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
         }
         else if (this->unk28 == 0)
         {
-            bHandled = this->FUN_00785ed0(3, 1.0f);
+            bHandled = this->LevelUpMenu_HandleSpecialKeyInput(3, 1.0f);
         }
         break;
     case 10:
@@ -4172,7 +4172,7 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
         }
         else if (this->unk28 == 0)
         {
-            bHandled = this->FUN_00785ed0(4, 1.0f);
+            bHandled = this->LevelUpMenu_HandleSpecialKeyInput(4, 1.0f);
         }
         break;
     }

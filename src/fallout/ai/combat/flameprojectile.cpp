@@ -31,12 +31,12 @@ struct BeamProjectile
 struct FlameProjectile : BeamProjectile
 {
     FlameProjectile();
-    void FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FlameProjectile_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // Loads the base BeamProjectile data, then reads two 4-byte values from the buffer into this+0x150 and this+0x154.
 // @fnv 0x009b3f00
-void FlameProjectile::FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer)
+void FlameProjectile::FlameProjectile_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     BeamProjectile::LoadProjectile(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData((char*)this + 0x150, 4);
@@ -47,18 +47,18 @@ namespace fnv_009b3f50 {
 struct BGSLoadFormBuffer;
 struct Projectile
 {
-    void FUN_009c58e0(BGSLoadFormBuffer*);
+    void Projectile_Revert(BGSLoadFormBuffer*);
 };
 struct FlameProjectile : Projectile
 {
-    void FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FlameProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // Calls the base Projectile load routine, then zeroes the two floats at offsets 0x150 and 0x154.
 // @fnv 0x009b3f50
-void FlameProjectile::FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer)
+void FlameProjectile::FlameProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    Projectile::Projectile_Revert(apLoadGameBuffer);
     *(float*)((char*)this + 0x150) = 0.0f;
     *(float*)((char*)this + 0x154) = 0.0f;
 }
@@ -175,7 +175,7 @@ struct NiAVObject : NiNode
 
 struct Particle
 {
-    unsigned int FUN_004d7d50();
+    unsigned int NiParticleSystem_GetModifierCount();
     Object* GetByIndex(unsigned int index);
 };
 
@@ -184,7 +184,7 @@ struct TESGlobal : Object
     float GetValue();
 };
 
-bool __cdecl FUN_0043b300(RTTI const* rtti, Object* object);
+bool __cdecl NiObject_IsKindOf(RTTI const* rtti, Object* object);
 
 extern void* g_01202560;
 extern int g_01202500_arg1;
@@ -201,15 +201,15 @@ float GetMaxParticleGlobalValue(NiNode* node)
     {
         NiNode* root;
 
-        if (FUN_0043b300(reinterpret_cast<RTTI const*>(&g_01202560), node))
+        if (NiObject_IsKindOf(reinterpret_cast<RTTI const*>(&g_01202560), node))
         {
             Particle* particle = reinterpret_cast<Particle*>(node);
 
-            for (unsigned int i = 0; result == _DAT_01012060 && i < particle->FUN_004d7d50(); ++i)
+            for (unsigned int i = 0; result == _DAT_01012060 && i < particle->NiParticleSystem_GetModifierCount(); ++i)
             {
                 Object* object = particle->GetByIndex(i);
 
-                if (object && FUN_0043b300(reinterpret_cast<RTTI const*>(&g_01202500_arg1), object))
+                if (object && NiObject_IsKindOf(reinterpret_cast<RTTI const*>(&g_01202500_arg1), object))
                 {
                     TESGlobal* global = reinterpret_cast<TESGlobal*>(object);
                     result = global->GetValue();
@@ -249,7 +249,7 @@ struct FloatMatrix3
 };
 struct GameNode
 {
-    FloatMatrix3* FUN_00461130(FloatMatrix3*);
+    FloatMatrix3* NiAVObject_GetWorldRotate(FloatMatrix3*);
 };
 struct OtherNode
 {
@@ -412,8 +412,8 @@ void ProjectileObject::UpdateProjectileNode()
             FloatMatrix3 firstMatrix;
             FloatMatrix3 second;
             *reinterpret_cast<FloatMatrix3*>(reinterpret_cast<char*>(this) + 0x94) = *(
-                ((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)->FUN_00461130(&second)->FUN_0043f8d0(
-                    secondary->FUN_00461130(&firstMatrix)->FUN_004b45b0()));
+                ((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)->NiAVObject_GetWorldRotate(&second)->FUN_0043f8d0(
+                    secondary->NiAVObject_GetWorldRotate(&firstMatrix)->FUN_004b45b0()));
         }
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x154) =
             GetMaxParticleGlobalValue(node) * _DAT_0106b9e8;

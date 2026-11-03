@@ -64,7 +64,7 @@ FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
 class EffectSetting : public TESForm, public TESModel
 {
   public:
-    bool FUN_00403e60(unsigned int);
+    bool EffectSetting_IsFlagSet(unsigned int);
     int FUN_004087e0();
     int FUN_004089c0();
     TESForm* FUN_005f5f80();

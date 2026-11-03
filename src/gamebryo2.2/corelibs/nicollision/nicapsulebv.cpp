@@ -917,7 +917,7 @@ struct Vec3
     {
         return x * x + y * y + z * z;
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
 };
 inline Vec3 operator*(float s, const Vec3& b)
 {
@@ -1007,7 +1007,7 @@ bool __cdecl CapsuleTriangleIntersect(float afScale, Capsule* apCapsule, Vec3* p
     float dist = fResult - i;
     if (dist * dist > (float)(n.LengthSquared() * big * big))
     {
-        n.FUN_004a0c10();
+        n.NiPoint3_Unitize();
         Vec3 point;
         if (fResult > i)
         {
@@ -1373,7 +1373,7 @@ struct Vec3
     {
         return x * x + y * y + z * z;
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
     __declspec(noalias) float DotProduct(const Vec3&) const;
     Vec3 FUN_00439e90(const Vec3&) const;
     Vec3 FUN_00439ef0(const Vec3&) const;
@@ -1513,7 +1513,7 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     float planeDistance = centerPlane - trianglePlane;
     if (planeDistance * planeDistance > radiusPlaneSquared)
     {
-        normal.FUN_004a0c10();
+        normal.NiPoint3_Unitize();
         Vec3 support;
         if (centerPlane > trianglePlane)
         {

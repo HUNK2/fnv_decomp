@@ -369,7 +369,7 @@ FUN_008465b0_stub::FUN_008465b0_stub(const char* pcName, int p)
 
 struct FUN_00473180_shell
 {
-    unsigned int FUN_00473180(const char*, unsigned int);
+    unsigned int NiBinaryStream_Write(const char*, unsigned int);
 };
 struct FUN_00846330_shell
 {
@@ -387,7 +387,7 @@ unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int 
         *(unsigned int*)((char*)this + 0x10c) += aiBytes;
         return aiBytes;
     }
-    return ((FUN_00473180_shell*)(*(char**)((char*)this + 0x104)))->FUN_00473180((const char*)apBuffer, aiBytes);
+    return ((FUN_00473180_shell*)(*(char**)((char*)this + 0x104)))->NiBinaryStream_Write((const char*)apBuffer, aiBytes);
 }
 
 struct FUN_00846710_mgr_view

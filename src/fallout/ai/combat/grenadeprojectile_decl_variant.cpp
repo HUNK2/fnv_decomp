@@ -31,8 +31,8 @@ class FUN_009b3fa0 : public FUN_009bbc70
 };
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
-    bool FUN_009b4700(int, bool);
+    bool Projectile_TurnOff(int, bool);
+    bool GrenadeProjectile_TurnOff(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
         f32(), f33(), f34(), f35(), f36(), f37(), f38(), f39(), f40(), f41(), f42(), f43(), f44(), f45(), f46(), f47(),
@@ -63,11 +63,11 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
+    void __thiscall Projectile_Revert(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void __thiscall GrenadeProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct NiAVObject;
 struct ObjHelper
@@ -1065,17 +1065,17 @@ struct Ref
 
     virtual bool IsValidTarget();
 
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 
     bool FUN_00437b90();
 
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
 
     unsigned int FUN_0044ddc0();
 
     unsigned short GetShortAtOffset1C0();
 
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 
     int SetEffectValue(int, float, int);
 
@@ -1158,14 +1158,14 @@ struct LoadedProjectile
 struct Resource
 {
 
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 };
 struct EventStatus
 {
 
-    bool FUN_004fd360();
+    bool BGSProjectile_GetHasExplosion();
 
     bool FUN_00975300();
 
@@ -1268,7 +1268,7 @@ struct ImpactProjectile : Ref
 
     Ref* FUN_00874480();
 
-    Ref* FUN_00476c90();
+    Ref* Sky_GetMode();
 
     EventStatus* FUN_004181e0();
 
@@ -1301,7 +1301,7 @@ class NiAVObject
     float GetHeadTail();
     void FUN_00440460(const NiPoint3&);
     void Update(NiUpdateData&);
-    const ThreeByThreeMatrix& FUN_00461130() const;
+    const ThreeByThreeMatrix& NiAVObject_GetWorldRotate() const;
 };
 class NiNode : public NiAVObject
 {
@@ -1313,7 +1313,7 @@ class TESSaveLoadGame
 };
 extern TESSaveLoadGame* DAT_011de45c;
 void FUN_00c69f50(NiAVObject*, bool, bool);
-void FUN_00525340(NiPoint3*);
+void NiPoint3_UnitizeVector(NiPoint3*);
 NiPoint3 operator*(float, const NiPoint3&);
 void FUN_0062b8d0(NiAVObject*, const NiPoint3&, bool);
 
@@ -1332,10 +1332,10 @@ bool GrenadeProjectile::FUN_009b4740()
             node1->Update(update0);
             NiPoint3 velocity6 = NiPoint3::ZERO;
             NiPoint3 forward1;
-            node1->FUN_00461130().FUN_00439f50(1, forward1);
+            node1->NiAVObject_GetWorldRotate().NiMatrix3_GetCol(1, forward1);
             forward1 *= -1.0f;
-            FUN_00525340(&forward1);
-            FUN_00525340(&impact->normal);
+            NiPoint3_UnitizeVector(&forward1);
+            NiPoint3_UnitizeVector(&impact->normal);
             float dot0 = impact->normal.Dot(forward1);
             NiPoint3 deflection = 2.0f * (dot0 * impact->normal - forward1);
             velocity6 = forward1 + deflection;

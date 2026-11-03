@@ -456,11 +456,11 @@ class FUN_00d2c960_cls
     unsigned int unk1C;
     unsigned int m_kRoomNode;
 
-    void FUN_00d2c960(const S00d2c960_Info* pkInfo);
+    void hkLiquidAction_applyAction(const S00d2c960_Info* pkInfo);
 };
 
 // @fnv 0x00d2c960
-void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
+void FUN_00d2c960_cls::hkLiquidAction_applyAction(const S00d2c960_Info* pkInfo)
 {
     float fTime = pkInfo->m_fTime;
     S00d2c960_Body* pkBody = m_pkBody;

@@ -530,11 +530,11 @@ struct FUN_00c3d440_cls
     FUN_00c3d440_src* m_pSrc;
 
     void FUN_0043db70();
-    void FUN_00c3d440();
+    void QueuedFileEntry_GenerateKey();
 };
 
 // @fnv 0x00c3d440
-void FUN_00c3d440_cls::FUN_00c3d440()
+void FUN_00c3d440_cls::QueuedFileEntry_GenerateKey()
 {
     if (m_pSrc != 0)
     {

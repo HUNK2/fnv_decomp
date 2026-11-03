@@ -287,12 +287,12 @@ struct FUN_0067b7d0_shell
     unsigned char field18;
     unsigned int field1c;
 
-    void FUN_0067b7d0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void TESDialoguePackageData_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // Reads fields from apLoadGameBuffer, resolves pMenuTopicEntry by form ID, and optionally allocates and reads m_pTargetLocation.
 // @fnv 0x0067b7d0
-void FUN_0067b7d0_shell::FUN_0067b7d0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_0067b7d0_shell::TESDialoguePackageData_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData(&field4, 4);
     apLoadGameBuffer->ReadTypedData(&field10, 1);

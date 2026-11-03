@@ -36,13 +36,13 @@ void NiBSplineTransformInterpolator::CopyUnknownFields(NiBSplineTransformInterpo
 
 struct FUN_00a506b0_shell : public NiBSplinePoint3Interpolator
 {
-    void* FUN_00a506b0();
+    void* NiBSplinePoint3Interpolator_GetRTTI();
 };
 
 extern char const* const g_011f4014_arg1;
 
 // @fnv 0x00a506b0
-void* FUN_00a506b0_shell::FUN_00a506b0()
+void* FUN_00a506b0_shell::NiBSplinePoint3Interpolator_GetRTTI()
 {
     return (void*)&g_011f4014_arg1;
 }
@@ -99,7 +99,7 @@ struct FUN_00a57f20_shell
 };
 
 // @fnv 0x00a50840
-void* __cdecl FUN_00a50840()
+void* __cdecl NiBSplinePoint3Interpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x2c);
     if (p)
@@ -174,7 +174,7 @@ template <class T, class A> struct NiTPrimitiveArray
 
 struct Base
 {
-    void FUN_00a58200(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+    void NiBSplineInterpolator_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 
 struct StrArr
@@ -197,13 +197,13 @@ struct FUN_00a50960_shell
     unsigned char m_unknown[0x28];
     unsigned int m_kPoint3CPHandle;
 
-    void FUN_00a50960(StrArr* pkStrings);
+    void NiBSplinePoint3Interpolator_GetViewerStrings(StrArr* pkStrings);
 };
 
 // @fnv 0x00a50960
-void FUN_00a50960_shell::FUN_00a50960(StrArr* pkStrings)
+void FUN_00a50960_shell::NiBSplinePoint3Interpolator_GetViewerStrings(StrArr* pkStrings)
 {
-    reinterpret_cast<Base*>(this)->FUN_00a58200(
+    reinterpret_cast<Base*>(this)->NiBSplineInterpolator_GetViewerStrings(
         reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(pkStrings));
 
     char* pcString = _FUN_00a7d330(g_011f4014_arg1);
@@ -485,12 +485,12 @@ class A50880Light : public A50880Base
     A50880Color m_kFogTint;
     float m_fValue;
 
-    void FUN_00a50880(A50880Stream& kStream);
+    void NiBSplinePoint3Interpolator_SaveBinary(A50880Stream& kStream);
 };
 
 // SaveBinary
 // @fnv 0x00a50880
-void A50880Light::FUN_00a50880(A50880Stream& kStream)
+void A50880Light::NiBSplinePoint3Interpolator_SaveBinary(A50880Stream& kStream)
 {
     SaveToStream(kStream);
     m_kFogTint.SaveBinary(kStream);
@@ -516,14 +516,14 @@ struct S_00a508d0_Obj
     int unk18;
     S_00a508d0_Sub sub1c;
     int unk28;
-    bool FUN_00a57e90(S_00a508d0_Obj* p);
-    bool FUN_00a508d0(S_00a508d0_Obj* p);
+    bool NiBSplineInterpolator_IsEqual(S_00a508d0_Obj* p);
+    bool NiBSplinePoint3Interpolator_IsEqual(S_00a508d0_Obj* p);
 };
 
 // @fnv 0x00a508d0
-bool S_00a508d0_Obj::FUN_00a508d0(S_00a508d0_Obj* pOther)
+bool S_00a508d0_Obj::NiBSplinePoint3Interpolator_IsEqual(S_00a508d0_Obj* pOther)
 {
-    if (!FUN_00a57e90(pOther))
+    if (!NiBSplineInterpolator_IsEqual(pOther))
         return false;
     if (sub1c.FUN_00439090(&pOther->sub1c))
         return false;

@@ -162,7 +162,7 @@ struct FUN_00aeaa80_Class
 struct FUN_00aefcf0_Class
 {
     void* vtbl;
-    void __thiscall FUN_00aefcf0(float a, float b, float c);
+    void __thiscall BSWin32GameSound_SetPosition(float a, float b, float c);
 };
 struct FUN_00af1d20_Class
 {
@@ -1326,7 +1326,7 @@ class FUN_00aed420_cls
     S_Subsys* m_198;
     S_Subsys* m_19c;
     S_Subsys* m_1a0;
-    bool FUN_00aed420();
+    bool BSWin32GameSound_Pause();
 };
 struct IDSBufStub
 {
@@ -1493,7 +1493,7 @@ struct AudioSoundStub
     int unk224;
     int* pStatus;
 
-    bool FUN_00aed4c0();
+    bool BSWin32GameSound_Stop();
 };
 struct S_00af01e0_Snd
 {
@@ -1623,7 +1623,7 @@ struct S_00af01e0_Cls
     int unk194;
     int unk198;
     S_00af01e0_Snd* unk19c;
-    int FUN_00af01e0(float f);
+    int BSWin32GameSound_SetFrameFrequencyPerc(float f);
 };
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 void FUN_005b5e40(const char* pcFormat, ...);
@@ -2743,7 +2743,7 @@ struct SoundObj
     bool is3D;
 
     bool IsPlaying();
-    void FUN_00aefda0(float maxDist, float minDist);
+    void BSWin32GameSound_SetDistances(float maxDist, float minDist);
 };
 extern const double DAT_010a3e68;
 extern const double DAT_010a3e60;
@@ -3361,10 +3361,10 @@ struct SpeedA810
     int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     unsigned long m_lastTime;
     float m_speed;
-    void FUN_00aea810(const Pt3A810& pos);
+    void BSWin32AudioListener_SetPosition(const Pt3A810& pos);
 };
 // @fnv 0x00aea810
-void SpeedA810::FUN_00aea810(const Pt3A810& pos)
+void SpeedA810::BSWin32AudioListener_SetPosition(const Pt3A810& pos)
 {
     unsigned long uiNow = timeGetTime();
     Pt3A810 kDelta = pos - m_pos;
@@ -4260,10 +4260,10 @@ struct BSWin32GameSound
     {
         return (flags08 & uiFlag) != 0;
     }
-    bool FUN_00aed660(float volume);
+    bool BSWin32GameSound_SetVolume(float volume);
 };
 // @fnv 0x00aed660
-bool BSWin32GameSound::FUN_00aed660(float volume)
+bool BSWin32GameSound::BSWin32GameSound_SetVolume(float volume)
 {
     unsigned int scaled;
     long result3;
@@ -4569,10 +4569,10 @@ struct P010Object
         volume = a;
         vtable->update(this, unk24);
     }
-    void FUN_00aef090(float x, float y, float z);
+    void BSWin32GameSound_SetPositionF(float x, float y, float z);
 };
 // @fnv 0x00aef090
-void P010Object::FUN_00aef090(float x, float y, float z)
+void P010Object::BSWin32GameSound_SetPositionF(float x, float y, float z)
 {
     P010Vec tempVector;
     P010Vec output;

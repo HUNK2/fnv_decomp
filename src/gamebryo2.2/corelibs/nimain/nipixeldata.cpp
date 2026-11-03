@@ -109,7 +109,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f4a90;
 // @fnv 0x00a7c020
-GlobalObjectO2_00a7b610* __cdecl FUN_00a7c020()
+GlobalObjectO2_00a7b610* __cdecl NiPixelData_GetRTTI()
 {
     return &g_011f4a90;
 }
@@ -164,14 +164,14 @@ class FUN_00a7bee0_cls
     unsigned int unk48;
     FUN_00a7bee0_target* m_pFlagTarget;
 
-    bool FUN_00a5d2f0(unsigned int flags);
-    bool FUN_00a7bee0(unsigned int flags);
+    bool NiObject_RegisterStreamables(unsigned int flags);
+    bool NiPixelData_RegisterStreamables(unsigned int flags);
 };
 
 // @fnv 0x00a7bee0
-bool FUN_00a7bee0_cls::FUN_00a7bee0(unsigned int flags)
+bool FUN_00a7bee0_cls::NiPixelData_RegisterStreamables(unsigned int flags)
 {
-    bool ok = FUN_00a5d2f0(flags);
+    bool ok = NiObject_RegisterStreamables(flags);
     if (!ok)
     {
         return ok;
@@ -493,12 +493,12 @@ struct NiPixelFormatLoad : NiPixelFormat
 
 struct NiPixelDataLoad : NiPixelData
 {
-    void FUN_00a7c470(NiStreamLoad& stream);
+    void NiPixelData_LoadBinary(NiStreamLoad& stream);
 };
 
 // Loads pixel format, mipmap levels, per-mipmap width/height/offset, faces and pixel data from the stream, then allocates and copies them.
 // @fnv 0x00a7c470
-void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
+void NiPixelDataLoad::NiPixelData_LoadBinary(NiStreamLoad& stream)
 {
     ((NiObjectLoad*)this)->LoadBinaryBase(stream);
     ((NiPixelFormatLoad*)&m_kPixelFormat)->LoadBinaryFormat(stream);
@@ -660,12 +660,12 @@ struct PixelDataBE80 : public RendererDataBase_s
     int unk44;
     int unk48;
     NiPointerBE80<NiObject> m_spPalette;
-    void FUN_00a7be80(NiStream& kStream);
+    void NiPixelData_LinkObject(NiStream& kStream);
 };
 
 // Calls the base LinkObject on kStream, then loads m_spPalette from the stream via FUN_00a63430.
 // @fnv 0x00a7be80
-void PixelDataBE80::FUN_00a7be80(NiStream& kStream)
+void PixelDataBE80::NiPixelData_LinkObject(NiStream& kStream)
 {
     RendererDataBase_s::LinkObject(kStream);
     m_spPalette = kStream.FUN_00a63430();
@@ -779,12 +779,12 @@ class NiPixelDataEq : public NiPixelData
 {
   public:
     bool ObjectIsEqual(NiObject* pkObject);
-    bool FUN_00a7bf10(NiObject* pkObject);
+    bool NiPixelData_IsEqual(NiObject* pkObject);
 };
 
 // Compares pixel format, palette, mipmap dimensions, face count, and pixel data of two NiPixelData objects, returning true only if all match.
 // @fnv 0x00a7bf10
-bool NiPixelDataEq::FUN_00a7bf10(NiObject* pkObject)
+bool NiPixelDataEq::NiPixelData_IsEqual(NiObject* pkObject)
 {
     if (!ObjectIsEqual(pkObject))
         return false;

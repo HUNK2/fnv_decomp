@@ -236,7 +236,7 @@ class ExtraLock
 class TeleportableReference
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
+    TESObjectCELL* DoorTeleportData_GetTeleportCell();
     TESWorldSpace* GetTeleportWorldspace();
     NiPoint3* GetPosition();
     NiPoint3* GetRotation();
@@ -316,7 +316,7 @@ class TESObjectREFR : public TESForm
     virtual void vfn_238();
     virtual void vfn_23c();
     virtual void vfn_240();
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     TeleportableReference* Set3DObject();
     LockExtraData* GetLock();
     ExtraLock* FindExtraLock();
@@ -324,7 +324,7 @@ class TESObjectREFR : public TESForm
     void RefreshReference();
     void SetLocationOnReference(NiPoint3*);
     void SetReferenceAngle(float);
-    void FUN_00575770(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
     bool IsCellInterior();
     static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
 };
@@ -809,7 +809,7 @@ class TESObjectDOOR : public TESBoundAnimObject,
     bool Load(TESFile*);
     bool IsTeleportDoor();
     bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int);
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
     TESObjectREFR* FindRandomTeleportTarget(TESObjectREFR*, TESObjectREFR*);
     void QueueDoorTeleport(TESObjectREFR*);
     TESSound* GetOpenSound();
@@ -843,7 +843,7 @@ extern TESObjectREFR* DAT_011c9350;
 extern Setting DAT_011c9384, DAT_011d276c, DAT_011d5110;
 extern const float DAT_010162c0;
 void FUN_00519810(TESObjectREFR*, TESObjectREFR*);
-void FUN_00600900(TESBoundObject*);
+void TESIdleManager_SetUsedItem(TESBoundObject*);
 void FUN_00600920(int);
 void FUN_00600940(bool);
 void FUN_00705830(TESObjectREFR*, int, int);

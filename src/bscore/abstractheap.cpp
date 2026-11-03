@@ -401,10 +401,10 @@ struct FUN_00aa9fb0_heap
     char pad2050[8];
     SubBucket_aa9 m_kSubBucketLists[16];
     char kCS[0x18];
-    void FUN_00aa9fb0();
+    void AbstractHeap_CheckHeapIntegrity();
 };
 // @fnv 0x00aa9fb0
-void FUN_00aa9fb0_heap::FUN_00aa9fb0()
+void FUN_00aa9fb0_heap::AbstractHeap_CheckHeapIntegrity()
 {
     FreeHeapBlock_aa9* pblock;
     HeapBlock_aa9* pfreeCur;

@@ -22,11 +22,11 @@ struct BSFlags
 
 struct FormChangeRecord
 {
-    void FUN_005621f0(unsigned int);
+    void BGSSaveFormBuffer_RemoveChange(unsigned int);
 };
 
 // @fnv 0x005621f0
-void FormChangeRecord::FUN_005621f0(unsigned int flags)
+void FormChangeRecord::BGSSaveFormBuffer_RemoveChange(unsigned int flags)
 {
     ((BSFlags*)((char*)this + 0x17))->Clear(flags);
 }
@@ -270,14 +270,14 @@ FUN_0056f690::FUN_0056f690()
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
     bool FUN_00570ea0();
 };
 
 // @fnv 0x00570ea0
 bool FUN_00456630_helper::FUN_00570ea0()
 {
-    return FUN_00456630(0x20000);
+    return NiAVObject_GetBit(0x20000);
 }
 
 int __fastcall GetByteAtOffset38(void*);
@@ -338,13 +338,13 @@ struct V4_538f40
 };
 struct FUN_00577070_class
 {
-    void FUN_00577090();
-    void FUN_00577070();
+    void hkMatrix3_setIdentity();
+    void hkTransform_setIdentity();
 };
 // @fnv 0x00577070
-void FUN_00577070_class::FUN_00577070()
+void FUN_00577070_class::hkTransform_setIdentity()
 {
-    FUN_00577090();
+    hkMatrix3_setIdentity();
     ((V4_538f40*)((char*)this + 0x30))->FUN_00538f40();
 }
 
@@ -605,10 +605,10 @@ struct FUN_00458400_cls
 struct ActorS
 {
     TESWorldSpace* __thiscall GetParentWorldSpace();
-    BGSEncounterZone* __thiscall FUN_00567d90();
+    BGSEncounterZone* __thiscall TESObjectREFR_GetLocationEncounterZone();
 };
 // @fnv 0x00567d90
-BGSEncounterZone* __thiscall ActorS::FUN_00567d90()
+BGSEncounterZone* __thiscall ActorS::TESObjectREFR_GetLocationEncounterZone()
 {
     if (*(TESWorldSpace**)((char*)this + 0x40) != 0)
         return (*(TESWorldSpace**)((char*)this + 0x40))->FindEncounterZone();
@@ -929,11 +929,11 @@ struct FUN_00577110_shell
 };
 struct FUN_00577090_shell : FUN_005770e0_shell
 {
-    void FUN_00577090();
+    void hkMatrix3_setIdentity();
 };
 // Calls FUN_00577110 on this, then sets the base-class elements at indices 0, 1 and 2 to 1.0f.
 // @fnv 0x00577090
-void FUN_00577090_shell::FUN_00577090()
+void FUN_00577090_shell::hkMatrix3_setIdentity()
 {
     ((FUN_00577110_shell*)this)->FUN_00577110();
     float f = 1.0f;
@@ -1245,7 +1245,7 @@ FUN_0057cb70_Class::FUN_0057cb70_Class(unsigned short size, unsigned short maxSi
 struct RefH
 {
     bool GetDisabled();
-    void FUN_00484af0(bool);
+    void TESForm_SetDisabled(bool);
 };
 struct InventoryChanges
 {
@@ -1253,17 +1253,17 @@ struct InventoryChanges
 };
 struct Fn56ac90
 {
-    BSSimpleList<BGSPerk*>* FUN_0056ac90();
+    BSSimpleList<BGSPerk*>* TESObjectREFR_GetEnableStateChildList();
 };
 struct FUN_0056ac00Class : RefH
 {
-    void FUN_0056ac00();
+    void TESObjectREFR_UpdateEnableStateChildrenFlagsRecursive();
 };
 
 // @fnv 0x0056ac00
-void FUN_0056ac00Class::FUN_0056ac00()
+void FUN_0056ac00Class::TESObjectREFR_UpdateEnableStateChildrenFlagsRecursive()
 {
-    BSSimpleList<BGSPerk*>* list = ((Fn56ac90*)this)->FUN_0056ac90();
+    BSSimpleList<BGSPerk*>* list = ((Fn56ac90*)this)->TESObjectREFR_GetEnableStateChildList();
     while (list)
     {
         RefH* item = (RefH*)list->GetItem();
@@ -1274,8 +1274,8 @@ void FUN_0056ac00Class::FUN_0056ac00()
                 disabled = !disabled;
             if (item->GetDisabled() != disabled)
             {
-                item->FUN_00484af0(disabled);
-                ((FUN_0056ac00Class*)item)->FUN_0056ac00();
+                item->TESForm_SetDisabled(disabled);
+                ((FUN_0056ac00Class*)item)->TESObjectREFR_UpdateEnableStateChildrenFlagsRecursive();
             }
         }
         list = list->GetNext();
@@ -1295,8 +1295,8 @@ struct WorldObj_S
 
 struct RigidBody_S
 {
-    bool FUN_005609b0();
-    int FUN_00517630();
+    bool bhkRigidBody_IsActive();
+    int bhkRigidBody_GetMotionType();
     bool IsNonZero(int flags);
 };
 
@@ -1328,7 +1328,7 @@ struct CollObj_S
 
 // Casts the object's world object to a rigid body and updates the counters' flags and counts based on its state.
 // @fnv 0x00563120
-void FUN_00563120(CollObj_S* pCollObj, Arg2_S* arg)
+void TESObjectREFR_GatherHavokSaveDataForCollisionObject(CollObj_S* pCollObj, Arg2_S* arg)
 {
     Counters_S* counters3 = arg->counters;
     WorldObj_S* world = pCollObj->FUN_006fa820();
@@ -1339,11 +1339,11 @@ void FUN_00563120(CollObj_S* pCollObj, Arg2_S* arg)
         {
             if (pCollObj == counters3->target)
                 counters3->flags |= 2;
-            if (body->FUN_005609b0())
+            if (body->bhkRigidBody_IsActive())
                 counters3->count04++;
             else
                 counters3->count08++;
-            if (body->FUN_00517630() == 4)
+            if (body->bhkRigidBody_GetMotionType() == 4)
             {
                 if (!body->IsNonZero(0x200))
                     counters3->count0C++;
@@ -1370,8 +1370,8 @@ struct bhkRigidBody
 {
     void FUN_00560bc0(NiPoint3&);
     void FUN_00560c20(hkVector4&);
-    bool FUN_005609b0();
-    int FUN_00517630();
+    bool bhkRigidBody_IsActive();
+    int bhkRigidBody_GetMotionType();
     bool IsNonZero(int);
     void FUN_00560d50(NiPoint3&);
     void FUN_00560de0(NiPoint3&);
@@ -1404,7 +1404,7 @@ struct SaveRequest
     SaveState* buffer;
 };
 // @fnv 0x00563220
-void FUN_00563220(bhkCollisionObject* apCollisionObject, SaveRequest* request)
+void TESObjectREFR_SaveHavokDataForCollisionObject(bhkCollisionObject* apCollisionObject, SaveRequest* request)
 {
     SaveState* buffer = request->buffer;
     BGSSaveFormBuffer* world = buffer->world;
@@ -1427,12 +1427,12 @@ void FUN_00563220(bhkCollisionObject* apCollisionObject, SaveRequest* request)
                 world->SaveData(&rotation, 16, 0);
             }
             unsigned char moving = 0;
-            bool flags = body->FUN_005609b0();
+            bool flags = body->bhkRigidBody_IsActive();
             if (buffer->moving & 4)
             {
                 if (flags)
                     moving |= 1;
-                if (body->FUN_00517630() == 4 && !body->IsNonZero(0x200))
+                if (body->bhkRigidBody_GetMotionType() == 4 && !body->IsNonZero(0x200))
                     moving |= 2;
                 world->SaveData(&moving, 1, 0);
             }
@@ -1707,7 +1707,7 @@ struct Param_563380
 };
 
 // @fnv 0x00563380
-void __cdecl FUN_00563380(bhkCollisionObject_563380* collObj, Param_563380* param)
+void __cdecl TESObjectREFR_LoadHavokDataForCollisionObject(bhkCollisionObject_563380* collObj, Param_563380* param)
 {
     Data_563380* data7 = param->data;
     LoadBuffer_563380* buffer2 = data7->buffer;
@@ -1776,7 +1776,7 @@ struct NiControllerSequence
 };
 struct NiControllerManager : NiObject
 {
-    bool FUN_004f05a0();
+    bool NiTimeController_GetActive();
     unsigned int GetSequenceCount();
     NiControllerSequence* GetSequenceAt(unsigned int idx);
 };
@@ -1832,11 +1832,11 @@ struct Ref563530
     int unk60;
     ModelHolder* m_kModelObjectsItem;
     HandleData* FUN_005d43c0();
-    bool FUN_00563530();
+    bool TESObjectREFR_CheckSaveAnimation();
 };
 
 // @fnv 0x00563530
-bool Ref563530::FUN_00563530()
+bool Ref563530::TESObjectREFR_CheckSaveAnimation()
 {
     if (FUN_005d43c0()->FUN_004228f0())
         return true;
@@ -1846,7 +1846,7 @@ bool Ref563530::FUN_00563530()
         return false;
     NiControllerManager* pManager =
         (NiControllerManager*)NiDynamicCast(&DAT_011f36ac, ((LoadedModel*)m_kModelObjectsItem->m_pRenderedNodeEntry)->GetObject3D());
-    if (!pManager || !pManager->FUN_004f05a0())
+    if (!pManager || !pManager->NiTimeController_GetActive())
         return false;
     unsigned int ItemUpdateArray = pManager->GetSequenceCount();
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
@@ -1867,16 +1867,16 @@ struct SceneObject : FUN_0056af20_Class
 };
 struct FUN_0056ae60_Class
 {
-    bool FUN_0056ae60();
-    bool FUN_0056af40();
+    bool TESObjectREFR_GetRespawn();
+    bool TESObjectREFR_IsLeveledCreature();
     SceneObject* FUN_007af430();
 };
-// Returns false if FUN_0056af40 is true; otherwise switches on the type from FUN_007af430 and calls GetFlag8 or IsFlag2Set on the object.
+// Returns false if TESObjectREFR_IsLeveledCreature is true; otherwise switches on the type from FUN_007af430 and calls GetFlag8 or IsFlag2Set on the object.
 // @fnv 0x0056ae60
-bool FUN_0056ae60_Class::FUN_0056ae60()
+bool FUN_0056ae60_Class::TESObjectREFR_GetRespawn()
 {
     bool result = false;
-    if (!FUN_0056af40())
+    if (!TESObjectREFR_IsLeveledCreature())
     {
         if (FUN_007af430())
         {
@@ -2622,20 +2622,20 @@ class NiNode : public NiAVObject
     NiAVObject* FUN_0043b4a0(unsigned int);
 };
 extern NiRTTI g_01202de8;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 const NiFixedString& FUN_004f9230();
 struct SceneSounds57
 {
-    void FUN_0057a410(NiAVObject*, bool);
+    void TESObjectREFR_UpdateAddonNodeSoundsRecursive(NiAVObject*, bool);
 };
 // @fnv 0x0057a410
-void SceneSounds57::FUN_0057a410(NiAVObject* object, bool stop)
+void SceneSounds57::TESObjectREFR_UpdateAddonNodeSoundsRecursive(NiAVObject* object, bool stop)
 {
     if (!object)
         return;
     if (object->FUN_00456610())
         stop = true;
-    if (FUN_0043b300(&g_01202de8, object))
+    if (NiObject_IsKindOf(&g_01202de8, object))
     {
         NiAVObject* soundObject = object;
         SoundRecord57* record = g_dataHandler->FUN_004617e0(soundObject->FUN_009ee040());
@@ -2674,7 +2674,7 @@ void SceneSounds57::FUN_0057a410(NiAVObject* object, bool stop)
         {
             NiAVObject* child = node->FUN_0043b4a0(i);
             if (child)
-                FUN_0057a410(child, stop);
+                TESObjectREFR_UpdateAddonNodeSoundsRecursive(child, stop);
         }
     }
 }
@@ -2868,11 +2868,11 @@ class Ref56B0
     }
     void FUN_00484b90(unsigned int uiFlags);
     Extra56B0* FUN_005d43c0();
-    void FUN_0056b020(int iA, int iB);
+    void TESObjectREFR_SetLeveledCreature(int iA, int iB);
 };
 
 // @fnv 0x0056b020
-void Ref56B0::FUN_0056b020(int iA, int iB)
+void Ref56B0::TESObjectREFR_SetLeveledCreature(int iA, int iB)
 {
     if (GetBase() && GetBase()->vf0F8())
     {
@@ -2983,12 +2983,12 @@ struct Thing
 {
     Scene* FUN_007af430();
     Sub* FUN_005d43c0();
-    bool FUN_0056afc0();
+    bool TESObjectREFR_HasLeveledCreatureCalced();
 };
 
 // Returns true if the scene pointer is valid, its vf() check passes, and the Sub object's FUN_004216d0() returns true.
 // @fnv 0x0056afc0
-bool Thing::FUN_0056afc0()
+bool Thing::TESObjectREFR_HasLeveledCreatureCalced()
 {
     bool result = false;
     if (FUN_007af430() != 0 && FUN_007af430()->vf())

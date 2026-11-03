@@ -19,7 +19,7 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00a6c8a0
-BSDismemberSkinInstance* FUN_00a6c8a0()
+BSDismemberSkinInstance* BSDismemberSkinInstance_CreateObject()
 {
     BSDismemberSkinInstance* p = (BSDismemberSkinInstance*)BSFadeNode::operator new(0x40);
     if (p)
@@ -141,7 +141,7 @@ struct S00a6c7c0 : _Call_a5d3a0
     }
 
     void FUN_00a6c720(S00a6c7c0* pkDest, CloningProcess& kCloning);
-    S00a6c7c0* FUN_00a6c7c0(CloningProcess& kCloning);
+    S00a6c7c0* BSDismemberSkinInstance_CreateClone(CloningProcess& kCloning);
 };
 
 S00a6c7c0::S00a6c7c0() throw()
@@ -154,7 +154,7 @@ S00a6c7c0::S00a6c7c0() throw()
 }
 
 // @fnv 0x00a6c7c0
-S00a6c7c0* S00a6c7c0::FUN_00a6c7c0(CloningProcess& kCloning)
+S00a6c7c0* S00a6c7c0::BSDismemberSkinInstance_CreateClone(CloningProcess& kCloning)
 {
     S00a6c7c0* pkSkinInstance = new S00a6c7c0();
     FUN_00a6c720(pkSkinInstance, kCloning);
@@ -405,11 +405,11 @@ class A6C900Skin : public A6C900SkinBase
     A6C900Partition* m_pPartitions;
     unsigned char m_ucFlags;
 
-    void FUN_00a6c900(A6C900Stream& kStream);
+    void BSDismemberSkinInstance_LoadBinary(A6C900Stream& kStream);
 };
 
 // @fnv 0x00a6c900
-void A6C900Skin::FUN_00a6c900(A6C900Stream& kStream)
+void A6C900Skin::BSDismemberSkinInstance_LoadBinary(A6C900Stream& kStream)
 {
     A6C900SkinBase::LoadBinary(kStream);
     A6C900LoadBinary(kStream, m_uiPartitionCount);
@@ -505,11 +505,11 @@ struct BSDismemberSkinInstanceStub : NiSkinInstanceStub
     BodyPartData* m_pEntries;
     bool m_bStateFlag;
 
-    void FUN_00a6cac0(NiTPrimitiveArray<char*>* pkStrings);
+    void BSDismemberSkinInstance_GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings);
 };
 
 // @fnv 0x00a6cac0
-void BSDismemberSkinInstanceStub::FUN_00a6cac0(NiTPrimitiveArray<char*>* pkStrings)
+void BSDismemberSkinInstanceStub::BSDismemberSkinInstance_GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings)
 {
     NiSkinInstanceStub::GetViewerStrings(pkStrings);
 
@@ -714,10 +714,10 @@ static inline void Swap32(BodyPartData& value)
 struct DismemberOutput : BSDismemberSkinInstanceStub
 {
     void SaveSkinInstance(OutputStream&);
-    void FUN_00a6c9c0(OutputStream&);
+    void BSDismemberSkinInstance_SaveBinary(OutputStream&);
 };
 // @fnv 0x00a6c9c0
-void DismemberOutput::FUN_00a6c9c0(OutputStream& stream)
+void DismemberOutput::BSDismemberSkinInstance_SaveBinary(OutputStream& stream)
 {
     SaveSkinInstance(stream);
     {

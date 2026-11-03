@@ -159,7 +159,7 @@ void* __fastcall FUN_00a4e5b0(void* pThis, int, unsigned int flags)
 extern "C" const NiRTTI g_011f3fbc;
 
 // @fnv 0x00a4e0a0
-const NiRTTI* __cdecl FUN_00a4e0a0()
+const NiRTTI* __cdecl NiTransformData_GetRTTI()
 {
     return &g_011f3fbc;
 }
@@ -413,11 +413,11 @@ struct NiObjectBaseEq : NiObject
 
 struct TransformDataEqual : NiTransformData
 {
-    bool FUN_00a4e130(NiObject* pkObject);
+    bool NiTransformData_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00a4e130
-bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
+bool TransformDataEqual::NiTransformData_IsEqual(NiObject* pkObject)
 {
     if (!((NiObjectBaseEq*)this)->IsSameAs(pkObject))
         return false;
@@ -754,11 +754,11 @@ extern PositionSave g_011f3a68[];
 extern ScaleSave g_011f3a50[];
 struct TransformSaveQuery : NiTransformData
 {
-    void FUN_00a4e810(NiStream& stream);
+    void NiTransformData_SaveBinary(NiStream& stream);
 };
 // Saves the transform data's rotation, position and scale key counts and key arrays to the stream via the per-type save function tables.
 // @fnv 0x00a4e810
-void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
+void TransformSaveQuery::NiTransformData_SaveBinary(NiStream& stream)
 {
     NiObject::SaveBinary(stream);
     unsigned int count = m_usNumRotKeys;
@@ -797,7 +797,7 @@ void FUN_00a4eaf0()
 
 struct FUN_00a57100_Caller
 {
-    bool FUN_00a57100(NiStream&);
+    bool NiExtraDataController_RegisterStreamables(NiStream&);
 };
 
 struct FUN_00a4eb00_Caller : FUN_00a57100_Caller
@@ -808,7 +808,7 @@ struct FUN_00a4eb00_Caller : FUN_00a57100_Caller
 // @fnv 0x00a4eb00
 bool FUN_00a4eb00_Caller::FUN_00a4eb00(NiStream& kStream)
 {
-    return FUN_00a57100(kStream);
+    return NiExtraDataController_RegisterStreamables(kStream);
 }
 
 struct TransformDataBinaryInputView
@@ -1036,11 +1036,11 @@ void __cdecl FUN_00a29680(const char* message);
 class TransformDataLoader : public NiTransformData
 {
   public:
-    void FUN_00a4e5d0(NiStream& stream);
+    void NiTransformData_LoadBinary(NiStream& stream);
 };
 // Reads rotation, position, and scale key data from a NiStream, creating and loading each key set via type-specific factory and load functions.
 // @fnv 0x00a4e5d0
-void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
+void TransformDataLoader::NiTransformData_LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
     unsigned int numKeys;

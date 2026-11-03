@@ -15,11 +15,11 @@ struct NiSphere
 struct NiBSPNode : NiNode
 {
     NiSphere m_pSphere;
-    void FUN_00a9a710(NiStream& stream);
+    void NiBSPNode_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00a9a710
-void NiBSPNode::FUN_00a9a710(NiStream& stream)
+void NiBSPNode::NiBSPNode_LoadBinary(NiStream& stream)
 {
     NiNode::LoadBinary(stream);
     ((NiSphere*)((char*)this + 0xac))->LoadBinary(stream);
@@ -35,12 +35,12 @@ struct NiAVObject
 };
 struct NiBSPNode : NiAVObject
 {
-    void __thiscall FUN_00a9a840(NiUpdateData&);
+    void __thiscall NiBSPNode_UpdateWorldData(NiUpdateData&);
     void __thiscall FUN_00a9a760();
 };
 
 // @fnv 0x00a9a840
-void __thiscall NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
+void __thiscall NiBSPNode::NiBSPNode_UpdateWorldData(NiUpdateData& aUpdateData)
 {
     NiAVObject::UpdateWorldData(aUpdateData);
     FUN_00a9a760();
@@ -53,7 +53,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5f54;
 
 // @fnv 0x00a9adc0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a9adc0()
+GlobalObjectO2_00a7b610* __cdecl NiBSPNode_GetRTTI()
 {
     return &g_011f5f54;
 }
@@ -91,11 +91,11 @@ struct NiBSPNode : NiNode
 {
     char _pad_0x00[0xac];
     NiSphere m_pSphere;
-    void FUN_00a9a740(NiStream& stream);
+    void NiBSPNode_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00a9a740
-void NiBSPNode::FUN_00a9a740(NiStream& stream)
+void NiBSPNode::NiBSPNode_SaveBinary(NiStream& stream)
 {
     NiNode::SaveBinary(stream);
     m_pSphere.SaveBinary(stream);
@@ -111,7 +111,7 @@ struct StrArr
 };
 struct FUN_00c51570_Class
 {
-    void* FUN_00a5ea70(void*);
+    void* NiNode_GetViewerStrings(void*);
 };
 struct FUN_00a69a60_Owner
 {
@@ -127,7 +127,7 @@ struct FUN_00a9acf0_shell : NiBSPNode
 // @fnv 0x00a9acf0
 void FUN_00a9acf0_shell::AppendPlaneNames(StrArr* apViewerStrings)
 {
-    ((FUN_00c51570_Class*)this)->FUN_00a5ea70(apViewerStrings);
+    ((FUN_00c51570_Class*)this)->NiNode_GetViewerStrings(apViewerStrings);
     char* pName = _FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f5f54);
     unsigned int uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
@@ -419,10 +419,10 @@ struct FourInts
 struct NodeOwner
 {
     void FUN_00a5dc80(void*, void*);
-    void* FUN_00a9ae00(void* arg);
+    void* NiBSPNode_CreateClone(void* arg);
 };
 // @fnv 0x00a9ae00
-void* NodeOwner::FUN_00a9ae00(void* arg)
+void* NodeOwner::NiBSPNode_CreateClone(void* arg)
 {
     char* memory = (char*)FUN_00aa13e0(0xcc);
     char* result;
@@ -723,12 +723,12 @@ struct BSPNodeX
         m_kModelPlane.m_kPlaneNormal = normal;
         m_kModelPlane.m_fPlaneConstant += m_kModelPlane.m_kPlaneNormal * kTrn;
     }
-    void FUN_00a9a860(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn, bool bOnLeft);
+    void NiBSPNode_ApplyTransform(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn, bool bOnLeft);
 };
 
 // Applies the supplied matrix and translation to the node's model plane and passes them to each non-null child.
 // @fnv 0x00a9a860
-void BSPNodeX::FUN_00a9a860(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn, bool bOnLeft)
+void BSPNodeX::NiBSPNode_ApplyTransform(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn, bool bOnLeft)
 {
     if (bOnLeft)
     {

@@ -24,7 +24,7 @@ void __thiscall FUN_00a569f0_shell::FUN_00a569f0(float& fValue)
 extern int g_011f4084;
 
 // @fnv 0x00a56a80
-int* __cdecl FUN_00a56a80()
+int* __cdecl NiAlphaController_GetRTTI()
 {
     return &g_011f4084;
 }
@@ -99,13 +99,13 @@ template <class T, class Alloc> struct NiTPrimitiveArray
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+void __stdcall NiFloatInterpController_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Grows pkStrings if full, then appends the string returned by _FUN_00a7d330(g_011f4084) at the current size index.
 // @fnv 0x00a56b60
-void __stdcall FUN_00a56b60(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void __stdcall NiAlphaController_GetViewerStrings(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330((const char*)g_011f4084);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -191,10 +191,10 @@ struct FloatCtlr
         return ((m_uiObjectFlags >> 5) & 1) ? true : false;
     }
     bool FUN_00a36250(float fTime);
-    void FUN_00a56a00(UpdateData& kData);
+    void NiAlphaController_Update(UpdateData& kData);
 };
 // @fnv 0x00a56a00
-void FloatCtlr::FUN_00a56a00(UpdateData& kData)
+void FloatCtlr::NiAlphaController_Update(UpdateData& kData)
 {
     if (GetManagerControlled())
     {

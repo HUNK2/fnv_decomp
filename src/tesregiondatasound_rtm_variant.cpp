@@ -13,15 +13,15 @@ struct FUN_004f4f90_node : BSSimpleList<unsigned int>
 };
 
 int __cdecl FUN_00944460(int, int);
-int __cdecl FUN_004839c0(unsigned int);
+int __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 struct FUN_004f4f90_shell : TESRegionDataSound
 {
-    int FUN_004f4f90();
+    int TESRegionDataSound_GetRandomBattleMediaSet();
 };
 
 // @fnv 0x004f4f90
-int FUN_004f4f90_shell::FUN_004f4f90()
+int FUN_004f4f90_shell::TESRegionDataSound_GetRandomBattleMediaSet()
 {
     unsigned int found;
     FUN_004f4f90_node* node7 = (FUN_004f4f90_node*)&Battle;
@@ -45,7 +45,7 @@ int FUN_004f4f90_shell::FUN_004f4f90()
     {
         ((FUN_004f4f90_node*)&Battle)->FUN_00905330(&found);
         ((FUN_004f4f90_node*)&Battle)->FUN_005ae3d0(&found);
-        return FUN_004839c0(found);
+        return TESForm_GetFormByNumericID(found);
     }
     return 0;
 }

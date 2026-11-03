@@ -349,7 +349,7 @@ class NiControllerSequence
     bool m_bHasAnimNotes;
     float GetField4C();
     float FUN_00508100();
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     NiTextKeyExtraData* FUN_00700300();
     bool Deactivate(float, bool);
 };

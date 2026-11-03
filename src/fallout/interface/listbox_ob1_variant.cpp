@@ -1284,8 +1284,8 @@ struct InventoryEntry
     InventoryEntry();
     int FUN_00726070();
     TESBoundObject* GetObject();
-    bool FUN_004bd820();
-    void FUN_004bc810(InventoryEntry*);
+    bool ItemChange_GetModSlots();
+    void ItemChange_Copy(InventoryEntry*);
     void FUN_006ecd40(int);
 };
 struct InventoryList
@@ -1354,7 +1354,7 @@ struct RemovalInterface
 {
     void FUN_00715860(LBTileObj*, int, int);
 };
-RemovalInterface* FUN_004b7210();
+RemovalInterface* InterfaceManager_Instance();
 extern "C" char str_0106f8d0[];
 struct MenuBase_71f700
 {

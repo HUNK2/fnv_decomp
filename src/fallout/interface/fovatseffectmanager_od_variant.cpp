@@ -103,7 +103,7 @@ struct RefLike
 
 struct FormLike
 {
-    unsigned int FUN_0043b540();
+    unsigned int hkpCollidable_getCollisionFilterInfo();
 };
 
 struct NodeLike
@@ -113,14 +113,14 @@ struct NodeLike
 
 struct FilterLike
 {
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct FilterHolder
 {
     int val;
     FilterHolder(int a);
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct Vec3Like
@@ -138,7 +138,7 @@ struct CellLike
 
 struct TESLike
 {
-    CellLike* FUN_00457620(Vec3Like* pos);
+    CellLike* TES_GetLandGeometry(Vec3Like* pos);
 };
 
 struct ExtraLike
@@ -170,11 +170,11 @@ unsigned int FUN_004b5820(FormLike* form)
             {
                 result5 = ref->GetFlags();
             }
-            else if (FilterHolder(form->FUN_0043b540()).FUN_004a3a20() == 1)
+            else if (FilterHolder(form->hkpCollidable_getCollisionFilterInfo()).CFilter_GetGroup() == 1)
             {
                 Vec3Like pos4;
                 FUN_00458620(&pos4, ((NodeLike*)node_)->FUN_004b4ec0());
-                CellLike* cellA = g_TES->FUN_00457620(&pos4);
+                CellLike* cellA = g_TES->TES_GetLandGeometry(&pos4);
                 if (cellA && cellA->FUN_009611e0())
                 {
                     result5 = cellA->FUN_009611e0();
@@ -209,8 +209,8 @@ struct VQueryObj
 
 struct VRenderer
 {
-    void FUN_004a0370();
-    void FUN_004a03c0();
+    void NiRenderer_LockRenderer();
+    void NiRenderer_UnlockRenderer();
 };
 VRenderer* __cdecl FUN_0043c4b0();
 
@@ -553,7 +553,7 @@ void VATSEffectStub::FUN_00800370()
     {
         if (node && queriesA[i] && queriesB[i])
         {
-            FUN_0043c4b0()->FUN_004a0370();
+            FUN_0043c4b0()->NiRenderer_LockRenderer();
             unsigned int a;
             unsigned int b;
             if (queriesA[i]->FUN_00c4edf0(&a, 1) && queriesB[i]->FUN_00c4edf0(&b, 1) && !done[i])
@@ -567,7 +567,7 @@ void VATSEffectStub::FUN_00800370()
                 resultA[i] = a;
                 resultB[i] = b * unk2c8;
             }
-            FUN_0043c4b0()->FUN_004a03c0();
+            FUN_0043c4b0()->NiRenderer_UnlockRenderer();
         }
     }
 }
@@ -693,7 +693,7 @@ struct Obj0664_00801ad0
 
 struct Actor_00801ad0
 {
-    void* FUN_004bc320(int a);
+    void* BSRenderedTexture_GetTexture(int a);
 };
 
 struct S5_00801ad0
@@ -735,7 +735,7 @@ void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, int a1, int a2, unsigned
     DAT_01201f38 = tmp.d2;
     DAT_01201f3c = tmp.d3;
     ((Obj6e5_00801ad0*)&DAT_01201f40)->FUN_006e5cc0((char*)this + 0x2c4);
-    ((Obj0664_00801ad0*)&DAT_01201f44)->FUN_0066b0d0(((Actor_00801ad0*)a1)->FUN_004bc320(0));
+    ((Obj0664_00801ad0*)&DAT_01201f44)->FUN_0066b0d0(((Actor_00801ad0*)a1)->BSRenderedTexture_GetTexture(0));
     FUN_004e3270(0xb, 1)->FUN_004ebbc0()->FUN_004f15a0();
 }
 
@@ -1405,7 +1405,7 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
     FUN_00718b60(1, &vector)->FUN_00719060();
     DAT_012007fc = 1;
     FUN_004e3270(10, 1)->FUN_004ebbc0()->FUN_004f15a0();
-    DAT_01200818.FUN_0066b0d0(actor->FUN_004bc320(0));
+    DAT_01200818.FUN_0066b0d0(actor->BSRenderedTexture_GetTexture(0));
     if (enabled)
     {
         DAT_012007f0 = *DAT_011db6e4.FUN_00403e20();

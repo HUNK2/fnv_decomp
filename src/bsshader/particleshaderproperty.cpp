@@ -510,10 +510,10 @@ struct PickVector
         memcpy(this, &rhs, sizeof(*this));
         return *this;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     const PickVector* Normalized()
     {
-        FUN_004a0c10();
+        NiPoint3_Unitize();
         return this;
     }
 };
@@ -1044,7 +1044,7 @@ struct SpawnVector
     {}
     SpawnVector(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void NiPoint3_Unitize();
 };
 
 inline float RandomSigned()
@@ -1113,7 +1113,7 @@ void ParticleSpawner::FUN_00ba7860(unsigned int index)
             position = node->position * t + parent->position * (1.0f - t);
             float z = RandomSigned();
             direction = SpawnVector(RandomLast(), 0.0f, z);
-            direction.FUN_004a0c10();
+            direction.NiPoint3_Unitize();
             direction = node->rotation.FUN_004b4500(&direction);
         }
         else
@@ -1122,7 +1122,7 @@ void ParticleSpawner::FUN_00ba7860(unsigned int index)
             float z = RandomSigned();
             float y = RandomSigned();
             direction = SpawnVector(RandomLast(), y, z);
-            direction.FUN_004a0c10();
+            direction.NiPoint3_Unitize();
         }
     }
     else
@@ -1151,7 +1151,7 @@ struct Point71 : NiPoint3
         y = Y;
         z = Z;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct Transform71
 {
@@ -1300,7 +1300,7 @@ void Target71::FUN_00ba71d0(unsigned int index)
             direction.Set(0.0f, m_fParticleParameter1 * RandomUnit71(), 0.0f);
             position = direction;
             direction = Point71(RandomSigned71(), 0.0f, RandomSigned71());
-            direction.FUN_004a0c10();
+            direction.NiPoint3_Unitize();
             if (m_bParticleEnabled)
             {
                 Point71 result;

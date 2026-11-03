@@ -643,7 +643,7 @@ bool Water112::InitWaterPasses()
 
 struct TextureReceiver
 {
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 struct TextureBinding
 {
@@ -849,19 +849,19 @@ void MaterialShader::BindMaterialTextures(ShaderArgument* argument)
         if (properties->texture13C && properties->flag80)
         {
             TextureBinding* target = state->bindings->slots[0];
-            target->texture = properties->texture13C->FUN_004bc320(0);
+            target->texture = properties->texture13C->BSRenderedTexture_GetTexture(0);
         }
         else
             state->bindings->slots[0]->texture = DAT_011f9510;
         if (DAT_011f943c && properties->flag81)
         {
             TextureBinding* target = state->bindings->slots[1];
-            target->texture = DAT_011f943c->FUN_004bc320(0);
+            target->texture = DAT_011f943c->BSRenderedTexture_GetTexture(0);
         }
         if (properties->texture138)
         {
             TextureBinding* target = state->bindings->slots[2];
-            target->texture = properties->texture138->FUN_004bc320(0);
+            target->texture = properties->texture138->BSRenderedTexture_GetTexture(0);
         }
         else
             state->bindings->slots[2]->texture = DAT_011f9510;
@@ -870,7 +870,7 @@ void MaterialShader::BindMaterialTextures(ShaderArgument* argument)
         if (properties->texture144 && properties->flag63)
         {
             TextureBinding* target = state->bindings->slots[4];
-            target->texture = properties->texture144->FUN_004bc320(0);
+            target->texture = properties->texture144->BSRenderedTexture_GetTexture(0);
         }
         v66();
     }

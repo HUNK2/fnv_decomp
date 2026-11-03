@@ -887,13 +887,13 @@ void FUN_00805650_shell::FUN_00805650()
 
 struct FUN_00803fe0_shell : public ActiveEffect
 {
-    ActiveEffect* FUN_00803fe0();
+    ActiveEffect* ActiveEffect_Clone();
 };
 
 // ActiveEffect::Copy (v04)
 // Allocates a new ActiveEffect from the spell and effect, copies data into it, and returns it.
 // @fnv 0x00803fe0
-ActiveEffect* FUN_00803fe0_shell::FUN_00803fe0()
+ActiveEffect* FUN_00803fe0_shell::ActiveEffect_Clone()
 {
     ActiveEffect* pNewEffect = new ActiveEffect(m_pEffectInstance, pSpell, pEffect);
     CopyData(pNewEffect);
@@ -909,12 +909,12 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_00805760_shell : public ActiveEffect
 {
-    void FUN_00805760(Actor* apActor);
+    void ActiveEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 // ActiveEffect::FinishLoadGameTES (v2C)
 // @fnv 0x00805760
-void FUN_00805760_shell::FUN_00805760(Actor* apActor)
+void FUN_00805760_shell::ActiveEffect_FinishInitLoadGame(Actor* apActor)
 {
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x2a)
     {
@@ -1559,7 +1559,7 @@ struct MidObj
 struct EffSetting
 {
     MidObj* __thiscall FUN_004fd3e0();
-    bool __thiscall FUN_00403e60(unsigned int n);
+    bool __thiscall EffectSetting_IsFlagSet(unsigned int n);
 };
 struct Obj14
 {
@@ -1752,7 +1752,7 @@ void __thiscall Self::PlaySoundForEffect()
             {
                 AudioPlaybackHandle sound8;
                 var4 = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-                flag_ = FUN_007df1d0()->FUN_00403e60(0x400);
+                flag_ = FUN_007df1d0()->EffectSetting_IsFlagSet(0x400);
                 if (FUN_007df1d0()->FUN_004fd3e0())
                 {
                     flag_ = GetFlagMask(FUN_007df1d0()->FUN_004fd3e0()->CopyBig().f4) ? true : false;
@@ -1850,11 +1850,11 @@ class MagicHitEffectSaveDispatch
 
 struct FUN_00804f80_shell : public ActiveEffect
 {
-    unsigned short FUN_00804f80(Actor* apActor);
+    unsigned short ActiveEffect_GetSaveSize(Actor* apActor);
 };
 
 // @fnv 0x00804f80
-unsigned short FUN_00804f80_shell::FUN_00804f80(Actor* apActor)
+unsigned short FUN_00804f80_shell::ActiveEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short usSize = 0;
     usSize += 4;
@@ -1935,10 +1935,10 @@ struct HitEffectSaveNode
 };
 struct EffectSaveShell : ActiveEffect
 {
-    void FUN_008050d0(Actor* actor);
+    void ActiveEffect_SaveGame(Actor* actor);
 };
 // @fnv 0x008050d0
-void EffectSaveShell::FUN_008050d0(Actor* actor)
+void EffectSaveShell::ActiveEffect_SaveGame(Actor* actor)
 {
     ((EffectSaveStream*)DAT_011de45c)->FUN_008579b0(&m_fEffectMagnitude, 4);
     ((EffectSaveStream*)DAT_011de45c)->FUN_008579b0(&bActive, 1);
@@ -1999,7 +1999,7 @@ void EffectSaveShell::FUN_008050d0(Actor* actor)
 
 struct ActiveEffectLoader : FUN_00805650_shell
 {
-    void FUN_00805330(Actor* actor);
+    void ActiveEffect_LoadGame(Actor* actor);
 };
 struct EffectSaveReader
 {
@@ -2045,7 +2045,7 @@ extern const char hitEffectLoadWarning[];
 void __cdecl HitEffectWarning(const char*, ...);
 // Reads an active magic effect's fields from the save stream, recreates its hit effects, and reads flags or a version-gated byte.
 // @fnv 0x00805330
-void ActiveEffectLoader::FUN_00805330(Actor* actor)
+void ActiveEffectLoader::ActiveEffect_LoadGame(Actor* actor)
 {
     // Local identifiers and declaration order preserve MSVC9 stack slots.
     unsigned int b;     // Hit-effect index.
@@ -2405,12 +2405,12 @@ struct SaveHitNode
 
 struct ActiveEffectSaveShell : public ActiveEffect
 {
-    void FUN_00806230(SaveFormBuf* apBuffer);
+    void ActiveEffect_SaveGameBGS(SaveFormBuf* apBuffer);
 };
 
 // Serializes the active effect's fields, caster/target/spell IDs, source form and hit effects into the save buffer.
 // @fnv 0x00806230
-void ActiveEffectSaveShell::FUN_00806230(SaveFormBuf* apBuffer)
+void ActiveEffectSaveShell::ActiveEffect_SaveGameBGS(SaveFormBuf* apBuffer)
 {
     apBuffer->SaveData(&m_fEffectMagnitude, 4, 0);
     apBuffer->SaveData(&bActive, 1, 0);
@@ -2531,16 +2531,16 @@ class TESForm
 class TESBoundObject : public TESForm
 {
 };
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 MagicCaster* FUN_00818c60(MagicCaster* pkCaster);
 MagicTarget* FUN_00825550(MagicTarget* pkTarget);
 
 struct ActiveEffect805670 : ActiveEffect
 {
-    void FUN_00805670(Actor* apActor);
+    void ActiveEffect_InitLoadGame(Actor* apActor);
 };
 // @fnv 0x00805670
-void ActiveEffect805670::FUN_00805670(Actor* apActor)
+void ActiveEffect805670::ActiveEffect_InitLoadGame(Actor* apActor)
 {
     MagicTarget* pkTarget;
     MagicCaster* pkCaster;
@@ -2553,7 +2553,7 @@ void ActiveEffect805670::FUN_00805670(Actor* apActor)
         pTarget = FUN_00825550(pkTarget);
     source = pSource;
     if (pkTarget)
-        pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)source));
+        pSource = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID((unsigned int)source));
     if (DAT_011de45c->FUN_008df040() >= 0x2a)
     {
         BSSimpleList<MagicHitEffect*>* it = pHitEffectList;
@@ -2608,16 +2608,16 @@ struct FUN_00470440
     FUN_00470440* m_pkNext;
     FUN_00470440(BGSPerkEntry* const& item);
 };
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl FNV_Warning(const char* fmt, ...);
 
 struct FUN_00806420_shell : public ActiveEffect
 {
-    void FUN_00806420(BGSLoadFormBuffer* a1);
+    void ActiveEffect_LoadGameBGS(BGSLoadFormBuffer* a1);
 };
 // Reads effect fields and tagged hit effects from the buffer, loads each effect, and adds it to pHitEffectList.
 // @fnv 0x00806420
-void FUN_00806420_shell::FUN_00806420(BGSLoadFormBuffer* apBuffer)
+void FUN_00806420_shell::ActiveEffect_LoadGameBGS(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->ReadTypedData(&m_fEffectMagnitude, 4);
     apBuffer->ReadTypedData(&bActive, 1);
@@ -2631,7 +2631,7 @@ void FUN_00806420_shell::FUN_00806420(BGSLoadFormBuffer* apBuffer)
     apBuffer->ReadFormIdentifier(&m_pEffectInstance);
     apBuffer->ReadFormIdentifier(&pTarget);
     apBuffer->ReadFormIdentifier(&pMagicItem);
-    pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0(((BufShell806420*)apBuffer)->FUN_008648a0()));
+    pSource = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(((BufShell806420*)apBuffer)->FUN_008648a0()));
     int count = ((BufShell806420*)apBuffer)->FUN_00864a60();
     for (unsigned int i = 0; i < (unsigned int)count; ++i)
     {
@@ -2784,7 +2784,7 @@ class TESFormStandin_5d40
 };
 
 class TESForm;
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl FNV_Warning(const char* fmt, ...);
 ActiveEffect* FUN_00805920(Actor*);
 
@@ -2831,7 +2831,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
             cf = (SaveLoadRecord_5d40*)((TESSaveLoadGame_5d40*)g_TESSaveLoadGame)->FUN_004fd3c0();
             if (cf)
             {
-                q = (TESFormStandin_5d40*)FUN_004839c0(cf->formID);
+                q = (TESFormStandin_5d40*)TESForm_GetFormByNumericID(cf->formID);
                 FNV_Warning(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Magic\\ActiveEffect.cpp", 1000, cf->formID,
@@ -2885,7 +2885,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
         c = (SaveLoadRecord_5d40*)((TESSaveLoadGame_5d40*)g_TESSaveLoadGame)->FUN_004fd3c0();
         if (c)
         {
-            j = (TESFormStandin_5d40*)FUN_004839c0(c->formID);
+            j = (TESFormStandin_5d40*)TESForm_GetFormByNumericID(c->formID);
             if (e > (unsigned int)a + i)
             {
                 FNV_Warning(

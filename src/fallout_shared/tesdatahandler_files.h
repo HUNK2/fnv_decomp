@@ -101,7 +101,7 @@ class TESFile
     void SetCompileIndex(unsigned char);
     bool OpenTESFile(NiFile::OpenMode, bool);
     unsigned int GetFieldAt3E0();
-    BSSimpleList<TESFile*>* FUN_00464df0();
+    BSSimpleList<TESFile*>* TESFile_GetMasterList();
     TESForm* FUN_0044edb0();
     bool GetByteAt428();
 };

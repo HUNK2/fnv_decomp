@@ -8,7 +8,7 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 
-extern "C" void __stdcall FUN_00a390a0(StrArr*);
+extern "C" void __stdcall NiSingleInterpController_GetViewerStrings(StrArr*);
 extern "C" char* __cdecl FUN_00a7d330(const char*);
 extern "C" const char* const g_011f3ec8_arg1;
 
@@ -26,9 +26,9 @@ template <class T, class M> class NiTPrimitiveArray : public StrArr
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiTPrimitiveArray_char;
 
 // @fnv 0x00a576c0
-void __stdcall FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
+void __stdcall NiFloatInterpController_GetViewerStrings(NiTPrimitiveArray_char* pkStrings)
 {
-    FUN_00a390a0(pkStrings);
+    NiSingleInterpController_GetViewerStrings(pkStrings);
     char* pStr = FUN_00a7d330(g_011f3ec8_arg1);
     unsigned int idx = *(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pkStrings) + 0x0a));
     unsigned int cnt = *(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pkStrings) + 0x08));

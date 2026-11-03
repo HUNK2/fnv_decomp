@@ -48,8 +48,8 @@ FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 class TESForm : public BaseFormComponent
 {
   public:
-    void FUN_004855a0();
-    void FUN_00485680();  // declared for the original code (decl_variants.py)
+    void TESForm_StartForm();
+    void TESForm_CloseForm();  // declared for the original code (decl_variants.py)
   public:
     unsigned char m_ucFormType;             // +0x4
     unsigned int m_uiFormFlags;             // +0x8
@@ -152,7 +152,7 @@ FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 class TESFullName : public BaseFormComponent
 {
   public:
-    void FUN_00487010();  // declared for the original code (decl_variants.py)
+    void TESFullName_Save();  // declared for the original code (decl_variants.py)
   public:
     void SetFullName(const char* name);
     BSStringT<char> m_kName;  // +0x4
@@ -164,7 +164,7 @@ FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 class TESDescription : public BaseFormComponent
 {
   public:
-    void FUN_00482cb0();  // declared for the original code (decl_variants.py)
+    void TESDescription_Save();  // declared for the original code (decl_variants.py)
   public:
     static void ReadDescriptionFromFile(TESDescription*, TESFile*);
     unsigned long m_uiDescriptionFileOffset;  // +0x4
@@ -186,7 +186,7 @@ FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 class TESIcon : public TESTexture
 {
   public:
-    void FUN_0048e370(unsigned int chunk);  // declared for the original code (decl_variants.py)
+    void TESTexture_Save(unsigned int chunk);  // declared for the original code (decl_variants.py)
   public:
 };
 FNV_STATIC_ASSERT(sizeof(TESIcon) == 0xC);
@@ -308,7 +308,7 @@ FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iAssociatedActorV
 class EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
 {
   public:
-    void FUN_00407300();  // declared for the original code (decl_variants.py)
+    void EffectSetting_SaveForm();  // declared for the original code (decl_variants.py)
   public:
     // base TESForm at +0x0, size 24
     // base TESModel at +0x18, size 24

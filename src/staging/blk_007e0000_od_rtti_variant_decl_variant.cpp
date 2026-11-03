@@ -70,7 +70,7 @@ void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
-    void __thiscall FUN_007e66a0(int a, int b);
+    void __thiscall TextEditMenu_DoClick(int a, int b);
 };
 void __cdecl DestroyList(void*);
 struct FUN_007f69d0_Class
@@ -1207,9 +1207,9 @@ struct RemoveInterface
     void FUN_00715860(RemoveTile*, int, bool);
     Tile* FUN_00586150(const char* path);
 };
-RemoveInterface* FUN_004b7210();
+RemoveInterface* InterfaceManager_Instance();
 int FUN_00a01860(const char*);
-void FUN_00401030(void*);
+void FormHeap_Free(void*);
 struct RemoveBase
 {
     int unk00;
@@ -1260,7 +1260,7 @@ class TextEditMenu : public Menu
 };
 
 Menu* __cdecl FUN_00a09030(int menuID);
-RemoveInterface* __cdecl FUN_004b7210();
+RemoveInterface* __cdecl InterfaceManager_Instance();
 float __cdecl FUN_00a01530();
 extern TextEditSetting DAT_011d38b8;
 extern TextEditMenu* g_011daec4;
@@ -1272,7 +1272,7 @@ bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(_
     if (previous)
         delete previous;
 
-    RemoveInterface* interfaceManager = FUN_004b7210();
+    RemoveInterface* interfaceManager = InterfaceManager_Instance();
     float depthA = FUN_00a01530();
     Tile* root2 = interfaceManager->FUN_00586150("Data\\Menus\\Dialog\\TextEditMenu.xml")->FUN_00a01b00();
     Menu* menu = root2->FUN_00a03c90();

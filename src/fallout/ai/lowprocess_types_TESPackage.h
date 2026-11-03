@@ -199,22 +199,22 @@ class TESPackage : public TESForm
     unsigned int FUN_00676280(MobileObject*);
     void SetWaiting(bool);
     float GetPackageLocationRadius(MobileObject*, bool);
-    bool FUN_0067a480();
+    bool TESPackage_GetAlwaysRun();
     float GetActorMovementSpeed(MobileObject*, bool);
 
     void AssignTargetReference(TESObjectREFR*, bool);
     LocationDescriptor* HasSecondLocation();
-    unsigned int FUN_006758a0(MobileObject*);
+    unsigned int TESPackage_GetSearchLocationRadius(MobileObject*);
     TESObjectCELL* GetPackageSecondLocationCell(MobileObject*);
     const NiPoint3 GetPackageSecondLocationPosition(MobileObject*);
     bool GetPackageSearchRadius(MobileObject*, float&);
-    TESObjectREFR* FUN_00676140(MobileObject*);
+    TESObjectREFR* TESPackage_GetLocationReference(MobileObject*);
     float GetPackageResult(Actor*, bool);
 
     bool IsFlag10Set();
     bool IsFlag80Set();
     bool FUN_00670ed0();
-    bool FUN_005394a0();
+    bool TESObjectLAND_IsLoaded();
     bool FUN_0067efd0();
     bool FUN_008b1ff0();
     bool FUN_008840f0();

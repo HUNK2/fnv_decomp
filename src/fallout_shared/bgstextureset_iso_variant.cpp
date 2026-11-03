@@ -5,7 +5,7 @@
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
 #include "bgstextureset_packet.h"
 void FUN_00593210();
-BGSTextureSet* __cdecl FUN_00593220();
+BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet();
 void __cdecl _Deallocate(void*);
 struct S591140
 {
@@ -31,31 +31,31 @@ struct Holder00592cc0
     FullNameEx _arr[6];
     void SetFullNameByType(int, char const*);
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_00593320_shell
 {
-    void FUN_00593320(void*);
+    void DecalData_Save(void*);
 };
 void __cdecl FUN_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
 struct FUN_00592810_shell
 {
-    void FUN_00592810();
+    void BGSTextureSet_SaveForm();
 };
 struct FUN_005e79a0_t : public TESForm
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_005932e0_shell
 {

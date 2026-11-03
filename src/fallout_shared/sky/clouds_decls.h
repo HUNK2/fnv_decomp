@@ -138,7 +138,7 @@ class SkyShaderProperty : public NiProperty
 {
   public:
     void SetTexture(NiTexture*);
-    void FUN_00634900(const NiFixedString&);
+    void SkyShaderProperty_SetTextureFile(const NiFixedString&);
     void FUN_0051b8c0(float);
     void FUN_00bae930(NiTexture*);
     NiTexture* FUN_009c8680();
@@ -167,10 +167,10 @@ class Sky
   public:
     TESWeather* FUN_0044edb0();
     TESWeather* FUN_00825c00();
-    int FUN_00476c90();
-    float FUN_006447d0();
+    int Sky_GetMode();
+    float Sky_GetCurrentWeatherPct();
     float GetFieldCC();
-    bool FUN_00634870();
+    bool Sky_GetWeatherUpdateFlag();
     void GetTextureManager();
 };
 class SkyObject
@@ -225,7 +225,7 @@ class NiNode : public NiAVObject
 {
   public:
     virtual void AddObject(NiAVObject*, bool);
-    int FUN_00453470();
+    int NiNode_GetChildCount();
     NiAVObject* FUN_0043b4a0(int);
 };
 class NiStream

@@ -193,7 +193,7 @@ void __cdecl FUN_00d31110();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
 void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher);
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
+struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
     int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
@@ -502,7 +502,7 @@ struct FUN_00d219e0_cls
 };
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
+extern "C" void __cdecl FormHeap_Free(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -566,7 +566,7 @@ const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
-void __cdecl FUN_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
+void __cdecl cleanupLoadedObject_hkLiquidAction(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
 class FUN_00d2c7e0 {
 public:
     virtual ~FUN_00d2c7e0();
@@ -789,7 +789,7 @@ struct D34ac0Struct {
     void* g;
 };
 struct FUN_00d33c80_class {
-    void FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
     void FUN_00d34ac0(void* a, void* b, void* c, void* d);
 };
 struct D3C380_Allocator {

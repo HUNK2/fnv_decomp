@@ -8,7 +8,7 @@ void ActorReferenceArray::SetupActorReferences()
     TESObjectCELL::InitializeTESResources(data, true, true, true);
     FUN_00878250(data.c);
     if (g_thePlayer->FUN_00878340() && BSFaceGenManager::GetModelMap() &&
-        BSFaceGenManager::GetModelMap()->FUN_00529ea0() && !Tile::FindMenuById(0x40c))
+        BSFaceGenManager::GetModelMap()->TESGlobal_GetType() && !Tile::FindMenuById(0x40c))
         BSFaceGenManager::GetModelMap()->PurgeUnusedModels(false);
     FUN_00878200(data);
 }
@@ -161,7 +161,7 @@ class NiRenderer
 class IOManager;
 
 NiRenderer* __cdecl FUN_0043c4b0(void);
-void __cdecl FUN_00652190(void);
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess(void);
 void __cdecl FUN_008781e0(int);
 void __cdecl FUN_00a5b460(void);
 void __cdecl FUN_00aa7030(void);
@@ -175,7 +175,7 @@ void __cdecl FUN_00878200(unsigned char* aFreeData)
     FUN_00aa7030();
     if (aFreeData[5])
     {
-        FUN_00652190();
+        BSFaceGenManager_UnlockFaceGenAccess();
     }
     FUN_008781e0(*(int*)(aFreeData + 8));
     if (aFreeData[3])
@@ -190,7 +190,7 @@ class ShadowSceneNode;
 class ModelLoader
 {
   public:
-    void FUN_00448620(bool);
+    void ModelLoader_ClearUnusedModels(bool);
 };
 
 class NiAdditionalGeometryData
@@ -208,7 +208,7 @@ class TES
 extern ModelLoader* g_modelLoader;
 extern TES* g_TES;
 
-void __cdecl FUN_00868d70(int);
+void __cdecl GarbageCollector_ClearAll(int);
 void __fastcall FUN_00b5fd60(ShadowSceneNode*);
 void __cdecl FUN_00c459d0(int);
 void __cdecl FUN_00651e30();
@@ -217,7 +217,7 @@ void __cdecl FUN_00651f40();
 // @fnv 0x00878250
 void __cdecl FUN_00878250(bool abRunExtraSteps)
 {
-    FUN_00868d70(1);
+    GarbageCollector_ClearAll(1);
     FUN_00b5fd60(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0));
     FUN_00c459d0(0);
     if (abRunExtraSteps)
@@ -225,7 +225,7 @@ void __cdecl FUN_00878250(bool abRunExtraSteps)
         FUN_00651e30();
         FUN_00651f40();
     }
-    g_modelLoader->FUN_00448620(true);
+    g_modelLoader->ModelLoader_ClearUnusedModels(true);
     g_TES->SetTESActive(false);
 }
 

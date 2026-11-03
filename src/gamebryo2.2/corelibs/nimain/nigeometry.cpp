@@ -190,7 +190,7 @@ struct NiTriShape;
 struct NiTriStrips;
 struct FUN_00a80610_shell : public NiGeometry
 {
-    void FUN_00a80610(NiRenderer*);
+    void NiGeometry_RenderImmediate(NiRenderer*);
 };
 
 struct DummyController
@@ -206,7 +206,7 @@ struct DummyController
 
 // Stores a pointer to this object's offset 0x9c into the renderer and, if the controller at this+0xc exists, runs its pre-display iterate.
 // @fnv 0x00a80610
-void FUN_00a80610_shell::FUN_00a80610(NiRenderer* pkRenderer)
+void FUN_00a80610_shell::NiGeometry_RenderImmediate(NiRenderer* pkRenderer)
 {
     *(void**)((char*)pkRenderer + 0xc) = (char*)this + 0x9c;
     DummyController* pkController = *(DummyController**)((char*)this + 0xc);
@@ -261,15 +261,15 @@ struct FUN_00a808f0_shell : public NiGeometry
 
 struct FUN_00a5a450_helper
 {
-    void FUN_00a5a450(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool* bRigid);
+    void NiAVObject_SetSelectiveUpdateFlags(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool* bRigid);
 };
 
-// Calls FUN_00a5a450, then if the field at offset 0xbc is nonzero sets flags 4 and 2 at 0x30, sets *bSelectiveUpdate true and *bRigid false.
+// Calls NiAVObject_SetSelectiveUpdateFlags, then if the field at offset 0xbc is nonzero sets flags 4 and 2 at 0x30, sets *bSelectiveUpdate true and *bRigid false.
 // @fnv 0x00a808f0
 void FUN_00a808f0_shell::UpdateSelectiveUpdateFlags(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms,
                                                     bool* bRigid)
 {
-    ((FUN_00a5a450_helper*)this)->FUN_00a5a450(bSelectiveUpdate, bSelectiveUpdateTransforms, bRigid);
+    ((FUN_00a5a450_helper*)this)->NiAVObject_SetSelectiveUpdateFlags(bSelectiveUpdate, bSelectiveUpdateTransforms, bRigid);
     if (*(int*)((char*)this + 0xbc) != 0)
     {
         *(unsigned int*)((char*)this + 0x30) |= 4;
@@ -369,7 +369,7 @@ struct blob16
 };
 struct FUN_00a80930_shell : public NiGeometry
 {
-    void FUN_00a80930(bool);
+    void NiGeometry_CalculateConsistency(bool);
 };
 
 struct TimeCtrlView
@@ -477,7 +477,7 @@ struct NiRenderer
 };
 // Scans the controller list and skin partition, then passes a consistency flag (0x4000 or 0) to the object at offset 0xb8.
 // @fnv 0x00a80930
-void FUN_00a80930_shell::FUN_00a80930(bool bTool)
+void FUN_00a80930_shell::NiGeometry_CalculateConsistency(bool bTool)
 {
     int eConsistency = 0x4000;
     TimeCtrlView* pkController = *(TimeCtrlView**)((char*)this + 0xc);
@@ -540,14 +540,14 @@ struct RegObj
 };
 struct FUN_00a80430_Holder
 {
-    bool FUN_00a59f00(NiStream&);
-    bool FUN_00a80430(NiStream&);
+    bool NiAVObject_RegisterStreamables(NiStream&);
+    bool NiGeometry_RegisterStreamables(NiStream&);
 };
-// Calls FUN_00a59f00 on kStream, then invokes vReg on the RegObj at offset 0xb8 and, if present, the one at 0xbc; returns false if the first call fails.
+// Calls NiAVObject_RegisterStreamables on kStream, then invokes vReg on the RegObj at offset 0xb8 and, if present, the one at 0xbc; returns false if the first call fails.
 // @fnv 0x00a80430
-bool FUN_00a80430_Holder::FUN_00a80430(NiStream& kStream)
+bool FUN_00a80430_Holder::NiGeometry_RegisterStreamables(NiStream& kStream)
 {
-    if (!FUN_00a59f00(kStream))
+    if (!NiAVObject_RegisterStreamables(kStream))
         return false;
     (*(RegObj**)((char*)this + 0xb8))->vReg(kStream);
     RegObj* pSecondRegObj = *(RegObj**)((char*)this + 0xbc);
@@ -558,13 +558,13 @@ bool FUN_00a80430_Holder::FUN_00a80430(NiStream& kStream)
 
 struct FUN_00a80530_shell : public NiGeometry
 {
-    void* FUN_00a80530();
+    void* NiGeometry_GetRTTI();
 };
 
 extern const char* const g_011f4a48_arg1;
 
 // @fnv 0x00a80530
-void* FUN_00a80530_shell::FUN_00a80530()
+void* FUN_00a80530_shell::NiGeometry_GetRTTI()
 {
     return (void*)&g_011f4a48_arg1;
 }
@@ -640,16 +640,16 @@ struct NiRenderer
 };
 struct BaseStub
 {
-    void FUN_00a59e50(NiRenderer*);
+    void NiAVObject_PurgeRendererData(NiRenderer*);
 };
 struct GeomStub : BaseStub
 {
-    void FUN_00a809b0(NiRenderer*);
+    void NiGeometry_PurgeRendererData(NiRenderer*);
 };
 // @fnv 0x00a809b0
-void GeomStub::FUN_00a809b0(NiRenderer* pkRenderer)
+void GeomStub::NiGeometry_PurgeRendererData(NiRenderer* pkRenderer)
 {
-    BaseStub::FUN_00a59e50(pkRenderer);
+    BaseStub::NiAVObject_PurgeRendererData(pkRenderer);
     pkRenderer->UnkF0(*(void**)((char*)this + 0xb8));
     void* p = *(void**)((char*)this + 0xbc);
     if (p)
@@ -810,14 +810,14 @@ struct S_00a80470_Data
 
 struct S_00a80470_Owner : public S_00a80470_Data
 {
-    bool FUN_00a5a260(S_00a80470_Data*);
-    bool FUN_00a80470(S_00a80470_Data*);
+    bool NiAVObject_IsEqual(S_00a80470_Data*);
+    bool NiGeometry_IsEqual(S_00a80470_Data*);
 };
 
 // @fnv 0x00a80470
-bool S_00a80470_Owner::FUN_00a80470(S_00a80470_Data* apData)
+bool S_00a80470_Owner::NiGeometry_IsEqual(S_00a80470_Data* apData)
 {
-    if (!FUN_00a5a260(apData))
+    if (!NiAVObject_IsEqual(apData))
         return false;
 
     S_00a80470_Controller* thisBC = this->unkBC;
@@ -885,13 +885,13 @@ struct SkinInstanceInfo : NiObject
 };
 struct ViewerGeometry : NiGeometry
 {
-    void FUN_00a5ad00(ViewerStrings*);
-    void FUN_00a80e70(ViewerStrings*);
+    void NiAVObject_GetViewerStrings(ViewerStrings*);
+    void NiGeometry_GetViewerStrings(ViewerStrings*);
 };
 // @fnv 0x00a80e70
-void ViewerGeometry::FUN_00a80e70(ViewerStrings* strings)
+void ViewerGeometry::NiGeometry_GetViewerStrings(ViewerStrings* strings)
 {
-    FUN_00a5ad00(strings);
+    NiAVObject_GetViewerStrings(strings);
     strings->Add(FUN_00a7d330(DAT_011f4acc));
     strings->Add(FUN_00a7d5a0("GeomData", static_cast<NiGeometryData*>(m_spGeometryData)));
     NiD3DShaderInterface* shader = m_shader;
@@ -1107,11 +1107,11 @@ struct GeomStream
 
 struct FUN_00a80bf0_shell : public NiGeometry
 {
-    void FUN_00a80bf0(GeomStream& kStream);
+    void NiGeometry_LoadBinary(GeomStream& kStream);
 };
 
 // @fnv 0x00a80bf0
-void FUN_00a80bf0_shell::FUN_00a80bf0(GeomStream& kStream)
+void FUN_00a80bf0_shell::NiGeometry_LoadBinary(GeomStream& kStream)
 {
     NiAVObject::LoadBinary((NiStream&)kStream);
 
@@ -1384,7 +1384,7 @@ class GeometryStub
     void* m_spGeometryData;
     void* m_spSkinningInstance;
     void SaveBinary(StreamStub& stream);
-    void FUN_00a80db0(StreamStub& stream);
+    void NiGeometry_SaveBinary(StreamStub& stream);
 };
 template <class T> void LoadStreamValue(StreamStub& stream, T& value)
 {
@@ -1393,7 +1393,7 @@ template <class T> void LoadStreamValue(StreamStub& stream, T& value)
     reader->m_uiPosition += reader->m_pRead(reader, &value, uiElem, &uiElem, 1);
 }
 // @fnv 0x00a80db0
-void GeometryStub::FUN_00a80db0(StreamStub& stream)
+void GeometryStub::NiGeometry_SaveBinary(StreamStub& stream)
 {
     SaveBinary(stream);
     stream.vfn_30(m_spGeometryData);
@@ -1645,11 +1645,11 @@ struct S00a7ff70_Geom : NiAVObject
     {
         return *(const S00a7ff70_Xf*)&m_kLocalTransform;
     }
-    void FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft);
+    void NiGeometry_ApplyTransform(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft);
 };
 // Updates vertex and normal arrays using kMat and kTrn, with a different calculation when bOnLeft is true, then calls FUN_00a7ee30.
 // @fnv 0x00a7ff70
-void S00a7ff70_Geom::FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft)
+void S00a7ff70_Geom::NiGeometry_ApplyTransform(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft)
 {
     unsigned short usVertices = m_spGeometryData->GetActiveVertexQuantity();
     S00a7ff70_P3* pkVertex = m_spGeometryData->m_pkVertex;

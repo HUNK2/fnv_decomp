@@ -466,7 +466,7 @@ NiObject* __cdecl CreateNewObj();
 NiObject* __cdecl CreateB6AE60Obj();
 NiObject* __cdecl CreateShaderLightingProperty();
 NiObject* __cdecl CreateBlobObj();
-NiObject* __cdecl FUN_00ba8a00();
+NiObject* __cdecl BSShaderTextureSet_CreateObject();
 NiObject* __cdecl FUN_00ba9250();
 NiObject* __cdecl CreateSpawnedObject90();
 NiObject* __cdecl CreateObjectDerived();
@@ -515,7 +515,7 @@ void RegisterNiStreamFactories()
     NiStream::RegisterObjectLoader(g_012005b8_arg0, CreateSpawnedObject90);
     NiStream::RegisterObjectLoader(g_011f9f00_arg0, FUN_00b60f50);
     NiStream::RegisterObjectLoader(g_01204378_arg0, CreateShaderAccumulator);
-    NiStream::RegisterObjectLoader(g_0120044c_arg0, FUN_00ba8a00);
+    NiStream::RegisterObjectLoader(g_0120044c_arg0, BSShaderTextureSet_CreateObject);
     NiStream::RegisterObjectLoader(g_01201fa8_arg0, CreateInterpDerivedBc36);
     NiStream::RegisterObjectLoader(g_01201f9c_arg0, CreateDerived);
     NiStream::RegisterObjectLoader(g_012007d8_arg0, FUN_00bb7ef0);
@@ -4393,7 +4393,7 @@ struct NiPoint3
         float sz = p.z;
         z = z + sz;
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     static void* operator new[](unsigned int bytes)
     {
         return _g_memoryManager.Allocate(bytes);
@@ -4647,8 +4647,8 @@ NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
         float dot = normals[i].Dot(pTangentAccum[i]);
         tangents[i] = pTangentAccum[i] - normals[i] * dot;
         binormals[i] = normals[i].Cross(tangents[i]);
-        tangents[i].FUN_004a0c10();
-        binormals[i].FUN_004a0c10();
+        tangents[i].NiPoint3_Unitize();
+        binormals[i].NiPoint3_Unitize();
     }
     reinterpret_cast<TangentAllocatorView&>(_g_memoryManager).FUN_00aa4060(pTangentAccum);
     NiGeometryData* pDestGeomData = apGeometry->geometryData;

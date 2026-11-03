@@ -1207,12 +1207,12 @@ void* FUN_008ca710_shell::FUN_008ca710(unsigned int flags)
 
 struct AnimationTaskData
 {
-    void FUN_008c8910(MobileObject* apMob);
+    void AnimationTaskData_HandleMobMessage(MobileObject* apMob);
 };
 
 // If apMob is an actor with a flag at offset 0xbc set, or a talking activator, calls Unk_9A with 0.0f.
 // @fnv 0x008c8910
-void AnimationTaskData::FUN_008c8910(MobileObject* apMob)
+void AnimationTaskData::AnimationTaskData_HandleMobMessage(MobileObject* apMob)
 {
     MobileObject* pmob = apMob;
     if (pmob && pmob->IsActor())
@@ -1278,22 +1278,22 @@ struct Script
 };
 struct MobileObjectExt
 {
-    void FUN_00565870();
+    void TESObjectREFR_RunScript();
 };
 struct ActorsScriptTaskData
 {
     unsigned char _pad[0x3C];
     int m_3C;
-    void FUN_008c9110(MobileObject* apMob);
+    void ActorsScriptTaskData_HandleMobMessage(MobileObject* apMob);
 };
-// If apMob is an actor and the script check passes, calls FUN_00565870 on it and increments m_3C.
+// If apMob is an actor and the script check passes, calls TESObjectREFR_RunScript on it and increments m_3C.
 // @fnv 0x008c9110
-void ActorsScriptTaskData::FUN_008c9110(MobileObject* apMob)
+void ActorsScriptTaskData::ActorsScriptTaskData_HandleMobMessage(MobileObject* apMob)
 {
     MobileObject* pmob = apMob;
     if (pmob && pmob->IsActor() && Script::IsConsolePlatform())
     {
-        ((MobileObjectExt*)pmob)->FUN_00565870();
+        ((MobileObjectExt*)pmob)->TESObjectREFR_RunScript();
         m_3C++;
     }
 }
@@ -1368,11 +1368,11 @@ struct MobileObjectTaskletData
     MsgQueue m_kMessageQueue;
     int eType;
     bool ProcessMessage(void*, int);
-    void FUN_008c8130();
+    void MobileObjectTaskletData_Process();
 };
 // Drains messages from the queue, stops if ProcessMessage rejects one, otherwise calls FUN_006ea330 on this as PathingTaskData.
 // @fnv 0x008c8130
-void MobileObjectTaskletData::FUN_008c8130()
+void MobileObjectTaskletData::MobileObjectTaskletData_Process()
 {
     MobileObjectTaskletContext msg;
     while (m_kMessageQueue.GetMsg(&msg))
@@ -2035,7 +2035,7 @@ struct Obj_009529d0
 
 struct PlayerCharacter : public Obj_009529d0
 {
-    TESQuest* FUN_005cbb50();
+    TESQuest* PlayerCharacter_GetActiveQuest();
 };
 
 void __cdecl FUN_0076bad0(char*);
@@ -2068,19 +2068,19 @@ void __cdecl FUN_0077a480(TESQuest* quest)
     if (quest->HasFlag40())
     {
         task->state = 2;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == quest)
             _g_thePlayer->FUN_009529d0(0);
     }
     else if (quest->GetCompleted())
     {
         task->state = 1;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == quest)
             _g_thePlayer->FUN_009529d0(0);
     }
     else
     {
         task->state = 0;
-        if (_g_thePlayer->FUN_005cbb50() == 0)
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == 0)
             _g_thePlayer->FUN_009529d0(reinterpret_cast<int>(quest));
     }
 
@@ -2987,10 +2987,10 @@ class R
     char padBC[0xb8];
     unsigned char mBC;
     PROJ* GetProjectileBase();
-    unsigned char FUN_00437bd0();
+    unsigned char Actor_IsUnConscious();
     BP* GetProcess();
-    float FUN_005723b0(R* a, int b, int c);
-    char FUN_00493bb0();
+    float TESObjectREFR_GetDistanceFromReference(R* a, int b, int c);
+    char Actor_IsInCombat();
     unsigned char IsHostileTo(R* a, int b, int* c, int d);
     unsigned char FUN_008bc700(R* a);
     int FUN_008a0d10(int a, R* b, unsigned char* c, unsigned char d, int e, int f, unsigned char* g);
@@ -3063,10 +3063,10 @@ void Owner::UpdateProjectile(R* arg)
         R* aQ = p;
         if (aQ->mBC && !aQ->GetProjectileBase()->m30.a20())
         {
-            float v3 = aQ->FUN_005723b0(DAT_011dea3c, 0, 0);
+            float v3 = aQ->TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0);
             if (aQ != DAT_011dea3c && !DAT_011de45c->GetLoading())
             {
-                if (p->s2b4() < 0.0 && !aQ->FUN_00437bd0() && !p->s22c(0))
+                if (p->s2b4() < 0.0 && !aQ->Actor_IsUnConscious() && !p->s22c(0))
                 {
                     if (DAT_011d8804->FUN_007014e0(1) <= 0.0)
                     {
@@ -3074,7 +3074,7 @@ void Owner::UpdateProjectile(R* arg)
                         if (aQ->GetProcess()->b70(aQ))
                         {
                             unsigned char v16 = 0;
-                            unsigned char v1e2 = p->FUN_00493bb0();
+                            unsigned char v1e2 = p->Actor_IsInCombat();
                             unsigned char v1d = 0;
                             int aV14 = DAT_011dea3c->FUN_008a0d10(1, p, &v16, v1e2, 0, 0, &v1d);
                             unsigned char v15 = 0;

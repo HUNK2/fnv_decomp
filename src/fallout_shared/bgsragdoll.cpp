@@ -677,7 +677,7 @@ void FUN_005ee580_Data::FUN_005ee580()
 namespace fnv_005eeb70 {
 struct FUN_005092f0_obj
 {
-    void FUN_004851b0(TESForm* apCopy);
+    void TESForm_CopyAllComponents(TESForm* apCopy);
 };
 struct FUN_00c7a790_obj
 {
@@ -701,17 +701,17 @@ struct FUN_005ed5f0_shell : RagdollFeedbackProfile
 };
 struct FUN_005eeb70_shell : BGSRagdoll
 {
-    void FUN_005eeb70(TESForm* apCopy);
+    void BGSRagdoll_CopyFrom(TESForm* apCopy);
 };
 
 // Casts apCopy to BGSRagdoll, then copies its fields and embedded sub-objects into this ragdoll.
 // @fnv 0x005eeb70
-void FUN_005eeb70_shell::FUN_005eeb70(TESForm* apCopy)
+void FUN_005eeb70_shell::BGSRagdoll_CopyFrom(TESForm* apCopy)
 {
     BGSRagdoll* pcopy = dynamic_cast<BGSRagdoll*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005092f0_obj*)this)->FUN_004851b0(apCopy);
+    ((FUN_005092f0_obj*)this)->TESForm_CopyAllComponents(apCopy);
     m_pActorBase = pcopy->m_pActorBase;
     m_pBodyPartDataCur = pcopy->m_pBodyPartDataCur;
     m_iRagdollType = pcopy->m_iRagdollType;
@@ -726,7 +726,7 @@ void FUN_005eeb70_shell::FUN_005eeb70(TESForm* apCopy)
 namespace fnv_005eec60 {
 struct FUN_00509540_obj
 {
-    bool FUN_00485270(TESForm* apCompare);
+    bool TESForm_CompareAllComponents(TESForm* apCompare);
 };
 struct FUN_00c74fb0_obj
 {
@@ -750,17 +750,17 @@ struct FUN_005ed4f0_shell : RagdollFeedbackProfile
 };
 struct FUN_005eec60_shell : BGSRagdoll
 {
-    bool FUN_005eec60(TESForm* apCompare);
+    bool BGSRagdoll_Compare(TESForm* apCompare);
 };
 
 // Compares this BGSRagdoll with apCompare field by field, returning true if any compared member differs or the cast fails.
 // @fnv 0x005eec60
-bool FUN_005eec60_shell::FUN_005eec60(TESForm* apCompare)
+bool FUN_005eec60_shell::BGSRagdoll_Compare(TESForm* apCompare)
 {
     BGSRagdoll* pcomp = dynamic_cast<BGSRagdoll*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_00509540_obj*)this)->FUN_00485270(pcomp))
+    if (((FUN_00509540_obj*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     if (m_iRagdollType != pcomp->m_iRagdollType)
         return true;
@@ -1094,12 +1094,12 @@ void BSSimpleArray_005ef3d0::FUN_005ef3d0(unsigned int aiNewSize, bool abFreeMem
 }  // namespace fnv_005ef3d0
 
 namespace fnv_005ee110 {
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -1127,22 +1127,22 @@ struct FUN_005ee110_String
 
 struct FUN_005ee110_shell
 {
-    void FUN_005ee110();
+    void BGSRagdoll_SaveForm();
 };
 
 bool __cdecl _FUN_00401500();
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 void __cdecl FUN_00485730(void*, void*, void*);
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __fastcall SwapEndianFourShorts(unsigned short*);
 
 // @fnv 0x005ee110
-void FUN_005ee110_shell::FUN_005ee110()
+void FUN_005ee110_shell::BGSRagdoll_SaveForm()
 {
     SaveMetadata saveData;
 
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)
         ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
@@ -1228,7 +1228,7 @@ void FUN_005ee110_shell::FUN_005ee110()
 
     if (reinterpret_cast<FUN_005ee110_String*>(reinterpret_cast<unsigned char*>(this) + 0x11c)->Length())
     {
-        FUN_004856f0(0x4d414e41,
+        TESForm_AddChunkArray(0x4d414e41,
                      reinterpret_cast<void*>(
                          reinterpret_cast<FUN_005ee110_String*>(reinterpret_cast<unsigned char*>(this) + 0x11c)
                              ->
@@ -1237,7 +1237,7 @@ void FUN_005ee110_shell::FUN_005ee110()
                          1);
     }
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 }  // namespace fnv_005ee110
 

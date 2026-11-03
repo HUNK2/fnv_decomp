@@ -8,7 +8,7 @@
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpCylinderShape.h"
-int __cdecl FUN_00d571b0();
+int __cdecl hkpCylinderShape_getNumCollisionSpheresImpl();
 // FUN_00d571a0: __thiscall getter returning the float at this+0x14,
 // which is hkpCylinderShape::m_fCylinderRadius in the pack's layout
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).
@@ -62,7 +62,7 @@ struct CylVec4
 
 struct CylShapeAdapter : public hkpCylinderShape
 {
-    void __thiscall FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
+    void __thiscall hkpCylinderShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
 };
 
 extern float DAT_011b5be4;
@@ -76,7 +76,7 @@ struct CylSimd
 static inline float CylSqrt(float r) { return (float)sqrt(r); }
 
 // @fnv 0x00d576d0
-void CylShapeAdapter::FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const
+void CylShapeAdapter::hkpCylinderShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int numIds, CylVec4* verticesOut) const
 {
     for (int i = numIds - 1; i >= 0;)
     {
@@ -122,7 +122,7 @@ static inline __m128 scalar(float value) { return _mm_load_ss(&value); }
 
 class CylVertices : public hkpCylinderShape {
 public:
-    hkVector4* FUN_00d57890(VertexOutput output);
+    hkVector4* hkpCylinderShape_getCollisionSpheresImpl(VertexOutput output);
     hkVector4* prime(VertexOutput output);
 };
 
@@ -221,7 +221,7 @@ hkVector4* CylVertices::prime(VertexOutput output)
     return out;
 }
 // @fnv 0x00d57890
-hkVector4* CylVertices::FUN_00d57890(VertexOutput output)
+hkVector4* CylVertices::hkpCylinderShape_getCollisionSpheresImpl(VertexOutput output)
 {
     __m128 offA, sC, kA, kB;
     hkVector4* v = &m_kVertexA;
@@ -466,11 +466,11 @@ struct CylinderSupportStore : CylinderSupportArithmetic {
 };
 class CylinderSupportShape : public hkpCylinderShape {
 public:
-    void FUN_00d57400(const hkVector4& direction, CylinderSupportStore& output) const;
+    void hkpCylinderShape_getSupportingVertexImpl(const hkVector4& direction, CylinderSupportStore& output) const;
 };
 
 // @fnv 0x00d57400
-void CylinderSupportShape::FUN_00d57400(const hkVector4& direction, CylinderSupportStore& output) const
+void CylinderSupportShape::hkpCylinderShape_getSupportingVertexImpl(const hkVector4& direction, CylinderSupportStore& output) const
 {
     int vertexId;
     {

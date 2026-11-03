@@ -563,12 +563,12 @@ struct BaseFormComponent
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00487790_shell : public TESLeveledList
 {
-    unsigned char FUN_00487790();
+    unsigned char TESLeveledList_GetChanceNone();
 };
 
 // Returns the value of the TESGlobalValueReader at offset 0x10 if present, otherwise the byte at offset 0x0c.
 // @fnv 0x00487790
-unsigned char FUN_00487790_shell::FUN_00487790()
+unsigned char FUN_00487790_shell::TESLeveledList_GetChanceNone()
 {
     if (*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))
         return static_cast<unsigned char>(
@@ -676,11 +676,11 @@ struct BaseFormComponent
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00487840_shell : public TESLeveledList
 {
-    bool FUN_00487840();
+    bool TESLeveledList_GetMultCalc();
 };
 
 // @fnv 0x00487840
-bool FUN_00487840_shell::FUN_00487840()
+bool FUN_00487840_shell::TESLeveledList_GetMultCalc()
 {
     if (*((unsigned char*)this + 0xD) & 2)
         return true;
@@ -1037,11 +1037,11 @@ int FUN_00c611d0_shell::GetFour()
 
 struct FUN_00c611e0_shell
 {
-    int __thiscall FUN_00c611e0(int arg1);
+    int __thiscall BSMultiBoundCapsule_CheckBound(int arg1);
 };
 
 // @fnv 0x00c611e0
-int __thiscall FUN_00c611e0_shell::FUN_00c611e0(int arg1)
+int __thiscall FUN_00c611e0_shell::BSMultiBoundCapsule_CheckBound(int arg1)
 {
     return 0;
 }
@@ -1070,31 +1070,31 @@ bool __thiscall FUN_00c61240_shell::FUN_00c61240(int)
 
 struct FUN_00c61250_shell
 {
-    void __thiscall FUN_00c61250(int a);
+    void __thiscall BSMultiBoundCapsule_GetNiBound(int a);
 };
 
 // @fnv 0x00c61250
-void __thiscall FUN_00c61250_shell::FUN_00c61250(int a)
+void __thiscall FUN_00c61250_shell::BSMultiBoundCapsule_GetNiBound(int a)
 {}
 
 struct FUN_00c61260_shell
 {
-    void FUN_00c61260(int a, int b, int c, int d, int e, int f);
+    void BSMultiBoundCapsule_CreateDebugGeometry(int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00c61260
-void __thiscall FUN_00c61260_shell::FUN_00c61260(int a, int b, int c, int d, int e, int f)
+void __thiscall FUN_00c61260_shell::BSMultiBoundCapsule_CreateDebugGeometry(int a, int b, int c, int d, int e, int f)
 {}
 
 extern "C" void* g_01204398;
 
 struct FUN_00c61270_shell
 {
-    void* __thiscall FUN_00c61270();
+    void* __thiscall BSMultiBoundCapsule_GetRTTI();
 };
 
 // @fnv 0x00c61270
-void* __thiscall FUN_00c61270_shell::FUN_00c61270()
+void* __thiscall FUN_00c61270_shell::BSMultiBoundCapsule_GetRTTI()
 {
     return &g_01204398;
 }
@@ -1171,7 +1171,7 @@ class NiStream;
 struct FUN_00c4f9f0_shell
 {
     char _pad[12];
-    void FUN_00c4f9f0(NiStream&);
+    void BSMultiBoundShape_LoadBinary(NiStream&);
 };
 struct NiColor
 {
@@ -1184,12 +1184,12 @@ struct FUN_00c60e70_shell : public FUN_00c4f9f0_shell
     NiColor c1;
     NiColor c2;
     unsigned int u;
-    void FUN_00c60e70(NiStream&);
+    void BSMultiBoundCapsule_LoadBinary(NiStream&);
 };
 // @fnv 0x00c60e70
-void FUN_00c60e70_shell::FUN_00c60e70(NiStream& stream)
+void FUN_00c60e70_shell::BSMultiBoundCapsule_LoadBinary(NiStream& stream)
 {
-    FUN_00c4f9f0(stream);
+    BSMultiBoundShape_LoadBinary(stream);
     c1.LoadBinary(stream);
     c2.LoadBinary(stream);
     ReadBinaryValue<unsigned int>(stream, u);
@@ -1197,25 +1197,25 @@ void FUN_00c60e70_shell::FUN_00c60e70(NiStream& stream)
 
 struct FUN_00c60ec0_shell
 {
-    void FUN_00c4fa10(int);
-    void FUN_00c60ec0(int a);
+    void BSMultiBoundShape_LinkObject(int);
+    void BSMultiBoundCapsule_LinkObject(int a);
 };
 
 // @fnv 0x00c60ec0
-void FUN_00c60ec0_shell::FUN_00c60ec0(int aiValue)
+void FUN_00c60ec0_shell::BSMultiBoundCapsule_LinkObject(int aiValue)
 {
-    FUN_00c4fa10(aiValue);
+    BSMultiBoundShape_LinkObject(aiValue);
 }
 
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fa30(int);
-    bool FUN_00c60ee0(int);
+    unsigned char BSMultiBoundShape_RegisterStreamables(int);
+    bool BSMultiBoundCapsule_RegisterStreamables(int);
 };
 // @fnv 0x00c60ee0
-bool FUN_00c38020_shell::FUN_00c60ee0(int a)
+bool FUN_00c38020_shell::BSMultiBoundCapsule_RegisterStreamables(int a)
 {
-    if (!FUN_00c4fa30(a))
+    if (!BSMultiBoundShape_RegisterStreamables(a))
         return false;
     return true;
 }
@@ -1230,7 +1230,7 @@ struct NiColor
 };
 struct FUN_00c38050_Holder
 {
-    void FUN_00c4fa60(class NiStream&);
+    void BSMultiBoundShape_SaveBinary(class NiStream&);
     unsigned char data[12];
 };
 void __cdecl CallAnimCallback(class NiStream&, int*);
@@ -1239,12 +1239,12 @@ struct Host : FUN_00c38050_Holder
     NiColor c1;
     NiColor c2;
     int f24;
-    void FUN_00c60f10(class NiStream&);
+    void BSMultiBoundCapsule_SaveBinary(class NiStream&);
 };
 // @fnv 0x00c60f10
-void Host::FUN_00c60f10(class NiStream& s)
+void Host::BSMultiBoundCapsule_SaveBinary(class NiStream& s)
 {
-    FUN_00c38050_Holder::FUN_00c4fa60(s);
+    FUN_00c38050_Holder::BSMultiBoundShape_SaveBinary(s);
     c1.SaveBinary(s);
     c2.SaveBinary(s);
     CallAnimCallback(s, &f24);
@@ -1350,12 +1350,12 @@ struct FUN_00c60d50_shell : public Shell
 
 struct FUN_00c60d70_shell : public Shell
 {
-    Shell* FUN_00c60d70(int value);
+    Shell* BSMultiBoundCapsule_CreateClone(int value);
 };
 
 // Allocates a FUN_00c60d50_shell, passes value to FUN_00c60e00 on it, and returns the new shell.
 // @fnv 0x00c60d70
-Shell* FUN_00c60d70_shell::FUN_00c60d70(int value)
+Shell* FUN_00c60d70_shell::BSMultiBoundCapsule_CreateClone(int value)
 {
     Shell* shell = new FUN_00c60d50_shell;
     FUN_00c60e00(shell, value);
@@ -1452,7 +1452,7 @@ struct TCVec3
 
 struct TCEq
 {
-    bool FUN_00c4fa80(NiObject* pObject);
+    bool BSMultiBoundShape_IsEqual(NiObject* pObject);
 };
 
 struct TCColorEq : public TCEq
@@ -1463,14 +1463,14 @@ struct TCColorEq : public TCEq
     TCVec3 m0c;
     TCVec3 m18;
     float m24;
-    bool FUN_00c60f60(NiObject* pObject);
+    bool BSMultiBoundCapsule_IsEqual(NiObject* pObject);
 };
 
 // Calls the base equality check, then compares m0c, m18 and m24 against the same fields of pObject cast to TCColorEq.
 // @fnv 0x00c60f60
-bool TCColorEq::FUN_00c60f60(NiObject* pObject)
+bool TCColorEq::BSMultiBoundCapsule_IsEqual(NiObject* pObject)
 {
-    bool bResultTmp = FUN_00c4fa80(pObject);
+    bool bResultTmp = BSMultiBoundShape_IsEqual(pObject);
     if (bResultTmp)
     {
         TCColorEq* pOther = (TCColorEq*)pObject;
@@ -1542,12 +1542,12 @@ struct Struct08
 
 struct C00c611f0
 {
-    int FUN_00c611f0(Struct08* arg);
+    int BSMultiBoundCapsule_CheckBSBound(Struct08* arg);
 };
 
 // Calls v8c on the VTarget pointer stored in arg->unk0c and returns 0.
 // @fnv 0x00c611f0
-int C00c611f0::FUN_00c611f0(Struct08* apStruct)
+int C00c611f0::BSMultiBoundCapsule_CheckBSBound(Struct08* apStruct)
 {
     int res;
     VTarget* volatile form = apStruct->unk0c;
@@ -1582,11 +1582,11 @@ ListNode* __fastcall FUN_00717e50(TESLeveledList*);
 class LeveledComparison : public TESLeveledList
 {
   public:
-    bool FUN_004889d0(BaseFormComponent*);
+    bool TESLeveledList_CompareComponent(BaseFormComponent*);
 };
 // Compares this leveled list against another, returning true if any property or entry differs.
 // @fnv 0x004889d0
-bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
+bool LeveledComparison::TESLeveledList_CompareComponent(BaseFormComponent* component)
 {
     TESLeveledList* pOtherList = dynamic_cast<TESLeveledList*>(component);
     if (!pOtherList)
@@ -1666,7 +1666,7 @@ struct BSShaderAccumulator : FUN_00c60d50_shell
 
 // Allocates and returns a new BSShaderAccumulator instance on the heap.
 // @fnv 0x00c610a0
-FUN_00c60d50_shell* __cdecl FUN_00c610a0(void)
+FUN_00c60d50_shell* __cdecl BSMultiBoundCapsule_CreateObject(void)
 {
     return new BSShaderAccumulator();
 }
@@ -1713,12 +1713,12 @@ class FUN_004887a0_cls : public TESLeveledList
     void SetFlag(bool v);
     void SetFlag2(bool v);
     void SetFlag4(bool v);
-    void FUN_004887a0(void* comp);
+    void TESLeveledList_CopyComponent(void* comp);
 };
 
 // Copies the leveled list entries and properties from another TESLeveledList instance into this one.
 // @fnv 0x004887a0
-void FUN_004887a0_cls::FUN_004887a0(void* apSource)
+void FUN_004887a0_cls::TESLeveledList_CopyComponent(void* apSource)
 {
     TESLeveledList* src3 = (TESLeveledList*)FUN_00ec43fb(apSource, 0, &DAT_01183040, &DAT_01186c1c, 0);
     if (src3 == 0)

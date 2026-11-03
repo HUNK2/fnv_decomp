@@ -76,7 +76,7 @@ class MobileObject : public TESObjectREFR
     virtual void Unk_C0(void);
     bool HasSaidTopicInfo(TESTopicInfo* info);
     virtual NiPoint3* GetPos() const;
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
     float GetRelevantWaterHeight() const;
     float GetActorHeight() const;
 };
@@ -102,7 +102,7 @@ FNV_STATIC_ASSERT(offsetof(MobileObject, m_bThirdActorFlag) == 0x87);
 class MobileObjectCellAccess
 {
   public:
-    bool FUN_004518e0() const;
+    bool TESObjectCELL_HasWater() const;
 };
 
 struct MobileObjectWaterPositionHeight

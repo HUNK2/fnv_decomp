@@ -11,10 +11,10 @@ unsigned int __cdecl FUN_00a9bbf0(unsigned int, unsigned int);
 unsigned int __cdecl FUN_00a9c0a0(const char* name);
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f7c4;
-GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400();
+GlobalObjectO2_00a7b610* __cdecl NiD3DShaderConstantMap_GetRTTI();
 void __fastcall UpdateMatrix(void*);
 char* __fastcall FUN_00bc5c20(char* self);
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i);
+void* __fastcall NiD3DShaderConstantMap_GetEntryAtIndex(char* self, int unused, unsigned int i);
 struct FUN_00e82ac0_e
 {
     char pad[0xc];
@@ -65,7 +65,7 @@ struct FUN_00e84b60_prog
     virtual bool SetConstant(void* entry, const void* data, unsigned int n);
 };
 const void* __stdcall GetConstantData(void*);
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass);
+unsigned int __stdcall NiD3DShaderConstantMap_SetConstantConstant(FUN_00e84b60_prog* prog, void* entry, unsigned int pass);
 extern char* EmptyFS;
 struct RMapEntry
 {

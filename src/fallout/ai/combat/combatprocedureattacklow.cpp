@@ -27,11 +27,11 @@ struct CombatProcedureAttackLow : CombatProcedure
     int m_14;
     int m_18;
     TESObjectWEAP* pWeapon;
-    void FUN_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void CombatProcedureAttackLow_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // @fnv 0x009cbfd0
-void CombatProcedureAttackLow::FUN_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer)
+void CombatProcedureAttackLow::CombatProcedureAttackLow_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     CombatProcedure::SaveGame(apSaveGameBuffer);
     apSaveGameBuffer->SaveData(reinterpret_cast<char*>(this) + 0x10, 4, 0);
@@ -160,11 +160,11 @@ struct FUN_009cc040_shell
     int m_18;
     TESObjectWEAP* pWeapon;
 
-    void FUN_009cc040(BGSLoadFormBuffer* apLoadGameBuffer);
+    void CombatProcedureAttackLow_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x009cc040
-void FUN_009cc040_shell::FUN_009cc040(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009cc040_shell::CombatProcedureAttackLow_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<CombatProcedure_Helper*>(this)->LoadGame(apLoadGameBuffer);
 
@@ -202,13 +202,13 @@ struct FUN_008c1c30 : FUN_008c1c60
 struct FUN_004459e0
 {
     ~FUN_004459e0();
-    float FUN_004bcdb0(int aiFlag);
+    float ItemChange_GetItemHealth(int aiFlag);
 };
 
 struct FUN_00525980_weap
 {
-    int FUN_00522c80();
-    void* FUN_00525980(void* apActor);
+    int TESObjectWEAP_GetCombatWeaponType();
+    void* TESObjectWEAP_GetCurrentAmmo(void* apActor);
 };
 
 struct FUN_00645d00_base
@@ -319,7 +319,7 @@ struct FUN_009cbb70_actorbase
 
 struct FUN_009cbb70_actor : FUN_009cbb70_actorbase, FUN_00645d00_base
 {
-    int FUN_00575ca0();
+    int TESObjectREFR_GetSpace();
     FUN_004459e0* FUN_00576260(FUN_00525980_weap* apWeapon, int aiFlag);
     bool FUN_008a6650(int aiFlag);
     void FUN_0089a760(AnimIdle* apPackage, int aiFlag);
@@ -362,16 +362,16 @@ struct FUN_009cbb70_shell
     FUN_009cbb70_actor* FUN_00996de0();
     FUN_009cbb70_actor* FUN_00996e00();
     void FUN_009caac0(const char* apReason);
-    void FUN_009cbb70();
+    void CombatProcedureAttackLow_Update();
 };
 
 // @fnv 0x009cbb70
-void FUN_009cbb70_shell::FUN_009cbb70()
+void FUN_009cbb70_shell::CombatProcedureAttackLow_Update()
 {
     FUN_009cbb70_actor* kActor = FUN_00996de0();
     FUN_009cbb70_actor* pTarget = FUN_00996e00();
     FUN_0099a2d0_state* pState2 = pController->FUN_00586150();
-    if (!pTarget || pTarget->FUN_00575ca0() != kActor->FUN_00575ca0())
+    if (!pTarget || pTarget->TESObjectREFR_GetSpace() != kActor->TESObjectREFR_GetSpace())
     {
         FUN_009caac0(DAT_01090b30);
         return;
@@ -380,7 +380,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     if (iState == 0)
     {
         pWeapon = pState2->GetBestWeapon();
-        int aIType = pWeapon ? pWeapon->FUN_00522c80() : 6;
+        int aIType = pWeapon ? pWeapon->TESObjectWEAP_GetCombatWeaponType() : 6;
         fTime = pState2->FUN_0097ac90(aIType);
         if (pWeapon)
         {
@@ -390,13 +390,13 @@ void FUN_009cbb70_shell::FUN_009cbb70()
                 pState2->SetAttacker(true);
                 return;
             }
-            fTimeCur = pItem->FUN_004bcdb0(1);
+            fTimeCur = pItem->ItemChange_GetItemHealth(1);
             delete pItem;
         }
         iState = 1;
     }
 
-    int iType = pWeapon ? pWeapon->FUN_00522c80() : 6;
+    int iType = pWeapon ? pWeapon->TESObjectWEAP_GetCombatWeaponType() : 6;
     if (pWeapon && pWeapon != pState2->FUN_0097c150(iType))
     {
         pState2->SetAttacker(true);
@@ -412,9 +412,9 @@ void FUN_009cbb70_shell::FUN_009cbb70()
         pTarget->FUN_0089a760(spPackage, 0);
     }
 
-    if (pWeapon && pWeapon->FUN_00525980(kActor) && kActor->FUN_008a8dd0(pWeapon))
+    if (pWeapon && pWeapon->TESObjectWEAP_GetCurrentAmmo(kActor) && kActor->FUN_008a8dd0(pWeapon))
     {
-        void* pAmmoA = pWeapon->FUN_00525980(kActor);
+        void* pAmmoA = pWeapon->TESObjectWEAP_GetCurrentAmmo(kActor);
         int iCountCur = kActor->FUN_00575610(pAmmoA);
         int iClip = FUN_00645d00(kActor, pWeapon, 0);
         iClip = FUN_00647b70(iClip, 1);

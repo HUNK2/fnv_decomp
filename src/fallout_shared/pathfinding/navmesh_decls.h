@@ -12,7 +12,7 @@ class NiPoint3
 class NavMeshTriangle
 {
   public:
-    unsigned short FUN_005582d0(int);
+    unsigned short NavMeshTriangle_GetVert(int);
 };
 extern float DAT_0102f200;
 class NavMesh

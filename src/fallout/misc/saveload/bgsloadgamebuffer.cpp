@@ -75,7 +75,7 @@ struct BGSLoadGameBuffer
 typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864720_shell : public BGSLoadGameBuffer
 {
-    unsigned char FUN_00864720();
+    unsigned char BGSLoadGameBuffer_GetVersion();
 };
 
 struct BGSSaveLoadGame
@@ -86,7 +86,7 @@ struct BGSSaveLoadGame
 BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // @fnv 0x00864720
-unsigned char FUN_00864720_shell::FUN_00864720()
+unsigned char FUN_00864720_shell::BGSLoadGameBuffer_GetVersion()
 {
     return g_BGSSaveLoadGame->GetLoadState();
 }

@@ -784,7 +784,7 @@ void* ImageSpaceModifierInstanceDOF::ScalarDeletingDestructor(unsigned int flags
 
 // Walks the image space modifier instance list from g_TES and removes every entry matching apInstance.
 // @fnv 0x005293f0
-void __cdecl FUN_005293f0(ImageSpaceModifierInstance* apInstance)
+void __cdecl ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstance* apInstance)
 {
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pkList = g_TES->FUN_0043b5d0();
     while (pkList)
@@ -1010,11 +1010,11 @@ struct FUN_00529ea0_shell
 {
     char padding[0x20];
     unsigned char m_flags;  // +0x20
-    unsigned char FUN_00529ea0();
+    unsigned char TESGlobal_GetType();
 };
 
 // @fnv 0x00529ea0
-unsigned char FUN_00529ea0_shell::FUN_00529ea0()
+unsigned char FUN_00529ea0_shell::TESGlobal_GetType()
 {
     return m_flags;
 }
@@ -1030,10 +1030,10 @@ struct ImageSpaceModifierInstanceRB
     float fStart;
     float m_fRampDown;
     float m_fRampDownStart;
-    void FUN_0052a530(char* apBuffer);
+    void ImageSpaceModifierInstanceRB_PrintInfo(char* apBuffer);
 };
 // @fnv 0x0052a530
-void ImageSpaceModifierInstanceRB::FUN_0052a530(char* apBuffer)
+void ImageSpaceModifierInstanceRB::ImageSpaceModifierInstanceRB_PrintInfo(char* apBuffer)
 {
     _sprintf_s(apBuffer, 0x800, str_0102d408, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart, fWaterLevelItem);
 }
@@ -1092,7 +1092,7 @@ FUN_00529700::FUN_00529700(TESImageSpaceModifier* apModifier, float start, float
 namespace fnv_00529df0 {
 struct Worker
 {
-    bool FUN_00529ea0();
+    bool TESGlobal_GetType();
 };
 
 struct GO
@@ -1115,8 +1115,8 @@ bool FUN_00529df0_shell::FUN_00529df0(TESImageSpaceModifier* pModifier, float m_
                                       NiAVObject* pTarget)
 {
     if ((this->m_pPreviousImageSpaceModifier != 0 &&
-         reinterpret_cast<Worker*>(this->m_pPreviousImageSpaceModifier)->FUN_00529ea0()) ||
-        (pModifier != 0 && reinterpret_cast<Worker*>(pModifier)->FUN_00529ea0()))
+         reinterpret_cast<Worker*>(this->m_pPreviousImageSpaceModifier)->TESGlobal_GetType()) ||
+        (pModifier != 0 && reinterpret_cast<Worker*>(pModifier)->TESGlobal_GetType()))
     {
         return false;
     }
@@ -1165,11 +1165,11 @@ struct ImageSpaceModifierInstanceRB
     float m_fRampDownStart;
     NiPoint2 radCenter;
 
-    void FUN_0052a330();
+    void ImageSpaceModifierInstanceRB_Apply();
 };
 
 // @fnv 0x0052a330
-void ImageSpaceModifierInstanceRB::FUN_0052a330()
+void ImageSpaceModifierInstanceRB::ImageSpaceModifierInstanceRB_Apply()
 {
     if (fWaterLevelItem > 0.0)
     {

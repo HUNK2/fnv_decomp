@@ -189,7 +189,7 @@ typedef NiTListItem<NiPointer<NiRefObject> > Item;
 struct NiTPointerAllocator
 {
     unsigned int m_uiCount;
-    void FUN_0045cee0(Item* pkItem);
+    void NiTPointerAllocator_Deallocate(Item* pkItem);
 };
 
 struct NiTPointerListBase
@@ -203,7 +203,7 @@ struct NiTPointerListBase
     {
         int unused[5];  // compiled-out debug locals of the inlined helper
         pkItem->m_element.FUN_0066b0d0(0);
-        m_kItemCount.FUN_0045cee0(pkItem);
+        m_kItemCount.NiTPointerAllocator_Deallocate(pkItem);
         m_kItemCount.m_uiCount--;
     }
     NiPointer<NiRefObject> FUN_00c5bfb0(Item*& kPos);

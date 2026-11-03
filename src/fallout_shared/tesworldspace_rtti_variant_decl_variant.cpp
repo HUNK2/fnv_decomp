@@ -15,7 +15,7 @@ struct GROUP_HEADER
     int iGroupType;
 };
 extern unsigned int kGroupFormType;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 class FormGroupOwner
 {
   public:
@@ -36,7 +36,7 @@ class FormGroupOwner
     virtual void v38();
     virtual bool IsParentForm(TESForm* pkForm);
     bool IsFormTypeBelowThreshold(GROUP_HEADER* pkGroup);
-    bool FUN_00584d40(GROUP_HEADER* pkGroup);
+    bool TESWorldSpace_SavesBefore(GROUP_HEADER* pkGroup);
 };
 class MobileObject : public TESObjectREFR
 {
@@ -44,7 +44,7 @@ class MobileObject : public TESObjectREFR
 class Actor : public MobileObject
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct MapPosition532;
 struct FUN_00993820
 {
@@ -90,15 +90,15 @@ struct CellMapAccess545 : NiTPointerMap<unsigned int, TESObjectREFR*>
 };
 struct WorldClone545 : TESWorldSpace
 {
-    TESForm* FUN_004867a0(bool, TESFile*);
-    bool FUN_00587670(TESObjectCELL*);
+    TESForm* TESForm_CreateDuplicateForm(bool, TESFile*);
+    bool TESWorldSpace_AddCell(TESObjectCELL*);
     void FUN_00588120();
-    TESWorldSpace* FUN_00584e60(bool temporary, TESFile* file);
+    TESWorldSpace* TESWorldSpace_CreateDuplicateForm(bool temporary, TESFile* file);
 };
 // @fnv 0x00584e60
-TESWorldSpace* WorldClone545::FUN_00584e60(bool temporary, TESFile* file)
+TESWorldSpace* WorldClone545::TESWorldSpace_CreateDuplicateForm(bool temporary, TESFile* file)
 {
-    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(FUN_004867a0(temporary, file));
+    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(TESForm_CreateDuplicateForm(temporary, file));
     static_cast<CellMapAccess545*>(world->cellMap)->FUN_00438af0();
     void* position = static_cast<CellMapAccess545*>(cellMap)->FUN_004b9ba0();
     while (position)
@@ -112,7 +112,7 @@ TESWorldSpace* WorldClone545::FUN_00584e60(bool temporary, TESFile* file)
             if (cell3)
             {
                 cell3->SetAltered(true);
-                static_cast<WorldClone545*>(world)->FUN_00587670(cell3);
+                static_cast<WorldClone545*>(world)->TESWorldSpace_AddCell(cell3);
             }
         }
     }

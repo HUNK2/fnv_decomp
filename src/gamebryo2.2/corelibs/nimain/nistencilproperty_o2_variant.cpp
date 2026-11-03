@@ -14,10 +14,10 @@ class NiObject;
 struct EqBase
 {
     bool FUN_00a62140(NiObject*);
-    bool FUN_00a6f070(NiObject*);
+    bool NiStencilProperty_IsEqual(NiObject*);
 };
 // @fnv 0x00a6f070
-bool EqBase::FUN_00a6f070(NiObject* pkObject)
+bool EqBase::NiStencilProperty_IsEqual(NiObject* pkObject)
 {
     NiStencilProperty* pkStencil = (NiStencilProperty*)pkObject;
     if (FUN_00a62140(pkObject) &&
@@ -71,7 +71,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a6f410
-void* __cdecl FUN_00a6f410()
+void* __cdecl NiStencilProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x24);
     if (p)
@@ -253,10 +253,10 @@ struct Property : Base
     unsigned int unk04, unk08, unk0c, unk10, unk14;
     unsigned short mode;
     unsigned int flags, mask;
-    void FUN_00a6f740(Stream*);
+    void NiStencilProperty_SaveBinary(Stream*);
 };
 // @fnv 0x00a6f740
-void Property::FUN_00a6f740(Stream* stream)
+void Property::NiStencilProperty_SaveBinary(Stream* stream)
 {
     FUN_00a5d7b0(stream);
     unsigned int size = 2;
@@ -302,10 +302,10 @@ struct StencilDebugProperty : FUN_00a62a40_this
     unsigned int refCount, unk08, unk0c, unk10, unk14;
     unsigned short mode;
     unsigned int reference, mask;
-    void FUN_00a6f7d0(StrArr*);
+    void NiStencilProperty_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00a6f7d0
-void StencilDebugProperty::FUN_00a6f7d0(StrArr* strings)
+void StencilDebugProperty::NiStencilProperty_GetViewerStrings(StrArr* strings)
 {
     AppendString(strings);
     strings->Append(FUN_00a7d330(DAT_011f4a0c));
@@ -522,10 +522,10 @@ struct Stencil
     unsigned short mode;
     unsigned int flags, mask;
     void FUN_00a5d7f0(Input&);
-    void FUN_00a6f500(Input& stream);
+    void NiStencilProperty_LoadBinary(Input& stream);
 };
 // @fnv 0x00a6f500
-void Stencil::FUN_00a6f500(Input& stream)
+void Stencil::NiStencilProperty_LoadBinary(Input& stream)
 {
     FUN_00a5d7f0(stream);
     if (stream.version < 0x14010002)

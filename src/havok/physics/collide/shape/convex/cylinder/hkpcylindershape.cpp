@@ -5,7 +5,7 @@
 #include "havok/hkpCylinderShape.h"
 
 // @fnv 0x00d571b0
-int __cdecl FUN_00d571b0()
+int __cdecl hkpCylinderShape_getNumCollisionSpheresImpl()
 {
     return 0x12;
 }
@@ -202,12 +202,12 @@ struct S00d57830 {
     __m128 m_kVertexA;
     __m128 m_kVertexB;
 
-    void FUN_00d57830(__m128* out);
+    void hkpCylinderShape_getCentreImpl(__m128* out);
 };
 
 // Stores (m_kVertexA + m_kVertexB) scaled by DAT_01016248 into *out.
 // @fnv 0x00d57830
-void S00d57830::FUN_00d57830(__m128* out)
+void S00d57830::hkpCylinderShape_getCentreImpl(__m128* out)
 {
     __m128 a = this->m_kVertexA;
     __m128 b = this->m_kVertexB;

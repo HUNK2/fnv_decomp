@@ -78,7 +78,7 @@ struct S_00d02020_Pair
 
 // For each handle in the pair whose m_type is 2, calls v24 on the owner's owner with the other handle's owner as argument.
 // @fnv 0x00d02020
-void __stdcall FUN_00d02020(S_00d02020_Pair* pair)
+void __stdcall hkpMultiThreadedSimulation_MtPhantomBroadPhaseListener_removeCollisionPair(S_00d02020_Pair* pair)
 {
     if (pair->m_kPointA->m_type == 2)
     {
@@ -1125,7 +1125,7 @@ CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
 // are ignored; otherwise each phantom side is told about the other side's collidable.
 // For each pair member of type 3, calls v24 on the other member's owner's owner, passing the non-phantom member's owner.
 // @fnv 0x00d020f0
-void __stdcall FUN_00d020f0(S_00d02020_Pair* pair)
+void __stdcall hkpMultiThreadedSimulation_MtBroadPhaseBorderListener_removeCollisionPair(S_00d02020_Pair* pair)
 {
     if (pair->m_kPointA->m_type == 3 && pair->m_kPointB->m_type == 3)
         return;

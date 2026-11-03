@@ -26,7 +26,7 @@ struct BeamProjectile
 struct FlameProjectile : BeamProjectile
 {
     FlameProjectile();
-    void FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FlameProjectile_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // placeholder declarations
 struct FUN_009b32b0_shell
@@ -52,7 +52,7 @@ struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     NiPoint3 operator-(const NiPoint3& kPt) const;
     NiPoint3 operator+(const NiPoint3& kPt) const;
     NiPoint3 operator*(float fScalar) const;
@@ -64,7 +64,7 @@ struct NiMatrix33
     void FUN_004a0c90(float angle);
     void FUN_00524ac0(float angle);
     NiMatrix33* FUN_0043f8d0(NiMatrix33* result, NiMatrix33* rhs);
-    void FUN_00439f50(int enabled, NiPoint3* output);
+    void NiMatrix3_GetCol(int enabled, NiPoint3* output);
 };
 struct __declspec(align(16)) VisualState
 {
@@ -76,18 +76,18 @@ struct __declspec(align(16)) VisualState
     unsigned unk090, unk094, unk098, unk09c, unk0a0, unk0a4, unk0a8, unk0ac;
     void FUN_004a3c20();
     void FUN_00500a20(void* state);
-    void FUN_004a3f70(unsigned int state);
-    void FUN_004a3da0(NiPoint3* point);
+    void bhkPickData_SetFilter(unsigned int state);
+    void bhkPickData_SetFrom(NiPoint3* point);
     void FUN_007f68a0(const NiPoint3& point);
-    void FUN_004a3fb0(void* result);
+    void bhkPickData_SetAllCollector(void* result);
     bool FUN_00632ce0();
 };
 struct Handle
 {
     unsigned int id;
     void FUN_008c71b0(int initial);
-    void FUN_004a39f0(int kind);
-    void FUN_0059ce80(const FilterKey& kKey);
+    void CFilter_SetLayer(int kind);
+    void CFilter_SetGroup(const FilterKey& kKey);
 };
 struct Controller
 {
@@ -173,11 +173,11 @@ struct FireObject
 };
 struct BoundForm
 {
-    FilterKey FUN_004a3a20();
+    FilterKey CFilter_GetGroup();
 };
 struct ActorRef
 {
-    BoundForm* FUN_004543c0();
+    BoundForm* TESObjectCELL_GetbhkWorld();
 };
 struct Tester
 {
@@ -301,7 +301,7 @@ extern const FilterKey& FUN_005dbe10();
 extern int FUN_009c0d80(VisualState*, void*, int, int, int, float);
 extern float DAT_01016970;
 extern void GenerateSpherePoints(NiPoint3*, int, NiPoint3, float, float, float, float, float);
-extern void* FUN_004b3890(NiPoint3*, Color4*, NiPoint3*, Color4*, int);
+extern void* MakeLine(NiPoint3*, Color4*, NiPoint3*, Color4*, int);
 struct ProjectileEffect
 {
     virtual ~ProjectileEffect();
@@ -489,19 +489,19 @@ struct ProjectileEffect
     GameObject* FUN_004181e0();
     double GetFirstLightParameter();
     double FUN_00508070();
-    bool FUN_009b36f0();
+    bool FlameProjectile_RunTargetPick();
 };
 struct EmitterProperties
 {
     float FUN_009a7c40();
 };
 // @fnv 0x009b36f0
-bool ProjectileEffect::FUN_009b36f0()
+bool ProjectileEffect::FlameProjectile_RunTargetPick()
 {
-    if (!FUN_008d6f30() || !FUN_008d6f30()->FUN_004543c0())
+    if (!FUN_008d6f30() || !FUN_008d6f30()->TESObjectCELL_GetbhkWorld())
         return false;
     bool emitted = false;
-    void* pWorld = FUN_008d6f30()->FUN_004543c0();
+    void* pWorld = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
     VisualState visual;
     visual.FUN_004a3c20();
     NiPoint3 position;
@@ -515,8 +515,8 @@ bool ProjectileEffect::FUN_009b36f0()
     spin.FUN_00524ac0(FUN_00931d70());
     NiMatrix33 result;
     rotation = *rotation.FUN_0043f8d0(&result, &spin);
-    rotation.FUN_00439f50(1, &direction);
-    direction.FUN_004a0c10();
+    rotation.NiMatrix3_GetCol(1, &direction);
+    direction.NiPoint3_Unitize();
     Handle objectHandle;
     objectHandle.FUN_008c71b0(0);
     if (FUN_009306d0())
@@ -526,14 +526,14 @@ bool ProjectileEffect::FUN_009b36f0()
     }
     else
     {
-        objectHandle.FUN_004a39f0(6);
+        objectHandle.CFilter_SetLayer(6);
         if (FUN_00874480() && FUN_00874480()->IsEnabled())
         {
-            objectHandle.FUN_0059ce80(FUN_00874480()->FUN_00931ed0()->FUN_004a3a20());
+            objectHandle.CFilter_SetGroup(FUN_00874480()->FUN_00931ed0()->CFilter_GetGroup());
         }
         else
         {
-            objectHandle.FUN_0059ce80(FUN_005dbe10());
+            objectHandle.CFilter_SetGroup(FUN_005dbe10());
         }
     }
     if (FUN_009b3cb0() && FUN_009b3cb0()->FUN_0044ddc0())
@@ -543,14 +543,14 @@ bool ProjectileEffect::FUN_009b36f0()
     GenerateSpherePoints(points, 3, position, GetProjectileSpread(0), FUN_00931d70(), GetField154(),
                          ((EmitterProperties*)FUN_004181e0())->FUN_009a7c40(), FUN_004a4240());
     points[3] = position + direction * (float)(GetFirstLightParameter() - FUN_00508070());
-    visual.FUN_004a3f70(objectHandle.id);
-    visual.FUN_004a3da0(&position);
+    visual.bhkPickData_SetFilter(objectHandle.id);
+    visual.bhkPickData_SetFrom(&position);
     for (int i = 0; i < 4; ++i)
     {
         visual.FUN_007f68a0(points[i] - position);
         ImpactData impact;
-        visual.FUN_004a3fb0(&impact);
-        Tester* tester = (Tester*)DAT_011dea3c->FUN_008d6f30()->FUN_004543c0();
+        visual.bhkPickData_SetAllCollector(&impact);
+        Tester* tester = (Tester*)DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
         bool accepted = tester->Query(&visual);
         if (accepted)
             accepted = FUN_009c0d80(&visual, this, 0, 0, 0, DAT_01016970) != 0;
@@ -563,7 +563,7 @@ bool ProjectileEffect::FUN_009b36f0()
             Color4* pColor = visual.FUN_00632ce0() ? greenColor.FUN_00414430(1.0f, 0.0f, 0.0f, 1.0f)
                                                    : yellowColor.FUN_00414430(1.0f, 1.0f, 0.0f, 1.0f);
             __declspec(align(16)) Color4 color = *pColor;
-            void* marker = FUN_004b3890(&position, &color, &points[i], &color, 1);
+            void* marker = MakeLine(&position, &color, &points[i], &color, 1);
             DAT_011dea10->FUN_00458e20(marker, *DAT_011f210c.FUN_00403e20());
         }
     }

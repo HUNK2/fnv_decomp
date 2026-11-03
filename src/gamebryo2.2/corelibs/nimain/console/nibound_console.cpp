@@ -270,19 +270,19 @@ void __thiscall BlockHolder::FUN_00a7f5b0(void* pvBuffer, unsigned int uiBufferS
 namespace fnv_00a7f620 {
 struct NiAdditionalGeometryData
 {
-    bool __thiscall FUN_00a727f0(const NiAdditionalGeometryData*);
+    bool __thiscall NiAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData*);
     char _pad_0[0x2c];
     unsigned int m_uiShaderDeclarationIndex;
     unsigned int m_uiUnknownValue;
 };
 struct BSPackedAdditionalGeometryData : NiAdditionalGeometryData
 {
-    bool __thiscall FUN_00a7f620(const NiAdditionalGeometryData* pkObject);
+    bool __thiscall BSPackedAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData* pkObject);
 };
 // @fnv 0x00a7f620
-bool __thiscall BSPackedAdditionalGeometryData::FUN_00a7f620(const NiAdditionalGeometryData* pkObject)
+bool __thiscall BSPackedAdditionalGeometryData::BSPackedAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData* pkObject)
 {
-    if (FUN_00a727f0(pkObject) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
+    if (NiAdditionalGeometryData_IsEqual(pkObject) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
         m_uiUnknownValue == pkObject->m_uiUnknownValue)
         return true;
     return false;
@@ -291,11 +291,11 @@ bool __thiscall BSPackedAdditionalGeometryData::FUN_00a7f620(const NiAdditionalG
 
 struct FUN_00a7f560_shell
 {
-    void* __thiscall FUN_00a7f560(unsigned int uiBufferSize);
+    void* __thiscall BSPackedAdditionalGeometryData_NiBSPackedAGDDataBlock_Allocate(unsigned int uiBufferSize);
 };
 
 // @fnv 0x00a7f560
-void* FUN_00a7f560_shell::FUN_00a7f560(unsigned int uiBufferSize)
+void* FUN_00a7f560_shell::BSPackedAdditionalGeometryData_NiBSPackedAGDDataBlock_Allocate(unsigned int uiBufferSize)
 {
     void* p = NiRenderer::ms_pRenderer;
     void** vtbl = *(void***)p;

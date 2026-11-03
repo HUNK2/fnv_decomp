@@ -13,7 +13,7 @@ void NiBSplineCompPoint3Interpolator::LoadBinary(NiStream& stream)
 extern "C" void* g_011f4014;
 
 // @fnv 0x00a51270
-void* __cdecl FUN_00a51270()
+void* __cdecl NiBSplineCompPoint3Interpolator_GetRTTI()
 {
     return &g_011f4014;
 }
@@ -24,20 +24,20 @@ struct NiObject
 };
 struct BaseFor51230
 {
-    bool FUN_00a508d0(NiObject* pkObject);
+    bool NiBSplinePoint3Interpolator_IsEqual(NiObject* pkObject);
     char _pad[0x2c];
 };
 struct OwnerFor51230 : BaseFor51230
 {
     float m_afOffsetAndHalfRange[2];
-    bool FUN_00a51230(NiObject* pkObject);
+    bool NiBSplineCompPoint3Interpolator_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a51230
-bool OwnerFor51230::FUN_00a51230(NiObject* pkObject)
+bool OwnerFor51230::NiBSplineCompPoint3Interpolator_IsEqual(NiObject* pkObject)
 {
     OwnerFor51230* pkDest;
     unsigned int iIndex;
-    if (!FUN_00a508d0(pkObject))
+    if (!NiBSplinePoint3Interpolator_IsEqual(pkObject))
         return false;
     pkDest = (OwnerFor51230*)pkObject;
     for (iIndex = 0; iIndex < 2; iIndex++)
@@ -58,13 +58,13 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a50960(StrArr*);
+void __stdcall NiBSplinePoint3Interpolator_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(g_011f4014) at the current size index.
 // @fnv 0x00a51480
-void __stdcall FUN_00a51480(StrArr* pkStrings)
+void __stdcall NiBSplineCompPoint3Interpolator_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a50960(pkStrings);
+    NiBSplinePoint3Interpolator_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330((const char*)g_011f4014);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMax;
@@ -155,12 +155,12 @@ struct Point3InterpolatorStand
 
 struct FUN_00a51440_cls : public NiBSplineCompPoint3Interpolator
 {
-    void FUN_00a51440(NiStream& stream);
+    void NiBSplineCompPoint3Interpolator_SaveBinary(NiStream& stream);
 };
 
 // Loads the base point3 interpolator from the stream, then reads two floats into the array via the binary stream.
 // @fnv 0x00a51440
-void FUN_00a51440_cls::FUN_00a51440(NiStream& stream)
+void FUN_00a51440_cls::NiBSplineCompPoint3Interpolator_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<Point3InterpolatorStand*>(this)->LoadStream(stream);
 
@@ -210,12 +210,12 @@ class ObjA513 : public FUN_00a506c0
     float m_30;
 
     void CopyUnknownFields(ObjA513* dest, CloningProcessA513& cloning);
-    ObjA513* FUN_00a51360(CloningProcessA513& cloning);
+    ObjA513* NiBSplineCompPoint3Interpolator_CreateClone(CloningProcessA513& cloning);
 };
 
 // Allocates a new ObjA513, copies unknown fields via cloning, then overwrites m_2c and m_30 with the source values and returns the new object.
 // @fnv 0x00a51360
-ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
+ObjA513* ObjA513::NiBSplineCompPoint3Interpolator_CreateClone(CloningProcessA513& cloning)
 {
     ObjA513* pNew = new ObjA513;
     if (pNew)
@@ -233,11 +233,11 @@ ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
 }
 
 extern "C" void* g_011f4014;
-void* __cdecl FUN_00a51270();
+void* __cdecl NiBSplineCompPoint3Interpolator_GetRTTI();
 
-void __stdcall FUN_00a50960(StrArr*);
+void __stdcall NiBSplinePoint3Interpolator_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall FUN_00a51480(StrArr* pkStrings);
+void __stdcall NiBSplineCompPoint3Interpolator_GetViewerStrings(StrArr* pkStrings);
 
 extern void* FUN_00aa13e0(unsigned int bytes) throw();
 

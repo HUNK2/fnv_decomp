@@ -9,7 +9,7 @@
 extern "C" void* g_01204388;
 struct FUN_00c600f0_Class
 {
-    void* __thiscall FUN_00c600f0();
+    void* __thiscall BSPSysStripUpdateModifier_GetRTTI();
 };
 struct NiStream;
 struct NiPSysModifier
@@ -18,21 +18,21 @@ struct NiPSysModifier
 };
 struct BSPSysSimpleColorModifier : public NiPSysModifier
 {
-    void FUN_00c60910(NiStream& stream);
+    void BSPSysSimpleColorModifier_LinkObject(NiStream& stream);
 };
 struct FUN_00c60930_class
 {
     void FUN_00c31670(void*);
-    void FUN_00c60930(void* a);
+    void BSPSysSimpleColorModifier_RegisterStreamables(void* a);
 };
 extern "C" void* g_01204390;
 struct FUN_00c60d40_Class
 {
-    void* __thiscall FUN_00c60d40();
+    void* __thiscall BSPSysSimpleColorModifier_GetRTTI();
 };
 struct FUN_00c61420_Class
 {
-    void* __thiscall FUN_00c61420(void* p);
+    void* __thiscall BSWArray_CreateClone(void* p);
 };
 struct FUN_00a99870_Class
 {
@@ -47,7 +47,7 @@ struct FUN_00c61430_Class
 struct FUN_00c61450_Class
 {
     void FUN_00a99a90(int);
-    void FUN_00c61450(int a);
+    void BSWArray_LoadBinary(int a);
 };
 struct FUN_00a9af00_class
 {
@@ -65,12 +65,12 @@ struct FUN_00c61490_Class
 struct FUN_00c614c0_Class
 {
     void __thiscall FUN_00a89210(void*);
-    void __thiscall FUN_00c614c0(void* ap);
+    void __thiscall BSWArray_SaveBinary(void* ap);
 };
 struct FUN_00c614e0_Class
 {
-    char FUN_00a998e0(int arg);
-    char FUN_00c614e0(int arg);
+    char NiIntegersExtraData_IsEqual(int arg);
+    char BSWArray_IsEqual(int arg);
 };
 struct NiFixedString;
 struct NiAVObject
@@ -82,11 +82,11 @@ extern NiFixedString* DAT_012043a0;
 extern "C" void* g_012043a4;
 struct FUN_00c61810_class
 {
-    void* FUN_00c61810();
+    void* BSWArray_GetRTTI();
 };
 struct FUN_00c61820_class
 {
-    void* FUN_00c61820(int);
+    void* PArrayPoint_CreateClone(int);
 };
 struct NiStream;
 struct NiPSysVolumeEmitter
@@ -104,18 +104,18 @@ struct NiObject
 struct FUN_00c61f60_class
 {
     void __thiscall FUN_00c2f4f0(int);
-    void __thiscall FUN_00c61f60(int);
+    void __thiscall BSPSysArrayEmitter_RegisterStreamables(int);
 };
 struct FUN_00c61f80_cls
 {
-    void FUN_00c31b60(void* apParam);
-    void FUN_00c61f80(void* apParam);
+    void NiPSysVolumeEmitter_SaveBinary(void* apParam);
+    void BSPSysArrayEmitter_SaveBinary(void* apParam);
 };
 struct NiAVObject;
 struct NiPSysCylinderEmitter
 {
-    bool FUN_00c31b80(NiAVObject*);
-    bool FUN_00c61fa0(NiAVObject*);
+    bool NiPSysVolumeEmitter_IsEqual(NiAVObject*);
+    bool BSPSysArrayEmitter_IsEqual(NiAVObject*);
 };
 struct FUN_00c627e0_Class
 {
@@ -125,7 +125,7 @@ struct FUN_00c627e0_Class
 extern "C" void* g_012043b8;
 struct FUN_00c632e0_Class
 {
-    void* __thiscall FUN_00c632e0();
+    void* __thiscall PArrayPoint_GetRTTI();
 };
 struct FUN_00c31670_class
 {
@@ -139,7 +139,7 @@ struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_012043c8;
 struct FUN_00c63aa0_class
 {
-    GlobalObject_00a7b610* FUN_00c63aa0();
+    GlobalObject_00a7b610* BSParentVelocityModifier_GetRTTI();
 };
 void __cdecl FUN_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
@@ -154,7 +154,7 @@ struct BSDecalPlacementVectorExtraData : NiBinaryExtraData
 struct FUN_00c644d0_Class
 {
     unsigned char Equals(const char*);
-    unsigned char FUN_00c644d0(const char*);
+    unsigned char BSDecalPlacementVectorExtraData_IsEqual(const char*);
 };
 extern "C" void* g_012043d4;
 struct FUN_00c64600_Class
@@ -178,12 +178,12 @@ struct NiStream;
 struct NiExtraData
 {
     void LinkObject(NiStream& stream);
-    void FUN_00c65160(NiStream& stream);
+    void BSAttachPoints_LinkObject(NiStream& stream);
 };
 struct C00c541e0
 {
-    bool FUN_00a7b3d0(int);
-    bool FUN_00c65290(int a);
+    bool NiExtraData_IsEqual(int);
+    bool BSAttachPoints_IsEqual(int a);
 };
 extern "C" void* DAT_012043f0;
 struct FUN_00c657e0_class
@@ -253,11 +253,11 @@ struct SObj;
 void __cdecl CallAnimCallback(SStream*, SObj*);
 struct NiPSysModifier_00c31950
 {
-    void __thiscall FUN_00c31950(void*);
+    void __thiscall NiPSysModifier_SaveBinary(void*);
 };
 struct FUN_00c63970_class : NiPSysModifier_00c31950
 {
-    void __thiscall FUN_00c63970(void* stream);
+    void __thiscall BSParentVelocityModifier_SaveBinary(void* stream);
 };
 void __cdecl FUN_00c63b40(void* p);
 void __cdecl operator delete(void* p, unsigned int size);
@@ -268,15 +268,15 @@ struct FUN_00c64610_Class
 };
 struct FUN_00c64930_Class
 {
-    void FUN_00c64930(int a);
+    void BSReference_LinkObject(int a);
 };
 struct FUN_00c64940_Class
 {
-    bool FUN_00c64940(int a);
+    bool BSReference_RegisterStreamables(int a);
 };
 struct FUN_00c64c30_Class
 {
-    bool __thiscall FUN_00c64c30(int a);
+    bool __thiscall BSNodeReferences_IsEqual(int a);
 };
 extern int DAT_010c3384;
 struct NiPSysPositionModifier
@@ -299,7 +299,7 @@ struct RgbaColor
 };
 struct FUN_00c60950_class : NiPSysModifier_00c31950
 {
-    void FUN_00c60950(NiStream* stream);
+    void BSPSysSimpleColorModifier_SaveBinary(NiStream* stream);
 };
 int _sprintf_s(char*, unsigned int, const char*, ...);
 size_t _strlen(const char*);
@@ -314,7 +314,7 @@ struct FUN_00c62090_Class
 extern GlobalObject_00a7b610 g_012043b0;
 struct FUN_00c63320_Class
 {
-    GlobalObject_00a7b610* __thiscall FUN_00c63320();
+    GlobalObject_00a7b610* __thiscall BSPSysArrayEmitter_GetRTTI();
 };
 struct NiStream
 {
@@ -333,7 +333,7 @@ struct FUN_00c65210_class
     void* m_10;
     void* m_14;
     unsigned short m_18;
-    void __thiscall FUN_00c65210(NiStream& stream);
+    void __thiscall BSAttachPoints_SaveBinary(NiStream& stream);
 };
 void __cdecl FUN_0044adf0(NiStream& stream, const unsigned int& count);
 extern "C" void* __cdecl NiMalloc(unsigned int size);
@@ -354,7 +354,7 @@ struct FUN_00c61b10
     ~FUN_00c61b10();
     static void* operator new(unsigned int size);
 };
-FUN_00c61b10* FUN_00c61e70();
+FUN_00c61b10* BSPSysArrayEmitter_CreateObject();
 extern "C" void* __cdecl NiMalloc(unsigned int);
 struct FUN_00c63260_class
 {
@@ -442,11 +442,11 @@ struct NiColorALoadBinary_StandIn
 };
 struct FUN_00c60850_Class : public NiPSysModifier
 {
-    void FUN_00c60850(NiStream& stream);
+    void BSPSysSimpleColorModifier_LoadBinary(NiStream& stream);
 };
 struct MyIsEqual
 {
-    bool __thiscall FUN_00c31830(NiObject*);
+    bool __thiscall NiPSysModifier_IsEqual(NiObject*);
 };
 struct FUN_004a4cc0_shell
 {
@@ -462,7 +462,7 @@ struct FUN_00c60a10_Class
     float m_58;
     float m_5c;
 
-    bool __thiscall FUN_00c60a10(NiObject*);
+    bool __thiscall BSPSysSimpleColorModifier_IsEqual(NiObject*);
 };
 void __cdecl FUN_00c31750(void);
 void __cdecl operator delete(void* p, unsigned int size);
@@ -482,7 +482,7 @@ struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
     FUN_00c612b0_Class();
 };
 extern NiFixedString DAT_011f49e0;
-NiAVObject* __cdecl FUN_00c61510();
+NiAVObject* __cdecl BSWArray_CreateObject();
 struct FUN_00a7b330_shell
 {
     void FUN_00a7b330(void* a, void* b);
@@ -519,7 +519,7 @@ struct FUN_00c63a70_Class
 };
 struct FUN_00c64500_Class : FUN_00c61490_Class
 {
-    bool FUN_00c64500(const void* arg);
+    bool BSDecalPlacementVectorExtraData_RegisterStreamables(const void* arg);
 };
 struct A46BB0Object
 {
@@ -528,7 +528,7 @@ struct A46BB0Object
 int __cdecl __stricmp(const char*, const char*);
 struct FUN_00c64980_Class : A46BB0Object
 {
-    bool FUN_00c64980(A46BB0Object* arg);
+    bool BSReference_IsEqual(A46BB0Object* arg);
 };
 struct FUN_0043ba10_shell
 {
@@ -562,7 +562,7 @@ struct SpawnedObject_b9118
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9118* FUN_00c607d0();
+SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject();
 class C61330Base
 {
   public:
@@ -824,8 +824,8 @@ struct ArgObj
 };
 struct FUN_00c63a00_cls
 {
-    void FUN_00c319e0(void* a);
-    void FUN_00c63a00(ArgObj* a1);
+    void NiPSysModifier_GetViewerStrings(void* a);
+    void BSParentVelocityModifier_GetViewerStrings(ArgObj* a1);
 };
 unsigned int __cdecl FUN_00a7d330(unsigned int v);
 unsigned int __cdecl FUN_00a7d550(const char* name, float f);
@@ -839,7 +839,7 @@ struct S_00c643d0_Foo
     void* m_entries[16];
 
     void __thiscall FUN_00a9a4e0(int arg);
-    void __thiscall FUN_00c643d0(int arg);
+    void __thiscall BSDecalPlacementVectorExtraData_SaveBinary(int arg);
 };
 extern "C" void __cdecl FUN_00a303a0(int arg, void* object);
 extern "C" void __cdecl FUN_00a417b0(int arg, void* data, int count);
@@ -881,7 +881,7 @@ class FUN_00c64b90_cls
     FUN_00c64b90_item** m_0c;
     int unk10;
     unsigned short m_14;
-    void FUN_00c64b90(FUN_00c64b90_target* a1);
+    void BSNodeReferences_SaveBinary(FUN_00c64b90_target* a1);
     void FUN_00a89af0(FUN_00c64b90_target* a1);
 };
 void __cdecl FUN_0044adf0(FUN_00c64b90_target* a1, unsigned int* p);
@@ -920,7 +920,7 @@ struct FUN_00c65180_VTable
 };
 struct FUN_00c65180_Class
 {
-    unsigned char __thiscall FUN_00a7b290(FUN_00c65180_VTable* p);
+    unsigned char __thiscall NiExtraData_RegisterStreamables(FUN_00c65180_VTable* p);
 
     void* m_iWordAt00;
     void* m_iWordAt04;
@@ -1052,7 +1052,7 @@ struct FUN_00c615a0_class
     int unk04;
     int unk08;
     unsigned int unk0c;
-    void FUN_00a99b20(NiTPrimitiveArray_unsigned_int_* values);
+    void NiIntegersExtraData_GetViewerStrings(NiTPrimitiveArray_unsigned_int_* values);
     void AppendGlobalAndFormatValues(NiTPrimitiveArray_unsigned_int_* values);
 };
 extern "C" void* g_012043a4;
@@ -1068,7 +1068,7 @@ struct C639a0Cls : MyIsEqual
 {
     char pad[0x20];
     float m_20;
-    bool __thiscall FUN_00c639a0(NiObject* pObject);
+    bool __thiscall BSParentVelocityModifier_IsEqual(NiObject* pObject);
 };
 
 #include <xmmintrin.h>

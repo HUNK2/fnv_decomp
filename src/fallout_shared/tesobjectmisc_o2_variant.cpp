@@ -9,25 +9,25 @@ TESForm* GetFormByID(unsigned int formID);
 int Warning(const char* format, ...);
 struct FUN_0051b070_shell
 {
-    void FUN_00484c20(unsigned int aiFlags);
+    void TESForm_SaveGame(unsigned int aiFlags);
     void FUN_0048e9e0(unsigned int aiFlags);
-    void FUN_0051b070(unsigned int aiFlags);
+    void TESObjectMISC_SaveGame(unsigned int aiFlags);
 };
-struct FUN_00484bf0
+struct TESForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int aiFlags);
 };
-struct FUN_0048e9b0
+struct TESValueForm_GetSaveSize
 {
     unsigned short __thiscall GetSaveSize(unsigned int aiFlags);
 };
 struct FUN_0051b020_shell
 {
-    unsigned short __thiscall FUN_0051b020(unsigned int aiFlags);
+    unsigned short __thiscall TESObjectMISC_GetSaveSize(unsigned int aiFlags);
 };
 struct TESFormStub
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
 };
 struct TESValueFormStub
 {

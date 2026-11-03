@@ -195,8 +195,8 @@ class Act907
 
     bool FUN_00566950();
     int FUN_00891d70();
-    bool FUN_00493bb0();
-    float FUN_005723b0(TESObjectREFR* ref, int a, int b);
+    bool Actor_IsInCombat();
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR* ref, int a, int b);
     bool FUN_00891db0(TESBoundObject* item, int a, int b, int c, int* out);
     TESForm* FUN_007af430();
 };
@@ -204,7 +204,7 @@ class Act907
 class ProjSub907
 {
   public:
-    bool FUN_0047f600(TESBoundObject* item);
+    bool TESAIForm_SellBuysItem(TESBoundObject* item);
 };
 
 class AcquireBase907
@@ -252,7 +252,7 @@ class AcquireBase907
 class Ref907
 {
   public:
-    int FUN_00569160();
+    int TESObjectREFR_GetLock();
 };
 
 class Projectile907
@@ -268,7 +268,7 @@ class Proc907 : public ::LowProcess
 };
 
 extern "C" TESBoundObject* DAT_011ca268;
-int __cdecl FUN_0048e8a0(TESBoundObject* item);
+int __cdecl TESValueForm_GetFormValue(TESBoundObject* item);
 
 // @fnv 0x00907d90
 void Proc907::FUN_00907d90(Act907* arg)
@@ -302,7 +302,7 @@ void Proc907::FUN_00907d90(Act907* arg)
         {
             bool b313 = false;
             bool b32Ptr = false;
-            int nG = FUN_0048e8a0(pItemR);
+            int nG = TESValueForm_GetFormValue(pItemR);
             TESNPC* pNPCA = 0;
 
             if (!pRefA->vfn_22c(false) && arg->FUN_00891d70() >= nG)
@@ -318,12 +318,12 @@ void Proc907::FUN_00907d90(Act907* arg)
                     if (pNPCA)
                         pProjQ = (Projectile907*)DAT_011e0e80.GetValueFromForm(pNPCA, false);
                 }
-                if (pProjQ && bA7 && pProjQ->FUN_004181e0()->sub90.FUN_0047f600(pItemR))
+                if (pProjQ && bA7 && pProjQ->FUN_004181e0()->sub90.TESAIForm_SellBuysItem(pItemR))
                 {
-                    if (!arg->FUN_00493bb0())
+                    if (!arg->Actor_IsInCombat())
                     {
                         pNodeM->eType = 2;
-                        pNodeM->iB = (int)arg->FUN_005723b0(pRefA, 0, 0);
+                        pNodeM->iB = (int)arg->TESObjectREFR_GetDistanceFromReference(pRefA, 0, 0);
                         bDoneZ = true;
                     }
                     else
@@ -362,7 +362,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                             int x = 0;
                             pNodeM->eType = 4;
                             bool okD = arg->FUN_00891db0(DAT_011ca268, 0, 1, 0, &x);
-                            if (!okD && ((Ref907*)pRefA)->FUN_00569160())
+                            if (!okD && ((Ref907*)pRefA)->TESObjectREFR_GetLock())
                                 bValid7 = false;
                         }
                         else
@@ -372,7 +372,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                     }
                     else if (b313)
                     {
-                        if (!arg->FUN_00493bb0())
+                        if (!arg->Actor_IsInCombat())
                         {
                             pNodeM->eType = 4;
                         }
@@ -383,7 +383,7 @@ void Proc907::FUN_00907d90(Act907* arg)
                     }
                     else if (b32Ptr)
                     {
-                        if (!arg->FUN_00493bb0() && !arg->FUN_00566950())
+                        if (!arg->Actor_IsInCombat() && !arg->FUN_00566950())
                         {
                             if (!actor_p || (actor_p && !actor_p->FUN_00566950()))
                                 pNodeM->eType = 5;
@@ -420,12 +420,12 @@ void Proc907::FUN_00907d90(Act907* arg)
         }
         else
         {
-            pNodeM->iB = (int)arg->FUN_005723b0(pRefA, 0, 0);
+            pNodeM->iB = (int)arg->TESObjectREFR_GetDistanceFromReference(pRefA, 0, 0);
         }
 
         if (bValid7)
         {
-            pNodeM->pObject->FUN_00564db0(true);
+            pNodeM->pObject->TESObjectREFR_SetTargeted(true);
             reinterpret_cast<List907&>(this->ReferenceListNode).FUN_00905820(pNodeM);
         }
         else

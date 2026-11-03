@@ -41,7 +41,7 @@ struct S_00878f60_RendererData
 
 struct S_00878f60_Texture
 {
-    S_00878f60_RendererData* FUN_004bc320(int i);
+    S_00878f60_RendererData* BSRenderedTexture_GetTexture(int i);
 };
 
 struct S_00878f60_TexPtr
@@ -324,7 +324,7 @@ struct S_00878f60_File
     int unk150;
     int unk154;
     S_00878f60_File(const char* name, int mode, unsigned int bufSize, bool b);
-    void FUN_00473180(const void* data, unsigned int size);
+    void NiBinaryStream_Write(const void* data, unsigned int size);
 };
 
 struct S_00878f60_PixelData
@@ -362,7 +362,7 @@ struct S_00878f60_PixelData
                          unsigned int faces);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
-    unsigned char* FUN_0064dac0(int mip, int face);
+    unsigned char* NiPixelData_GetPixels(int mip, int face);
     int FUN_0070ec90();
 };
 
@@ -401,7 +401,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     FUN_004ea970()->FUN_00ba3130(1, 0x17);
     FUN_004ea970()->FUN_00ba2fa0();
 
-    S_00878f60_TexData* localTexData = eTex->FUN_004bc320(0)->FUN_0059bb30();
+    S_00878f60_TexData* localTexData = eTex->BSRenderedTexture_GetTexture(0)->FUN_0059bb30();
     localTexData = localTexData->vfA4();
     IDirect3DTexture9* d3dTexture = localTexData->vf9C();
     D3DSURFACE_DESC d3dDesc;
@@ -422,7 +422,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     *pHeight = outHeight;
     S_00878f60_PixelData* thePixelData = new S_00878f60_PixelData(*pWidth, *pHeight, *pFormat, 1, 1);
     unsigned char* in = (unsigned char*)locked.pBits;
-    unsigned char* dst_ = thePixelData->FUN_0064dac0(0, 0);
+    unsigned char* dst_ = thePixelData->NiPixelData_GetPixels(0, 0);
     int jVal = 0;
     for (int i = 0; i < *pWidth * *pHeight * 4; i += 4)
     {
@@ -446,7 +446,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
             unsigned int width = *pWidth;
             unsigned int height = *pHeight;
             int bpp = thePixelData->FUN_0070ec90();
-            unsigned char* pix = thePixelData->FUN_0064dac0(0, 0);
+            unsigned char* pix = thePixelData->NiPixelData_GetPixels(0, 0);
             unsigned char* buffer = (unsigned char*)operator new(width * height * 3);
             int idx = 0;
             for (int y = height - 1; y >= 0; y--)
@@ -479,8 +479,8 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
             ((BITMAPINFOHEADER*)((char*)bmpHeader + sizeof(BITMAPFILEHEADER)))->biYPelsPerMeter = 0;
             ((BITMAPINFOHEADER*)((char*)bmpHeader + sizeof(BITMAPFILEHEADER)))->biClrUsed = 0;
             ((BITMAPINFOHEADER*)((char*)bmpHeader + sizeof(BITMAPFILEHEADER)))->biClrImportant = 0;
-            file->FUN_00473180(bmpHeader, 0x36);
-            file->FUN_00473180(buffer, width * height * bpp);
+            file->NiBinaryStream_Write(bmpHeader, 0x36);
+            file->NiBinaryStream_Write(buffer, width * height * bpp);
             operator delete(buffer);
         }
         else

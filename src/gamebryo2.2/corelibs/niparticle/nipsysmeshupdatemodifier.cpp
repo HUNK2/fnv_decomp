@@ -5,7 +5,7 @@
 extern "C" void* g_01202530;
 
 // @fnv 0x00c21720
-void* __cdecl FUN_00c21720()
+void* __cdecl NiPSysMeshUpdateModifier_GetRTTI()
 {
     return &g_01202530;
 }
@@ -54,11 +54,11 @@ class NiPSysMeshUpdateModifier : public NiPSysModifier
     class NiAVObject** m_ppkMeshes;
     unsigned short m_usPad;
     unsigned short m_usNumMeshes;
-    void FUN_00c20f30(class CloningProcess&);
+    void NiPSysMeshUpdateModifier_ProcessClone(class CloningProcess&);
 };
 // Calls the base modifier's ProcessClone, then clones each non-null mesh in m_ppkMeshes up to m_usNumMeshes.
 // @fnv 0x00c20f30
-void NiPSysMeshUpdateModifier::FUN_00c20f30(class CloningProcess& kCloning)
+void NiPSysMeshUpdateModifier::NiPSysMeshUpdateModifier_ProcessClone(class CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
     unsigned int ui;
@@ -111,10 +111,10 @@ struct NiPSysMeshUpdateModifier
     NiAVObject** m_ppkMeshes;
     char _pad2[2];
     unsigned short m_usElementCount;
-    bool FUN_00c20f80(NiStream&);
+    bool NiPSysMeshUpdateModifier_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00c20f80
-bool NiPSysMeshUpdateModifier::FUN_00c20f80(NiStream& kStream)
+bool NiPSysMeshUpdateModifier::NiPSysMeshUpdateModifier_RegisterStreamables(NiStream& kStream)
 {
     if (!((Holder31670*)this)->FUN_00c31670(kStream))
         return false;
@@ -171,7 +171,7 @@ struct StrArr
 };
 struct BaseMod
 {
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 struct NiPSysMeshUpdateModifier : BaseMod
 {
@@ -181,7 +181,7 @@ struct NiPSysMeshUpdateModifier : BaseMod
 // @fnv 0x00c21840
 void NiPSysMeshUpdateModifier::AppendString(StrArr* pkStrings)
 {
-    FUN_00c319e0(pkStrings);
+    NiPSysModifier_GetViewerStrings(pkStrings);
     char* pcStr = _FUN_00a7d330(g_01202530);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMax)
@@ -537,13 +537,13 @@ class BC21890Node : public BC21890AVObject
     virtual ~BC21890Node();
 
     void CopyMemberData(BC21890Node* pkDest, BC21890CloningProcess& kCloning);
-    BC21890Node* FUN_00c21890(BC21890CloningProcess& kCloning);
+    BC21890Node* NiPSysMeshUpdateModifier_CreateClone(BC21890CloningProcess& kCloning);
 
     BC21890ObjectArray m_kChildList;
 };
 
 // @fnv 0x00c21890
-BC21890Node* BC21890Node::FUN_00c21890(BC21890CloningProcess& kCloning)
+BC21890Node* BC21890Node::NiPSysMeshUpdateModifier_CreateClone(BC21890CloningProcess& kCloning)
 {
     BC21890Node* pkClone = new BC21890Node;
     CopyMemberData(pkClone, kCloning);
@@ -746,14 +746,14 @@ class NiStream
 class MeshUpdateStreamWriter : public NiPSysMeshUpdateModifier
 {
   public:
-    void FUN_00c31950(NiStream*);
+    void NiPSysModifier_SaveBinary(NiStream*);
     void WriteMeshUpdate(NiStream*);
 };
 // Writes the mesh count to the stream, then registers each mesh object with the stream.
 // @fnv 0x00c211c0
 void MeshUpdateStreamWriter::WriteMeshUpdate(NiStream* stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     unsigned int meshCount = m_usNumMeshes;
     BinaryStream* binary = stream->GetBinaryStream();
     binary->offset += binary->WriteData(&meshCount, 4);
@@ -838,7 +838,7 @@ class NiPSysModifierC212 : public NiObjectC212
 {
   public:
     int unk04, unk08, unk0C, unk10, unk14;
-    bool FUN_00c31830(NiObjectC212* pkObject);
+    bool NiPSysModifier_IsEqual(NiObjectC212* pkObject);
 };
 
 template <class T> class NiTPrimitiveArrayC212
@@ -866,14 +866,14 @@ class NiPSysMeshUpdateModifierC212 : public NiPSysModifierC212
   public:
     NiTPrimitiveArrayC212<NiObjectC212*> m_kSceneObjects;
 
-    bool FUN_00c21230(NiObjectC212* pkObject);
+    bool NiPSysMeshUpdateModifier_IsEqual(NiObjectC212* pkObject);
 };
 
 // Compares m_kSceneObjects with pkObject's m_kSceneObjects, returning true only if both arrays have the same size and each element is equal.
 // @fnv 0x00c21230
-bool NiPSysMeshUpdateModifierC212::FUN_00c21230(NiObjectC212* pkObject)
+bool NiPSysMeshUpdateModifierC212::NiPSysMeshUpdateModifier_IsEqual(NiObjectC212* pkObject)
 {
-    if (!FUN_00c31830(pkObject))
+    if (!NiPSysModifier_IsEqual(pkObject))
     {
         return false;
     }
@@ -1082,7 +1082,7 @@ struct MeshPSysData
 
 // For each active vertex, copies position and scale to its mesh, optionally sets rotation, then calls UpdateDownwardPass.
 // @fnv 0x00c21080
-void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
+void __stdcall NiPSysMeshUpdateModifier_Update(float fTime, MeshPSysData* pkData)
 {
     float* pfRotationAngles = pkData->m_pfRotationAngles;
     MeshNiPoint3* pkRotationAxes = pkData->m_pkRotationAxes;
@@ -1404,11 +1404,11 @@ struct C21550ParticleSystem : MeshSystem
 class C21550PostLink : public NiPSysMeshUpdateModifierC212
 {
   public:
-    void FUN_00c21550(NiStream& stream);
+    void NiPSysMeshUpdateModifier_PostLinkObject(NiStream& stream);
 };
 
 // @fnv 0x00c21550
-void C21550PostLink::FUN_00c21550(NiStream& stream)
+void C21550PostLink::NiPSysMeshUpdateModifier_PostLinkObject(NiStream& stream)
 {
     reinterpret_cast<C21550LinkBase*>(this)->FUN_00a89af0(stream);
     C21550StreamView* streamView = reinterpret_cast<C21550StreamView*>(&stream);

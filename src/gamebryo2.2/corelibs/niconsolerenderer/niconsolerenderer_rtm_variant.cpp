@@ -102,10 +102,10 @@ extern const char DAT_010eec18[];
 extern const char DAT_010eec28[];
 extern const char DAT_010eec38[];
 extern "C" void* g_011f4430;
-void* __cdecl FUN_00a5f200();
+void* __cdecl NiVertexColorProperty_GetRTTI();
 extern "C" int g_011f443c;
-int __cdecl FUN_00a5f4f0();
-int __cdecl FUN_00a5f500();
+int __cdecl NiZBufferProperty_GetRTTI();
+int __cdecl NiZBufferProperty_Type();
 int __cdecl FUN_00dc9e60();
 struct NiDX9Renderer {
     unsigned int pad[0x228];
@@ -119,7 +119,7 @@ struct FUN_00e695f0_shell {
 };
 struct FUN_00e69600_shell
 {
-    unsigned int __thiscall FUN_00e69600();
+    unsigned int __thiscall NiDX9Renderer_GetDefaultRenderTargetGroup();
 };
 struct FUN_00e69900_shell {
     void SetTwoValues(unsigned int a, unsigned int b);
@@ -187,7 +187,7 @@ struct FUN_00e72e50_shell {
     void* __thiscall FUN_00e72e50();
 };
 extern "C" void* g_0126f0f0;
-void* __cdecl FUN_00e757b0();
+void* __cdecl NiDX9Renderer_GetRTTI();
 struct FUN_00e757c0_shell {
     unsigned char* data;
     unsigned char FUN_00e757c0();
@@ -198,10 +198,10 @@ struct FUN_00e75830_shell : GraphicsRenderer {
 struct FUN_00e75840_shell {
     unsigned int pad[0x5e0/4];
     unsigned int color;
-    void FUN_00e75840(float* param);
+    void NiDX9Renderer_SetBackgroundColor(float* param);
 };
 extern "C" void* g_01270900;
-void* __cdecl FUN_00e766f0();
+void* __cdecl NiShaderDeclaration_GetRTTI();
 struct FUN_00e758f0_shell {
     void PackColorToUInt(float* floats);
 };
@@ -356,14 +356,14 @@ struct Dev
 };
 struct RendererHolder
 {
- int __thiscall FUN_00e698a0(int a1, int a2, int a3, int a4);
+ int __thiscall NiDX9Renderer_DrawIndexedPrimitive_TRIANGLELIST(int a1, int a2, int a3, int a4);
 };
 struct FUN_00e698d0_shell { char _pad[0x288]; void* m_pDirectInputDevice; void DispatchToVTableSlot82(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4); };
 struct FUN_00e69970_shell { void ClearShader(void* pkShader); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e68ef0(void*, void*);
-struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
+struct StandIn_e6dc40 { bool NiDX9Renderer_CreateSourceTextureRendererData(void*); };
 struct NiVBSet { void Create(unsigned int, void*); };
 int __cdecl CreateRenderedTextureData(void*, void*, unsigned int);
 struct Param_00e6dc80 { unsigned int pad[9]; unsigned int flag; };
@@ -371,7 +371,7 @@ struct Stand_00e6dc80 { char pad[0x8cc]; NiVBSet vb; bool CreateVertexBufferIfNe
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e8abf0(void*, void*);
-struct FUN_00e6dcc0_shell { bool __thiscall FUN_00e6dcc0(void*); };
+struct FUN_00e6dcc0_shell { bool __thiscall NiDX9Renderer_CreateSourceCubeMapRendererData(void*); };
 struct NiTMapBaseStub { void __thiscall RemoveAll(); };
 extern int DAT_010eda24;
 extern MemoryManager g_memoryManager;
@@ -2991,7 +2991,7 @@ public:
     FUN_00e6de70_D* m_288;
     char unk028c[0x6f5 - 0x28c];
     unsigned char m_6f5;
-    bool __thiscall FUN_00e6de70(FUN_00e6de70_A* a1);
+    bool __thiscall NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1);
 };
 const char* __cdecl GetHResultName(int code);
 void __cdecl FUN_00a29680(const char* fmt, const char* text);
@@ -10762,7 +10762,7 @@ struct ResolveRenderer {
  unsigned int unk8f8;
  unsigned int unk8fc;
  BoundCache cache;
- bool FUN_00e74dc0();
+ bool NiDX9Renderer_EndUsingRenderTargetGroup();
 };
 unsigned int ConvertVertexComponents(FUN_00e76c30_Info* info);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
@@ -12332,7 +12332,7 @@ struct FUN_00e759c0_cls {
     unsigned char unk5e1;
     unsigned char unk5e2;
     unsigned char unk5e3;
-    void FUN_00e759c0(float* out);
+    void NiDX9Renderer_GetBackgroundColor(float* out);
 };
 unsigned int __cdecl ConvertNormalizedShortsToFloats(NormalizedStream* pStream);
 struct E6F310Rect {
@@ -12459,7 +12459,7 @@ struct E6F310Device {
     virtual long __stdcall SetViewport(const void*);
 };
 struct E6F310Renderer {
-    void FUN_00e6f310(NiRectF* pkRect, unsigned int uiFlags);
+    void NiDX9Renderer_Do_ClearBuffer(NiRectF* pkRect, unsigned int uiFlags);
     int unk000;
     int unk004;
     int unk008;
@@ -13013,7 +13013,7 @@ struct E6F310Renderer {
 };
 class NiRTTI;
 class NiAVObject;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* type, NiAVObject* obj);
 extern const NiRTTI g_011f4a88;
 extern const NiRTTI g_011f4a70;
 struct PacketTarget { int unk00; int unk04; void* unk08; void Release(); };
@@ -13209,7 +13209,7 @@ void* FUN_00a75f10(); void* FUN_00a7b850();
  __forceinline bool IsKindOfType(const NiRTTI* type) {const NiRTTI* r = GetRTTI(); while(r) {if(r==type) return true;r=r->m_pBaseRTTI;} return false;}
 
 };
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };
@@ -13830,7 +13830,7 @@ public:
     DevX* m_pDirect3DDevice;
     char pad2[0x6fc - 0x28c];
     bool m_bDeviceLost;
-    bool FUN_00e6f6e0(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
+    bool NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct S00e711e0_Sub {
@@ -14680,7 +14680,7 @@ public:
             m_630 = 0;
         }
     }
-    void FUN_00e711e0();
+    void NiDX9Renderer_Do_EndBatch();
 };
 struct Mesh;
 struct Batch;
@@ -18548,7 +18548,7 @@ struct Sub74 { void FUN_00e8b560(); };
 class Rend74 { public:
     char pad0[0x288]; Dev74* m_pDirect3DDevice; char pad1[0x8c8-0x28c]; Sub74* m_8c8; char pad2[0x900-0x8cc]; List74 m_kList;
     bool HandleDeviceLost(); void FUN_00e74120();
-    bool FUN_00e74f40();
+    bool NiDX9Renderer_Do_BeginFrame();
 };
 struct S00e75340_Group {
     virtual void v00();
@@ -20048,7 +20048,7 @@ struct CameraRenderer18 {
     float proj[4][4];
     D3DMATRIX_Custom viewProj;
     float inverse[4][4];
-    void FUN_00e6c780(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const FrustumView*, const NiRect_Custom*);
+    void NiDX9Renderer_Do_SetCameraData(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const FrustumView*, const NiRect_Custom*);
 };
 struct NiComponentSpec {
     int m_eComponent;
@@ -24092,7 +24092,7 @@ struct LineRenderer {
     LineRenderState* m_pCurrentRenderState;
     LineVBManager* m_pShaderStreamInfo;
     LineIBManager* m_pRenderTargetGroup;
-    void FUN_00e70be0(LineGeometry* pkLines);
+    void NiDX9Renderer_Do_RenderLines(LineGeometry* pkLines);
 };
 typedef enum Se745__D3DPRIMITIVETYPE {
     D3DPT_POINTLIST = 1,
@@ -24977,7 +24977,7 @@ struct Se745_StandinRenderer {
     unsigned char m_6fc;
 
     bool FUN_00e72c20(Se745_Src* a1, int a2);
-    void FUN_00e745a0(Se745_Src* a1);
+    void NiDX9Renderer_Do_RenderShapeAlt(Se745_Src* a1);
 };
 inline void* operator new(unsigned int, void* p){return p;}
 namespace RendererReset {
@@ -25229,7 +25229,7 @@ struct ScrDX9Renderer {
     int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C;
     int unk880;
     ScrTargetGroup* m_pDefaultRenderTargetGroup;
-    NiPixelData* FUN_00e6f4e0(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget);
+    NiPixelData* NiDX9Renderer_TakeScreenShot(const ScrRect* pkScreenRect, ScrTargetGroup* pkTarget);
 };
 enum ScrAllocationTag { ScrAllocatePixels };
 __forceinline void* operator new(unsigned int size, ScrAllocationTag) { return NiPixelData::operator new(size); }
@@ -26859,11 +26859,11 @@ struct Shader767 {
     virtual bool GetDeclaration(void**,unsigned*);
     unsigned unk04; Renderer_e6da60* renderer; BufferManager767* manager;
     unsigned unk10,unk14,unk18,m_uiValueAtOffset1C,streamCount; ShaderStreamInfo* streams;
-    Buffer767* FUN_00e76770(Geometry767*,SkinProcessor767*,Skin767*,unsigned,Buffer767*,unsigned,Inputs767_6);
+    Buffer767* NiDX9ShaderDeclaration_PackUntransformedVB(Geometry767*,SkinProcessor767*,Skin767*,unsigned,Buffer767*,unsigned,Inputs767_6);
     void ConvertGeometryData(unsigned short,Geometry767*,SkinProcessor767*,Skin767*,ShaderStreamMapping*,unsigned,char*,Extra767);
 };
 // @fnv 0x00e76770
-Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skinInstance, Skin767* skin, unsigned mask, Buffer767* oldBuffer, unsigned stream, Inputs767_6 inputs6)
+Buffer767* Shader767::NiDX9ShaderDeclaration_PackUntransformedVB(Geometry767* geometry, SkinProcessor767* skinInstance, Skin767* skin, unsigned mask, Buffer767* oldBuffer, unsigned stream, Inputs767_6 inputs6)
 {
     unsigned short vertexCount = skin ? skin->count : geometry->VertexCount();
     if (!vertexCount)

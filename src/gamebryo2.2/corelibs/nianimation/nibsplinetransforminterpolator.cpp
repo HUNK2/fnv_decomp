@@ -204,7 +204,7 @@ struct FUN_00a50110_obj : public BSFadeNode
     void FUN_00a57fd0(FUN_00a50110_obj*, FUN_00a50110_proc&);
 };
 // @fnv 0x00a50110
-FUN_00a50110_obj* __fastcall FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
+FUN_00a50110_obj* __fastcall NiBSplineTransformInterpolator_CreateClone(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
 {
     FUN_00a50110_obj* pkObject = new FUN_00a50110_obj(0, 0xffff, 0xffff, 0xffff, 0);
     self->FUN_00a57fd0(pkObject, *kCloning);
@@ -227,7 +227,7 @@ struct FUN_00a4fff0 : public BSFadeNode
 };
 // Allocates and constructs a FUN_00a4fff0 with arguments 0, 0xffff, 0xffff, 0xffff, 0, returning the new object.
 // @fnv 0x00a50180
-FUN_00a4fff0* FUN_00a50180()
+FUN_00a4fff0* NiBSplineTransformInterpolator_CreateObject()
 {
     return new FUN_00a4fff0(0, 0xffff, 0xffff, 0xffff, 0);
 }
@@ -245,13 +245,13 @@ struct FUN_00a501b0_obj
     unsigned int m_kTransCPHandle;
     unsigned int m_kRotCPHandle;
     unsigned int m_kScaleCPHandle;
-    bool FUN_00a57e90(FUN_00a501b0_obj*);
+    bool NiBSplineInterpolator_IsEqual(FUN_00a501b0_obj*);
 };
-// Returns true if the object passes FUN_00a57e90, its quaternion matches, and the trans, rot and scale CP handles all match the other object's.
+// Returns true if the object passes NiBSplineInterpolator_IsEqual, its quaternion matches, and the trans, rot and scale CP handles all match the other object's.
 // @fnv 0x00a501b0
-bool __fastcall FUN_00a501b0(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
+bool __fastcall NiBSplineTransformInterpolator_IsEqual(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
 {
-    if (self->FUN_00a57e90(pkObject) && self->m_kDefaultTransform.Equals(&pkObject->m_kDefaultTransform) &&
+    if (self->NiBSplineInterpolator_IsEqual(pkObject) && self->m_kDefaultTransform.Equals(&pkObject->m_kDefaultTransform) &&
         pkObject->m_kTransCPHandle == self->m_kTransCPHandle && pkObject->m_kRotCPHandle == self->m_kRotCPHandle &&
         pkObject->m_kScaleCPHandle == self->m_kScaleCPHandle)
         return true;
@@ -576,12 +576,12 @@ class A503E0Light : public A503E0Base
     float m_fValue1;
     float m_fValue2;
 
-    void FUN_00a503e0(A503E0Stream& kStream);
+    void NiBSplineTransformInterpolator_SaveBinary(A503E0Stream& kStream);
 };
 
 // Saves the base data, color, and three float values of the light to the stream.
 // @fnv 0x00a503e0
-void A503E0Light::FUN_00a503e0(A503E0Stream& kStream)
+void A503E0Light::NiBSplineTransformInterpolator_SaveBinary(A503E0Stream& kStream)
 {
     SaveToStream(kStream);
     m_kFogTint.SaveBinary(kStream);
@@ -610,7 +610,7 @@ struct BinaryStreamPosition
 };
 struct BSplineBaseCalls : NiBSplineInterpolator
 {
-    void FUN_00a58200(NiStream&);
+    void NiBSplineInterpolator_GetViewerStrings(NiStream&);
 };
 struct QuatLoadCalls : NiQuatTransform
 {
@@ -624,7 +624,7 @@ struct BSplineTransformLoad : NiBSplineTransformInterpolator
 // @fnv 0x00a50500
 void BSplineTransformLoad::LoadBSplineTransform(NiStream& stream)
 {
-    reinterpret_cast<BSplineBaseCalls*>(this)->FUN_00a58200(stream);
+    reinterpret_cast<BSplineBaseCalls*>(this)->NiBSplineInterpolator_GetViewerStrings(stream);
     BinaryStreamPosition& pos = reinterpret_cast<BinaryStreamPosition&>(stream);
     unsigned int value = FUN_00a7d330(_DAT_011f3fe4);
     unsigned int index = pos.unk0A;

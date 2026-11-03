@@ -291,13 +291,13 @@ extern Actor* g_thePlayer;
 bool __cdecl FUN_005b9b00(void);
 struct InvisibilityEffect
 {
-    void __thiscall FUN_0082cd10(Actor*);
+    void __thiscall ValueModifierEffect_FinishInitLoadGame(Actor*);
     void __thiscall ApplyInvisibility(Actor* actor);
 };
 // @fnv 0x0080e540
 void __thiscall InvisibilityEffect::ApplyInvisibility(Actor* actor)
 {
-    FUN_0082cd10(actor);
+    ValueModifierEffect_FinishInitLoadGame(actor);
     if (FUN_005b9b00() && actor == g_thePlayer)
     {
         actor->vfn_0x41c(1.0f);
@@ -562,7 +562,7 @@ void InvisibilityEffect::RevertInvisibility(Actor* apActor)
 }
 }  // namespace fnv_0080e5b0
 
-void* __cdecl FUN_00401000(unsigned int uiSize);
+void* __cdecl FormHeap_Allocate(unsigned int uiSize);
 
 class B0E060Effect
 {
@@ -571,7 +571,7 @@ class B0E060Effect
 
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00401000(uiSize);
+        return FormHeap_Allocate(uiSize);
     }
     static void operator delete(void* pvMem);
 
@@ -1117,14 +1117,14 @@ struct Effect
     int unk44;
     int unk48;
     Target* FUN_0059bb30();
-    void FUN_0082c000();
-    void FUN_0080e110();
+    void ValueModifierEffect_Start();
+    void InvisibilityEffect_Start();
 };
 // @fnv 0x0080e110
-void Effect::FUN_0080e110()
+void Effect::InvisibilityEffect_Start()
 {
     ActorData* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    FUN_0082c000();
+    ValueModifierEffect_Start();
     if (actor && actor->values.slot8(unk48) > 0.0)
     {
         if (FUN_005b9b00() && actor == g_thePlayer)

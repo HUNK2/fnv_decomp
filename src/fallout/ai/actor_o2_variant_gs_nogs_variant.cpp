@@ -17,7 +17,7 @@ struct bhkRagdollController
     void* FUN_00c7de30(unsigned int);
 };
 extern "C" void* g_012685f8;
-void* __cdecl FUN_00c7fa60();
+void* __cdecl bhkStiffSpringConstraint_GetRTTI();
 extern "C" void __cdecl _delete(void*, int);
 void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
@@ -599,7 +599,7 @@ class BCB9810Registry
 {
   public:
     void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+    void bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
     int unk04;

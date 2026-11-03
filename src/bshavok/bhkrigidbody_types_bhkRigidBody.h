@@ -168,11 +168,11 @@ class bhkRigidBody : public bhkEntity
     __forceinline const __m128& RotationVector();
     void SetRotation(const NiQuaternion&);
     float GetBodyMass();
-    hkpMotion* FUN_005d3d10();
-    float FUN_004b5400();
-    void FUN_00c8d1d0(const NiPoint3&, const NiQuaternion&);
+    hkpMotion* bhkRigidBody_GetStoredDynamicMotion();
+    float bhkRigidBody_GetMass();
+    void bhkRigidBody_SetPosRot(const NiPoint3&, const NiQuaternion&);
     void* FUN_00c87a50();
-    NiPoint3& FUN_00c8d200(NiPoint3&);
+    NiPoint3& bhkRigidBody_GetCenterOfMassLocal(NiPoint3&);
     __forceinline const __m128& FUN_00c8d200Vector();
     NiPoint3& GetVec(NiPoint3&);
     __forceinline const __m128& FUN_00c8d240Vector();

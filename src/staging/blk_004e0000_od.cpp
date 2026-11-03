@@ -35,11 +35,11 @@ struct BGSPlaceableWater
 struct FUN_004e3280_shell
 {
     BGSPlaceableWater* p;
-    void FUN_004e3280();
+    void BGSPlaceableWater_GetRefractionEnabled();
 };
 
 // @fnv 0x004e3280
-void FUN_004e3280_shell::FUN_004e3280()
+void FUN_004e3280_shell::BGSPlaceableWater_GetRefractionEnabled()
 {
     reinterpret_cast<BGSPlaceableWater*>(this)->HasFlags(0x200);
 }
@@ -289,18 +289,18 @@ void FUN_004eeae0_shell::FUN_004eeae0(int arg)
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_004f0140_class
 {
-    bool FUN_004f0140();
+    bool NiAVObject_GetSelectiveUpdate();
 };
 
 // @fnv 0x004f0140
-bool FUN_004f0140_class::FUN_004f0140()
+bool FUN_004f0140_class::NiAVObject_GetSelectiveUpdate()
 {
-    return ((FUN_00456630_helper*)this)->FUN_00456630(2);
+    return ((FUN_00456630_helper*)this)->NiAVObject_GetBit(2);
 }
 
 struct FUN_004f0360_class
@@ -316,11 +316,11 @@ bool FUN_004f0360_class::HasFlag(unsigned short mask)
 struct FUN_004f05a0_Class
 {
     void HasFlag(int);
-    void FUN_004f05a0();
+    void NiTimeController_GetActive();
 };
 
 // @fnv 0x004f05a0
-void FUN_004f05a0_Class::FUN_004f05a0()
+void FUN_004f05a0_Class::NiTimeController_GetActive()
 {
     HasFlag(8);
 }
@@ -491,11 +491,11 @@ int __thiscall FUN_004fd4f0_Class::FUN_004fd4f0()
 struct BGSProjectile
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_004fdf20() const;
+    bool BGSProjectile_GetCanTurnOff() const;
 };
 
 // @fnv 0x004fdf20
-bool BGSProjectile::FUN_004fdf20() const
+bool BGSProjectile::BGSProjectile_GetCanTurnOff() const
 {
     return GetFlag(0x20);
 }
@@ -613,7 +613,7 @@ double FUN_004e2080(float afValue, double b)
 extern unsigned char DAT_011ad7b4;
 
 // @fnv 0x004e20b0
-void FUN_004e20b0(unsigned char value)
+void BSFadeNode_SetFadeEnabled(unsigned char value)
 {
     DAT_011ad7b4 = value;
 }
@@ -637,16 +637,16 @@ unsigned int FUN_004e7ff0()
 namespace fnv_004e8000 {
 struct NiNode
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 extern GlobalObject_00633c90 g_011c7c28;
 
-// If the global object holds a non-null pointer, calls FUN_004def90 on it, then assigns 0 to the global object.
+// If the global object holds a non-null pointer, calls NiNode_RemoveAllChildren on it, then assigns 0 to the global object.
 // @fnv 0x004e8000
 void FUN_004e8000()
 {
     if (reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())
-        reinterpret_cast<NiNode*>(reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())->FUN_004def90();
+        reinterpret_cast<NiNode*>(reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())->NiNode_RemoveAllChildren();
     reinterpret_cast<GO*>(&g_011c7c28)->operator=(0);
 }
 }  // namespace fnv_004e8000
@@ -1037,7 +1037,7 @@ struct RDL_004f3330
     int list[2];
     bool owns;
     RDL_004f3330(bool owns);
-    bool FUN_004f33c0(RDLItem* item);
+    bool TESRegionDataList_Add(RDLItem* item);
     RDL_004f3330* FUN_004f3470(RDL_004f3330* dest);
 };
 // Copies each item of the node list into dest (or a new list), cloning items when the list owns them, and returns the destination list.
@@ -1054,12 +1054,12 @@ RDL_004f3330* RDL_004f3330::FUN_004f3470(RDL_004f3330* dest)
                 if (result->owns)
                 {
                     copy = (*node->FUN_006815c0())->Clone();
-                    if (!result->FUN_004f33c0(copy))
+                    if (!result->TESRegionDataList_Add(copy))
                         delete copy;
                 }
                 else
                 {
-                    result->FUN_004f33c0(*node->FUN_006815c0());
+                    result->TESRegionDataList_Add(*node->FUN_006815c0());
                 }
                 node = node->FUN_00726070();
             }
@@ -1104,7 +1104,7 @@ struct TESObjectMISC
     TESObjectMISC();
     ~TESObjectMISC();
     void SetFormType(int);
-    void FUN_004f9570();
+    void BGSConstructibleObject_InitializeData();
 };
 
 struct FUN_004f93b0 : public TESObjectMISC
@@ -1126,7 +1126,7 @@ FUN_004f93b0::FUN_004f93b0()
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x8c) = &DAT_010244d8;
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x9c) = &DAT_010244c4;
     SetFormType(0x32);
-    FUN_004f9570();
+    BGSConstructibleObject_InitializeData();
 }
 
 extern int DAT_010232b4;
@@ -1366,12 +1366,12 @@ void FUN_00a35910_shell::FUN_004f06d0(NiAVObject* object)
 
 struct FUN_00564f00_shell
 {
-    bool FUN_00564f00();
+    bool TESObjectREFR_GetIsImposter();
 };
 
 struct FUN_00564f40_shell
 {
-    void FUN_00564f40(int value);
+    void TESObjectREFR_SetIsImposter(int value);
 };
 
 struct LodObject
@@ -1628,14 +1628,14 @@ struct TESSound
 void _FNV_Warning(int value1, const char* value2, const char* value3, unsigned int value4);
 
 // @fnv 0x004f24e0
-void FUN_004f24e0(TESSound* object, bool visible, bool useDefault)
+void TESRegionDataImposter_SetImposterVisible(TESSound* object, bool visible, bool useDefault)
 {
     if (object == 0)
         return;
 
-    if (!reinterpret_cast<FUN_00564f00_shell*>(object)->FUN_00564f00())
+    if (!reinterpret_cast<FUN_00564f00_shell*>(object)->TESObjectREFR_GetIsImposter())
     {
-        reinterpret_cast<FUN_00564f40_shell*>(object)->FUN_00564f40(1);
+        reinterpret_cast<FUN_00564f40_shell*>(object)->TESObjectREFR_SetIsImposter(1);
         _FNV_Warning(0xe, "SetImposterVisible: ObjectREFR is not flagged as an imposter (%s:%X)", object->v076(),
                      object->Deallocate());
     }
@@ -2024,7 +2024,7 @@ class B4EFE80Node
 extern B4EFE80RTTI g_kB4EFE80RTTIA;
 extern B4EFE80RTTI g_kB4EFE80RTTIB;
 
-bool __cdecl FUN_0045bad0(const B4EFE80RTTI* pkRTTI, B4EFE80Controller* pkObject);
+bool __cdecl NiObject_IsExactKindOf(const B4EFE80RTTI* pkRTTI, B4EFE80Controller* pkObject);
 void __cdecl FUN_004f0020(int iMode);
 
 class B4EFE80Object
@@ -2040,8 +2040,8 @@ void B4EFE80Object::UpdateControllers(float fTime, B4EFE80Node* pkNode)
     FUN_004f0020(3);
     for (B4EFE80Controller* pkController = GetControllers(); pkController; pkController = pkController->GetNext())
     {
-        bool bExcluded = FUN_0045bad0(&g_kB4EFE80RTTIA, pkController);
-        bExcluded = bExcluded | FUN_0045bad0(&g_kB4EFE80RTTIB, pkController);
+        bool bExcluded = NiObject_IsExactKindOf(&g_kB4EFE80RTTIA, pkController);
+        bExcluded = bExcluded | NiObject_IsExactKindOf(&g_kB4EFE80RTTIB, pkController);
         if (!bExcluded)
         {
             B4EFE80UpdateData kData(fTime, false, false);
@@ -2106,7 +2106,7 @@ struct RegionList
 };
 struct RegionContainer
 {
-    RegionList* FUN_004f35b0();
+    RegionList* TESRegionDataList_Find();
 };
 struct RegionEntry
 {
@@ -2118,12 +2118,12 @@ struct InnerRegion
 };
 struct RegionSource
 {
-    InnerRegion* FUN_00527900();
+    InnerRegion* BGSWorldLocation_GetCell();
 };
 struct RegionPlayer
 {
     NodeHolder* FUN_004f2770();
-    RegionSource* FUN_00575650(QueryContext*, bool);
+    RegionSource* TESObjectREFR_GetWorldLocation(QueryContext*, bool);
 };
 extern TESObjectREFR* _g_thePlayer;
 
@@ -2140,8 +2140,8 @@ bool __cdecl FUN_004f2640(RDLItem* target)
     if (regionNode == 0 || *regionNode->FUN_006815c0() == 0)
     {
         regionNode = reinterpret_cast<RegionPlayer*>(_g_thePlayer)
-                         ->FUN_00575650(&queryBuffer, true)
-                         ->FUN_00527900()
+                         ->TESObjectREFR_GetWorldLocation(&queryBuffer, true)
+                         ->BGSWorldLocation_GetCell()
                          ->FUN_00547110();
     }
     while (regionNode != 0 && *regionNode->FUN_006815c0() != 0)
@@ -2149,7 +2149,7 @@ bool __cdecl FUN_004f2640(RDLItem* target)
         listEntry = *regionNode->FUN_006815c0();
         if (listEntry != 0)
         {
-            childList = reinterpret_cast<RegionEntry*>(listEntry)->FUN_009611e0(8)->FUN_004f35b0();
+            childList = reinterpret_cast<RegionEntry*>(listEntry)->FUN_009611e0(8)->TESRegionDataList_Find();
             if (childList != 0)
             {
                 listReference = childList;
@@ -2334,7 +2334,7 @@ struct NiMemObject4f
 };
 struct RDLItemX : RDLItem
 {
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     int FUN_007af430();
     struct MidX* FUN_009611e0(int);
     bool FUN_004f6de0();
@@ -2345,7 +2345,7 @@ struct RDLItemX : RDLItem
 };
 struct MidX
 {
-    RDLItem* FUN_004f35b0();
+    RDLItem* TESRegionDataList_Find();
 };
 struct RDLItemV7 : RDLItem
 {
@@ -2397,7 +2397,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
     while (nodeB != 0 && *nodeB->FUN_006815c0() != 0)
     {
         curB = *nodeB->FUN_006815c0();
-        if (((RDLItemX*)curB)->FUN_00440d80())
+        if (((RDLItemX*)curB)->TESForm_GetDelete())
         {
             nodeB = nodeB->FUN_00726070();
             continue;
@@ -2407,7 +2407,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
             nodeB = nodeB->FUN_00726070();
             continue;
         }
-        itemB = ((RDLItemX*)curB)->FUN_009611e0(arg0)->FUN_004f35b0();
+        itemB = ((RDLItemX*)curB)->FUN_009611e0(arg0)->TESRegionDataList_Find();
         if (itemB == 0 || ((RDLItemX*)itemB)->FUN_004f6de0())
         {
             nodeB = nodeB->FUN_00726070();
@@ -2461,7 +2461,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
     nodeB = collH ? (RDLNode*)((char*)collH + 4) : 0;
     while (nodeB != 0 && *nodeB->FUN_006815c0() != 0)
     {
-        itemB = ((RDLItemX*)*nodeB->FUN_006815c0())->FUN_009611e0(arg0)->FUN_004f35b0();
+        itemB = ((RDLItemX*)*nodeB->FUN_006815c0())->FUN_009611e0(arg0)->TESRegionDataList_Find();
         if (itemB == 0)
         {
             nodeB = nodeB->FUN_00726070();
@@ -3842,15 +3842,15 @@ class FUN_004ffba0 : public TESObjectACTI
   public:
     List_009e03e0 m_kList;
 
-    void FUN_004ffc90();
+    void BGSTerminal_ClearData();
     virtual ~FUN_004ffba0();
 };
 
-// Destructor that calls FUN_004ffc90.
+// Destructor that calls BGSTerminal_ClearData.
 // @fnv 0x004ffba0
 FUN_004ffba0::~FUN_004ffba0()
 {
-    FUN_004ffc90();
+    BGSTerminal_ClearData();
 }
 
 struct xMemObj
@@ -4279,10 +4279,10 @@ struct Obj20
     float GetField130();
     float FUN_00821640();
     float FUN_00821660();
-    float FUN_00567470();
+    float TESCreature_GetBaseScale();
     float FUN_00821680();
     float GetFloatAt144();
-    float FUN_006447d0();
+    float Sky_GetCurrentWeatherPct();
     float FUN_004e4620();
     float FUN_006447f0();
 };
@@ -4338,7 +4338,7 @@ class NiSourceTexture
 };
 struct TESObj
 {
-    void FUN_004568c0(void* arg);
+    void TES_CreateTextureImage(void* arg);
 };
 struct BSTextureManager
 {
@@ -4374,7 +4374,7 @@ struct Self
 {
     int f00[27];
     Map6c m_6c;
-    ItemObj* FUN_004e8030(Refr* rrefr);
+    ItemObj* TESWaterSystem_GetWaterGeometry(Refr* rrefr);
     void AssignMemberToSource(void* arg);
     void FUN_004e3d60(ParamObj* param);
 };
@@ -4398,7 +4398,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                 {
                     ((G4680Obj*)FUN_004e4680())->FUN_00b9b7f0();
                 }
-                ItemObj* item = FUN_004e8030(rrefr);
+                ItemObj* item = TESWaterSystem_GetWaterGeometry(rrefr);
                 if (item != 0)
                 {
                     ItemObj* item3 = item;
@@ -4428,7 +4428,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     }
                                     else
                                     {
-                                        ((TESObj*)DAT_011dea10)->FUN_004568c0(obj->FUN_005800a0(&pprop->m_134, 1, 0));
+                                        ((TESObj*)DAT_011dea10)->TES_CreateTextureImage(obj->FUN_005800a0(&pprop->m_134, 1, 0));
                                     }
                                     obj->SetByteAtOffset190(0);
                                 }
@@ -4454,9 +4454,9 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     float zf4c = obj->GetFieldEC();
                                     float f48 = obj->FUN_004e4600();
                                     obj->m_34.v[0] += (double)FUN_004e44b0((float)(f_40 * 0.01745329238474369)) *
-                                                      (obj->FUN_006447d0() * f_44);
+                                                      (obj->Sky_GetCurrentWeatherPct() * f_44);
                                     obj->m_34.v[1] +=
-                                        (double)cos((float)(f_40 * 0.01745329238474369)) * (obj->FUN_006447d0() * f_44);
+                                        (double)cos((float)(f_40 * 0.01745329238474369)) * (obj->Sky_GetCurrentWeatherPct() * f_44);
                                     obj->m_44.v[0] += (double)FUN_004e44b0((float)(zf4c * 0.01745329238474369)) *
                                                       (obj->FUN_004e4620() * f_44);
                                     obj->m_44.v[1] +=
@@ -4477,7 +4477,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     DAT_011ffe7c = FUN_00404010(1.0f, FUN_004e4430(obj->GetField130() / 100.0));
                                     DAT_011ffe80 = FUN_00404010(1.0f, FUN_004e4430(obj->FUN_00821640() / 100.0));
                                     DAT_011ffe84 = FUN_00404010(1.0f, FUN_004e4430(obj->FUN_00821660() / 100.0));
-                                    DAT_011ffe8c = obj->FUN_00567470();
+                                    DAT_011ffe8c = obj->TESCreature_GetBaseScale();
                                     DAT_011ffe90 = obj->FUN_00821680();
                                     DAT_011ffe94 = obj->GetFloatAt144();
                                     ImgMgr::FUN_004e3270()->FUN_00b975f0(0x21, FUN_004a0e90(),

@@ -197,7 +197,7 @@ bool BGSSaveLoadManager::LoadGame(const char* name, int deviceID, bool recent, b
             if (consoleWasVisible)
             {
                 Interface::RestoreConsoleVisibility();
-                FUN_004b7210()->FUN_00714d70(DAT_011dea24);
+                InterfaceManager_Instance()->FUN_00714d70(DAT_011dea24);
             }
             if (result)
                 SetSaveFileName(savedName, deviceID);
@@ -248,7 +248,7 @@ void BGSSaveLoadManager::FinishLoadingGame()
     ChallengeManager::CheckCompletedChallenges();
     reinterpret_cast<Main*>(g_osGlobals)->OnGameLoaded();
     reinterpret_cast<Main*>(g_osGlobals)->RunScripts();
-    g_modelLoader->FUN_00448620(false);
+    g_modelLoader->ModelLoader_ClearUnusedModels(false);
     g_TES->FUN_00459a00();
     reinterpret_cast<ActorMover*>(g_osGlobals)->RefreshMovementState();
     reinterpret_cast<GridCellArray*>(reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(g_TES)->GetSize())
@@ -280,8 +280,8 @@ void BGSSaveLoadManager::ProcessQueuedLoads()
     DAT_011c9618->SubmitQueuedItems();
     g_modelLoader->FUN_00448420();
     FUN_005b4940();
-    FUN_005ae270();
-    FUN_005a9d60();
+    Script_ClearOptimizations();
+    ScriptLocals_ClearOptimizations();
     BSAudio::GetSingleton()->FUN_00ad84e0(-1, false);
     bool wasMultiThreaded = BSAudio::GetSingleton()->FUN_005bb4d0();
     BSAudio::GetSingleton()->SetUseMultipleThreads(false);
@@ -338,8 +338,8 @@ bool BGSSaveLoadManager::CanSave(bool skipMenus)
 {
     if (g_thePlayer)
     {
-        if ((unsigned int)((GameSettingCollection*)g_thePlayer)->FUN_004f8960() == 2 ||
-            (unsigned int)((GameSettingCollection*)g_thePlayer)->FUN_004f8960() == 1)
+        if ((unsigned int)((GameSettingCollection*)g_thePlayer)->Actor_GetLifeState() == 2 ||
+            (unsigned int)((GameSettingCollection*)g_thePlayer)->Actor_GetLifeState() == 1)
             return false;
         if (g_thePlayer->GetUnderAIControl())
             return false;
@@ -765,7 +765,7 @@ extern "C" const char str_0106eb78[];
 bool __cdecl DispatchMessageToSink(int aiArg1, int aiArg2, int aiArg3, int aiArg4, float value, unsigned char option)
 {
     FUN_00404eb0 scope(13, 1, str_0106eb78, 0x901);
-    if (FUN_004b7210() && FUN_009373f0(FUN_004b7210()) && DAT_011d96c0)
+    if (InterfaceManager_Instance() && FUN_009373f0(InterfaceManager_Instance()) && DAT_011d96c0)
         DAT_011d96c0->AddMessage(aiArg1, aiArg2, aiArg3, aiArg4, value, option);
     return false;
 }
@@ -779,7 +779,7 @@ struct SaveGameOps
 {
     void FUN_0084ab20();
     SaveGameDetails* FUN_00441110();
-    void FUN_00847850(SaveLoadFile*);
+    void BGSSaveLoadGame_SaveGame(SaveLoadFile*);
     bool FUN_005621d0();
     void SetFlag4(bool);
 };
@@ -871,7 +871,7 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
         QueueUIMessage(g_011d4930.GetString(), 0, str_010208e0, 0, DAT_010162c0, true);
     }
     FUN_00850ea0(i);
-    ((SaveGameOps*)g_BGSSaveLoadGame)->FUN_00847850(i);
+    ((SaveGameOps*)g_BGSSaveLoadGame)->BGSSaveLoadGame_SaveGame(i);
     if (((SaveGameOps*)g_BGSSaveLoadGame)->FUN_005621d0())
     {
         ((SaveGameOps*)g_BGSSaveLoadGame)->SetFlag4(false);
@@ -962,7 +962,7 @@ Tile_* __cdecl FUN_00a09030(int id);
 // @fnv 0x00705110
 void __cdecl SetDialogMenuActive(bool abActive)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_Instance() && reinterpret_cast<Modifier*>(InterfaceManager_Instance())->GetKey())
     {
         DialogMenu* pkMenu;
         Tile_* pkTile = FUN_00a09030(0x3f1);

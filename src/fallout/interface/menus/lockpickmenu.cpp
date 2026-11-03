@@ -4,11 +4,11 @@
 
 struct LockPickMenu
 {
-    int FUN_0078da90();
+    int LockPickMenu_GetClass();
 };
 
 // @fnv 0x0078da90
-int LockPickMenu::FUN_0078da90()
+int LockPickMenu::LockPickMenu_GetClass()
 {
     return 0x3f6;
 }
@@ -66,18 +66,18 @@ struct Tile
 {
     void Set(int, float, bool);
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct FUN_007902b0_shell
 {
-    void FUN_007902b0(int, Tile*);
+    void LockPickMenu_HandleMouseover(int, Tile*);
 };
-// If aiID is 13, gets the next entry from FUN_004b7210 and calls Set(0xfa9, 0.0f, true) on it as a Tile.
+// If aiID is 13, gets the next entry from InterfaceManager_Instance and calls Set(0xfa9, 0.0f, true) on it as a Tile.
 // @fnv 0x007902b0
-void FUN_007902b0_shell::FUN_007902b0(int aiID, Tile* apTarget)
+void FUN_007902b0_shell::LockPickMenu_HandleMouseover(int aiID, Tile* apTarget)
 {
     if (aiID == 13)
     {
-        reinterpret_cast<Tile*>(reinterpret_cast<Proc_S*>(FUN_004b7210())->GetNext())->Set(0xfa9, 0.0f, true);
+        reinterpret_cast<Tile*>(reinterpret_cast<Proc_S*>(InterfaceManager_Instance())->GetNext())->Set(0xfa9, 0.0f, true);
     }
 }
 
@@ -90,18 +90,18 @@ struct Proc_S
 {
     void* GetNext();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 struct Target
 {
-    void FUN_007902f0(int aiID, Tile* apTarget);
+    void LockPickMenu_DoLeave(int aiID, Tile* apTarget);
 };
-// If aiID equals 0xD, gets the next object from FUN_004b7210 and calls Set(0xFA9, 255.0f, true) on it as a Tile.
+// If aiID equals 0xD, gets the next object from InterfaceManager_Instance and calls Set(0xFA9, 255.0f, true) on it as a Tile.
 // @fnv 0x007902f0
-void Target::FUN_007902f0(int aiID, Tile* apTarget)
+void Target::LockPickMenu_DoLeave(int aiID, Tile* apTarget)
 {
     if (aiID == 0xD)
     {
-        ((Tile*)((Proc_S*)FUN_004b7210())->GetNext())->Set(0xFA9, 255.0f, true);
+        ((Tile*)((Proc_S*)InterfaceManager_Instance())->GetNext())->Set(0xFA9, 255.0f, true);
     }
 }
 }  // namespace fnv_007902f0
@@ -317,7 +317,7 @@ struct Guard : SingletonGetter
 
 void* __stdcall FUN_0043c4b0(int, int);
 void* __cdecl FUN_0045c670();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 int __cdecl FUN_00450b80(int);
 void __cdecl UpdateCameraFrustum(void*, float);
 void __cdecl FUN_00b6bee0(void*, int, void*);
@@ -342,7 +342,7 @@ void __cdecl FUN_0078e7c0()
     reinterpret_cast<ObjC*>(v1c3)->FUN_00c4f270(1);
     v18 = reinterpret_cast<SingletonGetter*>(&DAT_011da224)->FUN_00559450();
     UpdateCameraFrustum(v18, DAT_01030ff4);
-    Guard g(reinterpret_cast<ObjD*>(FUN_004b7210())->FUN_007fd640());
+    Guard g(reinterpret_cast<ObjD*>(InterfaceManager_Instance())->FUN_007fd640());
     reinterpret_cast<ObjC*>(v1c3)->FUN_004a0fd0(g.FUN_00559450());
     if (v18 != 0)
     {
@@ -545,7 +545,7 @@ struct FUN_00a712f0 : FUN_00aa13e0
     int unk110;
     FUN_00a712f0();
     void FUN_00712e60(FUN_00414430*);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(FUN_00a71b70*);
     void SetLookAt(const FUN_00416870&, const FUN_00416870&);
     void FUN_00733fd0(float);
@@ -585,7 +585,7 @@ FUN_00a712f0* FUN_0078e900_shell::FUN_0078e900()
     float e;
     c.unk14 = FUN_0045c670()->vf64();
     c.unk10 = *DAT_01203144.FUN_00403e20();
-    b->FUN_00507700(c.unk14 / c.unk10);
+    b->NiCamera_SetMaxFarNearRatio(c.unk14 / c.unk10);
     g = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
     d = DAT_01016264;
     e = *DAT_01203150.FUN_00403e20() * DAT_01023128 * DAT_01070c80;
@@ -648,7 +648,7 @@ struct PathingActorState
 };
 struct LockRef
 {
-    PathingActorState* FUN_00569160();
+    PathingActorState* TESObjectREFR_GetLock();
     void FUN_005789b0();
 };
 
@@ -744,7 +744,7 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         }
         else
         {
-            unk6c->FUN_00569160()->iBreakCount++;
+            unk6c->TESObjectREFR_GetLock()->iBreakCount++;
             unk6c->FUN_005789b0();
             DispatchMessageToSink(g_setting_011d3e98.FUN_00403df0(), 0, s_szForceFailIcon, s_szForceFailSound, 2.0f, 0);
             FUN_0078e0d0();
@@ -977,7 +977,7 @@ void __thiscall C::FUN_007908f0()
 // InitLockInterface v1 worker20: faithful transcription from capstone ORIG
 struct ModelLoader
 {
-    void* FUN_00447080(const char* path, int a, bool b, bool c, bool d, bool e);
+    void* ModelLoader_LoadFile(const char* path, int a, bool b, bool c, bool d, bool e);
 };
 extern ModelLoader* DAT_011c3b3c;
 struct SetHelper
@@ -992,7 +992,7 @@ struct NiNode
     void FUN_00440460(NiPoint3& p);
     void FUN_0043fa80(void* child);
     void FUN_00a59c60(void* upd);
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiAVObject_SetTranslate(float a, float b, float c);
 };
 struct SortNode
 {
@@ -1098,7 +1098,7 @@ struct NiFixedString
 };
 struct CtrlNode
 {
-    void* FUN_0047a520(const NiFixedString& str);
+    void* NiControllerManager_GetSequenceByName(const NiFixedString& str);
     void FUN_0048fef0(float f);
     void FUN_0047aab0(void* child, int a, int b, float c, float d, int e);
 };
@@ -1238,9 +1238,9 @@ struct ThisCls
 void ThisCls::InitLockInterface()
 {
     void* pin;
-    pin = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\LockInterface01.NIF", 0, true, false, false, false);
+    pin = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\LockInterface01.NIF", 0, true, false, false, false);
     void* idx;
-    idx = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\BobbyPin01.NIF", 0, true, false, false, false);
+    idx = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\BobbyPin01.NIF", 0, true, false, false, false);
     *(Mat9*)&m_b4 = *(Mat9*)&DAT_011a9448;
     {
         SetHelper n;
@@ -1258,7 +1258,7 @@ void ThisCls::InitLockInterface()
     ptr.FUN_00524ac0(1.57079637f);
     z.FUN_004a0c90(1.57079637f);
     ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_0043fa80(&((Comb*)&ptr)->FUN_0043f8d0(&z));
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_004bc1f0(125.0f, 0.0f, 0.0f);
+    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_SetTranslate(125.0f, 0.0f, 0.0f);
     UpdData i;
     i.FUN_0043d410(0.0f, false, false);
     ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_00a59c60(&i);
@@ -1268,8 +1268,8 @@ void ThisCls::InitLockInterface()
     if (!!s)
     {
         r = (CtrlNode*)s;
-        m_9c = (CtrlNode*)r->FUN_0047a520(NiFixedString("Forward"));
-        m_a0 = (ChildObj*)r->FUN_0047a520(NiFixedString("Backward"));
+        m_9c = (CtrlNode*)r->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
+        m_a0 = (ChildObj*)r->NiControllerManager_GetSequenceByName(NiFixedString("Backward"));
         r->FUN_0048fef0(0.0f);
         if (!!m_9c)
         {
@@ -1286,9 +1286,9 @@ void ThisCls::InitLockInterface()
     if (!!cnt)
     {
         m_a4 = (CtrlNode*)cnt;
-        m_a8 = (ChildObj*)m_a4->FUN_0047a520(NiFixedString("Forward"));
-        m_ac = (int)m_a4->FUN_0047a520(NiFixedString("Backward"));
-        m_b0 = (ChildObj*)m_a4->FUN_0047a520(NiFixedString("Left"));
+        m_a8 = (ChildObj*)m_a4->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
+        m_ac = (int)m_a4->NiControllerManager_GetSequenceByName(NiFixedString("Backward"));
+        m_b0 = (ChildObj*)m_a4->NiControllerManager_GetSequenceByName(NiFixedString("Left"));
         m_a4->FUN_0048fef0(0.0f);
         if (!!m_a8)
         {
@@ -1506,7 +1506,7 @@ class LKMenu
 
 struct LKRef
 {
-    int FUN_005691b0();
+    int TESObjectREFR_GetLockLevel();
 };
 struct LKPlayer
 {
@@ -1543,8 +1543,8 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     char acMessageVal[260];
     char acLabel[64];
     LKSelection* pkSelection = FUN_00a09030(0x3f6);
-    LKInterface* pkInterfaceVal = (LKInterface*)FUN_004b7210();
-    int iLockLevelNum = pkLockRef ? FUN_00430b40(((LKRef*)pkLockRef)->FUN_005691b0()) : aiLockLevel;
+    LKInterface* pkInterfaceVal = (LKInterface*)InterfaceManager_Instance();
+    int iLockLevelNum = pkLockRef ? FUN_00430b40(((LKRef*)pkLockRef)->TESObjectREFR_GetLockLevel()) : aiLockLevel;
     iLockLevelNum = MinInt(FUN_00647b70(iLockLevelNum, 0), 4);
     if (pkLockRef && g_player_011dea3c->kAVOwner.FUN_0066ef20(0x24) < g_aiLockLevels_011da28c[iLockLevelNum])
     {
@@ -1807,7 +1807,7 @@ struct xLock
 };
 struct xFaction : xForm
 {
-    bool FUN_0047d7c0();
+    bool TESFaction_GetEvil();
 };
 
 struct xAVOwner
@@ -1826,12 +1826,12 @@ struct xNPC : xForm
 struct xPlayer;
 struct xRef : xForm
 {
-    xLock* FUN_00569160();
+    xLock* TESObjectREFR_GetLock();
     void FUN_005789b0();
-    xForm* FUN_00567790();
-    void FUN_005692a0();
+    xForm* TESObjectREFR_GetOwner();
+    void TESObjectREFR_UnLock();
     xForm* FUN_007af430();
-    bool FUN_00573170(xPlayer*, int, int, int);
+    bool TESObjectREFR_Activate(xPlayer*, int, int, int);
 };
 struct xCrimeMgr
 {
@@ -2135,7 +2135,7 @@ struct xPlayer
     virtual void v290(int);
     char m_auiShapeKeys[0x208];
     bool m_20c;
-    void FUN_00915d20(int);
+    void MiddleHighProcess_SetWantWeaponDrawn(int);
     void FUN_008bfa40(void*, int, int, int, xForm*);
     void FUN_0094fd30(int);
 };
@@ -2234,12 +2234,12 @@ struct xLockPickMenu
     xTile* FUN_00726070();
     void FUN_00a1d910();
     int FUN_0059bb30();
-    void FUN_0078eb50();
+    void LockPickMenu_Update();
 };
 
 // Updates the lockpicking menu state machine, advancing sequences, adjusting tension, and handling lock success or pick breakage.
 // @fnv 0x0078eb50
-void xLockPickMenu::FUN_0078eb50()
+void xLockPickMenu::LockPickMenu_Update()
 {
     int qSVM = 0;
     float qrEZrs = 1.0f;
@@ -2383,15 +2383,15 @@ void xLockPickMenu::FUN_0078eb50()
                     if (m_6c)
                     {
                         xF4d5c60(4);
-                        if (m_6c->FUN_00569160()->m_10 == 0)
+                        if (m_6c->TESObjectREFR_GetLock()->m_10 == 0)
                         {
                             xg_player_11dea3c->v290(xF6705b0(3, m_70));
-                            m_6c->FUN_00569160()->m_10++;
+                            m_6c->TESObjectREFR_GetLock()->m_10++;
                             m_6c->FUN_005789b0();
                         }
-                        if (m_6c->FUN_00567790())
+                        if (m_6c->TESObjectREFR_GetOwner())
                         {
-                            xForm* OWNER = m_6c->FUN_00567790();
+                            xForm* OWNER = m_6c->TESObjectREFR_GetOwner();
                             void* CRIME = 0;
                             if (OWNER->FUN_00401170() == 8)
                             {
@@ -2405,7 +2405,7 @@ void xLockPickMenu::FUN_0078eb50()
                             }
                             if (CRIME)
                             {
-                                xg_player_11dea3c->FUN_00915d20(1);
+                                xg_player_11dea3c->MiddleHighProcess_SetWantWeaponDrawn(1);
                                 xg_player_11dea3c->FUN_008bfa40(CRIME, 0, 0, 0, OWNER);
                             }
                             else
@@ -2414,7 +2414,7 @@ void xLockPickMenu::FUN_0078eb50()
                                 if (OWNER && OWNER->FUN_00401170() == 8)
                                 {
                                     xFaction* FACB = (xFaction*)OWNER;
-                                    if (!FACB->FUN_0047d7c0())
+                                    if (!FACB->TESFaction_GetEvil())
                                         BOUNTY = true;
                                 }
                                 else if (OWNER)
@@ -2432,12 +2432,12 @@ void xLockPickMenu::FUN_0078eb50()
                             }
                         }
                         xAudio::FUN_00453a70()->FUN_00ad7550(s_szUnlock, 0x101).FUN_00ad8830(false);
-                        m_6c->FUN_005692a0();
+                        m_6c->TESObjectREFR_UnLock();
                         if (m_6c->FUN_00401170() == 0x1c)
                             xg_player_11dea3c->m_20c = true;
                         if (m_6c->FUN_007af430() && m_6c->FUN_007af430()->FUN_00401170() == 0x1b)
                             xF75b6e0(1);
-                        m_6c->FUN_00573170(xg_player_11dea3c, 0, 0, 1);
+                        m_6c->TESObjectREFR_Activate(xg_player_11dea3c, 0, 0, 1);
                         if (m_6c->FUN_00401170() == 0x1c)
                             xg_player_11dea3c->m_20c = false;
                         xF78e0d0();

@@ -231,11 +231,11 @@ struct GNode
 };
 struct GList
 {
-    GObj* FUN_004f35b0(int key);
+    GObj* TESRegionDataList_Find(int key);
 };
 // Walks nodes from this pointer and returns the first object whose vtable slot 4 returns key, or null if none match.
 // @fnv 0x004f35b0
-GObj* GList::FUN_004f35b0(int key)
+GObj* GList::TESRegionDataList_Find(int key)
 {
     GNode* node = reinterpret_cast<GNode*>(this);
     GObj* pObj = 0;

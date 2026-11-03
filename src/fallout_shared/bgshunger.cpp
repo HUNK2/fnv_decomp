@@ -95,7 +95,7 @@ bool BGSHungerStage::Load(TESFile* file)
             form.readOBNDSubRecord(file);
             break;
         case 0x41544144:
-            reinterpret_cast<BGSDehydrationStage*>(this)->FUN_004861f0(
+            reinterpret_cast<BGSDehydrationStage*>(this)->TESForm_LoadData(
                 file, reinterpret_cast<BGSDehydrationStage*>(this)->FUN_00500940(8));
             break;
         }
@@ -226,7 +226,7 @@ void* FUN_00401a90_StandIn::FUN_00401a90(unsigned int flags)
 void __cdecl operator delete(void*);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 void* __cdecl memcpy(void* dest, const void* src, unsigned int size);
 struct BGSHungerStage_copy
@@ -239,25 +239,25 @@ void __thiscall BGSHungerStage_copy::CopyFromForm(TESForm* source)
     BGSHungerStage* copy = dynamic_cast<BGSHungerStage*>(source);
     if (!copy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0((TESForm*)copy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents((TESForm*)copy);
     memcpy(((BGSHungerStage*)this)->FUN_00500940(), copy->FUN_00500940(), 8);
 }
 
 bool _FUN_00401500();
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 
 struct FUN_00591e10_shell : public BGSDehydrationStage
@@ -268,7 +268,7 @@ struct FUN_00591e10_shell : public BGSDehydrationStage
 // @fnv 0x00591e10
 void FUN_00591e10_shell::InitDehydrationStage()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     SpellItem* pSavedSpell = reinterpret_cast<SpellItem*>(FUN_00441110());
 
@@ -280,7 +280,7 @@ void FUN_00591e10_shell::InitDehydrationStage()
         reinterpret_cast<FUN_005a71d0*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00462230();
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(reinterpret_cast<int>(this) + 0x18, 8);
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(reinterpret_cast<int>(this) + 0x18, 8);
 
     if (_FUN_00401500())
     {
@@ -289,7 +289,7 @@ void FUN_00591e10_shell::InitDehydrationStage()
 
     FUN_0050f9a0(pSavedSpell);
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 extern char DAT_0118307c;
@@ -301,19 +301,19 @@ int __cdecl FUN_00ec4835(void* a, void* b, unsigned int c);
 class FUN_00401c50_cls : public BGSHungerStage
 {
   public:
-    bool FUN_00485270(void* p);
-    bool FUN_00401c50(void* arg);
+    bool TESForm_CompareAllComponents(void* p);
+    bool BGSHungerStage_Compare(void* arg);
 };
 
 // @fnv 0x00401c50
-bool FUN_00401c50_cls::FUN_00401c50(void* pOther)
+bool FUN_00401c50_cls::BGSHungerStage_Compare(void* pOther)
 {
     BGSHungerStage* r = (BGSHungerStage*)FUN_00ec43fb(pOther, 0, &DAT_0118307c, &DAT_01183028, 0);
     if (r == 0)
     {
         return true;
     }
-    if (FUN_00485270(r))
+    if (TESForm_CompareAllComponents(r))
     {
         return true;
     }

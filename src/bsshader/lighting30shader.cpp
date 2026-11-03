@@ -2570,7 +2570,7 @@ struct LocalPoint3
     {}
     LocalPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az)
     {}
-    LocalPoint3* FUN_004a0c10();
+    LocalPoint3* NiPoint3_Unitize();
     LocalPoint3& operator*=(float f)
     {
         x *= f;
@@ -3049,7 +3049,7 @@ void __stdcall FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int t
                 FUN_00ee6dec(&vPoint, &vTransformed);
                 LocalPoint3 vTemp(vPoint.x, vPoint.y, vPoint.z);
                 v = vTemp;
-                v.FUN_004a0c10();
+                v.NiPoint3_Unitize();
                 pEntry[-1].position.x = v.x;
                 ++pEntry;
                 pEntry[-2].position.y = v.y;

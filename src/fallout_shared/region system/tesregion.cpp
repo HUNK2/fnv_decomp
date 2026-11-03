@@ -147,12 +147,12 @@ TESRegionDataManager* FUN_00740940_shell::GetRegionDataManager()
     return *(TESRegionDataManager**)((char*)this + 0x624);
 }
 
-void __fastcall FUN_005827d0(char*);
+void __fastcall TESWeatherList_GetRandomWeather(char*);
 
 // @fnv 0x004f10b0
 void __fastcall FUN_004f10b0(char* param_1)
 {
-    FUN_005827d0(param_1 + 8);
+    TESWeatherList_GetRandomWeather(param_1 + 8);
 }
 
 struct FUN_004f0890_shell
@@ -381,12 +381,12 @@ class B4F1050Region
     int unk20;
     void* m_pvWeatherTypes;
 
-    void FUN_004f1050();
+    void TESRegion_UpdateWeather();
 };
 
 // Clears m_pvWeatherTypes, then if m_pkDataList exists, gets the type-3 region data and stores its weather types.
 // @fnv 0x004f1050
-void B4F1050Region::FUN_004f1050()
+void B4F1050Region::TESRegion_UpdateWeather()
 {
     m_pvWeatherTypes = 0;
     if (m_pkDataList)
@@ -425,18 +425,18 @@ struct LstBQ
 };
 struct OwnQ
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
     RefQ* FUN_007af430();
     LstAQ* FUN_00441110();
     LstBQ* FUN_009611e0();
-    void FUN_00485680();
-    void FUN_004f0a40();
+    void TESForm_CloseForm();
+    void TESRegion_SaveForm();
 };
-// Calls FUN_004855a0, passes a reference-derived ID to FUN_00485910, traverses two lists calling FUN_004f77c0 and Save on their elements, then calls FUN_00485680.
+// Calls TESForm_StartForm, passes a reference-derived ID to FUN_00485910, traverses two lists calling FUN_004f77c0 and Save on their elements, then calls TESForm_CloseForm.
 // @fnv 0x004f0a40
-void OwnQ::FUN_004f0a40()
+void OwnQ::TESRegion_SaveForm()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     RefQ* pRef_gmplt = FUN_007af430();
     if (pRef_gmplt)
     {
@@ -455,5 +455,5 @@ void OwnQ::FUN_004f0a40()
         (*pIterB_jeqla->FUN_006815c0())->Save();
         pIterB_jeqla = pIterB_jeqla->FUN_00726070();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }

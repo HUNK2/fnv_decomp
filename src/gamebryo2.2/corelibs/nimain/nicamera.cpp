@@ -196,7 +196,7 @@ void* __fastcall DestroyCamera(int* pThis, int, unsigned int flags)
 
 extern const char* const g_011f5e6c_arg1;
 // @fnv 0x00a70040
-const char* const* __cdecl FUN_00a70040()
+const char* const* __cdecl NiCamera_GetRTTI()
 {
     return &g_011f5e6c_arg1;
 }
@@ -214,7 +214,7 @@ struct CloningProcess
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a713e0_shell : public NiCamera
 {
-    NiObject* FUN_00a713e0(CloningProcess*);
+    NiObject* NiCamera_CreateClone(CloningProcess*);
 };
 
 struct BSFadeNode
@@ -231,7 +231,7 @@ struct CamStub
     void FUN_00a70f60(void*, CloningProcess*);
 };
 // @fnv 0x00a713e0
-void* __fastcall FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
+void* __fastcall NiCamera_CreateClone(CamStub* self, int edx, CloningProcess* kCloning)
 {
     FUN_00a712f0* pkObject = new FUN_00a712f0();
     self->FUN_00a70f60(pkObject, kCloning);
@@ -249,7 +249,7 @@ struct FUN_00a712f0 : BSFadeNode
     char body[0x114];
 };
 // @fnv 0x00a71430
-FUN_00a712f0* FUN_00a71430()
+FUN_00a712f0* NiCamera_CreateObject()
 {
     return new FUN_00a712f0();
 }
@@ -269,7 +269,7 @@ struct StrArr
 
 struct FUN_00a5ea70_t
 {
-    void FUN_00a5ad00(StrArr* strings);
+    void NiAVObject_GetViewerStrings(StrArr* strings);
 };
 
 struct NiFrustumViewerProxy
@@ -290,13 +290,13 @@ char* __cdecl FUN_00a7d550(char const* name, float value);
 
 struct FUN_00a71920_shell
 {
-    void FUN_00a71920(StrArr* strings);
+    void NiCamera_GetViewerStrings(StrArr* strings);
 };
 
 // @fnv 0x00a71920
-void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
+void FUN_00a71920_shell::NiCamera_GetViewerStrings(StrArr* strings)
 {
-    reinterpret_cast<FUN_00a5ea70_t*>(this)->FUN_00a5ad00(strings);
+    reinterpret_cast<FUN_00a5ea70_t*>(this)->NiAVObject_GetViewerStrings(strings);
 
     char* value;
     unsigned int index;
@@ -461,14 +461,14 @@ void FUN_00a6fb90_cls::FUN_00a6fb90(float scale, unsigned char flag)
 
 struct ComparableCamera : NiCamera
 {
-    bool FUN_00a5a260(NiObject*);
+    bool NiAVObject_IsEqual(NiObject*);
     bool IsEqualTo(NiObject* other);
 };
 // @fnv 0x00a6ff20
 bool ComparableCamera::IsEqualTo(NiObject* other)
 {
     NiCamera* camera = (NiCamera*)other;
-    if (FUN_00a5a260(other) && m_kViewFrustum.m_fLeftBound == camera->m_kViewFrustum.m_fLeftBound &&
+    if (NiAVObject_IsEqual(other) && m_kViewFrustum.m_fLeftBound == camera->m_kViewFrustum.m_fLeftBound &&
         m_kViewFrustum.m_fRightBound == camera->m_kViewFrustum.m_fRightBound &&
         m_kViewFrustum.m_fTopBound == camera->m_kViewFrustum.m_fTopBound &&
         m_kViewFrustum.m_fBottomBound == camera->m_kViewFrustum.m_fBottomBound &&
@@ -628,14 +628,14 @@ bool ScreenCamera::ProjectToScreen(const NiPoint3& kPt, float& fBx, float& fBy, 
 class FUN_00a6ff10_StandIn
 {
   public:
-    bool FUN_00a59f00(NiStream& stream);
+    bool NiAVObject_RegisterStreamables(NiStream& stream);
     bool FUN_00a6ff10(NiStream& stream);
 };
 
 // @fnv 0x00a6ff10
 bool FUN_00a6ff10_StandIn::FUN_00a6ff10(NiStream& stream)
 {
-    return FUN_00a59f00(stream);
+    return NiAVObject_RegisterStreamables(stream);
 }
 
 struct NiStreamTail
@@ -646,7 +646,7 @@ struct NiStreamTail
 
 struct NiCameraHack : NiCamera
 {
-    void FUN_00a71450(NiStream& stream);
+    void NiCamera_LoadBinary(NiStream& stream);
 };
 inline unsigned int BinaryRead(NiBinaryStream* pkStream, void* pvBuffer, unsigned int uiTotalBytes,
                                unsigned int* puiComponentSizes, unsigned int uiNumComponents)
@@ -674,7 +674,7 @@ inline void ReadBinaryValue(NiStream& stream, bool& value)
 
 // Reads camera frustum, port, and trailing values from a NiStream, handling NIF version differences for flags and orthographic projection.
 // @fnv 0x00a71450
-void NiCameraHack::FUN_00a71450(NiStream& stream)
+void NiCameraHack::NiCamera_LoadBinary(NiStream& stream)
 {
     NiAVObject::LoadBinary(stream);
 
@@ -1222,12 +1222,12 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& tValue
 
 struct NiCamera_Candidate : public NiCamera
 {
-    void FUN_00a716c0(NiStream& kStream);
+    void NiCamera_SaveBinary(NiStream& kStream);
 };
 
 // Saves the camera's AV object data, view frustum, port, and link ID to the binary stream via SerializeValue calls.
 // @fnv 0x00a716c0
-void NiCamera_Candidate::FUN_00a716c0(NiStream& kStream)
+void NiCamera_Candidate::NiCamera_SaveBinary(NiStream& kStream)
 {
     ((NiAVObjectHelper*)this)->SaveBinaryAV(kStream);
 

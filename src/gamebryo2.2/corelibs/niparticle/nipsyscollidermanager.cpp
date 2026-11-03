@@ -5,7 +5,7 @@
 extern "C" void* g_01202780;
 
 // @fnv 0x00c2d540
-void* __cdecl FUN_00c2d540()
+void* __cdecl NiPSysColliderManager_GetRTTI()
 {
     return &g_01202780;
 }
@@ -22,7 +22,7 @@ extern int DAT_010c008c;
 
 // Allocates and constructs a NiPSysPositionModifier, sets its vtable pointer and clears m_0x18, returning the new object or null.
 // @fnv 0x00c2d5b0
-NiPSysPositionModifier* __cdecl FUN_00c2d5b0()
+NiPSysPositionModifier* __cdecl NiPSysColliderManager_CreateObject()
 {
     NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(NiPSysPositionModifier::operator new(0x1c));
     if (p)
@@ -147,11 +147,11 @@ struct NiPSysCollider
 struct NiPSysColliderManager : NiPSysModifier
 {
     NiPSysCollider* m_pFirstCollider;
-    void FUN_00c2d410(CloningProcess&);
+    void NiPSysColliderManager_ProcessClone(CloningProcess&);
 };
 // Calls the base modifier's ProcessClone, then forwards the clone request to the collider if one is set.
 // @fnv 0x00c2d410
-void NiPSysColliderManager::FUN_00c2d410(CloningProcess& kCloning)
+void NiPSysColliderManager::NiPSysColliderManager_ProcessClone(CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
     NiPSysCollider* pkColliders = m_pFirstCollider;
@@ -181,11 +181,11 @@ struct NiPSysModifier
 struct NiPSysColliderManager : NiPSysModifier
 {
     NiObject* m_pFirstCollider;
-    void FUN_00c2d440(NiStream&);
+    void NiPSysColliderManager_LinkObject(NiStream&);
 };
 // Links the modifier to the stream: calls NiPSysModifier::LinkObject, then swaps the referenced NiObject with refcount decrement/increment.
 // @fnv 0x00c2d440
-void NiPSysColliderManager::FUN_00c2d440(NiStream& kStream)
+void NiPSysColliderManager::NiPSysColliderManager_LinkObject(NiStream& kStream)
 {
     NiPSysModifier::LinkObject(kStream);
     NiObject* pNewObject = kStream.GetLoadedObject();
@@ -277,7 +277,7 @@ struct NiStream
 struct NiPSysModifier
 {
     char _pad[0x18];
-    void FUN_00c31950(NiStream&);
+    void NiPSysModifier_SaveBinary(NiStream&);
 };
 struct NiPSysColliderManager : NiPSysModifier
 {
@@ -287,7 +287,7 @@ struct NiPSysColliderManager : NiPSysModifier
 // @fnv 0x00c2d4d0
 void NiPSysColliderManager::FUN_00c2d4d0(NiStream& kStream)
 {
-    NiPSysModifier::FUN_00c31950(kStream);
+    NiPSysModifier::NiPSysModifier_SaveBinary(kStream);
     kStream.Func30(m_pFirstCollider);
 }
 }  // namespace fnv_00c2d4d0
@@ -371,17 +371,17 @@ struct NiPSysCollider
 struct BaseMod
 {
     char _0[0x18];
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 struct NiPSysColliderManager : BaseMod
 {
     NiPSysCollider* m_pFirstCollider;
-    void FUN_00c2d630(StrArr*);
+    void NiPSysColliderManager_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00c2d630
-void NiPSysColliderManager::FUN_00c2d630(StrArr* pkStrings)
+void NiPSysColliderManager::NiPSysColliderManager_GetViewerStrings(StrArr* pkStrings)
 {
-    BaseMod::FUN_00c319e0(pkStrings);
+    BaseMod::NiPSysModifier_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330(g_01202780);
     unsigned int uiSize = pkStrings->_a;
     if (uiSize >= pkStrings->_8)
@@ -580,14 +580,14 @@ struct ColliderProbe
 
 struct FUN_00c2d4f0_cls : NiPSysColliderManager
 {
-    bool FUN_00c31830(NiObject* other);
+    bool NiPSysModifier_IsEqual(NiObject* other);
     bool IsCompatibleWith(NiObject* other);
 };
 
 // @fnv 0x00c2d4f0
 bool FUN_00c2d4f0_cls::IsCompatibleWith(NiObject* other)
 {
-    if (!FUN_00c31830(other))
+    if (!NiPSysModifier_IsEqual(other))
         return false;
 
     NiPSysColliderManager* pOtherManager = (NiPSysColliderManager*)other;

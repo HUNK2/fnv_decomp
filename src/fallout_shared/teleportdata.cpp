@@ -39,7 +39,7 @@ void TeleportableReference::SetLinkedDoorReference(TESObjectREFR* reference, boo
     DoorCell* cell;
     if (reference)
     {
-        cell = FUN_0043a2b0();
+        cell = DoorTeleportData_GetTeleportCell();
         if (cell && cell->GetOwner())
             cell->SetTempPublic(set);
         cell = (DoorCell*)reference->GetParentCell();
@@ -67,7 +67,7 @@ void TeleportableReference::Load(TESFile* file)
 }
 
 // @fnv 0x0043a2b0
-DoorCell* TeleportableReference::FUN_0043a2b0(void)
+DoorCell* TeleportableReference::DoorTeleportData_GetTeleportCell(void)
 {
     if (m_pLinkedDoorReference)
         return (DoorCell*)m_pLinkedDoorReference->GetParentCell();
@@ -187,19 +187,19 @@ struct BSStr
 extern const char $SG4382[];
 struct FUN_00578870_host
 {
-    void FUN_00578870(BSStr*);
+    void TESObjectREFR_GetMapNameForLocation(BSStr*);
 };
 struct FUN_0043a2e0_host
 {
     FUN_00578870_host* m;
     void SetString(BSStr*);
 };
-// If m is non-null, calls m->FUN_00578870(a); otherwise calls a->Set($SG4382, 0).
+// If m is non-null, calls m->TESObjectREFR_GetMapNameForLocation(a); otherwise calls a->Set($SG4382, 0).
 // @fnv 0x0043a2e0
 void FUN_0043a2e0_host::SetString(BSStr* apStr)
 {
     if (m)
-        m->FUN_00578870(apStr);
+        m->TESObjectREFR_GetMapNameForLocation(apStr);
     else
         apStr->Set($SG4382, 0);
 }
@@ -210,14 +210,14 @@ struct UnkArg
 };
 struct UnkThis : BaseProcess
 {
-    int FUN_0043a3f0();
-    UnkArg* FUN_0043a390(UnkArg*);
+    int DoorTeleportData_GetTeleportSpace();
+    UnkArg* DoorTeleportData_GetTeleportWorldLocation(UnkArg*);
 };
-// Calls a->FUN_0043a3c0 with GetCurrentProcessData() and FUN_0043a3f0(), then returns a.
+// Calls a->FUN_0043a3c0 with GetCurrentProcessData() and DoorTeleportData_GetTeleportSpace(), then returns a.
 // @fnv 0x0043a390
-UnkArg* UnkThis::FUN_0043a390(UnkArg* apArg)
+UnkArg* UnkThis::DoorTeleportData_GetTeleportWorldLocation(UnkArg* apArg)
 {
-    apArg->FUN_0043a3c0(GetCurrentProcessData(), FUN_0043a3f0());
+    apArg->FUN_0043a3c0(GetCurrentProcessData(), DoorTeleportData_GetTeleportSpace());
     return apArg;
 }
 
@@ -237,18 +237,18 @@ FUN_0043a3c0::FUN_0043a3c0(const NiPoint3& aPoint, TESForm* aSpace)
 
 struct Callee_575ca0
 {
-    int FUN_00575ca0();
+    int TESObjectREFR_GetSpace();
 };
 struct Caller_43a3f0
 {
     Callee_575ca0* p;
-    int FUN_0043a3f0();
+    int DoorTeleportData_GetTeleportSpace();
 };
-// Returns the result of calling FUN_00575ca0 on p when p is non-null, otherwise returns 0.
+// Returns the result of calling TESObjectREFR_GetSpace on p when p is non-null, otherwise returns 0.
 // @fnv 0x0043a3f0
-int Caller_43a3f0::FUN_0043a3f0()
+int Caller_43a3f0::DoorTeleportData_GetTeleportSpace()
 {
-    return p ? p->FUN_00575ca0() : 0;
+    return p ? p->TESObjectREFR_GetSpace() : 0;
 }
 
 unsigned int __fastcall _FNV_GetFormID(TESObjectREFR* object);
@@ -257,12 +257,12 @@ void _FUN_00485990(unsigned int type, void* data, unsigned int size);
 
 struct FUN_0043a420_shell : public DoorTeleportLoadData
 {
-    void FUN_0043a420();
+    void DoorTeleportData_Save();
 };
 
 // Copies the door FormID, position, rotation, and flags into data, conditionally calls SwapEndian, and passes data to _FUN_00485990.
 // @fnv 0x0043a420
-void FUN_0043a420_shell::FUN_0043a420()
+void FUN_0043a420_shell::DoorTeleportData_Save()
 {
     DoorTeleportLoadData data;
 
@@ -396,7 +396,7 @@ void Thing::Save()
     DAT_011de45c->FUN_00857a10(&formID, 4);
 }
 
-TESForm* FUN_004839c0(unsigned int auiFormId);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 namespace s835fe0 {
 
@@ -407,11 +407,11 @@ struct RefHandle
     void ResolveRef(void* pvUnused);
 };
 
-// Replaces m_pkRef with the result of FUN_004839c0 cast to TESObjectREFR, or null if m_pkRef is null.
+// Replaces m_pkRef with the result of TESForm_GetFormByNumericID cast to TESObjectREFR, or null if m_pkRef is null.
 // @fnv 0x00835fe0
 void RefHandle::ResolveRef(void* pvUnused)
 {
-    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)m_pkRef)) : 0;
+    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID((unsigned int)m_pkRef)) : 0;
 }
 
 }
@@ -449,11 +449,11 @@ bool FUN_009a96f0(TESObjectREFR* refr, CoordinateTriple* location)
 
 struct FUN_0043a590_shell : public TeleportableReference
 {
-    bool FUN_0043a590(TESForm*);
+    bool DoorTeleportData_InitItem(TESForm*);
 };
 
 void __cdecl FUN_00485d50(unsigned int* formID, TESFile* file);
-TESForm* __cdecl FUN_004839c0(unsigned int formID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 void __cdecl FUN_005b5e40(const char* fmt, ...);
 int __cdecl FUN_00ec7595(double x);
 int __cdecl FUN_00ec75b1(double x);
@@ -469,11 +469,11 @@ extern TeleportFormTypeName DAT_01187004[];
 
 // Resolves the linked door, checks its form type, and resets position or rotation to zero when their checks fail.
 // @fnv 0x0043a590
-bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
+bool FUN_0043a590_shell::DoorTeleportData_InitItem(TESForm* form)
 {
     unsigned int formID = (unsigned int)m_pLinkedDoorReference;
     FUN_00485d50(&formID, form->GetFile(-1));
-    m_pLinkedDoorReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
+    m_pLinkedDoorReference = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(formID));
     if (!m_pLinkedDoorReference)
     {
         FUN_005b5e40(FNV_NoDoor, formID);

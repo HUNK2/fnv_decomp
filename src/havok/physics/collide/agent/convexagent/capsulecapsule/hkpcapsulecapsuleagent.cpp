@@ -795,7 +795,7 @@ extern "C" hkResult __cdecl FUN_00cd6260(const CapsulePointVector* capsA, float 
 
 // Transforms two capsule endpoint pairs into world space, queries their contact point, and adds it to the collector on success.
 // @fnv 0x00d3baf0
-void __stdcall FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
+void __stdcall hkpCapsuleCapsuleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
 {
     volatile unsigned int ticks;
     {

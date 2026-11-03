@@ -26,7 +26,7 @@ class ThreeByThreeMatrix
 
     void SetYRotation(float);
     void MakeAxisAngleRotation(float, float, float, float);
-    void FUN_00439f50(unsigned int, NiPoint3&);
+    void NiMatrix3_GetCol(unsigned int, NiPoint3&);
     void GetRow(unsigned int row, NiPoint3& point);
     bool operator==(const ThreeByThreeMatrix& matrix) const;
     ThreeByThreeMatrix operator+(const ThreeByThreeMatrix& matrix) const;

@@ -150,7 +150,7 @@ class hkClassMemberDC11
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
+    int hkObjectCopier_areMembersCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
     int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
 };
 
@@ -173,7 +173,7 @@ int hkVersionCheckDC11::IsMemberCompatible(const hkClassMemberDC11* pkOld, const
         (pkOld->m_eSubtype == hkClassMemberDC11::TYPE_VARIANT && pkNew->m_eSubtype == hkClassMemberDC11::TYPE_POINTER &&
          pkNew->FUN_00d86920() && FUN_00cb0fa0(g_01268748.FUN_00d46d40(), pkNew->FUN_00d86910().FUN_00d46d40()) == 0);
 
-    if (FUN_00e032d0(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
+    if (hkObjectCopier_areMembersCompatible(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
         (bTypeCompatible && (bSubTypeCompatible || bSubVariantToPtr)))
         return 1;
     return 0;
@@ -270,7 +270,7 @@ class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBoolDC10 bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
+    int hkBufferedStreamWriter_seek(int offset, int whence) throw();
 };
 
 struct EntryDC10
@@ -310,7 +310,7 @@ void __cdecl FUN_00dc1070(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSecti
         if (!pkSet->FUN_00d46fe0(key))
         {
             int iOffset = pkEntry->m_offset;
-            kWriter.FUN_00d27380(iOffset, 0);
+            kWriter.hkBufferedStreamWriter_seek(iOffset, 0);
             pkSections->InvokeTarget(i, &kWriter);
         }
     }

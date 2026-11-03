@@ -25,7 +25,7 @@ struct VCall_00a0e470 {
     virtual int f3();
     virtual int f4(int, int, int, const char*, char*, int);
 };
-int __cdecl FUN_00a0e470(DebugText* a1, int aiX, const char* apFormatString, ...);
+int __cdecl DebugText_PrintX(DebugText* a1, int aiX, const char* apFormatString, ...);
 struct FakeV_00a0e4b0 {
     virtual void f0() {}
     virtual void f1() {}
@@ -43,7 +43,7 @@ struct FUN_00a0e580_VTab {
     virtual int m5();
     virtual int __thiscall m6(int, int, const char*, char*, int);
 };
-int __cdecl FUN_00a0e580(FUN_00a0e580_VTab* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...);
+int __cdecl DebugText_PrintLine(FUN_00a0e580_VTab* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...);
 struct RgbaColor { float r; float g; float b; float a; };
 struct FakeCall {
     virtual void f0();
@@ -52,7 +52,7 @@ struct FakeCall {
     virtual void f3();
     virtual int f4(int, int, int, const char*, char*, const RgbaColor&);
 };
-int FUN_00a0e690(DebugText* aObj, int aiX, const RgbaColor& apTextColor, const char* apFormatString, ...);
+int DebugText_PrintXC(DebugText* aObj, int aiX, const RgbaColor& apTextColor, const char* apFormatString, ...);
 struct FUN_00a0e6d0_this {
     virtual int f0();
     virtual int f1();
@@ -1690,8 +1690,8 @@ FUN_00a11880::FUN_00a11880()
 extern long (__stdcall *DAT_00fdf1c4)(long* value);
 unsigned int __cdecl FUN_0044a670(const char* text);
 unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
-void* __cdecl FUN_00401000(unsigned int size);
-void __cdecl FUN_00401030(void* p);
+void* __cdecl FormHeap_Allocate(unsigned int size);
+void __cdecl FormHeap_Free(void* p);
 void* __cdecl FUN_00401460(void* dst, const void* src, unsigned int size);
 
 struct NiRefObject_a119 {
@@ -1729,7 +1729,7 @@ public:
         unsigned int maxLen = MaxLength();
         if (newLen > maxLen) {
             T* oldString = pString;
-            T* newString = (T*)FUN_00401000(newLen + 1);
+            T* newString = (T*)FormHeap_Allocate(newLen + 1);
             pString = newString;
             if (text)
                 FUN_00401460(pString, text, srcLen + 1);
@@ -1737,7 +1737,7 @@ public:
                 *pString = 0;
             if (oldString) {
                 T* p = oldString;
-                FUN_00401030(p);
+                FormHeap_Free(p);
             }
             SetMaxLength(newLen);
         } else if (newLen) {
@@ -1748,7 +1748,7 @@ public:
         } else {
             if (pString) {
                 T* p = pString;
-                FUN_00401030(p);
+                FormHeap_Free(p);
             }
             pString = 0;
             newLen = 0;
@@ -2875,7 +2875,7 @@ struct State107 {
 };
 State107* State107::Create() { return new State107; }
 void State107::Destroy(State107* state) { delete state; }
-struct Lock107 { unsigned owner; void FUN_0040fbf0(const char*); };
+struct Lock107 { unsigned owner; void BSSpinLock_Lock(const char*); };
 extern Lock107 DAT_011f42a0;
 extern unsigned DAT_011f42a4;
 struct Parent107 { void FUN_00a5e3a0(State107*&); };
@@ -2902,10 +2902,10 @@ struct FUN_0051cf00 {
     static void operator delete(void*);
     FUN_0051cf00();
     void AssignFixedString(const S107&);
-    void FUN_00439410(void*);
+    void NiAVObject_AttachProperty(void*);
     void FUN_00a5a040() {
         State107* state=0;
-        DAT_011f42a0.FUN_0040fbf0(0);
+        DAT_011f42a0.BSSpinLock_Lock(0);
         if(unk18) ((Parent107*)unk18)->FUN_00a5e3a0(state);
         else state=State107::Create();
         UpdatePropertiesDown(state);
@@ -2958,7 +2958,7 @@ FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,
     FUN_004391c0* p=new FUN_004391c0;
     p->FUN_00633ba0(true,1);
     p->FUN_00633ba0(false,0x2000);
-    a->FUN_00439410(p);
+    a->NiAVObject_AttachProperty(p);
     a->FUN_00a5a040();
     U107 f;
     f.FUN_0043d410(0.0f,false,false);

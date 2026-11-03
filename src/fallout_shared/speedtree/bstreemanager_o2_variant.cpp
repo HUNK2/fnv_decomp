@@ -29,7 +29,7 @@ extern originalRuntimeFloatSetting1295_t originalRuntimeFloatSetting1295;
 float FUN_006655a0();
 extern unsigned char __cdecl GetFirstProcessListByte(void);
 extern unsigned char* __cdecl _FUN_00664840(bool);
-unsigned char FUN_0054ee20(bool abCreateIfNotFound);
+unsigned char BSTreeManager_AreTreesVisible(bool abCreateIfNotFound);
 
 struct NiRenderTargetGroup;
 

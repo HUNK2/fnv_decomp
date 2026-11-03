@@ -97,7 +97,7 @@ class hkClassMemberDC11
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
+    int hkObjectCopier_areMembersCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
     int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
 };
 class hkMemoryAllocatorDC12;
@@ -183,7 +183,7 @@ class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBoolDC10 bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
+    int hkBufferedStreamWriter_seek(int offset, int whence) throw();
 };
 struct EntryDC10
 {

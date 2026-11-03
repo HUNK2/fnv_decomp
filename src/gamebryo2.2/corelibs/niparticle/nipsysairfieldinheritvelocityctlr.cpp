@@ -5,7 +5,7 @@
 extern "C" void* g_012027b0;
 
 // @fnv 0x00c30630
-void* __cdecl FUN_00c30630()
+void* __cdecl NiPSysAirFieldInheritVelocityCtlr_GetRTTI()
 {
     return &g_012027b0;
 }
@@ -134,12 +134,12 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 char* __cdecl FUN_00a7d330(char*);
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 // Grows the array if its index has reached capacity, then stores the string returned by FUN_00a7d330 at that index.
 // @fnv 0x00c30740
-void __stdcall FUN_00c30740(StrArr* array)
+void __stdcall NiPSysAirFieldInheritVelocityCtlr_GetViewerStrings(StrArr* array)
 {
-    FUN_00c32f60(array);
+    NiPSysModifierFloatCtlr_GetViewerStrings(array);
     char* value = FUN_00a7d330(static_cast<char*>(g_012027b0));
     unsigned int index = array->index;
     unsigned int capacity = array->capacity;

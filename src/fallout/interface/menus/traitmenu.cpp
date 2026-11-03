@@ -4,11 +4,11 @@
 
 struct TraitMenu
 {
-    int FUN_007e68a0();
+    int TraitMenu_GetClass();
 };
 
 // @fnv 0x007e68a0
-int TraitMenu::FUN_007e68a0()
+int TraitMenu::TraitMenu_GetClass()
 {
     return 0x43c;
 }
@@ -57,13 +57,13 @@ struct HUDMainMenu
 
 struct TraitMenu : Menu
 {
-    void FUN_007e73c0();
+    void TraitMenu_Update();
 };
 
 extern HUDMainMenu DAT_011f2250;
 
 // @fnv 0x007e73c0
-void TraitMenu::FUN_007e73c0()
+void TraitMenu::TraitMenu_Update()
 {
     if (*(int*)((char*)this + 0x24) == 4)
     {
@@ -501,7 +501,7 @@ struct BGSPerk
     void* pSourceFilesHead;
     void* pSourceFilesNext;
     FNStub fullName;
-    unsigned char FUN_005d4ee0();
+    unsigned char BGSPerk_GetNumRanks();
 };
 struct BSSimpleList
 {
@@ -845,7 +845,7 @@ void FUN_007e7030_shell::PopulatePerkList()
         strcpy_s(strtemp, 64, (*pcurrentPerk->GetItem())->fullName.GetFullName());
         if (!BSStringLength(strtemp))
             strcpy_s(strtemp, 64, g_011d35b8.GetMenuTitle());
-        if ((*pcurrentPerk->GetItem())->FUN_005d4ee0() > 1 && icurrRank > 0)
+        if ((*pcurrentPerk->GetItem())->BGSPerk_GetNumRanks() > 1 && icurrRank > 0)
             _sprintf_s(strtemp, 64, "%s (%d)", strtemp, icurrRank + 1);
         pnew = ((LBH*)((char*)this + 0x54))->AddItemTile(*pcurrentPerk->GetItem(), strtemp, 0, 0);
         pnew->Set(0xfaa, 10);
@@ -1389,7 +1389,7 @@ struct ResourceProvider
 {
     TileView* FUN_00586150(const char*);
 };
-ResourceProvider* __cdecl FUN_004b7210();
+ResourceProvider* __cdecl InterfaceManager_Instance();
 TraitView* __cdecl FUN_00a09030(int);
 void __cdecl FNV_Warning(const char*);
 float __stdcall FUN_00a01530(int);
@@ -1420,7 +1420,7 @@ struct PerkNode
 };
 struct DataHandlerView
 {
-    PerkNode* FUN_00460fb0();
+    PerkNode* TESDataHandler_GetPerkList();
 };
 extern DataHandlerView* DAT_011c3f2c;
 struct PerkList
@@ -1481,7 +1481,7 @@ void __cdecl FUN_007e7670(Tile*, void*);
 TileView* __cdecl FUN_007e6990()
 {
     TraitView* oldMenu = FUN_00a09030(1084);
-    ResourceProvider* root = FUN_004b7210();
+    ResourceProvider* root = InterfaceManager_Instance();
     if (oldMenu)
         delete oldMenu;
     TileView* manager = root->FUN_00586150("Data\\Menus\\trait_menu.xml")->ReadFile();
@@ -1507,10 +1507,10 @@ TileView* __cdecl FUN_007e6990()
         ((TraitView*)DAT_011daf74)->tile28->Set(4036, text, true);
         ((TraitView*)DAT_011daf74)->tile3c->Set(4036, DAT_011d33d8.String(), true);
         ((TraitView*)DAT_011daf74)->tile40->Set(FUN_00a01860("_Title"), DAT_011d35c4.String(), true);
-        for (PerkNode* node = DAT_011c3f2c->FUN_00460fb0(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
+        for (PerkNode* node = DAT_011c3f2c->TESDataHandler_GetPerkList(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
         {
             PerkView* perk = *node->FUN_006815c0();
-            if (perk->Level() > 0 && g_thePlayer->GetPerkRank(perk, false) < perk->FUN_005d4ee0() &&
+            if (perk->Level() > 0 && g_thePlayer->GetPerkRank(perk, false) < perk->BGSPerk_GetNumRanks() &&
                 perk->GetByteAtOffset56() && perk->FUN_005eba00(g_thePlayer) && perk->CheckPlayerConditions())
             {
                 bool valid = true;

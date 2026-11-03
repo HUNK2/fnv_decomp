@@ -60,7 +60,7 @@ struct originalRuntimeFloatSetting1295_t
 struct ActShell
 {
     void FUN_008bb520(NiP3 p, int a);
-    float FUN_005723b0(TESObjectREFR* r, int a, int b);
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR* r, int a, int b);
     bool FUN_008a61b0();
     bool FUN_008b3bb0();
 };
@@ -106,7 +106,7 @@ struct FUN_005c1a00
 };
 struct FUN_005a03f0_obj
 {
-    bool FUN_005a03f0(unsigned int a);
+    bool PlayerCharacter_GetControlsDisabled(unsigned int a);
 };
 struct TESObjectREFR_acc
 {
@@ -749,7 +749,7 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
     if (this->pTarget == 0)
         this->v035(pActor);
 
-    if (this->pTarget == g_thePlayer && ((FUN_005a03f0_obj*)g_thePlayer)->FUN_005a03f0(8))
+    if (this->pTarget == g_thePlayer && ((FUN_005a03f0_obj*)g_thePlayer)->PlayerCharacter_GetControlsDisabled(8))
     {
         this->v165(pActor);
         return;
@@ -764,7 +764,7 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
         return;
     }
 
-    if (((ActShell*)pActor)->FUN_005723b0(this->pTarget, 0, 0) > DAT_010179e0)
+    if (((ActShell*)pActor)->TESObjectREFR_GetDistanceFromReference(this->pTarget, 0, 0) > DAT_010179e0)
     {
         this->v166(pActor, false, a4, true);
         return;
@@ -950,8 +950,8 @@ class FleePackageAccess
     virtual bool Check13c(Actor* actor, int a, float b, int c);
     FleeRadius* FUN_00671d10();
     unsigned int FUN_00676280(Actor* actor);
-    void* FUN_00675c20(Actor* actor);
-    void FUN_00675de0(FleeVec3* pos, Actor* actor);
+    void* TESPackage_GetLocationCell(Actor* actor);
+    void TESPackage_GetLocationCoord(FleeVec3* pos, Actor* actor);
 };
 class FleePackage : public TESPackage
 {
@@ -1221,7 +1221,7 @@ struct FleeActorView
     virtual void a_102();
     virtual void a_103();
     virtual void Set410(Actor* actor, int a, int b, int c, int d, int e, float f, float g);
-    float FUN_005723b0(TESObjectREFR* target, int a, int b);
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR* target, int a, int b);
     bool FUN_008b3bb0();
     void* FUN_00575d70();
 };
@@ -1794,7 +1794,7 @@ void FleeProcedure::FUN_00918600(Actor* actor)
         {
             fRadius = (float)((FleePackageAccess*)pPackage2)->FUN_00676280(actor);
         }
-        if (pTarget && ((FleeActorView*)actor)->FUN_005723b0(pTarget, 0, 0) > fRadius)
+        if (pTarget && ((FleeActorView*)actor)->TESObjectREFR_GetDistanceFromReference(pTarget, 0, 0) > fRadius)
         {
             ((FleeActorView*)actor)->Set410(actor, 1, 1, 1, 0, 0, -1.0f, -1.0f);
             pFlee2 = 0;
@@ -1808,8 +1808,8 @@ void FleeProcedure::FUN_00918600(Actor* actor)
         }
         else if (!pTarget && !((FleePackageAccess*)pPackage2)->Check13c(actor, 0, -1.0f, 0))
         {
-            pCell4 = ((FleePackageAccess*)pPackage2)->FUN_00675c20(actor);
-            ((FleePackageAccess*)pPackage2)->FUN_00675de0(&kPos, actor);
+            pCell4 = ((FleePackageAccess*)pPackage2)->TESPackage_GetLocationCell(actor);
+            ((FleePackageAccess*)pPackage2)->TESPackage_GetLocationCoord(&kPos, actor);
             if (((FleeActorView*)actor)->FUN_008b3bb0())
             {
                 if (!Move824(actor, kPos, pCell4, ((FleeActorView*)actor)->FUN_00575d70()))
@@ -1871,13 +1871,13 @@ struct NamedType
 {
     float FUN_00526ac0();
 };
-NamedType* __cdecl FUN_004839c0(int);
+NamedType* __cdecl TESForm_GetFormByNumericID(int);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct Animation
 {
     bool FUN_0040b470();
     bool FUN_0040b6b0();
-    void FUN_0040b800(int);
+    void MagicItem_Unload(int);
     void FUN_0040a420(int);
 };
 struct AnimationOwner
@@ -2240,7 +2240,7 @@ struct Actor
     AnimationOwner animations;
     int unk94;
     Weapon* FUN_008d6f30();
-    float FUN_005723b0(Actor*, int, int);
+    float TESObjectREFR_GetDistanceFromReference(Actor*, int, int);
     bool FUN_008b3bb0();
     ActorData* FUN_004181e0();
     void FUN_008bb630(Request*);
@@ -2812,7 +2812,7 @@ struct Process
     int unka0;
     float countdown;
     float FUN_007df1f0();
-    void FUN_00918860(Actor* actor);
+    void MiddleHighProcess_ProcessFlee(Actor* actor);
 };
 }
 class PathingLocation
@@ -2896,7 +2896,7 @@ class PathingRequestFlee : public PathingRequest
     void FUN_008df000();
 };
 // @fnv 0x00918860
-void FleeUpdate::Process::FUN_00918860(Actor* actor)
+void FleeUpdate::Process::MiddleHighProcess_ProcessFlee(Actor* actor)
 {
     Package* packageTmp = 0;
     packageTmp = (Package*)dynamic_cast<FleePackage*>(v27c());
@@ -2907,7 +2907,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         if (v04c()->FUN_0040b470())
         {
             actor->animations.FUN_00815480(v04c(), actor ? &actor->unk94 : 0, 0);
-            v04c()->FUN_0040b800(0);
+            v04c()->MagicItem_Unload(0);
             v050(0);
         }
         else
@@ -2943,7 +2943,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         if (weapon6)
         {
             packageTmp->FUN_00898250((float)(DAT_011f6394.FUN_0084d030() * -1.0));
-            float distance = actor->FUN_005723b0(destinationTmp, 0, 0);
+            float distance = actor->TESObjectREFR_GetDistanceFromReference(destinationTmp, 0, 0);
             float threshold = 0;
             if (weapon6->FUN_00425fd0())
             {
@@ -2987,7 +2987,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
             }
             if (!actor->FUN_008b3bb0())
             {
-                NamedType* type = FUN_004839c0(0x3a);
+                NamedType* type = TESForm_GetFormByNumericID(0x3a);
                 float hour = DAT_011de7b8.FUN_00867da0();
                 if (hour < FUN_007df1f0())
                     hour += 24.0;

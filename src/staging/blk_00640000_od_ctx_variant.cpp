@@ -549,7 +549,7 @@ extern Setting_S originalRuntimeFloatSetting1216;
 float __cdecl FUN_00649530(ActorValueOwner* p);
 struct S_0064dac0
 {
-    int __thiscall FUN_0064dac0(int, int);
+    int __thiscall NiPixelData_GetPixels(int, int);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0064db20_Class
@@ -627,7 +627,7 @@ struct Holder00aad6b0
 {
     void __thiscall FUN_00aad6b0();
 };
-void __cdecl FUN_00652fc0(float a1, int a2, int a3);
+void __cdecl BSFaceGenManager_RandomizeFaceGenetic(float a1, int a2, int a3);
 struct Class_00658100
 {
     unsigned int __thiscall FUN_00658100();
@@ -989,7 +989,7 @@ struct PropHelper
 struct SkyShaderProperty
 {
     void SetTexture(NiTexture*);
-    void FUN_00634900(int*);
+    void SkyShaderProperty_SetTextureFile(int*);
 };
 void* DynamicCastByRTTI(const NiRTTI*, NiProperty*);
 extern int DAT_011f49e0;
@@ -1012,7 +1012,7 @@ struct FUN_00642940_class
     int n;
     int o;
     int p;
-    void FUN_00642940();
+    void Sun_RemoveTextures();
 };
 struct Arr16
 {
@@ -1370,7 +1370,7 @@ extern FloatSetting_646400 g_011ceecc;
 extern FloatSetting_646400 gs_011cecd0;
 extern FloatSetting_646400 gs_011ce808;
 unsigned int DialogueRandom();
-bool FUN_00646400(AVOwnerStub_646400* owner, int value);
+bool CombatFormulas_CheckKnockdown(AVOwnerStub_646400* owner, int value);
 extern double DAT_01012060;
 extern double DAT_01016408;
 extern double DAT_01017a40;
@@ -1562,8 +1562,8 @@ int __thiscall FUN_0064bda0_Class::FUN_0064bda0()
 }
 struct FUN_0040fbf0_lock
 {
-    void FUN_0040fbf0(int);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int);
+    void BSSpinLock_Unlock();
 };
 struct FUN_0064be40_shell
 {
@@ -1877,7 +1877,7 @@ struct FUN_0064fcd0_Other
     virtual int v02();
     virtual float v03();
     unsigned int __thiscall FUN_0044edb0(int flag);
-    float __thiscall FUN_005dd4e0(unsigned int index);
+    float __thiscall BSFaceGenKeyframeMultiple_GetQuantity(unsigned int index);
 };
 struct FUN_0064fcd0_Self
 {
@@ -1906,7 +1906,7 @@ struct FUN_0064fcd0_Self
     int unk08;
     int unk0c;
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0064a4d0(unsigned int index, float value);
+    void __thiscall BSFaceGenKeyframeMultiple_SetQuantity(unsigned int index, float value);
     FUN_0064fcd0_Self* __thiscall CopyFrom(FUN_0064fcd0_Other* other);
 };
 struct FUN_00438af0_cls
@@ -1960,8 +1960,8 @@ struct S_006503b0_List
     void FUN_00559120(int* pos, int* out, S_006503b0_Slot* slot);
     void RemoveKey(int item);
 };
-void __cdecl FUN_00652140();
-void __cdecl FUN_00652190();
+void __cdecl BSFaceGenManager_LockFaceGenAccess();
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 struct S_006503b0_Owner
 {
     int unk00;
@@ -1992,11 +1992,11 @@ struct NPX
 struct FileNames
 {
     const char* GetFloatValue();
-    const char* FUN_00650600();
+    const char* BSFaceGenModel_GetEGTFilename();
 };
 unsigned FUN_0044a670(const char*);
-void FUN_00652140();
-void FUN_00652190();
+void BSFaceGenManager_LockFaceGenAccess();
+void BSFaceGenManager_UnlockFaceGenAccess();
 unsigned gm_GetTickCount();
 struct CacheMap
 {
@@ -2009,7 +2009,7 @@ struct Target
     CacheMap map;
     bool dirty;
     void FUN_00650ba0(ModelRecord*);
-    bool FUN_00650480(FileNames*);
+    bool BSFaceGenModelMap_LoadEGMData(FileNames*);
 };
 struct Holder_657c50
 {
@@ -2149,7 +2149,7 @@ struct Hldr0044
     void FUN_0044d6c0(int a);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(int scaled);
+extern "C" void __cdecl FormHeap_Allocate(int scaled);
 extern "C" int DAT_01140ef8;
 // @fnv 0x00658c10
 extern "C" void __cdecl FUN_00658c10(int a, int b)
@@ -2169,7 +2169,7 @@ extern "C" void __cdecl FUN_00658c10(int a, int b)
         }
     }
 
-    FUN_00401000(a * 60);
+    FormHeap_Allocate(a * 60);
 }
 class Base_b9895
 {
@@ -2940,7 +2940,7 @@ struct FUN_00649680 : NiMemObject
     int value1b8;
     int value1bc;
     FUN_00649680();
-    FUN_00649680* FUN_0064c5a0();
+    FUN_00649680* BSFaceGenAnimationData_CreateCopyBS();
 };
 template <class T> struct FGPointer
 {

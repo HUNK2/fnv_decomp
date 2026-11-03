@@ -14,11 +14,11 @@ struct CombatProcedure
 
 struct CombatProcedureSearch : CombatProcedure
 {
-    virtual int FUN_009d8c00();
+    virtual int CombatProcedureSearch_GetType();
 };
 
 // @fnv 0x009d8c00
-int CombatProcedureSearch::FUN_009d8c00()
+int CombatProcedureSearch::CombatProcedureSearch_GetType()
 {
     return eCombatProcedure;
 }
@@ -113,7 +113,7 @@ float FUN_009da570_shell::GetAvoidRadius() const
 
 struct CoordinateTriple
 {
-    void __thiscall FUN_00527b70(void*);
+    void __thiscall BGSWorldLocation_SaveGame(void*);
 };
 struct BGSSaveFormBuffer
 {
@@ -130,15 +130,15 @@ struct CombatProcedureSaveGameShell
 };
 struct CombatProcedureSearchSaveShell : CombatProcedureSearch
 {
-    void __thiscall FUN_009da5c0(BGSSaveFormBuffer*);
+    void __thiscall CombatProcedureSearch_SaveGame(BGSSaveFormBuffer*);
 };
 // Saves the combat procedure search state to the buffer: base data, a 4-byte field at 0x10, sub-objects at 0x2c/0x1c/0x14/0x24, and a pointer at 0x3c.
 // @fnv 0x009da5c0
-void CombatProcedureSearchSaveShell::FUN_009da5c0(BGSSaveFormBuffer* buffer)
+void CombatProcedureSearchSaveShell::CombatProcedureSearch_SaveGame(BGSSaveFormBuffer* buffer)
 {
     ((CombatProcedureSaveGameShell*)this)->SaveGame(buffer);
     buffer->SaveData((char*)this + 0x10, 4, 0);
-    ((CoordinateTriple*)((char*)this + 0x2c))->FUN_00527b70(buffer);
+    ((CoordinateTriple*)((char*)this + 0x2c))->BGSWorldLocation_SaveGame(buffer);
     ((FUN_009a5eb0_shell*)((char*)this + 0x1c))->FUN_009a5eb0(buffer);
     ((FUN_009a5eb0_shell*)((char*)this + 0x14))->FUN_009a5eb0(buffer);
     ((FUN_009a5eb0_shell*)((char*)this + 0x24))->FUN_009a5eb0(buffer);
@@ -152,7 +152,7 @@ struct BGSLoadFormBuffer
 };
 struct FUN_00527ba0_Class
 {
-    void FUN_00527ba0(BGSLoadFormBuffer*);
+    void BGSWorldLocation_LoadGame(BGSLoadFormBuffer*);
 };
 struct TimeoutTimer
 {
@@ -172,7 +172,7 @@ void CombatProcedureSearch_LoadGame::FUN_009da640(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<CombatProcedure_LoadGame*>(this)->LoadGame(buffer);
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x2c)->FUN_00527ba0(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x2c)->BGSWorldLocation_LoadGame(buffer);
     reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x1c)->LoadGame(buffer);
     reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x14)->LoadGame(buffer);
     reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x24)->LoadGame(buffer);
@@ -506,7 +506,7 @@ struct Reference
     virtual void v123();
     virtual void v124();
     virtual const Vector& Position();
-    void* FUN_00575ca0();
+    void* TESObjectREFR_GetSpace();
 };
 struct Location
 {
@@ -605,7 +605,7 @@ void Search::PrintDebugInfo(Output* output, int x, int y)
         output->Print(x, y, DAT_01091fb0);
         output->Print(x, y, DAT_01091ff0, range.FUN_00435e00(), range.FUN_006b9130());
         if (context->FUN_009d9f40()->FUN_006a7f50() < range.FUN_006a7f50() &&
-            context->FUN_009d9f60().FUN_0084e3a0() != actor->FUN_00575ca0())
+            context->FUN_009d9f60().FUN_0084e3a0() != actor->TESObjectREFR_GetSpace())
             output->Print(x, y, DAT_01091f88, context->FUN_009d9f40()->FUN_00435e00(),
                           context->FUN_009d9f40()->FUN_006b9130());
         break;
@@ -683,7 +683,7 @@ struct Location16
     int unk0c;
     void* FUN_006815c0();
     void* FUN_0084e3a0();
-    double FUN_00527a40(const Location16*);
+    double BGSWorldLocation_GetDistanceSquared(const Location16*);
 };
 
 struct Obj0049f1c0;
@@ -704,7 +704,7 @@ struct TileSub
 
 struct S00568fa0
 {
-    int FUN_00568fa0();
+    int TESObjectREFR_GetLinkedDoorTeleportPosition();
 };
 
 struct SearchRef : S00568fa0
@@ -712,11 +712,11 @@ struct SearchRef : S00568fa0
     void* FUN_0084e3a0();
     const NiPoint3& FUN_006815c0();
     float FUN_00985bb0();
-    NiPoint3* FUN_00569000();
-    void* FUN_00575ca0();
+    NiPoint3* TESObjectREFR_GetLinkedDoorTeleportRotation();
+    void* TESObjectREFR_GetSpace();
     void* FUN_00568e50();
-    Location16 FUN_00575650();
-    void* FUN_0043a3f0();
+    Location16 TESObjectREFR_GetWorldLocation();
+    void* DoorTeleportData_GetTeleportSpace();
     void* FUN_00717e50();
     void FUN_006dd6f0(int);
 };
@@ -740,7 +740,7 @@ struct ContextSub
     void UpdateProximityTimers(Location16*);
     void FUN_0098c710(void*);
     void FUN_0098c6e0(void*);
-    void FUN_00915d20(int);
+    void MiddleHighProcess_SetWantWeaponDrawn(int);
     RangeSub* FUN_009d9f40();
 };
 
@@ -926,8 +926,8 @@ struct ActorSub : Actor
     int FUN_00931850();
     void BuildPathingRequest(void*, const void*, void*, float, int);
     bool SetPathingRequestAvoidNodes(void*);
-    void* FUN_00575ca0();
-    Location16 FUN_00575650();
+    void* TESObjectREFR_GetSpace();
+    Location16 TESObjectREFR_GetWorldLocation();
     bool FUN_008b3b90();
     bool FUN_008b3960();
     SearchRef* FUN_008b39d0();
@@ -937,7 +937,7 @@ struct ActorSub : Actor
     void FUN_008bcd20();
     bool FUN_008b3860(void*);
     bool FUN_008bb630(void*);
-    void FUN_005757d0(float);
+    void TESObjectREFR_SetAngleOnReferenceZ(float);
     void StopMoving();
     ActorBaseImpl* GetActorBase();
 
@@ -1155,8 +1155,8 @@ void SearchProcedure::UpdateSearchState()
                 if (pObjE0)
                 {
                     PathingRequestHelper req;
-                    pActor2->BuildPathingRequest(&req, (void*)pObjE0->FUN_00568fa0(), pObjE0->FUN_00575ca0(), 0.0f, 0);
-                    NiPoint3 rot = *pObjE0->FUN_00569000();
+                    pActor2->BuildPathingRequest(&req, (void*)pObjE0->TESObjectREFR_GetLinkedDoorTeleportPosition(), pObjE0->TESObjectREFR_GetSpace(), 0.0f, 0);
+                    NiPoint3 rot = *pObjE0->TESObjectREFR_GetLinkedDoorTeleportRotation();
                     req.SetTargetAngle(WrapAngle(rot.z - 3.1415927410125732));
                     if (!pActor2->SetPathingRequestAvoidNodes(&req))
                     {
@@ -1170,10 +1170,10 @@ void SearchProcedure::UpdateSearchState()
                 else
                 {
                     Location16 loc1ac = pContext->FUN_009d9f60();
-                    if (m_pPortalConnectivityGraphInfo == 0 || loc1ac.FUN_0084e3a0() != pActor2->FUN_00575ca0())
+                    if (m_pPortalConnectivityGraphInfo == 0 || loc1ac.FUN_0084e3a0() != pActor2->TESObjectREFR_GetSpace())
                     {
-                        Location16 loc1bc = pActor2->FUN_00575650();
-                        if (loc1bc.FUN_00527a40(&loc1ac) > DAT_0106cd60)
+                        Location16 loc1bc = pActor2->TESObjectREFR_GetWorldLocation();
+                        if (loc1bc.BGSWorldLocation_GetDistanceSquared(&loc1ac) > DAT_0106cd60)
                         {
                             PathingRequestHelper req;
                             if (pTile2->FUN_009a02a0(&loc1ac, 1, 0))
@@ -1217,7 +1217,7 @@ void SearchProcedure::UpdateSearchState()
                             losReq.FUN_006e5a40(*(NiPoint3*)&((SearchRef*)((char*)pSearch + 8))->FUN_006815c0(),
                                                 pTile2->FUN_009a0b00());
                         }
-                        if (pObj28 && pObj28->FUN_0084e3a0() == pActor2->FUN_00575ca0())
+                        if (pObj28 && pObj28->FUN_0084e3a0() == pActor2->TESObjectREFR_GetSpace())
                         {
                             losReq.SetDestination(&PathingLocation(pObj28->FUN_006815c0(), pActor2));
                         }
@@ -1260,8 +1260,8 @@ void SearchProcedure::UpdateSearchState()
             bool bFlag361 = false;
             if (this->state == 1 && this->timer14.FUN_008d7f80())
             {
-                Location16 loc374 = pActor2->FUN_00575650();
-                if (loc374.FUN_00527a40(&this->location) <
+                Location16 loc374 = pActor2->TESObjectREFR_GetWorldLocation();
+                if (loc374.BGSWorldLocation_GetDistanceSquared(&this->location) <
                     originalRuntimeFloatSetting460.Float()->f * originalRuntimeFloatSetting460.Float()->f)
                 {
                     PathingLocation loc39c(&this->location);
@@ -1290,7 +1290,7 @@ void SearchProcedure::UpdateSearchState()
         {
             if (!pActor2->FUN_008b3960() && this->m_pReference)
             {
-                pTile2->SetNodeBlockAndTimestamp(this->m_pReference->FUN_00575650());
+                pTile2->SetNodeBlockAndTimestamp(this->m_pReference->TESObjectREFR_GetWorldLocation());
                 pContext->FUN_0098c710(this->m_pReference);
             }
             this->FUN_009caac0(pActor2->FUN_008b3960() ? "Pathing failed while moving to search door"
@@ -1316,7 +1316,7 @@ void SearchProcedure::UpdateSearchState()
                     {
                         break;
                     }
-                    pActor2->BuildPathingRequest(&req, p3a0->FUN_00717e50(), p3a0->FUN_0043a3f0(), 0.0f, 0);
+                    pActor2->BuildPathingRequest(&req, p3a0->FUN_00717e50(), p3a0->DoorTeleportData_GetTeleportSpace(), 0.0f, 0);
                     if (!pActor2->SetPathingRequestAvoidNodes(&req))
                     {
                         this->FUN_009caac0("Cannot setup path through search door");
@@ -1345,7 +1345,7 @@ void SearchProcedure::UpdateSearchState()
                 {
                     p45c->FUN_006dd6f0(0);
                     m_pPortalConnectivityGraphInfo->FUN_006e0bc0(p45c, 1);
-                    pContext->FUN_00915d20(1);
+                    pContext->MiddleHighProcess_SetWantWeaponDrawn(1);
                 }
             }
             this->FUN_009caac0(pActor2->FUN_008b3960() ? "Pathing failed while searching"
@@ -1359,7 +1359,7 @@ void SearchProcedure::UpdateSearchState()
             if (pObj460)
             {
                 PathingRequestHelper req;
-                pActor2->BuildPathingRequest(&req, (void*)pObj460->FUN_00568fa0(), pObj460->FUN_00575ca0(), 0.0f, 0);
+                pActor2->BuildPathingRequest(&req, (void*)pObj460->TESObjectREFR_GetLinkedDoorTeleportPosition(), pObj460->TESObjectREFR_GetSpace(), 0.0f, 0);
                 if (pActor2->SetPathingRequestAvoidNodes(&req))
                 {
                     this->state = 2;
@@ -1419,8 +1419,8 @@ void SearchProcedure::UpdateSearchState()
         {
             if (this->m_pReference)
             {
-                NiPoint3 rot = *this->m_pReference->FUN_00569000();
-                pActor2->FUN_005757d0(WrapAngle(rot.z));
+                NiPoint3 rot = *this->m_pReference->TESObjectREFR_GetLinkedDoorTeleportRotation();
+                pActor2->TESObjectREFR_SetAngleOnReferenceZ(WrapAngle(rot.z));
             }
             this->state = 5;
         }
@@ -1447,7 +1447,7 @@ void SearchProcedure::UpdateSearchState()
     case 7:
         if (pContext->FUN_009d9f40()->FUN_006a7f50() < this->timer1c.FUN_006a7f50())
         {
-            if (pContext->FUN_009d9f60().FUN_0084e3a0() != pActor2->FUN_00575ca0())
+            if (pContext->FUN_009d9f60().FUN_0084e3a0() != pActor2->TESObjectREFR_GetSpace())
             {
                 break;
             }

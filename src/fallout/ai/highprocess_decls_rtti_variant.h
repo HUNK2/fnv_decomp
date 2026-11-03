@@ -798,7 +798,7 @@ class DoorCell
 class TESFaction
 {
   public:
-    bool FUN_0047d7c0();
+    bool TESFaction_GetEvil();
 };
 class EffectSetting
 {
@@ -808,7 +808,7 @@ class EffectSetting
 class HighProcessCellView
 {
   public:
-    bool FUN_00544490();
+    bool TESObjectCELL_GetOffLimits();
 };
 class HighProcessPlayerAlpha
 {
@@ -871,7 +871,7 @@ class TESActorBase
 class HighProcessCombatSource
 {
   public:
-    bool FUN_0059f610();
+    bool TESRace_GetPlayable();
 };
 class AlchemyItem
 {
@@ -884,7 +884,7 @@ class BGSDefaultObjectManager
     static BGSDefaultObjectManager* Instance();
     static TESForm* GetDefaultObjectByIndex(int);
 };
-double FUN_0047eeb0(unsigned char);
+double TESAIForm_GetConfidenceLevel(unsigned char);
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting106;
 extern GlobalObject_0040e0b0 g_011cdf10;
 extern SettingT_GameSettingCollection_ DAT_011cf414;
@@ -1157,7 +1157,7 @@ class TESPackage
     int GetProcedureType();
     unsigned char layout00[0x94];
     MobileObject* dialogActor;
-    bool FUN_0067a480();
+    bool TESPackage_GetAlwaysRun();
     TESIdleForm* FUN_00546930();
     TESTopic* FUN_00903bb0();
     TESTopic* FUN_00903cd0();
@@ -1193,10 +1193,10 @@ class AnimIdle
 class Animation
 {
   public:
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* Animation_GetControllerManager();
     void SpecialIdleFree(bool, bool);
     void PlaySpecialIdle(TESIdleForm*, Actor*, int, AnimIdle::PLAY_TYPE_ENUM);
-    bool FUN_00493830();
+    bool Animation_GetAnimsLoading();
     bool IsSpecialIdlePlaying();
     bool IsSpecialIdleReady();
     bool IsSpecialIdlePlaying(TESIdleForm*);

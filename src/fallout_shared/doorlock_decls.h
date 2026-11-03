@@ -34,7 +34,7 @@ class LowProcess
 class ExtraRadioData
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
+    TESObjectCELL* DoorTeleportData_GetTeleportCell();
 };
 
 class MemoryManager

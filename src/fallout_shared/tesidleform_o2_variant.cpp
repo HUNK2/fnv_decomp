@@ -44,7 +44,7 @@ struct FUN_005ff260_shell
 };
 struct FUN_005ff4a0_shell : public TESIdleForm
 {
-    unsigned int FUN_005ff4a0();
+    unsigned int TESIdleForm_GetChildCount();
 };
 struct FUN_005ff160_shell : public TESIdleForm
 {

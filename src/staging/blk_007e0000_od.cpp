@@ -142,11 +142,11 @@ void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
-    void __thiscall FUN_007e66a0(int a, int b);
+    void __thiscall TextEditMenu_DoClick(int a, int b);
 };
 // If b is zero and a is in [0,3), reads b from this[a+10]; for a==1, sets g_011daed8 from the navmesh pointer at this+0x34 and calls FUN_007e65b0.
 // @fnv 0x007e66a0
-void __thiscall FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
+void __thiscall FUN_007e66a0_cls::TextEditMenu_DoClick(int aiIndex, int aiValue)
 {
     if (aiValue == 0 && aiIndex >= 0 && aiIndex < 3)
         aiValue = ((int*)this)[aiIndex + 10];
@@ -1685,9 +1685,9 @@ struct RemoveInterface
 {
     void FUN_00715860(RemoveTile*, int, bool);
 };
-RemoveInterface* FUN_004b7210();
+RemoveInterface* InterfaceManager_Instance();
 int FUN_00a01860(const char*);
-void FUN_00401030(void*);
+void FormHeap_Free(void*);
 struct RemoveBase
 {
     int unk00;
@@ -1710,7 +1710,7 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
             selected = node->FUN_00726070() ? (*node->FUN_00726070()->FUN_006815c0())->tile
                                             : (previous && previous != node ? (*previous->FUN_006815c0())->tile : 0);
             if (selected)
-                FUN_004b7210()->FUN_00715860(selected, 0xfc3, true);
+                InterfaceManager_Instance()->FUN_00715860(selected, 0xfc3, true);
         }
         if (container && (*node->FUN_006815c0())->filtered)
         {
@@ -1728,7 +1728,7 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
         }
         {
             RemoveData* record7 = *node->FUN_006815c0();
-            FUN_00401030(record7);
+            FormHeap_Free(record7);
         }
         if (node == static_cast<RemoveNode*>(this))
         {

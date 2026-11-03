@@ -113,18 +113,18 @@ struct NiNode
     virtual void f2();
     virtual NiNode* f3();
 };
-void __cdecl FUN_00578170(NiNode*);
+void __cdecl TESObjectREFR_RemoveMasterParticleAddonNodes(NiNode*);
 struct DetachHost : BSTempEffectParticle
 {
-    void FUN_006896c0();
+    void BSTempEffectParticle_Detach();
 };
-// Gets the node from m_flt via f3 and, if non-null, passes it to FUN_00578170.
+// Gets the node from m_flt via f3 and, if non-null, passes it to TESObjectREFR_RemoveMasterParticleAddonNodes.
 // @fnv 0x006896c0
-void DetachHost::FUN_006896c0()
+void DetachHost::BSTempEffectParticle_Detach()
 {
     NiNode* pnode = m_flt ? ((NiNode*)(unsigned int)m_flt)->f3() : 0;
     if (pnode)
-        FUN_00578170(pnode);
+        TESObjectREFR_RemoveMasterParticleAddonNodes(pnode);
 }
 
 extern "C" void __cdecl InitLoopSounds(void*);
@@ -295,7 +295,7 @@ struct Sub5c
 };
 struct Mgr
 {
-    void FUN_00445300(Tgt*, int, int);
+    void ModelLoader_ReleaseModel(Tgt*, int, int);
 };
 extern Mgr* DAT_011c3b3c;
 struct Fn
@@ -322,7 +322,7 @@ FUN_00689720::~FUN_00689720()
 {
     StopSounds();
     if (a.m1)
-        DAT_011c3b3c->FUN_00445300(a.m1, 0, 1);
+        DAT_011c3b3c->ModelLoader_ReleaseModel(a.m1, 0, 1);
     if (a.FUN_00559450())
     {
         if (((Fn*)a.FUN_00559450())->FUN_009611e0())
@@ -350,7 +350,7 @@ struct TraversalItem
     virtual void v2();
     virtual TraversalItem* v3();
     TrailEntry* FUN_0043b230();
-    int FUN_00453470();
+    int NiNode_GetChildCount();
     TraversalItem* FUN_0043b4a0(int index);
 };
 
@@ -373,7 +373,7 @@ float FUN_00689840_Class::ComputeTraversalValue(TraversalItem* entry)
     TraversalItem* children = entry->v3();
     if (children != 0)
     {
-        int iChildCount = children->FUN_00453470();
+        int iChildCount = children->NiNode_GetChildCount();
         for (int i = 0; i < iChildCount; ++i)
         {
             TraversalItem* child = children->FUN_0043b4a0(i);
@@ -415,8 +415,8 @@ struct ParticleEffect
     unsigned int m_f;
     DataHandle handle;
     char const* filename;
-    unsigned short __thiscall FUN_006828e0();
-    unsigned short __thiscall FUN_00689b20();
+    unsigned short __thiscall BSTempEffect_GetSaveSize();
+    unsigned short __thiscall BSTempEffectParticle_GetSaveSize();
 };
 extern GlobalState* DAT_011de45c;
 extern LoggingFlag DAT_011de4e8;
@@ -425,12 +425,12 @@ extern char DAT_01012cb0[];
 extern char DAT_01069d20[];
 extern "C" int __cdecl FUN_0044a670(char const*);
 extern "C" void* __cdecl FUN_00653270(void*, void*);
-extern "C" unsigned short __cdecl FUN_0055fdb0(void*);
-extern "C" LoggingObject* __cdecl FUN_004839c0(void*);
+extern "C" unsigned short __cdecl TESObjectREFR_GetControllerManagerSaveSize(void*);
+extern "C" LoggingObject* __cdecl TESForm_GetFormByNumericID(void*);
 extern "C" void __cdecl FUN_0040fbe0(char const*, ...);
 typedef void*(__thiscall* LogMethod)(LoggingObject*);
 // @fnv 0x00689b20
-unsigned short ParticleEffect::FUN_00689b20()
+unsigned short ParticleEffect::BSTempEffectParticle_GetSaveSize()
 {
     unsigned short previous = 0;
     unsigned short total = previous;
@@ -439,7 +439,7 @@ unsigned short ParticleEffect::FUN_00689b20()
         previous += 4;
         previous += 2;
     }
-    previous += FUN_006828e0();
+    previous += BSTempEffect_GetSaveSize();
     previous += 1;
     previous += FUN_0044a670(filename);
     previous += 0x10;
@@ -449,14 +449,14 @@ unsigned short ParticleEffect::FUN_00689b20()
     void* active = FUN_00653270(&DAT_011f36ac, handle.FUN_00559450()->FUN_0043b230());
     if (active != 0)
     {
-        previous += FUN_0055fdb0(active);
+        previous += TESObjectREFR_GetControllerManagerSaveSize(active);
     }
     if (*DAT_011de4e8.FUN_00408d60())
     {
         void* entry = DAT_011de45c->FUN_004fd3e0();
         if (entry)
         {
-            LoggingObject* writer = FUN_004839c0(*(void**)entry);
+            LoggingObject* writer = TESForm_GetFormByNumericID(*(void**)entry);
             FUN_0040fbe0(DAT_01012cb0, previous - total, *(void**)entry, ((LogMethod*)writer->vtable)[76](writer),
                          *(void**)((char*)entry + 5), 0x174, DAT_01069d20);
         }
@@ -734,7 +734,7 @@ struct Queue
     void Attach(Obj*, Parent*, bool, bool);
 };
 bool FUN_008c7aa0();
-void FUN_00578060(Obj*);
+void TESObjectREFR_AddMasterParticleAddonNodes(Obj*);
 void Post(Obj*);
 struct Effect
 {
@@ -784,7 +784,7 @@ void Effect::AttachModel(Parent* apParent, Mat rotation, Vec position, float afS
     }
     Obj* node_ = ((Obj*)model)->asNode();
     if (node_)
-        FUN_00578060(node_);
+        TESObjectREFR_AddMasterParticleAddonNodes(node_);
     ((Obj*)model)->SetPosition(position);
     ((Obj*)model)->SetRotation(&rotation);
     ((Obj*)model)->SetScale(afScale);
@@ -820,7 +820,7 @@ struct NodeX
 };
 struct ArrP
 {
-    unsigned int FUN_004d7d50();
+    unsigned int NiParticleSystem_GetModifierCount();
     void* GetByIndex(int);
 };
 struct ObjQ
@@ -846,7 +846,7 @@ void __thiscall ThisT::CollectUniqueChildValues(NiNode* apNode, ArrQ* apValues, 
         if (p)
         {
             unsigned int i;
-            for (i = 0; i < p->FUN_004d7d50(); ++i)
+            for (i = 0; i < p->NiParticleSystem_GetModifierCount(); ++i)
             {
                 ObjQ* pObj = (ObjQ*)FUN_00653270(&DAT_01202548, p->GetByIndex(i));
                 if (pObj)
@@ -914,7 +914,7 @@ struct R01ParticleTransform
 {
     float x, y, z, w;
     void Init();
-    void FUN_004f0180(R01Matrix3*);
+    void NiQuaternion_ToRotation(R01Matrix3*);
 };
 
 struct NiUpdateData
@@ -957,7 +957,7 @@ struct R01SceneLink
 
 struct R01Scene
 {
-    R01SceneRoot* FUN_00447080(char*, int, int, int, int, int);
+    R01SceneRoot* ModelLoader_LoadFile(char*, int, int, int, int, int);
     void FUN_004472a0(char*, R01SceneLink*);
 };
 
@@ -1116,7 +1116,7 @@ extern R01Rand DAT_011f6394;
 extern const double DAT_01017b70;
 extern const float DAT_01012054;
 extern void __cdecl FUN_005b5e40(const char*, ...);
-extern R01Form* __cdecl FUN_004839c0(int);
+extern R01Form* __cdecl TESForm_GetFormByNumericID(int);
 extern void __cdecl FUN_0055ffa0(void*, R01Node*, float);
 extern void __cdecl FUN_00a6d2d0(R01Node*);
 extern void* __cdecl memset(void*, int, unsigned int);
@@ -1132,7 +1132,7 @@ struct R01FxPlayer
     R01NodeRef m_nodeRef;
     R01Node* m_node;
 
-    bool FUN_00682990();
+    bool BSTempEffect_LoadGameTES();
     bool LoadFromSave();
 };
 
@@ -1159,7 +1159,7 @@ bool R01FxPlayer::LoadFromSave()
                 R01Diagnostic* diag = reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_004fd3c0();
                 if (diag)
                 {
-                    R01Form* form = FUN_004839c0(diag->m_formID);
+                    R01Form* form = TESForm_GetFormByNumericID(diag->m_formID);
                     FUN_005b5e40(
                         "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
@@ -1177,7 +1177,7 @@ bool R01FxPlayer::LoadFromSave()
             a1c2 = reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_00825c00();
             reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&aA2, 2);
         }
-        aA4 = FUN_00682990();
+        aA4 = BSTempEffect_LoadGameTES();
         reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&aAF8, 1);
         char aActive8[0x104];
         memset(aActive8, 0, sizeof(aActive8));
@@ -1185,14 +1185,14 @@ bool R01FxPlayer::LoadFromSave()
         a1c4_2.Init();
         reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&a1c4_2, 0x10);
         aAccuracy5.Init();
-        a1c4_2.FUN_004f0180(&aAccuracy5);
+        a1c4_2.NiQuaternion_ToRotation(&aAccuracy5);
         aAPGeom.Init();
         reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&aAPGeom, 0xc);
         reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&aAction2, 4);
         reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008579e0(&a3_2, 2);
         if (aA4)
         {
-            R01SceneRoot* a4_2 = reinterpret_cast<R01Scene*>(DAT_011c3b3c)->FUN_00447080(aActive8, 0, 1, 0, 0, 0);
+            R01SceneRoot* a4_2 = reinterpret_cast<R01Scene*>(DAT_011c3b3c)->ModelLoader_LoadFile(aActive8, 0, 1, 0, 0, 0);
             if (a4_2)
             {
                 m_nodeRef.FUN_0066b0d0(a4_2->FUN_00a5d680());
@@ -1243,7 +1243,7 @@ bool R01FxPlayer::LoadFromSave()
             R01Diagnostic* diag = reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_004fd3c0();
             if (diag)
             {
-                R01Form* form = FUN_004839c0(diag->m_formID);
+                R01Form* form = TESForm_GetFormByNumericID(diag->m_formID);
                 if (a1cTmp > a1c2 + (unsigned int)aA2)
                 {
                     FUN_005b5e40(
@@ -1309,7 +1309,7 @@ class NiAVObject
 {
   public:
     unsigned int GetRefCount() const;
-    const NiTransform& FUN_00461130() const;
+    const NiTransform& NiAVObject_GetWorldRotate() const;
     void FUN_00440460(const NiPoint3Value&);
     void FUN_0043fa80(const NiMatrix3Value&);
     void FUN_00440490(float);
@@ -1334,19 +1334,19 @@ class ParticleUpdate
     const char* filename;
     NiPointer<NiAVObject> parent;
     NiTransform localTransform;
-    bool FUN_006828a0(float);
+    bool BSTempEffect_Update(float);
     bool UpdateTransform(float);
 };
-// Calls FUN_006828a0, clears parent when its refcount is 1, and applies the parent's transform multiplied by localTransform to object.
+// Calls BSTempEffect_Update, clears parent when its refcount is 1, and applies the parent's transform multiplied by localTransform to object.
 // @fnv 0x00689a10
 bool ParticleUpdate::UpdateTransform(float time)
 {
-    bool result = FUN_006828a0(time);
+    bool result = BSTempEffect_Update(time);
     if (parent && parent->GetRefCount() == 1)
         parent = 0;
     if (object && parent)
     {
-        NiTransform transform = parent->FUN_00461130() * localTransform;
+        NiTransform transform = parent->NiAVObject_GetWorldRotate() * localTransform;
         object->FUN_00440460(transform.translate);
         object->FUN_0043fa80(transform.rotate);
         object->FUN_00440490(transform.scale);
@@ -1564,10 +1564,10 @@ struct SGNodePtr
 };
 
 SGControllerManager* __cdecl FUN_00653270(const NiRTTI* apRTTI, SGObject* apObject);
-unsigned short __cdecl FUN_0055fdb0(SGControllerManager* apManager);
+unsigned short __cdecl TESObjectREFR_GetControllerManagerSaveSize(SGControllerManager* apManager);
 void __cdecl FUN_0055fe70(SGControllerManager* apManager, float afTime);
 extern const float DAT_01012054;
-SGForm* __cdecl FUN_004839c0(unsigned int auiFormID);
+SGForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormID);
 void __cdecl FUN_0040fbe0(const char* apFormat, ...);
 void __cdecl FUN_005b5e40(const char* apFormat, ...);
 unsigned int __cdecl FUN_0044a670(const char* apString);
@@ -1585,13 +1585,13 @@ struct SGTempEffectParticle
     int unk14;
     SGNodePtr spParticle;
     const char* pFilename;
-    void FUN_00682920();
-    void FUN_00689cb0();
+    void BSTempEffect_SaveGameTES();
+    void BSTempEffectParticle_SaveGameTES();
 };
 
 // Writes particle effect state (filename, transform, controller sequence) to the save stream and logs the block size.
 // @fnv 0x00689cb0
-void SGTempEffectParticle::FUN_00689cb0()
+void SGTempEffectParticle::BSTempEffectParticle_SaveGameTES()
 {
     unsigned short usBlockLen = 0;
     unsigned short* pSizeLoc = 0;
@@ -1608,7 +1608,7 @@ void SGTempEffectParticle::FUN_00689cb0()
         DAT_011de45c->FUN_008579b0(&usBlockLen, 2);
     }
 
-    FUN_00682920();
+    BSTempEffect_SaveGameTES();
     unsigned char ucLength = (unsigned char)FUN_0044a670(pFilename);
     DAT_011de45c->FUN_008579b0(&ucLength, 1);
     DAT_011de45c->FUN_008579b0((void*)pFilename, ucLength);
@@ -1625,7 +1625,7 @@ void SGTempEffectParticle::FUN_00689cb0()
     SGControllerManager* pController = FUN_00653270(&DAT_011f36ac, ((SGAVObject*)spParticle)->FUN_0043b230());
     if (pController)
     {
-        usSequence = FUN_0055fdb0(pController);
+        usSequence = TESObjectREFR_GetControllerManagerSaveSize(pController);
     }
     DAT_011de45c->FUN_008579b0(&usSequence, 2);
     if (usSequence)
@@ -1639,7 +1639,7 @@ void SGTempEffectParticle::FUN_00689cb0()
         SGChangeRecord* pChange = DAT_011de45c->FUN_004fd3e0();
         if (pChange)
         {
-            SGForm* pForm = FUN_004839c0(pChange->auiFormId);
+            SGForm* pForm = TESForm_GetFormByNumericID(pChange->auiFormId);
             FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          pDebugEnd - pBeginPos, pChange->auiFormId, pForm->GetName(),
                          *(unsigned int*)pChange->ucChangeFlags, 411, s_szParticleFile);

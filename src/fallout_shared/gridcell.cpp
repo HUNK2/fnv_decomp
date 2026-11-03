@@ -171,11 +171,11 @@ struct FUN_004bc1f0_S
 {
     char pad[0x58];
     NiPoint3 t;
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
 };
 // Stores the given x, y and z into the t point of this object.
 // @fnv 0x004bc1f0
-void FUN_004bc1f0_S::FUN_004bc1f0(float x, float y, float z)
+void FUN_004bc1f0_S::NiAVObject_SetTranslate(float x, float y, float z)
 {
     t = NiPoint3(x, y, z);
 }
@@ -495,11 +495,11 @@ struct FUN_00552970_Call
 };
 struct GridCellArray_Target : public GridCellArray
 {
-    void FUN_004ba960(NiNode* apRoot, unsigned int aiX, unsigned int aiY);
+    void GridCellArray_AttachToWorld(NiNode* apRoot, unsigned int aiX, unsigned int aiY);
 };
 // Gets the grid cell at (aiX, aiY) and, if it has a cell, forwards apRoot to that cell's UpdateCellScene.
 // @fnv 0x004ba960
-void GridCellArray_Target::FUN_004ba960(NiNode* apRoot, unsigned int aiX, unsigned int aiY)
+void GridCellArray_Target::GridCellArray_AttachToWorld(NiNode* apRoot, unsigned int aiX, unsigned int aiY)
 {
     GridCell* pgridcell;
     pgridcell = Get(aiX, aiY);
@@ -547,12 +547,12 @@ void FUN_004bc480_shell::FUN_004bc480(int arg)
 struct bhkWorld;
 struct ExtraDataList
 {
-    void FUN_00554960(bool);
+    void TESObjectCELL_SetCollisionGeometryDisplay(bool);
 };
 bool __fastcall FUN_004bae00(char const*);
 struct FUN_004bad40_shell : GridCellArray
 {
-    void FUN_004bad40();
+    void GridCellArray_ToggleCollisionGeometry();
     unsigned int _ref_0084e3a0();
 };
 struct CellExt
@@ -561,7 +561,7 @@ struct CellExt
     bool IsOutdoorCell();
 };
 // @fnv 0x004bad40
-void FUN_004bad40_shell::FUN_004bad40()
+void FUN_004bad40_shell::GridCellArray_ToggleCollisionGeometry()
 {
     bhkWorld* pWorld = ((CellExt*)0)->GetExteriorbhkWorld();
     if (pWorld)
@@ -572,7 +572,7 @@ void FUN_004bad40_shell::FUN_004bad40()
             {
                 GridCell* cell = Get(i, j);
                 if (cell->pCell && ((CellExt*)cell->pCell)->IsOutdoorCell())
-                    ((ExtraDataList*)cell->pCell)->FUN_00554960(b);
+                    ((ExtraDataList*)cell->pCell)->TESObjectCELL_SetCollisionGeometryDisplay(b);
             }
     }
 }
@@ -672,18 +672,18 @@ struct FakeCell
 };
 struct LAND_x
 {
-    void FUN_0053fa40(bool);
+    void TESObjectLAND_DrawLandBorder(bool);
 };
 struct GridCellArrayHelper
 {
     unsigned int _ref_0084e3a0();
     GridCell* Get(unsigned int, unsigned int);
-    void FUN_004baca0(bool abShow);
+    void GridCellArray_ShowLandBorders(bool abShow);
 };
 
-// Iterates every grid cell and, for cells whose cell has a LAND, calls FUN_0053fa40 with abShow.
+// Iterates every grid cell and, for cells whose cell has a LAND, calls TESObjectLAND_DrawLandBorder with abShow.
 // @fnv 0x004baca0
-void GridCellArrayHelper::FUN_004baca0(bool abShow)
+void GridCellArrayHelper::GridCellArray_ShowLandBorders(bool abShow)
 {
     for (unsigned int x = 0; x < _ref_0084e3a0(); ++x)
     {
@@ -694,7 +694,7 @@ void GridCellArrayHelper::FUN_004baca0(bool abShow)
             {
                 TESObjectLAND* pland = reinterpret_cast<FakeCell*>(pgridcell->pCell)->GetLandscape();
                 if (pland)
-                    reinterpret_cast<LAND_x*>(pland)->FUN_0053fa40(abShow);
+                    reinterpret_cast<LAND_x*>(pland)->TESObjectLAND_DrawLandBorder(abShow);
             }
         }
     }
@@ -718,21 +718,21 @@ struct FakeCell : public TESObjectCELL
 
 struct FUN_005535f0_shell
 {
-    void FUN_005535f0();
+    void TESObjectCELL_SetupMopp();
 };
 
 extern char const str_010206c0[];
 
-void __fastcall FUN_005374f0(TESObjectLAND* land);
+void __fastcall TESObjectLAND_Attach3D(TESObjectLAND* land);
 
 struct FUN_004ba7d0_shell : public GridCellArray
 {
     unsigned int _ref_0084e3a0();
-    void FUN_004ba7d0();
+    void GridCellArray_AttachAllLand3D();
 };
 
 // @fnv 0x004ba7d0
-void FUN_004ba7d0_shell::FUN_004ba7d0()
+void FUN_004ba7d0_shell::GridCellArray_AttachAllLand3D()
 {
     if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x20))
         return;
@@ -748,9 +748,9 @@ void FUN_004ba7d0_shell::FUN_004ba7d0()
             GridCell* pgc = Get(ix, iy);
             if (pgc && pgc->pCell)
             {
-                FUN_005374f0(static_cast<FakeCell*>(pgc->pCell)->GetLandscape());
+                TESObjectLAND_Attach3D(static_cast<FakeCell*>(pgc->pCell)->GetLandscape());
 
-                reinterpret_cast<FUN_005535f0_shell*>(pgc->pCell)->FUN_005535f0();
+                reinterpret_cast<FUN_005535f0_shell*>(pgc->pCell)->TESObjectCELL_SetupMopp();
             }
         }
     }
@@ -835,12 +835,12 @@ struct FUN_004bc320_shell
     unsigned char _pad_0[0x30];
     GO m_textures[1];
 
-    unsigned int FUN_004bc320(int aiIndex);
+    unsigned int BSRenderedTexture_GetTexture(int aiIndex);
 };
 
 // Returns the unsigned int value of the texture at aiIndex, or 0 when this is null.
 // @fnv 0x004bc320
-unsigned int FUN_004bc320_shell::FUN_004bc320(int aiIndex)
+unsigned int FUN_004bc320_shell::BSRenderedTexture_GetTexture(int aiIndex)
 {
     return (this ? m_textures[aiIndex] : GO(0)).operator unsigned int();
 }
@@ -963,7 +963,7 @@ void FUN_004baab0_shell::FUN_004baab0()
 struct InventoryItem
 {
     bool FUN_00418750();
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct LinkedEntry
 {
@@ -986,7 +986,7 @@ int FUN_004bcc30_List::FUN_004bcc30()
         InventoryItem* item = *pEntry->FUN_006815c0();
         if (item && item->FUN_00418750())
         {
-            total += item->FUN_00418770();
+            total += item->ExtraDataList_GetCount();
         }
         pEntry = pEntry->FUN_00726070();
     }
@@ -1012,7 +1012,7 @@ struct HealthForm4bcdb0
 HealthForm4bcdb0* GetHealthForm(TESBoundObject* pkForm);
 struct HealthExtra4bcdb0
 {
-    float FUN_004186f0();
+    float ExtraDataList_GetHealth();
 };
 struct HealthList4bcdb0
 {
@@ -1028,10 +1028,10 @@ struct FUN_004bcdb0_shell
     int m_iArrayLength;
     TESBoundObject* m_pkForm;
     bool HasEffect(int iFlag);
-    float FUN_004bcdb0(bool bPercent);
+    float ItemChange_GetItemHealth(bool bPercent);
 };
 // @fnv 0x004bcdb0
-float FUN_004bcdb0_shell::FUN_004bcdb0(bool bPercent)
+float FUN_004bcdb0_shell::ItemChange_GetItemHealth(bool bPercent)
 {
     HealthForm4bcdb0* pkHealth = GetHealthForm(m_pkForm);
     if (pkHealth)
@@ -1044,12 +1044,12 @@ float FUN_004bcdb0_shell::FUN_004bcdb0(bool bPercent)
         if (pkList2 && pkList2->FUN_006815c0())
         {
             HealthExtra4bcdb0* pkExtra = pkList2->FUN_006815c0();
-            if (pkExtra && pkExtra->FUN_004186f0() != -1.0)
+            if (pkExtra && pkExtra->ExtraDataList_GetHealth() != -1.0)
             {
                 if (!bPercent)
-                    return pkExtra->FUN_004186f0();
+                    return pkExtra->ExtraDataList_GetHealth();
                 else
-                    return FUN_0040ebd0(g_011c7294_arg1, pkExtra->FUN_004186f0() / m_uiHealthValue) * DAT_01017a40;
+                    return FUN_0040ebd0(g_011c7294_arg1, pkExtra->ExtraDataList_GetHealth() / m_uiHealthValue) * DAT_01017a40;
             }
             else
             {

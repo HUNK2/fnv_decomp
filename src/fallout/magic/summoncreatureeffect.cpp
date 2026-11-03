@@ -38,17 +38,17 @@ int __thiscall FUN_00828da0_shell::GetZero(int a, int b, int c)
 struct Actor;
 struct FUN_00806da0_shell
 {
-    unsigned short __thiscall FUN_00806da0(Actor*);
+    unsigned short __thiscall AssociatedItemEffect_GetSaveSize(Actor*);
 };
 struct FUN_00829720_shell : public SummonCreatureEffect
 {
-    unsigned short __thiscall FUN_00829720(Actor* actor);
+    unsigned short __thiscall SummonCreatureEffect_GetSaveSize(Actor* actor);
 };
 // @fnv 0x00829720
-unsigned short __thiscall FUN_00829720_shell::FUN_00829720(Actor* actor)
+unsigned short __thiscall FUN_00829720_shell::SummonCreatureEffect_GetSaveSize(Actor* actor)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00806da0_shell*)this)->FUN_00806da0(actor);
+    isize += ((FUN_00806da0_shell*)this)->AssociatedItemEffect_GetSaveSize(actor);
     isize += 4;
     isize += 1;
     if (!*(Actor**)((char*)this + 0x4c))
@@ -63,7 +63,7 @@ unsigned short __thiscall FUN_00829720_shell::FUN_00829720(Actor* actor)
 struct Actor;
 struct AssociatedItemEffect
 {
-    void FUN_00806e30(Actor* actor);
+    void AssociatedItemEffect_LoadGame(Actor* actor);
 };
 struct TESSaveLoadGame
 {
@@ -83,7 +83,7 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
 {
     unsigned int id;
     unsigned char bforcedToZero;
-    FUN_00806e30(actor);
+    AssociatedItemEffect_LoadGame(actor);
     bforcedToZero = g_TESSaveLoadGame->FUN_00857aa0(&id, 4);
     *(Actor**)((char*)this + 0x4c) = (Actor*)id;
     g_TESSaveLoadGame->ReadTypedData((char*)this + 0x50, 1);
@@ -102,7 +102,7 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
 
 struct FUN_0040b800_shell
 {
-    void FUN_0040b800(bool);
+    void MagicItem_Unload(bool);
 };
 struct FUN_0080d930
 {
@@ -143,12 +143,12 @@ struct FUN_00828590 : FUN_0080d930
     unsigned char unk70;
     unsigned char unk71;
 };
-// Destructor: if unk71 is set and FUN_0044ddc0() returns non-null, calls FUN_0040b800(true) on the returned shell object.
+// Destructor: if unk71 is set and FUN_0044ddc0() returns non-null, calls MagicItem_Unload(true) on the returned shell object.
 // @fnv 0x00828590
 FUN_00828590::~FUN_00828590()
 {
     if (unk71 && FUN_0044ddc0())
-        FUN_0044ddc0()->FUN_0040b800(true);
+        FUN_0044ddc0()->MagicItem_Unload(true);
 }
 
 struct SelectedRecord
@@ -537,11 +537,11 @@ struct S_008287e0
     S_008287e0_Item* FUN_0084e3a0();
     S_008287e0_Magic* FUN_0044ddc0();
     bool SelectRecord(S_008287e0_Actor* ref, int iUnk, NiPoint3* pPos);
-    void FUN_008287e0();
+    void SummonCreatureEffect_Start();
 };
 
 // @fnv 0x008287e0
-void S_008287e0::FUN_008287e0()
+void S_008287e0::SummonCreatureEffect_Start()
 {
     S_008287e0_Actor* ref = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
     if (!ref)
@@ -713,7 +713,7 @@ struct FUN_00828610_cls
     unsigned char m_71;
 
     FUN_00828470_cls* CloneObject();
-    void FUN_00806d50(FUN_00828470_cls* apObj);
+    void AssociatedItemEffect_CopyData(FUN_00828470_cls* apObj);
     FUN_0044ddc0_ret* FUN_0044ddc0();
 };
 
@@ -721,7 +721,7 @@ struct FUN_00828610_cls
 FUN_00828470_cls* FUN_00828610_cls::CloneObject()
 {
     FUN_00828470_cls* obj = new FUN_00828470_cls((void*)m_28, (void*)m_08, (void*)m_0c);
-    FUN_00806d50(obj);
+    AssociatedItemEffect_CopyData(obj);
     obj->m_4c = m_4c;
     obj->m_50 = m_50;
     obj->m_54 = m_54;
@@ -933,7 +933,7 @@ struct FxnNode
     FxnNode* FUN_00822b40();
     int FUN_0045cd60();
     void FUN_008feab0(FxnObj* obj);
-    void FUN_0040b800(int a);
+    void MagicItem_Unload(int a);
 };
 
 void __cdecl FUN_0080b9e0(FxnObj* obj, FxnNode* node, int flag);
@@ -998,7 +998,7 @@ void FUN_008289e0_cls::CleanupSummonedCreature()
     }
     if (this->m_71 != 0 && this->FUN_0044ddc0() != 0)
     {
-        this->FUN_0044ddc0()->FUN_0040b800(0);
+        this->FUN_0044ddc0()->MagicItem_Unload(0);
         this->m_71 = 0;
     }
 }
@@ -1212,13 +1212,13 @@ struct S_00828ba0 : SummonCreatureEffect
     void FUN_00804210(int a);
     void SpawnSummonedActor(S_00828ba0_Actor* actor);
     void DispelOldestQualifyingEffect();
-    void FUN_00828ba0(int unused);
+    void SummonCreatureEffect_Update(int unused);
 };
 void __cdecl FUN_0080b8f0(S_00828ba0_Target* t, S_00828ba0_Actor* actor);
 extern S_00828ba0_Actor* DAT_011dea3c;
 
 // @fnv 0x00828ba0
-void S_00828ba0::FUN_00828ba0(int unused)
+void S_00828ba0::SummonCreatureEffect_Update(int unused)
 {
     S_00828ba0_Actor* actor = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
     if (!actor || (m_70 && (!m_4c || m_4c->vfn8b(0))))
@@ -1245,7 +1245,7 @@ struct S_00828dc0_Vec3
 {
     float x, y, z;
     float FUN_00457990();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct S_00828dc0_Mat;
@@ -1419,7 +1419,7 @@ float ComputeDirectionalFalloff(S_00828dc0_Actor* actor, S_00828dc0_Obj* obj)
     matrix.FUN_004b45b0(&mInv);
     S_00828dc0_Vec3 localDir;
     FUN_004b3ae0(&localDir, &delta, &matrix);
-    localDir.FUN_004a0c10();
+    localDir.NiPoint3_Unitize();
     float x = 1.0f - FUN_00408820(localDir.x);
     x = x * x;
     float fy = (1.0f + localDir.y) * DAT_01011588;
@@ -1468,14 +1468,14 @@ struct FUN_008297a0_shell : public SummonCreatureEffect
     int unk68;
     int unk6c;
 
-    void FUN_00806de0(int);
-    void FUN_008297a0(int);
+    void AssociatedItemEffect_SaveGame(int);
+    void SummonCreatureEffect_SaveGame(int);
 };
 
 // @fnv 0x008297a0
-void FUN_008297a0_shell::FUN_008297a0(int value)
+void FUN_008297a0_shell::SummonCreatureEffect_SaveGame(int value)
 {
-    FUN_00806de0(value);
+    AssociatedItemEffect_SaveGame(value);
     int id = 0;
     if (unk4c != 0)
         id = unk4c->FUN_0084e3a0();
@@ -2098,8 +2098,8 @@ struct S_008294e0_Ref
     virtual void vr_258();
     virtual void vr_25C();
     virtual void vr_260();
-    bool FUN_00564930(int a);
-    void FUN_00575830(S_008294e0_Point* pos);
+    bool TESObjectREFR_SetDelete(int a);
+    void TESObjectREFR_SetLocationOnReference(S_008294e0_Point* pos);
     S_008294e0_Proc* FUN_008d8520();
 };
 
@@ -2107,7 +2107,7 @@ struct S_008294e0_Actor
 {
     int FUN_00575d70();
     int FUN_008d6f30(int a);
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 
 struct S_008294e0_Target
@@ -2165,7 +2165,7 @@ void S_008294e0_Summon::SpawnSummonedActor(int unused)
             if (ref->IsActor())
             {
                 unk4C = ref;
-                unk4C->FUN_00575830(&unk58);
+                unk4C->TESObjectREFR_SetLocationOnReference(&unk58);
                 unk4C->vr_1FC(0);
                 unk4C->vr_260();
                 StartHostilityAndCombat(unk4C, actor);
@@ -2173,8 +2173,8 @@ void S_008294e0_Summon::SpawnSummonedActor(int unused)
             }
             else
             {
-                FUN_005b5e40("GAME EFFECTS: %s summoned a non-actor.", actor->FUN_0055d520());
-                ref->FUN_00564930(1);
+                FUN_005b5e40("GAME EFFECTS: %s summoned a non-actor.", actor->TESObjectREFR_GetFullName());
+                ref->TESObjectREFR_SetDelete(1);
             }
         }
         else if (!pCreatureForm)
@@ -2187,10 +2187,10 @@ void S_008294e0_Summon::SpawnSummonedActor(int unused)
 
 struct DbeffectBaseCall
 {
-    void FUN_00806e70(void*);
+    void AssociatedItemEffect_InitLoadGame(void*);
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct Dbeffect : SummonCreatureEffect
 {
     int unk04;
@@ -2212,17 +2212,17 @@ struct Dbeffect : SummonCreatureEffect
     int unk44;
     int unk48;
     int formId;
-    void FUN_00829900(void* arg);
+    void SummonCreatureEffect_InitLoadGame(void* arg);
 };
-// Calls the base handler, resolves formId to an Actor via FUN_004839c0, and dispels the effect if the lookup fails.
+// Calls the base handler, resolves formId to an Actor via TESForm_GetFormByNumericID, and dispels the effect if the lookup fails.
 // @fnv 0x00829900
-void Dbeffect::FUN_00829900(void* arg)
+void Dbeffect::SummonCreatureEffect_InitLoadGame(void* arg)
 {
-    ((DbeffectBaseCall*)this)->FUN_00806e70(arg);
+    ((DbeffectBaseCall*)this)->AssociatedItemEffect_InitLoadGame(arg);
     int iFormId = formId;
     if (iFormId)
     {
-        formId = (int)dynamic_cast<Actor*>(FUN_004839c0((unsigned int)iFormId));
+        formId = (int)dynamic_cast<Actor*>(TESForm_GetFormByNumericID((unsigned int)iFormId));
         if (!formId)
             ((ActiveEffect*)this)->Dispel(true);
     }

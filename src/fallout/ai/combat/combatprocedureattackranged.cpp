@@ -50,12 +50,12 @@ struct Actor;
 class CombatProcedureAttackRanged
 {
   public:
-    void FUN_009d1dc0(Actor* apOpponent);
+    void CombatProcedureAttackRanged_Disarmed(Actor* apOpponent);
     void FUN_009caac0(const char* str);
 };
 
 // @fnv 0x009d1dc0
-void CombatProcedureAttackRanged::FUN_009d1dc0(Actor* apOpponent)
+void CombatProcedureAttackRanged::CombatProcedureAttackRanged_Disarmed(Actor* apOpponent)
 {
     FUN_009caac0("Disarmed");
 }
@@ -91,10 +91,10 @@ struct FUN_009d1c30_shell
 };
 struct FUN_009d09a0_shell
 {
-    void __thiscall FUN_009d09a0();
+    void __thiscall CombatProcedureAttackRanged_Shutdown();
 };
 // @fnv 0x009d09a0
-void __thiscall FUN_009d09a0_shell::FUN_009d09a0()
+void __thiscall FUN_009d09a0_shell::CombatProcedureAttackRanged_Shutdown()
 {
     Actor* pattacker;
     pattacker = ((FUN_009cc4d0_shell*)this)->FUN_00996de0();
@@ -119,10 +119,10 @@ struct FUN_009a5eb0_shell
 };
 struct CombatProcedureAttackRanged_shell : CombatProcedure
 {
-    void __thiscall FUN_009d2310(BGSSaveFormBuffer* buffer);
+    void __thiscall CombatProcedureAttackRanged_SaveGame(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009d2310
-void __thiscall CombatProcedureAttackRanged_shell::FUN_009d2310(BGSSaveFormBuffer* buffer)
+void __thiscall CombatProcedureAttackRanged_shell::CombatProcedureAttackRanged_SaveGame(BGSSaveFormBuffer* buffer)
 {
     SaveGame(buffer);
     buffer->SaveData(reinterpret_cast<char*>(this) + 0x10, 4, 0);
@@ -1230,7 +1230,7 @@ struct RWeaponInfo
 struct RWeapon
 {
     RWeaponInfo* WeaponInfo(RActor*);
-    bool FUN_00524b40();
+    bool TESObjectWEAP_IsAutomaticWeapon();
     bool IsFlagSet();
     float GetTarget();
     float Range();
@@ -1240,7 +1240,7 @@ struct RWeapon
 };
 struct RTuning
 {
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     float GetFloatAtOffset50() const;
     float GetField54Float();
 };
@@ -1344,7 +1344,7 @@ void RAttack::UpdateAttack()
         Fail("Missing either weapon, animation, or weapon projectile");
         return;
     }
-    float fov16 = context->Tuning()->FUN_00639aa0();
+    float fov16 = context->Tuning()->NiControllerSequence_GetOffset();
     if (fov16 > 0.0 && target &&
         !TargetCone(actor, target->GetPosition(), float(fov16 * 0.01745329238474369), 6.2831854820251465f))
     {
@@ -1352,7 +1352,7 @@ void RAttack::UpdateAttack()
         return;
     }
     RWeaponInfo* info1 = weapon0->WeaponInfo(actor);
-    bool automatic77 = weapon0->FUN_00524b40();
+    bool automatic77 = weapon0->TESObjectWEAP_IsAutomaticWeapon();
     bool burstWeapon = automatic77 || weapon0->IsFlagSet();
     bool tooClose34 = false;
     RPoint destination;

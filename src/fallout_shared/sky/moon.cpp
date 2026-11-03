@@ -50,11 +50,11 @@ class TaskQueueInterface
 {
   public:
     void SetTaskFlagDWord(bool, unsigned int);
-    void FUN_00635fe0(bool bDisplay);
+    void NiAVObject_SetDisplayObject(bool bDisplay);
 };
 
 // @fnv 0x00635fe0
-void TaskQueueInterface::FUN_00635fe0(bool bDisplay)
+void TaskQueueInterface::NiAVObject_SetDisplayObject(bool bDisplay)
 {
     SetTaskFlagDWord(bDisplay, 0x20);
 }
@@ -63,11 +63,11 @@ class Flag512Receiver
 {
   public:
     void FUN_00633ba0(bool, unsigned int);
-    void FUN_00636000(bool enabled);
+    void NiAlphaProperty_SetNoSorter(bool enabled);
 };
 
 // @fnv 0x00636000
-void Flag512Receiver::FUN_00636000(bool enabled)
+void Flag512Receiver::NiAlphaProperty_SetNoSorter(bool enabled)
 {
     FUN_00633ba0(enabled, 0x2000);
 }
@@ -79,15 +79,15 @@ struct Calendar
 extern Calendar g_calendar;
 extern unsigned int DAT_011cca80;
 void* __fastcall _ref_0084e3a0(const Sky*);
-unsigned int __fastcall FUN_00636980(void*);
+unsigned int __fastcall TESClimate_GetMoonPhaseDays(void*);
 
 // @fnv 0x006368f0
 bool __cdecl FUN_006368f0(const Sky* apSky)
 {
-    if (_ref_0084e3a0(apSky) && FUN_00636980(_ref_0084e3a0(apSky)))
+    if (_ref_0084e3a0(apSky) && TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky)))
     {
-        unsigned int eNewPhase = (g_calendar.GetGameDaysPassed() % (FUN_00636980(_ref_0084e3a0(apSky)) * 8)) /
-                                 FUN_00636980(_ref_0084e3a0(apSky));
+        unsigned int eNewPhase = (g_calendar.GetGameDaysPassed() % (TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky)) * 8)) /
+                                 TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky));
         if (eNewPhase != DAT_011cca80)
         {
             DAT_011cca80 = eNewPhase;
@@ -101,29 +101,29 @@ struct FUN_00636980_Helper
 {
     char pad[0x55];
     unsigned char f55;
-    unsigned char FUN_00636980();
+    unsigned char TESClimate_GetMoonPhaseDays();
 };
 
 // @fnv 0x00636980
-unsigned char FUN_00636980_Helper::FUN_00636980()
+unsigned char FUN_00636980_Helper::TESClimate_GetMoonPhaseDays()
 {
     return f55 & ~0xc0;
 }
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_006366b0_shell
 {
-    bool FUN_006366b0();
+    bool NiAVObject_GetDisplayObject();
 };
 
 // @fnv 0x006366b0
-bool FUN_006366b0_shell::FUN_006366b0()
+bool FUN_006366b0_shell::NiAVObject_GetDisplayObject()
 {
-    return ((FUN_00456630_helper*)this)->FUN_00456630(0x20);
+    return ((FUN_00456630_helper*)this)->NiAVObject_GetBit(0x20);
 }
 
 void _Deallocate(void*);
@@ -390,7 +390,7 @@ struct BSShaderManager
 
 struct SkyView
 {
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 
 struct BSThread
@@ -425,12 +425,12 @@ struct FUN_004a0c90_shell
 
 struct FUN_00636020_shell : public ::Moon
 {
-    void FUN_00636020(::Sky*, float);
+    void Moon_Update(::Sky*, float);
 };
 
 // Updates moon position and visibility, sets texture and culling state on moon nodes, and applies rotation matrices when the sky view is active.
 // @fnv 0x00636020
-void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
+void FUN_00636020_shell::Moon_Update(::Sky* apSky, float afSecondsPassed)
 {
     float fTimePassed;
     float fvisShadow;
@@ -478,13 +478,13 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
         ::NiTexture* ptex = (::NiTexture*)((const Flt*)&spTex)->operator unsigned int();
         if (ptex)
             pprop->SetTexture(ptex);
-        ((::TaskQueueInterface*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_00635fe0(ptex != 0);
+        ((::TaskQueueInterface*)((const Flt*)&m_pMoonShape)->operator unsigned int())->NiAVObject_SetDisplayObject(ptex != 0);
         m_eUpdateStatus = US_NOT_REQUIRED;
     }
 
-    if (((SkyView*)apSky)->FUN_00476c90() == 3 || ((SkyView*)apSky)->FUN_00476c90() == 2)
+    if (((SkyView*)apSky)->Sky_GetMode() == 3 || ((SkyView*)apSky)->Sky_GetMode() == 2)
     {
-        if (!((::FUN_006366b0_shell*)((const Flt*)&m_pRootNode)->operator unsigned int())->FUN_006366b0())
+        if (!((::FUN_006366b0_shell*)((const Flt*)&m_pRootNode)->operator unsigned int())->NiAVObject_GetDisplayObject())
         {
             ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(true);
             return;
@@ -504,7 +504,7 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
         {
             ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(false);
             if (fvisMoon <= _gModifierZero ||
-                !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_006366b0())
+                !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShape)->operator unsigned int())->NiAVObject_GetDisplayObject())
             {
                 ((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())->SetAppCulled(true);
             }
@@ -524,7 +524,7 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
                     pshadeProperty->kColor.a = fvisMoon;
             }
             if (fvisShadow <= _gModifierZero ||
-                !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->FUN_006366b0())
+                !((::FUN_006366b0_shell*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->NiAVObject_GetDisplayObject())
             {
                 ((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())->SetAppCulled(true);
             }

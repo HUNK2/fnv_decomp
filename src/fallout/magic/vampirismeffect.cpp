@@ -23,7 +23,7 @@ class ActiveEffect
 class VampirismEffect : public ActiveEffect
 {
   public:
-    void FUN_0082d110(Actor* apActor);
+    void VampirismEffect_InitLoadGame(Actor* apActor);
 };
 
 void ActiveEffect::InitLoadGame(Actor* apActor)
@@ -33,7 +33,7 @@ void ActiveEffect::InitLoadGame(Actor* apActor)
 
 // Calls ActiveEffect::InitLoadGame with apActor, then dynamic_casts apActor to Character and discards the result.
 // @fnv 0x0082d110
-void VampirismEffect::FUN_0082d110(Actor* apActor)
+void VampirismEffect::VampirismEffect_InitLoadGame(Actor* apActor)
 {
     ActiveEffect::InitLoadGame(apActor);
     Character* pcharacter = dynamic_cast<Character*>(apActor);

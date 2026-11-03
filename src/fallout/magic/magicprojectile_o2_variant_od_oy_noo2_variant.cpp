@@ -1084,7 +1084,7 @@ class Actor80F
     Controller80F* GetController();
     Middle80F* GetMiddle();
     Owner80F* GetOwner();
-    void FUN_0080feb0();
+    void MagicBallProjectile_InitHavok();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -1130,7 +1130,7 @@ void __cdecl FUN_00c69ee0(Node80F* pkNode, int iA, int iB);
 void __cdecl FUN_00c69f50(Node80F* pkNode, int iA, int iB);
 
 // @fnv 0x0080feb0
-void Actor80F::FUN_0080feb0()
+void Actor80F::MagicBallProjectile_InitHavok()
 {
     if (!m_pkProcess || m_pkProcess->IsDead())
         return;
@@ -2300,7 +2300,7 @@ class Actor80F
     Controller80F* GetController();
     Middle80F* GetMiddle();
     Owner80F* GetOwner();
-    void FUN_00813f30();
+    void MagicBoltProjectile_InitHavok();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -2346,7 +2346,7 @@ void __cdecl FUN_00c69ee0(Node80F* pkNode, int iA, int iB);
 void __cdecl FUN_00c69f50(Node80F* pkNode, int iA, int iB);
 
 // @fnv 0x00813f30
-void Actor80F::FUN_00813f30()
+void Actor80F::MagicBoltProjectile_InitHavok()
 {
     if (!m_pkProcess || m_pkProcess->IsDead())
         return;
@@ -2460,7 +2460,7 @@ struct Vector3
 struct Handle
 {
     void* p;
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 struct NodeHandle
 {
@@ -2830,8 +2830,8 @@ struct Scene
     virtual void slot28c();
     virtual void add(NodeHandle);
     int FUN_0045cd60();
-    Scene* FUN_004543c0();
-    float FUN_005471e0();
+    Scene* TESObjectCELL_GetbhkWorld();
+    float TESObjectCELL_GetWaterHeight();
     bool FUN_004bae00();
 };
 struct Visual
@@ -3303,12 +3303,12 @@ struct Visual
     void FUN_00810610(bool);
     void FUN_008105e0(int);
     void FUN_00810640(Actor*);
-    void FUN_0057b1d0(float);
+    void bhkCharacterController_SetWaterHeight(float);
     Scene* FUN_00621ad0();
     void FUN_00c70c90(Scene*);
     void* FUN_00810660();
     void FUN_00c6d7a0(void*);
-    void FUN_005620e0(Vector3*);
+    void bhkCharacterController_SetPosition(Vector3*);
     Handle FUN_0070c440();
 };
 struct Actor
@@ -3539,7 +3539,7 @@ struct Actor
     Visual* FUN_009306d0();
     Scene* FUN_008d6f30();
     Scene* FUN_009185e0();
-    void FUN_00819ca0();
+    void MagicFogProjectile_InitHavok();
 };
 struct RenderGlobals
 {
@@ -3558,13 +3558,13 @@ extern void __cdecl FUN_00c6a350(void*, int, int, int, int);
 extern void __cdecl FUN_00c69ee0(void*, int, int);
 extern void __cdecl FUN_00c69f50(void*, int, int);
 // @fnv 0x00819ca0
-void Actor::FUN_00819ca0()
+void Actor::MagicFogProjectile_InitHavok()
 {
     if (!scene || scene->FUN_0045cd60())
         return;
     Visual* active = FUN_009306d0();
     Scene* parent = FUN_008d6f30();
-    Scene* target = parent ? parent->FUN_004543c0() : 0;
+    Scene* target = parent ? parent->TESObjectCELL_GetbhkWorld() : 0;
     if (!active)
     {
         FxState state(1);
@@ -3588,7 +3588,7 @@ void Actor::FUN_00819ca0()
                 if (texture->check())
                 {
                     Handle temporary;
-                    state.FUN_00810590(7, texture->FUN_00931ed0(&temporary)->FUN_004a3a20());
+                    state.FUN_00810590(7, texture->FUN_00931ed0(&temporary)->CFilter_GetGroup());
                 }
                 else
                 {
@@ -3596,7 +3596,7 @@ void Actor::FUN_00819ca0()
                     Resource* material = base ? base->FUN_006fa820() : 0;
                     Handle temporary;
                     state.FUN_00810590(7,
-                                       material ? material->FUN_0043b4f0(&temporary)->FUN_004a3a20() : FUN_005dbe10());
+                                       material ? material->FUN_0043b4f0(&temporary)->CFilter_GetGroup() : FUN_005dbe10());
                 }
             }
             else
@@ -3604,7 +3604,7 @@ void Actor::FUN_00819ca0()
                 Resource* base = FUN_004b5260(GetUnderlyingObject());
                 Resource* material = base ? base->FUN_006fa820() : 0;
                 Handle temporary;
-                state.FUN_00810590(7, material ? material->FUN_0043b4f0(&temporary)->FUN_004a3a20() : FUN_005dbe10());
+                state.FUN_00810590(7, material ? material->FUN_0043b4f0(&temporary)->CFilter_GetGroup() : FUN_005dbe10());
             }
         }
         else
@@ -3620,9 +3620,9 @@ void Actor::FUN_00819ca0()
     if (active)
     {
         if (parent && target)
-            active->FUN_0057b1d0(parent->FUN_005471e0());
+            active->bhkCharacterController_SetWaterHeight(parent->TESObjectCELL_GetWaterHeight());
         else
-            active->FUN_0057b1d0(DAT_01015f5c);
+            active->bhkCharacterController_SetWaterHeight(DAT_01015f5c);
         Scene* initial = active->FUN_00621ad0();
         active->FUN_00c70c90(target);
         void* expected = GetUnderlyingObject();
@@ -3650,11 +3650,11 @@ void Actor::FUN_00819ca0()
         }
         if (target)
         {
-            active->FUN_005620e0(&position);
+            active->bhkCharacterController_SetPosition(&position);
             if (dirty)
             {
                 Handle appearanceHandle = active->FUN_0070c440();
-                int appearance = appearanceHandle.FUN_004a3a20();
+                int appearance = appearanceHandle.CFilter_GetGroup();
                 target->apply(expected, 1, 0, appearance, 0);
             }
             else

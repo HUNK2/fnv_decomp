@@ -86,12 +86,12 @@ class FUN_00631ca0_cls
 {
   public:
     SpawnedObject* FUN_00559450();
-    void FUN_00631ca0(SpawnedObject* obj);
+    void ViewCaster_Add(SpawnedObject* obj);
 };
 
 // Creates a scope guard, and if the stored object is non-null, calls v39 on it and then FUN_00c68e30 with the object and a computed value.
 // @fnv 0x00631ca0
-void FUN_00631ca0_cls::FUN_00631ca0(SpawnedObject* obj)
+void FUN_00631ca0_cls::ViewCaster_Add(SpawnedObject* obj)
 {
     ScopeGuard guard(0x10, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x74);
     if (this->FUN_00559450() != 0)

@@ -16,7 +16,7 @@ extern int DAT_0109b72c;
 
 // Allocates a 0x1c-byte NiProperty, constructs it, sets a short field at offset 0x18 to 8 and installs the vtable, returning the object or null.
 // @fnv 0x00a5f280
-NiProperty* FUN_00a5f280()
+NiProperty* NiVertexColorProperty_CreateObject()
 {
     NiProperty* p = static_cast<NiProperty*>(BSFadeNode::operator new(0x1c));
     if (p)
@@ -148,11 +148,11 @@ struct FUN_00a5f210_cls
     unsigned short m_18;
 
     void FUN_00a5d7a0(NodeBase_b9855* p, unsigned int arg);
-    void* FUN_00a5f210(unsigned int a1);
+    void* NiVertexColorProperty_CreateClone(unsigned int a1);
 };
 
 // @fnv 0x00a5f210
-void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
+void* FUN_00a5f210_cls::NiVertexColorProperty_CreateClone(unsigned int a1)
 {
     if (m_0c != 0)
     {

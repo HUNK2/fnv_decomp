@@ -282,7 +282,7 @@ void* __thiscall FUN_00bd8480_Class::FUN_00bd8480(int flags)
 
 struct LodShaderBase
 {
-    void FUN_00e814b0();
+    void NiD3DShader_RecreateRendererData();
 };
 struct FUN_00bc0970_class : LodShaderBase
 {
@@ -298,7 +298,7 @@ void FUN_00bc0970_class::FUN_00bc0970()
         void(__thiscall * f2)(void*) = (void(__thiscall*)(void*))(*(int**)(*(int*)((char*)this + 0x190)))[0x22];
         f2(*(void**)((char*)this + 0x190));
     }
-    FUN_00e814b0();
+    NiD3DShader_RecreateRendererData();
 }
 
 extern "C" void __cdecl FUN_00c5f570();
@@ -336,7 +336,7 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-void __stdcall FUN_00a576c0(StrArr*);
+void __stdcall NiFloatInterpController_GetViewerStrings(StrArr*);
 struct GlobalObjectO2_00a7b610
 {
     char* pData;
@@ -346,7 +346,7 @@ char* __cdecl FUN_00a7d330(char*);
 // @fnv 0x00bc31f0
 void __stdcall FUN_00bc31f0(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
+    NiFloatInterpController_GetViewerStrings(pStrArr);
     char* p = FUN_00a7d330(g_01201f90.pData);
     unsigned int i = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int j = *(unsigned short*)((char*)pStrArr + 0x8);
@@ -518,7 +518,7 @@ struct StrArr_00bc3450
 // @fnv 0x00bc3450
 void __stdcall FUN_00bc3450(StrArr_00bc3450* pArray)
 {
-    FUN_00a576c0((StrArr*)pArray);
+    NiFloatInterpController_GetViewerStrings((StrArr*)pArray);
     char* s = FUN_00a7d330(g_01201f9c.pData);
     unsigned int i = *(unsigned short*)((char*)pArray + 0xa);
     if (i >= *(unsigned short*)((char*)pArray + 8))
@@ -991,7 +991,7 @@ char* __cdecl FUN_00a7d330(char*);
 // @fnv 0x00bc3700
 void __stdcall FUN_00bc3700(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
+    NiFloatInterpController_GetViewerStrings(pStrArr);
     char* p = FUN_00a7d330(g_01201fa8.pData);
     unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int size = *(unsigned short*)((char*)pStrArr + 8);
@@ -2637,15 +2637,15 @@ struct FUN_00bc2d20_cls
     int unkA8;
     FUN_00bc2d20_sub m_ac;
     unsigned char m_bc;
-    bool FUN_00a5e600(FUN_00bc2d20_cls* other);
+    bool NiNode_IsEqual(FUN_00bc2d20_cls* other);
     unsigned char Equals(FUN_00bc2d20_cls* other);
 };
 
-// Compares this object with another: checks FUN_00a5e600, m_bc equality, and if m_bc is nonzero delegates to m_ac.FUN_00a92660.
+// Compares this object with another: checks NiNode_IsEqual, m_bc equality, and if m_bc is nonzero delegates to m_ac.FUN_00a92660.
 // @fnv 0x00bc2d20
 unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
 {
-    unsigned char ok = FUN_00a5e600(other);
+    unsigned char ok = NiNode_IsEqual(other);
     if (ok)
     {
         if (m_bc != other->m_bc)
@@ -3985,7 +3985,7 @@ struct FUN_00bc4640_cls : LodShaderBase
     LodChildB* m_bc;
     void FUN_00bc4640();
 };
-// If m_28 is nonzero, calls v28 on m_b8 and v22 on m_bc, then calls LodShaderBase::FUN_00e814b0.
+// If m_28 is nonzero, calls v28 on m_b8 and v22 on m_bc, then calls LodShaderBase::NiD3DShader_RecreateRendererData.
 // @fnv 0x00bc4640
 void FUN_00bc4640_cls::FUN_00bc4640()
 {
@@ -3994,7 +3994,7 @@ void FUN_00bc4640_cls::FUN_00bc4640()
         m_b8->v28();
         m_bc->v22();
     }
-    LodShaderBase::FUN_00e814b0();
+    LodShaderBase::NiD3DShader_RecreateRendererData();
 }
 
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
@@ -12668,7 +12668,7 @@ struct Geometry : Ref
     {
         return FUN_00aa13e0(size);
     }
-    void FUN_00439410(Ref*);
+    void NiAVObject_AttachProperty(Ref*);
 };
 struct FUN_00c1a480 : Geometry
 {
@@ -12765,9 +12765,9 @@ FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
         geometry = new FUN_00c1a660(data);
     Ref* prop = DAT_011f91c0 < 2 ? src->prop2 : src->prop1;
     if (prop)
-        geometry->FUN_00439410(prop);
+        geometry->NiAVObject_AttachProperty(prop);
     if (src->prop3)
-        geometry->FUN_00439410(src->prop3);
+        geometry->NiAVObject_AttachProperty(src->prop3);
     FUN_00b57f90* shader = new FUN_00b57f90;
     shader->texture = src->texture;
     shader->parent = this;
@@ -12795,7 +12795,7 @@ FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
             shader->dirty = 0;
         shader->flags24 &= ~0x2000;
     }
-    geometry->FUN_00439410(shader);
+    geometry->NiAVObject_AttachProperty(shader);
     property = shader;
     FUN_00b57e30(geometry, 0, 0);
     Owner* owner = geometry->owner;
@@ -24324,7 +24324,7 @@ inline void BoltScale(float& x, float& y, double s)
 }
 struct BoltDirection : public Vec3
 {
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct Point4
@@ -24433,7 +24433,7 @@ void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
     if (dir.y < 0.0f)
         *(NiPoint3*)&dir = NiPoint3_ZERO;
     dir.y += 1.0;
-    dir.FUN_004a0c10();
+    dir.NiPoint3_Unitize();
     float speed = unk144;
     dir.x *= speed;
     dir.y *= speed;

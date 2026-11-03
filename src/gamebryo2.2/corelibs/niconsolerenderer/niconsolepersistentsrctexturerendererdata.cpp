@@ -124,21 +124,21 @@ void __fastcall FUN_00e902f0(char* self, int, bool v)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f9f0;
 // @fnv 0x00e90550
-GlobalObjectO2_00a7b610* FUN_00e90550()
+GlobalObjectO2_00a7b610* NiDX9ErrorShader_GetRTTI()
 {
     return &g_0126f9f0;
 }
 
-extern "C" void __cdecl FUN_00e87a50();
+extern "C" void __cdecl NiD3DRenderState_InitShaderState();
 
 struct FUN_00e90d80_shell
 {
-    void FUN_00e90d80();
+    void NiDX9RenderState_InitShaderState();
 };
 
-// Zeroes the byte at this+0x1100 and initialises the following dwords to 0,1,0,1, then calls FUN_00e87a50.
+// Zeroes the byte at this+0x1100 and initialises the following dwords to 0,1,0,1, then calls NiD3DRenderState_InitShaderState.
 // @fnv 0x00e90d80
-void FUN_00e90d80_shell::FUN_00e90d80()
+void FUN_00e90d80_shell::NiDX9RenderState_InitShaderState()
 {
     unsigned char* p = (unsigned char*)this + 0x1100;
     unsigned int v = 0;
@@ -148,7 +148,7 @@ void FUN_00e90d80_shell::FUN_00e90d80()
     *(unsigned int*)(p + 8) = one;
     *(unsigned int*)(p + 12) = v;
     *(unsigned int*)(p + 16) = one;
-    FUN_00e87a50();
+    NiD3DRenderState_InitShaderState();
 }
 
 struct FUN_00e90db0_shell
@@ -197,7 +197,7 @@ int __fastcall CallVtableSlot39WithField1108(char* self, int)
 }
 
 // @fnv 0x00e91020
-void* __fastcall FUN_00e91020(char* self, int)
+void* __fastcall NiDX9RenderState_GetDeclaration(char* self, int)
 {
     if (self[0x1100])
         return *reinterpret_cast<void**>(self + 0x110c);
@@ -212,28 +212,28 @@ int __fastcall CallVirtualSlot43(char* self, int)
         self, *reinterpret_cast<int*>(self + 0x1110), 0);
 }
 
-char __stdcall FUN_00a98170(int);
+char __stdcall NiPersistentSrcTextureRendererData_RegisterStreamables(int);
 // @fnv 0x00e91710
-char __stdcall FUN_00e91710(int a)
+char __stdcall NiDX9PersistentSrcTextureRendererData_RegisterStreamables(int a)
 {
-    return FUN_00a98170(a) != 0;
+    return NiPersistentSrcTextureRendererData_RegisterStreamables(a) != 0;
 }
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f9f8;
 // @fnv 0x00e91740
-GlobalObjectO2_00a7b610* FUN_00e91740()
+GlobalObjectO2_00a7b610* NiDX9PersistentSrcTextureRendererData_GetRTTI()
 {
     return &g_0126f9f8;
 }
 
 struct FUN_00e90e40_Class
 {
-    int __thiscall FUN_00e90e40();
+    int __thiscall NiDX9RenderState_GetVertexShader();
 };
 
 // @fnv 0x00e90e40
-int __thiscall FUN_00e90e40_Class::FUN_00e90e40()
+int __thiscall FUN_00e90e40_Class::NiDX9RenderState_GetVertexShader()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x10e0);
 }
@@ -284,12 +284,12 @@ void* __thiscall FUN_00e90560_shell::FUN_00e90560(int aiFlags)
 
 struct FUN_00e91060_shell
 {
-    void FUN_00e91060(int arg);
+    void NiDX9RenderState_ClearDeclaration(int arg);
 };
 
 // If arg is non-zero and the byte at offset 0x1100 is set, clears the int fields at 0x110c and 0x1110 when they equal arg.
 // @fnv 0x00e91060
-void FUN_00e91060_shell::FUN_00e91060(int arg)
+void FUN_00e91060_shell::NiDX9RenderState_ClearDeclaration(int arg)
 {
     if (arg && (*(unsigned char*)((char*)this + 0x1100)))
     {
@@ -466,11 +466,11 @@ struct NiD3DShader
 void __fastcall FUN_00e90970(void*);
 struct NiDX9ErrorShader : NiD3DShader
 {
-    bool FUN_00e90a50();
+    bool NiDX9ErrorShader_Initialize();
 };
 // If the byte at offset 0x10 is zero, calls NiD3DShader::Initialize and then FUN_00e90970(this) on success; returns false on failure, otherwise true.
 // @fnv 0x00e90a50
-bool NiDX9ErrorShader::FUN_00e90a50()
+bool NiDX9ErrorShader::NiDX9ErrorShader_Initialize()
 {
     if (*((char*)this + 0x10) == 0)
     {
@@ -841,10 +841,10 @@ void S::FUN_00e90fc0(void* apTarget, bool abSavePrevious)
 extern unsigned short DAT_0126f92c[];
 struct FUN_00e910a0_shell
 {
-    void FUN_00e910a0(int, int, int, int);
+    void NiDX9RenderState_SetSamplerState(int, int, int, int);
 };
 // @fnv 0x00e910a0
-void FUN_00e910a0_shell::FUN_00e910a0(int a1, int aiIndex, int aiValue, int aiUnused)
+void FUN_00e910a0_shell::NiDX9RenderState_SetSamplerState(int a1, int aiIndex, int aiValue, int aiUnused)
 {
     unsigned short v = DAT_0126f92c[aiIndex];
     if (v >= 5)
@@ -863,10 +863,10 @@ void FUN_00e910a0_shell::FUN_00e910a0(int a1, int aiIndex, int aiValue, int aiUn
 extern unsigned short DAT_0126f92c[];
 struct FUN_00e91120_shell
 {
-    void FUN_00e91120(int, int);
+    void NiDX9RenderState_RestoreSamplerState(int, int);
 };
 // @fnv 0x00e91120
-void FUN_00e91120_shell::FUN_00e91120(int a1, int a2)
+void FUN_00e91120_shell::NiDX9RenderState_RestoreSamplerState(int a1, int a2)
 {
     unsigned short idx = DAT_0126f92c[a2];
     if (idx >= 5)
@@ -982,14 +982,14 @@ struct Base_E91790
 };
 struct Holder_E91790 : Base_E91790
 {
-    unsigned char FUN_00a982f0(Base_E91790* pk);
-    bool FUN_00e91790(Base_E91790* pk);
+    unsigned char NiPersistentSrcTextureRendererData_IsEqual(Base_E91790* pk);
+    bool NiDX9PersistentSrcTextureRendererData_IsEqual(Base_E91790* pk);
 };
 // @fnv 0x00e91790
-bool Holder_E91790::FUN_00e91790(Base_E91790* pk)
+bool Holder_E91790::NiDX9PersistentSrcTextureRendererData_IsEqual(Base_E91790* pk)
 {
     if (pk && pk->IsKindOfType(&g_0126f9f8))
-        return FUN_00a982f0(pk);
+        return NiPersistentSrcTextureRendererData_IsEqual(pk);
     return false;
 }
 
@@ -1004,7 +1004,7 @@ char* __cdecl _FUN_00a7d330(const char*);
 extern const char* g_0126f9f8;
 // Calls AppendToStrings, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00e91a90
-void __stdcall FUN_00e91a90(StrArr* pkStrings)
+void __stdcall NiDX9PersistentSrcTextureRendererData_GetViewerStrings(StrArr* pkStrings)
 {
     AppendToStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_0126f9f8);
@@ -1418,12 +1418,12 @@ struct NiSequence : NiObject
     StrArr m_kStringArray;
     char pad[0x30 - 0x0c - sizeof(StrArr)];
     unsigned int m_uiSequenceValue;
-    void FUN_00a47660(NiStream& kStream);
+    void NiSequence_LoadBinary(NiStream& kStream);
 };
 
 // Loads the sequence from a stream: base object, name, an unsigned int, then a key-name array sized by a count read from the stream.
 // @fnv 0x00a47660
-void NiSequence::FUN_00a47660(NiStream& kStream)
+void NiSequence::NiSequence_LoadBinary(NiStream& kStream)
 {
     NiObject::LoadBinary(kStream);
     m_pcName = 0;
@@ -4459,7 +4459,7 @@ char FnvTexRefFlagGet::FUN_00e902e0()
 
 void __cdecl LinkPalette();
 // @fnv 0x00e91700
-void __cdecl FUN_00e91700()
+void __cdecl NiDX9PersistentSrcTextureRendererData_LinkObject()
 {
     LinkPalette();
 }
@@ -4467,13 +4467,13 @@ void __cdecl FUN_00e91700()
 struct NiStream;
 struct NiPersistentSrcTextureRendererData_s
 {
-    void FUN_00a984b0(NiStream&);
-    void FUN_00e91730(NiStream& stream);
+    void NiPersistentSrcTextureRendererData_SaveBinary(NiStream&);
+    void NiDX9PersistentSrcTextureRendererData_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00e91730
-void NiPersistentSrcTextureRendererData_s::FUN_00e91730(NiStream& stream)
+void NiPersistentSrcTextureRendererData_s::NiDX9PersistentSrcTextureRendererData_SaveBinary(NiStream& stream)
 {
-    FUN_00a984b0(stream);
+    NiPersistentSrcTextureRendererData_SaveBinary(stream);
 }
 
 extern "C" int __cdecl rand();

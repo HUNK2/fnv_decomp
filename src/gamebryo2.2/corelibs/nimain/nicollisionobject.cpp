@@ -30,7 +30,7 @@ NiCollisionObject::NiCollisionObject(NiAVObject* apSceneObject) : m_pkSceneObjec
 extern char const* const g_01267b70_arg1;
 
 // @fnv 0x00a810a0
-char const* const* __cdecl FUN_00a810a0()
+char const* const* __cdecl NiCollisionObject_GetRTTI()
 {
     return &g_01267b70_arg1;
 }
@@ -91,11 +91,11 @@ struct SceneObj
 struct MyColl : NiObject
 {
     SceneObj* m_pkSceneObject;
-    bool FUN_00a81010(NiStream&);
+    bool NiCollisionObject_RegisterStreamables(NiStream&);
 };
 // Registers the base streamables and, if m_pkSceneObject is set, registers the scene object's streamables; returns false if the base registration fails.
 // @fnv 0x00a81010
-bool MyColl::FUN_00a81010(NiStream& kStream)
+bool MyColl::NiCollisionObject_RegisterStreamables(NiStream& kStream)
 {
     if (!((NiObjectBase*)this)->NiObjectBase::RegisterStreamables(kStream))
         return false;
@@ -136,11 +136,11 @@ struct FakeStream00a81040
 struct FakeThis00a81040 : NiObject
 {
     void* unk08;
-    void FUN_00a81040(NiStream&);
+    void NiCollisionObject_SaveBinary(NiStream&);
 };
 // Links the object to the stream via NiObject::LinkObject, then calls the stream's f12 with unk08.
 // @fnv 0x00a81040
-void FakeThis00a81040::FUN_00a81040(NiStream& kStream)
+void FakeThis00a81040::NiCollisionObject_SaveBinary(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
     ((FakeStream00a81040*)&kStream)->f12(unk08);
@@ -151,11 +151,11 @@ struct T_00a81060
 {
     char _0[8];
     void* _8;
-    bool FUN_00a81060(NiObject*);
+    bool NiCollisionObject_IsEqual(NiObject*);
 };
 // Returns false if IsSameAs fails or if _8 and pkObject disagree on being null; otherwise returns true.
 // @fnv 0x00a81060
-bool T_00a81060::FUN_00a81060(NiObject* pkObject)
+bool T_00a81060::NiCollisionObject_IsEqual(NiObject* pkObject)
 {
     if (!IsSameAs(pkObject))
         return false;
@@ -232,12 +232,12 @@ class BA81100Base
 class BA81100Object : public BA81100Base
 {
   public:
-    void FUN_00a81100(BA81100StringArray* pkStrings);
+    void NiCollisionObject_GetViewerStrings(BA81100StringArray* pkStrings);
 };
 
 // Appends the base viewer strings, the A81100 name string, and any extra viewer strings to pkStrings.
 // @fnv 0x00a81100
-void BA81100Object::FUN_00a81100(BA81100StringArray* pkStrings)
+void BA81100Object::NiCollisionObject_GetViewerStrings(BA81100StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330(g_pcA81100Name));

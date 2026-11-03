@@ -25,7 +25,7 @@ struct BSTreeNode : NiNode
     NiAVObject* __thiscall GetFirstChild();
 };
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_AreTreesVisible();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -60,7 +60,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -79,7 +79,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall bhkCapsuleShape_QCinfoSize() const;
 };
 struct FUN_0066da50_t
 {
@@ -126,7 +126,7 @@ extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void __thiscall bhkTransform_setIdentity();
 };
 struct FUN_0066d550_shell
 {
@@ -952,7 +952,7 @@ struct S_0066d880_List
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
+    unsigned char BSTreeModel_IsInstance();
     int FUN_008d6f30();
 };
 struct S_0066d880_Holder
@@ -1018,7 +1018,7 @@ struct S_0066d880_Base
     int unkd8;
     int unkdc;
     int unke0;
-    void FUN_00a5ea70(S_0066d880_List* list);
+    void NiNode_GetViewerStrings(S_0066d880_List* list);
 };
 struct S_0066d880 : S_0066d880_Base
 {
@@ -1026,7 +1026,7 @@ struct S_0066d880 : S_0066d880_Base
     void FUN_0066d880(S_0066d880_List* list);
 };
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void* __cdecl FUN_00401000(unsigned int size);
+extern void* __cdecl FormHeap_Allocate(unsigned int size);
 extern float DAT_01016b78;
 extern void* __cdecl GetFltValueAtOffset16();
 struct FUN_00b4e150
@@ -1100,7 +1100,7 @@ struct TreePointer
 };
 struct TreeLists
 {
-    unsigned short FUN_00669990();
+    unsigned short BSTreeModel_GetNumBranchLODLevels();
     unsigned short FUN_006699d0();
     void* ConvertFloatToUInt();
 };
@@ -1218,7 +1218,7 @@ struct FUN_006694e0
     void FUN_0066b0d0(void* p);
     static void* operator new[](unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
 };
 struct FUN_0066b640
@@ -1278,7 +1278,7 @@ struct FUN_0066b120 : FUN_00b4e150
     FUN_0066b120(void* initial, void* external);
 
     void FUN_00b4dec0(int n);
-    void FUN_004902f0(int n);
+    void NiAVObject_SetSelectiveUpdate(int n);
     void SetChildAt(int type, void* p);
     void SetExtraDataName(void* p);
 };
@@ -1583,7 +1583,7 @@ struct FnvScopedContext
 };
 struct FnvModelElement
 {
-    unsigned short __thiscall FUN_00669990();
+    unsigned short __thiscall BSTreeModel_GetNumBranchLODLevels();
 };
 struct FnvModelReference
 {
@@ -1798,11 +1798,11 @@ class SceneObjectC8C
     int unk00, unk04;
     BodyC8C* m_pkBody;
 
-    void FUN_00c8c860(ParentC8C* pkParent, ArgC8C* iValue);
+    void bhkTransformShape_BuildDisplayGeometry(ParentC8C* pkParent, ArgC8C* iValue);
 };
 
 // @fnv 0x00c8c860
-void SceneObjectC8C::FUN_00c8c860(ParentC8C* pkParent, ArgC8C* iValue)
+void SceneObjectC8C::bhkTransformShape_BuildDisplayGeometry(ParentC8C* pkParent, ArgC8C* iValue)
 {
     AutoMemContextC8C kContext(0x10);
 

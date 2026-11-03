@@ -53,7 +53,7 @@ struct S_00d3c3c0_Obj
     int unk04;
     S_00d3c3c0_Holder* unk08;
     unsigned short unk0c;
-    void FUN_00d3c3c0(int arg);
+    void hkpSphereBoxAgent_cleanup(int arg);
 };
 struct AllocHolder
 {

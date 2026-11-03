@@ -63,11 +63,11 @@ void FUN_00409a10_shell::FUN_00409a10()
 
 struct FUN_00409a50_shell : FUN_00409a30_shell
 {
-    bool FUN_00409a50();
+    bool IngredientItem_IsAutoCalc();
 };
 
 // @fnv 0x00409a50
-bool FUN_00409a50_shell::FUN_00409a50()
+bool FUN_00409a50_shell::IngredientItem_IsAutoCalc()
 {
     return !FUN_00409a30(1);
 }
@@ -90,7 +90,7 @@ void* FUN_00409b10_shell::FUN_00409b10(unsigned int flags)
 
 struct S_00477f20
 {
-    void __thiscall FUN_00477f20();
+    void __thiscall BGSDestructibleObjectForm_Save();
 };
 struct S_0048a520
 {
@@ -98,19 +98,19 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall TESScriptableForm_Save();
 };
 struct FUN_00479350_shell
 {
-    void __thiscall FUN_00479350();
+    void __thiscall BGSEquipType_Save();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 
 struct FUN_00409c70_shell
@@ -122,11 +122,11 @@ struct FUN_00409c70_shell
 void __thiscall FUN_00409c70_shell::FUN_00409c70()
 {
     ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x3c))->FUN_0048e370(0x4e4f4349);
-    ((S_0048cca0*)((char*)this + 0x48))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x64))->FUN_00477f20();
-    ((FUN_00479350_shell*)((char*)this + 0x5c))->FUN_00479350();
-    ((FUN_00485e00_shell*)((char*)this - 0x30))->FUN_00485e00();
+    ((FUN_0048e370_obj*)((char*)this + 0x3c))->TESTexture_Save(0x4e4f4349);
+    ((S_0048cca0*)((char*)this + 0x48))->TESScriptableForm_Save();
+    ((S_00477f20*)((char*)this + 0x64))->BGSDestructibleObjectForm_Save();
+    ((FUN_00479350_shell*)((char*)this + 0x5c))->BGSEquipType_Save();
+    ((FUN_00485e00_shell*)((char*)this - 0x30))->TESForm_SaveData();
 }
 
 struct P0_004098

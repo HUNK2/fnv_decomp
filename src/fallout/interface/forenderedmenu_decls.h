@@ -313,8 +313,8 @@ class NiAlphaProperty : public NiProperty
     static void* operator new(size_t);
     static void operator delete(void*);
     void FUN_0049ed90(bool);
-    void FUN_00439340(int);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetSrcBlendMode(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
 };
 class FOPipboyManager : public FORenderedMenu
 {
@@ -348,6 +348,6 @@ class FOPipboyManager : public FORenderedMenu
     char _pdbpad_16d[3];
 };
 unsigned int FUN_00438220();
-unsigned int FUN_004af350();
+unsigned int NiMaterialProperty_GetType();
 extern NiColor DAT_011f4998;
 #endif

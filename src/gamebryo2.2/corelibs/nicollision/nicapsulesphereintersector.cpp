@@ -94,7 +94,7 @@ struct SegmentMethods : OriginDirectionPair
 };
 struct PointMethods
 {
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct Call_439090_tgt
 {
@@ -134,7 +134,7 @@ void ContactGeometry::ComputeContactPoint(const NiPoint3& velocity0, const NiPoi
         kCapsulePoint += velocity0 * m_fTime;
         kSpherePoint += velocity1 * m_fTime;
         m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-        reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->FUN_004a0c10();
+        reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->NiPoint3_Unitize();
         m_kPoint = kCapsulePoint + m_kPlaneNormal * m_pkCapsule->m_fBoundRadius;
     }
     else
@@ -143,7 +143,7 @@ void ContactGeometry::ComputeContactPoint(const NiPoint3& velocity0, const NiPoi
         if (reinterpret_cast<Call_439090_tgt*>(&kCapsulePoint)->FUN_00439090(kSpherePoint))
         {
             m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-            reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->FUN_004a0c10();
+            reinterpret_cast<PointMethods*>(&m_kPlaneNormal)->NiPoint3_Unitize();
         }
         else
             m_kPlaneNormal = DAT_011a9484;

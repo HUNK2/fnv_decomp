@@ -293,17 +293,17 @@ void __fastcall UpdateMapMenu(MapMenu* menu)
         case 0x21:
             if (!FUN_004b71d0())
             {
-                fhighlightX = FUN_004b7210()->FUN_007697f0() - ((A7d*)menu->m_pTiles[6]->GetParent())->GetTotalFloat();
+                fhighlightX = InterfaceManager_Instance()->FUN_007697f0() - ((A7d*)menu->m_pTiles[6]->GetParent())->GetTotalFloat();
                 fhighlightY =
-                    FUN_004b7210()->GetScaledValue() - ((C7d*)menu->m_pTiles[6]->GetParent())->GetAccumulatedFloat();
+                    InterfaceManager_Instance()->GetScaledValue() - ((C7d*)menu->m_pTiles[6]->GetParent())->GetAccumulatedFloat();
                 if (fhighlightX < _gModifierZero || fhighlightY < _gModifierZero || fhighlightX > DAT_01074f68 ||
                     fhighlightY > 500.0)
                 {
-                    FUN_004b7210()->GetParent()->Set(0xfa9, 255.0f, true);
+                    InterfaceManager_Instance()->GetParent()->Set(0xfa9, 255.0f, true);
                 }
                 else
                 {
-                    FUN_004b7210()->GetParent()->Set(0xfa9, 0.0f, true);
+                    InterfaceManager_Instance()->GetParent()->Set(0xfa9, 0.0f, true);
                     if (g_osGlobals->FUN_00877720()->FUN_00a23a50(1, 1) &&
                         !g_osGlobals->FUN_00877720()->FUN_00a24660(0xe, 1))
                         menu->HandleSelection(0xc, 0);
@@ -345,7 +345,7 @@ void __fastcall UpdateMapMenu(MapMenu* menu)
     }
     else if (!DAT_011da408 && !FUN_004b71d0() && menu->m_iMapDisplayMode <= 0x21)
     {
-        FUN_004b7210()->GetParent()->Set(0xfa9, 255.0f, true);
+        InterfaceManager_Instance()->GetParent()->Set(0xfa9, 255.0f, true);
         DAT_011da408 = true;
     }
 
@@ -444,11 +444,11 @@ struct FUN_007a5730_shell
 
 struct MapMenuClick : public MapMenu
 {
-    void FUN_00796fd0(int, Tile*);
+    void MapMenu_DoClick(int, Tile*);
 };
 
 // @fnv 0x00796fd0
-void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
+void MapMenuClick::MapMenu_DoClick(int aiID, Tile* apTarget)
 {
     if (apTarget == 0 && aiID >= 0 && aiID < 22)
         apTarget = m_pTiles[aiID];
@@ -501,20 +501,20 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
                 }
                 if (bisSoundNote && (!bnoteMatch || !bsoundStopped))
                 {
-                    if (pnote->GetNoteType() == 0 && pnote->FUN_005e9100())
+                    if (pnote->GetNoteType() == 0 && pnote->BGSNote_GetNoteSound())
                     {
                         ((FUN_007a19a0_shell*)&m_kSoundList)
                             ->FUN_007a19a0(BSAudio::GetSingleton()->GetSoundHandleByFormID(
-                                pnote->FUN_005e9100()->GetFormID(), 0x101));
+                                pnote->BGSNote_GetNoteSound()->GetFormID(), 0x101));
                         m_bMapListUpdatePending = true;
                     }
-                    else if (pnote->GetNoteType() == 3 && pnote->FUN_005e9240() && pnote->FUN_005e92a0())
+                    else if (pnote->GetNoteType() == 3 && pnote->BGSNote_GetNoteTopic() && pnote->BGSNote_GetNoteSpeaker())
                     {
                         Character* pVoiceNoteNPC = new Character(false);
                         pVoiceNoteNPC->NotifySaveLoadGameOfFormChange();
                         Conversation* pVoiceNoteConvo = 0;
-                        pVoiceNoteNPC->ClearReferenceState(pnote->FUN_005e92a0());
-                        pVoiceNoteConvo = new Conversation(pVoiceNoteNPC, g_thePlayer, pnote->FUN_005e9240());
+                        pVoiceNoteNPC->ClearReferenceState(pnote->BGSNote_GetNoteSpeaker());
+                        pVoiceNoteConvo = new Conversation(pVoiceNoteNPC, g_thePlayer, pnote->BGSNote_GetNoteTopic());
                         ((FUN_0083b9a0_shell*)pVoiceNoteConvo)->FUN_0083b9a0();
                         if (pVoiceNoteConvo->GetCurrentItem() &&
                             pVoiceNoteConvo->GetCurrentItem()->SelectDefaultResponseList())
@@ -605,7 +605,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
                 else
                 {
                     m_kPlayerWorldPosition =
-                        NiPoint3(FUN_004b7210()->FUN_007697f0(), FUN_004b7210()->GetScaledValue(), 0.0f);
+                        NiPoint3(InterfaceManager_Instance()->FUN_007697f0(), InterfaceManager_Instance()->GetScaledValue(), 0.0f);
                     m_kPlayerWorldPosition.x -= m_pMapTile->GetScreenX();
                     m_kPlayerWorldPosition.y -= m_pMapTile->GetScreenY();
                 }
@@ -627,7 +627,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
                         ((TESWorldSpace*)m_pCurrentMapSpace)->GetCellAtPosition(m_kPlayerWorldPosition, true);
                 }
                 if (pAdjustNorthRotationCell)
-                    pAdjustNorthRotationCell->FUN_00555b10(m_kPlayerWorldPosition, m_kPlayerWorldPosition, false);
+                    pAdjustNorthRotationCell->TESObjectCELL_AdjustCoordForNorthRotation(m_kPlayerWorldPosition, m_kPlayerWorldPosition, false);
                 m_pTiles[6]->Set(0xfa3, 0);
                 BSAudio::GetSingleton()->GetSoundHandleByEditorID("UIPopUpMapMarkerAdded ", 0x121).Play(false);
                 if (g_thePlayer->FUN_00798400())
@@ -708,15 +708,15 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
     case 36:
         m_pTiles[17]->Set(DAT_011da360, aiID - 0x20);
         m_iMapDisplayMode = aiID;
-        ((Interface*)FUN_004b7210())
+        ((Interface*)InterfaceManager_Instance())
             ->GetPipboyManager()
             ->StartBurst(g_011db458.Float()->f, g_011db37c.Float()->f, 0.5f);
         if (!FUN_00709d40() && aiID != 0x20 && aiID != 0x21)
-            FUN_004b7210()->GetParent()->Set(0xfa9, 255.0f, true);
+            InterfaceManager_Instance()->GetParent()->Set(0xfa9, 255.0f, true);
         m_pTiles[13]->Set(0xfa3, 0);
         m_pTiles[12]->Set(0xfaf, 1);
         MenuDepthController();
-        if (((Interface*)FUN_004b7210())->GetPipboyManager()->IsUnk28Set())
+        if (((Interface*)InterfaceManager_Instance())->GetPipboyManager()->IsUnk28Set())
             FUN_0079c340(true);
         break;
     }
@@ -886,11 +886,11 @@ float S::GetScaledValue()
 
 struct FUN_00798480_This
 {
-    void FUN_00798480(int aiID, Tile* apTarget);
+    void MapMenu_HandleLeftClickPress(int aiID, Tile* apTarget);
 };
 // For ID 4, reads floats 4001 and 4002 from the Tile at offset 0x38 and stores them at offsets 0x120 and 0x124.
 // @fnv 0x00798480
-void FUN_00798480_This::FUN_00798480(int aiID, Tile* apTarget)
+void FUN_00798480_This::MapMenu_HandleLeftClickPress(int aiID, Tile* apTarget)
 {
     if (aiID == 4)
     {
@@ -933,7 +933,7 @@ struct Helper007fa0f0
 void FUN_0079c340(bool a)
 {
     if (DAT_011da368)
-        ((Helper007fa0f0*)((Interface*)FUN_004b7210())->GetPipboyManager())
+        ((Helper007fa0f0*)((Interface*)InterfaceManager_Instance())->GetPipboyManager())
             ->SetValue(*(int*)((char*)DAT_011da368 + 0x80) - 0x20, a);
 }
 
@@ -1360,8 +1360,8 @@ struct InterfaceManager;
 extern float DAT_01074ffc;
 extern void* _g_thePlayer;
 bool _FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
-int __fastcall FUN_005cbb50(char*);
+InterfaceManager* InterfaceManager_Instance();
+int __fastcall PlayerCharacter_GetActiveQuest(char*);
 bool __cdecl FUN_0079bc50(MagicCaster_shell*);
 bool __cdecl FUN_0079bc90(void*);
 struct ListBoxS
@@ -1434,7 +1434,7 @@ void FUN_0079b8e0_shell::UpdateQuestObjectiveList()
                                       pQuest, (const char*)((FNStub*)((char*)pQuest + 0x30))->GetFullName(), 0, 0);
                 pTile->Set(0xfaa, 0x17);
                 pTile->Set(DAT_011da344, pQuest->GetCompleted() ? 128.0f : 255.0f, true);
-                if (pQuest == (TESQuest*)FUN_005cbb50((char*)_g_thePlayer))
+                if (pQuest == (TESQuest*)PlayerCharacter_GetActiveQuest((char*)_g_thePlayer))
                     pTile->Set(DAT_011da348, 1);
             }
         }
@@ -1442,17 +1442,17 @@ void FUN_0079b8e0_shell::UpdateQuestObjectiveList()
     ((ListBoxS*)((char*)this + 0x1c0))->V8(FUN_0079bc90);
     ((ListBoxS*)((char*)this + 0x130))->V8(FUN_0079bc90);
     ((ListBoxS*)((char*)this + 0x130))->FUN_007a2350(true);
-    if (FUN_005cbb50((char*)_g_thePlayer))
+    if (PlayerCharacter_GetActiveQuest((char*)_g_thePlayer))
     {
         Tile* pactiveQuestTile;
         {
-            BGSNote* pactive = (BGSNote*)FUN_005cbb50((char*)_g_thePlayer);
+            BGSNote* pactive = (BGSNote*)PlayerCharacter_GetActiveQuest((char*)_g_thePlayer);
             pactiveQuestTile = ((ListBox<BGSNote*>*)((char*)this + 0x130))->GetTileForData(pactive);
         }
         V4(0x17, pactiveQuestTile);
         if (_FUN_004b71d0())
         {
-            ((IMStandIn*)FUN_004b7210())->FUN_00715860((int)pactiveQuestTile, 0xfc3, 1);
+            ((IMStandIn*)InterfaceManager_Instance())->FUN_00715860((int)pactiveQuestTile, 0xfc3, 1);
             ((ListBoxS*)((char*)this + 0x130))->V4();
         }
     }
@@ -1479,8 +1479,8 @@ struct FUN_004a0c90_shell
 
 struct TESObjectCELL_Ext
 {
-    float FUN_00555ad0();
-    void FUN_00555b10(NiPoint3 const& source, NiPoint3& destination, bool invert);
+    float TESObjectCELL_GetNorthRotation();
+    void TESObjectCELL_AdjustCoordForNorthRotation(NiPoint3 const& source, NiPoint3& destination, bool invert);
 };
 
 extern FUN_004a0c90_shell DAT_011a9448;
@@ -1489,10 +1489,10 @@ extern double _DAT_01012060;
 NiPoint3 __cdecl FUN_004b3ae0(NiPoint3 const&, float const*);
 
 // @fnv 0x00555b10
-void TESObjectCELL_Ext::FUN_00555b10(NiPoint3 const& source, NiPoint3& destination, bool invert)
+void TESObjectCELL_Ext::TESObjectCELL_AdjustCoordForNorthRotation(NiPoint3 const& source, NiPoint3& destination, bool invert)
 {
     FUN_004a0c90_shell shell;
-    float f = this->FUN_00555ad0() * (invert ? -1.0f : 1.0f);
+    float f = this->TESObjectCELL_GetNorthRotation() * (invert ? -1.0f : 1.0f);
 
     if (f != 0.0)
     {
@@ -1510,7 +1510,7 @@ class TESReputation
 {
   public:
     int GetReputationRank(int);
-    const char* FUN_00616710();
+    const char* TESReputation_GetReputationTitle();
 };
 
 extern SettingT_GameSettingCollection_ g_011cba0c;
@@ -1532,7 +1532,7 @@ extern SettingT_GameSettingCollection_ g_011cbd84;
 
 // Looks up the positive and negative reputation indices and returns the title string from the 4x4 table of game settings.
 // @fnv 0x00616710
-const char* TESReputation::FUN_00616710()
+const char* TESReputation::TESReputation_GetReputationTitle()
 {
     char cPosIndex;
     char cNegIndex;
@@ -2820,7 +2820,7 @@ template <> void ListBox<BGSNote*>::ClearSelection(bool);
 // @fnv 0x00796b90
 Tile* __cdecl FUN_00796b90()
 {
-    InterfaceManager* interfaceManager = FUN_004b7210();
+    InterfaceManager* interfaceManager = InterfaceManager_Instance();
     Menu* oldMenu = Tile::FindMenuById(0x3ff);
     if (oldMenu)
     {
@@ -2841,7 +2841,7 @@ Tile* __cdecl FUN_00796b90()
         }
         if (menuTile->GetFloat(0xfa7) == 6006.0 || menuTile->GetFloat(0xfa7) == 102.0)
             menuTile->Set(0xfad, Tile::GetInterfaceScale(), true);
-        FUN_004b7210()->tutorials.ShowMessage(0x1a, FUN_00720df0(), 0x200);
+        InterfaceManager_Instance()->tutorials.ShowMessage(0x1a, FUN_00720df0(), 0x200);
         Interface::SetTileFormattedText(DAT_011da368->m_pTiles[17], 0x20, DAT_011d38ac.String(), DAT_011d204c.String(),
                                         DAT_011d5020.String(), DAT_011d28a4.String(), DAT_011d4aec.String(), 0);
         DAT_011da368->m_kQuestListBox.Initialize(DAT_011da368->m_pTiles[7], "MM_ListMarkerTemplate");
@@ -2890,7 +2890,7 @@ void __cdecl FUN_00798710()
 {
     if (!ConsumeByteAtE4())
     {
-        ((MenuInterfaceCalls*)FUN_004b7210())->HandleCallbackOrStore(FUN_00798a00);
+        ((MenuInterfaceCalls*)InterfaceManager_Instance())->HandleCallbackOrStore(FUN_00798a00);
     }
     else
     {
@@ -2899,11 +2899,11 @@ void __cdecl FUN_00798710()
     if (!FUN_004b71d0())
     {
         ((MapTileCalls*)DAT_011da368->m_pTiles[6])
-            ->FUN_00a012d0(4001, ((MenuInterfaceCalls*)FUN_004b7210())->FUN_007697f0(true) -
+            ->FUN_00a012d0(4001, ((MenuInterfaceCalls*)InterfaceManager_Instance())->FUN_007697f0(true) -
                                      ((A7d*)DAT_011da368->m_pTiles[6]->GetParent())->GetTotalFloat() -
                                      ((MapTileCalls*)DAT_011da368->m_pTiles[6])->FUN_00a011b0(4017) / 2.0);
         ((MapTileCalls*)DAT_011da368->m_pTiles[6])
-            ->FUN_00a012d0(4002, ((MenuInterfaceCalls*)FUN_004b7210())->GetScaledValue(true) -
+            ->FUN_00a012d0(4002, ((MenuInterfaceCalls*)InterfaceManager_Instance())->GetScaledValue(true) -
                                      ((C7d*)DAT_011da368->m_pTiles[6]->GetParent())->GetAccumulatedFloat() -
                                      ((MapTileCalls*)DAT_011da368->m_pTiles[6])->FUN_00a011b0(4016) / 2.0);
     }
@@ -2949,12 +2949,12 @@ void FUN_00798840()
     if (!FUN_004b71d0())
     {
         DAT_011da368->m_pTiles[6]->Set(0xfa1,
-                                       (float)(FUN_004b7210()->FUN_007697f0() -
+                                       (float)(InterfaceManager_Instance()->FUN_007697f0() -
                                                DAT_011da368->m_pTiles[6]->GetParent()->GetScreenX() -
                                                DAT_011da368->m_pTiles[6]->GetFloat(0xfb1) / 2.0),
                                        true);
         DAT_011da368->m_pTiles[6]->Set(0xfa2,
-                                       (float)(FUN_004b7210()->GetScaledValue() -
+                                       (float)(InterfaceManager_Instance()->GetScaledValue() -
                                                DAT_011da368->m_pTiles[6]->GetParent()->GetScreenY() -
                                                DAT_011da368->m_pTiles[6]->GetFloat(0xfb0) / 2.0),
                                        true);
@@ -3467,7 +3467,7 @@ class NoteSource
   public:
     int FUN_00966a50();
     NoteData* GetItemAt(int iIndex);
-    void* FUN_005cbb50();
+    void* PlayerCharacter_GetActiveQuest();
 };
 extern NoteSource* DAT_011dea3c;
 int __cdecl FUN_00a01860(const char* pcTrait);
@@ -3502,7 +3502,7 @@ void NotesMapMenu::RefreshNotesList()
         m_kNotesList.FUN_007a30e0(true);
         m_kNotesList.ApplyNoteFilter(FUN_0079b390);
         m_pkNotesTile->FUN_00700320(FUN_00a01860("_ShowingAllNotes"), m_bShowingAllNotes);
-        m_pkNotesTile->FUN_00700320(0xfaf, DAT_011dea3c->FUN_005cbb50() != 0);
+        m_pkNotesTile->FUN_00700320(0xfaf, DAT_011dea3c->PlayerCharacter_GetActiveQuest() != 0);
     }
 }
 
@@ -3602,7 +3602,7 @@ struct Challenge600
     FullName600 name;
     int FUN_005f5930();
     int FUN_005a60d0();
-    int FUN_005a6150();
+    int TESChallenge_GetCompleted();
 };
 struct Node600
 {
@@ -3777,7 +3777,7 @@ void Target600::RefreshChallengeList()
         {
             Tile600* tile = list.AddItem(item, item->name.FUN_00408da0(), 0, 0);
             tile->FUN_00700320(0xfaa, 0x18);
-            tile->FUN_00a012d0(DAT_011da344, item->FUN_005a6150() ? 128.0f : 255.0f, true);
+            tile->FUN_00a012d0(DAT_011da344, item->TESChallenge_GetCompleted() ? 128.0f : 255.0f, true);
         }
         node = node->FUN_00726070();
     }
@@ -3800,7 +3800,7 @@ extern int __cdecl CompareMobileObjects(FUN_0079bd70_data*, FUN_0079bd70_data*);
 
 struct RadioEntry
 {
-    unsigned int FUN_0055d520();
+    unsigned int TESObjectREFR_GetFullName();
 };
 struct RadioTile : Tile
 {
@@ -3833,9 +3833,9 @@ void FUN_0079bea0_Shell::RefreshRadioList()
     {
         RadioTile* tile =
             (RadioTile*)((RadioList*)&m_kMapMarkerListBox)
-                ->FUN_007a3820((RadioEntry*)node->GetItem(), ((RadioEntry*)node->GetItem())->FUN_0055d520(), 0, 0);
+                ->FUN_007a3820((RadioEntry*)node->GetItem(), ((RadioEntry*)node->GetItem())->TESObjectREFR_GetFullName(), 0, 0);
         tile->Set(0xfaa, 0x19);
-        tile->FUN_00707e10(((RadioEntry*)node->GetItem())->FUN_0055d520());
+        tile->FUN_00707e10(((RadioEntry*)node->GetItem())->TESObjectREFR_GetFullName());
         tile->Set(DAT_011da348, FUN_0079c070() && node->GetItem() == *(unsigned int*)FUN_0079c070());
         tile->Set(DAT_011da344, record.FUN_005f65d0(&node->GetItem()) ? DAT_01023cd8 : DAT_0101e704, true);
     }
@@ -4129,8 +4129,8 @@ struct DoorInfoView
 struct MarkerRefView : TESObjectREFR
 {
     DoorBaseView* FUN_007af430();
-    bool FUN_00477ba0();
-    bool FUN_0057b4b0();
+    bool TESForm_GetDestroyed();
+    bool TESObjectREFR_GetIsHiddenDoor();
     DoorInfoView* FUN_00568e50();
 };
 struct NiPoint2_helper
@@ -4139,7 +4139,7 @@ struct NiPoint2_helper
     NiPoint2_helper(float, float);
 };
 int __cdecl TruncateFloatToInt(float);
-int __cdecl FUN_00556870(NiPoint3&);
+int __cdecl TESObjectCELL_GetSeenValue(NiPoint3&);
 int __cdecl FUN_00a00940(const char*, int);
 struct MarkerChildren
 {
@@ -4169,7 +4169,7 @@ void MapView::UpdateLocalMap()
     if (pAdjustNorthRotationCell)
     {
         NiPoint3 b = c;
-        ((TESObjectCELL_Ext*)pAdjustNorthRotationCell)->FUN_00555b10(c, b, true);
+        ((TESObjectCELL_Ext*)pAdjustNorthRotationCell)->TESObjectCELL_AdjustCoordForNorthRotation(c, b, true);
         int e = ((TruncateFloatToInt(b.x) - 2048) >> 12) - (*g_011c63cc.Int() >> 1);
         int d = ((TruncateFloatToInt(b.y) - 2048) >> 12) - (*g_011c63cc.Int() >> 1);
         NiPoint3 a((float)((e << 12) + 2048), (float)(((d + *g_011c63cc.Int() - 1) << 12) + 2048), 0.0f);
@@ -4201,14 +4201,14 @@ void MapView::UpdateLocalMap()
                 MarkerRefView* e = (MarkerRefView*)node->GetItem();
                 DoorBaseView* a = e->FUN_007af430()->GetFormType() == 28 ? e->FUN_007af430() : 0;
                 NiPoint3 d = *e->GetPos();
-                if (e->FUN_00477ba0() || e->FUN_0057b4b0() || (!a || a->IsFlag4Set()))
+                if (e->TESForm_GetDestroyed() || e->TESObjectREFR_GetIsHiddenDoor() || (!a || a->IsFlag4Set()))
                     continue;
                 if (pAdjustNorthRotationCell)
-                    ((TESObjectCELL_Ext*)pAdjustNorthRotationCell)->FUN_00555b10(d, d, true);
+                    ((TESObjectCELL_Ext*)pAdjustNorthRotationCell)->TESObjectCELL_AdjustCoordForNorthRotation(d, d, true);
                 float c = 255.0f;
                 NiPoint3 b = GetMarkerPosition(d, 0);
                 if (m_bNeedsMapUpdate)
-                    c = (float)(FUN_00556870(d) / 4.0 * c);
+                    c = (float)(TESObjectCELL_GetSeenValue(d) / 4.0 * c);
                 if (c > 0.0 && b.x >= 0.0 && b.x <= 1.0 && b.y >= 0.0 && b.y <= 1.0)
                 {
                     Tile* g = ((MapView*)DAT_011da368)->FUN_00a1ddb0(m_pTiles[2], "MapMarkerTemplate", false);
@@ -4296,8 +4296,8 @@ struct Query
 bool FUN_006d4d20(const Query&, const Query&, SearchResults*, int, float, const Origin*, int);
 struct World
 {
-    void FUN_00555b10(Point&, const Point&, int);
-    float FUN_00555ad0();
+    void TESObjectCELL_AdjustCoordForNorthRotation(Point&, const Point&, int);
+    float TESObjectCELL_GetNorthRotation();
 };
 struct Reference
 {
@@ -4989,13 +4989,13 @@ void Menu::FUN_0079dbb0()
         {
             Point position = target->Position();
             if (world)
-                world->FUN_00555b10(position, position, 1);
+                world->TESObjectCELL_AdjustCoordForNorthRotation(position, position, 1);
             point = GetMarkerPosition(position, target->FUN_00575d70());
             tile->FUN_00700320(4003, 1);
             tile->FUN_00a012d0(DAT_011da350, point.x, 1);
             tile->FUN_00a012d0(DAT_011da34c, point.y, 1);
             float angle = -DAT_011dea3c->Heading(0) - DAT_010290d0;
-            angle -= DAT_011dea3c->FUN_00575d10() ? DAT_011dea3c->FUN_008d6f30()->FUN_00555ad0() : 0.0f;
+            angle -= DAT_011dea3c->FUN_00575d10() ? DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_GetNorthRotation() : 0.0f;
             tile->FUN_00a012d0(4090, angle, 1);
         }
         else
@@ -5116,7 +5116,7 @@ void MarkerMap::FUN_0079e0a0()
             NiPoint3 position = *target->GetPos();
             NiPoint3 mapPosition;
             if (pAdjustNorthRotationCell)
-                pAdjustNorthRotationCell->FUN_00555b10(position, position, true);
+                pAdjustNorthRotationCell->TESObjectCELL_AdjustCoordForNorthRotation(position, position, true);
             mapPosition = GetMarkerPosition(position, ((RefMapOps*)target)->FUN_00575d70());
             {
                 Tile* value = 0;
@@ -5204,7 +5204,7 @@ void MarkerMenu::UpdateQuestMarkers()
             NiPoint3 aCollision;
             NiPoint3 aOffset;
             if (pAdjustNorthRotationCell)
-                pAdjustNorthRotationCell->FUN_00555b10(_point2, _point2, true);
+                pAdjustNorthRotationCell->TESObjectCELL_AdjustCoordForNorthRotation(_point2, _point2, true);
             aCollision = GetMarkerPosition(_point2, aFirst->FUN_00575d70());
             aOffset = GetMarkerPosition(_pos2, aFirst->FUN_00575d70());
             float _target = ((MarkerTile*)m_pMapTile)->FUN_00a011b0(0xfb1);
@@ -5280,7 +5280,7 @@ class TESObjectREFRExt : public TESObjectREFR
     virtual bool ShouldHide(int reason);
     bool FUN_00575d10();
     const char* GetFullName();
-    float FUN_005723b0(TESObjectREFR*, int, int);
+    float TESObjectREFR_GetDistanceFromReference(TESObjectREFR*, int, int);
 };
 
 struct PlayerCharacterExt : public PlayerCharacter
@@ -5355,7 +5355,7 @@ void MapMenuExt::UpdateMapMarkers()
             continue;
         }
 
-        float deltaA = ((TESObjectREFRExt*)kPRef)->FUN_005723b0(g_thePlayer, 0, 0);
+        float deltaA = ((TESObjectREFRExt*)kPRef)->TESObjectREFR_GetDistanceFromReference(g_thePlayer, 0, 0);
         if (deltaA < DAT_01016968 && m_iMapDisplayMode == 0x21)
         {
             headX = headX->GetNext();
@@ -5389,7 +5389,7 @@ void MapMenuExt::UpdateMapMarkers()
 
             if (pAdjustNorthRotationCell)
             {
-                pAdjustNorthRotationCell->FUN_00555b10(kPos12, kPos12, true);
+                pAdjustNorthRotationCell->TESObjectCELL_AdjustCoordForNorthRotation(kPos12, kPos12, true);
             }
 
             pt1A = WorldToMapPosition(kPos12, dest->GetParentWorldSpace());
@@ -5515,7 +5515,7 @@ void QuestMapMenu::UpdateQuestMarker()
         NiPoint3 mapPosition;
         position = *reference->GetPos();
         if (pAdjustNorthRotationCell)
-            pAdjustNorthRotationCell->FUN_00555b10(position, position, true);
+            pAdjustNorthRotationCell->TESObjectCELL_AdjustCoordForNorthRotation(position, position, true);
         mapPosition = GetMarkerPosition(position, ((QuestMapReference*)reference)->FUN_00575d70());
         {
             Tile* parent = m_iMapDisplayMode == 33 ? m_pTiles[5] : m_pTiles[3];
@@ -7354,17 +7354,17 @@ struct FUN_0079c530_cls
     int unk78;
     int unk7c;
     int m_i80;
-    void FUN_0079c530(int a1, int a2);
+    void MapMenu_HandleMousewheel(int a1, int a2);
 };
 
 // If m_i80 is 0x20 or 0x21, pushes a flag based on PipboyLookup Query divided by 0x78 compared to DAT_01012060, with value DAT_01056528.
 // @fnv 0x0079c530
-void FUN_0079c530_cls::FUN_0079c530(int aiUnused, int a2)
+void FUN_0079c530_cls::MapMenu_HandleMousewheel(int aiUnused, int a2)
 {
     if (m_i80 == 0x21 || m_i80 == 0x20)
     {
         reinterpret_cast<FUN_0079c5a0_host*>(this)->Push(
-            (double)(reinterpret_cast<PipboyLookup_host*>(FUN_004b7210())->Query() / 0x78) > DAT_01012060,
+            (double)(reinterpret_cast<PipboyLookup_host*>(InterfaceManager_Instance())->Query() / 0x78) > DAT_01012060,
             DAT_01056528);
     }
 }
@@ -7395,8 +7395,8 @@ struct MMRefNode;
 class MMWorld : public TESWorldSpace
 {
   public:
-    MMMapData* FUN_00586400();
-    const char* FUN_00586440();
+    MMMapData* TESWorldSpace_GetWorldMapData();
+    const char* TESWorldSpace_GetWorldMapTextureName();
     MMRefNode* GetOrCreateElement(int iFlag);
 };
 
@@ -7425,7 +7425,7 @@ struct MMParent
 };
 struct MMLocationName
 {
-    const char* FUN_00616710();
+    const char* TESReputation_GetReputationTitle();
 };
 struct MMMarkerData
 {
@@ -7566,7 +7566,7 @@ class MMRef
     virtual void v1f0();
     virtual const NiPoint3& GetPos();  // +0x1f4
     MMParent* FUN_00575d70();
-    MMMarkerData* FUN_00569060();
+    MMMarkerData* TESObjectREFR_GetMapMarkerData();
     bool FUN_00440da0();
 };
 
@@ -7607,7 +7607,7 @@ struct MMPoint2
     MMPoint2(float fX, float fY);
 };
 
-TESForm* FUN_004839c0(unsigned int auiFormId);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormId);
 int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00a00940(const char* pcTrait, int iIndex);
 extern unsigned int DAT_011da370;
@@ -7617,17 +7617,17 @@ extern const char* DAT_011a0404[];
 // @fnv 0x0079cdb0
 void MMMenu::RefreshMap()
 {
-    MMMapData* pkData = m_pkRootSpace ? m_pkRootSpace->FUN_00586400() : 0;
+    MMMapData* pkData = m_pkRootSpace ? m_pkRootSpace->TESWorldSpace_GetWorldMapData() : 0;
     if (!m_pkRootSpace || !pkData || !pkData->iWidth || !pkData->iHeight)
     {
-        m_pkRootSpace = (MMWorld*)dynamic_cast<TESWorldSpace*>(FUN_004839c0(0x3c));
-        pkData = m_pkRootSpace ? m_pkRootSpace->FUN_00586400() : 0;
+        m_pkRootSpace = (MMWorld*)dynamic_cast<TESWorldSpace*>(TESForm_GetFormByNumericID(0x3c));
+        pkData = m_pkRootSpace ? m_pkRootSpace->TESWorldSpace_GetWorldMapData() : 0;
         m_bRootSpaceChanged = true;
     }
     if (!m_pkRootSpace || !pkData || !pkData->iWidth || !pkData->iHeight)
     {
         m_pkRootSpace = *DAT_011c3f2c->FUN_00460140()->FUN_006815c0();
-        pkData = m_pkRootSpace ? m_pkRootSpace->FUN_00586400() : 0;
+        pkData = m_pkRootSpace ? m_pkRootSpace->TESWorldSpace_GetWorldMapData() : 0;
         m_bRootSpaceChanged = true;
     }
     m_pkMapSpace = m_pkRootSpace;
@@ -7636,7 +7636,7 @@ void MMMenu::RefreshMap()
     {
         if (DAT_011da36c || m_bRootSpaceChanged)
         {
-            m_pkMapTile->FUN_00a01350(0xfcc, m_pkRootSpace->FUN_00586440(), 1);
+            m_pkMapTile->FUN_00a01350(0xfcc, m_pkRootSpace->TESWorldSpace_GetWorldMapTextureName(), 1);
             m_pkMapTile->FUN_00715c60(0xfcd, pkData->iWidth);
             m_pkMapTile->FUN_00715c60(0xfce, pkData->iHeight);
             DAT_011da36c = false;
@@ -7656,7 +7656,7 @@ void MMMenu::RefreshMap()
                 MMParent* pkSpace = pkRef->FUN_00575d70();
                 while (pkSpace && pkSpace->FUN_004fd380())
                     pkSpace = pkSpace->FUN_004fd380();
-                if (!pkRef->FUN_00569060()->FUN_00438ed0() || pkRef->FUN_00440da0())
+                if (!pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438ed0() || pkRef->FUN_00440da0())
                     continue;
                 if (pkSpace != (MMParent*)m_pkRootSpace)
                     continue;
@@ -7665,22 +7665,22 @@ void MMMenu::RefreshMap()
                 {
                     char acText[256];
                     NiPoint3 kMapPos = GetMarkerPosition(kPos, pkRef->FUN_00575d70());
-                    MMLocationName* pkName = pkRef->FUN_00569060()->FUN_0044edb0();
+                    MMLocationName* pkName = pkRef->TESObjectREFR_GetMapMarkerData()->FUN_0044edb0();
                     if (pkName)
                     {
-                        FUN_00406d00(acText, 0x100, "%s\n(%s)", pkRef->FUN_00569060()->FUN_00438eb0(),
-                                     pkName->FUN_00616710());
+                        FUN_00406d00(acText, 0x100, "%s\n(%s)", pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438eb0(),
+                                     pkName->TESReputation_GetReputationTitle());
                         pkMarkerEntry->FUN_00a01350(FUN_00a00940("_LocationName", -1), acText, 1);
                     }
                     else
                         pkMarkerEntry->FUN_00a01350(FUN_00a00940("_LocationName", -1),
-                                                    pkRef->FUN_00569060()->FUN_00438eb0(), 1);
-                    pkMarkerEntry->FUN_00707e10(pkRef->FUN_00569060()->FUN_00438eb0());
+                                                    pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438eb0(), 1);
+                    pkMarkerEntry->FUN_00707e10(pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438eb0());
                     pkMarkerEntry->FUN_00700320(0xfaa, 0x1a);
                     pkMarkerEntry->FUN_00a012d0(DAT_011da350, kMapPos.x, 1);
                     pkMarkerEntry->FUN_00a012d0(DAT_011da34c, kMapPos.y, 1);
-                    if (pkRef->FUN_00569060()->FUN_00438ef0())
-                        pkMarkerEntry->FUN_00a01350(0xfcc, DAT_011a0404[pkRef->FUN_00569060()->FUN_00438f30()], 1);
+                    if (pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438ef0())
+                        pkMarkerEntry->FUN_00a01350(0xfcc, DAT_011a0404[pkRef->TESObjectREFR_GetMapMarkerData()->FUN_00438f30()], 1);
                     else
                     {
                         pkMarkerEntry->FUN_00a01350(0xfcc, "Interface\\Icons\\World Map\\icon_map_undiscovered.dds", 1);
@@ -7977,13 +7977,13 @@ struct ClickVtable
 };
 struct Reconstruction798cb0 : MapMenu
 {
-    void FUN_00798cb0(int, Tile*);
+    void MapMenu_HandleMouseover(int, Tile*);
     void SetNote(BGSNote*);
     void UpdateChallengeText(TESChallenge*);
 };
 // Handles codes 23–25 for list selections and updates the selected index, with additional handling for codes 14, 15, and -1.
 // @fnv 0x00798cb0
-void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
+void Reconstruction798cb0::MapMenu_HandleMouseover(int aiEventCode, Tile* tile)
 {
     int index = 0;
     BGSNote* challenge;
@@ -8046,7 +8046,7 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
     }
     if (DAT_011da400 != index && (aiEventCode == 23 || aiEventCode == 24 || aiEventCode == 25))
     {
-        ((Proxy*)FUN_004b7210())
+        ((Proxy*)InterfaceManager_Instance())
             ->FUN_00704370()
             ->FUN_007f8610(0, DAT_011da400 < index ? DAT_011db2f0.Float()->f : -DAT_011db2f0.Float()->f,
                            DAT_011db358.Float()->f, 1);

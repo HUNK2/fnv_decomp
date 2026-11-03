@@ -83,13 +83,13 @@ public:
     int m_i04;
     InnerCls *m_pInner;
     unsigned short m_w0c;
-    void FUN_00d3e2b0(int a1);
+    void hkpSphereCapsuleAgent_cleanup(int a1);
 };
 
 // @fnv 0x00d3e2b0
 inline void FUN_00d3e2b0_cls::v0(int aiValue) { aiValue; }
 
-void FUN_00d3e2b0_cls::FUN_00d3e2b0(int a1)
+void FUN_00d3e2b0_cls::hkpSphereCapsuleAgent_cleanup(int a1)
 {
     if (m_w0c != 0xffff) {
         m_pInner->v5(m_w0c, a1);

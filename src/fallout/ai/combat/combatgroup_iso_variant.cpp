@@ -274,7 +274,7 @@ struct FUN_009891d0_class
 };
 struct Ref_997440
 {
-    int __thiscall FUN_00575650(void* a, Ref_997440* b, float c);
+    int __thiscall TESObjectREFR_GetWorldLocation(void* a, Ref_997440* b, float c);
 };
 struct S989970
 {
@@ -877,7 +877,7 @@ struct ActorS
 };
 struct ActorX
 {
-    bool FUN_00437bd0();
+    bool Actor_IsUnConscious();
 };
 struct Setting_S
 {
@@ -1172,7 +1172,7 @@ struct FUN_00986bd0_shell : ActorCombatGroup
 class CoordinateTriple
 {
   public:
-    void FUN_00527b70(void* pBuffer);
+    void BGSWorldLocation_SaveGame(void* pBuffer);
 };
 struct FUN_009a5f90_shell
 {
@@ -1189,7 +1189,7 @@ struct FUN_009856e0_shell
 struct FUN_00527ba0_Class
 {
     char pad[0x10];
-    void __thiscall FUN_00527ba0(void* pBuffer);
+    void __thiscall BGSWorldLocation_LoadGame(void* pBuffer);
 };
 struct CombatTimeStampLoadGame
 {
@@ -1797,7 +1797,7 @@ float __cdecl FUN_00435dd0();
 extern float DAT_0108d540;
 struct EventSource
 {
-    EventVector FUN_00575650();
+    EventVector TESObjectREFR_GetWorldLocation();
 };
 struct EventRecord
 {
@@ -1857,7 +1857,7 @@ struct CombatMemberData_985520
 };
 struct TimeInput
 {
-    float __thiscall FUN_00527a40(FUN_00985bb0_Class* owner);
+    float __thiscall BGSWorldLocation_GetDistanceSquared(FUN_00985bb0_Class* owner);
 };
 extern float _DAT_0108d5a0;
 extern double _DAT_0108d598;
@@ -2213,7 +2213,7 @@ struct B989230Quad
 class B989230Ref
 {
   public:
-    B989230Quad FUN_00575650();
+    B989230Quad TESObjectREFR_GetWorldLocation();
 };
 struct B989230Entry
 {
@@ -2254,12 +2254,12 @@ struct AvoidPosition
 {
     AvoidVector point;
     unsigned space;
-    float FUN_00527a40(const AvoidPosition&);
+    float BGSWorldLocation_GetDistanceSquared(const AvoidPosition&);
     AvoidVector& FUN_006815c0();
 };
 struct AvoidActor
 {
-    AvoidPosition FUN_00575650();
+    AvoidPosition TESObjectREFR_GetWorldLocation();
 };
 struct AvoidanceVectorData
 {
@@ -2294,7 +2294,7 @@ struct B9897F0Quad
 class B9897F0Ref
 {
   public:
-    B9897F0Quad FUN_00575650();
+    B9897F0Quad TESObjectREFR_GetWorldLocation();
 };
 class B9897F0Point
 {
@@ -2320,7 +2320,7 @@ struct LocalResult16
 // Actor side: fills the caller supplied result block and returns its address.
 struct ActorRef00989880
 {
-    int __thiscall FUN_00575650(void* pResult);
+    int __thiscall TESObjectREFR_GetWorldLocation(void* pResult);
 };
 // Group side: takes the result block, the radius and the actor.
 struct GroupRef00989880
@@ -4598,9 +4598,9 @@ struct DebugNode
     static void* operator new(unsigned int);
     static void operator delete(void*);
     DebugNode* FUN_009611e0();
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00440460(const DebugPoint&);
-    void FUN_00439410(DebugMaterial*);
+    void NiAVObject_AttachProperty(DebugMaterial*);
     void FUN_00a5a040();
     void FUN_00a59c60(const DebugUpdate&);
 };
@@ -4636,7 +4636,7 @@ bool FUN_008c7aa0();
 DebugDetach* __stdcall FUN_004537b0(DebugNode*);
 struct DebugScene
 {
-    DebugNode* FUN_00524cf0();
+    DebugNode* TESObjectCELL_MarkerNode();
 };
 struct DebugGroup;
 struct DebugActor
@@ -4896,7 +4896,7 @@ struct DebugActor
     virtual void v252();
     virtual void v253();
     virtual DebugGroup* Group();
-    unsigned int FUN_00575ca0();
+    unsigned int TESObjectREFR_GetSpace();
     DebugScene* FUN_008d6f30();
     float FUN_008be1b0();
 };
@@ -5124,7 +5124,7 @@ struct PositionData
     Point point;
     int cell;
     void FUN_0097ede0();
-    float FUN_00527a40(Position*);
+    float BGSWorldLocation_GetDistanceSquared(Position*);
     void SetTripleAndValue(Point*, void*);
     int FUN_0084e3a0();
 };
@@ -5779,12 +5779,12 @@ struct Actor
     virtual void* v42c();
     Process* FUN_008d8520();
     int FUN_00931850();
-    void FUN_00575650(Position*);
-    void* FUN_00575ca0();
+    void TESObjectREFR_GetWorldLocation(Position*);
+    void* TESObjectREFR_GetSpace();
     void* FUN_005d43c0();
 };
 extern Actor* DAT_011dea3c;
-void __cdecl FUN_005ac750(void*, void*, int);
+void __cdecl Script_SetActionFlag(void*, void*, int);
 struct Manager
 {
     void TryStartDialogue(Actor*, Actor*, int, int, int, int);
@@ -5915,9 +5915,9 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 fallbackLocal15.FUN_0066e590();
                 if (memberLocal19->FUN_00931850() && subject->FUN_00931850())
                 {
-                    memberLocal19->FUN_00575650(&originLocal30);
-                    subject->FUN_00575650(&destinationLocal23);
-                    if (originLocal30.FUN_00527a40(&destinationLocal23) < 67108864.0)
+                    memberLocal19->TESObjectREFR_GetWorldLocation(&originLocal30);
+                    subject->TESObjectREFR_GetWorldLocation(&destinationLocal23);
+                    if (originLocal30.BGSWorldLocation_GetDistanceSquared(&destinationLocal23) < 67108864.0)
                     {
                         fallbackLocal15.score = 1;
                         senseLocal1 = &fallbackLocal15;
@@ -5963,7 +5963,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                     }
                     if (missingLocal40 && senseLocal1->time.FUN_006a7f50() > newestLocal2.FUN_006a7f50())
                     {
-                        nearestLocal9.SetTripleAndValue(&senseLocal1->point, memberLocal19->FUN_00575ca0());
+                        nearestLocal9.SetTripleAndValue(&senseLocal1->point, memberLocal19->TESObjectREFR_GetSpace());
                         newestLocal2 = senseLocal1->time;
                     }
                 }
@@ -5980,7 +5980,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                     {
                         member2Local23 = GetIntAt(index2Local31);
                         if (member2Local23 != DAT_011dea3c)
-                            FUN_005ac750(member2Local23->v42c(), member2Local23->FUN_005d43c0(), 0x8000);
+                            Script_SetActionFlag(member2Local23->v42c(), member2Local23->FUN_005d43c0(), 0x8000);
                     }
                     DAT_011f1708->TryStartDialogue(bestLocal4, subject, 4, 3, 1, 0);
                 }
@@ -5990,7 +5990,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 temp1Local7.FUN_00435de0(FUN_00435dd0());
                 targetLocal40->updateTime = temp1Local7;
             }
-            subject->FUN_00575650(&currentLocal8);
+            subject->TESObjectREFR_GetWorldLocation(&currentLocal8);
             if (maximumLocal6 > 0)
             {
                 temp2Local6.FUN_00435de0(FUN_00435dd0());
@@ -6029,7 +6029,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                     else
                         strengthLocal6 = (highestLocal52 - (int)*DAT_011cd45c.FUN_00403e20()) / 2.0 + 40.0;
                     impactLocal48.FUN_0097ede0();
-                    impactLocal48.SetTripleAndValue(&hitLocal9->point, subject->FUN_00575ca0());
+                    impactLocal48.SetTripleAndValue(&hitLocal9->point, subject->TESObjectREFR_GetSpace());
                     StoreRecord(&impactLocal48, strengthLocal6, 0);
                     targetLocal40->hitTime = hitLocal9->time;
                 }
@@ -6255,7 +6255,7 @@ struct Location
 {
     unsigned int unk00, unk04, unk08, unk0c;
     bool FUN_00527a00();
-    bool FUN_00527990(unsigned int*, unsigned int*);
+    bool BGSWorldLocation_GetCellOrWorld(unsigned int*, unsigned int*);
     void* FUN_006815c0();
     void* FUN_0084e3a0();
 };
@@ -6607,7 +6607,7 @@ struct Actor
     virtual Group* ActorCombatGroup();
     bool FUN_008b3b90();
     bool FUN_008b3bf0();
-    void* FUN_00575ca0();
+    void* TESObjectREFR_GetSpace();
 };
 struct Setting
 {
@@ -6784,7 +6784,7 @@ void Group::FUN_0098a580()
                 {
                     unsigned int endSlot0 = 0;
                     unsigned int start = 0;
-                    if (location.FUN_00527990(&start, &endSlot0))
+                    if (location.BGSWorldLocation_GetCellOrWorld(&start, &endSlot0))
                     {
                         Vec selected;
                         if (FUN_006d6f80(endSlot0, start, position, selected))
@@ -6813,7 +6813,7 @@ void Group::FUN_0098a580()
                 for (unsigned int memberIndex = 0; memberIndex < memberCount; memberIndex++)
                 {
                     Actor* member = GetIntAt(memberIndex);
-                    if (member->FUN_00575ca0() != location.FUN_0084e3a0())
+                    if (member->TESObjectREFR_GetSpace() != location.FUN_0084e3a0())
                         continue;
                     Region memberRegionSlot0(member);
                     if (memberRegionSlot0.FUN_0098ad70())
@@ -7256,7 +7256,7 @@ struct LoadExtra
     LoadRef ref;
     int id;
     int value;
-    void FUN_00527ba0(LoadBuf*);
+    void BGSWorldLocation_LoadGame(LoadBuf*);
 };
 struct TESObjectREFR : TESForm
 {
@@ -7333,7 +7333,7 @@ struct ArrParents
 struct LoadHandle
 {
     int x0, x4, x8, xc;
-    void FUN_00527ba0(LoadBuf*);
+    void BGSWorldLocation_LoadGame(LoadBuf*);
 };
 struct GroupLoad
 {
@@ -7496,7 +7496,7 @@ struct PoseData
     float a, b, c;
     int d;
     int FUN_0084e3a0();
-    float FUN_00527a40(const PoseData*);
+    float BGSWorldLocation_GetDistanceSquared(const PoseData*);
 };
 struct MovementPose;
 struct OtherState
@@ -7508,7 +7508,7 @@ struct OtherState
 };
 struct MovementPose
 {
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     PoseData* GetValue98();
 };
 struct ConditionFlag
@@ -7796,10 +7796,10 @@ struct ActorSelect
     int FUN_004030b0();
     OtherState* FUN_00586150();
     MovementPose* FUN_00980070();
-    int FUN_00567d90();
+    int TESObjectREFR_GetLocationEncounterZone();
     bool FUN_00566950();
     bool IsHostileTo(ActorSelect*, int, int*, int);
-    void FUN_00575650(PoseData*);
+    void TESObjectREFR_GetWorldLocation(PoseData*);
     bool FUN_008a6650(int);
 };
 struct CandidateLink
@@ -7942,7 +7942,7 @@ struct ActQ
         v069(), v070(), v071(), v072(), v073(), v074(), v075();
     virtual const char* GetNameQ();
     void* FUN_00474cb0();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     unsigned int FUN_0084e3a0();
 };
 struct TgtQ

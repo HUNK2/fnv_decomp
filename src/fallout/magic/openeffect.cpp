@@ -54,9 +54,9 @@ class MagicTarget
 
 struct S_00826190_Ref
 {
-    void* FUN_00569160();
-    int FUN_005691b0();
-    void FUN_005692a0();
+    void* TESObjectREFR_GetLock();
+    int TESObjectREFR_GetLockLevel();
+    void TESObjectREFR_UnLock();
 };
 
 struct S_00826190_RefHolder
@@ -75,22 +75,22 @@ struct S_00826190_Effect
 {
     MagicTarget* FUN_0059bb30();
     float GetFloatAtOffset1C();
-    void FUN_00826190();
+    void OpenEffect_Start();
 };
 
 // @fnv 0x00826190
-void S_00826190_Effect::FUN_00826190()
+void S_00826190_Effect::OpenEffect_Start()
 {
     NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(FUN_0059bb30());
     if (!target || !target->GetRef())
     {
         return;
     }
-    void* pLock = target->GetRef()->FUN_00569160();
+    void* pLock = target->GetRef()->TESObjectREFR_GetLock();
     int a = FUN_00430b40((int)GetFloatAtOffset1C());
-    int lockLevel = FUN_00430b40(target->GetRef()->FUN_005691b0());
+    int lockLevel = FUN_00430b40(target->GetRef()->TESObjectREFR_GetLockLevel());
     if (pLock && a >= lockLevel)
     {
-        target->GetRef()->FUN_005692a0();
+        target->GetRef()->TESObjectREFR_UnLock();
     }
 }

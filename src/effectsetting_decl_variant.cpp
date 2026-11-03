@@ -1,6 +1,6 @@
 
 // src/effectsetting_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00407300: the skeleton of src/effectsetting.cpp
-// with declarations corrected to what the original code does (effectsetting_decls.h: EffectSetting += void FUN_00407300();; effectsetting_decls.h: TESForm += void FUN_004855a0(); void FUN_00485680();; effectsetting_decls.h: TESFullName += void FUN_00487010();; effectsetting_decls.h: TESDescription += void FUN_00482cb0();; effectsetting_decls.h: TESIcon += void). Move the function to its real unit once
+// with declarations corrected to what the original code does (effectsetting_decls.h: EffectSetting += void EffectSetting_SaveForm();; effectsetting_decls.h: TESForm += void TESForm_StartForm(); void TESForm_CloseForm();; effectsetting_decls.h: TESFullName += void TESFullName_Save();; effectsetting_decls.h: TESDescription += void TESDescription_Save();; effectsetting_decls.h: TESIcon += void). Move the function to its real unit once
 // that unit declares it this way.
 
 #include "effectsetting_decls_decl_effectsetting.h"
@@ -18,12 +18,12 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 // @fnv 0x00407300
-void EffectSetting::FUN_00407300()
+void EffectSetting::EffectSetting_SaveForm()
 {
-    FUN_004855a0();
-    TESFullName::FUN_00487010();
-    TESDescription::FUN_00482cb0();
-    TESIcon::FUN_0048e370(CHUNK_ICON);
+    TESForm_StartForm();
+    TESFullName::TESFullName_Save();
+    TESDescription::TESDescription_Save();
+    TESIcon::TESTexture_Save(CHUNK_ICON);
     TESModel::WriteToBuffer(CHUNK_MODL, CHUNK_MODT);
 
     TESSound* pkCastSound = data.m_pCastSound;
@@ -64,5 +64,5 @@ void EffectSetting::FUN_00407300()
          pkIter = pkIter->GetNext())
         FUN_00485910(CHUNK_ESCE, savedPkEffect->GetFormID());
 
-    FUN_00485680();
+    TESForm_CloseForm();
 }

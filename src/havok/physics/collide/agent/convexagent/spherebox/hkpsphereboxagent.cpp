@@ -84,11 +84,11 @@ struct S_00d3c3c0_Obj
     int unk04;
     S_00d3c3c0_Holder* unk08;
     unsigned short unk0c;
-    void FUN_00d3c3c0(int arg);
+    void hkpSphereBoxAgent_cleanup(int arg);
 };
 // If unk0c is not 0xffff, calls v14 on unk08 with unk0c and arg, then calls v00 with 1.
 // @fnv 0x00d3c3c0
-void S_00d3c3c0_Obj::FUN_00d3c3c0(int arg)
+void S_00d3c3c0_Obj::hkpSphereBoxAgent_cleanup(int arg)
 {
     int idx = unk0c;
     if ((unsigned short)idx != 0xffff)
@@ -271,7 +271,7 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d3c5b0(int a, int b, int c, Simplex* s);
+    void hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -284,7 +284,7 @@ void Agent::FUN_00d3d080(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d3c5b0(b, a, c, s);
+    AgentBase::hkpSphereBoxAgent_processCollision(b, a, c, s);
     for (; v < s->m_kRayEnd; v++)
     {
         const __m128* pb = &v->m_kPointB;

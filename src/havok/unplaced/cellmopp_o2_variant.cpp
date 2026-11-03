@@ -207,19 +207,19 @@ struct S_00ca4ec0_Base
     virtual void vac();
     virtual void vb0();
     virtual S_00ca4ec0_Out* vb4(int* out);
-    void FUN_00c84d00(S_00ca4ec0_Stream& kStream);
+    void bhkShape_LoadBinary(S_00ca4ec0_Stream& kStream);
 };
 
 struct S_00ca4ec0 : S_00ca4ec0_Base
 {
-    void FUN_00ca4ec0(S_00ca4ec0_Stream& kStream);
+    void bhkBvTreeShape_LoadBinary(S_00ca4ec0_Stream& kStream);
 };
 
 // @fnv 0x00ca4ec0
-void S_00ca4ec0::FUN_00ca4ec0(S_00ca4ec0_Stream& kStream)
+void S_00ca4ec0::bhkBvTreeShape_LoadBinary(S_00ca4ec0_Stream& kStream)
 {
     kStream.FUN_00a645b0();
-    S_00ca4ec0_Base::FUN_00c84d00(kStream);
+    S_00ca4ec0_Base::bhkShape_LoadBinary(kStream);
     int tmp;
     vb4(&tmp)->m_04 = 0;
 }
@@ -274,10 +274,10 @@ struct HC1Base
     int unk14;
     int unk18;
     bool __thiscall FUN_00aa0ad0(NiStream* stream);
-    void __thiscall FUN_00ca4f40(NiStream* stream);
+    void __thiscall bhkBvTreeShape_RegisterStreamables(NiStream* stream);
 };
 // @fnv 0x00ca4f40
-void HC1Base::FUN_00ca4f40(NiStream* stream)
+void HC1Base::bhkBvTreeShape_RegisterStreamables(NiStream* stream)
 {
     if (this)
     {
@@ -340,8 +340,8 @@ struct Owner
     int state;
     int flags;
     Node* node;
-    void FUN_00c84d50(Sink*);
-    void FUN_00ca4f80(Sink*);
+    void bhkShape_SaveBinary(Sink*);
+    void bhkBvTreeShape_SaveBinary(Sink*);
     void* getValue()
     {
         if (this)
@@ -362,10 +362,10 @@ struct Owner
     }
 };
 // @fnv 0x00ca4f80
-void Owner::FUN_00ca4f80(Sink* sink)
+void Owner::bhkBvTreeShape_SaveBinary(Sink* sink)
 {
     sink->set(getValue());
-    FUN_00c84d50(sink);
+    bhkShape_SaveBinary(sink);
 }
 
 namespace fnv_00ca5010 {
@@ -506,10 +506,10 @@ struct FUN_00cb0780_class
     int unk04;
     int unk08;
     void* memory;
-    void FUN_00cb0780(bool release);
+    void bhkTriSampledHeightFieldBvTreeShape_KillCinfo(bool release);
 };
 // @fnv 0x00cb0780
-void FUN_00cb0780_class::FUN_00cb0780(bool release)
+void FUN_00cb0780_class::bhkTriSampledHeightFieldBvTreeShape_KillCinfo(bool release)
 {
     void* allocation;
     MemoryContextGuard guard;
@@ -722,8 +722,8 @@ extern GlobalString g_01268350;
 char* __cdecl FUN_00a7d330(const char* text);
 struct StringBuilder
 {
-    void FUN_00ca5190(NiStringArray* array);
-    void FUN_00cb09b0(NiStringArray* array);
+    void bhkBvTreeShape_GetViewerStrings(NiStringArray* array);
+    void bhkTriSampledHeightFieldBvTreeShape_GetViewerStrings(NiStringArray* array);
 };
 struct ThreadStateGuard
 {
@@ -738,10 +738,10 @@ struct ThreadStateGuard
     }
 };
 // @fnv 0x00cb09b0
-void StringBuilder::FUN_00cb09b0(NiStringArray* array)
+void StringBuilder::bhkTriSampledHeightFieldBvTreeShape_GetViewerStrings(NiStringArray* array)
 {
     ThreadStateGuard guard;
-    FUN_00ca5190(array);
+    bhkBvTreeShape_GetViewerStrings(array);
     char* value = FUN_00a7d330(g_01268350.value);
     unsigned int count = array->count;
     unsigned int capacity = array->capacity;
@@ -856,12 +856,12 @@ struct QTF
     virtual void f43();
     virtual void f44();
     virtual int M45(void* p);
-    void __thiscall FUN_00c84cc0(EP* p);
-    void FUN_00ca4f00(EP* a1);
+    void __thiscall bhkShape_LinkObject(EP* p);
+    void bhkBvTreeShape_LinkObject(EP* a1);
 };
 
 // @fnv 0x00ca4f00
-void QTF::FUN_00ca4f00(EP* a1)
+void QTF::bhkBvTreeShape_LinkObject(EP* a1)
 {
     char tmp;
     void* r;
@@ -869,7 +869,7 @@ void QTF::FUN_00ca4f00(EP* a1)
     int v = a1->FUN_00a63430();
     if (v != 0)
         ((int*)r)[1] = ((int*)v)[2];
-    this->FUN_00c84cc0(a1);
+    this->bhkShape_LinkObject(a1);
 }
 
 struct FUN_00ca4fd0_Value
@@ -937,11 +937,11 @@ class FUN_00ca4fd0_cls
     int unk04;
     Node* m_pReferencedNode;
 
-    void FUN_00ca4fd0(int first, int second);
+    void bhkBvTreeShape_BuildDisplayGeometry(int first, int second);
 };
 
 // @fnv 0x00ca4fd0
-void FUN_00ca4fd0_cls::FUN_00ca4fd0(int first, int second)
+void FUN_00ca4fd0_cls::bhkBvTreeShape_BuildDisplayGeometry(int first, int second)
 {
     Node* pNode;
     Link* m_pTaskletData;
@@ -1096,11 +1096,11 @@ struct FUN_00cb05d0_cls
     virtual void v47();
     virtual void v48();
     virtual void v49(SpawnedObject* obj, int a1);
-    SpawnedObject* FUN_00cb05d0(int a1);
+    SpawnedObject* bhkTriSampledHeightFieldBvTreeShape_CreateClone(int a1);
 };
 
 // @fnv 0x00cb05d0
-SpawnedObject* FUN_00cb05d0_cls::FUN_00cb05d0(int a1)
+SpawnedObject* FUN_00cb05d0_cls::bhkTriSampledHeightFieldBvTreeShape_CreateClone(int a1)
 {
     ThreadStateGuard guard;
     FUN_00c876f0();
@@ -1134,11 +1134,11 @@ struct FUN_00cb06c0_cls
     void* unk08;
     void* unk0c;
     void FUN_00cb0030(void* value);
-    void* FUN_00cb06c0(bool* out);
+    void* bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* out);
 };
 
 // @fnv 0x00cb06c0
-void* FUN_00cb06c0_cls::FUN_00cb06c0(bool* out)
+void* FUN_00cb06c0_cls::bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* out)
 {
     ThreadStateGuard guard;
     bool empty = (unk0c == 0);
@@ -1468,7 +1468,7 @@ struct BinaryDataRecord
 
 struct FUN_00cb00a0_Class
 {
-    void FUN_00ca4ec0(char*);
+    void bhkBvTreeShape_LoadBinary(char*);
     virtual void* slot00(void*);
     virtual void* slot01(void*);
     virtual void* slot02(void*);
@@ -1515,13 +1515,13 @@ struct FUN_00cb00a0_Class
     virtual void* slot43(void*);
     virtual void* slot44(void*);
     virtual BinaryDataRecord* getData(void*);
-    void FUN_00cb00a0(char*);
+    void bhkTriSampledHeightFieldBvTreeShape_LoadBinary(char*);
 };
 
 // @fnv 0x00cb00a0
-void FUN_00cb00a0_Class::FUN_00cb00a0(char* object)
+void FUN_00cb00a0_Class::bhkTriSampledHeightFieldBvTreeShape_LoadBinary(char* object)
 {
-    this->FUN_00ca4ec0(object);
+    this->bhkBvTreeShape_LoadBinary(object);
     if (object[0x1e5] != 1)
     {
         void* out;
@@ -1586,12 +1586,12 @@ struct T
     virtual void slot43() = 0;
     virtual void slot44() = 0;
     virtual void* Query(char*) = 0;
-    void FUN_00cb0120(void*);
-    void FUN_00ca4f80(void*);
+    void bhkTriSampledHeightFieldBvTreeShape_SaveBinary(void*);
+    void bhkBvTreeShape_SaveBinary(void*);
 };
 
 // @fnv 0x00cb0120
-void T::FUN_00cb0120(void* arg)
+void T::bhkTriSampledHeightFieldBvTreeShape_SaveBinary(void* arg)
 {
     char local;
     volatile unsigned int* data = (volatile unsigned int*)Query(&local);
@@ -1608,7 +1608,7 @@ void T::FUN_00cb0120(void* arg)
         data[0xb] = _byteswap_ulong(data[0xb]);
         data[0x10] = 0;
     }
-    FUN_00ca4f80(arg);
+    bhkBvTreeShape_SaveBinary(arg);
     if (context[0x1e4] != 1)
     {
         data[0x4] = _byteswap_ulong(data[0x4]);
@@ -1735,7 +1735,7 @@ struct StringArrayCalls_00ca5190
 };
 struct StringBuilderCalls_00ca5190
 {
-    void FUN_00c851c0(NiStringArray* array);
+    void bhkShape_GetViewerStrings(NiStringArray* array);
 };
 
 struct ValueObject_00ca5190
@@ -1769,14 +1769,14 @@ struct ValueObject_00ca5190
 
 struct StringBuilder_ca5190 : public StringBuilder
 {
-    void FUN_00ca5190(NiStringArray* array);
+    void bhkBvTreeShape_GetViewerStrings(NiStringArray* array);
 };
 
 // @fnv 0x00ca5190
-void StringBuilder_ca5190::FUN_00ca5190(NiStringArray* array)
+void StringBuilder_ca5190::bhkBvTreeShape_GetViewerStrings(NiStringArray* array)
 {
     ThreadStateGuard guard;
-    reinterpret_cast<StringBuilderCalls_00ca5190*>(this)->FUN_00c851c0(array);
+    reinterpret_cast<StringBuilderCalls_00ca5190*>(this)->bhkShape_GetViewerStrings(array);
 
     char* text = FUN_00a7d330(DAT_012682d0);
     unsigned int count = array->count;

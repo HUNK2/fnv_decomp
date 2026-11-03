@@ -14,11 +14,11 @@ struct NiTimeController
 
 struct NiFloatController : NiTimeController
 {
-    void FUN_00a57970(NiStream&);
+    void NiFloatController_LoadBinary(NiStream&);
 };
 
 // @fnv 0x00a57970
-void NiFloatController::FUN_00a57970(NiStream& stream)
+void NiFloatController::NiFloatController_LoadBinary(NiStream& stream)
 {
     NiTimeController::LoadBinary(stream);
     stream.ResetStreamState();
@@ -61,11 +61,11 @@ struct HelperData00a57a40
 };
 struct StandIn00a57a40
 {
-    void FUN_00a57a40(CloningProcess&);
+    void NiFloatController_ProcessClone(CloningProcess&);
 };
 // Calls ProcessClone on this and, if the pointer at offset 0x38 is set, on that object too.
 // @fnv 0x00a57a40
-void StandIn00a57a40::FUN_00a57a40(CloningProcess& kCloning)
+void StandIn00a57a40::NiFloatController_ProcessClone(CloningProcess& kCloning)
 {
     ((HelperBase00a57a40*)this)->ProcessClone(kCloning);
     HelperData00a57a40* pData = *(HelperData00a57a40**)((char*)this + 0x38);
@@ -91,11 +91,11 @@ struct CtrlHelper543
 };
 struct FUN_00a57a70_shell
 {
-    void FUN_00a57a70(NiStream&);
+    void NiFloatController_LinkObject(NiStream&);
 };
 // Links the object obtained from the stream into the field at offset 0x38, releasing the previous object and incrementing the new one's reference count.
 // @fnv 0x00a57a70
-void FUN_00a57a70_shell::FUN_00a57a70(NiStream& kStream)
+void FUN_00a57a70_shell::NiFloatController_LinkObject(NiStream& kStream)
 {
     ((CtrlHelper543*)this)->LinkObject(kStream);
     FakeObj543* pkObj = ((StreamHelper543*)&kStream)->GetLoadedObject();
@@ -122,14 +122,14 @@ extern char const* const g_011f3f58_arg1;
 char* __cdecl _FUN_00a7d330(char const*);
 struct FUN_00a57bb0_shell
 {
-    void FUN_00a6d830(StrArr*);
+    void NiTimeController_GetViewerStrings(StrArr*);
     void AppendString(StrArr*);
 };
-// Calls FUN_00a6d830, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
+// Calls NiTimeController_GetViewerStrings, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00a57bb0
 void FUN_00a57bb0_shell::AppendString(StrArr* pStrArr)
 {
-    FUN_00a6d830(pStrArr);
+    NiTimeController_GetViewerStrings(pStrArr);
     char* psz = _FUN_00a7d330(g_011f3f58_arg1);
     unsigned int uiSize = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int uiCapacity = *(unsigned short*)((char*)pStrArr + 8);
@@ -187,7 +187,7 @@ TimedAnimationKey* FUN_00a579f0_shell::GetFloatKeys(unsigned int& uiNumKeys, Ani
 
 struct BaseCall
 {
-    bool FUN_00a6d0f0(NiStream&);
+    bool NiTimeController_RegisterStreamables(NiStream&);
 };
 struct FloatIface
 {
@@ -218,12 +218,12 @@ struct Holder
 {
     char pad[0x38];
     FloatIface* ptr;
-    bool FUN_00a57ad0(NiStream&);
+    bool NiFloatController_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00a57ad0
-bool Holder::FUN_00a57ad0(NiStream& stream)
+bool Holder::NiFloatController_RegisterStreamables(NiStream& stream)
 {
-    if (!((BaseCall*)this)->FUN_00a6d0f0(stream))
+    if (!((BaseCall*)this)->NiTimeController_RegisterStreamables(stream))
         return false;
     ptr->v21(stream);
     return true;
@@ -231,7 +231,7 @@ bool Holder::FUN_00a57ad0(NiStream& stream)
 
 struct BaseHack
 {
-    void __thiscall FUN_00a6d730(NiStream&);
+    void __thiscall NiTimeController_SaveBinary(NiStream&);
 };
 struct StreamHack
 {
@@ -253,12 +253,12 @@ struct FakeController
 {
     char _pad[0x38];
     void* m_pData;
-    void __thiscall FUN_00a57b00(NiStream&);
+    void __thiscall NiFloatController_SaveBinary(NiStream&);
 };
 // @fnv 0x00a57b00
-void __thiscall FakeController::FUN_00a57b00(NiStream& stream)
+void __thiscall FakeController::NiFloatController_SaveBinary(NiStream& stream)
 {
-    ((BaseHack*)this)->FUN_00a6d730(stream);
+    ((BaseHack*)this)->NiTimeController_SaveBinary(stream);
     ((StreamHack*)&stream)->SaveLink(m_pData);
 }
 
@@ -440,15 +440,15 @@ struct FUN_00a57b20_cls
     int unk30;
     int unk34;
     Iface57b20* m_38;
-    bool FUN_00a6cc80(FUN_00a57b20_cls* other);
-    bool FUN_00a57b20(FUN_00a57b20_cls* other);
+    bool NiTimeController_IsEqual(FUN_00a57b20_cls* other);
+    bool NiFloatController_IsEqual(FUN_00a57b20_cls* other);
 };
 
-// Checks FUN_00a6cc80(other), then calls v23 on m_38 with other's m_38 and returns whether it is nonzero.
+// Checks NiTimeController_IsEqual(other), then calls v23 on m_38 with other's m_38 and returns whether it is nonzero.
 // @fnv 0x00a57b20
-bool FUN_00a57b20_cls::FUN_00a57b20(FUN_00a57b20_cls* other)
+bool FUN_00a57b20_cls::NiFloatController_IsEqual(FUN_00a57b20_cls* other)
 {
-    if (!FUN_00a6cc80(other))
+    if (!NiTimeController_IsEqual(other))
     {
         return false;
     }

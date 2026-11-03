@@ -378,12 +378,12 @@ bool FUN_005ff260_shell::FUN_005ff260()
 
 struct FUN_005ff4a0_shell : public TESIdleForm
 {
-    unsigned int FUN_005ff4a0();
+    unsigned int TESIdleForm_GetChildCount();
 };
 
 // Returns the form ID of the TESForm pointer stored at offset 0x40, or 0 if that pointer is null.
 // @fnv 0x005ff4a0
-unsigned int FUN_005ff4a0_shell::FUN_005ff4a0()
+unsigned int FUN_005ff4a0_shell::TESIdleForm_GetChildCount()
 {
     unsigned int iretval = 0;
     if (reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0])
@@ -452,7 +452,7 @@ struct FUN_005ff4d0_shell : public TESIdleForm
 
 struct FUN_004d6170_shell
 {
-    TESForm* FUN_004d6170(unsigned int);
+    TESForm* NiFormArray_GetFormAt(unsigned int);
 };
 struct Off40_5ff4d0
 {
@@ -466,7 +466,7 @@ TESIdleForm* FUN_005ff4d0_shell::GetIdleFormByIndex(unsigned int aiIndex)
     TESIdleForm* pretidle = 0;
     if (((Off40_5ff4d0*)this)->p)
     {
-        pretidle = dynamic_cast<TESIdleForm*>(((Off40_5ff4d0*)this)->p->FUN_004d6170(aiIndex));
+        pretidle = dynamic_cast<TESIdleForm*>(((Off40_5ff4d0*)this)->p->NiFormArray_GetFormAt(aiIndex));
     }
     return pretidle;
 }
@@ -522,7 +522,7 @@ bool FUN_005ff7f0_shell::SetStringIfChanged(const char* str)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
 };
 
 struct FUN_005fe510_compare_shell
@@ -552,7 +552,7 @@ bool FUN_005fe510_shell::IsDifferentFrom(TESForm* apCompare)
     if (!pOtherIdle)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pOtherIdle))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pOtherIdle))
         return true;
 
     if (reinterpret_cast<FUN_005fe510_compare_shell*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
@@ -578,12 +578,12 @@ bool FUN_005fe510_shell::IsDifferentFrom(TESForm* apCompare)
     return false;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -605,21 +605,21 @@ struct TESConditionSave
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 
 struct FUN_005fea50_shell
 {
-    void FUN_005fea50();
+    void TESIdleForm_SaveForm();
 };
 
 bool __cdecl _FUN_00401500();
 void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 
 // @fnv 0x005fea50
-void FUN_005fea50_shell::FUN_005fea50()
+void FUN_005fea50_shell::TESIdleForm_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
 
     reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0x18)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
 
@@ -655,13 +655,13 @@ void FUN_005fea50_shell::FUN_005fea50()
     if (_FUN_00401500())
         reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)->SwapEndian();
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e20(
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm___SaveData(
         reinterpret_cast<int>(reinterpret_cast<char*>(this) + 0x38), 8);
 
     if (_FUN_00401500())
         reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)->SwapEndian();
 
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct FUN_00680a70_obj
@@ -671,30 +671,30 @@ struct FUN_00680a70_obj
 
 struct FUN_005054b0_shell
 {
-    void FUN_004851b0(TESForm* apForm);
+    void TESForm_CopyAllComponents(TESForm* apForm);
 };
 
-bool __fastcall FUN_004077c0(void const* apForm);
+bool __fastcall TESForm_GetTemporary(void const* apForm);
 
 struct FUN_005fe470_shell : public TESIdleForm
 {
     void CopyFromIdleForm(TESForm* apForm);
 };
 
-// Casts apForm to TESIdleForm, copies its base data and add-topic list, then restores the previous flag if FUN_004077c0 returns false.
+// Casts apForm to TESIdleForm, copies its base data and add-topic list, then restores the previous flag if TESForm_GetTemporary returns false.
 // @fnv 0x005fe470
 void FUN_005fe470_shell::CopyFromIdleForm(TESForm* apForm)
 {
     TESIdleForm* other = dynamic_cast<TESIdleForm*>(apForm);
     if (!other)
         return;
-    reinterpret_cast<FUN_005054b0_shell*>(this)->FUN_004851b0(other);
+    reinterpret_cast<FUN_005054b0_shell*>(this)->TESForm_CopyAllComponents(other);
     reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
         ->CopyConditions(reinterpret_cast<FUN_00680a70_obj*>(reinterpret_cast<TESTopicInfo*>(other)->GetAddTopicList()),
                          0);
     bool bFlag = reinterpret_cast<FUN_005ff200_shell*>(this)->IsFlag40Set();
     data = other->data;
-    if (!FUN_004077c0(this))
+    if (!TESForm_GetTemporary(this))
         reinterpret_cast<FUN_005ff220_shell*>(this)->SetFlag40(bFlag);
 }
 
@@ -712,13 +712,13 @@ struct IdleArrayMethods
 };
 struct IdleCopy : TESIdleForm
 {
-    TESForm* FUN_004867a0(unsigned char, FormCopyMap*);
+    TESForm* TESForm_CreateDuplicateForm(unsigned char, FormCopyMap*);
     void FUN_008d8040(TESIdleForm*);
     void FUN_00673400(TESIdleForm*);
     IdleArrayMethods* FUN_005fe770();
     TESIdleForm* CopyIdleForm(unsigned char flag, FormCopyMap* map);
 };
-// Creates a copy of a TESIdleForm via FUN_004867a0, remaps two referenced forms through map, and copies the idle array entries into the copy's array.
+// Creates a copy of a TESIdleForm via TESForm_CreateDuplicateForm, remaps two referenced forms through map, and copies the idle array entries into the copy's array.
 // @fnv 0x005fe600
 TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
 {
@@ -733,7 +733,7 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     TESForm* b;
     TESForm* ba;
     TESForm* k;
-    i = dynamic_cast<TESIdleForm*>(FUN_004867a0(flag, map));
+    i = dynamic_cast<TESIdleForm*>(TESForm_CreateDuplicateForm(flag, map));
     h = 0;
     if (!map->FUN_00853130(m_pParentIdleForm, h) || !h)
         h = m_pParentIdleForm;
@@ -985,7 +985,7 @@ struct IdleInit : TESIdleForm
     void FUN_00484ab0(int);
     void InitLoad();
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl ResolveFormID(unsigned int*, TESFile*);
 void __cdecl FNV_Warning(const char*, ...);
 // Initializes the idle form once: sets up the add-topic list, validates the anim group, resolves parent and previous idle forms, and marks it initialized.
@@ -1015,7 +1015,7 @@ void IdleInit::InitLoad()
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));
-        TESIdleForm* parent = dynamic_cast<TESIdleForm*>(FUN_004839c0(uiFormId));
+        TESIdleForm* parent = dynamic_cast<TESIdleForm*>(TESForm_GetFormByNumericID(uiFormId));
         if (!parent)
         {
             BSStringT<char> name;
@@ -1028,7 +1028,7 @@ void IdleInit::InitLoad()
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));
-        TESIdleForm* previous = dynamic_cast<TESIdleForm*>(FUN_004839c0(uiFormId));
+        TESIdleForm* previous = dynamic_cast<TESIdleForm*>(TESForm_GetFormByNumericID(uiFormId));
         if (!previous)
         {
             BSStringT<char> name;

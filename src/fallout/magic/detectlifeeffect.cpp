@@ -58,7 +58,7 @@ struct BSThread
 };
 struct FUN_0082a670_shell
 {
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
 };
 struct PC7d;
 extern PC7d* g_thePlayer;
@@ -69,12 +69,12 @@ struct RetObj
 };
 struct DetectLifeEffect : FUN_0082a670_shell
 {
-    void FUN_0080ce60();
+    void DetectLifeEffect_Start();
 };
 // @fnv 0x0080ce60
-void DetectLifeEffect::FUN_0080ce60()
+void DetectLifeEffect::DetectLifeEffect_Start()
 {
-    FUN_0082c000();
+    ValueModifierEffect_Start();
     if (((RetObj*)((BSThread*)this)->GetThreadID())->f1() == g_thePlayer)
         FUN_0080cec0();
 }
@@ -319,7 +319,7 @@ struct Actor80c
     virtual void v138();
     virtual bool IsDead(int);
     FUN_0045cd60_cls* FUN_008d8520();
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
 };
 struct NiMemObject
 {
@@ -402,7 +402,7 @@ bool __cdecl UpdateEffectShaderOnActor(Actor80c* pkRef, bool bStopEffect)
     fDistSq *= fDistSq;
     NiPoint3 kPlayerPos9 = *DAT_011dea3c->GetPos();
     if (kPlayerPos9.FUN_00439ef0(*pkRef->GetPos()).FUN_004a7290() < fDistSq && !pkRef->IsDead(0) &&
-        !pkRef->FUN_008d8520()->FUN_0045cd60() && !pkRef->FUN_00477ba0())
+        !pkRef->FUN_008d8520()->FUN_0045cd60() && !pkRef->TESForm_GetDestroyed())
     {
         if (!bStopEffect)
         {

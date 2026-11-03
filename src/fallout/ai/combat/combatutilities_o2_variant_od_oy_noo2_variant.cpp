@@ -55,7 +55,7 @@ struct NiPoint3_helper
 
 struct bhkFilter
 {
-    int __thiscall FUN_004a3a20();
+    int __thiscall CFilter_GetGroup();
 };
 struct FUN_00931ed0_shell
 {
@@ -72,11 +72,11 @@ struct FUN_00553ee0_shell
 };
 struct FUN_004a39f0_shell
 {
-    void __thiscall FUN_004a39f0(int a);
+    void __thiscall CFilter_SetLayer(int a);
 };
 struct FUN_0059ce80_shell
 {
-    void __thiscall FUN_0059ce80(unsigned int a);
+    void __thiscall CFilter_SetGroup(unsigned int a);
 };
 struct FUN_00966980_shell
 {
@@ -107,15 +107,15 @@ struct GameSettingCollection
 struct hkpAllRayHitCollector;
 struct FUN_004a3f70_shell
 {
-    void __thiscall FUN_004a3f70(int value);
+    void __thiscall bhkPickData_SetFilter(int value);
 };
 struct FUN_004a3fb0_shell
 {
-    void __thiscall FUN_004a3fb0(hkpAllRayHitCollector* p);
+    void __thiscall bhkPickData_SetAllCollector(hkpAllRayHitCollector* p);
 };
 struct FUN_004a3da0_shell
 {
-    void __thiscall FUN_004a3da0(void* p);
+    void __thiscall bhkPickData_SetFrom(void* p);
 };
 struct FUN_004a3eb0_shell
 {
@@ -155,7 +155,7 @@ float __cdecl FUN_004e44b0(float a);
 float __cdecl FUN_0057dd70(float a);
 float cos(float a);
 float __cdecl FUN_004b1550(NiPoint3* p);
-int __cdecl FUN_0056f930(int a);
+int __cdecl TESObjectREFR_FindReferenceFor3D(int a);
 int __cdecl FUN_009c0d80(void* input, int a1, void* a2, float* frac, int a4, float maxFrac);
 
 void __cdecl DrawDebugLine(NiPoint3* from, NiPoint3* to, int hit, float frac, int a4, int a5);
@@ -166,10 +166,10 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
 {
     DAT_011f1c7c.FUN_00483710();
     GlobalObject_008c71b0 obj18(0);
-    ((FUN_004a39f0_shell*)&obj18)->FUN_004a39f0(6);
+    ((FUN_004a39f0_shell*)&obj18)->CFilter_SetLayer(6);
     int tmp1c;
     ((FUN_0059ce80_shell*)&obj18)
-        ->FUN_0059ce80((unsigned int)((FUN_00931ed0_shell*)a0)->FUN_00931ed0(&tmp1c)->FUN_004a3a20());
+        ->CFilter_SetGroup((unsigned int)((FUN_00931ed0_shell*)a0)->FUN_00931ed0(&tmp1c)->CFilter_GetGroup());
 
     double d28;
     if (a1)
@@ -186,8 +186,8 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
 
     FUN_004a3a70 obj360;
     FUN_004a3c20_shell obj410;
-    ((FUN_004a3f70_shell*)&obj410)->FUN_004a3f70(obj18.m_val);
-    ((FUN_004a3fb0_shell*)&obj410)->FUN_004a3fb0((hkpAllRayHitCollector*)&obj360);
+    ((FUN_004a3f70_shell*)&obj410)->bhkPickData_SetFilter(obj18.m_val);
+    ((FUN_004a3fb0_shell*)&obj410)->bhkPickData_SetAllCollector((hkpAllRayHitCollector*)&obj360);
 
     NiPoint3 vecStart;
     vecStart = *(NiPoint3*)&s0;
@@ -199,7 +199,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
 
     if (v2c == gModifierZero)
     {
-        ((FUN_004a3da0_shell*)&obj410)->FUN_004a3da0(&vecStart);
+        ((FUN_004a3da0_shell*)&obj410)->bhkPickData_SetFrom(&vecStart);
         ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
         v30 = ((FUN_00553ee0_shell*)((TESObjectREFR*)a0)->GetTarget(&obj410))->FUN_00553ee0();
         v34 = FUN_009c0d80(&obj410, 0, a1, &frac, 0, 3.4028234663852886e38f);
@@ -237,7 +237,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
             pos.x += v430 * v468;
             pos.y += v430 * v46c;
             pos.z += v488;
-            ((FUN_004a3da0_shell*)&obj410)->FUN_004a3da0(&vecStart);
+            ((FUN_004a3da0_shell*)&obj410)->bhkPickData_SetFrom(&vecStart);
             ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
             v30 = ((FUN_00553ee0_shell*)((TESObjectREFR*)a0)->GetTarget(&obj410))->FUN_00553ee0();
             v34 = FUN_009c0d80(&obj410, 0, a1, &frac, 0, 3.4028234663852886e38f);
@@ -256,7 +256,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     {
         if (outInt)
         {
-            *outInt = FUN_0056f930(v34);
+            *outInt = TESObjectREFR_FindReferenceFor3D(v34);
         }
         if (outPt)
         {

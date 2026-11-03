@@ -56,11 +56,11 @@ void NiPSysModifier::LinkObject(NiStream& kStream)
 
 struct NiPSysModifier_shell
 {
-    void FUN_00c31640(NiParticleSystem* pkTarget);
+    void NiPSysModifier_SetSystemPointer(NiParticleSystem* pkTarget);
 };
 
 // @fnv 0x00c31640
-void NiPSysModifier_shell::FUN_00c31640(NiParticleSystem* pkTarget)
+void NiPSysModifier_shell::NiPSysModifier_SetSystemPointer(NiParticleSystem* pkTarget)
 {
     *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned int*>(this) + 4) =
         reinterpret_cast<unsigned int>(pkTarget);
@@ -69,7 +69,7 @@ void NiPSysModifier_shell::FUN_00c31640(NiParticleSystem* pkTarget)
 extern const char* const g_01202528_arg1;
 
 // @fnv 0x00c31710
-const char* const* __cdecl FUN_00c31710()
+const char* const* __cdecl NiPSysModifier_GetRTTI()
 {
     return &g_01202528_arg1;
 }
@@ -77,11 +77,11 @@ const char* const* __cdecl FUN_00c31710()
 bool __stdcall IsSameAs(NiObject* pkObject);
 struct MyIsEqual
 {
-    bool FUN_00c31830(NiObject* pkObject);
+    bool NiPSysModifier_IsEqual(NiObject* pkObject);
 };
 // Compares this object with a NiPSysModifier: checks IsSameAs, then fields at offsets 8, 0xc and 0x14 for equality.
 // @fnv 0x00c31830
-bool MyIsEqual::FUN_00c31830(NiObject* pkObject)
+bool MyIsEqual::NiPSysModifier_IsEqual(NiObject* pkObject)
 {
     NiPSysModifier* pkDest = (NiPSysModifier*)pkObject;
     if (IsSameAs(pkObject) && *(void**)((char*)this + 8) == *(void**)((char*)pkDest + 8) &&
@@ -163,7 +163,7 @@ struct ParticleModifierBinary : BinaryObjectBase
     unsigned int order;
     NiParticleSystem* target;
     bool active;
-    void FUN_00c31950(OutputStream&);
+    void NiPSysModifier_SaveBinary(OutputStream&);
 };
 template <class T> __forceinline void PrimitiveWrite(OutputBinaryStream* stream, const T& value)
 {
@@ -176,7 +176,7 @@ __forceinline void BooleanWrite(OutputBinaryStream* stream, bool value)
     stream->WriteComponents(&value, 1, &size, 1);
 }
 // @fnv 0x00c31950
-void ParticleModifierBinary::FUN_00c31950(OutputStream& stream)
+void ParticleModifierBinary::NiPSysModifier_SaveBinary(OutputStream& stream)
 {
     FUN_00a89af0(stream);
     stream.WriteObjectLink(name);
@@ -248,12 +248,12 @@ extern const char g_011d4e34_arg1[];
 
 struct FUN_00c319e0_cls : ParticleModifierBinary
 {
-    void FUN_00c319e0(StrArr* apViewerStrings);
+    void NiPSysModifier_GetViewerStrings(StrArr* apViewerStrings);
 };
 
 // Appends the modifier's name, order and active flag as formatted strings to the given string array.
 // @fnv 0x00c319e0
-void FUN_00c319e0_cls::FUN_00c319e0(StrArr* apViewerStrings)
+void FUN_00c319e0_cls::NiPSysModifier_GetViewerStrings(StrArr* apViewerStrings)
 {
     AppendCameraPathEntries(apViewerStrings);
     apViewerStrings->Add(FUN_00a7d330(g_01202528_arg1));

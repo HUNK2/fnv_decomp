@@ -71,15 +71,15 @@ struct OperationParameters
 };
 struct HavokOperation
 {
-    void FUN_00c8ad40(PrimitiveStringArray*);
+    void bhkBinaryAction_GetViewerStrings(PrimitiveStringArray*);
     void FUN_00cc3a50(const OperationParameters*);
-    void FUN_00cc4070(PrimitiveStringArray*);
+    void bhkDashpotAction_GetViewerStrings(PrimitiveStringArray*);
 };
 // @fnv 0x00cc4070
-void HavokOperation::FUN_00cc4070(PrimitiveStringArray* array)
+void HavokOperation::bhkDashpotAction_GetViewerStrings(PrimitiveStringArray* array)
 {
     MemoryContextScope context;
-    FUN_00c8ad40(array);
+    bhkBinaryAction_GetViewerStrings(array);
     void* entry = FUN_00a7d330(DAT_012685c8);
     unsigned int index = array->size_at_0a;
     if (index >= array->capacity_at_08)

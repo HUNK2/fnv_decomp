@@ -1246,7 +1246,7 @@ struct Geometry : PropHelper
         int a, b, c, d, e;
         FUN_00a5b230(type);
     }
-    void FUN_00439410(TileShaderProperty*);
+    void NiAVObject_AttachProperty(TileShaderProperty*);
 };
 
 void* __cdecl FUN_00b55560(unsigned int);
@@ -1278,7 +1278,7 @@ void FUN_00a21340_shell::ConvertShadersToTileShader(NiNode* node)
                     {
                         TileShaderProperty* property = new TileShaderProperty(false);
                         child_->RemoveProperty(3);
-                        child_->FUN_00439410(property);
+                        child_->NiAVObject_AttachProperty(property);
                         TexturingProp* data7 = (TexturingProp*)child_->GetProperty(5);
                         if (data7)
                             property->FUN_00bb7a10(data7->GetTexture(0));

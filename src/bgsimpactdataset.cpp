@@ -213,11 +213,11 @@ struct FUN_0058e8c0 : Base5a, Preload
 FUN_0058e8c0::~FUN_0058e8c0()
 {}
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -231,7 +231,7 @@ void FUN_0058ed50::Save()
 {
     int iIndex;
     unsigned int auiFormIDs[12];
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     for (iIndex = 0; iIndex < 12; iIndex++)
     {
         if (((TESForm**)((char*)this + 0x1c))[iIndex])
@@ -240,7 +240,7 @@ void FUN_0058ed50::Save()
             auiFormIDs[iIndex] = 0;
     }
     FUN_00485710(0x41544144, auiFormIDs, 12);
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_0058efd0
@@ -289,7 +289,7 @@ struct MapX
 };
 bool __cdecl FUN_00401500();
 void __cdecl AppendChunk(unsigned int, void*, unsigned int);
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_0058f080
 {
     MapX* m_pData[12];
@@ -322,7 +322,7 @@ void FUN_0058f080::Save()
             }
         }
     }
-    FUN_004856f0(0x46504d49, (char*)this + 0x30, 300);
+    TESForm_AddChunkArray(0x46504d49, (char*)this + 0x30, 300);
 }
 
 namespace fnv_0058f180 {
@@ -522,7 +522,7 @@ struct Entry
 };
 
 void __cdecl ResolveFormID(unsigned int*, TESFile*);
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 // For each of the 12 maps, collects old/new impact pairs, resolves their form IDs against apForm's file, warns on missing impacts, and reinserts them.
 // @fnv 0x0058f210
@@ -560,7 +560,7 @@ void SomeClass::RemapImpactData(TESForm* apForm)
                 {
                     oldFormID = (unsigned int)entries3[j_].oldImpact;
                     ResolveFormID(&oldFormID, apForm->GetFile(-1));
-                    oldImpact6 = dynamic_cast<BGSImpactData*>(FUN_004839c0(oldFormID));
+                    oldImpact6 = dynamic_cast<BGSImpactData*>(TESForm_GetFormByNumericID(oldFormID));
                     if (!oldImpact6)
                     {
                         Warning("Could not find old ImpactData (%08X) for ImpactSwap on '%s' (%08X).", oldFormID,
@@ -573,7 +573,7 @@ void SomeClass::RemapImpactData(TESForm* apForm)
                 {
                     newFormID4 = (unsigned int)entries3[j_].newImpact;
                     ResolveFormID(&newFormID4, apForm->GetFile(-1));
-                    newImpact = dynamic_cast<BGSImpactData*>(FUN_004839c0(newFormID4));
+                    newImpact = dynamic_cast<BGSImpactData*>(TESForm_GetFormByNumericID(newFormID4));
                     if (!newImpact)
                     {
                         Warning("Could not find new ImpactData (%08X) for ImpactSwap on '%s' (%08X).", newFormID4,
@@ -600,7 +600,7 @@ void SomeClass::RemapImpactData(TESForm* apForm)
 
 // Maps selected integer values to integers 0–9; returns 4 for all other values.
 // @fnv 0x0058e8f0
-int FUN_0058e8f0(int value)
+int BGSImpactDataSet_GetImpactMaterialType(int value)
 {
     int result = 4;
     switch (value)
@@ -664,30 +664,30 @@ int FUN_0058e8f0(int value)
 #include <string.h>
 struct S004851b0
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct ImpactDataSetCopy : BGSImpactDataSet
 {
-    void FUN_0058eb30(TESForm* apCopy);
+    void BGSImpactDataSet_CopyFrom(TESForm* apCopy);
 };
 // Copies impact data from apCopy into this ImpactDataSetCopy after casting it to BGSImpactDataSet.
 // @fnv 0x0058eb30
-void ImpactDataSetCopy::FUN_0058eb30(TESForm* apCopy)
+void ImpactDataSetCopy::BGSImpactDataSet_CopyFrom(TESForm* apCopy)
 {
     BGSImpactDataSet* pSource = dynamic_cast<BGSImpactDataSet*>(apCopy);
     if (!pSource)
         return;
-    reinterpret_cast<S004851b0*>(this)->FUN_004851b0(pSource);
+    reinterpret_cast<S004851b0*>(this)->TESForm_CopyAllComponents(pSource);
     memcpy(m_apImpactData, pSource->m_apImpactData, sizeof(m_apImpactData));
 }
 
 struct BGSImpactDataSet_Cmp
 {
-    bool FUN_0058eb90(TESForm* apCompare);
+    bool BGSImpactDataSet_Compare(TESForm* apCompare);
 };
 // Returns true if apCompare is not a BGSImpactDataSet, TESForm::Compare returns true, or the impact-data arrays differ.
 // @fnv 0x0058eb90
-bool BGSImpactDataSet_Cmp::FUN_0058eb90(TESForm* apCompare)
+bool BGSImpactDataSet_Cmp::BGSImpactDataSet_Compare(TESForm* apCompare)
 {
     BGSImpactDataSet* pcomp = dynamic_cast<BGSImpactDataSet*>(apCompare);
     if (!pcomp)
@@ -703,11 +703,11 @@ extern "C" void* __cdecl memcpy(void*, const void*, size_t);
 struct ImpactSwapMaps
 {
     MapX* m_pData[12];
-    void FUN_0058f4c0(ImpactSwapMaps* apSwap);
+    void ImpactSwap_Copy(ImpactSwapMaps* apSwap);
 };
 // Deletes this object's 12 map entries, adds entries from apSwap's maps, then copies 300 bytes from offset 0x30.
 // @fnv 0x0058f4c0
-void ImpactSwapMaps::FUN_0058f4c0(ImpactSwapMaps* apSwap)
+void ImpactSwapMaps::ImpactSwap_Copy(ImpactSwapMaps* apSwap)
 {
     for (int i = 0; i < 12; i++)
     {

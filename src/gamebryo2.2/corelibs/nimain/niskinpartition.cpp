@@ -19,7 +19,7 @@ unsigned int NiSkinPartition::Partition::GetStripIndexCount()
 const void* g_011f5b1c;
 
 // @fnv 0x00a820d0
-const void* __cdecl FUN_00a820d0()
+const void* __cdecl NiSkinPartition_GetRTTI()
 {
     return &g_011f5b1c;
 }
@@ -1247,12 +1247,12 @@ class SkinPartitionOwner : public SkinObjectBase
     NiSkinPartition::Partition* m_pPartitions;
 
     virtual ~SkinPartitionOwner();
-    void FUN_00a846e0(SkinViewerStrings* pkStrings);
+    void NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 
 // Appends the RTTI name and one line per partition listing its bone count to the viewer strings array.
 // @fnv 0x00a846e0
-void SkinPartitionOwner::FUN_00a846e0(SkinViewerStrings* pkStrings)
+void SkinPartitionOwner::NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings)
 {
     SkinObjectBase::GetViewerStrings(pkStrings);
     pkStrings->Add(SkinGetViewerString(g_kSkinPartitionRTTI.GetName()));
@@ -1839,12 +1839,12 @@ class SaverA83C : public FUN_00a89af0_helper
     unsigned int m_uiCount;
     ElemA83C* m_pkElems;
 
-    void FUN_00a83ce0(NiStreamA83C& kStream);
+    void NiSkinPartition_SaveBinary(NiStreamA83C& kStream);
 };
 
 // Calls FUN_00a89af0, reads m_uiCount, then calls WriteToStream on each element.
 // @fnv 0x00a83ce0
-void SaverA83C::FUN_00a83ce0(NiStreamA83C& kStream)
+void SaverA83C::NiSkinPartition_SaveBinary(NiStreamA83C& kStream)
 {
     FUN_00a89af0(kStream);
     ReadBinaryValue(kStream, m_uiCount);

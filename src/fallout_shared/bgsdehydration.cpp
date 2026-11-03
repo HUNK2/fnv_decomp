@@ -158,7 +158,7 @@ bool BGSDehydrationStage::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 0x41544144:
-            FUN_004861f0(file, FUN_00500940(8));
+            TESForm_LoadData(file, FUN_00500940(8));
             break;
         }
 
@@ -428,11 +428,11 @@ struct CachedValuesOwner
 typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_00401190_shell : public TESForm
 {
-    bool FUN_00401190();
+    bool TESForm_GetQuestObject();
 };
 
 // @fnv 0x00401190
-bool FUN_00401190_shell::FUN_00401190()
+bool FUN_00401190_shell::TESForm_GetQuestObject()
 {
     return (m_uiFormFlags & 0x400) ? true : false;
 }
@@ -477,7 +477,7 @@ void* FUN_004012a0_Holder::FUN_004012a0(unsigned int flags)
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_00401400_class
 {
@@ -490,21 +490,21 @@ void FUN_00401400_class::CopyFromDehydrationStage(TESForm* apCopy)
     pcopy = dynamic_cast<BGSDehydrationStage*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(((BGSHungerStage*)this)->FUN_00500940(), ((BGSHungerStage*)pcopy)->FUN_00500940(), 8);
 }
 
 struct TESObjectLIGH
 {
-    bool FUN_0046f070();
+    bool TESObjectLIGH_GetCanCarry();
     bool InvokeAction(unsigned int, unsigned int, bool, unsigned int, unsigned int);
-    bool FUN_0050e4b0(unsigned int, unsigned int, bool, unsigned int, unsigned int);
+    bool TESObjectLIGH_Activate(unsigned int, unsigned int, bool, unsigned int, unsigned int);
 };
-// Returns false if FUN_0046f070 fails, otherwise forwards the arguments to InvokeAction and returns its result.
+// Returns false if TESObjectLIGH_GetCanCarry fails, otherwise forwards the arguments to InvokeAction and returns its result.
 // @fnv 0x0050e4b0
-bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, unsigned int a2, bool bFlag, unsigned int a4, unsigned int a5)
+bool TESObjectLIGH::TESObjectLIGH_Activate(unsigned int a1, unsigned int a2, bool bFlag, unsigned int a4, unsigned int a5)
 {
-    if (!FUN_0046f070())
+    if (!TESObjectLIGH_GetCanCarry())
         return false;
     return InvokeAction(a1, a2, bFlag, a4, a5);
 }
@@ -644,7 +644,7 @@ char* FUN_00551740_shell::GetCellName()
 
 struct FUN_005f0060_shell : public TESForm
 {
-    char* FUN_005f0060();
+    char* BGSVoiceType_GetEditorID();
 };
 
 struct Flt
@@ -653,7 +653,7 @@ struct Flt
 };
 // Returns the value at offset 0x1c as a string pointer if nonzero, otherwise an empty string.
 // @fnv 0x005f0060
-char* FUN_005f0060_shell::FUN_005f0060()
+char* FUN_005f0060_shell::BGSVoiceType_GetEditorID()
 {
     return (unsigned int)(*(Flt*)((char*)this + 0x1c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x1c)) : "";
 }
@@ -668,7 +668,7 @@ struct TESObjectREFR;
 struct FileEntryList;
 struct FUN_005fe0f0_shell : public TESForm
 {
-    char* FUN_005fe0f0();
+    char* TESIdleForm_GetEditorID();
 };
 
 struct Flt
@@ -676,7 +676,7 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x005fe0f0
-char* FUN_005fe0f0_shell::FUN_005fe0f0()
+char* FUN_005fe0f0_shell::TESIdleForm_GetEditorID()
 {
     return (unsigned int)(*(Flt*)((char*)this + 0x4c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x4c)) : (char*)"";
 }
@@ -792,7 +792,7 @@ struct TESTopic : public TESForm, public TESFullName
 typedef char _sizecheck_TESTopic[sizeof(TESTopic) == 64 ? 1 : -1];
 struct FUN_00618660_shell : public TESForm
 {
-    char* FUN_00618660();
+    char* TESTopic_GetEditorID();
 };
 
 struct Flt
@@ -801,7 +801,7 @@ struct Flt
 };
 extern char $SG5889[];
 // @fnv 0x00618660
-char* FUN_00618660_shell::FUN_00618660()
+char* FUN_00618660_shell::TESTopic_GetEditorID()
 {
     return ((Flt*)((char*)this + 0x40))->operator unsigned int()
                ? (char*)((Flt*)((char*)this + 0x40))->operator unsigned int()
@@ -874,7 +874,7 @@ struct FUN_00401280_shell
     const char* FUN_00401280();
 };
 
-TESActorBase* __fastcall FUN_004216f0(ExtraDataList* extraDataList);
+TESActorBase* __fastcall ExtraDataList_GetLevCreaOriginalBase(ExtraDataList* extraDataList);
 
 struct FUN_0055d480_name_object
 {
@@ -959,11 +959,11 @@ struct FUN_0055d480_name_object
 
 struct FUN_0055d480_shell
 {
-    const char* FUN_0055d480();
+    const char* TESObjectREFR_GetEditorID();
 };
 
 // @fnv 0x0055d480
-const char* FUN_0055d480_shell::FUN_0055d480()
+const char* FUN_0055d480_shell::TESObjectREFR_GetEditorID()
 {
     const char* name;
 
@@ -977,7 +977,7 @@ const char* FUN_0055d480_shell::FUN_0055d480()
 
     if (!name || !*name)
     {
-        TESActorBase* actor = FUN_004216f0((ExtraDataList*)((XActor*)this)->GetExtra());
+        TESActorBase* actor = ExtraDataList_GetLevCreaOriginalBase((ExtraDataList*)((XActor*)this)->GetExtra());
         if (actor)
             name = ((FUN_0055d480_name_object*)actor)->GetName();
     }
@@ -1010,11 +1010,11 @@ class FUN_00401150_cls
 {
   public:
     void FUN_00401170();
-    void FUN_00401150();
+    void TESForm_GetSavedFormType();
 };
 
 // @fnv 0x00401150
-void FUN_00401150_cls::FUN_00401150()
+void FUN_00401150_cls::TESForm_GetSavedFormType()
 {
     this->FUN_00401170();
 }
@@ -1025,7 +1025,7 @@ extern const char DAT_011846d4;
 extern const char DAT_01189dbc;
 struct LightQuery
 {
-    unsigned char __thiscall FUN_004fdf20();
+    unsigned char __thiscall BGSProjectile_GetCanTurnOff();
     unsigned char __thiscall FUN_004fdf40();
 };
 struct ResolvedLight
@@ -1236,18 +1236,18 @@ struct ResolvedLight
 };
 struct LightController : TESObjectLIGH
 {
-    unsigned char __thiscall FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
+    unsigned char __thiscall BGSProjectile_Activate(unsigned int first, unsigned int second, bool allow, unsigned int param4,
                                           unsigned int param5);
 };
 // @fnv 0x004fde40
-unsigned char LightController::FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
+unsigned char LightController::BGSProjectile_Activate(unsigned int first, unsigned int second, bool allow, unsigned int param4,
                                             unsigned int param5)
 {
     void* lightSource = FUN_00ec43fb(second, 0, &DAT_011841cc, &DAT_011846d4, 0);
     ResolvedLight* linkedLight = static_cast<ResolvedLight*>(FUN_00ec43fb(first, 0, &DAT_011841cc, &DAT_01189dbc, 0));
     if (lightSource && linkedLight)
     {
-        if (linkedLight->FUN_004181e0()->FUN_004fdf20() && !linkedLight->FUN_00444d00(0x200) &&
+        if (linkedLight->FUN_004181e0()->BGSProjectile_GetCanTurnOff() && !linkedLight->FUN_00444d00(0x200) &&
             linkedLight->CanActOn(lightSource, 0))
             return 1;
         if (linkedLight->FUN_004181e0()->FUN_004fdf40())
@@ -1359,11 +1359,11 @@ unsigned int GetKarmaLevelFor(float afKarma);
 class TESActivatableItem : public TESForm
 {
   public:
-    bool FUN_005e9360(RefrAccess* apRef, TESObjectREFR* apActivator, bool abUnk, TESForm* apUnk, int aiCount);
+    bool BGSNote_Activate(RefrAccess* apRef, TESObjectREFR* apActivator, bool abUnk, TESForm* apUnk, int aiCount);
 };
 
 // @fnv 0x005e9360
-bool TESActivatableItem::FUN_005e9360(RefrAccess* apRef, TESObjectREFR* apActivator, bool abUnk, TESForm* apUnk,
+bool TESActivatableItem::BGSNote_Activate(RefrAccess* apRef, TESObjectREFR* apActivator, bool abUnk, TESForm* apUnk,
                                       int aiCount)
 {
     Actor* pActor = dynamic_cast<Actor*>(apActivator);
@@ -1409,7 +1409,7 @@ struct ActivationPosition
 };
 struct ActivationAction
 {
-    void FUN_00496080(float);
+    void Animation_ClearGroup(float);
 };
 struct ActivationProcess
 {
@@ -1667,7 +1667,7 @@ struct ActivationRef
 };
 extern ActivationRef* DAT_011dea3c;
 extern ActivationRef* DAT_011e0788;
-void FUN_00600900(ActivationRef*);
+void TESIdleManager_SetUsedItem(ActivationRef*);
 void FUN_00600940(int);
 void FUN_00600920(int);
 // Gets the activation form, runs an actor activation check with height/mode setup, and if allowed calls Activate on the form.
@@ -1681,7 +1681,7 @@ bool ActivationRef::ActivateWithActorCheck(ActivationRef* source, ActivationRef*
     if (target && target->IsActor())
     {
         ActivationRef* actor = target;
-        FUN_00600900(this);
+        TESIdleManager_SetUsedItem(this);
         FUN_00600940(1);
         float height2 = actor->FUN_008be940() + actor->Position().z - actor->GroundOffset();
         float sourceHeight = source->Position().z;
@@ -1697,7 +1697,7 @@ bool ActivationRef::ActivateWithActorCheck(ActivationRef* source, ActivationRef*
         }
         FUN_00600920(mode);
         bool permitted6 = actor->FUN_008d8520()->CanActivate(actor, 0, 3, 1, 0, 1);
-        FUN_00600900(0);
+        TESIdleManager_SetUsedItem(0);
         FUN_00600940(0);
         FUN_00600920(-1);
         if (!permitted6)
@@ -1706,8 +1706,8 @@ bool ActivationRef::ActivateWithActorCheck(ActivationRef* source, ActivationRef*
         {
             DAT_011e0788 = form_;
             DAT_011dea3c->SetByteAt79a(true);
-            DAT_011dea3c->FUN_00950a60(1, 1)->FUN_00496080(0.0f);
-            DAT_011dea3c->FUN_00950a60(0, 1)->FUN_00496080(0.0f);
+            DAT_011dea3c->FUN_00950a60(1, 1)->Animation_ClearGroup(0.0f);
+            DAT_011dea3c->FUN_00950a60(0, 1)->Animation_ClearGroup(0.0f);
         }
     }
     return form_->Activate(source, target, allow, aiArgA, aiArgB);
@@ -1961,12 +1961,12 @@ struct DialogueStarter
     int unk88;
     int unk8C;
     int unk90;
-    bool FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int a3, int a4, int a5);
+    bool BGSTalkingActivator_Activate(RefLike* apRef, RefLike* apTarget, int a3, int a4, int a5);
 };
 
 // Checks the player extra holder, resolves the actor and base form, then starts a conversation or resets VATS and calls FUN_00709470 for the player.
 // @fnv 0x004feeb0
-bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnused1, int aiUnused2, int aiUnused3)
+bool DialogueStarter::BGSTalkingActivator_Activate(RefLike* apRef, RefLike* apTarget, int aiUnused1, int aiUnused2, int aiUnused3)
 {
     if ((void*)apTarget == (void*)_g_thePlayer)
     {
@@ -2030,7 +2030,7 @@ class Script
 {
   public:
     ScriptLocals* FUN_005abf60();
-    bool FUN_005ac1e0(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
+    bool Script_Run(TESObjectREFR*, ScriptLocals*, TESObjectREFR*, bool);
 };
 struct ExtraDataList
 {
@@ -2043,11 +2043,11 @@ struct ExtraDataList
     int data18;
     int data1c;
     ExtraDataList();
-    void FUN_00419ad0(unsigned short);
-    Script* FUN_00418800();
-    void FUN_00419ed0(Script*);
-    void FUN_00419f80(ScriptLocals*);
-    ScriptLocals* FUN_00418830();
+    void ExtraDataList_SetCount(unsigned short);
+    Script* ExtraDataList_GetScript();
+    void ExtraDataList_SetScript(Script*);
+    void ExtraDataList_SetScriptLocals(ScriptLocals*);
+    ScriptLocals* ExtraDataList_GetScriptLocals();
 };
 struct FUN_0055a2f0 : TESObjectREFR
 {
@@ -2095,9 +2095,9 @@ struct Topic : TESForm
 struct TopicInfo
 {
     bool FUN_00508d70();
-    void FUN_00484580(bool);
+    void TESForm_SetEmpty(bool);
 };
-struct Script* FUN_004826d0(Topic*);
+struct Script* TESScriptableForm_GetFormScript(Topic*);
 unsigned int DialogueRandom();
 struct CalendarView
 {
@@ -2213,7 +2213,7 @@ struct ActorActions : Actor
     virtual void slot62();
     virtual void slot63();
     virtual void AddTopic(Topic*, ExtraDataList*, bool);
-    void FUN_00574fa0(Topic*, int, bool);
+    void TESObjectREFR_AddBoundObjectItem(Topic*, int, bool);
 };
 struct GlobalObject_0041a250
 {
@@ -2273,24 +2273,24 @@ bool Action::TryAddTopic(TopicInfo* pTopicInfo, TESObjectREFR* reference, int ar
             Topic* script =
                 reinterpret_cast<TopicAction*>(reinterpret_cast<char*>(this) - offsetof(TopicAction, action))
                     ->FUN_00726070();
-            Script* pScript = FUN_004826d0(script);
+            Script* pScript = TESScriptableForm_GetFormScript(script);
             if (pScript)
             {
                 ExtraDataList* extra = 0;
                 extra = new ExtraDataList;
-                extra->FUN_00419ad0(1);
-                if (extra && !extra->FUN_00418800())
+                extra->ExtraDataList_SetCount(1);
+                if (extra && !extra->ExtraDataList_GetScript())
                 {
-                    extra->FUN_00419ed0(pScript);
-                    extra->FUN_00419f80(extra->FUN_00418800()->FUN_005abf60());
+                    extra->ExtraDataList_SetScript(pScript);
+                    extra->ExtraDataList_SetScriptLocals(extra->ExtraDataList_GetScript()->FUN_005abf60());
                     TESObjectREFR* temporary = new FUN_0055a2f0;
-                    pScript->FUN_005ac1e0(temporary, extra->FUN_00418830(), 0, false);
+                    pScript->Script_Run(temporary, extra->ExtraDataList_GetScriptLocals(), 0, false);
                 }
                 reinterpret_cast<ActorActions*>(actor)->AddTopic(script, extra, true);
             }
             else
             {
-                reinterpret_cast<ActorActions*>(actor)->FUN_00574fa0(script, 0, true);
+                reinterpret_cast<ActorActions*>(actor)->TESObjectREFR_AddBoundObjectItem(script, 0, true);
             }
             if (actor == DAT_011dea3c)
             {
@@ -2307,7 +2307,7 @@ bool Action::TryAddTopic(TopicInfo* pTopicInfo, TESObjectREFR* reference, int ar
             QueueUIMessage(DAT_011c8590.FUN_00403df0(), 0, 0, 0, 2.0f, false);
             FUN_00706f30(29);
         }
-        pTopicInfo->FUN_00484580(true);
+        pTopicInfo->TESForm_SetEmpty(true);
     }
     return true;
 }
@@ -2330,7 +2330,7 @@ struct ActorState
 };
 struct ActionCell
 {
-    bool FUN_005444c0();
+    bool TESObjectCELL_GetCantWaitHere();
 };
 struct ActionActor
 {
@@ -2654,7 +2654,7 @@ struct ActionActor
 };
 struct ActionReference : RefrAccess
 {
-    bool FUN_005686b0(unsigned int, int, int, ActionData*, unsigned int*, int);
+    bool TESObjectREFR_GetClosestFreeMarker(unsigned int, int, int, ActionData*, unsigned int*, int);
 };
 struct ActionManager
 {
@@ -2673,10 +2673,10 @@ bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 void FUN_007054f0(int);
 struct ActionHandler
 {
-    bool FUN_005095b0(ActionReference*, ActionActor*, bool, unsigned int, unsigned int);
+    bool TESFurniture_Activate(ActionReference*, ActionActor*, bool, unsigned int, unsigned int);
 };
 // @fnv 0x005095b0
-bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activator, bool allow, unsigned int arg4,
+bool ActionHandler::TESFurniture_Activate(ActionReference* reference, ActionActor* activator, bool allow, unsigned int arg4,
                                  unsigned int arg5)
 {
     ActionActor* actor =
@@ -2688,7 +2688,7 @@ bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activa
         unsigned int result = 0;
         ActionData data;
         data.FUN_00509890(255);
-        if (!reference->FUN_005686b0((unsigned int)activator->GetActionEntry(), 1, 1, &data, &result, 1))
+        if (!reference->TESObjectREFR_GetClosestFreeMarker((unsigned int)activator->GetActionEntry(), 1, 1, &data, &result, 1))
             return false;
         if (FUN_005094f0(data.FUN_005094b0()))
         {
@@ -2702,7 +2702,7 @@ bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activa
                 }
             }
             else if (actor == (ActionActor*)_g_thePlayer &&
-                     ((ActionActor*)_g_thePlayer)->FUN_008d6f30()->FUN_005444c0())
+                     ((ActionActor*)_g_thePlayer)->FUN_008d6f30()->TESObjectCELL_GetCantWaitHere())
             {
                 QueueUIMessage(g_011d20ac.FUN_00403df0(), 0, g_011cba18_arg1, 0, 2.0f, false);
                 return false;
@@ -2787,7 +2787,7 @@ struct ActivateLock
 };
 struct ActivateAnimation
 {
-    void FUN_00498910(int, int);
+    void Animation_SpecialIdleFree(int, int);
 };
 struct ActivatePoint
 {
@@ -2922,11 +2922,11 @@ struct ActivateReference
     virtual void slot124();
     virtual ActivatePoint* GetPosition();
     bool FUN_005785e0(ActivateActor*, bool);
-    ActivateLock* FUN_00569160();
-    ActivateExtra* FUN_005691f0();
+    ActivateLock* TESObjectREFR_GetLock();
+    ActivateExtra* TESObjectREFR_GetExtraLock();
     void FUN_005789b0();
-    void FUN_00573170(ActivateActor*, int, int, int);
-    void* FUN_00567790();
+    void TESObjectREFR_Activate(ActivateActor*, int, int, int);
+    void* TESObjectREFR_GetOwner();
 };
 struct ActivateActorAction
 {
@@ -3136,7 +3136,7 @@ struct ActivateObject
 
     ActivateComponent activation;
     ActivateSound* FUN_008ce390();
-    bool FUN_00516dc0(ActivateReference*, TESObjectREFR*, int, int, int);
+    bool TESObjectCONT_Activate(ActivateReference*, TESObjectREFR*, int, int, int);
 };
 struct BSSoundHandleEx
 {
@@ -3165,14 +3165,14 @@ int FUN_00406d00(char*, unsigned int, const char*, ...);
 void DispatchMessageToSink(const char*, int, const char*, int, float, int);
 void FUN_005e58f0(int, ActivateActor*, float*);
 void FUN_00705830(ActivateReference*, int, int);
-void FUN_00600900(ActivateKey*);
+void TESIdleManager_SetUsedItem(ActivateKey*);
 void FUN_00600940(int);
 void FUN_00600920(int);
 int FUN_0047b250(ActivateReference*);
-void FUN_0047a560(ActivateReference*, ActivateActor*, int);
+void BGSOpenCloseForm_HandleActivate(ActivateReference*, ActivateActor*, int);
 
 // @fnv 0x00516dc0
-bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* activator, int unused, int a4, int a5)
+bool ActivateObject::TESObjectCONT_Activate(ActivateReference* apTarget, TESObjectREFR* activator, int unused, int a4, int a5)
 {
     ActivateActor* actor2 = (ActivateActor*)dynamic_cast<Actor*>(activator);
     int extra = 0;
@@ -3182,7 +3182,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
         bool allowed3 = false;
         if (activator != (TESObjectREFR*)DAT_011dea3c)
             allowed3 = apTarget->FUN_005785e0(actor2, true);
-        ActivateLock* lock = apTarget->FUN_00569160();
+        ActivateLock* lock = apTarget->TESObjectREFR_GetLock();
         if (lock && lock->FUN_005021a0() && !allowed3)
         {
             bool hasSkeletonKey = actor2->FUN_00891db0(DAT_011ca268, 0, 1, 0, &found8);
@@ -3191,7 +3191,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                 if (!DAT_011c92d0 && actor2 == DAT_011dea3c)
                 {
                     DAT_011c92d0 = apTarget;
-                    ActivateExtra* unlocked = apTarget->FUN_005691f0();
+                    ActivateExtra* unlocked = apTarget->TESObjectREFR_GetExtraLock();
                     if (unlocked)
                     {
                         unlocked->FUN_00517360();
@@ -3202,7 +3202,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                         char message[256];
                         FUN_00406d00(message, 255, DAT_011d5110.FUN_00403df0(), lock->key->name.FUN_00408da0());
                         DispatchMessageToSink(message, 0, DAT_0102b108, 0, DAT_010162c0, 0);
-                        DAT_011c92d0->FUN_00573170(DAT_011dea3c, 0, 0, 1);
+                        DAT_011c92d0->TESObjectREFR_Activate(DAT_011dea3c, 0, 0, 1);
                         DAT_011c92d0 = 0;
                         return true;
                     }
@@ -3212,7 +3212,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
             {
                 if (actor2 == DAT_011dea3c)
                 {
-                    ActivateExtra* locked = apTarget->FUN_005691f0();
+                    ActivateExtra* locked = apTarget->TESObjectREFR_GetExtraLock();
                     float level2 = 0;
                     FUN_005e58f0(32, DAT_011dea3c, &level2);
                     if (locked && (locked->script->FUN_004309e0(apTarget) == 5 || locked->script->FUN_00430ae0()))
@@ -3226,15 +3226,15 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                 {
                     ActivateAnimation* animation = actor2->GetAnimation();
                     if (animation)
-                        animation->FUN_00498910(1, 0);
-                    FUN_00600900(DAT_011ca268);
+                        animation->Animation_SpecialIdleFree(1, 0);
+                    TESIdleManager_SetUsedItem(DAT_011ca268);
                     FUN_00600940(1);
                     FUN_00600920(1);
                     actor2->FUN_008d8520()->Action(actor2, 0, 2, 1, 0, 1);
-                    FUN_00600900(0);
+                    TESIdleManager_SetUsedItem(0);
                     FUN_00600940(0);
                     FUN_00600920(-1);
-                    ActivateExtra* npcLock2 = apTarget->FUN_005691f0();
+                    ActivateExtra* npcLock2 = apTarget->TESObjectREFR_GetExtraLock();
                     if (npcLock2)
                     {
                         npcLock2->FUN_00517360();
@@ -3256,14 +3256,14 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
             if (FUN_0047b250(apTarget) == 1)
                 activation.Activate(apTarget, actor2);
             else
-                FUN_0047a560(apTarget, actor2, 0);
+                BGSOpenCloseForm_HandleActivate(apTarget, actor2, 0);
             return true;
         }
         else
         {
             if (a4)
                 apTarget->Activate(a4, 0, a5, 0, 0, actor2, 0, 0, 1, 0);
-            if (actor2->IsActor() && !apTarget->FUN_005785e0(actor2, true) && apTarget->FUN_00567790())
+            if (actor2->IsActor() && !apTarget->FUN_005785e0(actor2, true) && apTarget->TESObjectREFR_GetOwner())
                 actor2->FUN_008bfa40(apTarget, a4, a5, 1, extra);
         }
         return true;
@@ -3276,7 +3276,7 @@ struct ResolveBase
 {
     void FUN_006796c0();
 };
-TESForm* FUN_004839c0(unsigned int formID);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 struct FUN_009f2220_obj : ResolveBase
 {
     int unk00;
@@ -3322,7 +3322,7 @@ struct FUN_009f2220_obj : ResolveBase
     Actor* actorA4;
     void ResolveReferences();
 };
-// Resolves each stored form ID in refList, refA0 and actorA4 via FUN_004839c0, removing list entries whose reference no longer resolves.
+// Resolves each stored form ID in refList, refA0 and actorA4 via TESForm_GetFormByNumericID, removing list entries whose reference no longer resolves.
 // @fnv 0x009f2220
 void FUN_009f2220_obj::ResolveReferences()
 {
@@ -3334,7 +3334,7 @@ void FUN_009f2220_obj::ResolveReferences()
         TESObjectREFR* ref = iter5->GetItem();
         unsigned int formID3 = (unsigned int)ref;
         if (formID3)
-            ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID3));
+            ref = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(formID3));
         if (!ref)
         {
             if (!aPrev)
@@ -3357,10 +3357,10 @@ void FUN_009f2220_obj::ResolveReferences()
     }
     unsigned int actorID2 = (unsigned int)actorA4;
     if (actorID2)
-        actorA4 = dynamic_cast<Actor*>(FUN_004839c0(actorID2));
+        actorA4 = dynamic_cast<Actor*>(TESForm_GetFormByNumericID(actorID2));
     unsigned int refID9 = (unsigned int)refA0;
     if (refID9)
-        refA0 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(refID9));
+        refA0 = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(refID9));
 }
 
 template <int N> struct SlotTag
@@ -3421,11 +3421,11 @@ struct AudioView
 };
 struct ExtraView
 {
-    void FUN_0041a6a0(AudioPlaybackHandle*);
+    void ExtraDataList_SetActivateLoopSound(AudioPlaybackHandle*);
 };
 struct AnimationView
 {
-    void FUN_00496080(bool, float);
+    void Animation_ClearGroup(bool, float);
 };
 struct PlayerView
 {
@@ -3440,10 +3440,10 @@ struct ActorView
 struct RefView
 {
     bool FUN_005785e0(ActivationRef*, bool);
-    void* FUN_00567790();
+    void* TESObjectREFR_GetOwner();
 };
 int GetFlagMask(int);
-void FUN_0047a560(ActivationRef*, ActivationRef*, int);
+void BGSOpenCloseForm_HandleActivate(ActivationRef*, ActivationRef*, int);
 int FUN_0047b250(ActivationRef*);
 void FUN_008325b0(ActivationRef*, bool);
 struct FUN_005113f0_shell
@@ -3483,11 +3483,11 @@ struct FUN_005113f0_shell
     ActivationRef* unk80;
     SoundView* FUN_00407820();
     void* FUN_004fd3c0();
-    bool FUN_005113f0(ActivationRef*, ActivationRef*, bool, int, int);
+    bool TESObjectACTI_Activate(ActivationRef*, ActivationRef*, bool, int, int);
 };
 // Checks the activator, may update actor state and play a sound, then calls Activate on the stored pointer when present.
 // @fnv 0x005113f0
-bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activator, bool arg3, int arg4, int arg5)
+bool FUN_005113f0_shell::TESObjectACTI_Activate(ActivationRef* ref, ActivationRef* activator, bool arg3, int arg4, int arg5)
 {
     ActivationRef* h = 0;
     bool p = false;
@@ -3495,7 +3495,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
         h = activator;
     if (h)
     {
-        FUN_00600900((ActivationRef*)this);
+        TESIdleManager_SetUsedItem((ActivationRef*)this);
         FUN_00600940(1);
         float a = h->FUN_008be940() + h->Position().z - h->GroundOffset();
         float f = ref->Position().z;
@@ -3509,7 +3509,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
             AB = 1;
         FUN_00600920(AB);
         bool i = h->FUN_008d8520()->CanActivate(h, 0, 3, 1, 0, 1);
-        FUN_00600900(0);
+        TESIdleManager_SetUsedItem(0);
         FUN_00600940(0);
         FUN_00600920(-1);
         if (!i && unk80)
@@ -3519,11 +3519,11 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
             DAT_011e0788 = unk80;
             ((PlayerView*)DAT_011dea3c)->SetByteAt79a(true);
             p = true;
-            ((PlayerView*)DAT_011dea3c)->FUN_00950a60(true)->FUN_00496080(true, 0.0f);
-            ((PlayerView*)DAT_011dea3c)->FUN_00950a60(false)->FUN_00496080(true, 0.0f);
+            ((PlayerView*)DAT_011dea3c)->FUN_00950a60(true)->Animation_ClearGroup(true, 0.0f);
+            ((PlayerView*)DAT_011dea3c)->FUN_00950a60(false)->Animation_ClearGroup(true, 0.0f);
         }
         if (!((RefView*)ref)->FUN_005785e0(h, true))
-            ((ActorView*)h)->UpdateTargetUnits(ref, ((RefView*)ref)->FUN_00567790(), -1);
+            ((ActorView*)h)->UpdateTargetUnits(ref, ((RefView*)ref)->TESObjectREFR_GetOwner(), -1);
     }
     if (FUN_00407820())
     {
@@ -3537,14 +3537,14 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
         AudioPlaybackHandle AB =
             AudioView::FUN_00453a70()->FUN_00ad7480(FUN_00407820()->FUN_00511840(), i | 0x40000102, FUN_00407820());
         if (p)
-            ((PlayerView*)DAT_011dea3c)->FUN_005d43c0()->FUN_0041a6a0(&AB);
+            ((PlayerView*)DAT_011dea3c)->FUN_005d43c0()->ExtraDataList_SetActivateLoopSound(&AB);
         AB.FUN_00ad8b60(h.x, h.y, h.z);
         AB.FUN_00ad8f20(((NodeView*)ref)->Node());
         AB.FUN_00ad8830(false);
     }
     if (unk80)
         unk80->Activate(ref, activator, arg3, arg4, arg5);
-    FUN_0047a560(ref, activator, 0);
+    BGSOpenCloseForm_HandleActivate(ref, activator, 0);
     if (FUN_004fd3c0())
     {
         bool h = false;
@@ -3600,9 +3600,9 @@ struct AAPackageData
 };
 struct AAInventory
 {
-    AAEntry* FUN_0041cb10();
-    int FUN_0041cb70(int iA, int iB, int iC);
-    void FUN_0041c930(AAEntry* pkEntryCur, int iA, int iCount);
+    AAEntry* ExtraDataList_GetPackageExtra();
+    int ExtraDataList_GetPackageExtraTarget(int iA, int iB, int iC);
+    void ExtraDataList_SetPackageExtra(AAEntry* pkEntryCur, int iA, int iCount);
 };
 struct AAPackage
 {
@@ -4300,15 +4300,15 @@ class AAActor
 
     AAProcess* FUN_008d8520();
     AAInventory* FUN_005d43c0();
-    bool FUN_00437bd0();
-    int FUN_004f8960();
-    const char* FUN_0055d520();
+    bool Actor_IsUnConscious();
+    int Actor_GetLifeState();
+    const char* TESObjectREFR_GetFullName();
     bool FUN_008a6650(int iFlag);
     bool FUN_00894d60();
     bool IsHostileTo(AAActor* pkTarget, int iA, int* piTopic, int iB);
     bool FUN_0087f3d0();
     AAValueHolder* FUN_004181e0();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_004997b0();
     bool FUN_00566950();
     bool FUN_008ace90();
@@ -4324,7 +4324,7 @@ class AAActor
 
 struct AASceneNode
 {
-    bool FUN_00619df0();
+    bool TESTopic_IsRemappedRumors();
 };
 struct AAScene
 {
@@ -4401,11 +4401,11 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     AAPackageData* pkPackageCur = pkProcessRef->GetPackageData();
     if (pkActivator && pkActivator != (AAActor*)DAT_011dea3c)
     {
-        AAEntry* pkEntryCur = pkActivator->FUN_005d43c0()->FUN_0041cb10();
+        AAEntry* pkEntryCur = pkActivator->FUN_005d43c0()->ExtraDataList_GetPackageExtra();
         if (pkEntryCur && pkEntryCur->FUN_0041ca90() == 0xf)
         {
             AAInventory* pkInventory = pkActorVal->FUN_005d43c0();
-            pkActivator->FUN_005d43c0()->FUN_0041c930(pkEntryCur, 4, pkInventory->FUN_0041cb70(0, 0, 0));
+            pkActivator->FUN_005d43c0()->ExtraDataList_SetPackageExtra(pkEntryCur, 4, pkInventory->ExtraDataList_GetPackageExtraTarget(0, 0, 0));
             pkActorVal->FUN_008d8520()->GiveItem(pkActivator, pkEntryCur);
             if (pkEntryCur->FUN_00670f90())
                 pkActivator->TakeItem(pkEntryCur, DAT_011de7b8.FUN_00867d60());
@@ -4413,11 +4413,11 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         }
     }
     int iTopic = 0;
-    if (pkActorVal->FUN_00437bd0() || pkActorVal->IsIncapacitated() || pkActorVal->FUN_004f8960() == 6)
+    if (pkActorVal->Actor_IsUnConscious() || pkActorVal->IsIncapacitated() || pkActorVal->Actor_GetLifeState() == 6)
     {
         if (FUN_0059f3a0() != 6)
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->FUN_0055d520(), DAT_011d210c.FUN_00403df0());
+            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->TESObjectREFR_GetFullName(), DAT_011d210c.FUN_00403df0());
             DispatchMessageToSink(acMessage, 0, s_szSurprisedIcon, 0, 2.0f, 0);
         }
         return false;
@@ -4427,7 +4427,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         AAFaction* pkFaction = pkActorVal->GetCrimeFaction();
         if (!pkFaction || !pkFaction->FUN_0097fa10((AAActor*)DAT_011dea3c) || ((AAActor*)DAT_011dea3c)->FUN_00894d60())
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->FUN_0055d520(), DAT_011d2538.FUN_00403df0());
+            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->TESObjectREFR_GetFullName(), DAT_011d2538.FUN_00403df0());
             DispatchMessageToSink(acMessage, 0, s_szSadIcon, 0, 2.0f, 0);
             return false;
         }
@@ -4447,7 +4447,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     {
         return false;
     }
-    else if (pkActorVal->FUN_004181e0()->m_kValues.IsEssential() && !pkActorVal->FUN_00493bb0() &&
+    else if (pkActorVal->FUN_004181e0()->m_kValues.IsEssential() && !pkActorVal->Actor_IsInCombat() &&
              pkActivator == (AAActor*)DAT_011dea3c &&
              ((pkActorVal->IsIncapacitated() && !pkActorVal->FUN_0087f3d0()) ||
               (((AAActor*)DAT_011dea3c)->FUN_004997b0() && !pkActorVal->FUN_00566950())) &&
@@ -4455,7 +4455,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     {
         if (!pkActorVal->IsIncapacitated() && pkActorVal->FUN_008d8520()->IsArrested())
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->FUN_0055d520(), DAT_011d2394.FUN_00403df0());
+            FUN_00ec623a(acMessage, s_szNameFormat, pkActorVal->TESObjectREFR_GetFullName(), DAT_011d2394.FUN_00403df0());
             DispatchMessageToSink(acMessage, 0, s_szSadIcon, 0, 2.0f, 0);
             return false;
         }
@@ -4472,17 +4472,17 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         }
         AASceneList* pkScenes = pkActivator == (AAActor*)DAT_011dea3c ? GetTopicSubTypeName(0, 0) : 0;
         AAScene* pkSceneVal = pkScenes ? pkScenes->FUN_0061b320(pkActorVal, (AAActor*)DAT_011dea3c, 0, 0, 0) : 0;
-        if (pkSceneVal && pkSceneVal->FUN_0084e3a0()->FUN_00619df0() && pkSceneVal->FUN_0083c7b0() &&
+        if (pkSceneVal && pkSceneVal->FUN_0084e3a0()->TESTopic_IsRemappedRumors() && pkSceneVal->FUN_0083c7b0() &&
             !pkSceneVal->FUN_0083c7e0())
             pkActorVal->StartDialog(pkScenes, 0, 0);
         else if (!pkSceneVal)
             return false;
-        else if (pkActorVal->FUN_00493bb0() && pkActivator == (AAActor*)DAT_011dea3c && pkActorVal->FUN_00566950())
+        else if (pkActorVal->Actor_IsInCombat() && pkActivator == (AAActor*)DAT_011dea3c && pkActorVal->FUN_00566950())
         {
             ((AAMusic*)&DAT_011f2250)->FUN_009c8950(0, 0);
             FUN_00709470(4, pkActorVal, 0, 0, 1, 0);
         }
-        else if (pkActorVal && (!pkActorVal->FUN_00493bb0() || pkActorVal->IsIncapacitated()) &&
+        else if (pkActorVal && (!pkActorVal->Actor_IsInCombat() || pkActorVal->IsIncapacitated()) &&
                  (pkActivator != (AAActor*)DAT_011dea3c || !pkActorVal->GetSitSleepState() ||
                   pkActorVal->GetSitSleepState() == 9 || pkActorVal->GetSitSleepState() == 4 ||
                   (pkActorVal->FUN_008d8520()->GetCurrentIdle() &&
@@ -4799,12 +4799,12 @@ struct S_005805c0_Owner
     int unk174;
     StageRecord* unk178;
 
-    bool FUN_005805c0(int value08, S_005805c0_Arg* object, int value0c, float value10, int value14);
+    bool TESWaterForm_Activate(int value08, S_005805c0_Arg* object, int value0c, float value10, int value14);
 };
 
 // If both pointers and the returned object are non-null, calls v003 with the stored stage record and returns true.
 // @fnv 0x005805c0
-bool S_005805c0_Owner::FUN_005805c0(int value08, S_005805c0_Arg* object, int value0c, float value10, int value14)
+bool S_005805c0_Owner::TESWaterForm_Activate(int value08, S_005805c0_Arg* object, int value0c, float value10, int value14)
 {
     if (this->unk178 != 0 && object != 0)
     {

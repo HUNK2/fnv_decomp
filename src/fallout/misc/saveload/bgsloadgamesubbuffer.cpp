@@ -719,7 +719,7 @@ struct FUN_008659c0_Buffer
 struct ReferenceSaveAccess : TESObjectREFR
 {
     TESBoundObject* FUN_00401170();
-    void FUN_00562de0(FUN_008659c0_Buffer* buffer);
+    void TESObjectREFR_SaveHavokData(FUN_008659c0_Buffer* buffer);
 };
 struct SubBufferSaveShell
 {
@@ -738,7 +738,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
         buffer.InitFormEntry(form->GetFormID(), FUN_008c71b0(4), static_cast<ReferenceSaveAccess*>(form)->FUN_00401170(),
                             DAT_011de134->GetConstant27());
         buffer.FUN_0050f9c0(form);
-        ref->FUN_00562de0(&buffer);
+        ref->TESObjectREFR_SaveHavokData(&buffer);
         FUN_00865120(&buffer);
     }
     else

@@ -83,12 +83,12 @@ struct MarkerStruct
 
 struct CombatGroupStrategyFallBack
 {
-    void FUN_00990bd0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void CombatGroupStrategyFallBack_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 // Iterates over every member of the group and calls SetElementValue with index i and value 2.
 // @fnv 0x00990bd0
-void CombatGroupStrategyFallBack::FUN_00990bd0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void CombatGroupStrategyFallBack::CombatGroupStrategyFallBack_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int i = 0;
     for (; i < apGroup->GetCount(); i++)
@@ -178,10 +178,10 @@ struct GroupOps
 };
 struct DummyFallback
 {
-    bool __thiscall FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    bool __thiscall CombatGroupStrategyFallBack_CanExecute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 // @fnv 0x00990b70
-bool __thiscall DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+bool __thiscall DummyFallback::CombatGroupStrategyFallBack_CanExecute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     if (((DataOps*)apGroupData)->_ref_00726070() < 2)
         return false;
@@ -211,11 +211,11 @@ bool TargetClass::FUN_00990c10(struct ActorCombatGroup* apGroup)
 
 struct CombatGroupStrategyAmbush
 {
-    void __thiscall FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void __thiscall CombatGroupStrategyAmbush_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 // @fnv 0x00990cb0
-void __thiscall CombatGroupStrategyAmbush::FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void __thiscall CombatGroupStrategyAmbush::CombatGroupStrategyAmbush_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int i;
     unsigned int i2;
@@ -237,7 +237,7 @@ struct IntPair
 };
 struct CombatGroupStrategyAdvance
 {
-    void __thiscall FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void __thiscall CombatGroupStrategyAdvance_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 struct FUN_00990aa0_helper
 {
@@ -245,7 +245,7 @@ struct FUN_00990aa0_helper
 };
 // Iterates the group data's members and calls SetElementValue on the group with each member's _4 value and 4.
 // @fnv 0x00990e70
-void __thiscall CombatGroupStrategyAdvance::FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void __thiscall CombatGroupStrategyAdvance::CombatGroupStrategyAdvance_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     int i;
     IntPair* pmember;
@@ -334,11 +334,11 @@ struct FUN_00990640_shell
 
 struct FUN_00990930_shell
 {
-    void __thiscall FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void __thiscall CombatGroupStrategyFlank_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 // @fnv 0x00990930
-void FUN_00990930_shell::FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void FUN_00990930_shell::CombatGroupStrategyFlank_Execute(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int irangedMemberCount;
     unsigned int itotalMemberCount;
@@ -755,7 +755,7 @@ struct NiPoint4
 };
 struct CombatGroupMember
 {
-    int FUN_00575650(NiPoint4*, float, int);
+    int TESObjectREFR_GetWorldLocation(NiPoint4*, float, int);
 };
 extern const float DAT_01050b98;
 struct CombatGroupMethods
@@ -766,10 +766,10 @@ struct CombatGroupMethods
 };
 struct CombatGroupStrategy
 {
-    bool FUN_00990ac0(ActorCombatGroup*);
+    bool CombatGroupStrategyFlank_Update(ActorCombatGroup*);
 };
 // @fnv 0x00990ac0
-bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
+bool CombatGroupStrategy::CombatGroupStrategyFlank_Update(ActorCombatGroup* group)
 {
     bool bFound = false;
     unsigned count = group->GetCount();
@@ -779,7 +779,7 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
         {
             CombatGroupMember* pData = ((CombatGroupMethods*)group)->GetIntAt(index);
             NiPoint4 position;
-            if (((CombatGroupMethods*)group)->FindRefInRadius(pData->FUN_00575650(&position, DAT_01050b98, 0)))
+            if (((CombatGroupMethods*)group)->FindRefInRadius(pData->TESObjectREFR_GetWorldLocation(&position, DAT_01050b98, 0)))
                 group->SetElementValue(index, 0);
             else
                 bFound = true;
@@ -794,7 +794,7 @@ extern const float DAT_01034294;
 
 struct FUN_00990c40_cls
 {
-    bool FUN_00990c40(int a1, int a2);
+    bool CombatGroupStrategyAmbush_CanExecute(int a1, int a2);
 };
 
 struct FUN_00990c40_arg2
@@ -810,7 +810,7 @@ struct FUN_00990c40_arg1
 };
 
 // @fnv 0x00990c40
-bool FUN_00990c40_cls::FUN_00990c40(int a1, int a2)
+bool FUN_00990c40_cls::CombatGroupStrategyAmbush_CanExecute(int a1, int a2)
 {
     if (((FUN_00990c40_arg2*)a2)->_ref_00726070() < 2)
     {

@@ -49,11 +49,11 @@ struct RefH
 };
 struct FUN_00811030_shell
 {
-    bool FUN_00811030();
+    bool MagicBallProjectile_IsActive();
 };
 // Returns true when the int at offset 0xac is not 2 and the object is not deleted.
 // @fnv 0x00811030
-bool FUN_00811030_shell::FUN_00811030()
+bool FUN_00811030_shell::MagicBallProjectile_IsActive()
 {
     return *reinterpret_cast<const int*>(reinterpret_cast<const char*>(this) + 0xac) != 2 &&
            !reinterpret_cast<const RefH*>(this)->IsDeleted();
@@ -73,11 +73,11 @@ struct FUN_0081e830_shell
 struct FUN_00811070_shell
 {
     unsigned short eState;
-    unsigned short FUN_00811070(unsigned int aiFlags);
+    unsigned short MagicBallProjectile_GetSaveSize(unsigned int aiFlags);
 };
 
 // @fnv 0x00811070
-unsigned short FUN_00811070_shell::FUN_00811070(unsigned int aiFlags)
+unsigned short FUN_00811070_shell::MagicBallProjectile_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += ((FUN_0081e830_shell*)this)->GetSaveRecordSize(aiFlags);
@@ -145,19 +145,19 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 void _Deallocate(void*);
 struct S00932750
 {
-    void FUN_00932750(int);
+    void MobileObject_Revert(int);
 };
 struct Owner008cf740
 {
     char _pad[0x88];
     void* f88;
-    void FUN_008cf740(int);
+    void ArrowProjectile_Revert(int);
 };
-// Calls FUN_00932750 with a, then if g_TESSaveLoadGame->FUN_0055f5b0() is true, deallocates f88 and sets it to 0.
+// Calls MobileObject_Revert with a, then if g_TESSaveLoadGame->FUN_0055f5b0() is true, deallocates f88 and sets it to 0.
 // @fnv 0x008cf740
-void Owner008cf740::FUN_008cf740(int a)
+void Owner008cf740::ArrowProjectile_Revert(int a)
 {
-    ((S00932750*)this)->FUN_00932750(a);
+    ((S00932750*)this)->MobileObject_Revert(a);
     if (g_TESSaveLoadGame->FUN_0055f5b0())
     {
         if (f88 != 0)
@@ -368,10 +368,10 @@ struct FUN_008cb380_shell
     virtual void v188();
     virtual void v189();
     virtual void v190(float);
-    void FUN_008cb380(float);
+    void ArrowProjectile_Process(float);
 };
 // @fnv 0x008cb380
-void FUN_008cb380_shell::FUN_008cb380(float afUnused)
+void FUN_008cb380_shell::ArrowProjectile_Process(float afUnused)
 {
     float fTime = g_timeGlobal.GetStoredFloatValue();
     v190(fTime);
@@ -399,20 +399,20 @@ struct TESSaveLoadGameHelper
 
 struct FUN_0081e8c0_shell_standin
 {
-    void FUN_0081e8c0(unsigned int);
+    void MagicProjectile_SaveGame(unsigned int);
 };
 
 struct FUN_00811110_shell
 {
-    void FUN_00811110(unsigned int);
+    void MagicBallProjectile_SaveGame(unsigned int);
 };
 
 extern SaveManager* DAT_011de45c;
 
 // @fnv 0x00811110
-void FUN_00811110_shell::FUN_00811110(unsigned int aiFlags)
+void FUN_00811110_shell::MagicBallProjectile_SaveGame(unsigned int aiFlags)
 {
-    reinterpret_cast<FUN_0081e8c0_shell_standin*>(this)->FUN_0081e8c0(aiFlags);
+    reinterpret_cast<FUN_0081e8c0_shell_standin*>(this)->MagicProjectile_SaveGame(aiFlags);
 
     reinterpret_cast<PC7d*>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xa8, 4);
     reinterpret_cast<PC7d*>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x88, 4);
@@ -450,7 +450,7 @@ struct STR00
 
 struct Projectile
 {
-    void FUN_0081e980(int, int);
+    void MagicProjectile_LoadGame2(int, int);
 };
 
 struct SaveManager
@@ -600,7 +600,7 @@ void FUN_008111e0_shell::LoadFromSave(unsigned int aiFlags, unsigned int aiCurre
 
     this->v113();
 
-    reinterpret_cast<Projectile*>(this)->FUN_0081e980(aiFlags, aiCurrentFlags);
+    reinterpret_cast<Projectile*>(this)->MagicProjectile_LoadGame2(aiFlags, aiCurrentFlags);
 
     reinterpret_cast<STR00*>(this)->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa8), 4);
 
@@ -864,7 +864,7 @@ void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3
     }
 }
 
-void* FUN_00401000(unsigned int);
+void* FormHeap_Allocate(unsigned int);
 struct Mgr
 {
     void FUN_0096d470(void*, int);
@@ -1031,10 +1031,10 @@ struct Self
     virtual void s127(int);
     char pad[0x64];
     Obj* m68;
-    bool FUN_008cf7a0();
+    bool ArrowProjectile_StartHighProcess();
 };
 // @fnv 0x008cf7a0
-bool Self::FUN_008cf7a0()
+bool Self::ArrowProjectile_StartHighProcess()
 {
     if (m68 && !m68->FUN_0045cd60())
         return true;
@@ -1111,7 +1111,7 @@ class NiControllerSequence
 class NiControllerManager : public NiTimeController
 {
   public:
-    NiControllerSequence* FUN_0047a520(const NiFixedString& kName);
+    NiControllerSequence* NiControllerManager_GetSequenceByName(const NiFixedString& kName);
     void FUN_0048fef0(float fTime);
     void FUN_0047aab0(NiControllerSequence* pkSeq, int iPriority, int bStartOver, float fWeight, float fEaseInTime,
                       int pkTimeSyncSeq);
@@ -1273,7 +1273,7 @@ void TESObjectREFR::ResetProjectileIdleAnimation()
         NiControllerManager* pManager = (NiControllerManager*)FUN_00653270(&DAT_011f36ac, pNode->GetControllers());
         if (pManager)
         {
-            NiControllerSequence* pSequence = pManager->FUN_0047a520(NiFixedString("SpecialIdle_Projectile"));
+            NiControllerSequence* pSequence = pManager->NiControllerManager_GetSequenceByName(NiFixedString("SpecialIdle_Projectile"));
             if (pSequence)
             {
                 pManager->FUN_0048fef0(0.0f);
@@ -1309,7 +1309,7 @@ struct Fixed
 };
 struct Controller
 {
-    Sequence* FUN_0047a520(const Fixed&);
+    Sequence* NiControllerManager_GetSequenceByName(const Fixed&);
     void FUN_0048fef0(float);
 };
 struct Model
@@ -1579,14 +1579,14 @@ struct AreaProjectile
     int unkb8;
     int unkbc;
     Effect* effect;
-    bool FUN_00440d80() const;
+    bool TESForm_GetDelete() const;
     Info* FUN_009306d0();
-    void FUN_00484af0(int);
-    void FUN_008106d0(float dt);
+    void TESForm_SetDisabled(int);
+    void MagicBallProjectile_Update(float dt);
 };
 // Advances the projectile by dt: kills it on large dt, moves it along its speed, accumulates distance, and handles the idle/effect state.
 // @fnv 0x008106d0
-void AreaProjectile::FUN_008106d0(float afDeltaTime)
+void AreaProjectile::MagicBallProjectile_Update(float afDeltaTime)
 {
     if (afDeltaTime >= 60.0)
         Kill(1);
@@ -1597,7 +1597,7 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
         case 0:
             state = 1;
         case 1: {
-            if (FUN_00440d80())
+            if (TESForm_GetDelete())
                 break;
             if (FUN_004587d0(FUN_009306d0()->GetFloatAtOffset53C()) >= Position().z)
                 SetPosition(Position(), 0, 0, 1);
@@ -1622,19 +1622,19 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
             Controller* swapModel = FUN_00653270(&DAT_011f36ac, ctrl);
             if (swapModel)
             {
-                Sequence* sequence = swapModel->FUN_0047a520(Fixed("SpecialIdle_AreaEffect"));
+                Sequence* sequence = swapModel->NiControllerManager_GetSequenceByName(Fixed("SpecialIdle_AreaEffect"));
                 if (!sequence || (sequence && (sequence->FUN_00508120() > sequence->FUN_00508100() ||
                                                sequence->FUN_008041a0() == 0)))
                 {
                     swapModel->FUN_0048fef0(0.0f);
-                    FUN_00484af0(1);
+                    TESForm_SetDisabled(1);
                     Kill(1);
                 }
             }
             else
             {
                 Kill(1);
-                FUN_00484af0(1);
+                TESForm_SetDisabled(1);
             }
             if (effect)
                 effect->UpdateLightFade(afDeltaTime);
@@ -1656,14 +1656,14 @@ struct SettingObj;
 struct Filter
 {
     unsigned int info;
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct RetObj
 {
     int f0;
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
 };
 
 struct Ctrl
@@ -1954,11 +1954,11 @@ struct Cls
     void UpdateFlags(int, int);
     Ctrl* FUN_009306d0();
     Refr* FUN_009185e0();
-    void FUN_008115c0(int a1, int a2);
+    void MagicBallProjectile_FinishInitLoadGameTES(int a1, int a2);
 };
 
 // @fnv 0x008115c0
-void Cls::FUN_008115c0(int aiArg1, int aiArg2)
+void Cls::MagicBallProjectile_FinishInitLoadGameTES(int aiArg1, int aiArg2)
 {
     UpdateFlags(aiArg1, aiArg2);
     Ctrl* ctrl4 = FUN_009306d0();
@@ -1971,14 +1971,14 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
             Refr2* filtered = obj4->tv64() ? obj4 : 0;
             if (filtered)
             {
-                _result = filtered->FUN_00931ed0().FUN_004a3a20();
+                _result = filtered->FUN_00931ed0().CFilter_GetGroup();
             }
             else
             {
                 CollObj* co = FUN_004b5260(obj4->tv116());
                 WorldObj* world1;
                 world1 = co ? co->FUN_006fa820() : 0;
-                _result = world1 ? world1->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                _result = world1 ? world1->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
             }
         }
         else
@@ -1986,11 +1986,11 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
             CollObj* co5 = FUN_004b5260(tv116());
             WorldObj* world3;
             world3 = co5 ? co5->FUN_006fa820() : 0;
-            _result = world3 ? world3->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            _result = world3 ? world3->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
         }
         RetObj retObjTmp = ctrl4->FUN_0070c440();
-        retObjTmp.FUN_004a39f0(7);
-        retObjTmp.FUN_0059ce80(_result);
+        retObjTmp.CFilter_SetLayer(7);
+        retObjTmp.CFilter_SetGroup(_result);
         ctrl4->FUN_00810ff0(retObjTmp.f0);
     }
     Refr2* tailObjVal;
@@ -2021,7 +2021,7 @@ struct Node
     Vec& FUN_0045bb80();
     Vec& FUN_0043c490();
     void FUN_0043fa80(const Matrix*);
-    void FUN_004f00e0(const Vec*);
+    void NiAVObject_SetWorldTranslate(const Vec*);
 };
 struct Flags
 {
@@ -2393,7 +2393,7 @@ struct Projectile
     int unkc4;
     Sound sound;
     float start;
-    bool FUN_00440d80() const;
+    bool TESForm_GetDelete() const;
     Controller* FUN_009306d0();
     void FUN_00812700(float, Link*);
     float GetField90Float();
@@ -2407,7 +2407,7 @@ void Projectile::UpdateMotion(float delta)
 {
     if (delta == 0.0)
         return;
-    if (FUN_00440d80())
+    if (TESForm_GetDelete())
         return;
     Vec original = Root()->FUN_0043c490();
     if ((Anim*)animation && mode == 0)
@@ -2495,7 +2495,7 @@ void Projectile::UpdateMotion(float delta)
         }
     }
     if ((Node*)effect)
-        ((Node*)effect)->FUN_004f00e0(&Position());
+        ((Node*)effect)->NiAVObject_SetWorldTranslate(&Position());
     if (((Anim*)animation)->FUN_00813370() || (mode == 1 && GetUnka4() - start > 3.0))
     {
         if (sound.FUN_00ad8ce0())
@@ -2572,7 +2572,7 @@ struct FUN_0081a320_class;
 
 struct FUN_00440d80_shell
 {
-    unsigned char FUN_00440d80();
+    unsigned char TESForm_GetDelete();
 };
 
 struct FUN_009306d0_shell
@@ -3077,11 +3077,11 @@ struct FUN_0081a320_class
 
     FUN_00817160_shell* FUN_009185e0(int);
 
-    void FUN_0081a320(float dt);
+    void MagicFogProjectile_Update(float dt);
 };
 
 // @fnv 0x0081a320
-void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
+void FUN_0081a320_class::MagicFogProjectile_Update(float afDeltaTime)
 {
 
     if (afDeltaTime >= DAT_01012638)
@@ -3094,7 +3094,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
         {
         case 0: {
 
-            if (((FUN_00440d80_shell*)this)->FUN_00440d80())
+            if (((FUN_00440d80_shell*)this)->TESForm_GetDelete())
                 return;
 
             if (FUN_004587d0(((FUN_009306d0_shell*)this)->FUN_009306d0()->GetFloatAtOffset53C()) >= v125()->z)
@@ -3203,7 +3203,7 @@ extern "C" void __cdecl FUN_0040fbe0(const void*, ...);
 
 extern "C" void __cdecl FUN_005b5e40(const void*, const void*, int);
 
-extern "C" int __cdecl FUN_004839c0(int);
+extern "C" int __cdecl TESForm_GetFormByNumericID(int);
 
 extern "C" int __cdecl FUN_004a8b00(int);
 
@@ -3220,7 +3220,7 @@ struct SaveHandle
 struct StateProcessor
 {
 
-    int __thiscall FUN_0043fcd0();
+    int __thiscall TESObjectREFR_Get3D();
 };
 
 struct Vec3f
@@ -3263,11 +3263,11 @@ struct FUN_008ce610_owner : PC7d
 
     void __thiscall ForwardToSaveLoadGame(void*, int);
 
-    void __thiscall FUN_008ce610(int);
+    void __thiscall ArrowProjectile_SaveGame(int);
 };
 
 // @fnv 0x008ce610
-void FUN_008ce610_owner::FUN_008ce610(int arg)
+void FUN_008ce610_owner::ArrowProjectile_SaveGame(int arg)
 {
 
     SaveProcess(arg);
@@ -3391,14 +3391,14 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
                         (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->type == 0;
 
                     low = FUN_004b66d0((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
-                                           ->handle->FUN_0043fcd0(),
+                                           ->handle->TESObjectREFR_Get3D(),
                                        invert, invert, 1);
 
                     int prepared = FUN_004a8b00(
                         (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed);
 
                     high = FilterByFlags((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
-                                             ->handle->FUN_0043fcd0(),
+                                             ->handle->TESObjectREFR_Get3D(),
                                          prepared, invert, invert, 1);
                 }
                 else
@@ -3442,7 +3442,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
         if (finished)
         {
 
-            int manager = FUN_004839c0(*finished);
+            int manager = TESForm_GetFormByNumericID(*finished);
 
             typedef int(__thiscall * LogFunction)(void*);
 
@@ -3651,11 +3651,11 @@ struct Loaded
     void baseLoad(void*, void*);
     void read(void*, unsigned);
     void readRef(unsigned*, unsigned);
-    void FUN_008ceb50(void*, void*);
+    void ArrowProjectile_LoadGame2(void*, void*);
 };
 // Loads the block header, mode, refs, position and extra data (with optional rotation and name) from the loader, then warns on buffer overrun or underrun.
 // @fnv 0x008ceb50
-void Loaded::FUN_008ceb50(void* arg1, void* arg2)
+void Loaded::ArrowProjectile_LoadGame2(void* arg1, void* arg2)
 {
     baseLoad(arg1, arg2);
     unsigned short a = 0;
@@ -3793,7 +3793,7 @@ struct FlagObj
 };
 struct Node
 {
-    void* FUN_0043fcd0();
+    void* TESObjectREFR_Get3D();
     virtual void slot00();
     virtual void slot01();
     virtual void slot02();
@@ -3872,7 +3872,7 @@ struct Node
     virtual void slot75();
     virtual int slot76();
     bool FUN_00440da0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     unsigned int FUN_0084e3a0();
 };
 struct Mid
@@ -3901,7 +3901,7 @@ int __cdecl FUN_005b5e40(const char*, ...);
 extern char DAT_01085d9c[];
 struct Cls
 {
-    void* FUN_0043fcd0();
+    void* TESObjectREFR_Get3D();
     virtual void slot00();
     virtual void slot01();
     virtual void slot02();
@@ -4004,14 +4004,14 @@ struct Cls
     unsigned char uc2;
     unsigned char uc3;
     int fc4;
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
     void FUN_008caea0(int, float);
     void UpdateFlags(int, int);
-    void FUN_008cf440(int, int);
+    void ArrowProjectile_FinishInitLoadGameTES(int, int);
 };
 
 // @fnv 0x008cf440
-void Cls::FUN_008cf440(int a1, int a2)
+void Cls::ArrowProjectile_FinishInitLoadGameTES(int a1, int a2)
 {
     void* saved;
     int saved2c5;
@@ -4020,11 +4020,11 @@ void Cls::FUN_008cf440(int a1, int a2)
     int hi5;
     int lo_;
     bool _flag;
-    FUN_0046a010(0);
-    saved = FUN_0043fcd0();
-    if (!FUN_0043fcd0())
+    TESForm_SetStillLoading(0);
+    saved = TESObjectREFR_Get3D();
+    if (!TESObjectREFR_Get3D())
     {
-        if (f88 != 0 && f88->f28 != 0 && f88->f28->FUN_00440da0() && f88->f28->FUN_00440d80())
+        if (f88 != 0 && f88->f28 != 0 && f88->f28->FUN_00440da0() && f88->f28->TESForm_GetDelete())
         {
             slot49(1);
             f88->f2c = 0;
@@ -4046,14 +4046,14 @@ void Cls::FUN_008cf440(int a1, int a2)
             f88->f2c = 0;
             if (f88->f28 != 0)
             {
-                wordres = FUN_004b66d0(f88->f28->FUN_0043fcd0(), _flag, _flag, 1);
+                wordres = FUN_004b66d0(f88->f28->TESObjectREFR_Get3D(), _flag, _flag, 1);
                 if (hi5 != (int)wordres)
                 {
                     FUN_005b5e40(DAT_01085d9c, f88->f28->slot76(), f88->f28->FUN_0084e3a0());
                 }
                 else if (lo_ != -1)
                 {
-                    result = (int)FUN_004b6980(f88->f28->FUN_0043fcd0(), lo_, _flag, _flag, 1);
+                    result = (int)FUN_004b6980(f88->f28->TESObjectREFR_Get3D(), lo_, _flag, _flag, 1);
                     if (result != 0)
                     {
                         f88->f2c = ((FlagObj*)result)->FUN_0044ddc0();
@@ -4066,7 +4066,7 @@ void Cls::FUN_008cf440(int a1, int a2)
             saved2c5 = f88->f2c;
             if (f88->f28 != 0)
             {
-                f88->f2c = (int)FUN_004aae30(f88->f28->FUN_0043fcd0(), saved2c5);
+                f88->f2c = (int)FUN_004aae30(f88->f28->TESObjectREFR_Get3D(), saved2c5);
             }
             else
             {
@@ -4095,11 +4095,11 @@ extern SpinLock_931710 DAT_011f11a0;
 
 struct Self_931710 : Self
 {
-    bool FUN_00931710();
+    bool MobileObject_StartHighProcess();
 };
 
 // @fnv 0x00931710
-bool Self_931710::FUN_00931710()
+bool Self_931710::MobileObject_StartHighProcess()
 {
     int level = this->m68->FUN_0045cd60();
     DAT_011f11a0.Lock(0);
@@ -4259,7 +4259,7 @@ struct SaveForm
     virtual void v75();
     virtual const char* GetName();
 };
-SaveForm* __cdecl FUN_004839c0(unsigned);
+SaveForm* __cdecl TESForm_GetFormByNumericID(unsigned);
 void __cdecl SaveLog(const char*, ...);
 struct ProjectileData
 {
@@ -4302,15 +4302,15 @@ struct ArrowSave
     int unk80;
     int unk84;
     ProjectileData* data;
-    unsigned short FUN_00931ff0(unsigned);
-    unsigned short FUN_008ce3b0(unsigned);
+    unsigned short MobileObject_GetSaveSize(unsigned);
+    unsigned short ArrowProjectile_GetSaveSize(unsigned);
 };
 // Computes the serialized save size of an ArrowSave, adding field sizes conditionally on save version and projectile type, and logs the result.
 // @fnv 0x008ce3b0
-unsigned short ArrowSave::FUN_008ce3b0(unsigned flags)
+unsigned short ArrowSave::ArrowProjectile_GetSaveSize(unsigned flags)
 {
     unsigned short size7 = 0;
-    size7 += FUN_00931ff0(flags);
+    size7 += MobileObject_GetSaveSize(flags);
     unsigned short start = size7;
     if (((SaveState*)g_TESSaveLoadGame)->FUN_00862110())
     {
@@ -4355,7 +4355,7 @@ unsigned short ArrowSave::FUN_008ce3b0(unsigned flags)
         ValueReferencePair* entry = ((SaveState*)g_TESSaveLoadGame)->GetHitSound();
         if (entry)
         {
-            SaveForm* form = FUN_004839c0(entry->id);
+            SaveForm* form = TESForm_GetFormByNumericID(entry->id);
             SaveLog("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", size7 - start,
                     entry->id, form->GetName(), *(unsigned*)&entry->flags0, 2174,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\ArrowProjectile.cpp");
@@ -4491,7 +4491,7 @@ struct NiNodeStandin : NiAVObject
     virtual void vfn_37();
     virtual void vfn_38();
     virtual NiAVObject* GetObjectByName(const NiFixedString&);
-    PointProvider* FUN_00461130();
+    PointProvider* NiAVObject_GetWorldRotate();
 };
 
 struct CustomSequence : NiControllerSequence
@@ -5048,7 +5048,7 @@ struct ContinuousBeamProjectile
     NodeEffect* effect;
 
     EffectItem* FUN_00586150();
-    void FUN_00575830(const NiPoint3*);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3*);
     void FUN_0081f000(NiPoint3, NiPoint3, unsigned int);
     ProjectileNodeStandin* FUN_009306d0();
     int GetArchetype();
@@ -5076,12 +5076,12 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
         this->unkb0 = *originalRuntimeFloatSetting1139.FUN_00403e20();
     }
 
-    this->FUN_00575830(&point);
+    this->TESObjectREFR_SetLocationOnReference(&point);
 
     NiNodeStandin* pNode2 = this->Root();
     if (pNode2)
     {
-        this->FUN_0081f000(point, pNode2->FUN_00461130()->FUN_004b4500(DAT_011a9478), variant);
+        this->FUN_0081f000(point, pNode2->NiAVObject_GetWorldRotate()->FUN_004b4500(DAT_011a9478), variant);
     }
 
     if (pNode2 && !silent)
@@ -5120,7 +5120,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     NiControllerManager* pManagerTmp = (NiControllerManager*)FUN_00653270(&DAT_011f36ac, pCtrl5);
     if (pManagerTmp)
     {
-        CustomSequence* aPSeq5 = (CustomSequence*)pManagerTmp->FUN_0047a520(NiFixedString("SpecialIdle_AreaEffect"));
+        CustomSequence* aPSeq5 = (CustomSequence*)pManagerTmp->NiControllerManager_GetSequenceByName(NiFixedString("SpecialIdle_AreaEffect"));
         if (aPSeq5)
         {
             pManagerTmp->FUN_0048fef0(0.0f);
@@ -5154,7 +5154,7 @@ struct Val
 struct Sub;
 struct MyCtrl
 {
-    Sub* FUN_0047a520(void*);
+    Sub* NiControllerManager_GetSequenceByName(void*);
     void FUN_0047b220(Sub*, float);
 };
 struct AVNode : public NiAVObject
@@ -5791,16 +5791,16 @@ struct Host
     int fld25;
     int fld26;
     AVObj* m6c;
-    bool FUN_00574900();
+    bool MobileObject_IsTalkingActivator();
     Proc* FUN_008d8520();
-    void FUN_00936b20(int);
+    void MobileObject_UpdateAnimationAlt(int);
 };
 
 // If active, finds the controller and sequence for the global time, advances the sequence by the elapsed time, and updates the node.
 // @fnv 0x00936b20
-void Host::FUN_00936b20(int aiUnused)
+void Host::MobileObject_UpdateAnimationAlt(int aiUnused)
 {
-    if (FUN_00574900())
+    if (MobileObject_IsTalkingActivator())
     {
         AVObj* pSceneObject = m6c;
         if (pSceneObject->v116())
@@ -5808,7 +5808,7 @@ void Host::FUN_00936b20(int aiUnused)
             MyCtrl* pkCtrl = pSceneObject->v116()->FUN_00a5c570(&DAT_011f36ac);
             if (pkCtrl)
             {
-                Sub* pkSeq = pkCtrl->FUN_0047a520(FUN_00935ef0());
+                Sub* pkSeq = pkCtrl->NiControllerManager_GetSequenceByName(FUN_00935ef0());
                 if (pkSeq)
                 {
                     unsigned int uiDiff = 0;
@@ -5918,12 +5918,12 @@ class Actor
 
     int FUN_0084e3a0();
     Form* FUN_007af430();
-    bool FUN_00477ba0();
-    bool FUN_005722c0(int iUnused);
+    bool TESForm_GetDestroyed();
+    bool TESObjectREFR_IsDead(int iUnused);
 };
 
 // @fnv 0x005722c0
-bool Actor::FUN_005722c0(int iUnused)
+bool Actor::TESObjectREFR_IsDead(int iUnused)
 {
     bool bResult = false;
     if (IsReady() && FUN_0084e3a0() != 7)
@@ -5932,7 +5932,7 @@ bool Actor::FUN_005722c0(int iUnused)
         if (fValue <= 0.0)
             bResult = true;
     }
-    else if (FUN_00477ba0())
+    else if (TESForm_GetDestroyed())
     {
         bResult = true;
     }
@@ -6543,8 +6543,8 @@ struct CleanupReference : FUN_0092ec40, CleanupSecondary
     int unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac;
     int unkb0, unkb4, unkb8, unkbc;
     bool detached;
-    void* FUN_0043fcd0();
-    void FUN_005702e0(void*, bool);
+    void* TESObjectREFR_Get3D();
+    void TESObjectREFR_Set3D(void*, bool);
     void FUN_0092ed60(bool);
 };
 struct CleanupList
@@ -6560,7 +6560,7 @@ struct CleanupHandler
     bool FUN_004226e0();
 };
 extern CleanupHandler* DAT_011c3f2c;
-void FUN_0062ab60(CleanupVector&, void*);
+void TESArrowTargetListener_RemoveArrowTarget(CleanupVector&, void*);
 struct FUN_008cac60 : CleanupReference
 {
     virtual ~FUN_008cac60();
@@ -6576,7 +6576,7 @@ FUN_008cac60::~FUN_008cac60()
         FUN_0092ec40* reference = this;
         pCleanupList->FUN_00905330(reference);
     }
-    void* scene = FUN_0043fcd0();
+    void* scene = TESObjectREFR_Get3D();
     if (scene && data && data->kind == 1)
     {
         CleanupCollision* collision = reinterpret_cast<CleanupCollision*>(FUN_004b5260(scene));
@@ -6586,7 +6586,7 @@ FUN_008cac60::~FUN_008cac60()
             CleanupVector audioVector;
             audioVector.FUN_006815c0();
             world->GetAudioPosition(audioVector);
-            FUN_0062ab60(audioVector, data->worldHandle);
+            TESArrowTargetListener_RemoveArrowTarget(audioVector, data->worldHandle);
         }
     }
     if (!detached && data && data->kind == 0 && data->actor && data->actor->IsActor())
@@ -6599,7 +6599,7 @@ FUN_008cac60::~FUN_008cac60()
         }
     }
     delete data;
-    FUN_005702e0(0, true);
+    TESObjectREFR_Set3D(0, true);
     if (!DAT_011c3f2c->FUN_004226e0())
         FUN_0092ed60(false);
 }
@@ -6643,7 +6643,7 @@ struct C0Obj
 };
 struct Ret8d
 {
-    void FUN_00548230();
+    void TESObjectCELL_AddReference();
 };
 struct Obj30
 {
@@ -6660,7 +6660,7 @@ struct StrObj
 };
 struct Obj1c
 {
-    int FUN_0047a520(StrObj*);
+    int NiControllerManager_GetSequenceByName(StrObj*);
 };
 struct Obj24
 {
@@ -6841,17 +6841,17 @@ struct Cls8112c0
     Ret8d* FUN_008d6f30(Cls8112c0*, int);
     EffA* FUN_004fd400();
     Obj30 PlaySoundByFormID(int, int, int, int);
-    void FUN_008112c0(int, int);
+    void MagicBallProjectile_InitLoadGameTES(int, int);
 };
 
 // Calls FUN_0081ea40 and FUN_0080fcf0, updates m_b4 from an Obj30 result, and may allocate C0Obj using the named SpecialIdle_AreaEffect entry.
 // @fnv 0x008112c0
-void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
+void Cls8112c0::MagicBallProjectile_InitLoadGameTES(int aiParam1, int aiParam2)
 {
     float f10;
     ResolveMagicReferences(aiParam1, aiParam2);
     ResetProjectileIdleAnimation();
-    FUN_008d6f30(this, 0)->FUN_00548230();
+    FUN_008d6f30(this, 0)->TESObjectCELL_AddReference();
     if (m_ac != 2)
     {
         if (FUN_004fd400()->FUN_004fd3c0())
@@ -6889,7 +6889,7 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
                 foundEffect = (Obj1c*)FUN_00653270(&DAT_011f36ac, t18);
                 if (foundEffect)
                 {
-                    result = foundEffect->FUN_0047a520(&StrObj("SpecialIdle_AreaEffect"));
+                    result = foundEffect->NiControllerManager_GetSequenceByName(&StrObj("SpecialIdle_AreaEffect"));
                     if (result)
                     {
                         m_c0->FUN_0081c470(0, ((Obj24*)result)->FUN_00508100() * DAT_0101de30);
@@ -6919,7 +6919,7 @@ struct FloatMatrix3
 };
 struct RefObject
 {
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
     int FUN_008d6f30();
 };
 struct TrackedHandle
@@ -7170,25 +7170,25 @@ struct Controller
     unsigned char unkC1, unkC2, unkC3;
     void* releaseData;
 
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     MotionController* FUN_009306d0();
     void FUN_008ccfb0(int);
     bool ProcessImpact();
     int FUN_008d6f30();
-    void FUN_00575830(int);
-    void FUN_008cb3c0(float dt);
+    void TESObjectREFR_SetLocationOnReference(int);
+    void ArrowProjectile_Update(float dt);
 };
 
 // Updates elapsed time, position, orientation, and fadeLeft, with phase-dependent calls to v27, v49, and other handlers.
 // @fnv 0x008cb3c0
-void Controller::FUN_008cb3c0(float afDelta)
+void Controller::ArrowProjectile_Update(float afDelta)
 {
     if (pending)
     {
         bool shouldRelease = true;
         if (handle && (handle->kind == 1 || handle->kind == 0) && handle->target)
         {
-            if (!handle->target->FUN_0043fcd0())
+            if (!handle->target->TESObjectREFR_Get3D())
             {
                 shouldRelease = false;
             }
@@ -7208,7 +7208,7 @@ void Controller::FUN_008cb3c0(float afDelta)
         {
             phase = 3;
         }
-        if (FUN_00440d80())
+        if (TESForm_GetDelete())
         {
             return;
         }
@@ -7237,7 +7237,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                 {
                     if (actor)
                     {
-                        FUN_00575830(actor->FUN_0043c490());
+                        TESObjectREFR_SetLocationOnReference(actor->FUN_0043c490());
                     }
                     phase = phase3;
                     return;
@@ -7263,7 +7263,7 @@ void Controller::FUN_008cb3c0(float afDelta)
             int ref_kind = handle->kind;
             if (actor && ref_kind == 0)
             {
-                FUN_00575830(actor->FUN_0045bb80());
+                TESObjectREFR_SetLocationOnReference(actor->FUN_0045bb80());
                 int refIndex = 0;
                 if (handle->target)
                 {
@@ -7281,7 +7281,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                     }
                 }
             }
-            if (actor && ref_kind == 1 && (!handle || !handle->target || !handle->target->FUN_0043fcd0()))
+            if (actor && ref_kind == 1 && (!handle || !handle->target || !handle->target->TESObjectREFR_Get3D()))
             {
                 v49(1);
             }
@@ -7358,12 +7358,12 @@ struct FUN_009ae5d0_shell
     float FUN_00507e10();
     FUN_004e3cc0_Class* GetActorBase();
     void FUN_009ac9a0();
-    void FUN_009ae5d0(int a1);
+    void Explosion_Update(int a1);
 };
 
 // Checks iE4, goal Z delta, bD5, and actor-base values while conditionally calling four functions.
 // @fnv 0x009ae5d0
-void FUN_009ae5d0_shell::FUN_009ae5d0(int a1)
+void FUN_009ae5d0_shell::Explosion_Update(int a1)
 {
     if (iE4 == 0)
     {
@@ -8089,7 +8089,7 @@ struct DialogueActor
     bool Ready();
     DialogueActor* Ref();
     struct Extra* ExtraList();
-    void FUN_00933d20();
+    void MobileObject_EndDialogue();
 };
 struct Extra
 {
@@ -8119,7 +8119,7 @@ struct Queue
 extern Queue actorQueue;
 // Cancels the process; for package type 28, handles both participants, frees special idles, and deletes the dialogue package.
 // @fnv 0x00933d20
-void DialogueActor::FUN_00933d20()
+void DialogueActor::MobileObject_EndDialogue()
 {
     if (!process || saveState->GetLoading())
         return;
@@ -8235,7 +8235,7 @@ class MobileObject
   public:
     void SetProcessFlags(unsigned int, unsigned int);
     int FUN_00931850();
-    void FUN_008cf2c0(unsigned int, unsigned int);
+    void ArrowProjectile_InitLoadGameTES(unsigned int, unsigned int);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -8288,25 +8288,25 @@ class ActorDeletionQueue
     void FUN_0096d470(MobileObject*, int);
     void FUN_0096d450(MobileObject*, int, bool, bool, bool);
 };
-// Calls FUN_00932490, resolves three form fields and unk88->unk28 through FUN_004839c0, then calls two functions on DAT_011e0e80.
+// Calls FUN_00932490, resolves three form fields and unk88->unk28 through TESForm_GetFormByNumericID, then calls two functions on DAT_011e0e80.
 // @fnv 0x008cf2c0
-void MobileObject::FUN_008cf2c0(unsigned int auiArg1, unsigned int auiArg2)
+void MobileObject::ArrowProjectile_InitLoadGameTES(unsigned int auiArg1, unsigned int auiArg2)
 {
     SetProcessFlags(auiArg1, auiArg2);
     unsigned int enchantment = (unsigned int)unkA4;
     if (enchantment)
-        unkA4 = dynamic_cast<Actor*>((TESForm*)FUN_004839c0(enchantment));
+        unkA4 = dynamic_cast<Actor*>((TESForm*)TESForm_GetFormByNumericID(enchantment));
     unsigned int actor = (unsigned int)unkA8;
     if (actor)
-        unkA8 = dynamic_cast<EnchantmentItem*>((TESForm*)FUN_004839c0(actor));
+        unkA8 = dynamic_cast<EnchantmentItem*>((TESForm*)TESForm_GetFormByNumericID(actor));
     unsigned int alchemy = (unsigned int)unkB0;
     if (alchemy)
-        unkB0 = dynamic_cast<AlchemyItem*>((TESForm*)FUN_004839c0(alchemy));
+        unkB0 = dynamic_cast<AlchemyItem*>((TESForm*)TESForm_GetFormByNumericID(alchemy));
     if (unk88 && (unk88->unk00 == 1 || unk88->unk00 == 0))
     {
         unsigned int reference = (unsigned int)unk88->unk28;
         if (reference)
-            unk88->unk28 = dynamic_cast<TESObjectREFR*>((TESForm*)FUN_004839c0(reference));
+            unk88->unk28 = dynamic_cast<TESObjectREFR*>((TESForm*)TESForm_GetFormByNumericID(reference));
     }
     DAT_011e0e80.FUN_0096d470(this, FUN_00931850());
     DAT_011e0e80.FUN_0096d450(this, FUN_00931850(), false, false, false);

@@ -86,7 +86,7 @@ void FUN_00a3ca30_shell::FUN_00a3ca30()
 extern void* _DAT_011f3740;
 
 // @fnv 0x00a3ca40
-void* __cdecl FUN_00a3ca40()
+void* __cdecl NiKeyBasedInterpolator_GetRTTI()
 {
     return &_DAT_011f3740;
 }

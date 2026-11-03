@@ -142,7 +142,7 @@ class MobileObject
     virtual void Unk_87();
     virtual void Unk_88();
     virtual bool Unk_89();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
 };
 
 class Projectile : public MobileObject
@@ -648,7 +648,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                         if (projectile->FUN_0085f810() == owner)
                         {
                             projectile->FUN_008d0240();
-                            if (!projectile->FUN_00440d80())
+                            if (!projectile->TESForm_GetDelete())
                             {
                                 if (bFlag)
                                     projectile->Unk_31(1);
@@ -656,7 +656,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                                     projectile->FUN_008cc6d0(3);
                             }
                         }
-                        if (projectile->FUN_00440d80())
+                        if (projectile->TESForm_GetDelete())
                             projectile->Unk_73(0, 1);
                     }
                     node = FUN_00726070(node);
@@ -691,7 +691,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                     if (arrow->FUN_0085f810() == owner)
                     {
                         arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        if (!object->TESForm_GetDelete())
                         {
                             if (bFlag)
                             {
@@ -704,7 +704,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                             }
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (arrow->TESForm_GetDelete())
                         arrow->Unk_73(0, 1);
                 }
             }
@@ -727,13 +727,13 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                     if (arrow->FUN_0085f810() == owner)
                     {
                         arrow->FUN_008d0240();
-                        if (!object->FUN_00440d80())
+                        if (!object->TESForm_GetDelete())
                         {
                             arrow->Unk_31(1);
                             bStopped = true;
                         }
                     }
-                    if (arrow->FUN_00440d80())
+                    if (arrow->TESForm_GetDelete())
                         arrow->Unk_73(0, 1);
                 }
             }

@@ -33,7 +33,7 @@ struct NiAGDDataBlock
     unsigned char m_bFlag;
 };
 // @fnv 0x00a727c0
-NiAGDDataBlock* __cdecl FUN_00a727c0()
+NiAGDDataBlock* __cdecl NiAdditionalGeometryData_CreateDataBlock()
 {
     NiAGDDataBlock* block = static_cast<NiAGDDataBlock*>(g_memoryManager.Allocate(16));
     if (block)
@@ -157,11 +157,11 @@ class FUN_00a72530_owner
     unsigned int unk08;
     unsigned char unk0c;
 
-    void __thiscall FUN_00a72530(unsigned int value);
+    void __thiscall NiAdditionalGeometryData_NiAGDDataBlock_Deallocate(unsigned int value);
 };
 
 // @fnv 0x00a72530
-void __thiscall FUN_00a72530_owner::FUN_00a72530(unsigned int value)
+void __thiscall FUN_00a72530_owner::NiAdditionalGeometryData_NiAGDDataBlock_Deallocate(unsigned int value)
 {
     if (value == 0 && unk0c != 0)
         value = unk08;
@@ -551,7 +551,7 @@ struct Obj_a73e20
 };
 
 // @fnv 0x00a73e20
-Obj_a73e20* __cdecl FUN_00a73e20()
+Obj_a73e20* __cdecl NiAdditionalGeometryData_CreateObject()
 {
     Obj_a73e20* p = (Obj_a73e20*)FUN_00aa13e0(0x2c);
     if (p)
@@ -925,11 +925,11 @@ struct LBObject : LBObjectBase
     int unk18;
     LBTArray<LBBlock*> m_kBlocks;
 
-    void FUN_00a73160(LBStream& arStream);
+    void NiAdditionalGeometryData_LoadBinary(LBStream& arStream);
 };
 
 // @fnv 0x00a73160
-void LBObject::FUN_00a73160(LBStream& arStream)
+void LBObject::NiAdditionalGeometryData_LoadBinary(LBStream& arStream)
 {
     LBObjectBase::LoadBinary(arStream);
     LBStreamLoadBinary(arStream, m_usKeyType);
@@ -1178,11 +1178,11 @@ struct FUN_00a73370Node
     unsigned short unk24;
     unsigned short childCount;
     void LinkObject(SaveStream* stream);
-    void FUN_00a73370(SaveStream* stream);
+    void NiAdditionalGeometryData_SaveBinary(SaveStream* stream);
 };
 
 // @fnv 0x00a73370
-void FUN_00a73370Node::FUN_00a73370(SaveStream* stream)
+void FUN_00a73370Node::NiAdditionalGeometryData_SaveBinary(SaveStream* stream)
 {
     LinkObject(stream);
     SerializeValue(stream, flags);
@@ -1345,11 +1345,11 @@ class NiAGDViewer : public NiObjectViewer
     int m_uiDataStreamEntryUnk;
     NiTViewerArray<NiAGDDataBlock*> m_aDataBlocks;
 
-    void FUN_00a73e40(NiViewerStringsArray* pkStrings);
+    void NiAdditionalGeometryData_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // @fnv 0x00a73e40
-void NiAGDViewer::FUN_00a73e40(NiViewerStringsArray* pkStrings)
+void NiAGDViewer::NiAdditionalGeometryData_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     NiObjectViewer::GetViewerStrings(pkStrings);
 
@@ -1794,10 +1794,10 @@ class NiAGDObject : public NiObject
     int unk18;
     NiTPrimitiveArray<A2440Buffer*> m_aDataBlocks;
 
-    bool FUN_00a727f0(NiObject* pkObject);
+    bool NiAdditionalGeometryData_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a727f0
-bool NiAGDObject::FUN_00a727f0(NiObject* pkObject)
+bool NiAGDObject::NiAdditionalGeometryData_IsEqual(NiObject* pkObject)
 {
     if (!NiObject::IsSameAs(pkObject))
         return false;

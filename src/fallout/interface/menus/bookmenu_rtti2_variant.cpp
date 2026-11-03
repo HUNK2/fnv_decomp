@@ -29,7 +29,7 @@ struct FUN_0073acb0 : Menu
 struct BookMenu
 {
     virtual ~BookMenu();  // the original class is polymorphic (rtti_variants.py)
-    int FUN_0073acf0();
+    int BookMenu_GetClass();
 };
 struct FUN_0073af60_shell
 {
@@ -460,7 +460,7 @@ struct FUN_0073b050_shell : Menu
     unsigned int m_0x34;
     float m_fValue;
 
-    void __thiscall FUN_0073b050(int, Tile*);
+    void __thiscall BookMenu_DoStillDown(int, Tile*);
 };
 struct FUN_00a1c520_shell
 {
@@ -468,7 +468,7 @@ struct FUN_00a1c520_shell
 };
 struct Res_0073b0f0
 {
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct Obj30_0073b0f0
 {
@@ -732,7 +732,7 @@ struct FUN_0073b0f0_cls
 };
 struct BookInput
 {
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
     const char* CallInnerFoo();
     bool FUN_0073b460();
 };
@@ -843,7 +843,7 @@ struct LoadBook
 
 struct TESObjectBOOK
 {
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
 };
 struct Tile_00a01b00 : Tile
 {
@@ -887,7 +887,7 @@ struct MenuH
     void SetMenuVisibility(bool);
 };
 Menu* __cdecl FindMenuById(int);
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_Instance();
 void __cdecl FNV_Warning(const char*, ...);
 void __cdecl FUN_00717280(int);
 void* __fastcall FUN_00726070(Menu*);
@@ -908,7 +908,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
     pbook = apBook;
     if (!pbook)
         return 0;
-    pin = FUN_004b7210();
+    pin = InterfaceManager_Instance();
     ftop_depth = Tile_00a01b00::FUN_00a01530();
     ptile = 0;
     ptile = (Tile_00a01b00*)((IMH*)pin)->FUN_00586150()->FUN_00a01b00("Data\\Menus\\book_menu.xml");
@@ -927,7 +927,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
         if (((TGF*)ptile)->GetFloat(0xfa7) == 6006.0 || ((TGF*)ptile)->GetFloat(0xfa7) == 102.0)
             ptile->FUN_00a012d0(0xfad, ftop_depth, true);
         ((BookMenuData*)g_pHudMainMenuInstance)->UpdateBookMenu(apBook, apRef);
-        if (((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile->FUN_00409700())
+        if (((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile->TESObjectBOOK_GetScroll())
             FUN_00717280(0x18);
         else
             FUN_00717280(0x1a);

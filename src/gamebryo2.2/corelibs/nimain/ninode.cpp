@@ -495,11 +495,11 @@ struct BGSDecalNode : public NiNode
 typedef char _sizecheck_BGSDecalNode[sizeof(BGSDecalNode) == 224 ? 1 : -1];
 struct FUN_00a5dd40_shell : public NiNode
 {
-    void FUN_00a5dd40(NiStream*);
+    void NiNode_LoadBinary(NiStream*);
 };
 
 // @fnv 0x00a5dd40
-void FUN_00a5dd40_shell::FUN_00a5dd40(NiStream* kStream)
+void FUN_00a5dd40_shell::NiNode_LoadBinary(NiStream* kStream)
 {
     NiAVObject::LoadBinary(*kStream);
     kStream->ReadUnsignedInteger();
@@ -805,14 +805,14 @@ struct ChildStub
 };
 struct BaseStub
 {
-    void FUN_00a59e50(NiRenderer*);
+    void NiAVObject_PurgeRendererData(NiRenderer*);
 };
 
-// Calls FUN_00a59e50 on the node, then calls PurgeRendererData on each non-null child in the node's child array.
+// Calls NiAVObject_PurgeRendererData on the node, then calls PurgeRendererData on each non-null child in the node's child array.
 // @fnv 0x00a5dc30
 void __fastcall FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
 {
-    ((BaseStub*)node)->FUN_00a59e50(pkRenderer);
+    ((BaseStub*)node)->NiAVObject_PurgeRendererData(pkRenderer);
     for (unsigned int i = 0; i < *(unsigned short*)((char*)node + 0xa6); i++)
     {
         ChildStub* c = (*(ChildStub***)((char*)node + 0xa0))[i];
@@ -932,14 +932,14 @@ struct ChildStub
 };
 struct BaseStub
 {
-    bool FUN_00a59f00(NiStream&);
+    bool NiAVObject_RegisterStreamables(NiStream&);
 };
 
-// Calls FUN_00a59f00 on the node, then registers streamables for each of its child pointers, returning false if the base call fails.
+// Calls NiAVObject_RegisterStreamables on the node, then registers streamables for each of its child pointers, returning false if the base call fails.
 // @fnv 0x00a5e5b0
 bool __fastcall RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
 {
-    if (!((BaseStub*)node)->FUN_00a59f00(kStream))
+    if (!((BaseStub*)node)->NiAVObject_RegisterStreamables(kStream))
         return false;
     for (unsigned int i = 0; i < *(unsigned short*)((char*)node + 0xa6); i++)
     {
@@ -1109,14 +1109,14 @@ struct FUN_00a5ea70_t
     char pad_00[0x20];
     NiBound* m_pkWorldBound;
 
-    void FUN_00a5ad00(StrArr*);
-    void FUN_00a5ea70(StrArr* pkStrings);
+    void NiAVObject_GetViewerStrings(StrArr*);
+    void NiNode_GetViewerStrings(StrArr* pkStrings);
 };
 
 // @fnv 0x00a5ea70
-void FUN_00a5ea70_t::FUN_00a5ea70(StrArr* pkStrings)
+void FUN_00a5ea70_t::NiNode_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a5ad00(pkStrings);
+    NiAVObject_GetViewerStrings(pkStrings);
     pkStrings->Add(_FUN_00a7d330(DAT_011f4428));
     int bVisual = (m_pkWorldBound && m_pkWorldBound->m_fBoundRadius != 0.0f) ? 1 : 0;
     pkStrings->Add(FUN_00a7d370("m_bVisual", bVisual != 0));
@@ -1695,13 +1695,13 @@ class BA5EFA0Node : public BA5EFA0AVObject
     virtual ~BA5EFA0Node();
 
     void CopyMemberData(BA5EFA0Node* pkDest, BA5EFA0CloningProcess& kCloning);
-    BA5EFA0Node* FUN_00a5efa0(BA5EFA0CloningProcess& kCloning);
+    BA5EFA0Node* NiNode_CreateClone(BA5EFA0CloningProcess& kCloning);
 
     BA5EFA0ObjectArray m_kChildList;
 };
 
 // @fnv 0x00a5efa0
-BA5EFA0Node* BA5EFA0Node::FUN_00a5efa0(BA5EFA0CloningProcess& kCloning)
+BA5EFA0Node* BA5EFA0Node::NiNode_CreateClone(BA5EFA0CloningProcess& kCloning)
 {
     BA5EFA0Node* pkClone = new BA5EFA0Node;
     CopyMemberData(pkClone, kCloning);
@@ -1894,13 +1894,13 @@ struct NiEqAVObject
 };
 struct NiNodeEq : NiNode
 {
-    bool FUN_00a5a260(NiAVObject* pkObject);
-    bool FUN_00a5e600(NiAVObject* pkObject);
+    bool NiAVObject_IsEqual(NiAVObject* pkObject);
+    bool NiNode_IsEqual(NiAVObject* pkObject);
 };
 // @fnv 0x00a5e600
-bool NiNodeEq::FUN_00a5e600(NiAVObject* pkObject)
+bool NiNodeEq::NiNode_IsEqual(NiAVObject* pkObject)
 {
-    if (!FUN_00a5a260(pkObject))
+    if (!NiAVObject_IsEqual(pkObject))
         return false;
 
     NiNodeEq* pkNode = (NiNodeEq*)pkObject;
@@ -1991,15 +1991,15 @@ class NodeA5E8
     unsigned short m_usMaxSize;
     unsigned short m_usSize;
 
-    void FUN_00a5a900(NiStreamA5E8& kStream);
-    void FUN_00a5e880(NiStreamA5E8& kStream);
+    void NiAVObject_SaveBinary(NiStreamA5E8& kStream);
+    void NiNode_SaveBinary(NiStreamA5E8& kStream);
 };
 
 // Saves the node's size, child link IDs, and a terminating zero to the stream after calling the base save routine.
 // @fnv 0x00a5e880
-void NodeA5E8::FUN_00a5e880(NiStreamA5E8& kStream)
+void NodeA5E8::NiNode_SaveBinary(NiStreamA5E8& kStream)
 {
-    FUN_00a5a900(kStream);
+    NiAVObject_SaveBinary(kStream);
     unsigned int ItemUpdateArray = m_usSize;
     NiStreamSaveBinaryA5E8(*kStream.m_pBackingStream, ItemUpdateArray);
     for (unsigned int i = 0; i < ItemUpdateArray; i++)

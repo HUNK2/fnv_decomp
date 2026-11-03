@@ -140,9 +140,9 @@ struct BSFaceGenManager
 };
 NiTexture* GetFaceGenManagerValue();
 FaceGenTextureFile* FUN_00659780(const char*);
-bool FUN_00652040(BSFaceGenModel*);
-void FUN_00652140();
-void FUN_00652190();
+bool BSFaceGenManager_LoadEGTData(BSFaceGenModel*);
+void BSFaceGenManager_LockFaceGenAccess();
+void BSFaceGenManager_UnlockFaceGenAccess();
 int Warning(const char*, ...);
 void ReportAssertionViolation(const char*, unsigned int);
 extern double DAT_010231d8;

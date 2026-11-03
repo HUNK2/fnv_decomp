@@ -48,11 +48,11 @@ struct Actor
 };
 struct ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short __thiscall ValueModifierEffect_GetSaveSize(Actor* apActor);
 };
 struct TelekinesisEffect : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_0082b190(Actor* apActor);
+    unsigned short __thiscall TelekinesisEffect_GetSaveSize(Actor* apActor);
 };
 struct FUN_008df040_shell
 {
@@ -60,12 +60,12 @@ struct FUN_008df040_shell
 };
 extern FUN_008df040_shell* g_TESSaveLoadGame;
 
-// Returns the effect's save size: base size from FUN_00802d90 plus 4, plus 8 more when the save version is at least 0x40.
+// Returns the effect's save size: base size from ValueModifierEffect_GetSaveSize plus 4, plus 8 more when the save version is at least 0x40.
 // @fnv 0x0082b190
-unsigned short __thiscall TelekinesisEffect::FUN_0082b190(Actor* apActor)
+unsigned short __thiscall TelekinesisEffect::TelekinesisEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short uiSaveSize = 0;
-    uiSaveSize += FUN_00802d90(apActor);
+    uiSaveSize += ValueModifierEffect_GetSaveSize(apActor);
     uiSaveSize += 4;
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x40)
     {
@@ -81,7 +81,7 @@ struct TESSaveLoadGame;
 
 struct ValueModifierEffect
 {
-    void FUN_00802dd0(Actor* apActor);
+    void ValueModifierEffect_LoadGame(Actor* apActor);
 };
 
 struct TESSaveLoadGame_shell
@@ -101,7 +101,7 @@ struct TelekinesisEffect : ValueModifierEffect
 // @fnv 0x0082b290
 void TelekinesisEffect::LoadFromSave(Actor* apActor)
 {
-    ValueModifierEffect::FUN_00802dd0(apActor);
+    ValueModifierEffect::ValueModifierEffect_LoadGame(apActor);
     unsigned int irefID;
     ((TESSaveLoadGame_shell*)g_TESSaveLoadGame)->FUN_00857aa0(&irefID, 4);
     *(unsigned int*)((char*)this + 0x58) = irefID;
@@ -115,18 +115,18 @@ void TelekinesisEffect::LoadFromSave(Actor* apActor)
 
 struct FUN_0082a670_shell
 {
-    void __thiscall FUN_0082a670();
-    void __thiscall FUN_0082c000();
+    void __thiscall TelekinesisEffect_Start();
+    void __thiscall ValueModifierEffect_Start();
     void __thiscall StartTelekinesisEffect();
 };
 
 void* __cdecl FUN_00703390();
 
-// Calls FUN_0082c000, stores the result of FUN_00703390 at offset 0x58, calls StartTelekinesisEffect, and clears the byte at offset 0x5d.
+// Calls ValueModifierEffect_Start, stores the result of FUN_00703390 at offset 0x58, calls StartTelekinesisEffect, and clears the byte at offset 0x5d.
 // @fnv 0x0082a670
-void __thiscall FUN_0082a670_shell::FUN_0082a670()
+void __thiscall FUN_0082a670_shell::TelekinesisEffect_Start()
 {
-    FUN_0082c000();
+    ValueModifierEffect_Start();
     *(void**)((char*)this + 0x58) = FUN_00703390();
     StartTelekinesisEffect();
     *(char*)((char*)this + 0x5d) = 0;
@@ -260,7 +260,7 @@ FUN_0082a460* __cdecl CreateFUN_0082a460(int x, int y, int z)
 
 struct FUN_0080dfd0_shell
 {
-    void FUN_00802db0(Actor* apActor);
+    void ValueModifierEffect_SaveGame(Actor* apActor);
 };
 struct TESSaveLoadGame
 {
@@ -280,7 +280,7 @@ struct FUN_0082b200_shell : FUN_0080dfd0_shell
 void FUN_0082b200_shell::SaveLoad(Actor* apActor)
 {
     unsigned int irefID;
-    FUN_00802db0(apActor);
+    ValueModifierEffect_SaveGame(apActor);
     irefID = 0;
     if (*(unsigned int*)((char*)this + 0x58))
         irefID = ((ref_0084e3a0_shell*)*(unsigned int*)((char*)this + 0x58))->ref_0084e3a0();
@@ -303,17 +303,17 @@ struct TESForm
 TESForm* __cdecl GetFormByID(unsigned int id);
 struct InvisibilityEffect
 {
-    void FUN_0082cd10(Actor*);
+    void ValueModifierEffect_FinishInitLoadGame(Actor*);
 };
 struct FUN_0082b300_shell : InvisibilityEffect
 {
     void StartTelekinesisEffect();
-    void FUN_0082b300(Actor* apActor);
+    void TelekinesisEffect_FinishInitLoadGame(Actor* apActor);
 };
 // @fnv 0x0082b300
-void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
+void FUN_0082b300_shell::TelekinesisEffect_FinishInitLoadGame(Actor* apActor)
 {
-    FUN_0082cd10(apActor);
+    ValueModifierEffect_FinishInitLoadGame(apActor);
     TESObjectREFR* pRef = *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58);
     if (pRef)
         *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58) =
@@ -389,7 +389,7 @@ struct NiPoint3
 struct bhkFilter
 {
     unsigned int value;
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct bhkWorldObject
 {
@@ -716,7 +716,7 @@ void TelekinesisStartEffect::StartTelekinesisEffect()
     bhkWorldObject* i = a ? a->FUN_006fa820() : 0;
     if (i)
         FUN_00807ac0(i);
-    if (!i || (i->FUN_0043b4f0().FUN_0043b4d0() != 4 && i->FUN_0043b4f0().FUN_0043b4d0() != 5))
+    if (!i || (i->FUN_0043b4f0().CFilter_GetLayer() != 4 && i->FUN_0043b4f0().CFilter_GetLayer() != 5))
     {
         Dispel(false);
         return;
@@ -758,7 +758,7 @@ struct World
 };
 struct Cell
 {
-    World* FUN_004543c0();
+    World* TESObjectCELL_GetbhkWorld();
 };
 struct Ref
 {
@@ -854,10 +854,10 @@ void Effect::UpdateGrabEffect(float delta)
         return;
     }
     World* casterWorld = FUN_0045cd60() && DAT_011dea3c->FUN_0089f4e0()->FUN_008d6f30()
-                             ? FUN_0045cd60()->GetReference()->FUN_008d6f30()->FUN_004543c0()
+                             ? FUN_0045cd60()->GetReference()->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()
                              : 0;
     World* playerWorld = DAT_011dea3c->FUN_0089f4e0() && DAT_011dea3c->FUN_0089f4e0()->FUN_008d6f30()
-                             ? DAT_011dea3c->FUN_0089f4e0()->FUN_008d6f30()->FUN_004543c0()
+                             ? DAT_011dea3c->FUN_0089f4e0()->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()
                              : 0;
     if (!grab || target != DAT_011dea3c->FUN_0089f4e0() || DAT_011dea3c->GetField63C() != 3 ||
         casterWorld != playerWorld)

@@ -640,7 +640,7 @@ struct B006815c0
 };
 struct TESObjectREFR
 {
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
 };
 struct HighProcess
 {
@@ -661,7 +661,7 @@ FUN_008cab20::FUN_008cab20()
     *(void**)this = &DAT_01085954;
     *(void**)((char*)this + 0x18) = &DAT_01085948;
     ((B006815c0*)((char*)this + 0xb4))->B006815c0::B006815c0();
-    ((TESObjectREFR*)this)->FUN_0046a010(1);
+    ((TESObjectREFR*)this)->TESForm_SetStillLoading(1);
     *(HighProcess**)((char*)this + 0x68) = new HighProcess;
     *(int*)((char*)this + 0x88) = 0;
     *((char*)this + 0xc0) = 0;
@@ -942,7 +942,7 @@ struct Model
 };
 struct GlobalObject_00a7b610
 {
-    bool __cdecl FUN_0045bad0(NiTimeController*);
+    bool __cdecl NiObject_IsExactKindOf(NiTimeController*);
 };
 extern GlobalObject_00a7b610 g_012031b8;
 struct FUN_00571550_shell
@@ -969,7 +969,7 @@ void FUN_008da1a0_Class::FUN_008da1a0(FUN_00571550_shell* actor)
     NiTimeController* controller = model->GetObject3D();
     while (controller)
     {
-        if (g_012031b8.FUN_0045bad0(controller))
+        if (g_012031b8.NiObject_IsExactKindOf(controller))
         {
             *(int*)((char*)this + 0x2e4) = (int)controller;
             return;
@@ -2999,7 +2999,7 @@ struct EventProperty
 };
 struct EventTarget
 {
-    EventProperty* FUN_004ae6a0();
+    EventProperty* bhkWorldObject_GetShape();
 };
 ResourceInfo* __cdecl FUN_004b5260(int source);
 extern float DAT_01016248;
@@ -3018,7 +3018,7 @@ struct EventRecord
     int cursorOffset;
     void FUN_006240d0();
 };
-void __cdecl FUN_00837550(EventRecord*);
+void __cdecl ImpactMixer_PlayCollisionSound(EventRecord*);
 struct Object
 {
     virtual void v0();
@@ -3140,7 +3140,7 @@ struct Object
     virtual int GetSource();
     void FUN_008cfad0(float weight, int a, int b, int c, int offset, unsigned char enabled);
 };
-// If the object's source resolves to a resource with metadata, builds an EventRecord from the arguments and passes it to FUN_00837550.
+// If the object's source resolves to a resource with metadata, builds an EventRecord from the arguments and passes it to ImpactMixer_PlayCollisionSound.
 // @fnv 0x008cfad0
 void Object::FUN_008cfad0(float weight, int aiParam1, int aiParam2, int aiParam3, int offset, unsigned char enabled)
 {
@@ -3157,14 +3157,14 @@ void Object::FUN_008cfad0(float weight, int aiParam1, int aiParam2, int aiParam3
             record.defaultWeight = DAT_01016248;
             record.target = metadata;
             record.cursorOffset = offset;
-            record.resourceType = metadata->FUN_004ae6a0()->FUN_006205a0();
+            record.resourceType = metadata->bhkWorldObject_GetShape()->FUN_006205a0();
             record.enabled = enabled;
             record.param1 = aiParam1;
             record.param2 = aiParam2;
             record.param3 = aiParam3;
             record.weight = weight;
             record.eventPointer = reinterpret_cast<unsigned char*>(this) + offset;
-            FUN_00837550(&record);
+            ImpactMixer_PlayCollisionSound(&record);
         }
     }
 }
@@ -3207,7 +3207,7 @@ bool Holder_cffa0::FUN_008cffa0()
 struct Target_cls
 {
     int FUN_008ce390();
-    unsigned char FUN_00440d80();
+    unsigned char TESForm_GetDelete();
 };
 struct Arg_cls
 {
@@ -3648,7 +3648,7 @@ struct FUN_008d14e0_cls
 void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
 {
     Target_cls* p = m_650;
-    if (p == 0 || p->FUN_008ce390() != 0 || p->FUN_00440d80() != 0)
+    if (p == 0 || p->FUN_008ce390() != 0 || p->TESForm_GetDelete() != 0)
     {
     }
     else
@@ -3999,7 +3999,7 @@ struct PathActor
     virtual int state();
     bool IsWithinProcThreshold();
     bool FUN_008b3bb0();
-    float FUN_0057b0a0();
+    float TESObjectREFR_GetRelevantWaterHeight();
     void* FUN_00575d70();
     void* FUN_008d6f30();
     void PathToLocation(PathingRequest*, PathPoint*, void*, void*, float, int);
@@ -4018,7 +4018,7 @@ void PathActor::UpdatePathing(PathActor* actor)
             {
                 float smoothing = DAT_010181e8;
                 PathPoint position4 = *actor->Position();
-                position4.z = actor->FUN_0057b0a0() + smoothing;
+                position4.z = actor->TESObjectREFR_GetRelevantWaterHeight() + smoothing;
                 PathingRequest request;
                 actor->PathToLocation(&request, &position4, actor->FUN_008d6f30(), actor->FUN_00575d70(), smoothing, 0);
                 request.SetSmoothingRandomness(smoothing);
@@ -4645,7 +4645,7 @@ struct SceneNode
 {
     void FUN_00440460(const NiPoint3&);
     void FUN_00a59c60(NiUpdateData&);
-    RotationMatrix& FUN_00461130();
+    RotationMatrix& NiAVObject_GetWorldRotate();
 };
 struct LoadingState
 {
@@ -4675,7 +4675,7 @@ struct ResourceUpdate
 ResourceUpdate* FUN_004b5260(SceneNode*);
 void FUN_00c6a350(SceneNode*, int, bool, bool, bool);
 NiPoint3 FUN_004a3760(float, const NiPoint3&);
-void FUN_00525340(NiPoint3&);
+void NiPoint3_UnitizeVector(NiPoint3&);
 double FUN_00408820(float);
 float SignOfFloat(float);
 struct MovementState
@@ -4918,22 +4918,22 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
     if (!DAT_011de45c->FUN_0047c850())
     {
         NiPoint3 aRotation = FUN_004a3760(-1.0f, velocity);
-        FUN_00525340(aRotation);
-        FUN_00525340(state->direction);
+        NiPoint3_UnitizeVector(aRotation);
+        NiPoint3_UnitizeVector(state->direction);
         float scale = state->direction.DotProduct(aRotation);
         NiPoint3 normal7 = FUN_004a3760(2.0f, FUN_004a3760(scale, state->direction) - aRotation);
         aRotation += normal7;
         output->FUN_005615d0(FUN_004a3760(*DAT_011ce1dc.Float() * speed, aRotation));
         RotationMatrix matrix9;
         matrix9.FUN_006815c0();
-        getNode()->FUN_00461130().FUN_004b46a0(matrix9);
+        getNode()->NiAVObject_GetWorldRotate().FUN_004b46a0(matrix9);
         NiPoint3 normal = matrix9.FUN_004b4500(state->direction);
         if (FUN_00408820(normal.y) > FUN_00408820(normal.z))
             normal.z = FUN_00408820(normal.y) * SignOfFloat(normal.z);
         normal.y = 0.0f;
-        FUN_00525340(normal);
+        NiPoint3_UnitizeVector(normal);
         NiPoint3 angle(*DAT_011cedac.Float() * normal.z, 0.0f, *DAT_011cedac.Float() * -normal.x);
-        output->FUN_00561630(getNode()->FUN_00461130().FUN_004b4500(angle));
+        output->FUN_00561630(getNode()->NiAVObject_GetWorldRotate().FUN_004b4500(angle));
     }
     ResourceUpdate* resource = FUN_004b5260(getNode());
     if (resource)
@@ -5140,7 +5140,7 @@ struct CollisionFilterD6
 {
     unsigned int value;
     CollisionFilterD6(unsigned int v);
-    void FUN_004a39f0(int layer);
+    void CFilter_SetLayer(int layer);
     void SetFlag4000(bool flag);
 };
 struct AnimationOutputD6
@@ -5150,7 +5150,7 @@ struct AnimationOutputD6
 };
 struct MovementControllerD6 : MovementController
 {
-    void FUN_00575830(const NiPoint3& position);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& position);
     bool FUN_008cd6d0(AnimationOutputD6* output);
 };
 // Resets the node, applies the state position, then writes a collision filter and an update token into the animation output and returns true.
@@ -5159,9 +5159,9 @@ bool MovementControllerD6::FUN_008cd6d0(AnimationOutputD6* output)
 {
     resetNode();
     getNode()->FUN_00440460(state->position);
-    FUN_00575830(state->position);
+    TESObjectREFR_SetLocationOnReference(state->position);
     CollisionFilterD6 filter = output->FUN_0043b4f0();
-    filter.FUN_004a39f0(0xf);
+    filter.CFilter_SetLayer(0xf);
     filter.SetFlag4000(false);
     output->FUN_00626cb0(filter.value);
     output->FUN_00626cb0(UpdateToken(0xf, GetCachedValue(), 0).value);
@@ -5518,7 +5518,7 @@ class Actor : public MobileObject,
 {
   public:
     virtual ~Actor();
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
 };
 class FUN_008d45f0 : public Actor
 {
@@ -5526,11 +5526,11 @@ class FUN_008d45f0 : public Actor
     virtual ~FUN_008d45f0();
     void FUN_008d47d0(int, int);
 };
-// Destructor that calls FUN_008d47d0(0, 0) when FUN_004077c0() returns false.
+// Destructor that calls FUN_008d47d0(0, 0) when TESForm_GetTemporary() returns false.
 // @fnv 0x008d45f0
 FUN_008d45f0::~FUN_008d45f0()
 {
-    if (!FUN_004077c0())
+    if (!TESForm_GetTemporary())
         FUN_008d47d0(0, 0);
 }
 

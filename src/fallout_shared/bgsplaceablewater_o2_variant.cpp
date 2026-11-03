@@ -25,12 +25,12 @@ struct FUN_004fc420_shell : public BGSPlaceableWater
 };
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm*);
+    void __thiscall TESForm_CopyAllComponents(TESForm*);
 };
 void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_004fc860_shell : public BGSPlaceableWater
 {
-    void FUN_004fc860(TESForm* apCopy);
+    void BGSPlaceableWater_CopyFrom(TESForm* apCopy);
 };
 
 // sub ecx,0x30; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

@@ -23,7 +23,7 @@ class NiPoint3
     NiPoint3 ApplyScaled(float) const;
     NiPoint3 FUN_00439e90(const NiPoint3&) const;
     NiPoint3 FUN_00439ef0(const NiPoint3&) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct __declspec(align(16)) ImpactVector4
 {
@@ -71,10 +71,10 @@ struct FUN_004a3c20
     int unkA0, unkA4, unkA8;
     bool flag;
     FUN_004a3c20();
-    void FUN_004a3f70(unsigned int);
-    void FUN_004a3da0(const NiPoint3&);
+    void bhkPickData_SetFilter(unsigned int);
+    void bhkPickData_SetFrom(const NiPoint3&);
     void FUN_004a3eb0(const NiPoint3&);
-    void FUN_004a3fb0(void*);
+    void bhkPickData_SetAllCollector(void*);
     HitHolder* FUN_008cdd90();
 };
 struct FUN_004a3a70
@@ -92,8 +92,8 @@ struct FUN_008c71b0
 {
     unsigned int value;
     FUN_008c71b0(unsigned int);
-    void FUN_004a39f0(int);
-    unsigned int FUN_004a3a20();
+    void CFilter_SetLayer(int);
+    unsigned int CFilter_GetGroup();
 };
 struct FUN_004a37b0
 {
@@ -120,7 +120,7 @@ struct World
 };
 struct Cell
 {
-    World* FUN_004543c0();
+    World* TESObjectCELL_GetbhkWorld();
 };
 struct Prompt
 {
@@ -138,7 +138,7 @@ struct Ref
     float FUN_00621b00();
     float FUN_00488d50();
     Ref* FUN_009611e0();
-    void FUN_004a3fe0(FUN_004a37b0*, int, char);
+    void TESObjectCELL_AddDecal(FUN_004a37b0*, int, char);
 };
 struct RefHandle
 {
@@ -147,7 +147,7 @@ struct RefHandle
 struct HitBody
 {
     RefHandle shape;
-    unsigned int FUN_0043b540();
+    unsigned int hkpCollidable_getCollisionFilterInfo();
 };
 struct Shape
 {
@@ -156,13 +156,13 @@ struct Shape
 struct ImpactData
 {
     float GetModifierValue();
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
     void* FUN_006733e0();
-    bool FUN_004a4100();
+    bool BGSImpactData_GetIsParallax();
     float FUN_004a41c0();
-    bool FUN_004a41e0();
+    bool BGSImpactData_GetDecalParallaxPasses();
     bool CallMemberAtOffset54();
-    bool FUN_004a4140();
+    bool BGSImpactData_GetAlphaBlending();
     float FUN_004a40e0();
     float FUN_009a9350();
     float FUN_00598040();
@@ -198,20 +198,20 @@ struct ImageSpaceEffectParam
     float r, g, b, a;
     ImageSpaceEffectParam(float, float, float, float);
 };
-void* __cdecl FUN_004b3890(const NiPoint3&, const ImageSpaceEffectParam&, const NiPoint3&, const ImageSpaceEffectParam&,
+void* __cdecl MakeLine(const NiPoint3&, const ImageSpaceEffectParam&, const NiPoint3&, const ImageSpaceEffectParam&,
                            bool);
 struct TESView
 {
     void FUN_00458e20(void*, float);
-    Ref* FUN_00457620(const NiPoint3&);
-    Ref* FUN_004519d0(NiPoint3);
+    Ref* TES_GetLandGeometry(const NiPoint3&);
+    Ref* TES_GetCellForPoint(NiPoint3);
 };
 extern TESView* g_TES;
-Shape* __cdecl FUN_004a3a40(Ref*);
+Shape* __cdecl bhkShape_Getbhk(Ref*);
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 NiPoint3& __cdecl FUN_004a3970(NiPoint3&, const ImpactVector4&);
 Ref* __cdecl FUN_00c7fa90(HitBody*);
-void* __cdecl FUN_0056f930(Ref*);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(Ref*);
 bool __cdecl IsAcousticSpaceFormTypeAllowed(void*, bool);
 float __cdecl FUN_004a4240();
 float __cdecl FUN_00406cc0(float);
@@ -239,15 +239,15 @@ void ImpactTask::FUN_004a2d50()
     {
         NiPoint3 direction;
         reference.FUN_00559450()->FUN_00490e40()->FUN_006a9540()->FUN_00476930(2, direction);
-        direction.FUN_004a0c10();
+        direction.NiPoint3_Unitize();
         NiPoint3 origin = reference.FUN_00559450()->FUN_00490e40()->FUN_0043c490();
-        float radius = FUN_00476b70(impact->FUN_004a40a0(), impact->GetModifierValue());
+        float radius = FUN_00476b70(impact->BGSImpactData_GetDecalMinWidth(), impact->GetModifierValue());
         Splatter* splatter = FUN_00622a70(radius, true);
         splatter->FUN_006233c0(0);
         splatter->FUN_004a1a10(8, 0);
         splatter->FUN_004a1a10(29, 0);
         Cell* cell = reference.FUN_00559450()->FUN_0084e3a0();
-        World* world = cell ? cell->FUN_004543c0() : 0;
+        World* world = cell ? cell->TESObjectCELL_GetbhkWorld() : 0;
         FUN_004a3c20 ray;
         if (world)
         {
@@ -262,17 +262,17 @@ void ImpactTask::FUN_004a2d50()
             end.z += drop;
             if (*DAT_011c5868.FUN_0043d4d0() > 0)
             {
-                void* line = FUN_004b3890(origin, ImageSpaceEffectParam(0, 1, 0, 1), end,
+                void* line = MakeLine(origin, ImageSpaceEffectParam(0, 1, 0, 1), end,
                                           ImageSpaceEffectParam(0, 1, 1, 1), true);
                 g_TES->FUN_00458e20(line, DAT_01018f5c);
             }
             FUN_008c71b0 filter(0);
-            filter.FUN_004a39f0(39);
-            ray.FUN_004a3f70(filter.value);
-            ray.FUN_004a3da0(origin);
+            filter.CFilter_SetLayer(39);
+            ray.bhkPickData_SetFilter(filter.value);
+            ray.bhkPickData_SetFrom(origin);
             ray.FUN_004a3eb0(end);
             FUN_004a3a70 collector;
-            ray.FUN_004a3fb0(&collector);
+            ray.bhkPickData_SetAllCollector(&collector);
             bool rayHit = ((bool(__thiscall*)(World*, FUN_004a3c20*))world->vtable[50])(world, &ray);
             int count = ray.FUN_008cdd90()->FUN_00460140()->FUN_00726070();
             bool placed = false;
@@ -288,7 +288,7 @@ void ImpactTask::FUN_004a2d50()
                     {
                         key = ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->keys[keyIndex];
                     }
-                    Shape* shape = FUN_004a3a40(body->shape.FUN_00559450());
+                    Shape* shape = bhkShape_Getbhk(body->shape.FUN_00559450());
                     if (!shape)
                         continue;
                     unsigned int material = shape->FUN_00c84f10(key);
@@ -299,20 +299,20 @@ void ImpactTask::FUN_004a2d50()
                         ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->fraction, end.FUN_00439ef0(origin)));
                     NiPoint3 normal;
                     FUN_004a3970(normal, ray.FUN_008cdd90()->FUN_00460140()->GetEntryAt(hit)->normal);
-                    bool landscape = FUN_008c71b0(body->FUN_0043b540()).FUN_004a3a20() == 1;
+                    bool landscape = FUN_008c71b0(body->hkpCollidable_getCollisionFilterInfo()).CFilter_GetGroup() == 1;
                     Ref* target = 0;
                     if (landscape)
                     {
-                        target = g_TES->FUN_00457620(position);
+                        target = g_TES->TES_GetLandGeometry(position);
                         if (target && target->FUN_009611e0())
                             target = target->FUN_009611e0();
                     }
                     else
                         target = FUN_00c7fa90(body);
-                    void* object = FUN_0056f930(target);
+                    void* object = TESObjectREFR_FindReferenceFor3D(target);
                     if (!landscape && (!object || !IsAcousticSpaceFormTypeAllowed(object, true)))
                         continue;
-                    Ref* owner = g_TES->FUN_004519d0(position);
+                    Ref* owner = g_TES->TES_GetCellForPoint(position);
                     FUN_004a37b0 decal;
                     decal.position = position;
                     decal.normal = normal;
@@ -323,11 +323,11 @@ void ImpactTask::FUN_004a2d50()
                     decal.rotation = (unsigned char)(int)FUN_00406cc0(FUN_00476b70(0, DAT_0101e570));
                     decal.reference = target;
                     decal.texture = texture;
-                    decal.flag73 = impact->FUN_004a4100();
+                    decal.flag73 = impact->BGSImpactData_GetIsParallax();
                     decal.radius = impact->FUN_004a41c0();
-                    decal.flag76 = impact->FUN_004a41e0();
+                    decal.flag76 = impact->BGSImpactData_GetDecalParallaxPasses();
                     decal.flag74 = impact->CallMemberAtOffset54();
-                    decal.flag75 = impact->FUN_004a4140();
+                    decal.flag75 = impact->BGSImpactData_GetAlphaBlending();
                     decal.parallax = impact->FUN_004a40e0();
                     decal.shininess = impact->FUN_009a9350();
                     decal.scale = impact->FUN_00598040();
@@ -335,7 +335,7 @@ void ImpactTask::FUN_004a2d50()
                         NiPoint3((unsigned char)(impact->GetNextFromSubobject() & 255) / 255.0,
                                  (unsigned char)(((unsigned short)impact->GetNextFromSubobject() >> 8) & 255) / 255.0,
                                  (unsigned char)((impact->GetNextFromSubobject() >> 16) & 255) / 255.0);
-                    owner->FUN_004a3fe0(&decal, 1, 0);
+                    owner->TESObjectCELL_AddDecal(&decal, 1, 0);
                     placed = true;
                 }
             }

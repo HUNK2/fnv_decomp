@@ -216,8 +216,8 @@ struct FootstepActor
     virtual void v124();
     virtual const NiPoint3& GetPos();
 
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
+    bool Actor_IsSwimming();
+    float TESObjectREFR_GetRelevantWaterHeight();
     bool GetByteAt7C6();
     bool FUN_00524d10();
 };
@@ -240,14 +240,14 @@ struct NavQueryResult
 };
 struct CellNavInfo
 {
-    void FUN_0053b550(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
+    void TESObjectLAND_GetCoordData(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
     MaterialRecord* FUN_0053a630(unsigned char ucA, unsigned short usB);
 };
 struct FootstepCell
 {
     bool FUN_00425fd0();
-    bool FUN_004518e0();
-    CellNavInfo* FUN_00546fb0();
+    bool TESObjectCELL_HasWater();
+    CellNavInfo* TESObjectCELL_GetLand();
     bool FUN_005547c0(NiPoint3* pkPos, float* pfHeight);
 };
 struct TESStandIn
@@ -258,7 +258,7 @@ struct TESStandIn
 extern TESStandIn* g_TES_011dea10;
 struct DataHandlerStandIn
 {
-    FootstepCell* FUN_00461bc0(float fX, float fY, TESWorldSpace* pkWorld);
+    FootstepCell* TESDataHandler_GetCellFromWorldCoord(float fX, float fY, TESWorldSpace* pkWorld);
     BGSImpactData* FUN_004616c0(const char* pEditorID);
 };
 extern DataHandlerStandIn* g_dataHandler_011c3f2c;
@@ -676,7 +676,7 @@ struct FootstepQuery
 };
 struct NavOps
 {
-    void FUN_0053b550(FootstepQuery*, NiPoint3*, int);
+    void TESObjectLAND_GetCoordData(FootstepQuery*, NiPoint3*, int);
 };
 extern const char armorPowerRightName[];
 extern const char armorPowerLeftName[];
@@ -705,7 +705,7 @@ struct SoundOps
 class TESCreature : public TESBoundObject
 {
   public:
-    SoundOps* FUN_005f92d0(int);
+    SoundOps* TESCreature_PickCreatureSound(int);
     void* FUN_00acbb70();
 };
 struct MaterialOps
@@ -1120,8 +1120,8 @@ struct ActorOps
     virtual void v228();
     virtual bool SuppressFootsteps(int);
     TESBoundObject* FUN_007af430();
-    bool FUN_005a2030();
-    float FUN_0057b0a0();
+    bool Actor_IsSwimming();
+    float TESObjectREFR_GetRelevantWaterHeight();
     SkinOps* FUN_009306d0();
     bool FUN_004997b0();
     bool FUN_00884730();
@@ -1250,7 +1250,7 @@ struct Point3
         return Point3(self->y * axis.z - self->z * axis.y, self->z * axis.x - self->x * axis.z,
                       self->x * axis.y - self->y * axis.x);
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     Point3 FUN_00439e90(const Point3& shift) const;
 };
 
@@ -1416,7 +1416,7 @@ CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardEx
     Point3 verticalAxisB(0.0f, 0.0f, 1.0f);
     Point3 crossVal2 = directionX.FUN_004b3800(verticalAxisB);
     crossVal2.z = 0.0f;
-    crossVal2.FUN_004a0c10();
+    crossVal2.NiPoint3_Unitize();
     Point3 forwardVectorB = crossVal2 * forwardExtent;
     Point3 reverseVector2 = crossVal2 * (-backwardExtent);
     Point3 offset(0.0f, 0.0f, upExtent);

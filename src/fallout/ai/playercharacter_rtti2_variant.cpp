@@ -196,7 +196,7 @@ struct Alloc10
 struct Alloc63C
 {
     Alloc63C();
-    void FUN_004624b0(int);
+    void TESDataHandler_BuildFileList(int);
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -804,7 +804,7 @@ extern int DAT_01017874, DAT_005764f0, DAT_00577450, DAT_00577ca0, DAT_0045c680;
 extern float DAT_01012054, DAT_01017868, DAT_0101786c, DAT_01013974, DAT_01017870;
 extern unsigned int DAT_011c3c00;
 extern void *DAT_01202d98, *DAT_011c3b3c, *DAT_01202df4, *DAT_011c3f2c, *DAT_011de45c;
-extern void* __cdecl FUN_00401000(unsigned int);
+extern void* __cdecl FormHeap_Allocate(unsigned int);
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 extern void __cdecl FUN_00403d30(void*, unsigned int, unsigned int);
 extern void __cdecl FUN_00450430(int);
@@ -821,7 +821,7 @@ extern void __cdecl FUN_004504e0(int);
 extern void __cdecl FUN_00450670(float);
 extern void __cdecl FUN_00450680(float);
 extern void __cdecl FUN_00450690(float);
-extern void __cdecl FUN_004506b0();
+extern void __cdecl TES_InitFadeOutMultipliers();
 extern void __cdecl SetFloatAt(unsigned int, float);
 extern void __cdecl FUN_00450540(float);
 extern void __cdecl FUN_00450530(float);
@@ -970,7 +970,7 @@ struct Data451
 };
 extern Data451* g_dataHandler;
 int TruncateFloatToInt(float);
-void FUN_0062f460();
+void TESWaterListener_RefreshExteriorWaterHeights();
 struct Point451
 {
     float x, y, z;
@@ -981,13 +981,13 @@ struct Shell451
     int x, y, oldX, oldY;
     int FUN_005f36f0();
     int FUN_004fd3e0();
-    void FUN_00458200(int);
-    void FUN_004512c0(Point451*, bool);
-    void FUN_004515a0(Point451*, bool);
+    void TES_SetWorldSpace(int);
+    void TES_ReloadGridCells(Point451*, bool);
+    void TES_InitGridCells(Point451*, bool);
 };
 struct FUN_00493bb0_Class
 {
-    char __thiscall FUN_00493bb0();
+    char __thiscall Actor_IsInCombat();
 };
 struct StartMenu
 {
@@ -1007,7 +1007,7 @@ struct FUN_0041de00_shell
 };
 struct FUN_0041e0d0_shell
 {
-    void FUN_0041e0d0(TESObjectREFR*);
+    void ExtraDataList_RemoveDroppedItem(TESObjectREFR*);
 };
 struct FUN_00572270_shell
 {
@@ -1015,7 +1015,7 @@ struct FUN_00572270_shell
 };
 struct FUN_00572230_shell : public TESObjectREFR
 {
-    void FUN_00572230();
+    void TESObjectREFR_MarkAsPickedUp();
 };
 class ArgObj
 {
@@ -1096,8 +1096,8 @@ struct StubCallees
     void* FUN_0061eb60(void* a1);
     void* FUN_00500940();
     void* FUN_005d43c0(int a, int b);
-    int FUN_00418830();
-    void FUN_005ac1e0(void* a, int b);
+    int ExtraDataList_GetScriptLocals();
+    void Script_Run(void* a, int b);
     void MarkAsRefusal();
     bool FUN_0061aef0();
     void LoadRecord(void* a);
@@ -1645,11 +1645,11 @@ struct FUN_009396c0_Class
 };
 struct FUN_00939730_Class
 {
-    void FUN_00939730(int value);
+    void PlayerCharacter_SetAdvanceNumber(int value);
 };
 struct FUN_00939750_class
 {
-    unsigned int FUN_00939750();
+    unsigned int PlayerCharacter_GetAdvanceNumber();
 };
 struct FUN_00939770_Class
 {
@@ -1657,15 +1657,15 @@ struct FUN_00939770_Class
 };
 struct FUN_009397b0_shell
 {
-    char* FUN_009397b0(bool bFlag);
+    char* PlayerCharacter_GetPerkRankList(bool bFlag);
 };
 struct FUN_005a03f0_obj
 {
-    bool FUN_005a03f0(unsigned int);
+    bool PlayerCharacter_GetControlsDisabled(unsigned int);
 };
 struct FUN_009397e0_obj
 {
-    bool FUN_009397e0();
+    bool PlayerCharacter_GetIsImmobileCreature();
 };
 struct FUN_00939820_Class
 {
@@ -2827,20 +2827,20 @@ class B93AB80Actor
     virtual void vfunc0EA();
     virtual void ModActorValue(int eValue, float fAmount, int iUnused);
 
-    void FUN_0093ab80(float fAmount);
+    void PlayerCharacter_DamageActionPoints(float fAmount);
 };
 // Stand-in for the game class that owns this routine (the real class is not
 // part of the pack, but only the call shape matters here).
 class FUN_0093ae40_cls
 {
   public:
-    void FUN_0093ae40(int target, float value);
-    void FUN_00880700(int target, float value);
+    void PlayerCharacter_SetActorValue(int target, float value);
+    void Actor_SetActorValue(int target, float value);
     void FUN_008808f0(int target, bool immediate);
 };
 // Free helper called with the target as its only argument.
 extern void __cdecl FUN_00704e10(int target);
-bool __cdecl FUN_00406d70(int actorValue, unsigned int mask);
+bool __cdecl ActorValue_GetFlag(int actorValue, unsigned int mask);
 bool __cdecl FUN_0066ee10(int actorValue);
 void __cdecl FUN_00704e10(int actorValue);
 void __cdecl FUN_0066ee50(ActorValueOwner* owner, int actorValue, float previousValue, float currentValue,
@@ -3886,7 +3886,7 @@ struct HealthVCalls
     virtual void v12D();
     virtual void OnHealth(Actor*, float);
 };
-bool FUN_00406d70(int, int);
+bool ActorValue_GetFlag(int, int);
 bool FUN_0066ee10(int);
 void FUN_00704e10(int);
 void FUN_0066ee50(ActorValueOwner*, int, float, float, ActorValueOwner*);
@@ -4339,7 +4339,7 @@ struct RuntimeSetting
 {
     float* Float();
 };
-bool FUN_00406d70(int, int);
+bool ActorValue_GetFlag(int, int);
 bool IsTracked(int);
 void NotifyValue(int);
 void NotifyChange(ValueOwner*, int, float, float, ValueOwner*);
@@ -5131,7 +5131,7 @@ struct PlayerLike
     float Adjust(int, float, PlayerLike*);
     void Modify(int, int, float, int);
     void Update(int, bool);
-    void FUN_0093b7a0(int, float, PlayerLike*);
+    void PlayerCharacter_DamageActorValue(int, float, PlayerLike*);
 };
 struct CellQuery
 {
@@ -5146,8 +5146,8 @@ class NiPoint2
 struct CellWorld
 {
     TESWorldSpace* FUN_004fd3e0();
-    TESObjectCELL* FUN_00451900(int x, int y);
-    TESObjectCELL** FUN_004516d0();
+    TESObjectCELL* TES_GetGridCellCell(int x, int y);
+    TESObjectCELL** TES_FindFirstGridCellWithWater();
 };
 extern CellWorld* DAT_011dea10;
 int __cdecl TruncateFloatToInt(float value);
@@ -5165,7 +5165,7 @@ struct B93BE30Request
 class B93BE30TES
 {
   public:
-    bool FUN_00451530();
+    bool TES_IsRunningCellTests();
 };
 extern B93BE30TES* g_pkB93BE30TES;
 void __cdecl B93BE30ConsolePrint(const char* pcFormat, ...);
@@ -5327,7 +5327,7 @@ struct ExtObj
 {
     void FUN_00452eb0();
     void FUN_0066b0d0(int arg);
-    void* FUN_00569b80();
+    void* TESObjectREFR_GetLinkedRef();
     void FUN_0093cdf0(void* arg);
     void FUN_0093cce0(PosVec a, PosVec b, unsigned int c, unsigned char d);
     void FUN_0093c200(PosVec a, PosVec b, unsigned int c, unsigned char d);
@@ -5336,17 +5336,17 @@ struct ExtObj
     void* FUN_008d8520();
     void* FUN_007af430();
     bool FUN_00509420();
-    int FUN_005682c0(int arg);
-    bool FUN_00568500(int a, int b);
-    bool FUN_00568680();
+    int TESObjectREFR_GetFirstFreeMarkerIndex(int arg);
+    bool TESObjectREFR_GetMarkerAtIndex(int a, int b);
+    bool TESObjectREFR_IsFurniture();
     void FUN_0088d2f0(void* a, int b, int c, unsigned char d);
     bool FUN_0042ce10();
     bool IsFlag2Set();
     void FUN_005d14d0(int arg);
 };
 void __cdecl FUN_005b5e40(const char* msg);
-void __cdecl FUN_00868d70(int arg);
-void __cdecl FUN_00401030(void* p);
+void __cdecl GarbageCollector_ClearAll(int arg);
+void __cdecl FormHeap_Free(void* p);
 struct FUN_0093bea0_cls
 {
     int unk00;
@@ -7462,7 +7462,7 @@ struct AimPart
 struct AimBody
 {
     unsigned int* FUN_006a9540();
-    AimPart* FUN_005e5130(int);
+    AimPart* BGSBodyPartData_GetBodyPart(int);
     AimPart* GetValueByIndex(int);
 };
 struct AimBase
@@ -8755,18 +8755,18 @@ struct AimPlayer : AimObject
     unsigned int unk6dc;
     unsigned int unk6e0;
     float aimingPitch;
-    double FUN_00572380(const AimVector*);
+    double TESObjectREFR_GetDistanceFromPoint(const AimVector*);
     void ClampLookAngle(float);
     unsigned int GetVtbl20Result();
     void UpdateScopeZoom(float);
     float FUN_00931d70();
     bool FUN_0093a740();
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     AimScale* FUN_00950a60(bool);
-    bool FUN_005a03f0(int);
+    bool PlayerCharacter_GetControlsDisabled(int);
     bool FUN_00967ae0();
     void FUN_00950110(bool);
-    int FUN_004f8960();
+    int Actor_GetLifeState();
     int FUN_008a7570();
     void FUN_00931d30(float);
     void AddModAngle(float);
@@ -8776,7 +8776,7 @@ AimNode* FUN_004aae30(AimNode*, const char*);
 AimVector FUN_009a88e0(AimPlayer*, AimVector);
 AimVector GetPitchYaw(AimVector, AimVector);
 AimWorld* FUN_0045c670();
-AimCombat* FUN_004b7210();
+AimCombat* InterfaceManager_Instance();
 bool FUN_004b71d0();
 double FUN_00715da0();
 void FUN_007f3bd0(bool);
@@ -9351,7 +9351,7 @@ class FUN_00947d80_cls
 };
 struct RefStub
 {
-    void* FUN_00569080();
+    void* TESObjectREFR_GetAudioMarkerData();
 };
 struct FUN_00948000_T
 {
@@ -9378,7 +9378,7 @@ struct FUN_005882a0_shell
 };
 struct FUN_00569060_shell
 {
-    void* FUN_00569060();
+    void* TESObjectREFR_GetMapMarkerData();
 };
 struct G2
 {
@@ -9391,12 +9391,12 @@ struct MapMarkerReferenceEntry
 };
 struct WeapBase
 {
-    double FUN_005f3780();
+    double TESAnimGroup_GetTime();
 };
 struct WeapForm
 {
     WeapBase* FUN_0048f7f0(int aiFlag);
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
 };
 struct WeapHand
 {
@@ -9763,7 +9763,7 @@ struct FUN_0094c680_Class
 {
     void OnSpellRemoved(SpellItem* spell);
     bool RemoveSpell(SpellItem* spell);
-    bool FUN_0094c680(SpellItem* spell);
+    bool PlayerCharacter_AddActorEffect(SpellItem* spell);
 };
 class xTypedE
 {
@@ -9815,13 +9815,13 @@ struct FUN_0094c8c0_class
 };
 struct FUN_0094c7a0_class : public PlayerCharacter
 {
-    bool FUN_008c3400(void* weapon);
-    bool FUN_0094c7a0(void* weapon);
+    bool Actor_RemoveSpell(void* weapon);
+    bool PlayerCharacter_RemoveSpell(void* weapon);
     void FUN_0094c8e0(int spell);
 };
 struct FUN_0040b800_shell
 {
-    void FUN_0040b800(bool);
+    void MagicItem_Unload(bool);
 };
 struct MagicItem
 {
@@ -9902,7 +9902,7 @@ struct DbgCore
 };
 struct DbgTarget
 {
-    bool FUN_004bddd0(int flag);
+    bool ItemChange_GetWorn(int flag);
     DbgCore* FUN_0044ddc0();
     const char* GetTargetFullName();
     int FUN_00726070();
@@ -10537,7 +10537,7 @@ struct GlobalObject_0040c150 : InventoryMenuSetting
 extern GlobalObject2_0040c150 g_011cdd6c, g_011cd644, g_011d26ac;
 extern GlobalObject_0040c150 g_011d42c4, g_011d4a14, g_011d2cd0, g_011d3420;
 extern GlobalObject_0040c150 g_011d3e38, g_011d1fb0, g_011d3b14, g_011d3c70;
-unsigned int FUN_0047e040(float);
+unsigned int TESActorBaseData_GetAlignmentForKarma(float);
 bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 class KarmaActor : public MobileObject,
                    public MagicCaster,
@@ -12204,8 +12204,8 @@ class FUN_00620850
 };
 struct Lock950
 {
-    void FUN_0040fbf0(char* pcName);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(char* pcName);
+    void BSSpinLock_Unlock();
 };
 extern Lock950 DAT_011f11a0;
 struct Queue950
@@ -12222,7 +12222,7 @@ struct Value950
 {
     int iValue;
     Value950();
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 struct Owner950
 {
@@ -12356,15 +12356,15 @@ struct FUN_00950660_shell
     int FUN_00931850();
     Owner950* FUN_009306d0();
     void FUN_0089f780(int a, int b, int c);
-    void FUN_005659f0();
+    void TESObjectREFR_InitAnimation();
     void FUN_00950660(int a, int b, int c);
 };
 bool FUN_009526b0(void);
 class FUN_009508b0_cls
 {
   public:
-    bool FUN_00891360(int a, float f, bool b);
-    bool FUN_009508b0(int a, float f, bool b);
+    bool Actor_DamageItem(int a, float f, bool b);
+    bool PlayerCharacter_DamageItem(int a, float f, bool b);
 };
 class TimeGlobal
 {
@@ -12383,7 +12383,7 @@ extern unsigned char DAT_011e07a8;
 class AnimationUpdate : public Animation
 {
   public:
-    void FUN_00491180(Actor* apActor, float afTime, float afUnk);
+    void Animation_Update(Actor* apActor, float afTime, float afUnk);
 };
 // Stand-in for BaseProcess's virtual table up to the slot this function calls (+0x740).
 class BaseProcessStandIn
@@ -12858,18 +12858,18 @@ class BaseProcessStandIn
 class PlayerCharacterUpdate : public PlayerCharacter
 {
   public:
-    void FUN_00950930();
+    void PlayerCharacter_UpdateAnimation();
 };
 struct FUN_00950a10_shell
 {
-    Animation* FUN_008b70d0() const;
-    Animation* FUN_00950a10();
+    Animation* Actor_GetAnimData() const;
+    Animation* PlayerCharacter_GetAnimData();
 };
 struct Biped;
 struct FUN_00950a90_Class
 {
-    Biped* FUN_005d9f90();
-    Biped* FUN_00950a90();
+    Biped* Character_GetValidBip01Names();
+    Biped* PlayerCharacter_GetValidBip01Names();
 };
 struct FUN_00950b30_Class
 {
@@ -12963,7 +12963,7 @@ class TESChallenge
 {
   public:
     int GetProgressValue();
-    bool FUN_0060fd70();
+    bool TESQuestStageItem_GetEndQuest();
     TESQuest* FUN_004fd380();
 };
 struct ChallengeNode
@@ -12975,7 +12975,7 @@ struct ChallengeNode
 };
 bool FUN_005ac740();
 void FUN_00706f30(int iType);
-int __fastcall FUN_005cbb50(void* pkPlayer);
+int __fastcall PlayerCharacter_GetActiveQuest(void* pkPlayer);
 extern void* g_thePlayer;
 struct FUN_009528c0_shell
 {
@@ -13630,7 +13630,7 @@ struct FUN_00953fb0_Class
 {
     char __thiscall FUN_00953fb0();
 };
-// FUN_00954610: /MT /Od thiscall, 5 stack params (callee pops 0x14).
+// PlayerCharacter_DropItem: /MT /Od thiscall, 5 stack params (callee pops 0x14).
 // Stand-in classes: Obj (generic callee object), FUN_00954610_cls (owner).
 struct Vec3
 {
@@ -13773,18 +13773,18 @@ class Obj
     virtual void v126();
     virtual void v127();
     void FUN_009c8950(int a, int b);
-    Obj* FUN_00551110();
-    Obj* FUN_00551180(void* a);
+    Obj* TESObjectCELL_GetLootBag();
+    Obj* TESObjectCELL_CreateLootBagAtRef(void* a);
     int FUN_00401170();
-    Obj* FUN_00525980();
+    Obj* TESObjectWEAP_GetCurrentAmmo();
     void FUN_006ecd40();
     void FUN_00450f90(int a);
-    bool FUN_00418ab0(int a);
+    bool ExtraDataList_GetWorn(int a);
     Obj* FUN_0043d450();
     void* FUN_006815c0();
     void FUN_00a59c60(void* a);
     void FUN_00440460(void* a);
-    void FUN_00575830(void* a);
+    void TESObjectREFR_SetLocationOnReference(void* a);
     void FUN_005ae3d0(void* a);
     void FUN_00954910(int a);
     void SetFlag100000(int a);
@@ -14456,7 +14456,7 @@ class FUN_00954610_cls
     unsigned int unk844;
     unsigned int unk848;
     unsigned int unk84c;
-    void* FUN_00954610(Obj* a1, Obj* a2, void* a3, void* a4, void* a5);
+    void* PlayerCharacter_DropItem(Obj* a1, Obj* a2, void* a3, void* a4, void* a5);
 };
 extern void* DAT_011dea3c;
 bool FUN_007043c0();
@@ -14464,7 +14464,7 @@ void FUN_00c6a040(void* a, int b, int c, int d);
 Obj* FUN_004aae30(void* a, const char* s);
 void FUN_00c6bd00(void* a, int b);
 void FUN_00c6a270(void* a, int b, int c, int d);
-// FUN_00958ec0: thiscall member, 2 stack args
+// PlayerCharacter_FinishInitLoadGameTES: thiscall member, 2 stack args
 class Sub878
 {
   public:
@@ -15021,14 +15021,14 @@ class FUN_00958ec0_cls
     int unk870;
     int unk874;
     Sub878 unk878;
-    void FUN_008aa9a0(int a1, int a2);
+    void Actor_FinishInitLoadGameTES(int a1, int a2);
     int FUN_00950bb0(int flag);
     void FUN_00950110(bool flag);
     void FUN_00950340(int flag);
     void FUN_0095f930(int a1, int a2, float f);
     void FUN_00947c90();
     float FUN_00950610(float f);
-    void FUN_00958ec0(int a1, int a2);
+    void PlayerCharacter_FinishInitLoadGameTES(int a1, int a2);
 };
 extern "C" void __cdecl FUN_00806130(int a1, FUN_00958ec0_cls* self);
 extern "C" void __cdecl FUN_0080cec0();
@@ -15052,7 +15052,7 @@ struct BGSSaveLoadManager
 };
 struct FUN_008d3330_shell
 {
-    void FUN_008d3330(unsigned int);
+    void Character_Revert(unsigned int);
 };
 struct PC_r7d32b0
 {
@@ -15424,7 +15424,7 @@ struct PlayerX
     void SaveFormData(BufferX* apBuffer);
     char FUN_005a6050();
     void* GetAtIfValid(int aiSlot);
-    void FUN_009590f0(BufferX* apBuffer);
+    void PlayerCharacter_AppendSaveLoadFormBuffer(BufferX* apBuffer);
 };
 struct Flags957
 {
@@ -15703,7 +15703,7 @@ struct Process957
 };
 struct Anim957
 {
-    void FUN_00493bd0();
+    void Animation_UpdateSceneGraphNoController();
 };
 struct Quest957
 {
@@ -16427,7 +16427,7 @@ struct Shell957
     int unk6c0;
     int unk6c4;
     int unk6c8;
-    void FUN_008d34d0(Buffer957*);
+    void Character_FinishLoadGame(Buffer957*);
     float GetScale();
     void SetScale(float);
     void* FUN_00950bb0(int);
@@ -16447,7 +16447,7 @@ struct Shell957
     bool FUN_008bbc10();
     Process957* FUN_008d8520();
     void SetActiveState(int, int, int);
-    void FUN_0095c730(Buffer957*);
+    void PlayerCharacter_FinishLoadGame(Buffer957*);
 };
 struct FUN_0095d090_class
 {
@@ -16935,7 +16935,7 @@ class FUN_0095d3f0_cls
     virtual void v249();
     virtual void v250(EffectTarget* target, int a2, unsigned char a3);
     void FUN_0095d450(EffectTarget* target, int a2, unsigned char a3, unsigned char a4);
-    void FUN_0095d3f0(EffectTarget* target, int a2, unsigned char a3, unsigned char a4);
+    void PlayerCharacter_Reload2(EffectTarget* target, int a2, unsigned char a3, unsigned char a4);
 };
 struct MgrObj;
 struct GObj;
@@ -17354,7 +17354,7 @@ struct RefWrap
 };
 struct MgrObj
 {
-    int FUN_004c8f30(TESBoundObject* obj);
+    int InventoryChanges_GetObjectCount(TESBoundObject* obj);
     GObj* FUN_004d0650(TESObjectWEAP* weap, int value);
 };
 struct GObj
@@ -17379,7 +17379,7 @@ extern void* DAT_011dea3c;
 class TESObjectWEAP
 {
   public:
-    TESBoundObject* FUN_00525980(PlayerCharacter* pc);
+    TESBoundObject* TESObjectWEAP_GetCurrentAmmo(PlayerCharacter* pc);
     int GetFlaggedValue(unsigned char value);
     int FUN_0051e2a0(unsigned char value);
 };
@@ -17985,7 +17985,7 @@ class C95DDC0Actor : public C95DDC0ActorBase
     int unk64;
     C95DDC0Process* m_pkProcess;
 
-    int FUN_0095ddc0(int iType);
+    int PlayerCharacter_UseAmmo(int iType);
 };
 struct FUN_004543c0_cls;
 struct FUN_00621440_cls;
@@ -18133,7 +18133,7 @@ struct FUN_0095edf0_cls
 };
 struct FUN_004543c0_cls
 {
-    int FUN_004543c0();
+    int TESObjectCELL_GetbhkWorld();
 };
 struct FUN_008d6f30_cls : FUN_004543c0_cls
 {
@@ -18235,8 +18235,8 @@ enum IO_TASK_PRIORITY
 };
 struct ModelLoader
 {
-    BSSimpleList<const char*>* FUN_00447330(const char*, int, int, int);
-    void FUN_00447850(void*);
+    BSSimpleList<const char*>* ModelLoader_BuildKFFileList(const char*, int, int, int);
+    void ModelLoader_CopyFilenameList(void*);
     void FUN_00446500(BSSimpleList<const char*>*, IO_TASK_PRIORITY, FUN_00441ba0_shell*, int);
     void FUN_00444040(const char*, IO_TASK_PRIORITY, FUN_00441ba0_shell*, int, bool, bool, bool);
 };
@@ -19258,7 +19258,7 @@ class Global_cls
 };
 extern double DAT_01012060;
 float ComputeSettingLerp(float v);
-int FUN_005d2860();
+int TESImageSpaceModifier_GetGetHit();
 void FUN_005299a0(int a, float b, int c);
 // FUN_00962350 candidate
 class DispatchItem
@@ -20432,7 +20432,7 @@ struct FUN_006815c0
 };
 struct FUN_009639e0_s
 {
-    char FUN_009639e0(BGSPerk*, bool);
+    char PlayerCharacter_GetPerkRank(BGSPerk*, bool);
 };
 struct FUN_00963b00_class
 {
@@ -21022,7 +21022,7 @@ struct FUN_00963bf0_glob
     float FUN_0084d030();
 };
 extern double DAT_01012060;
-void FUN_00401030(void* p);
+void FormHeap_Free(void* p);
 struct FUN_00963bf0_cls
 {
     unsigned int unk00;
@@ -21842,14 +21842,14 @@ class B63E00Owner
     B63E00List* m_pkEntryArray;
 };
 struct ImageSpaceModifierInstance;
-void FUN_005293f0(ImageSpaceModifierInstance*);
+void ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstance*);
 struct FUN_009655a0_Class
 {
     ImageSpaceModifierInstance* m_pImageSpaceModifierInstance;
     void FUN_009655a0();
 };
 struct ImageSpaceModifierInstance;
-void __cdecl FUN_005293f0(ImageSpaceModifierInstance*);
+void __cdecl ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstance*);
 struct ImageSpaceModifierInstance
 {
     void __thiscall FUN_009655e0();
@@ -22309,7 +22309,7 @@ class P01TermA
 class FUN_00501a30_shell
 {
   public:
-    int FUN_00501a30(Script* script);
+    int BGSTerminal_GetRawDifficulty(Script* script);
 };
 class TermHack
 {
@@ -22321,8 +22321,8 @@ class MemberA4
   public:
     float FUN_0066ef50(int value);
 };
-extern bool FUN_00501870(TESObjectREFR* refr);
-extern bool FUN_00501990(Script* script);
+extern bool BGSTerminal_IsHacked(TESObjectREFR* refr);
+extern bool BGSTerminal_IsLockedOut(Script* script);
 class PlayerCharShell
 {
   public:
@@ -23245,7 +23245,7 @@ struct FUN_00967700_class
 };
 struct SrcE
 {
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
 };
 struct SrcD
 {
@@ -23264,7 +23264,7 @@ struct SrcA
     SrcB* FUN_00c6fd20();
 };
 SrcC* FUN_004b5a20(int id);
-SrcE* FUN_0056f930(SrcD* d);
+SrcE* TESObjectREFR_FindReferenceFor3D(SrcD* d);
 struct SrcThis
 {
     SrcA* FUN_009306d0();
@@ -26183,7 +26183,7 @@ class TheClass
     int m_i892;
     MObj m_kNode;
     float f_e04;
-    bool FUN_004d1360();
+    bool PlayerCharacter_IsHardcore();
     void FUN_00969110(bool a1);
 };
 class FUN_009697c0_cls
@@ -27164,7 +27164,7 @@ struct RMExtraList
 {
     RMExtraHolder* FUN_00418520();
 };
-void __fastcall FUN_005de9b0(void* apThis);
+void __fastcall PlayerCharacter_DisableHardcoreTracking(void* apThis);
 bool __cdecl FUN_007d6e60();
 struct RMPlayer
 {
@@ -27932,14 +27932,14 @@ struct InputPoint
     float x, y, z;
     InputPoint();
     InputPoint(float, float, float);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     void FUN_00439180(float);
 };
 struct InputMatrix
 {
     InputMatrix();
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
-    void FUN_00439f50(int, InputPoint&);
+    void NiMatrix3_GetCol(int, InputPoint&);
 };
 struct InputProfiler
 {
@@ -27965,7 +27965,7 @@ struct InputSetting
 extern InputSetting DAT_011cdfcc, DAT_011e0964;
 struct InputWeapon
 {
-    void* FUN_00525980(InputPlayer*);
+    void* TESObjectWEAP_GetCurrentAmmo(InputPlayer*);
     bool FUN_006450c0();
 };
 struct InputEntry
@@ -28415,7 +28415,7 @@ struct InputAnimation
     float FUN_009442a0();
     void SetMoveSpeed(float);
     float FUN_00508070();
-    void FUN_004c0c90(float);
+    void Animation_SetAttackSpeed(float);
 };
 struct InputMover
 {
@@ -28434,7 +28434,7 @@ struct InputGroups
 };
 struct InputAction
 {
-    int FUN_005c0880();
+    int bhkCharacterController_GetState();
     bool HasFlag400();
 };
 struct InputKeys
@@ -28449,7 +28449,7 @@ struct InputView
 };
 struct InputCamera
 {
-    InputView* FUN_00558310();
+    InputView* BSSceneGraph_GetCameraRoot();
 };
 struct InputMenu
 {
@@ -28646,8 +28646,8 @@ struct InputReference
     virtual void r184();
     virtual void r185();
     virtual bool Busy();
-    bool FUN_00568680();
-    bool FUN_00573170(InputPlayer*, int, int, int);
+    bool TESObjectREFR_IsFurniture();
+    bool TESObjectREFR_Activate(InputPlayer*, int, int, int);
     InputProcess* FUN_008d8520();
 };
 struct InputCharacter : InputReference
@@ -29238,19 +29238,19 @@ struct InputPlayer : InputCharacter
     int GetVtbl20Result();
     bool FUN_009445b0(float, int, unsigned short*, int);
     float FUN_00931d70();
-    bool FUN_005a03f0(int);
+    bool PlayerCharacter_GetControlsDisabled(int);
     bool FUN_008843a0();
     int FUN_008a7570();
     bool FUN_008a6970();
     void FUN_008a6840(bool);
-    bool FUN_00437bf0();
-    bool FUN_00437bd0();
+    bool Actor_IsRestrained();
+    bool Actor_IsUnConscious();
     const InputPoint& FUN_00436aa0();
     bool FUN_0050d4a0();
     bool FUN_009613c0(float);
     float FUN_008a0b10();
     void FUN_00884f80();
-    int FUN_004f8960();
+    int Actor_GetLifeState();
     bool FUN_00948310();
     bool FUN_008bbc10();
     bool FUN_008a16d0();
@@ -29258,16 +29258,16 @@ struct InputPlayer : InputCharacter
     void SetActiveState(bool, int, int);
     void FUN_00894cc0(bool);
     bool FUN_008849c0();
-    bool FUN_005a2030();
+    bool Actor_IsSwimming();
     bool FUN_00894d60();
     InputAction* FUN_009306d0();
     int SetAnimationGroupFromFlags(unsigned char);
     void FUN_0095f6a0();
-    void FUN_00895110(float, float);
-    bool FUN_005a1e50();
+    void Actor_PickAnimations(float, float);
+    bool PlayerCharacter_IsSleeping();
     void FUN_0094df80();
     void FUN_00693ef0(int);
-    void FUN_005610f0(const InputPoint&);
+    void bhkRigidBody_SetPosition(const InputPoint&);
     void FUN_005615d0(const InputPoint&);
     void FUN_008c3c40(int, int);
     InputAnimation* FUN_00950a60(bool);
@@ -29294,7 +29294,7 @@ class ArrowProjectile : public TESObjectREFR
   public:
     int FUN_008ce390();
 };
-TESForm* FUN_004839c0(void*);
+TESForm* TESForm_GetFormByNumericID(void*);
 void* FUN_0040a250(void*);
 void* FUN_00825550(void*);
 struct SaveVersion
@@ -29919,14 +29919,14 @@ struct PlayerLoadView
     unsigned int unk870;
     unsigned int unk874;
     PlayerLoadTail tail;
-    void FUN_008d3380(void*, void*);
+    void Character_InitLoadGameTES(void*, void*);
     void FUN_0094c8e0(LoadMagicItem*);
     void SetArg(void*);
     PlayerReferenceObject* FUN_007af430();
     void FUN_0093a5f0(bool);
     void FUN_0093a6f0(bool);
     void FUN_0095f590(unsigned char);
-    void FUN_00958990(void*, void*);
+    void PlayerCharacter_InitLoadGameTES(void*, void*);
 };
 struct WkObj
 {
@@ -30106,7 +30106,7 @@ extern char DAT_01184720;
 extern char DAT_0118640c;
 extern char DAT_011861dc;
 extern char DAT_0118c5c4;
-TESForm* FUN_004839c0(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 class TESRegion : public TESForm
 {
 };
@@ -31272,7 +31272,7 @@ struct PlayerLoadFields : Character
 };
 struct PlayerLoadState : PlayerCharacter
 {
-    void FUN_0095a3b0(WkBuf* buf);
+    void PlayerCharacter_LoadGame(WkBuf* buf);
     void FUN_009590d0(int a);
     void FUN_008d33f0(WkBuf* buf);
     void* FUN_007af430();
@@ -31283,7 +31283,7 @@ struct PlayerLoadState : PlayerCharacter
     void FUN_00967290();
     void FUN_00969ac0();
     void FUN_00969e90(unsigned char a, int b);
-    void FUN_005de9b0();
+    void PlayerCharacter_DisableHardcoreTracking();
     void SetIdleAt(int i, void* form);
     void FUN_009462c0(int a, int b);
 };
@@ -31647,7 +31647,7 @@ struct SmoothingSetting
 struct ConditionCheck
 {
     int FUN_0048cee0();
-    bool FUN_004bd8d0();
+    bool ItemChange_HasModEffectActive();
 };
 struct PlayerAudio : Character
 {
@@ -32402,8 +32402,8 @@ struct PlayerAudio : Character
     AudioSource* secondSources[12];
     int FUN_00950bb0(int type);
     InputEvent* FUN_008a1710();
-    Emitter* FUN_008b70d0();
-    int FUN_0043fcd0();
+    Emitter* Actor_GetAnimData();
+    int TESObjectREFR_Get3D();
     float GetCachedSpeed(int type);
     bool FUN_00894900();
     bool FUN_008bbc10();
@@ -33640,7 +33640,7 @@ class BGSLoadFormBuffer
 };
 struct FUN_008d34b0_shell
 {
-    void FUN_008d34b0(BGSLoadFormBuffer* buffer);
+    void Character_InitLoadGame(BGSLoadFormBuffer* buffer);
 };
 struct FUN_0084aa90_shell
 {
@@ -33672,12 +33672,12 @@ struct PerkRankView
 };
 struct TESObjectREFR_Helper : public TESObjectREFR
 {
-    void FUN_00564db0(int arg);
+    void TESObjectREFR_SetTargeted(int arg);
 };
 class LoadActorBaseView
 {
   public:
-    void FUN_006047c0(PlayerCharacter* player, int a1, int a2, int a3, int a4);
+    void TESNPC_InitDefaultWorn(PlayerCharacter* player, int a1, int a2, int a3, int a4);
 };
 struct PCStandin
 {
@@ -34551,7 +34551,7 @@ class NiCamera;
 extern NiCamera* DAT_011e07d0;
 struct PlayerCharacterEx : public PlayerCharacter
 {
-    void FUN_0095c0a0(BGSLoadFormBuffer* buffer);
+    void PlayerCharacter_InitLoadGame(BGSLoadFormBuffer* buffer);
 };
 struct ProcStandIn
 {
@@ -35325,7 +35325,7 @@ struct ActorStandIn
     void F5cc7a0(int a);
     void F950340(int a);
     AIProcStandIn* F8d8520();
-    void FUN_00969260(struct SandmanTargetActor* a1, int a2, int a3, bool a4);
+    void PlayerCharacter_InitiateSandmanPackage(struct SandmanTargetActor* a1, int a2, int a3, bool a4);
 };
 struct ProcessListsStandIn
 {
@@ -35948,7 +35948,7 @@ struct PlayerXP_
 };
 struct PlayerProgressionEntry : PlayerCharacter
 {
-    void FUN_0094fd10(int a);
+    void PlayerCharacter_RewardXP(int a);
 };
 extern float DAT_011e07bc;
 extern float DAT_011e07dc;
@@ -36112,7 +36112,7 @@ struct FormRecord
     unsigned int unk04;
     unsigned short unk08;
     unsigned int FUN_0084e3a0();
-    unsigned int FUN_0040a1e0();
+    unsigned int MagicItem_GetMagicItemFormID();
     unsigned int RefreshItem();
     FormRecord* FUN_00575d70();
     FormRecord* FUN_008d6f30();
@@ -36125,7 +36125,7 @@ struct FormRecord
     FormRecord* FUN_0044edb0();
     unsigned int FUN_00726070();
     FormRecord* FUN_00502430();
-    void FUN_005f6f70();
+    void TESClass_SaveGame();
     void SerializeFaceGenData(void*);
 };
 
@@ -36883,20 +36883,20 @@ struct PlayerSave
     SaveSubobject unk878;
     void FUN_00484ce0(void*, int);
     void ForwardToSaveLoadGame(void*, int);
-    void FUN_008d32f0(unsigned int);
+    void Character_SaveGame(unsigned int);
     bool FUN_008bbc10();
     ListNode* FUN_005a6260();
     ListNode* GetField614();
     ListNode* GetField618();
     ListNode* GetSelfOffset6A8();
     FormRecord* FUN_007af430();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     FormRecord* FUN_004181e0();
-    void FUN_00955620(unsigned int flags);
+    void PlayerCharacter_SaveGame(unsigned int flags);
 };
 
 // @fnv 0x00955620
-void PlayerSave::FUN_00955620(unsigned int flags)
+void PlayerSave::PlayerCharacter_SaveGame(unsigned int flags)
 {
     {
         unsigned short blockSize3 = 0;
@@ -36922,7 +36922,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             SaveReference* reference = ((StreamView*)g_TESSaveLoadGame)->GetHitSound();
             if (reference)
             {
-                TESForm* form = FUN_004839c0(reference->formID);
+                TESForm* form = TESForm_GetFormByNumericID(reference->formID);
                 SaveLog("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                         endPosition4 - initialPosition3, reference->formID, form->GetName(),
                         *(unsigned int*)&reference->detail0, 0x3378,
@@ -36942,7 +36942,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             *(unsigned short*)blockStart9 = (unsigned short)(endPositionA - sizePosition);
         }
     }
-    FUN_008d32f0(flags);
+    Character_SaveGame(flags);
     {
         unsigned short blockSize3 = 0;
         unsigned char* blockStart9 = 0;
@@ -37093,7 +37093,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             ForwardToSaveLoadGame(&spellID, 4);
             unsigned int id4 = 0;
             if (unk214)
-                id4 = unk214->FUN_0040a1e0();
+                id4 = unk214->MagicItem_GetMagicItemFormID();
             ForwardToSaveLoadGame(&id4, 4);
             unsigned int id8 = 0;
             if (unk218)
@@ -37292,7 +37292,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
         {
             FormRecord* acoustic = FUN_007af430();
             acoustic->SerializeFaceGenData(this);
-            const char* playerName3 = FUN_0055d520();
+            const char* playerName3 = TESObjectREFR_GetFullName();
             unsigned char nameSize = (unsigned char)(strlen(playerName3) + 1);
             FUN_00484ce0(&nameSize, 1);
             FUN_00484ce0((void*)playerName3, nameSize);
@@ -37307,7 +37307,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
                 classID2 = actorClass5->FUN_0084e3a0();
             ForwardToSaveLoadGame(&classID2, 4);
             if (actorClass5 && actorClass5 == defaultClass)
-                actorClass5->FUN_005f6f70();
+                actorClass5->TESClass_SaveGame();
         }
         if (reinterpret_cast<SaveStream*>(g_TESSaveLoadGame)->FUN_008df040() >= 0x45)
         {
@@ -37322,7 +37322,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             SaveReference* reference4 = ((StreamView*)g_TESSaveLoadGame)->GetHitSound();
             if (reference4)
             {
-                TESForm* form2 = FUN_004839c0(reference4->formID);
+                TESForm* form2 = TESForm_GetFormByNumericID(reference4->formID);
                 SaveLog("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                         endPosition2 - initialPosition3, reference4->formID, form2->GetName(),
                         *(unsigned int*)&reference4->detail0, 0x3592,

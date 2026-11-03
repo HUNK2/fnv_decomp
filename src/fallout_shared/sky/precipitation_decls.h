@@ -96,9 +96,9 @@ class NiNode : public NiAVObject
     virtual void RemoveObject2(NiAVObject* object, NiAVObject** result);
     virtual void RemoveObject(NiAVObject* object);
 
-    unsigned int FUN_00453470();
+    unsigned int NiNode_GetChildCount();
     NiAVObject* FUN_0043b4a0(int index);
-    NiAVObject* FUN_00461130(bool flag);
+    NiAVObject* NiAVObject_GetWorldRotate(bool flag);
 };
 
 template <> class NiPointer<NiNode>

@@ -107,7 +107,7 @@ extern bool DAT_011de23c;
 extern int DAT_011dea24;
 void __cdecl FUN_00850720();
 void __cdecl DumpTextAndOpen(const char*);
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_Instance();
 
 enum FADER_ENUM
 {
@@ -131,7 +131,7 @@ class ChallengeManager
 class ModelLoader
 {
   public:
-    void FUN_00448620(bool);
+    void ModelLoader_ClearUnusedModels(bool);
     void FUN_00448420();
 };
 class TES
@@ -326,7 +326,7 @@ BGSSaveLoadUI* __cdecl FUN_00a25920();
 class GameSettingCollection
 {
   public:
-    TESFile* FUN_004f8960();
+    TESFile* Actor_GetLifeState();
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting16;
 class LoadingMenu
@@ -374,8 +374,8 @@ class TESQueuedCellManager
 };
 extern TESQueuedCellManager* DAT_011c9618;
 void __cdecl FUN_005b4940();
-void __cdecl FUN_005ae270();
-void __cdecl FUN_005a9d60();
+void __cdecl Script_ClearOptimizations();
+void __cdecl ScriptLocals_ClearOptimizations();
 class HUDMainMenu
 {
   public:

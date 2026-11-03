@@ -163,7 +163,7 @@ void FUN_00593210()
 }
 
 // @fnv 0x00593220
-BGSTextureSet* __cdecl FUN_00593220()
+BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet()
 {
     return BGSTextureSet::s_pNullTextureSet;
 }
@@ -221,44 +221,44 @@ void Holder00592cc0::SetFullNameByType(int aeType, char const* apFilename)
         _arr[aeType].SetFullName(apFilename);
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_00593320_shell
 {
-    void FUN_00593320(void*);
+    void DecalData_Save(void*);
 };
 void __cdecl FUN_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
 struct FUN_00592810_shell
 {
-    void FUN_00592810();
+    void BGSTextureSet_SaveForm();
 };
 // @fnv 0x00592810
-void FUN_00592810_shell::FUN_00592810()
+void FUN_00592810_shell::BGSTextureSet_SaveForm()
 {
     int i;
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     for (i = 0; i < 6; ++i)
-        ((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))->FUN_0048e370(DAT_0118c574[i]);
+        ((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))->TESTexture_Save(DAT_0118c574[i]);
     if (*(void**)((char*)this + 0x80))
-        ((FUN_00593320_shell*)*(void**)((char*)this + 0x80))->FUN_00593320((void*)0x54444f44);
+        ((FUN_00593320_shell*)*(void**)((char*)this + 0x80))->DecalData_Save((void*)0x54444f44);
     FUN_00485950(0x4d414e44, *(unsigned short*)((char*)this + 0x84));
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e79a0_t : public TESForm
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct FUN_005932e0_shell
@@ -322,7 +322,7 @@ bool FUN_005926f0_shell::CompareTextureSet(TESForm* apCompare)
     if (_flags != reinterpret_cast<FUN_005926f0_texture*>(pcompare)->_flags)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcompare))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcompare))
         return true;
 
     return false;

@@ -35,7 +35,7 @@ class Conversation
 class TESTopic;
 TESTopic* GetTopicSubTypeName(int, int);
 FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
-void FUN_00834260(FalloutRadio::RadioStationState*);
+void FalloutRadio_UpdateStation(FalloutRadio::RadioStationState*);
 void AdvanceConversation(FalloutRadio::RadioStationState*, TESTopic*);
 bool FUN_00833ce0();
 void FUN_008304a0();
@@ -43,7 +43,7 @@ void FUN_008304c0();
 class ATM
 {
   public:
-    void FUN_004538a0(const char*);
+    void BSCriticalSection_Enter(const char*);
     void FUN_004538c0();
 };
 extern ATM g_011dd5e8;
@@ -54,7 +54,7 @@ class BSAudio
 };
 BSAudio* FUN_00453a70();
 // @fnv 0x00835be0
-void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
+void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* topic)
 {
     TESTopic* a = 0;
     FalloutRadio::RadioStationState* station = 0;
@@ -76,7 +76,7 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     if (!station || station->form->FUN_00440da0())
         return;
     bool f = station->station.IsFlag20Set();
-    g_011dd5e8.FUN_004538a0("FalloutRadio::StartRadioConversation");
+    g_011dd5e8.BSCriticalSection_Enter("FalloutRadio::StartRadioConversation");
     if (station->station.conversation)
         while (station->station.conversation->FUN_0083b9f0())
         {
@@ -85,7 +85,7 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     {
         station->station.FUN_00833100(false);
         station->station.state = 1;
-        FUN_00834260(station);
+        FalloutRadio_UpdateStation(station);
     }
     if (DAT_011dd42c == station && DAT_011dd434)
     {

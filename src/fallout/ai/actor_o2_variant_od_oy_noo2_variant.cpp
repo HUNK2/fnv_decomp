@@ -17,7 +17,7 @@ struct bhkRagdollController
     void* FUN_00c7de30(unsigned int);
 };
 extern "C" void* g_012685f8;
-void* __cdecl FUN_00c7fa60();
+void* __cdecl bhkStiffSpringConstraint_GetRTTI();
 extern "C" void __cdecl _delete(void*, int);
 void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
@@ -599,7 +599,7 @@ class BCB9810Registry
 {
   public:
     void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+    void bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
     int unk04;
@@ -1006,7 +1006,7 @@ class EventT8
     int m_i1c;
     int m_iFirstValue;
 };
-void __cdecl FUN_00837550(EventT8* pkEvent);
+void __cdecl ImpactMixer_PlayCollisionSound(EventT8* pkEvent);
 void __cdecl FUN_00c6a350(void* pvTarget, int iMode, int iA, int iB, int iC);
 void __cdecl FUN_00cb9650(void* pvTarget);
 void __cdecl SetCollisionScale(void* pvNode, hkVector4T8* pkVelocity, float fScale, int iFlags);
@@ -1239,13 +1239,13 @@ class RefT8
     RefT8* GetPlayerTarget();
     char m_acPad[0xa4 - 4];
     AVOwnerT8 m_kAVOwner;
-    void FUN_00890610(HitT8* pkHit, WeapT8* pkWeap);
+    void Actor_DoTrap(HitT8* pkHit, WeapT8* pkWeap);
 };
 extern RefT8* g_pkPlayerT8;
 extern const double g_dMaxDeathPushBackT8;
 
 // @fnv 0x00890610
-void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
+void RefT8::Actor_DoTrap(HitT8* pkHit, WeapT8* pkWeap)
 {
     float afDamageAmount = 0.0f;
     float fPushBack = 0.0f;
@@ -1387,7 +1387,7 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
                     kEvent.m_kPos = kPos;
                     kEvent.m_fAngleZ = FUN_00891060(kMotionVelocity.Copy(), hkSimdRealT8(3.0f)).Length3();
                     kEvent.m_pvTarget = (char*)this + iOffset;
-                    FUN_00837550(&kEvent);
+                    ImpactMixer_PlayCollisionSound(&kEvent);
                 }
             }
             UpdateHit(1, 1);
@@ -1467,12 +1467,12 @@ extern GetterObj DAT_011cc7dc;
 extern Actor* DAT_011dea3c;
 struct NormObj
 {
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct NodeObj
 {
     struct Pair;
-    Pair FUN_00461130(int arg);
+    Pair NiAVObject_GetWorldRotate(int arg);
 };
 struct NodeObj::Pair
 {
@@ -1793,8 +1793,8 @@ void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, 
     NodeObj* node = (NodeObj*)source->GetNode116();
     if (node)
     {
-        origin = *node->FUN_00461130(start).FUN_00524c40();
-        target = *node->FUN_00461130(end).FUN_00524c40();
+        origin = *node->NiAVObject_GetWorldRotate(start).FUN_00524c40();
+        target = *node->NiAVObject_GetWorldRotate(end).FUN_00524c40();
     }
     ImpactPoint direction;
     direction = target - origin;
@@ -2717,14 +2717,14 @@ struct xP3
     xP3();
     float x, y, z;
     xP3 operator+(const xP3&) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct xMat
 {
     xMat();
     float m[9];
     void FUN_004a0c90(float);
-    void FUN_00439f50(unsigned int, xP3&);
+    void NiMatrix3_GetCol(unsigned int, xP3&);
 };
 xP3 xFUN_004a3760(float, const xP3&);
 struct xFltSetting
@@ -2741,9 +2741,9 @@ extern float xg_1022958;
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
+    int CFilter_GetGroup();
     unsigned int m_uiFilterValue;
 };
 struct xAllHits
@@ -2773,10 +2773,10 @@ struct xHitOwner
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
+    void bhkPickData_SetFrom(xP3*);
     void FUN_004a3eb0(const xP3&);
-    void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
+    void bhkPickData_SetFilter(xFilter);
+    void bhkPickData_SetAllCollector(xAllHits*);
     xHitOwner* FUN_008cdd90();
     char m_buf[0xb0];
 };
@@ -3047,21 +3047,21 @@ float xActor::FUN_008bd830(int aiUnused, float afHeight)
     xP3 DIR;
     xMat MAT;
     MAT.FUN_004a0c90(FUN_2bc(0) + afHeight);
-    MAT.FUN_00439f50(1, DIR);
-    DIR.FUN_004a0c10();
+    MAT.NiMatrix3_GetCol(1, DIR);
+    DIR.NiPoint3_Unitize();
     float DIST = xg_1022958;
     xP3 END = POS + xFUN_004a3760(DIST, DIR);
     bool HIT = false;
     float BEST = 3.402823466e+38F;
     xPick PICK;
-    PICK.FUN_004a3da0(&POS);
+    PICK.bhkPickData_SetFrom(&POS);
     PICK.FUN_004a3eb0(END);
     xFilter FILTER(0);
-    FILTER.FUN_004a39f0(0x23);
-    FILTER.FUN_0059ce80(FUN_00931ed0().FUN_004a3a20());
-    PICK.FUN_004a3f70(FILTER);
+    FILTER.CFilter_SetLayer(0x23);
+    FILTER.CFilter_SetGroup(FUN_00931ed0().CFilter_GetGroup());
+    PICK.bhkPickData_SetFilter(FILTER);
     xAllHits HITS;
-    PICK.FUN_004a3fb0(&HITS);
+    PICK.bhkPickData_SetAllCollector(&HITS);
     xWorld* WORLD = xFUN_004543c0(xg_player_11dea3c->FUN_008d6f30());
     WORLD->FUN_c8(&PICK);
     for (int I = 0; !HIT && I < PICK.FUN_008cdd90()->FUN_00460140()->FUN_00726070(); I++)
@@ -3094,14 +3094,14 @@ struct xP3
     xP3 operator-(const xP3&) const;
     float FUN_00457990() const;
     xP3* FUN_006815c0();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct xMat
 {
     xMat();
     float m[9];
     void FUN_004a0c90(float);
-    void FUN_00439f50(unsigned int, xP3&);
+    void NiMatrix3_GetCol(unsigned int, xP3&);
 };
 xP3 xFUN_004a3760(float, const xP3&);
 struct xFltSetting
@@ -3128,9 +3128,9 @@ struct xAVObj
 struct xFilter
 {
     xFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
-    int FUN_004a3a20();
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
+    int CFilter_GetGroup();
     unsigned int m_uiFilterValue;
 };
 struct __declspec(align(16)) xAllHits
@@ -3160,10 +3160,10 @@ struct xHitOwner
 struct __declspec(align(16)) xPick
 {
     xPick();
-    void FUN_004a3da0(xP3*);
+    void bhkPickData_SetFrom(xP3*);
     void FUN_004a3eb0(const xP3&);
-    void FUN_004a3f70(xFilter);
-    void FUN_004a3fb0(xAllHits*);
+    void bhkPickData_SetFilter(xFilter);
+    void bhkPickData_SetAllCollector(xAllHits*);
     xHitOwner* FUN_008cdd90();
     char m_buf[0xb0];
 };
@@ -3436,8 +3436,8 @@ float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
     xP3 DIR;
     xMat MAT;
     MAT.FUN_004a0c90(FUN_2bc(0) + afHeight);
-    MAT.FUN_00439f50(1, DIR);
-    DIR.FUN_004a0c10();
+    MAT.NiMatrix3_GetCol(1, DIR);
+    DIR.NiPoint3_Unitize();
     xP3 TPOS = *apTarget->FUN_1d0()->FUN_0043d450()->FUN_006815c0();
     bool DONE = false;
     float RESULT = 0.0f;
@@ -3446,14 +3446,14 @@ float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
         float DIST = (I + 1) * *xg_11d09e8.FUN_00403e20();
         xP3 START = POS + xFUN_004a3760(DIST, DIR);
         xPick PICK;
-        PICK.FUN_004a3da0(&START);
+        PICK.bhkPickData_SetFrom(&START);
         PICK.FUN_004a3eb0(TPOS);
         xFilter FILTER(0);
-        FILTER.FUN_004a39f0(0x23);
-        FILTER.FUN_0059ce80(FUN_00931ed0().FUN_004a3a20());
-        PICK.FUN_004a3f70(FILTER);
+        FILTER.CFilter_SetLayer(0x23);
+        FILTER.CFilter_SetGroup(FUN_00931ed0().CFilter_GetGroup());
+        PICK.bhkPickData_SetFilter(FILTER);
         xAllHits HITS;
-        PICK.FUN_004a3fb0(&HITS);
+        PICK.bhkPickData_SetAllCollector(&HITS);
         if (*xg_11df868.FUN_00408d60())
         {
             xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
@@ -4375,7 +4375,7 @@ class RefC7
     OwnerC7* GetOwner();
     char m_acPad[0x68 - 4];
     ProcessC7* m_pkProcess;
-    void FUN_00930c70();
+    void MobileObject_InitHavok();
 };
 
 class ActorC7 : public RefC7
@@ -4394,7 +4394,7 @@ class ActorC7 : public RefC7
 extern RefC7* g_pkPlayerC7;
 
 // @fnv 0x00930c70
-void RefC7::FUN_00930c70()
+void RefC7::MobileObject_InitHavok()
 {
     PreUpdate(0);
     if (!m_pkProcess || (m_pkProcess->GetLevel() && m_pkProcess->GetLevel() != 1))
@@ -4584,16 +4584,16 @@ struct kE
 
 struct kExt
 {
-    kE* FUN_004f35b0();
+    kE* TESRegionDataList_Find();
 };
 
 struct kRef
 {
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     void* FUN_007af430();
     kNodeT<kShape>* FUN_00441110();
     kExt* FUN_009611e0(int k);
-    bool FUN_00549580();
+    bool TESForm_HasTalkedToPC();
 };
 
 struct kShape
@@ -4622,7 +4622,7 @@ struct kU2
 };
 struct kU
 {
-    kU2* FUN_00547680();
+    kU2* TESObjectCELL_GetUsableImageSpace();
 };
 struct kCell
 {
@@ -4637,18 +4637,18 @@ void __cdecl FUN_00b4f430(int a);
 
 struct kActor
 {
-    bool FUN_004518e0();
-    float FUN_005471e0();
+    bool TESObjectCELL_HasWater();
+    float TESObjectCELL_GetWaterHeight();
     bool FUN_00425fd0();
     int FUN_005474b0(int a);
-    kPA* FUN_004543c0();
-    void* FUN_005475b0(int a);
-    kU2* FUN_00547680();
+    kPA* TESObjectCELL_GetbhkWorld();
+    void* TESObjectCELL_GetClimate(int a);
+    kU2* TESObjectCELL_GetUsableImageSpace();
     kCell* FUN_0054ddd0();
     int FUN_00544c30();
     int FUN_00544c60();
     kRefList* FUN_00547110(int a);
-    void FUN_00548230(kRef* r, int a);
+    void TESObjectCELL_AddReference(kRef* r, int a);
 };
 
 bool __cdecl FUN_0094dba0();
@@ -4661,7 +4661,7 @@ struct kQ2
 kQ2* __cdecl FUN_00622a70(float f, int a);
 float __cdecl FUN_00622bb0();
 float __cdecl FUN_00622ba0();
-void __cdecl FUN_004f24e0(kRef* r, int a, int b);
+void __cdecl TESRegionDataImposter_SetImposterVisible(kRef* r, int a, int b);
 
 struct kZ
 {
@@ -4803,7 +4803,7 @@ struct kVV
     virtual void v0e0();
     virtual void ve4(int a);
     void FUN_00561580(int a);
-    void FUN_005610f0(kP3* p);
+    void bhkRigidBody_SetPosition(kP3* p);
     struct kVV3* FUN_004ae700();
 };
 struct kVV3
@@ -4830,7 +4830,7 @@ struct kG2
 extern kG2 DAT_011e08e0;
 struct kG3
 {
-    bool FUN_00451530();
+    bool TES_IsRunningCellTests();
 };
 extern kG3* DAT_011dea10;
 extern kE* DAT_011dd380;
@@ -6091,22 +6091,22 @@ struct kSelf
         void FUN_00421e40();
     };
     X5* FUN_005d43c0(int a);
-    bool FUN_00437bd0();
-    bool FUN_005a1e50();
+    bool Actor_IsUnConscious();
+    bool PlayerCharacter_IsSleeping();
     kArea* FUN_00891170();
     void* FUN_00575d70();
     void FUN_00947d80();
     void FUN_009480c0();
-    void FUN_0094cae0(kActor* p);
+    void PlayerCharacter_SetParentCell(kActor* p);
 };
 
 // @fnv 0x0094cae0
-void kSelf::FUN_0094cae0(kActor* p)
+void kSelf::PlayerCharacter_SetParentCell(kActor* p)
 {
     if (p == FUN_008d6f30())
         return;
     if (!FUN_0094dba0())
-        FUN_0062f8f0((p && p->FUN_004518e0()) ? p->FUN_005471e0() : DAT_01015f5c);
+        FUN_0062f8f0((p && p->TESObjectCELL_HasWater()) ? p->TESObjectCELL_GetWaterHeight() : DAT_01015f5c);
     FUN_005d43c0(0)->FUN_00421e40();
     SetParentCellAndUpdateController(p);
     if (p)
@@ -6115,17 +6115,17 @@ void kSelf::FUN_0094cae0(kActor* p)
             FUN_0093a7a0(0);
         FUN_005743f0();
         m7b4 = p->FUN_005474b0(0);
-        kPA* pa = p->FUN_004543c0();
+        kPA* pa = p->TESObjectCELL_GetbhkWorld();
         if (pa)
         {
             kPA2* pa2 = pa->FUN_0045cd60();
             pa2->FUN_004893c0(1);
         }
         v1fc(0);
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_00622a70(FUN_00622bb0(), 0))
-            FUN_00622a70(FUN_00622bb0(), 1)->FUN_006231a0(FUN_008d6f30()->FUN_004543c0());
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_00622a70(FUN_00622ba0(), 0))
-            FUN_00622a70(FUN_00622ba0(), 1)->FUN_006231a0(FUN_008d6f30()->FUN_004543c0());
+        if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld() && FUN_00622a70(FUN_00622bb0(), 0))
+            FUN_00622a70(FUN_00622bb0(), 1)->FUN_006231a0(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
+        if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld() && FUN_00622a70(FUN_00622ba0(), 0))
+            FUN_00622a70(FUN_00622ba0(), 1)->FUN_006231a0(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
         if (mdec.FUN_00822510(0))
         {
             kZ* z = new kZ;
@@ -6142,16 +6142,16 @@ void kSelf::FUN_0094cae0(kActor* p)
             kP4 q;
             kP3 r = *v1f4();
             FUN_004a3e00(&q, &r);
-            mdec.FUN_00559450()->FUN_005610f0(&r);
+            mdec.FUN_00559450()->bhkRigidBody_SetPosition(&r);
         }
-        mdec.FUN_00559450()->v9c(FUN_008d6f30()->FUN_004543c0());
-        bool busy = FUN_00437bd0() || v22c(0) || v2e8() || v230();
-        bool idle = !busy && !FUN_005a1e50();
+        mdec.FUN_00559450()->v9c(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
+        bool busy = Actor_IsUnConscious() || v22c(0) || v2e8() || v230();
+        bool idle = !busy && !PlayerCharacter_IsSleeping();
         if (idle)
             v494();
         DAT_011c3b3c->UpdateRelationStates(0);
-        FUN_0046dd00(p->FUN_005475b0(0))->FUN_0063c8f0();
-        FUN_00b4f430(p->FUN_00547680()->FUN_00500940());
+        FUN_0046dd00(p->TESObjectCELL_GetClimate(0))->FUN_0063c8f0();
+        FUN_00b4f430(p->TESObjectCELL_GetUsableImageSpace()->FUN_00500940());
         kCell* cell = p->FUN_0054ddd0();
         bool found = false;
         m79c = 0;
@@ -6190,7 +6190,7 @@ void kSelf::FUN_0094cae0(kActor* p)
         {
             kP2 pos(&FUN_00891170()->pos);
             kNodeT<kRef>* sub = 0;
-            if (ref->FUN_00440d80() || (ref->FUN_007af430() && ref->FUN_007af430() != FUN_00575d70()) ||
+            if (ref->TESForm_GetDelete() || (ref->FUN_007af430() && ref->FUN_007af430() != FUN_00575d70()) ||
                 !ref->FUN_00441110() || ref->FUN_00441110()->FUN_008256d0())
                 continue;
             bool done = false;
@@ -6202,7 +6202,7 @@ void kSelf::FUN_0094cae0(kActor* p)
                     m764.AddRegion(ref);
                     if (list.FUN_005f65d0(&ref))
                         list.FUN_00905330(&ref);
-                    kE* e = ref->FUN_009611e0(7)->FUN_004f35b0();
+                    kE* e = ref->FUN_009611e0(7)->TESRegionDataList_Find();
                     if (e)
                     {
                         if (e->FUN_004f1540() && (!best || (best != e && best->FUN_005bb4d0() < e->FUN_005bb4d0())))
@@ -6222,7 +6222,7 @@ void kSelf::FUN_0094cae0(kActor* p)
                                 DAT_011dd380 = e;
                         }
                     }
-                    if (ref->FUN_00549580())
+                    if (ref->TESForm_HasTalkedToPC())
                     {
                         found = true;
                         if (sh->FUN_004f8360(&c0) && sh->FUN_004f8360(&c1) && sh->FUN_004f8360(&c2) &&
@@ -6231,8 +6231,8 @@ void kSelf::FUN_0094cae0(kActor* p)
                     }
                     if (m760)
                     {
-                        kE* a = m760->FUN_009611e0(3)->FUN_004f35b0();
-                        kE* b = ref->FUN_009611e0(3)->FUN_004f35b0();
+                        kE* a = m760->FUN_009611e0(3)->TESRegionDataList_Find();
+                        kE* b = ref->FUN_009611e0(3)->TESRegionDataList_Find();
                         if (b && (!a || (b->FUN_004f1540() && !a->FUN_004f1540()) ||
                                   (b->FUN_004f1540() == a->FUN_004f1540() && b->FUN_005bb4d0() > a->FUN_005bb4d0())))
                             FUN_0093a7a0(ref);
@@ -6244,14 +6244,14 @@ void kSelf::FUN_0094cae0(kActor* p)
                     done = true;
                 }
             }
-            if (ref->FUN_00549580())
+            if (ref->TESForm_HasTalkedToPC())
             {
                 if (!m7b0)
                     m7b0 = new kO(1, 1);
                 m7b0->FUN_0096a610(&ref);
             }
         }
-        if (*DAT_011e08e0.FUN_00408d60() && cell && cell->IsFlag8Set() && !DAT_011dea10->FUN_00451530() && !found)
+        if (*DAT_011e08e0.FUN_00408d60() && cell && cell->IsFlag8Set() && !DAT_011dea10->TES_IsRunningCellTests() && !found)
         {
             kTyped* t39 = 0;
             kTyped* t41 = 0;
@@ -6279,7 +6279,7 @@ void kSelf::FUN_0094cae0(kActor* p)
                     m79d = 1;
             }
         }
-        kE* e4 = m760 ? m760->FUN_009611e0(4)->FUN_004f35b0() : 0;
+        kE* e4 = m760 ? m760->FUN_009611e0(4)->TESRegionDataList_Find() : 0;
         FUN_00705420(m760, e4 ? e4->v2c() : 0, 1);
         FUN_00947d80();
         FUN_009480c0();
@@ -6289,7 +6289,7 @@ void kSelf::FUN_0094cae0(kActor* p)
             kRef* x = *n2->Get();
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = x->FUN_009611e0(8)->TESRegionDataList_Find();
                 if (e)
                 {
                     kE* e2 = e;
@@ -6304,7 +6304,7 @@ void kSelf::FUN_0094cae0(kActor* p)
             kRef* x = *n2->Get();
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = x->FUN_009611e0(8)->TESRegionDataList_Find();
                 if (e)
                 {
                     kE* e2 = e;
@@ -6313,8 +6313,8 @@ void kSelf::FUN_0094cae0(kActor* p)
                     {
                         if (*k->Get())
                         {
-                            FUN_008d6f30()->FUN_00548230(*k->Get(), 0);
-                            FUN_004f24e0(*k->Get(), 1, 0);
+                            FUN_008d6f30()->TESObjectCELL_AddReference(*k->Get(), 0);
+                            TESRegionDataImposter_SetImposterVisible(*k->Get(), 1, 0);
                         }
                         k = k->Next();
                     }

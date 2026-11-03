@@ -20,7 +20,7 @@ struct FormObj_CreatureInit
 
 struct Sub30_CreatureInit
 {
-    void FUN_0047d8b0(void*);
+    void TESActorBaseData_InitItem(void*);
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;
     bool FUN_00461580(unsigned int) const;
     unsigned int FUN_0059bb30();
@@ -56,7 +56,7 @@ struct AIList_CreatureInit
 
 struct Sub90_CreatureInit
 {
-    void FUN_0047f4c0(void*);
+    void TESAIForm_InitItem(void*);
     int u00, u04, u08, u0c, u10, u14, u18, u1c;
     AIList_CreatureInit packages;
     int u28, u2c, u30;
@@ -231,15 +231,15 @@ struct Host_CreatureInit
     unsigned int FUN_0084e3a0();
     void FUN_00565210(bool);
     void FUN_00484ab0(int);
-    void FUN_005f9340();
+    void TESCreature_InitItem();
 };
 
 class TESCreature;
 class BGSBodyPartData;
 extern "C" void __cdecl FUN_00485d50(unsigned int*, void*);
-extern "C" class TESForm* __cdecl FUN_004839c0(unsigned int);
+extern "C" class TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl FUN_005b5e40(const char*, ...);
-TESCombatStyle* __cdecl FUN_00505000();
+TESCombatStyle* __cdecl TESCombatStyle_GetDefaultCombatStyle();
 extern "C" const char DAT_010495e0[], DAT_01049598[], DAT_01049548[], DAT_010494f8[], DAT_0102c740[], DAT_010494bc[];
 class TESCombatStyle
 {
@@ -252,7 +252,7 @@ class BGSListForm
 };
 
 // @fnv 0x005f9340
-void Host_CreatureInit::FUN_005f9340()
+void Host_CreatureInit::TESCreature_InitItem()
 {
     unsigned int formId;
     if (FUN_004013e0())
@@ -261,8 +261,8 @@ void Host_CreatureInit::FUN_005f9340()
     m_64.FUN_00481bb0(this);
     m_7c.FUN_0048d400(this);
     m_70.FUN_0047beb0(this);
-    m_90.FUN_0047f4c0(this);
-    m_30.FUN_0047d8b0(this);
+    m_90.TESAIForm_InitItem(this);
+    m_30.TESActorBaseData_InitItem(this);
     m_104.FUN_00478be0(this);
     if (m_30.u04 & 1)
     {
@@ -278,7 +278,7 @@ void Host_CreatureInit::FUN_005f9340()
         if (soundId)
         {
             FUN_00485d50(&soundId, FUN_00484e60(-1));
-            m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(FUN_004839c0(soundId));
+            m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(TESForm_GetFormByNumericID(soundId));
             if (!m_128)
             {
                 FUN_005b5e40(DAT_010495e0, soundId, FUN_0084e3a0(), v76());
@@ -296,7 +296,7 @@ void Host_CreatureInit::FUN_005f9340()
         if (combatId)
         {
             FUN_00485d50(&combatId, FUN_00484e60(-1));
-            m_140 = dynamic_cast<TESCombatStyle*>(FUN_004839c0(combatId));
+            m_140 = dynamic_cast<TESCombatStyle*>(TESForm_GetFormByNumericID(combatId));
             if (!m_140)
             {
                 FUN_005b5e40(DAT_01049548, combatId, FUN_0084e3a0(), v76());
@@ -304,14 +304,14 @@ void Host_CreatureInit::FUN_005f9340()
         }
     }
     if (!v98())
-        v99(FUN_00505000());
+        v99(TESCombatStyle_GetDefaultCombatStyle());
     if (m_144)
     {
         unsigned int bodyId = (unsigned int)m_144;
         if (bodyId)
         {
             FUN_00485d50(&bodyId, FUN_00484e60(-1));
-            m_144 = dynamic_cast<BGSBodyPartData*>(FUN_004839c0(bodyId));
+            m_144 = dynamic_cast<BGSBodyPartData*>(TESForm_GetFormByNumericID(bodyId));
             if (!m_144)
             {
                 FUN_005b5e40(DAT_010494f8, bodyId, FUN_0084e3a0(), v76());
@@ -322,7 +322,7 @@ void Host_CreatureInit::FUN_005f9340()
     if (formId)
     {
         FUN_00485d50(&formId, FUN_00484e60(-1));
-        m_14c = dynamic_cast<BGSImpactDataSet*>(FUN_004839c0(formId));
+        m_14c = dynamic_cast<BGSImpactDataSet*>(TESForm_GetFormByNumericID(formId));
         if (!m_14c)
             FUN_005b5e40(DAT_0102c740, formId, v76(), FUN_0084e3a0());
     }
@@ -330,7 +330,7 @@ void Host_CreatureInit::FUN_005f9340()
     if (formId)
     {
         FUN_00485d50(&formId, FUN_00484e60(-1));
-        m_158 = dynamic_cast<BGSListForm*>(FUN_004839c0(formId));
+        m_158 = dynamic_cast<BGSListForm*>(TESForm_GetFormByNumericID(formId));
         if (!m_158)
             FUN_005b5e40(DAT_010494bc, formId, v76(), FUN_0084e3a0());
     }
@@ -347,11 +347,11 @@ __if_not_exists(::TESCombatStyle::SetFormType)
     };
 }
 
-::TESForm* __cdecl FUN_004839c0(unsigned int formId);
+::TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formId);
 
 struct TESCreatureCall_1b30
 {
-    void FUN_005f1b30(int a1, int a2);
+    void TESActorBase_LoadGame2(int a1, int a2);
 };
 
 struct TESCreatureCall_0d00
@@ -364,14 +364,14 @@ __if_exists(::TESCreature::m_ucField00)
 {
     struct TESCreatureLoad : ::TESCreature
     {
-        void FUN_005fb270(int a1, int a2);
+        void TESCreature_LoadGame2(int a1, int a2);
     };
 }
 
 // @fnv 0x005fb270
-void TESCreatureLoad::FUN_005fb270(int a1, int a2)
+void TESCreatureLoad::TESCreature_LoadGame2(int a1, int a2)
 {
-    ((TESCreatureCall_1b30*)this)->FUN_005f1b30(a1, a2);
+    ((TESCreatureCall_1b30*)this)->TESActorBase_LoadGame2(a1, a2);
     if (a1 & 0x200)
     {
         ((TESCreatureCall_0d00*)this)->FUN_00484d00(&m_ucField00, 1);
@@ -382,7 +382,7 @@ void TESCreatureLoad::FUN_005fb270(int a1, int a2)
     {
         unsigned int formId;
         ((TESCreatureCall_0d00*)this)->FUN_00484d40(&formId, 4);
-        ::TESCombatStyle* style = dynamic_cast< ::TESCombatStyle*>(FUN_004839c0(formId));
+        ::TESCombatStyle* style = dynamic_cast< ::TESCombatStyle*>(TESForm_GetFormByNumericID(formId));
         if (style)
         {
             m_pCombatStyle = style;

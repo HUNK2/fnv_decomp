@@ -657,7 +657,7 @@ struct LockObject
 {
     unsigned int owner;
     unsigned int count;
-    void FUN_0040fbf0(const char*);
+    void BSSpinLock_Lock(const char*);
 };
 
 extern char DAT_012043f8;
@@ -699,7 +699,7 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         rotation.m128_f32[2] = q.z;
         rotation.m128_f32[3] = q.w;
         reinterpret_cast<FourFloatVector*>(&rotation)->FUN_005611c0();
-        reinterpret_cast<LockObject*>(&DAT_01267b80)->FUN_0040fbf0(0);
+        reinterpret_cast<LockObject*>(&DAT_01267b80)->BSSpinLock_Lock(0);
         ((void(__thiscall*)(SceneObject*, FourFloatVector*, FourFloatVector*))destination->vtable[58])(
             destination, reinterpret_cast<FourFloatVector*>(&position), reinterpret_cast<FourFloatVector*>(&rotation));
         if (--DAT_01267b84 == 0)
@@ -773,7 +773,7 @@ struct BaseCall
     void** vtable;
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
-    void FUN_00a6d830(StrArr*);
+    void NiTimeController_GetViewerStrings(StrArr*);
 };
 class NiPoint3
 {
@@ -785,7 +785,7 @@ struct KeyData : BaseCall
     NiPoint3* keys;
     unsigned int unk40, unk44;
     unsigned int count;
-    void FUN_00c9bbb0(StrArr* strings);
+    void bhkBlendController_GetViewerStrings(StrArr* strings);
 };
 class GlobalObjectO2_00a7b610
 {
@@ -805,10 +805,10 @@ class MemoryManager
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00c9bbb0
-void KeyData::FUN_00c9bbb0(StrArr* strings)
+void KeyData::bhkBlendController_GetViewerStrings(StrArr* strings)
 {
     MemContextGuard kGuard(16);
-    FUN_00a6d830(strings);
+    NiTimeController_GetViewerStrings(strings);
     strings->Add(FUN_00a7d330(g_012681f0.name));
     unsigned int uiNumKeys = count;
     strings->Add(FUN_00a7d510("iKeys", uiNumKeys));
@@ -1515,7 +1515,7 @@ struct PhysicsObject
 
     void* FUN_00c87a40();
 
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 
     void FUN_00c8ef80(void*);
 
@@ -1777,7 +1777,7 @@ struct hkLimitedHingeConstraintCinfo : hkConstraintCinfo
     virtual __forceinline ~hkLimitedHingeConstraintCinfo()
     {}
 
-    void FUN_00caa3f0();
+    void hkLimitedHingeConstraintCinfo_CreateData();
 
     void FUN_009ba320(PhysicsObject*, PhysicsObject*);
 };
@@ -1949,7 +1949,7 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
 
                 ConstraintInfo info;
 
-                info.FUN_00caa3f0();
+                info.hkLimitedHingeConstraintCinfo_CreateData();
 
                 if (force)
                     sourceBody->SetMotion(4);
@@ -1957,9 +1957,9 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
                 else
                 {
 
-                    int sourceMotion = sourceBody->FUN_00517630();
+                    int sourceMotion = sourceBody->bhkRigidBody_GetMotionType();
 
-                    int targetMotion = targetBody->FUN_00517630();
+                    int targetMotion = targetBody->bhkRigidBody_GetMotionType();
 
                     if (FUN_00c8cce0(&sourceMotion) != FUN_00c8cce0(&targetMotion))
                     {
@@ -1980,7 +1980,7 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
                         else
                         {
 
-                            motionType = DynamicValue(targetBody->FUN_00517630()) ? 1 : 4;
+                            motionType = DynamicValue(targetBody->bhkRigidBody_GetMotionType()) ? 1 : 4;
                         }
 
                         sourceBody->SetMotion(motionType);

@@ -38,7 +38,7 @@ void __thiscall FUN_00e80610_shell::FUN_00e80610()
 extern "C" const char* const g_0126f554_arg1;
 
 // @fnv 0x00e7c680
-const char* const* __cdecl FUN_00e7c680()
+const char* const* __cdecl NiD3DShader_GetRTTI()
 {
     return &g_0126f554_arg1;
 }

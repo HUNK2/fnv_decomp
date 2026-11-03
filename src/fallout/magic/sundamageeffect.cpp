@@ -14,11 +14,11 @@ struct TESSaveLoadGame
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct SunDamageEffect : ActiveEffect
 {
-    unsigned short FUN_0082a390(Actor* apActor);
+    unsigned short SunDamageEffect_GetSaveSize(Actor* apActor);
 };
 
 // @fnv 0x0082a390
-unsigned short SunDamageEffect::FUN_0082a390(Actor* apActor)
+unsigned short SunDamageEffect::SunDamageEffect_GetSaveSize(Actor* apActor)
 {
     unsigned short usSize = 0;
     usSize += GetSaveSize(apActor);
@@ -43,11 +43,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0082a420_shell : ActiveEffect
 {
-    void FUN_0082a420(void* apActor);
+    void SunDamageEffect_LoadGame(void* apActor);
 };
 
 // @fnv 0x0082a420
-void FUN_0082a420_shell::FUN_0082a420(void* apActor)
+void FUN_0082a420_shell::SunDamageEffect_LoadGame(void* apActor)
 {
     ActiveEffect::LoadGame(apActor);
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x71)
@@ -67,10 +67,10 @@ extern PC7d* g_thePlayer;
 struct S_0082a150
 {
     double FUN_0082a1b0();
-    bool FUN_0082a150();
+    bool SunDamageEffect_IsCausingDamage();
 };
 // @fnv 0x0082a150
-bool S_0082a150::FUN_0082a150()
+bool S_0082a150::SunDamageEffect_IsCausingDamage()
 {
     if (reinterpret_cast<BSThread*>(this)->GetThreadID() ==
         (g_thePlayer ? (unsigned int)(reinterpret_cast<char*>(g_thePlayer) + 0x94) : 0))
@@ -182,12 +182,12 @@ struct AC0ValueEffect : AC0ActiveEffect
     bool bFlag4C;
     bool bFlag4D;
 
-    AC0ActiveEffect* FUN_00829ac0();
+    AC0ActiveEffect* SunDamageEffect_Clone();
 };
 
 // Allocates a new AC0ValueEffect from the caster, item and effect item, copies base state into it, copies fValue and the two flags, and returns it.
 // @fnv 0x00829ac0
-AC0ActiveEffect* AC0ValueEffect::FUN_00829ac0()
+AC0ActiveEffect* AC0ValueEffect::SunDamageEffect_Clone()
 {
     AC0ValueEffect* pkClone = new AC0ValueEffect(pkCaster, pkItem, pkEffectItem);
     CopyTo(pkClone);
@@ -204,14 +204,14 @@ struct S_00829bb0_Cell
 
 struct S_00829bb0_Val
 {
-    float FUN_004ed230(int a, float b, float c);
+    float TESWeather_GetWeatherData(int a, float b, float c);
 };
 
 struct S_00829bb0_Proc
 {
     S_00829bb0_Val* FUN_0044edb0();
     S_00829bb0_Val* FUN_00825c00();
-    float FUN_006447d0();
+    float Sky_GetCurrentWeatherPct();
 };
 
 struct S_00829bb0_Actor
@@ -494,12 +494,12 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
                     DAT_011a14f8 = DAT_011a14f8 - arg;
                 }
                 proc = DAT_011dea10->FUN_008d8520();
-                float fValue = proc->FUN_0044edb0() ? proc->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+                float fValue = proc->FUN_0044edb0() ? proc->FUN_0044edb0()->TESWeather_GetWeatherData(5, 1.0f, 0.0f) : 0.0f;
                 if (proc->FUN_00825c00())
                 {
-                    float w = proc->FUN_006447d0();
+                    float w = proc->Sky_GetCurrentWeatherPct();
                     fValue = fValue * w;
-                    fValue += (1.0 - w) * proc->FUN_00825c00()->FUN_004ed230(5, 1.0f, 0.0f);
+                    fValue += (1.0 - w) * proc->FUN_00825c00()->TESWeather_GetWeatherData(5, 1.0f, 0.0f);
                 }
             }
         }
@@ -851,14 +851,14 @@ struct H_Calls
     bool FUN_00454b10();
     H_Calls* FUN_008d8520();
     float GetFieldEC();
-    float FUN_00595ea0();
-    float FUN_00596030();
+    float Sky_GetSunriseBegin();
+    float Sky_GetSunsetEnd();
     H_Calls* FUN_0044edb0();
-    float FUN_004ed230(int, float, float);
+    float TESWeather_GetWeatherData(int, float, float);
     H_Calls* FUN_00825c00();
-    float FUN_006447d0();
-    bool FUN_004518e0();
-    double FUN_0057b0a0();
+    float Sky_GetCurrentWeatherPct();
+    bool TESObjectCELL_HasWater();
+    double TESObjectREFR_GetRelevantWaterHeight();
     float GetFloatAtOffset1C();
 };
 float FUN_00649390(float, float, float, float, bool, float, bool);
@@ -883,20 +883,20 @@ double S_0082a150::FUN_0082a1b0()
         float v_;
         obj = ((H_Calls*)DAT_011dea10)->FUN_008d8520();
         aF1c = obj->GetFieldEC();
-        f4 = obj->FUN_00595ea0();
-        f18 = obj->FUN_00596030();
+        f4 = obj->Sky_GetSunriseBegin();
+        f18 = obj->Sky_GetSunsetEnd();
         b9 = true;
-        vTmp = obj->FUN_0044edb0() ? obj->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+        vTmp = obj->FUN_0044edb0() ? obj->FUN_0044edb0()->TESWeather_GetWeatherData(5, 1.0f, 0.0f) : 0.0f;
         if (obj->FUN_00825c00())
         {
-            v_ = obj->FUN_006447d0();
+            v_ = obj->Sky_GetCurrentWeatherPct();
             vTmp = vTmp * v_;
-            vTmp = (1.0 - v_) * obj->FUN_00825c00()->FUN_004ed230(5, 1.0f, 0.0f) + vTmp;
+            vTmp = (1.0 - v_) * obj->FUN_00825c00()->TESWeather_GetWeatherData(5, 1.0f, 0.0f) + vTmp;
         }
         b11 = false;
-        if (p->FUN_008d6f30()->FUN_004518e0())
+        if (p->FUN_008d6f30()->TESObjectCELL_HasWater())
         {
-            if (p->FUN_0057b0a0() >= p->v125()->f8)
+            if (p->TESObjectREFR_GetRelevantWaterHeight() >= p->v125()->f8)
                 b11 = true;
         }
         return FUN_00649390(((H_Calls*)this)->GetFloatAtOffset1C(), aF1c, f4, f18, b9, vTmp, b11);

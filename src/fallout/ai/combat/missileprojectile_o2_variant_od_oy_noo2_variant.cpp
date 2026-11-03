@@ -31,7 +31,7 @@ struct BeamProjectile
 };
 struct MissileProjectile : BeamProjectile
 {
-    void FUN_009baad0(BGSLoadFormBuffer*);
+    void MissileProjectile_LoadGame(BGSLoadFormBuffer*);
 };
 struct BGSProjectile
 {
@@ -283,7 +283,7 @@ struct FUN_00cbdd60_cls
     int unk00;
     int unk04;
     void FUN_00c89730(SpawnedObject_t* obj, unsigned int arg);
-    SpawnedObject_t* FUN_00cbdd60(unsigned int arg);
+    SpawnedObject_t* bhkHingeConstraint_CreateClone(unsigned int arg);
 };
 struct S_cbde40_Tls
 {
@@ -505,7 +505,7 @@ struct S_cbde40
     int unk08;
     S_cbde40_Base* unk0c;
     void CopyFromSource(S_cbde40_Obj* c);
-    S_cbde40_Base* FUN_00cbde40(bool* created);
+    S_cbde40_Base* bhkHingeConstraint_CreateCinfo(bool* created);
 };
 
 namespace fnv_009b90b0 {
@@ -521,7 +521,7 @@ struct V
     V* FUN_006815c0();
     V* ApplyScaled(V* out, float f);
     V* FUN_00439ef0(V* out, const V* a);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     V* FUN_00439e90(V* out, V* a);
     void FUN_0062aea0();
 };
@@ -559,7 +559,7 @@ struct V9
     void FUN_004a0c90(float f);
     void FUN_00524ac0(float f);
     V9* FUN_0043f8d0(V9* out, V9* b);
-    void FUN_00439f50(int a, V* out);
+    void NiMatrix3_GetCol(int a, V* out);
 };
 
 struct Xform
@@ -704,11 +704,11 @@ struct Big
     int unkB0;
     int unkB4;
     void FUN_004a3c20();
-    void FUN_004a3da0(const V* v);
+    void bhkPickData_SetFrom(const V* v);
     void FUN_007f68a0(V* v);
-    void FUN_004a3fb0(struct Res* r);
+    void bhkPickData_SetAllCollector(struct Res* r);
     ListH* FUN_008cdd90();
-    void FUN_004a3f70(int a);
+    void bhkPickData_SetFilter(int a);
 };
 
 struct __declspec(align(16)) Res
@@ -769,14 +769,14 @@ struct Handle
 {
     int val;
     void FUN_008c71b0(int a);
-    void FUN_004a39f0(int a);
-    void FUN_0059ce80(int a);
+    void CFilter_SetLayer(int a);
+    void CFilter_SetGroup(int a);
 };
 
 struct HandleSrc
 {
     int val;
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 
 struct Sub
@@ -977,11 +977,11 @@ struct Obj
     unsigned int FUN_0043b480();
     Obj* FUN_0043b4a0(unsigned int i);
     void FUN_00a59c60(Vec3* v);
-    Obj* FUN_004543c0();
+    Obj* TESObjectCELL_GetbhkWorld();
     void FUN_00440460(void* a);
     void FUN_0043fa80(void* a);
     int FUN_0045bc00(int a);
-    Xform* FUN_00461130();
+    Xform* NiAVObject_GetWorldRotate();
     void AssignFixedString(int a);
     Obj* FUN_006fa820();
     Obj* FUN_004ae750();
@@ -991,9 +991,9 @@ struct Obj
     void UpdateMatchingNodes(Obj* a);
     HandleSrc* FUN_0070c440(int* out);
     HandleSrc* FUN_00931ed0(int* out);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
     Obj* FUN_0043b4f0(int* out);
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
     void FUN_00c6e390(V5* v);
 };
 
@@ -1043,8 +1043,8 @@ extern Glob DAT_011f210c;
 extern Glob* DAT_011dea10;
 extern Glob DAT_011f2250;
 
-bool FUN_004910d0(Obj* a);
-void FUN_004ade40(Obj* a, Obj* b, Obj* c, int d);
+bool Animation_FindSkinnedNode(Obj* a);
+void BipedAnim_AttachToSkeleton(Obj* a, Obj* b, Obj* c, int d);
 int FUN_009b7cb0();
 void FUN_00c69f50(Obj* a, int b, int c);
 void FUN_00c6a350(Obj* a, int b, int c, int d, int e);
@@ -1056,10 +1056,10 @@ Obj* FUN_004b5260(Obj* a);
 void FUN_00553fc0(V5* a, V* b);
 void FUN_004a3e00(void* a, V* b);
 int FUN_005dbe10();
-int FUN_004b3890(V* a, Color* b, V* c, Color* d, int e);
+int MakeLine(V* a, Color* b, V* c, Color* d, int e);
 int FUN_004b59f0(int a);
 Obj* FUN_004b5a80(int a);
-Obj* FUN_0056f930(int a);
+Obj* TESObjectREFR_FindReferenceFor3D(int a);
 void FUN_0062b8d0(Obj* a, V* b, int c);
 
 struct Actor
@@ -1335,7 +1335,7 @@ struct Actor
 
     void FUN_009b90b0();
     Obj* FUN_008d6f30();
-    void FUN_00575830(V* v);
+    void TESObjectREFR_SetLocationOnReference(V* v);
     void UpdateNodeTransform(int a, int b);
     float FUN_00931d70();
     Obj* FUN_009306d0();
@@ -1411,28 +1411,28 @@ void Actor::FUN_009b90b0()
                             for (unsigned int j = 0; j < p88->FUN_0043b480(); j++)
                             {
                                 Obj* p90 = p88->FUN_0043b4a0(j);
-                                if (p90 && FUN_004910d0(p90))
-                                    FUN_004ade40(p88, p90, p88, 0);
+                                if (p90 && Animation_FindSkinnedNode(p90))
+                                    BipedAnim_AttachToSkeleton(p88, p90, p88, 0);
                             }
                         }
                         Vec3 v9c;
                         v9c.FUN_0043d410(0.0f, 0, 0);
                         p60->FUN_00a59c60(&v9c);
-                        Obj* pa0 = FUN_008d6f30()->FUN_004543c0();
+                        Obj* pa0 = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                         if (pa0)
                             pa0->vfd0(p60, 1, 0, 0, 1);
                         p60->FUN_00440460(&DAT_011f426c);
                         p60->FUN_0043fa80(&DAT_011a9448);
                         if (p88 && p88->FUN_0045bc00(0))
                         {
-                            Xform xd4 = *p88->FUN_0043b4a0(0)->FUN_00461130();
+                            Xform xd4 = *p88->FUN_0043b4a0(0)->NiAVObject_GetWorldRotate();
                             if (!noMove)
-                                FUN_00575830(&owner->unk04);
+                                TESObjectREFR_SetLocationOnReference(&owner->unk04);
                             UpdateNodeTransform(0, 0);
                             Vec3 ve0;
                             ve0.FUN_0043d410(0.0f, 0, 0);
                             p28->vfb8((V*)&ve0);
-                            Xform x114 = *p28->FUN_00461130();
+                            Xform x114 = *p28->NiAVObject_GetWorldRotate();
                             Xform x148;
                             x148.FUN_00476a80();
                             x114.InvertTransform(&x148);
@@ -1454,7 +1454,7 @@ void Actor::FUN_009b90b0()
                         if (p60)
                         {
                             int p190 = 0;
-                            Obj* p194 = FUN_008d6f30()->FUN_004543c0();
+                            Obj* p194 = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                             Big big;
                             big.FUN_004a3c20();
                             V v25c;
@@ -1470,16 +1470,16 @@ void Actor::FUN_009b90b0()
                             m2b0.FUN_00524ac0(FUN_00931d70());
                             V9 m2d4;
                             m28c = *m28c.FUN_0043f8d0(&m2d4, &m2b0);
-                            m28c.FUN_00439f50(1, &v268);
-                            v268.FUN_004a0c10();
+                            m28c.NiMatrix3_GetCol(1, &v268);
+                            v268.NiPoint3_Unitize();
                             V t2e0;
                             V t2ec;
-                            big.FUN_004a3da0(v25c.FUN_00439ef0(&t2ec, v268.ApplyScaled(&t2e0, 512.0f)));
+                            big.bhkPickData_SetFrom(v25c.FUN_00439ef0(&t2ec, v268.ApplyScaled(&t2e0, 512.0f)));
                             V t2f8;
                             big.FUN_007f68a0(v268.ApplyScaled(&t2f8, 1024.0f));
                             {
                                 Res res;
-                                big.FUN_004a3fb0(&res);
+                                big.bhkPickData_SetAllCollector(&res);
                                 bool ok = FUN_009c5ba0(&big, p60, 0, 1);
                                 if (ok && big.FUN_008cdd90()->FUN_00460140()->FUN_00726070() > 0)
                                     p190 = FUN_004b5820(big.FUN_008cdd90()->FUN_00460140()->GetEntryAt(0)->unk50);
@@ -1501,12 +1501,12 @@ void Actor::FUN_009b90b0()
                                     n6d0.FUN_006815c0()->FUN_00cb2fc0();
                                     V v6dc;
                                     v6dc.FUN_006815c0();
-                                    vf1d0()->FUN_00461130()->rot.FUN_00439f50(1, &v6dc);
+                                    vf1d0()->NiAVObject_GetWorldRotate()->rot.NiMatrix3_GetCol(1, &v6dc);
                                     V5 v6f0;
                                     v6f0.FUN_006815c0();
                                     FUN_00553fc0(&v6f0, &v6dc);
                                     v6f0.FUN_0062aea0();
-                                    Xform x724 = *vf1d0()->FUN_00461130();
+                                    Xform x724 = *vf1d0()->NiAVObject_GetWorldRotate();
                                     V v730;
                                     V v73c;
                                     V v748;
@@ -1518,8 +1518,8 @@ void Actor::FUN_009b90b0()
                                     path.FUN_009ba3d0(&n690, &n6d0, &v760.q, &v6f0);
                                     PathRef* ref = new PathRef(&path);
                                     p63c->FUN_00c8ef80(ref);
-                                    p63c->UpdateMatchingNodes(FUN_008d6f30()->FUN_004543c0());
-                                    Obj* p774 = FUN_008d6f30()->FUN_004543c0();
+                                    p63c->UpdateMatchingNodes(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
+                                    Obj* p774 = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                                     Big big2;
                                     big2.FUN_004a3c20();
                                     V v83c;
@@ -1535,8 +1535,8 @@ void Actor::FUN_009b90b0()
                                     m890.FUN_00524ac0(FUN_00931d70());
                                     V9 m8b4;
                                     m86c = *m86c.FUN_0043f8d0(&m8b4, &m890);
-                                    m86c.FUN_00439f50(1, &v848);
-                                    v848.FUN_004a0c10();
+                                    m86c.NiMatrix3_GetCol(1, &v848);
+                                    v848.NiPoint3_Unitize();
                                     Handle h;
                                     h.FUN_008c71b0(0);
                                     int t8bc;
@@ -1546,29 +1546,29 @@ void Actor::FUN_009b90b0()
                                     }
                                     else
                                     {
-                                        h.FUN_004a39f0(6);
+                                        h.CFilter_SetLayer(6);
                                         Obj* p8c0;
                                         int t8c4;
                                         if (FUN_00874480() && (p8c0 = FUN_00874480(), p8c0->vf100()))
-                                            h.FUN_0059ce80(FUN_00874480()->FUN_00931ed0(&t8c4)->FUN_004a3a20());
+                                            h.CFilter_SetGroup(FUN_00874480()->FUN_00931ed0(&t8c4)->CFilter_GetGroup());
                                         else
-                                            h.FUN_0059ce80(FUN_005dbe10());
+                                            h.CFilter_SetGroup(FUN_005dbe10());
                                     }
                                     V v8e0;
                                     v848.ApplyScaled(&v8e0, (float)(GetFirstLightParameter() - FUN_00508070()));
-                                    big2.FUN_004a3f70(h.val);
-                                    big2.FUN_004a3da0(&v83c);
+                                    big2.bhkPickData_SetFilter(h.val);
+                                    big2.bhkPickData_SetFrom(&v83c);
                                     big2.FUN_007f68a0(&v8e0);
                                     Res res2;
-                                    big2.FUN_004a3fb0(&res2);
-                                    Obj* pc04 = FUN_008d6f30()->FUN_004543c0();
+                                    big2.bhkPickData_SetAllCollector(&res2);
+                                    Obj* pc04 = FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                                     pc04->vfc8(&big2);
                                     if (0)
                                     {
                                         Color c;
                                         c.FUN_00414430(1.0f, 0.5f, 0.5f, 1.0f);
                                         V tc20;
-                                        int c24 = FUN_004b3890(&v83c, &c, v83c.FUN_00439e90(&tc20, &v8e0), &c, 1);
+                                        int c24 = MakeLine(&v83c, &c, v83c.FUN_00439e90(&tc20, &v8e0), &c, 1);
                                         DAT_011dea10->FUN_00458e20(c24, *DAT_011f210c.FUN_00403e20());
                                     }
                                     for (int k = 0; !blocked && k < big2.FUN_008cdd90()->FUN_00460140()->FUN_00726070();
@@ -1578,13 +1578,13 @@ void Actor::FUN_009b90b0()
                                         rec.FUN_00696c30(big2.FUN_008cdd90()->FUN_00460140()->GetEntryAt(k));
                                         int pc94 = FUN_004b5820(rec.unk50);
                                         Obj* pc98 = FUN_004b5a80(FUN_004b59f0(rec.unk50));
-                                        Obj* pc9c = FUN_0056f930(pc94);
+                                        Obj* pc9c = TESObjectREFR_FindReferenceFor3D(pc94);
                                         int tca0;
-                                        int type = pc98 ? pc98->FUN_0043b4f0(&tca0)->FUN_0043b4d0() : 0;
+                                        int type = pc98 ? pc98->FUN_0043b4f0(&tca0)->CFilter_GetLayer() : 0;
                                         if (pc98 &&
                                             (type == 1 || type == 2 || type == 9 || type == 0x11 || type == 0xd ||
                                              type == 0x14) &&
-                                            (pc98->FUN_00517630() == 5 || pc98->FUN_00517630() == 4))
+                                            (pc98->bhkRigidBody_GetMotionType() == 5 || pc98->bhkRigidBody_GetMotionType() == 4))
                                         {
                                             blocked = true;
                                         }
@@ -1606,10 +1606,10 @@ void Actor::FUN_009b90b0()
                             if (FUN_009306d0())
                             {
                                 int tcac;
-                                FUN_00c6a3d0(p60, FUN_009306d0()->FUN_0070c440(&tcac)->FUN_004a3a20(), 1, 1);
+                                FUN_00c6a3d0(p60, FUN_009306d0()->FUN_0070c440(&tcac)->CFilter_GetGroup(), 1, 1);
                                 if (!noMove)
                                 {
-                                    FUN_00575830(&owner->unk04);
+                                    TESObjectREFR_SetLocationOnReference(&owner->unk04);
                                     V5 vcc0;
                                     vcc0.FUN_006815c0();
                                     FUN_004a3e00(&vcc0, &owner->unk04);
@@ -1623,13 +1623,13 @@ void Actor::FUN_009b90b0()
                         else
                         {
                             if (!noMove)
-                                FUN_00575830(&owner->unk04);
+                                TESObjectREFR_SetLocationOnReference(&owner->unk04);
                             UpdateNodeTransform(0, 0);
                             FUN_005de0a0(4, 1);
                             vf2a4();
                             FUN_00c69f50(p60, 1, 1);
                             int tcc4;
-                            FUN_00c6a3d0(p28, p34->FUN_00931ed0(&tcc4)->FUN_004a3a20(), 1, 1);
+                            FUN_00c6a3d0(p28, p34->FUN_00931ed0(&tcc4)->CFilter_GetGroup(), 1, 1);
                             FUN_00c6a350(p28, 1, 1, 1, 1);
                             FUN_00c6a0b0(p28, 1, 1, 0);
                             V vcd0;

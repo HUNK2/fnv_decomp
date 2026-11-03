@@ -954,7 +954,7 @@ struct FUN_0082f6c0 : FUN_00aa63c0
     virtual ~FUN_0082f6c0();
 };
 extern unsigned int DAT_011dd1f4;
-void __cdecl FUN_00401030(unsigned int p);
+void __cdecl FormHeap_Free(unsigned int p);
 struct FUN_0082f9c0_obj
 {
     virtual int unk00(int a);
@@ -1017,7 +1017,7 @@ struct TESSoundShell
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
+    TESSound* __thiscall TESObjectWEAP_GetAttackSound(bool v);
     void* __thiscall GetPointerByFlag(bool v);
     TESSound* __thiscall GetValueByFlag(bool v);
 };

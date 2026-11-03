@@ -55,10 +55,10 @@ struct GO
 struct FakeSkin : NiObject
 {
     GO m_sp;
-    void FUN_00a84ce0(NiStream&);
+    void NiSkinData_LinkObject(NiStream&);
 };
 // @fnv 0x00a84ce0
-void FakeSkin::FUN_00a84ce0(NiStream& kStream)
+void FakeSkin::NiSkinData_LinkObject(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
     if (kStream.m_uiNifVersion >= 0x4000001 && kStream.m_uiNifVersion < 0xa010065)
@@ -75,7 +75,7 @@ struct BSFadeNode : _Call_a5d3a0
 };
 extern int DAT_0109e574;
 // @fnv 0x00a84d30
-void* __cdecl FUN_00a84d30()
+void* __cdecl NiSkinData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x48);
     if (p)
@@ -437,12 +437,12 @@ struct SkinDataLike : SkinObjectBase
     SkinTransform m_kSkinTransform;
     SkinBoneData* m_pBoneData;
     unsigned int m_uiBoneCount;
-    void FUN_00a85250(SkinStream& kStream);
+    void NiSkinData_SaveBinary(SkinStream& kStream);
 };
 
 // Saves the skin object base, transform, bone count, vertex-weight flag and each bone's transform, bound, vertex count and optional vertex weights to the stream.
 // @fnv 0x00a85250
-void SkinDataLike::FUN_00a85250(SkinStream& kStream)
+void SkinDataLike::NiSkinData_SaveBinary(SkinStream& kStream)
 {
     SkinObjectBase::SaveBinary(kStream);
     m_kSkinTransform.SaveBinary(kStream);
@@ -755,11 +755,11 @@ struct SkinLoadData : SkinObjectBase
     SkinTransform rootParentToSkin;
     ResetFields* bones;
     unsigned int boneCount;
-    void FUN_00a84f50(SkinLoadStream& stream);
+    void NiSkinData_LoadBinary(SkinLoadStream& stream);
 };
 // Reads skin data from a stream: base, transform, bone count, per-bone transforms/bounds/weights, and an optional trailing flag.
 // @fnv 0x00a84f50
-void SkinLoadData::FUN_00a84f50(SkinLoadStream& stream)
+void SkinLoadData::NiSkinData_LoadBinary(SkinLoadStream& stream)
 {
     ((SkinLoadBase*)this)->ReadGroup(stream);
     ((SkinLoadTransform*)&rootParentToSkin)->FUN_00a86c80(stream);

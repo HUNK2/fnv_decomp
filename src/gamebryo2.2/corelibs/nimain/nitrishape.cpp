@@ -54,13 +54,13 @@ struct FUN_00a74600_shell : public NiTriShape
     void FUN_00a74600(NiRenderer*);
 };
 
-void FUN_00a80610();
+void NiGeometry_RenderImmediate();
 
-// Calls FUN_00a80610 on this, then if the renderer's state at offset 0x200 is 1 or 2 and byte 0x208 is 1, invokes renderer vtable slot 0x1b4 with this.
+// Calls NiGeometry_RenderImmediate on this, then if the renderer's state at offset 0x200 is 1 or 2 and byte 0x208 is 1, invokes renderer vtable slot 0x1b4 with this.
 // @fnv 0x00a74600
 void FUN_00a74600_shell::FUN_00a74600(NiRenderer* apkRenderer)
 {
-    ((void(__thiscall*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
+    ((void(__thiscall*)(NiTriShape*, NiRenderer*))NiGeometry_RenderImmediate)(this, apkRenderer);
     int state = *(int*)((char*)apkRenderer + 0x200);
     if ((state == 1 || state == 2) && *((char*)apkRenderer + 0x208) == 1)
     {
@@ -110,7 +110,7 @@ NiTriStrips* __cdecl CreateNiTriShapeX()
 
 extern const char g_011f5b34_arg1[];
 // @fnv 0x00a74520
-const char* __cdecl FUN_00a74520()
+const char* __cdecl NiTriShape_GetRTTI()
 {
     return g_011f5b34_arg1;
 }
@@ -258,18 +258,18 @@ FUN_00a89720::FUN_00a89720(void* a) : FUN_00a804e0(a)
 
 struct FUN_00a80610_This
 {
-    void __thiscall FUN_00a80610(void*);
+    void __thiscall NiGeometry_RenderImmediate(void*);
 };
 struct FUN_00a745c0_This
 {
-    void __thiscall FUN_00a745c0(void*);
+    void __thiscall NiTriShape_RenderImmediate(void*);
 };
-// Calls FUN_00a80610 on the renderer, then if renderer state at 0x200 is 1 or 2 and byte at 0x208 is 1, invokes vtable slot 107 with this.
+// Calls NiGeometry_RenderImmediate on the renderer, then if renderer state at 0x200 is 1 or 2 and byte at 0x208 is 1, invokes vtable slot 107 with this.
 // @fnv 0x00a745c0
-void __thiscall FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
+void __thiscall FUN_00a745c0_This::NiTriShape_RenderImmediate(void* apkRenderer)
 {
     void* pkRenderer = apkRenderer;
-    ((FUN_00a80610_This*)this)->FUN_00a80610(pkRenderer);
+    ((FUN_00a80610_This*)this)->NiGeometry_RenderImmediate(pkRenderer);
     if ((*(int*)((char*)pkRenderer + 0x200) == 1 || *(int*)((char*)pkRenderer + 0x200) == 2) &&
         *(char*)((char*)pkRenderer + 0x208) == 1)
     {
@@ -285,19 +285,19 @@ struct StrArr
 };
 struct BaseA
 {
-    void FUN_00a897c0(StrArr*);
+    void NiTriBasedGeom_GetViewerStrings(StrArr*);
 };
 char* FUN_00a7d330(const char*);
 extern const char* const g_011f5b34_arg1;
 struct FUN_00a74690_shell : BaseA
 {
-    void FUN_00a74690(StrArr* pkStrings);
+    void NiTriShape_GetViewerStrings(StrArr* pkStrings);
 };
 // Calls the base handler, resolves g_011f5b34_arg1 to a string, grows pkStrings if its index reached the size, then stores the string at that index.
 // @fnv 0x00a74690
-void FUN_00a74690_shell::FUN_00a74690(StrArr* pkStrings)
+void FUN_00a74690_shell::NiTriShape_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a897c0(pkStrings);
+    NiTriBasedGeom_GetViewerStrings(pkStrings);
     char* pStr = FUN_00a7d330(g_011f5b34_arg1);
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)pkStrings + 8))

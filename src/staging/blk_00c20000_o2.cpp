@@ -15,7 +15,7 @@ struct BSFadeNode
 extern int DAT_010be35c;
 
 // @fnv 0x00c25820
-BSFadeNode* __cdecl FUN_00c25820()
+BSFadeNode* __cdecl BSStripParticleSystem_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x110));
     if (node)
@@ -43,7 +43,7 @@ extern "C" void* DAT_010bea54;
 
 // Allocates a NiPSysPositionModifier, runs its constructor, sets its vtable, and returns it (or null on allocation failure).
 // @fnv 0x00c28b20
-NiPSysPositionModifier* FUN_00c28b20()
+NiPSysPositionModifier* NiPSysPositionModifier_CreateObject()
 {
     NiPSysPositionModifier* p = (NiPSysPositionModifier*)BSFadeNode::operator new(0x18);
     if (p)
@@ -66,7 +66,7 @@ void* __fastcall FUN_00c32b60(void* self);
 extern int DAT_010bebbc;
 
 // @fnv 0x00c29d00
-void* __cdecl FUN_00c29d00()
+void* __cdecl NiPSysModifierActiveCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -93,7 +93,7 @@ struct FUN_00c32d80
 extern int DAT_010beebc;
 
 // @fnv 0x00c2a050
-FUN_00c32d80* __cdecl FUN_00c2a050()
+FUN_00c32d80* __cdecl NiPSysInitialRotAngleVarCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -117,7 +117,7 @@ struct BSFadeNode
 extern int DAT_010bf1ac;
 
 // @fnv 0x00c2a870
-void* __cdecl FUN_00c2a870()
+void* __cdecl NiPSysGravityStrengthCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -147,7 +147,7 @@ struct BSFadeNode
 
 // Allocates a 0x40-byte BSFadeNode, constructs it, sets its vtable to DAT_010bf454, and returns the pointer or 0 on allocation failure.
 // @fnv 0x00c2b110
-void* __cdecl FUN_00c2b110()
+void* __cdecl NiPSysFieldMagnitudeCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -176,7 +176,7 @@ struct FUN_00c32d80
 
 // Allocates a 0x40-byte BSFadeNode, calls Init on it, sets its vtbl to DAT_010bf554 and returns it, or returns 0 on allocation failure.
 // @fnv 0x00c2b200
-void* FUN_00c2b200()
+void* NiPSysFieldAttenuationCtlr_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
     if (node)
@@ -205,7 +205,7 @@ extern "C" void* DAT_010bf954;
 
 // Allocates a 0x40-byte BSFadeNode, calls Init on it, sets its vtable to DAT_010bf954 and returns it, or returns null if allocation fails.
 // @fnv 0x00c2b620
-void* __cdecl FUN_00c2b620()
+void* __cdecl NiPSysEmitterLifeSpanCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -232,7 +232,7 @@ struct FUN_00c32d80
 };
 
 // @fnv 0x00c2b720
-void* __cdecl FUN_00c2b720()
+void* __cdecl NiPSysEmitterInitialRadiusCtlr_CreateObject()
 {
     BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(0x40);
     if (node)
@@ -259,7 +259,7 @@ struct BSFadeNode
 extern const void* DAT_010bfb54;
 
 // @fnv 0x00c2b870
-FUN_00c32d80* __cdecl FUN_00c2b870()
+FUN_00c32d80* __cdecl NiPSysEmitterDeclinationVarCtlr_CreateObject()
 {
     FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
     if (p)
@@ -287,7 +287,7 @@ struct FUN_00c32d80
 extern void* DAT_010c05e4;
 
 // @fnv 0x00c30600
-void* __cdecl FUN_00c30600()
+void* __cdecl NiPSysAirFieldInheritVelocityCtlr_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)
@@ -304,7 +304,7 @@ void __fastcall FUN_00a6d220(void*);
 extern int DAT_010be6b4;
 
 // @fnv 0x00c270f0
-BSFadeNode* __cdecl FUN_00c270f0()
+BSFadeNode* __cdecl NiPSysUpdateCtlr_CreateObject()
 {
     BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x34));
     if (node)
@@ -323,7 +323,7 @@ extern int DAT_010be8e4;
 void __fastcall FUN_00a6d220(void*);
 
 // @fnv 0x00c283b0
-BSFadeNode* __cdecl FUN_00c283b0()
+BSFadeNode* __cdecl NiPSysResetOnLoopCtlr_CreateObject()
 {
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x38);
     if (p)
@@ -342,7 +342,7 @@ struct NiLODData
     NiLODData();
 };
 // @fnv 0x00c2ba60
-BSFadeNode* __cdecl FUN_00c2ba60()
+BSFadeNode* __cdecl NiPSysEmitterCtlrData_CreateObject()
 {
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x28);
     if (p)
@@ -393,7 +393,7 @@ struct FUN_00c31ff0
 
 // Allocates a 0x40-byte FUN_00c31ff0, calls Init, sets its vtbl and initializes m_30, m_34, m_38 and m_3c; returns null on allocation failure.
 // @fnv 0x00c2c7b0
-FUN_00c31ff0* __cdecl FUN_00c2c7b0()
+FUN_00c31ff0* __cdecl NiPSysDragFieldModifier_CreateObject()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)BSFadeNode::operator new(0x40);
     if (p)
@@ -464,7 +464,7 @@ struct NiPSysPositionModifier
 };
 // Allocates a 0x38-byte NiPSysPositionModifier, runs its constructor, sets the vtable and initializes fields from globals and zero, returning the object or null.
 // @fnv 0x00c2e4c0
-NiPSysPositionModifier* FUN_00c2e4c0()
+NiPSysPositionModifier* NiPSysBombModifier_CreateObject()
 {
     NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(BSFadeNode::operator new(0x38));
     if (p)
@@ -498,7 +498,7 @@ extern int DAT_010be604;
 
 // Allocates a 0x3c-byte object, runs its constructor, sets its vtable and initializes three fields at offsets 0x30-0x38, returning the object or null.
 // @fnv 0x00c26790
-FUN_00c31ff0* __cdecl FUN_00c26790()
+FUN_00c31ff0* __cdecl NiPSysVortexFieldModifier_CreateObject()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
     if (p)
@@ -547,7 +547,7 @@ struct FUN_00c22ad0_object : A51BF0Base
 };
 
 // @fnv 0x00c22ad0
-A51BF0Base* FUN_00c22ad0()
+A51BF0Base* NiPSysGravityModifier_CreateObject()
 {
     FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(A51BF0Base::operator new(0x40));
 
@@ -614,7 +614,7 @@ extern int DAT_010be774;
 
 // Allocates a 0x3c-byte object, calls Init, sets fields at offsets 0x30/0x34/0x38 and the vtable pointer, then returns it (or null).
 // @fnv 0x00c27350
-FUN_00c31ff0* __cdecl FUN_00c27350()
+FUN_00c31ff0* __cdecl NiPSysTurbulenceFieldModifier_CreateObject()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
     if (p)
@@ -632,7 +632,7 @@ FUN_00c31ff0* __cdecl FUN_00c27350()
 extern int DAT_010be99c;
 // Allocates a 0x34-byte object, calls Init, sets a float at offset 0x30 to 0.0f and installs the vtable at DAT_010be99c, returning the object or null.
 // @fnv 0x00c28570
-FUN_00c31ff0* __cdecl FUN_00c28570()
+FUN_00c31ff0* __cdecl NiPSysRadialFieldModifier_CreateObject()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x34);
     if (p)
@@ -670,7 +670,7 @@ struct FUN_00c32d80
 };
 // Allocates a 0x40-byte object, constructs it, sets its vtable to DAT_010bf354, and returns it (or null on allocation failure).
 // @fnv 0x00c2b010
-FUN_00c32d80* __cdecl FUN_00c2b010()
+FUN_00c32d80* __cdecl NiPSysFieldMaxDistanceCtlr_CreateObject()
 {
     FUN_00c32d80* p = static_cast<FUN_00c32d80*>(A51BF0Base::operator new(0x40));
     if (p)
@@ -686,7 +686,7 @@ extern int DAT_010c0304;
 
 // Allocates a 0x20-byte NiPSysPositionModifier, constructs it, sets its vtable and clears fields at offsets 0x18 and 0x1c, returning the new object or null.
 // @fnv 0x00c2ef20
-NiPSysPositionModifier* FUN_00c2ef20()
+NiPSysPositionModifier* NiPSysAgeDeathModifier_CreateObject()
 {
     NiPSysPositionModifier* p = (NiPSysPositionModifier*)A51BF0Base::operator new(0x20);
     if (p)
@@ -709,7 +709,7 @@ struct FUN_00c32d80
 extern int DAT_010c06e4;
 
 // @fnv 0x00c30790
-void* FUN_00c30790(void)
+void* NiPSysAirFieldAirFrictionCtlr_CreateObject(void)
 {
     FUN_00c32d80* p = (FUN_00c32d80*)A51BF0Base::operator new(0x40);
     if (p)
@@ -796,7 +796,7 @@ struct FUN_00c23b20_cls
 
 // Allocates a 0x34-byte object, runs its base constructor, sets default float and ushort fields and the vtable, and returns it (or null on allocation failure).
 // @fnv 0x00c23b20
-void* __cdecl FUN_00c23b20()
+void* __cdecl NiPSysSpawnModifier_CreateObject()
 {
     FUN_00c23b20_cls* p = (FUN_00c23b20_cls*)FUN_00aa13e0(0x34);
     if (p != 0)
@@ -912,7 +912,7 @@ struct FUN_00c31720_This
 };
 
 // @fnv 0x00c2a2b0
-void* __cdecl FUN_00c2a2b0()
+void* __cdecl NiPSysGrowFadeModifier_CreateObject()
 {
     void* pObject = FUN_00aa13e0(0x2c);
     if (pObject != NULL)
@@ -1084,12 +1084,12 @@ extern int DAT_010bfc54;
 
 struct FUN_00c2b970_Class : FUN_00c32d80
 {
-    static FUN_00c2b970_Class* __cdecl FUN_00c2b970();
+    static FUN_00c2b970_Class* __cdecl NiPSysEmitterDeclinationCtlr_CreateObject();
 };
 
 // Allocates a 0x40-byte object, constructs a FUN_00c32d80 base in place, sets its vtable to DAT_010bfc54 and returns it, or returns 0 on allocation failure.
 // @fnv 0x00c2b970
-FUN_00c2b970_Class* FUN_00c2b970_Class::FUN_00c2b970()
+FUN_00c2b970_Class* FUN_00c2b970_Class::NiPSysEmitterDeclinationCtlr_CreateObject()
 {
     FUN_00c2b970_Class* obj = (FUN_00c2b970_Class*)FUN_00aa13e0(0x40);
     if (obj)

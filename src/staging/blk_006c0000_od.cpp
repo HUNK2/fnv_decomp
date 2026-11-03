@@ -2476,8 +2476,8 @@ class AutoMemContext
 
 struct SpinLock6c67
 {
-    void FUN_0040fbf0(const char* pcName);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(const char* pcName);
+    void BSSpinLock_Unlock();
     int m_kNextStreamField[2];
 };
 
@@ -2513,7 +2513,7 @@ struct Queue6c67
 // @fnv 0x006c6700
 void Queue6c67::ClearQueue(bool abFreeNodes)
 {
-    m_kLock.FUN_0040fbf0(0);
+    m_kLock.BSSpinLock_Lock(0);
     AutoMemContext kMemContext(MEM_CONTEXT_MEM_CONTEXT_TASK_OVERHEAD, true,
                                "d:\\_fallout3\\platforms\\common\\code\\bsmain\\ThreadSafeStructures.inl", 0x115);
     int iCapacity = m_pkTable->FUN_00559450();
@@ -2533,7 +2533,7 @@ void Queue6c67::ClearQueue(bool abFreeNodes)
         m_pkTail = m_pkHead;
         m_pkTable = new FUN_006c73b0(iCapacity);
     }
-    m_kLock.FUN_0040fba0();
+    m_kLock.BSSpinLock_Unlock();
 }
 
 struct FUN_006c6ae0_Base
@@ -2856,7 +2856,7 @@ struct PathRequestView
 };
 struct PathDoorView
 {
-    NiPoint3* FUN_00568fa0();
+    NiPoint3* TESObjectREFR_GetLinkedDoorTeleportPosition();
 };
 struct DoorStep
 {
@@ -3089,13 +3089,13 @@ bool PathBuilder::FUN_006c9b20()
     else
     {
         NiPoint3 end3 = request->GetOffsetC()->FUN_005c3420();
-        NiPoint3 origin6 = *dataB.doors.GetFirst()->door->FUN_00568fa0();
+        NiPoint3 origin6 = *dataB.doors.GetFirst()->door->TESObjectREFR_GetLinkedDoorTeleportPosition();
         if (!FindPath(end3, origin6, dataB.edges.FUN_006ced70(), dataB.doors.GetFirst()->door))
             return false;
         for (unsigned int i = 0; i < dataB.doors.FUN_0044ddc0() - 1; ++i)
         {
             NiPoint3 origin = dataB.doors.FUN_00558dd0(i).point;
-            NiPoint3 point2 = *dataB.doors.FUN_00558dd0(i + 1).door->FUN_00568fa0();
+            NiPoint3 point2 = *dataB.doors.FUN_00558dd0(i + 1).door->TESObjectREFR_GetLinkedDoorTeleportPosition();
             if (!FindPath(origin, point2, dataB.edges.FUN_006a1440(i + 1), dataB.doors.FUN_00558dd0(i + 1).door))
             {
                 solution->SetByteAtOffset40(1);
@@ -4315,7 +4315,7 @@ void FloatArray6db5::FUN_006db540(unsigned int uiIndex, const float& rkItem)
 }
 
 extern int DAT_0106cc78;
-void* __cdecl FUN_00401020();
+void* __cdecl MemoryManager_Instance();
 struct FUN_00aa42e0_Obj
 {
     int __thiscall FUN_00aa42e0();
@@ -4339,7 +4339,7 @@ struct FUN_006db890 : FUN_006dc370
 FUN_006db890::FUN_006db890(int aiFirst, int aiSecond, int aiValue)
 {
     m_vtbl = &DAT_0106cc78;
-    m_uiFilterValue = aiValue ? aiValue : ((FUN_00aa42e0_Obj*)FUN_00401020())->FUN_00aa42e0();
+    m_uiFilterValue = aiValue ? aiValue : ((FUN_00aa42e0_Obj*)MemoryManager_Instance())->FUN_00aa42e0();
     FUN_006dc440(aiFirst, aiSecond);
 }
 
@@ -4478,7 +4478,7 @@ float Falloff6dc::EvaluateFalloff(const Pt6dc& kPt)
 
 struct FUN_00527990_shell
 {
-    bool FUN_00527990(int* first, int* second);
+    bool BGSWorldLocation_GetCellOrWorld(int* first, int* second);
 };
 struct FUN_006dd280_shell
 {
@@ -4495,7 +4495,7 @@ FUN_006dd220_Class* FUN_006dd220_Class::ConstructFromSource(void* source)
     reinterpret_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<char*>(this) + 4)->GetItem();
     int b = 0;
     int a = 0;
-    reinterpret_cast<FUN_00527990_shell*>(source)->FUN_00527990(&b, &a);
+    reinterpret_cast<FUN_00527990_shell*>(source)->BGSWorldLocation_GetCellOrWorld(&b, &a);
     reinterpret_cast<FUN_006dd280_shell*>(this)->FUN_006dd280(
         &reinterpret_cast<BSSimpleList<BGSPerk*>*>(source)->GetItem(), b, reinterpret_cast<void*>(a));
     return this;
@@ -5522,7 +5522,7 @@ class MemoryManager
   public:
     ScrapHeapBuffer* FUN_00aa42e0();
 };
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 // Representative of the native BSSimpleArray<float,1024> base.
 class FloatArrayBase
 {
@@ -5546,7 +5546,7 @@ class FUN_006db680 : public FloatArrayBase
 // @fnv 0x006db680
 FUN_006db680::FUN_006db680(unsigned int count, unsigned int capacity, ScrapHeapBuffer* allocator)
 {
-    heap = allocator ? allocator : FUN_00401020()->FUN_00aa42e0();
+    heap = allocator ? allocator : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(count, capacity);
 }
 }  // namespace fnv_006db680
@@ -5558,7 +5558,7 @@ class MemoryManager
   public:
     ScrapHeapBuffer* FUN_00aa42e0();
 };
-MemoryManager* __cdecl FUN_00401020();
+MemoryManager* __cdecl MemoryManager_Instance();
 // Representative of native BSSimpleArray<NavMeshPtr,1024>.
 class NavMeshArrayBase
 {
@@ -5578,11 +5578,11 @@ class FUN_006db7a0 : public NavMeshArrayBase
     FUN_006db7a0(unsigned int count, unsigned int capacity, ScrapHeapBuffer* allocator);
     virtual ~FUN_006db7a0();
 };
-// Sets heap to allocator, or to FUN_00401020()->FUN_00aa42e0() if allocator is null, then calls FUN_0042fcb0(count, capacity).
+// Sets heap to allocator, or to MemoryManager_Instance()->FUN_00aa42e0() if allocator is null, then calls FUN_0042fcb0(count, capacity).
 // @fnv 0x006db7a0
 FUN_006db7a0::FUN_006db7a0(unsigned int count, unsigned int capacity, ScrapHeapBuffer* allocator)
 {
-    heap = allocator ? allocator : FUN_00401020()->FUN_00aa42e0();
+    heap = allocator ? allocator : MemoryManager_Instance()->FUN_00aa42e0();
     FUN_0042fcb0(count, capacity);
 }
 }  // namespace fnv_006db7a0
@@ -5594,7 +5594,7 @@ class MemoryManager
     void* FUN_00aa42e0();
 };
 
-MemoryManager* FUN_00401020();
+MemoryManager* MemoryManager_Instance();
 
 class PathBuilderDetailedPathInfos
 {
@@ -5621,7 +5621,7 @@ class FUN_006df180 : public PathBuilderDetailedPathInfos
 // @fnv 0x006df180
 FUN_006df180::FUN_006df180()
 {
-    m_pMemoryAllocator = FUN_00401020()->FUN_00aa42e0();
+    m_pMemoryAllocator = MemoryManager_Instance()->FUN_00aa42e0();
     FUN_006b3eb0(0, 0);
 }
 }  // namespace fnv_006df180

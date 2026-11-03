@@ -567,7 +567,7 @@ struct RecursiveSpinLock
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 struct TaskQueueInterface
@@ -623,7 +623,7 @@ struct FUN_009784c0_shell
 
 struct FUN_00455640_shell
 {
-    void FUN_00455640();
+    void TES_RunAnimations();
 };
 
 struct SkyObject
@@ -649,8 +649,8 @@ void* __stdcall FUN_00713d80(int);
 void __fastcall FUN_0086fd70(void*);
 float __cdecl FUN_00453850();
 bool __cdecl FUN_005c42d0();
-void __cdecl FUN_005ae270();
-void __cdecl FUN_005a9d60();
+void __cdecl Script_ClearOptimizations();
+void __cdecl ScriptLocals_ClearOptimizations();
 void __cdecl FUN_008c80d0();
 void __cdecl ProcessPlayerCellActors();
 void __fastcall FUN_00991dc0(void*);
@@ -678,7 +678,7 @@ void __cdecl FUN_008c7bd0()
     reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->FUN_0096cda0();
     DAT_011f11a0.Unlock();
 
-    reinterpret_cast<FUN_00455640_shell*>(g_TES)->FUN_00455640();
+    reinterpret_cast<FUN_00455640_shell*>(g_TES)->TES_RunAnimations();
 
     DAT_011f11a0.Lock(0);
     reinterpret_cast<FUN_009784c0_shell*>(&DAT_011e0e80)->FUN_009784c0();
@@ -697,7 +697,7 @@ void __cdecl FUN_008c7bd0()
     BGSDestructibleObjectForm::UpdateDestructionMap();
     DAT_011f11a0.Unlock();
 
-    reinterpret_cast<Zt5TES*>(g_TES)->FUN_00453550(FUN_00453850());
+    reinterpret_cast<Zt5TES*>(g_TES)->TES_UpdateCellAnimations(FUN_00453850());
 
     reinterpret_cast<FUN_008c7d80_shell*>(FUN_00713d80(1))->SetCurrent(6);
     FUN_008c80d0();
@@ -706,8 +706,8 @@ void __cdecl FUN_008c7bd0()
         NavMeshObstacleManager::GetSingleton()->Update();
 
     reinterpret_cast<FUN_0087a6d0_shell*>(TaskQueueInterface::GetInstance())->FUN_0087a6d0();
-    FUN_005ae270();
-    FUN_005a9d60();
+    Script_ClearOptimizations();
+    ScriptLocals_ClearOptimizations();
 
     reinterpret_cast<FUN_008c7d80_shell*>(FUN_00713d80(0))->SetCurrent(11);
     reinterpret_cast<FUN_008c7d80_shell*>(FUN_00713d80(1))->SetCurrent(7);
@@ -719,7 +719,7 @@ class Sky;
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 struct FUN_0096c330_shell
@@ -771,8 +771,8 @@ struct FUN_0096cb50_shell
 
 void* __stdcall FUN_00713d80(int);
 float __cdecl FUN_00453850(void);
-void __cdecl FUN_005ae270(void);
-void __cdecl FUN_005a9d60(void);
+void __cdecl Script_ClearOptimizations(void);
+void __cdecl ScriptLocals_ClearOptimizations(void);
 extern int g_TES;
 extern int DAT_011e0e80;
 
@@ -801,7 +801,7 @@ void FUN_008c7f50()
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80(1))->SignalThreadEvent(5);
     reinterpret_cast<FUN_008c7a70_shell*>(FUN_00713d80(0))->WaitForEvent(4);
 
-    reinterpret_cast<Zt5TES*>(g_TES)->FUN_00453550(FUN_00453850());
+    reinterpret_cast<Zt5TES*>(g_TES)->TES_UpdateCellAnimations(FUN_00453850());
 
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80(1))->SignalThreadEvent(6);
     reinterpret_cast<FUN_0087a6d0_shell*>(TaskQueueInterface::GetInstance())->FUN_0087a6d0();
@@ -809,8 +809,8 @@ void FUN_008c7f50()
     reinterpret_cast<FUN_008c7a70_shell*>(FUN_00713d80(0))->WaitForEvent(8);
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80(1))->SignalThreadEvent(7);
 
-    FUN_005ae270();
-    FUN_005a9d60();
+    Script_ClearOptimizations();
+    ScriptLocals_ClearOptimizations();
 
     reinterpret_cast<FUN_008c7a70_shell*>(FUN_00713d80(0))->WaitForEvent(9);
     reinterpret_cast<FUN_008c7a70_shell*>(FUN_00713d80(0))->WaitForEvent(11);
@@ -820,7 +820,7 @@ void FUN_008c7f50()
 namespace fnv_008c7da0 {
 struct FUN_00455640_shell
 {
-    void FUN_00455640();
+    void TES_RunAnimations();
 };
 
 struct FUN_0087a6b0_shell
@@ -891,8 +891,8 @@ extern GlobalObject_0045cf30 g_011d73e4;
 void* __cdecl FUN_00713d80();
 void __fastcall FUN_0086fd70(void*);
 void __fastcall FUN_00991dc0(void*);
-void __cdecl FUN_005a9d60();
-void __cdecl FUN_005ae270();
+void __cdecl ScriptLocals_ClearOptimizations();
+void __cdecl Script_ClearOptimizations();
 bool __cdecl FUN_005c42d0();
 void __cdecl FUN_008c80d0();
 
@@ -907,7 +907,7 @@ void __cdecl FUN_008c7da0()
     reinterpret_cast<ProcessLists*>(&DAT_011e0e80)->FUN_0096cca0();
     reinterpret_cast<ProcessLists*>(&DAT_011e0e80)->FUN_0096cda0();
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80())->SignalThreadEvent(0, 2);
-    g_TES->FUN_00455640();
+    g_TES->TES_RunAnimations();
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80())->SignalThreadEvent(0, 3);
     FUN_00991dc0(BGSSaveLoadGlobalDataWorldspacePtr);
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80())->SignalThreadEvent(0, 4);
@@ -928,8 +928,8 @@ void __cdecl FUN_008c7da0()
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80())->SignalThreadEvent(0, 9);
     if (*g_011d73e4.Bool())
         NavMeshObstacleManager::GetSingleton()->Update();
-    FUN_005ae270();
-    FUN_005a9d60();
+    Script_ClearOptimizations();
+    ScriptLocals_ClearOptimizations();
     reinterpret_cast<FUN_008c79e0_shell*>(FUN_00713d80())->SignalThreadEvent(0, 11);
 }
 }  // namespace fnv_008c7da0

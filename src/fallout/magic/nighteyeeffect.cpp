@@ -45,7 +45,7 @@ void __fastcall FUN_00804cb0(void*, float);
 void UpdateImageSpaceEffectFromPlayerState();
 struct FUN_0082a670_shell
 {
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
 };
 struct BSThread
 {
@@ -58,13 +58,13 @@ struct VirtualObj
 };
 struct NightEyeEffect
 {
-    void FUN_00825810();
+    void NightEyeEffect_Start();
 };
 // @fnv 0x00825810
-void NightEyeEffect::FUN_00825810()
+void NightEyeEffect::NightEyeEffect_Start()
 {
     FUN_00804cb0(this, 1.0f);
-    ((FUN_0082a670_shell*)this)->FUN_0082c000();
+    ((FUN_0082a670_shell*)this)->ValueModifierEffect_Start();
     if (((VirtualObj*)((BSThread*)this)->GetThreadID())->f1() == g_thePlayer)
         UpdateImageSpaceEffectFromPlayerState();
 }
@@ -110,11 +110,11 @@ struct ActiveEffect
 void __cdecl UpdateImageSpaceEffectFromPlayerState();
 struct NightEyeEffect : ActiveEffect
 {
-    void FUN_00825920(Actor* apActor);
+    void NightEyeEffect_InitLoadGame(Actor* apActor);
 };
 // Calls ActiveEffect::InitLoadGame for apActor, then UpdateImageSpaceEffectFromPlayerState if apActor is the player.
 // @fnv 0x00825920
-void NightEyeEffect::FUN_00825920(Actor* apActor)
+void NightEyeEffect::NightEyeEffect_InitLoadGame(Actor* apActor)
 {
     ActiveEffect::InitLoadGame(apActor);
     if ((void*)apActor == (void*)g_thePlayer)
@@ -137,11 +137,11 @@ extern Actor* g_thePlayer;
 void __cdecl UpdateImageSpaceEffectFromPlayerState();
 struct FUN_00825950_shell : TESForm
 {
-    void FUN_00825950(Actor* apActor);
+    void NightEyeEffect_Revert(Actor* apActor);
 };
 // Reverts this form with apActor, and if a save/load check passes and apActor is the player, calls UpdateImageSpaceEffectFromPlayerState.
 // @fnv 0x00825950
-void FUN_00825950_shell::FUN_00825950(Actor* apActor)
+void FUN_00825950_shell::NightEyeEffect_Revert(Actor* apActor)
 {
     Revert(reinterpret_cast<unsigned int>(apActor));
     if (g_TESSaveLoadGame->FUN_0055f5b0() && apActor == g_thePlayer)

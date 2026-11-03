@@ -94,7 +94,7 @@ struct ProjectileData
 struct Projectile
 {
     ProjectileData* FUN_004181e0();
-    unsigned int FUN_00476c90();
+    unsigned int Sky_GetMode();
 };
 struct FUN_009bacb0
 {
@@ -113,7 +113,7 @@ FUN_009bacb0::FUN_009bacb0(Projectile* projectile, void* pContext) : first(0), s
     first = 0;
     second = 0;
     data = projectile ? projectile->FUN_004181e0() : 0;
-    handle = projectile ? projectile->FUN_00476c90() : 0;
+    handle = projectile ? projectile->Sky_GetMode() : 0;
     context = pContext;
     flagsA = 0;
     flagsB = 0;
@@ -139,7 +139,7 @@ struct S_009baf50_Obj
 };
 struct S_009baf50_Mgr
 {
-    S_009baf50_Obj* FUN_00447080(unsigned int, int, int, int, int, int);
+    S_009baf50_Obj* ModelLoader_LoadFile(unsigned int, int, int, int, int, int);
 };
 extern S_009baf50_Mgr* DAT_011c3b3c;
 struct S_009baf50_Vec
@@ -176,7 +176,7 @@ void FUN_009bacb0::UpdateNodePosition(void* arg)
     {
         if (item->FUN_0048cee0())
         {
-            S_009baf50_Obj* obj = DAT_011c3b3c->FUN_00447080(item->v5(), 0, 1, 0, 0, 0);
+            S_009baf50_Obj* obj = DAT_011c3b3c->ModelLoader_LoadFile(item->v5(), 0, 1, 0, 0, 0);
             if (obj)
             {
                 first = obj->FUN_00a5d680();
@@ -336,8 +336,8 @@ extern S_009bb080_Global DAT_011f2250;
 extern double DAT_01012060;
 extern float DAT_0101e2bc;
 float FUN_00716440();
-void __cdecl FUN_00578060(void*);
-void __cdecl FUN_00578170(void*);
+void __cdecl TESObjectREFR_AddMasterParticleAddonNodes(void*);
+void __cdecl TESObjectREFR_RemoveMasterParticleAddonNodes(void*);
 struct S_009bb080
 {
     unsigned char unk0, unk1, unk2, unk3;
@@ -359,12 +359,12 @@ void S_009bb080::FUN_009bb080(float afDeltaTime, S_009bb080_Base0* proj)
     unkc.FUN_00559450()->FUN_00450f90(unk0 == 0);
     if (unk0 && !unk1)
     {
-        FUN_00578060(unkc.FUN_00559450()->FUN_vfnc());
+        TESObjectREFR_AddMasterParticleAddonNodes(unkc.FUN_00559450()->FUN_vfnc());
         unk1 = 1;
     }
     if (!unk0 && unk1)
     {
-        FUN_00578170(unkc.FUN_00559450()->FUN_vfnc());
+        TESObjectREFR_RemoveMasterParticleAddonNodes(unkc.FUN_00559450()->FUN_vfnc());
         unk1 = 0;
     }
     if (unk2)
@@ -431,7 +431,7 @@ struct FUN_009611e0_shell
 };
 struct ObjCls
 {
-    NiTransform* FUN_00461130();
+    NiTransform* NiAVObject_GetWorldRotate();
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -491,7 +491,7 @@ struct ObjCls
 };
 struct NodeCls
 {
-    NiTransform* FUN_00461130();
+    NiTransform* NiAVObject_GetWorldRotate();
 };
 struct ParamCls
 {
@@ -774,7 +774,7 @@ struct NiPtrC
 };
 struct NodeSrc
 {
-    NodeCls* FUN_00525700(void*);
+    NodeCls* TESObjectWEAP_GetFireNode(void*);
 };
 struct HolderCls
 {
@@ -807,7 +807,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         apParam->v64()
             ? (NodeCls*)apParam->v131()
             : (((FUN_009611e0_shell*)this)->FUN_009611e0()
-                   ? (NodeCls*)((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())->FUN_00525700(apParam->v116())
+                   ? (NodeCls*)((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())->TESObjectWEAP_GetFireNode(apParam->v116())
                    : (NodeCls*)0);
     bool _flag = false;
     float fResultTmp = 0.0f;
@@ -828,13 +828,13 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
             NiTransform B;
             if (target2)
             {
-                B.m_rot = target2->FUN_00461130()->FUN_004768c0();
-                B.m_vScale = 1.0f / target2->FUN_00461130()->m_vScale;
-                B.m_trans = target2->FUN_00461130()->m_trans.FUN_004a0bd0();
+                B.m_rot = target2->NiAVObject_GetWorldRotate()->FUN_004768c0();
+                B.m_vScale = 1.0f / target2->NiAVObject_GetWorldRotate()->m_vScale;
+                B.m_trans = target2->NiAVObject_GetWorldRotate()->m_trans.FUN_004a0bd0();
                 B.m_trans = B.FUN_004b4500(&B.m_trans);
                 B.m_trans.FUN_00439180(B.m_vScale);
             }
-            A_2 = B.FUN_0062c250(node2->FUN_00461130());
+            A_2 = B.FUN_0062c250(node2->NiAVObject_GetWorldRotate());
             _flag = true;
             if (!DAT_011dea3c->FUN_00524d10())
             {
@@ -847,7 +847,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         else
         {
-            A_2 = *node2->FUN_00461130();
+            A_2 = *node2->NiAVObject_GetWorldRotate();
             HolderCls* holder6 = (HolderCls*)apParam->FUN_008d6f30();
             target2 = holder6->FUN_005497a0();
         }
@@ -1423,7 +1423,7 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
             {
                 if (!(item->v6b8() != 0 &&
                       ((FUN_00825c00_cls*)item->v6b8())->FUN_00825c00() == pProjectile->FUN_004181e0() &&
-                      ((FUN_009611e0_cls*)item->v6b8())->FUN_009611e0() == pProjectile->FUN_00476c90()))
+                      ((FUN_009611e0_cls*)item->v6b8())->FUN_009611e0() == pProjectile->Sky_GetMode()))
                 {
                     item->v6c4();
                     item->v6b4(pProjectile, pTarget);

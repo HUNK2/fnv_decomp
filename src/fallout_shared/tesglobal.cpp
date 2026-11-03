@@ -88,11 +88,11 @@ void* S_5a63c0::Destroy(unsigned int flags)
     return this;
 }
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -104,25 +104,25 @@ struct FUN_005a6460_standin
     unsigned char _b20;
     char _p1[3];
     float _f24;
-    void FUN_005a6460();
+    void TESGlobal_SaveForm();
 };
 // Calls M on this, then passes the byte at offset 0x20 and the float at offset 0x24 to FUN_004858f0 and _FUN_00485910, then calls M again.
 // @fnv 0x005a6460
-void FUN_005a6460_standin::FUN_005a6460()
+void FUN_005a6460_standin::TESGlobal_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     FUN_004858f0(0x4D414E46, _b20);
     _FUN_00485910(0x56544C46, _f24);
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct BSFaceGenModelMap
 {
-    bool FUN_00529ea0();
+    bool TESGlobal_GetType();
 };
 struct TESGlobalValueReader
 {
@@ -130,37 +130,37 @@ struct TESGlobalValueReader
 };
 struct FUN_005a65e0_shell : TESGlobal
 {
-    void FUN_005a65e0(TESForm* apCopy);
+    void TESGlobal_CopyFrom(TESForm* apCopy);
 };
 // @fnv 0x005a65e0
-void FUN_005a65e0_shell::FUN_005a65e0(TESForm* apCopy)
+void FUN_005a65e0_shell::TESGlobal_CopyFrom(TESForm* apCopy)
 {
     TESGlobal* pCopy = dynamic_cast<TESGlobal*>(apCopy);
     if (!pCopy)
         return;
-    reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(apCopy);
-    cType = reinterpret_cast<BSFaceGenModelMap*>(pCopy)->FUN_00529ea0();
+    reinterpret_cast<FUN_005e78f0_t*>(this)->TESForm_CopyAllComponents(apCopy);
+    cType = reinterpret_cast<BSFaceGenModelMap*>(pCopy)->TESGlobal_GetType();
     fValue = reinterpret_cast<TESGlobalValueReader*>(pCopy)->GetValue();
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_005a6640_shell : TESGlobal
 {
     bool IsNotEqual(TESForm* apCompare);
 };
-// Compares this global with apCompare: returns true if apCompare is not a TESGlobal or differs by FUN_00485270, FUN_00529ea0 or GetValue; false otherwise.
+// Compares this global with apCompare: returns true if apCompare is not a TESGlobal or differs by TESForm_CompareAllComponents, TESGlobal_GetType or GetValue; false otherwise.
 // @fnv 0x005a6640
 bool FUN_005a6640_shell::IsNotEqual(TESForm* apCompare)
 {
     TESGlobal* pComp = dynamic_cast<TESGlobal*>(apCompare);
     if (!pComp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pComp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pComp))
         return true;
-    if (((char)((BSFaceGenModelMap*)this)->FUN_00529ea0()) != ((char)((BSFaceGenModelMap*)pComp)->FUN_00529ea0()))
+    if (((char)((BSFaceGenModelMap*)this)->TESGlobal_GetType()) != ((char)((BSFaceGenModelMap*)pComp)->TESGlobal_GetType()))
         return true;
     if (((TESGlobalValueReader*)this)->GetValue() != ((TESGlobalValueReader*)pComp)->GetValue())
         return true;

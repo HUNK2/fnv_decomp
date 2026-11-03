@@ -1055,7 +1055,7 @@ struct Obj
     unsigned char f14;
 };
 // @fnv 0x00a48110
-void* FUN_00a48110()
+void* NiRotData_CreateObject()
 {
     Obj* p = (Obj*)BSFadeNode::operator new(0x18);
     if (p)
@@ -2237,12 +2237,12 @@ class NiStreamLoadStandIn
     char pad1e4[0x2dc];
     char m_acPath[0x104];
 
-    bool FUN_00a640b0(const char* name);
+    bool NiStream_Save(const char* name);
 };
 
 // Copies and standardizes the input file path, opens it read-only via NiFile::GetFile, and delegates to Load if the file is valid.
 // @fnv 0x00a640b0
-bool NiStreamLoadStandIn::FUN_00a640b0(const char* name)
+bool NiStreamLoadStandIn::NiStream_Save(const char* name)
 {
     strcpy_s(m_acInputFilePath, 0x104, name);
     _fnv_StandardizeFilePath(m_acInputFilePath);
@@ -5302,12 +5302,12 @@ struct NiStreamLs
     void LoadGroups();
     void Clear();
     void FUN_00a63d10();
-    bool FUN_00a65c60();
+    bool NiStream_LoadStream();
 };
 
 // Loads a NIF stream by reading the header, objects, and top-level links, then runs post-process functions and cleans up.
 // @fnv 0x00a65c60
-bool NiStreamLs::FUN_00a65c60()
+bool NiStreamLs::NiStream_LoadStream()
 {
     if (!LoadHeader())
         return false;
@@ -6280,12 +6280,12 @@ struct S_00a66480
         }
         return -1;
     }
-    bool FUN_00a66480(const S_00a66480_Str& str);
+    bool NiStream_RegisterFixedString(const S_00a66480_Str& str);
 };
 
 // Adds str to names if Find(str) returns -1, then returns true.
 // @fnv 0x00a66480
-bool S_00a66480::FUN_00a66480(const S_00a66480_Str& str)
+bool S_00a66480::NiStream_RegisterFixedString(const S_00a66480_Str& str)
 {
     if (Find(str) == -1)
         names.FUN_00a65f80(str);
@@ -6582,11 +6582,11 @@ struct NiStreamLoader
     unsigned int error;
     char errorMessage[260];
     void FUN_00a64d80(char*);
-    bool FUN_00a664e0();
+    bool NiStream_LoadObject();
 };
 // Looks up a class factory by name, creates and ref-counts a NiObject, adds it to topObjects, and calls load on it.
 // @fnv 0x00a664e0
-bool NiStreamLoader::FUN_00a664e0()
+bool NiStreamLoader::NiStream_LoadObject()
 {
     char className[256];
     union Creation
@@ -6852,7 +6852,7 @@ struct NiMemObject
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a66850_shell : public NiStream
 {
-    bool FUN_00a66850();
+    bool NiStream_SaveStream();
 };
 
 class TESForm;
@@ -6970,7 +6970,7 @@ struct VStream
 
 // Registers save objects, writes the header and each object's binary data, records per-object sizes, then back-patches and clears the object lists.
 // @fnv 0x00a66850
-bool FUN_00a66850_shell::FUN_00a66850()
+bool FUN_00a66850_shell::NiStream_SaveStream()
 {
     VStream* pkThis = (VStream*)this;
     pkThis->RegisterSaveObjects();
@@ -7358,13 +7358,13 @@ struct FUN_00c89860_cls
     virtual void vb0();
     virtual ObjBase* Resolve(int* apOut);
 
-    void FUN_00c87670(Stream* apStream);
-    void FUN_00c89860(Stream* apStream);
+    void bhkSerializable_LinkObject(Stream* apStream);
+    void bhkConstraint_LinkObject(Stream* apStream);
 };
 
-// Reads two Thing values from apStream, resolves a Derived object, and stores the values into m_iFirst and m_iSecond before calling FUN_00c87670.
+// Reads two Thing values from apStream, resolves a Derived object, and stores the values into m_iFirst and m_iSecond before calling bhkSerializable_LinkObject.
 // @fnv 0x00c89860
-void FUN_00c89860_cls::FUN_00c89860(Stream* apStream)
+void FUN_00c89860_cls::bhkConstraint_LinkObject(Stream* apStream)
 {
     apStream->FUN_00a63460();
     Thing* pFirst = apStream->FUN_00a63430();
@@ -7379,7 +7379,7 @@ void FUN_00c89860_cls::FUN_00c89860(Stream* apStream)
         pObject->m_iSecond = (pSecond != 0) ? pSecond->m_iValue : 0;
     }
 
-    FUN_00c87670(apStream);
+    bhkSerializable_LinkObject(apStream);
 }
 
 struct S_00ca76b0_Obj
@@ -7514,13 +7514,13 @@ struct S_00ca76b0_Cls
     virtual void vfn_ac();
     virtual void vfn_b0();
     virtual S_00ca76b0_Holder* vfn_b4(char* flag);
-    void FUN_00c84cc0(S_00ca76b0_Stream* s);
-    void FUN_00ca76b0(S_00ca76b0_Stream* s);
+    void bhkShape_LinkObject(S_00ca76b0_Stream* s);
+    void bhkNiTriStripsShape_LinkObject(S_00ca76b0_Stream* s);
 };
 
-// Reads a count and objects from s, conditionally prepares the holder array, fills entries, and calls FUN_00c84cc0.
+// Reads a count and objects from s, conditionally prepares the holder array, fills entries, and calls bhkShape_LinkObject.
 // @fnv 0x00ca76b0
-void S_00ca76b0_Cls::FUN_00ca76b0(S_00ca76b0_Stream* apStream)
+void S_00ca76b0_Cls::bhkNiTriStripsShape_LinkObject(S_00ca76b0_Stream* apStream)
 {
     char flag;
     S_00ca76b0_Holder* h = vfn_b4(&flag);
@@ -7550,7 +7550,7 @@ void S_00ca76b0_Cls::FUN_00ca76b0(S_00ca76b0_Stream* apStream)
                 InterlockedIncrement(&o->m_rc);
         }
     }
-    FUN_00c84cc0(apStream);
+    bhkShape_LinkObject(apStream);
 }
 
 extern __declspec(thread) unsigned int g_uiHeapContext;
@@ -7654,16 +7654,16 @@ struct S_00cc4870
     virtual void vfn_ac();
     virtual void vfn_b0();
     virtual void vfn_b4(char* out);
-    void FUN_00c89860(S_00cc4870_Stream* stream);
+    void bhkConstraint_LinkObject(S_00cc4870_Stream* stream);
     void FUN_00cc4870(S_00cc4870_Stream* stream);
 };
-// Calls vfn_b4 and FUN_00c89860, then calls FUN_00a63460 once and FUN_00a63430 twice.
+// Calls vfn_b4 and bhkConstraint_LinkObject, then calls FUN_00a63460 once and FUN_00a63430 twice.
 // @fnv 0x00cc4870
 void S_00cc4870::FUN_00cc4870(S_00cc4870_Stream* stream)
 {
     char tmp;
     vfn_b4(&tmp);
-    FUN_00c89860(stream);
+    bhkConstraint_LinkObject(stream);
     stream->FUN_00a63460();
     stream->FUN_00a63430();
     stream->FUN_00a63430();

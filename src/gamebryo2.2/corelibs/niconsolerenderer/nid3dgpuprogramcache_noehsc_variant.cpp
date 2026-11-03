@@ -12,7 +12,7 @@ extern MemoryManager g_memoryManager;
 void FUN_00a644a0(char** p);
 const char* __cdecl FUN_00e8dd60();
 extern "C" void* g_01270920;
-void* __cdecl FUN_00e8ea10();
+void* __cdecl NiGPUProgramCache_GetRTTI();
 struct RefCounted
 {
     virtual void f0();

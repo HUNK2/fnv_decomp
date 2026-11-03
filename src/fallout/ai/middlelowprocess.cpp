@@ -235,7 +235,7 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eaa0_shell : public MiddleLowProcess
 {
-    void FUN_0092eaa0(BGSLoadFormBuffer*);
+    void MiddleLowProcess_LoadGameBGS(BGSLoadFormBuffer*);
 };
 
 struct BGSChangeFlagsCall
@@ -260,7 +260,7 @@ struct ModifierListCall
 };
 
 // @fnv 0x0092eaa0
-void FUN_0092eaa0_shell::FUN_0092eaa0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_0092eaa0_shell::MiddleLowProcess_LoadGameBGS(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<LowProcessCall*>(this)->LoadGame(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData(reinterpret_cast<void*>(&m_iValueB4), 4);
@@ -360,7 +360,7 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eb00_shell : public MiddleLowProcess
 {
-    void FUN_0092eb00(BGSLoadFormBuffer*);
+    void MiddleLowProcess_RevertBGS(BGSLoadFormBuffer*);
 };
 
 struct BGSChangeFlags_helper
@@ -385,7 +385,7 @@ struct ModifierList_helper
 };
 
 // @fnv 0x0092eb00
-void FUN_0092eb00_shell::FUN_0092eb00(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_0092eb00_shell::MiddleLowProcess_RevertBGS(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<LowProcess_helper*>(this)->Revert(apLoadGameBuffer);
     if (reinterpret_cast<BGSLoadFormBuffer_helper*>(apLoadGameBuffer)->GetOldChangeFlags(0x100000))
@@ -475,10 +475,10 @@ struct FUN_0092cf10_shell
 {
     char _pad[0xB8];
     ML_0092ce00 _m;
-    float FUN_0092cf10(char);
+    float MiddleLowProcess_GetTemporaryModifier(char);
 };
 // @fnv 0x0092cf10
-float FUN_0092cf10_shell::FUN_0092cf10(char aWhich)
+float FUN_0092cf10_shell::MiddleLowProcess_GetTemporaryModifier(char aWhich)
 {
     return _m.GetActorValueModifierAmount(aWhich);
 }
@@ -486,7 +486,7 @@ float FUN_0092cf10_shell::FUN_0092cf10(char aWhich)
 
 struct LowHolder
 {
-    void FUN_0090c360(void*, float);
+    void LowProcess_Update(void*, float);
 };
 struct Holder
 {
@@ -495,7 +495,7 @@ struct Holder
 // @fnv 0x0092e400
 void Holder::FUN_0092e400(void* a, float afValue)
 {
-    ((LowHolder*)this)->FUN_0090c360(a, afValue);
+    ((LowHolder*)this)->LowProcess_Update(a, afValue);
 }
 
 struct FUN_00910310_shell
@@ -508,10 +508,10 @@ struct FUN_00937b30_shell
 };
 struct FUN_0092e9f0_shell
 {
-    void FUN_0092e9f0(unsigned int, class MobileObject*);
+    void MiddleLowProcess_RevertTES(unsigned int, class MobileObject*);
 };
 // @fnv 0x0092e9f0
-void FUN_0092e9f0_shell::FUN_0092e9f0(unsigned int aiFlags, class MobileObject* pmob)
+void FUN_0092e9f0_shell::MiddleLowProcess_RevertTES(unsigned int aiFlags, class MobileObject* pmob)
 {
     ((FUN_00910310_shell*)this)->ResetAndClear(aiFlags, pmob);
     if (aiFlags & 0x100000)
@@ -611,11 +611,11 @@ struct ModHack
 
 struct FUN_0092cf30_shell
 {
-    void FUN_0092cf30(Actor* apActor, int aiWhich, float afValue);
+    void MiddleLowProcess_DamageModActorValue(Actor* apActor, int aiWhich, float afValue);
 };
 
 // @fnv 0x0092cf30
-void FUN_0092cf30_shell::FUN_0092cf30(Actor* apActor, int aiWhich, float afValue)
+void FUN_0092cf30_shell::MiddleLowProcess_DamageModActorValue(Actor* apActor, int aiWhich, float afValue)
 {
     if (P09AV::GetFlag(aiWhich, 0x100))
         return;
@@ -656,7 +656,7 @@ TESForm* _GetFormByNumericID(unsigned int);
 
 struct FUN_0092e420_shell
 {
-    unsigned short FUN_0090f8b0(unsigned int, int);
+    unsigned short LowProcess_GetSaveSize(unsigned int, int);
 
     struct SaveSizePart
     {
@@ -666,18 +666,18 @@ struct FUN_0092e420_shell
     unsigned char pad[0xb8];
     SaveSizePart saveSizePart;
 
-    unsigned short FUN_0092e420(unsigned int, int);
+    unsigned short MiddleLowProcess_GetSaveSize(unsigned int, int);
 };
 
 // @fnv 0x0092e420
-unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
+unsigned short FUN_0092e420_shell::MiddleLowProcess_GetSaveSize(unsigned int flags, int value)
 {
     unsigned short usSize = 0;
     unsigned short usInitialSize;
     HitSoundData_0092e420* hitSound;
     TESForm* form;
 
-    usSize += this->FUN_0090f8b0(flags, value);
+    usSize += this->LowProcess_GetSaveSize(flags, value);
     usInitialSize = usSize;
 
     if (DAT_011de45c->FUN_00862110())
@@ -932,7 +932,7 @@ struct MiddleLowProcess_92e560 : LowProcessBase_92e560
     int unkB4;
     SaveSizePart_92e560 unkB8;
 
-    void FUN_0092e560(unsigned int auiFlags, int aiArg);
+    void MiddleLowProcess_SaveGameTES(unsigned int auiFlags, int aiArg);
 };
 
 extern SaveLoadGame_92e560* g_TESSaveLoadGame;
@@ -942,7 +942,7 @@ void __cdecl DebugPrintf_92e560(const char* apFmt, ...);
 void __cdecl SaveWarning_92e560(const char* apFmt, ...);
 
 // @fnv 0x0092e560
-void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, int aiArg)
+void MiddleLowProcess_92e560::MiddleLowProcess_SaveGameTES(unsigned int auiFlags, int aiArg)
 {
     LowProcessBase_92e560::SaveGame(auiFlags, aiArg);
     unsigned short usBlockSize = 0;
@@ -1005,14 +1005,14 @@ struct FUN_0092ea30_shell : public LowProcess
 {
     int m_iValueB4;
     TemporaryModifiers_shell m_kProcessModifierList;
-    void FUN_00910450(FUN_00865e50_shell* a);
+    void LowProcess_SaveGameBGS(FUN_00865e50_shell* a);
     void LoadFromStream(FUN_00865e50_shell* a);
 };
 // @fnv 0x0092ea30
 void FUN_0092ea30_shell::LoadFromStream(FUN_00865e50_shell* a)
 {
     unsigned int flags;
-    FUN_00910450(a);
+    LowProcess_SaveGameBGS(a);
     a->FUN_00865e50(&m_iValueB4, 4, 0);
     if (a->FUN_00428110(&flags)->Test(0x100000))
     {
@@ -1126,26 +1126,26 @@ struct Save92
 };
 struct Base92
 {
-    void FUN_0090fd80(unsigned, unsigned, unsigned);
+    void LowProcess_LoadGameTES(unsigned, unsigned, unsigned);
 };
 struct Sub92
 {
     void LoadModifiers();
 };
-Virtual92* __cdecl FUN_004839c0(unsigned);
+Virtual92* __cdecl TESForm_GetFormByNumericID(unsigned);
 void __cdecl FUN_005b5e40(const char*, ...);
 struct Target92
 {
     char pad[0xb4];
     unsigned field;
     Sub92 sub;
-    void FUN_0092e730(unsigned, unsigned, unsigned);
+    void MiddleLowProcess_LoadGameTES(unsigned, unsigned, unsigned);
 };
 // Calls the base handler, reads a 4-byte field from the save stream, logs a mismatch record, and compares stream position against a stored offset.
 // @fnv 0x0092e730
-void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
+void Target92::MiddleLowProcess_LoadGameTES(unsigned flags, unsigned arg2, unsigned arg3)
 {
-    ((Base92*)this)->FUN_0090fd80(flags, arg2, arg3);
+    ((Base92*)this)->LowProcess_LoadGameTES(flags, arg2, arg3);
     unsigned short a = 0;
     unsigned b = 0;
     if ((*(Save92**)&DAT_011de45c)->FUN_00862110())
@@ -1157,7 +1157,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
             Record92* pRecord = (*(Save92**)&DAT_011de45c)->FUN_004fd3c0();
             if (pRecord)
             {
-                Virtual92* pVirtual = FUN_004839c0(pRecord->id);
+                Virtual92* pVirtual = TESForm_GetFormByNumericID(pRecord->id);
                 FUN_005b5e40(&DAT_01015718, &DAT_0108a3f0, 0x287, pRecord->id, pVirtual->v76(), pRecord->kind,
                              *(unsigned*)pRecord->value);
             }
@@ -1178,7 +1178,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
         Record92* pRecord2 = (*(Save92**)&DAT_011de45c)->FUN_004fd3c0();
         if (pRecord2)
         {
-            Virtual92* pVirtual2 = FUN_004839c0(pRecord2->id);
+            Virtual92* pVirtual2 = TESForm_GetFormByNumericID(pRecord2->id);
             if (uiNewPos > b + a)
             {
                 FUN_005b5e40(&DAT_01015588, uiNewPos - (b + a), &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->v76(),
@@ -1207,7 +1207,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
 }
 }  // namespace fnv_0092e730
 
-bool FUN_00406d70(int aiValue, int aiFlag);
+bool ActorValue_GetFlag(int aiValue, int aiFlag);
 
 struct Sub0092cec0
 {
@@ -1264,14 +1264,14 @@ struct Owner0092cec0
     int unkB4;
     Sub0092cec0 unkB8;
 
-    void FUN_0092cec0(int aiUnused, int aiIndex, float afValue);
+    void MiddleLowProcess_TempModActorValueF(int aiUnused, int aiIndex, float afValue);
 };
 
-// Returns when FUN_00406d70(aiIndex, 0x100) is true; otherwise calls unkB8.FUN_00937480(aiIndex, afValue, 2).
+// Returns when ActorValue_GetFlag(aiIndex, 0x100) is true; otherwise calls unkB8.FUN_00937480(aiIndex, afValue, 2).
 // @fnv 0x0092cec0
-void Owner0092cec0::FUN_0092cec0(int aiUnused, int aiIndex, float afValue)
+void Owner0092cec0::MiddleLowProcess_TempModActorValueF(int aiUnused, int aiIndex, float afValue)
 {
-    if (FUN_00406d70(aiIndex, 0x100))
+    if (ActorValue_GetFlag(aiIndex, 0x100))
         return;
     unkB8.FUN_00937480(aiIndex, afValue, 2);
 }
@@ -2011,14 +2011,14 @@ extern FloatSetting DAT_011cdbac;
 extern FloatSetting DAT_011cd82c;
 extern int DAT_0119bcb0[];
 
-Spell* FUN_004839c0(int id);
+Spell* TESForm_GetFormByNumericID(int id);
 void FUN_0090d480();
 void FUN_0090d570();
 Ref* FUN_00703180();
 const char* FUN_00464f30(int a, int b);
 int FUN_00ec623a(char* buf, const char* fmt, ...);
 void FUN_00703c00(const char* s);
-void FUN_005ac750(Pkg* p, int a, int b);
+void Script_SetActionFlag(Pkg* p, int a, int b);
 
 struct ProcStandIn
 {
@@ -2609,7 +2609,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     }
                     if (!GetAssignedPackage()->CheckA(pActor, 0, DAT_01012054, 0) && pActor->IsBusy())
                     {
-                        Spell* m_pEffectInstance = FUN_004839c0(0x3a);
+                        Spell* m_pEffectInstance = TESForm_GetFormByNumericID(0x3a);
                         float fNowVal = DAT_011de7b8.GetGameTime();
                         if (fNowVal < GetTime())
                         {
@@ -2836,7 +2836,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                 {
                     if (!Is5a4())
                     {
-                        FUN_005ac750(GetAssignedPackage(), pActor->GetFlags(), 0x400);
+                        Script_SetActionFlag(GetAssignedPackage(), pActor->GetFlags(), 0x400);
                         Do5a0(pActor, GetAssignedPackage());
                         Set5a8(1);
                     }

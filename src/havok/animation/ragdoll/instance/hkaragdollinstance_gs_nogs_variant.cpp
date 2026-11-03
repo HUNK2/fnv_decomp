@@ -281,7 +281,7 @@ class hkaRagdollInstanceR : public hkReferencedObjectR
     hkaRagdollInstanceR(const hkArrayR<hkpRigidBodyR*>& kRigidBodies,
                         const hkArrayR<hkpConstraintInstanceR*>& kConstraints, const hkaSkeletonR* pkSkeleton,
                         const hkArrayR<int>& kBoneToRigidBodyMap) throw();
-    hkaRagdollInstanceR* FUN_00ce2730(int eMode) const throw();
+    hkaRagdollInstanceR* hkaRagdollInstance_clone(int eMode) const throw();
     const hkaSkeletonR* getSkeleton() const
     {
         return m_pSkeleton;

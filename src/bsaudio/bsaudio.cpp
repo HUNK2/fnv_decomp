@@ -285,7 +285,7 @@ struct Tile
 {
     void Set(int, float, bool);
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_Instance();
 extern int DAT_011da9a4;
 // If DAT_011da9a4 is set, stores 7 at offset 0x28 and calls Set(0xfa9, 255.0f, true) on the next TESResponse tile.
 // @fnv 0x007c2420
@@ -294,7 +294,7 @@ void FUN_007c2420()
     if (DAT_011da9a4)
     {
         *(int*)(DAT_011da9a4 + 0x28) = 7;
-        ((Tile*)((TESResponse*)FUN_004b7210())->GetNext())->Set(0xfa9, 255.0f, true);
+        ((Tile*)((TESResponse*)InterfaceManager_Instance())->GetNext())->Set(0xfa9, 255.0f, true);
     }
 }
 
@@ -346,11 +346,11 @@ struct FUN_00ad7150_shell
     {
         return bActive;
     }
-    void FUN_00ad7150();
+    void BSAudio_Shutdown();
 };
 // If the object is active, optionally calls FUN_00ada0f0, clears bFlag5 and calls FUN_00ad9870, all under an AudioThreadModeScope.
 // @fnv 0x00ad7150
-void FUN_00ad7150_shell::FUN_00ad7150()
+void FUN_00ad7150_shell::BSAudio_Shutdown()
 {
     AudioThreadModeScope scope;
     if (IsActive())

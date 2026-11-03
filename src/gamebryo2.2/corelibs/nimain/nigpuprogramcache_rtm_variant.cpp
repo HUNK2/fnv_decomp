@@ -285,7 +285,7 @@ struct S_00ee97e0_Elem
     int FUN_00be0ad0();
     int FUN_00aa1ac0();
     int FUN_00dbbc00();
-    int FUN_00eea530();
+    int NiD3DShader_GetShaderDecl();
 };
 struct S_00ee97e0_Obj
 {
@@ -938,7 +938,7 @@ struct ShaderEntry : RefObjBase
     void FUN_00eea690(const FixedStr& s);
     void FUN_00eea6d0(const FixedStr& s);
     void AssignRefCounted(const FixedStr& s);
-    void FUN_00eea540(unsigned int v);
+    void NiD3DShaderProgram_SetCreator(unsigned int v);
     void FUN_00eea550(unsigned int v);
     void FUN_00eea560(unsigned int v);
     void FUN_00eea570(unsigned int v);
@@ -1163,7 +1163,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             ReleaseStr(t5);
             unsigned int v;
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea540(v);
+            e->NiD3DShaderProgram_SetCreator(v);
             ReadRaw(s, &v, 4, 4);
             e->FUN_00eea550(v);
             ReadRaw(s, &v, 4, 4);

@@ -28,12 +28,12 @@ void* __fastcall InitVTableAndFields(void* pThis)
 
 struct FUN_004f15c0_shell : public TESRegionData
 {
-    bool FUN_004f15c0(unsigned char);
+    bool TESRegionData_SetPriority(unsigned char);
 };
 
 // Stores acPriority at offset 6 of this object and returns true when acPriority is at most 100, otherwise returns false.
 // @fnv 0x004f15c0
-bool FUN_004f15c0_shell::FUN_004f15c0(unsigned char acPriority)
+bool FUN_004f15c0_shell::TESRegionData_SetPriority(unsigned char acPriority)
 {
     if (acPriority <= 100)
     {

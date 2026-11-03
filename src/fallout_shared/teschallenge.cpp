@@ -373,7 +373,7 @@ FUN_005f4e00::FUN_005f4e00()
 
 struct FUN_00484bf0_shell
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int aiFlags);
+    unsigned short __thiscall TESForm_GetSaveSize(unsigned int aiFlags);
 };
 
 struct FUN_005a7770_shell
@@ -385,7 +385,7 @@ struct FUN_005a7770_shell
 unsigned short __thiscall FUN_005a7770_shell::FUN_005a7770(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += ((FUN_00484bf0_shell*)this)->FUN_00484bf0(aiFlags);
+    isize += ((FUN_00484bf0_shell*)this)->TESForm_GetSaveSize(aiFlags);
     return isize;
 }
 
@@ -402,7 +402,7 @@ void FUN_005f5820_shell::ClearField6C()
 
 struct FUN_0051b070_shell
 {
-    void __thiscall FUN_00484c20(unsigned int aiFlags);
+    void __thiscall TESForm_SaveGame(unsigned int aiFlags);
 };
 
 struct FUN_0059adb0_shell
@@ -413,12 +413,12 @@ struct FUN_0059adb0_shell
 // @fnv 0x0059adb0
 void __thiscall FUN_0059adb0_shell::FUN_0059adb0(unsigned int aiFlags)
 {
-    ((FUN_0051b070_shell*)this)->FUN_00484c20(aiFlags);
+    ((FUN_0051b070_shell*)this)->TESForm_SaveGame(aiFlags);
 }
 
 struct TESFormStub
 {
-    void __thiscall FUN_00484c50(unsigned int, unsigned int);
+    void __thiscall TESForm_LoadGame2(unsigned int, unsigned int);
 };
 
 struct FUN_00616640_shell : public TESFormStub
@@ -429,7 +429,7 @@ struct FUN_00616640_shell : public TESFormStub
 // @fnv 0x00616640
 void __thiscall FUN_00616640_shell::FUN_00616640(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    this->FUN_00484c50(aiFlags, aiCurrentFlags);
+    this->TESForm_LoadGame2(aiFlags, aiCurrentFlags);
 }
 
 struct TESQuest
@@ -439,7 +439,7 @@ struct TESQuest
 
 struct FUN_005e79a0_t
 {
-    bool __thiscall FUN_00485270(TESForm* apForm);
+    bool __thiscall TESForm_CompareAllComponents(TESForm* apForm);
 };
 
 extern "C" int _memcmp(const void*, const void*, unsigned int);
@@ -462,7 +462,7 @@ bool __thiscall FUN_005f56b0_shell::IsNotEqual(TESForm* apCompare)
         return true;
     if (((TESChallenge*)this)->GetFormOne() != pcomp->GetFormOne())
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     return false;
 }
@@ -485,25 +485,25 @@ void* __thiscall FUN_005f4ee0_shell::FUN_005f4ee0(unsigned int flags)
 
 bool __cdecl FUN_00401500();
 void __cdecl FUN_00485910(unsigned int, unsigned int);
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
 struct S_00487010
 {
-    void __thiscall FUN_00487010();
+    void __thiscall TESFullName_Save();
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall TESScriptableForm_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
 struct FUN_0048e370_obj
 {
-    void __thiscall FUN_0048e370(unsigned int);
+    void __thiscall TESTexture_Save(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -511,9 +511,9 @@ struct FUN_0047a240_shell
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
+    void __thiscall TESForm___SaveData(int, int);
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
@@ -524,15 +524,15 @@ struct FUN_005f5540_shell
 // @fnv 0x005f5540
 void __thiscall FUN_005f5540_shell::Initialize()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    ((FUN_0048e370_obj*)((char*)this + 0x38))->FUN_0048e370(0x4e4f4349);
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
+    ((FUN_0048e370_obj*)((char*)this + 0x38))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x44))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x2c))->FUN_0048cca0();
-    ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
+    ((S_0048cca0*)((char*)this + 0x2c))->TESScriptableForm_Save();
+    ((FUN_00482cb0_shell*)((char*)this + 0x24))->TESDescription_Save();
     if (FUN_00401500())
         ((ChallengeData*)((char*)this + 0x54))->SwapEndianFields();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x54), 0x18);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x54), 0x18);
     if (FUN_00401500())
         ((ChallengeData*)((char*)this + 0x54))->SwapEndianFields();
     if (*(unsigned int*)((char*)this + 0x74))
@@ -545,12 +545,12 @@ void __thiscall FUN_005f5540_shell::Initialize()
         unsigned int v2 = ((TESForm**)((char*)this + 0x78))[0]->GetFormID();
         FUN_00485910(0x4d414e58, v2);
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm* apForm);
+    void __thiscall TESForm_CopyAllComponents(TESForm* apForm);
 };
 
 void* __cdecl memcpy(void* dest, const void* src, unsigned int size);
@@ -560,7 +560,7 @@ struct FUN_005f5630_shell
     void __thiscall CopyFromChallenge(TESForm* apCopy);
 };
 
-// Copies the TESChallenge data block and both forms from apCopy into this challenge, then calls FUN_004851b0 with apCopy.
+// Copies the TESChallenge data block and both forms from apCopy into this challenge, then calls TESForm_CopyAllComponents with apCopy.
 // @fnv 0x005f5630
 void __thiscall FUN_005f5630_shell::CopyFromChallenge(TESForm* apCopy)
 {
@@ -570,7 +570,7 @@ void __thiscall FUN_005f5630_shell::CopyFromChallenge(TESForm* apCopy)
     memcpy(&((TESChallenge*)this)->data, &challenge->data, sizeof(ChallengeData));
     ((TESChallenge*)this)->SetFormOne(challenge->GetFormOne());
     ((TESChallenge*)this)->SetFormTwo(challenge->GetFormTwo());
-    ((FUN_005e78f0_t*)((TESChallenge*)this))->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)((TESChallenge*)this))->TESForm_CopyAllComponents(apCopy);
 }
 
 struct BGSSaveFormBuffer
@@ -583,11 +583,11 @@ struct FUN_00484d60_holder
 };
 struct FUN_005f5780_holder
 {
-    void __thiscall FUN_005f5780(BGSSaveFormBuffer*);
+    void __thiscall TESChallenge_AppendSaveLoadFormBuffer(BGSSaveFormBuffer*);
 };
 // Calls the base save routine, then writes the 4-byte values at offsets 0x6C and 0x70 into the save buffer.
 // @fnv 0x005f5780
-void __thiscall FUN_005f5780_holder::FUN_005f5780(BGSSaveFormBuffer* apBuffer)
+void __thiscall FUN_005f5780_holder::TESChallenge_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* apBuffer)
 {
     ((FUN_00484d60_holder*)this)->SaveIfChanged(apBuffer);
     apBuffer->SaveData((char*)this + 0x6C, 4, 0);

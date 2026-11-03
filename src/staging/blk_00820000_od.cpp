@@ -1882,7 +1882,7 @@ FUN_0082f6c0::~FUN_0082f6c0()
 
 extern unsigned int DAT_011dd1f4;
 
-void __cdecl FUN_00401030(unsigned int p);
+void __cdecl FormHeap_Free(unsigned int p);
 
 struct FUN_0082f9c0_obj
 {
@@ -1905,7 +1905,7 @@ void __cdecl FUN_0082f9c0()
         }
         else
         {
-            FUN_00401030(c7 - 4);
+            FormHeap_Free(c7 - 4);
             r_2 = 0;
         }
         s = r_2;
@@ -1980,7 +1980,7 @@ struct TESSoundShell
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
+    TESSound* __thiscall TESObjectWEAP_GetAttackSound(bool v);
     void* __thiscall GetPointerByFlag(bool v);
     TESSound* __thiscall GetValueByFlag(bool v);
 };
@@ -2311,7 +2311,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         {
             jvec = *((ListObj*)apSource->VCall1d0())->FUN_0045bb80();
         }
-        if (apWeapon->FUN_005215a0(b83d) != 0)
+        if (apWeapon->TESObjectWEAP_GetAttackSound(b83d) != 0)
         {
             TESSound* sndA = 0;
             TESSound* sndB = 0;
@@ -2321,7 +2321,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
             }
             else
             {
-                sndA = apWeapon->FUN_005215a0(b83d);
+                sndA = apWeapon->TESObjectWEAP_GetAttackSound(b83d);
                 sndB = apWeapon->GetValueByFlag(b83d);
             }
             bool a86 = FUN_0082eca0(sndA, jvec, yf50);
@@ -4054,7 +4054,7 @@ class FUN_00822920 : public FUN_0081dd00
   public:
     FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, NiPoint3_8229 kPoint1, NiPoint3_8229 kPoint2);
     virtual ~FUN_00822920();
-    void FUN_00930c70();
+    void MobileObject_InitHavok();
 };
 
 // @fnv 0x00822920
@@ -4062,7 +4062,7 @@ FUN_00822920::FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, N
                            NiPoint3_8229 kPoint2)
     : FUN_0081dd00(iParam1, iParam2, iParam3, iParam4, kPoint1, kPoint2)
 {
-    FUN_00930c70();
+    MobileObject_InitHavok();
 }
 
 class List8321E0

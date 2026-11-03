@@ -47,7 +47,7 @@ struct bhkCollisionObject
 };
 struct bhkRigidBody_shell
 {
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
     void* FUN_00560d80();
     void FUN_00561690(void*);
 };
@@ -58,7 +58,7 @@ struct FNV_ALIGN(16) bhkUnaryAction
     char buf[16];
     bhkUnaryAction();
     void Set(float, float, float, float);
-    void FUN_00553f70(void*);
+    void hkVector4_add4(void*);
 };
 struct Vec3Arg
 {
@@ -90,14 +90,14 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
             bhkRigidBody_shell* e = (bhkRigidBody_shell*)j->FUN_006fa820();
             if (e)
             {
-                int c = e->FUN_00517630();
+                int c = e->bhkRigidBody_GetMotionType();
                 if (FUN_00c8cce0(&c))
                 {
                     bhkUnaryAction l;
                     l.Set(*apVec->FUN_00560d30(0), *apVec->FUN_00560d30(1), *apVec->FUN_00560d30(2), 0.0f);
                     if (!abFlag)
                     {
-                        l.FUN_00553f70(e->FUN_00560d80());
+                        l.hkVector4_add4(e->FUN_00560d80());
                     }
                     e->FUN_00561690(&l);
                 }
@@ -125,7 +125,7 @@ unsigned int xFUN_005dbe10();
 struct xDH;
 struct xCinfoSub
 {
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
     void FUN_009ae4a0(xDH*);
     int m_q[12];
 };
@@ -212,7 +212,7 @@ struct xPtr
 };
 struct xDHOwner
 {
-    xDH* FUN_00461130();
+    xDH* NiAVObject_GetWorldRotate();
 };
 struct xRef
 {
@@ -337,11 +337,11 @@ struct xRef
     xPtr m_a0;
     xCell* FUN_008d6f30();
     float FUN_00644930();
-    void FUN_009ae280();
+    void Explosion_InitHavok();
 };
 
 // @fnv 0x009ae280
-void xRef::FUN_009ae280()
+void xRef::Explosion_InitHavok()
 {
     if (m_a0 == 0 && FUN_008d6f30() && xFUN_004543c0(FUN_008d6f30()))
     {
@@ -350,9 +350,9 @@ void xRef::FUN_009ae280()
         CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
         CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).FUN_00559450();
         if (FUN_1d0())
-            CINFO.m_20.FUN_009ae4a0(FUN_1d0()->FUN_00461130());
+            CINFO.m_20.FUN_009ae4a0(FUN_1d0()->NiAVObject_GetWorldRotate());
         else
-            CINFO.m_20.FUN_0056e120();
+            CINFO.m_20.bhkTransform_setIdentity();
         m_a0.FUN_0066b0d0(new xBody(&CINFO));
         m_a0->FUN_9c(xFUN_004543c0(FUN_008d6f30()));
     }
@@ -1519,7 +1519,7 @@ class Actor9BE
     bool IsFlagSet(int iFlag);
     Base9BE* GetBaseObject();
     Target9BE* GetOwner();
-    void FUN_009be0a0();
+    void Projectile_InitHavok();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -1612,7 +1612,7 @@ void __cdecl FUN_00c69ee0(Node9BE* pkNode, int iA, int iB);
 void __cdecl FUN_00c69f50(Node9BE* pkNode, int iA, int iB);
 
 // @fnv 0x009be0a0
-void Actor9BE::FUN_009be0a0()
+void Actor9BE::Projectile_InitHavok()
 {
     Node9BE* pkNode = Get3D();
     if (!pkNode || !m_pkProcess || m_pkProcess->IsDead())

@@ -6,13 +6,13 @@
 
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char __thiscall BSMultiBoundRoom_IsEqual(void* arg);
     char __thiscall IsSameAs(void* arg);
 };
 
 // Calls IsSameAs with arg and returns its result unchanged.
 // @fnv 0x00c3a090
-char __thiscall FUN_00c3a090_Class::FUN_00c3a090(void* arg)
+char __thiscall FUN_00c3a090_Class::BSMultiBoundRoom_IsEqual(void* arg)
 {
     char result = IsSameAs(arg);
     return result;
@@ -22,11 +22,11 @@ extern "C" void* g_01202828;
 
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* __thiscall BSMultiBoundRoom_GetRTTI();
 };
 
 // @fnv 0x00c3a610
-void* __thiscall FUN_00c3a610_Class::FUN_00c3a610()
+void* __thiscall FUN_00c3a610_Class::BSMultiBoundRoom_GetRTTI()
 {
     return &g_01202828;
 }
@@ -86,11 +86,11 @@ extern "C" void* g_012043e4;
 
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* __thiscall BSNodeReferences_GetRTTI();
 };
 
 // @fnv 0x00c3ba70
-void* __thiscall FUN_00c3ba70_Class::FUN_00c3ba70()
+void* __thiscall FUN_00c3ba70_Class::BSNodeReferences_GetRTTI()
 {
     return &g_012043e4;
 }
@@ -211,11 +211,11 @@ int FUN_00c35980_Class::FUN_00c35980()
 
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* __thiscall BSMultiBoundRoom_CreateClone(int arg);
 };
 
 // @fnv 0x00c3a080
-void* FUN_00c3a080_Class::FUN_00c3a080(int arg)
+void* FUN_00c3a080_Class::BSMultiBoundRoom_CreateClone(int arg)
 {
     return 0;
 }
@@ -227,7 +227,7 @@ struct NiTPrimitiveArray_unsigned_int_
 void* __cdecl FUN_00a7d330(void*);
 struct FUN_00c3a0c0_Class
 {
-    void* __thiscall FUN_00c46e70(unsigned int a);
+    void* __thiscall BSMultiBoundNode_GetViewerStrings(unsigned int a);
     void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
 };
 // @fnv 0x00c3a0c0
@@ -239,7 +239,7 @@ void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
         unsigned int u;
     } locals;
     char pad[12];
-    FUN_00c46e70(pArray);
+    BSMultiBoundNode_GetViewerStrings(pArray);
     locals.p = g_01202828;
     locals.u = (unsigned int)FUN_00a7d330(locals.p);
     ((NiTPrimitiveArray_unsigned_int_*)pArray)->AddFirstEmpty(locals.u);
@@ -247,37 +247,37 @@ void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
 
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void __thiscall BSMultiBoundRoom_LinkObject(int);
 };
 // @fnv 0x00c3a100
-void __thiscall FUN_00c3a100_Class::FUN_00c3a100(int)
+void __thiscall FUN_00c3a100_Class::BSMultiBoundRoom_LinkObject(int)
 {}
 
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void __thiscall BSMultiBoundRoom_LoadBinary(int arg);
 };
 
 // @fnv 0x00c3a110
-void FUN_00c3a110_Class::FUN_00c3a110(int arg)
+void FUN_00c3a110_Class::BSMultiBoundRoom_LoadBinary(int arg)
 {}
 
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void __thiscall BSMultiBoundRoom_SaveBinary(int);
 };
 
 // @fnv 0x00c3a120
-void __thiscall FUN_00c3a120_Class::FUN_00c3a120(int)
+void __thiscall FUN_00c3a120_Class::BSMultiBoundRoom_SaveBinary(int)
 {}
 
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char __thiscall BSMultiBoundRoom_RegisterStreamables(void* arg);
 };
 
 // @fnv 0x00c3a130
-char __thiscall FUN_00c3a130_Class::FUN_00c3a130(void* arg)
+char __thiscall FUN_00c3a130_Class::BSMultiBoundRoom_RegisterStreamables(void* arg)
 {
     return 1;
 }
@@ -307,11 +307,11 @@ struct NiNode
 };
 struct BSMultiBoundNode : NiNode
 {
-    void __thiscall FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
+    void __thiscall BSMultiBoundNode_UpdateDownwardPass(NiUpdateData& data, unsigned int flags);
 };
 // Calls UpdateDownwardPass with data and flags, then invokes the object's virtual method at vtable slot 47 on this.
 // @fnv 0x00c3a5b0
-void __thiscall BSMultiBoundNode::FUN_00c3a5b0(NiUpdateData& aUpdateData, unsigned int flags)
+void __thiscall BSMultiBoundNode::BSMultiBoundNode_UpdateDownwardPass(NiUpdateData& aUpdateData, unsigned int flags)
 {
     UpdateDownwardPass(aUpdateData, flags);
     ((void(__thiscall*)(void*))(*(void***)this)[47])(this);
@@ -678,30 +678,30 @@ struct NiStream
     static int __cdecl RegisterObjectLoader(char const* name, PFN_NiObjectLoader loader);
 };
 
-NiObject* __cdecl FUN_00c64810();
-NiObject* __cdecl FUN_00c649f0();
-NiObject* __cdecl FUN_00c537f0();
+NiObject* __cdecl BSReference_CreateObject();
+NiObject* __cdecl BSNodeReferences_CreateObject();
+NiObject* __cdecl NiBSBoneLODController_CreateObject();
 NiObject* __cdecl FUN_00c55010();
-NiObject* __cdecl FUN_00c43190();
+NiObject* __cdecl BSXFlags_CreateObject();
 NiObject* __cdecl CreateNamedNode();
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 NiObject* __cdecl CreatePositionModifierObject();
-NiObject* __cdecl FUN_00c54210();
-FUN_00c61b10* __cdecl FUN_00c61e70();
-NiObject* __cdecl FUN_00c61510();
-NiObject* __cdecl FUN_00c4b0c0();
-NiObject* __cdecl FUN_00c4ac00();
-NiObject* __cdecl FUN_00c43a30();
-NiObject* __cdecl FUN_00c5cbb0();
-NiObject* __cdecl FUN_00c5e5a0();
-NiObject* __cdecl FUN_00c361a0();
+NiObject* __cdecl BSFurnitureMarker_CreateObject();
+FUN_00c61b10* __cdecl BSPSysArrayEmitter_CreateObject();
+NiObject* __cdecl BSWArray_CreateObject();
+NiObject* __cdecl BSDamageStage_CreateObject();
+NiObject* __cdecl BSBlastNode_CreateObject();
+NiObject* __cdecl BSValueNode_CreateObject();
+NiObject* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
+NiObject* __cdecl BSMasterParticleSystem_CreateObject();
+NiObject* __cdecl BSMultiBound_CreateObject();
 NiObject* __cdecl CreateNewObject();
 NiObject* __cdecl CreateNewBodyCls();
 NiObject* __cdecl CreateBC36500Object();
-NiObject* __cdecl FUN_00c610a0();
-FUN_00c4fb10_shell* __cdecl FUN_00c4fdb0();
-NiObject* __cdecl FUN_00c607d0();
-NiObject* __cdecl FUN_00c4ae60();
+NiObject* __cdecl BSMultiBoundCapsule_CreateObject();
+FUN_00c4fb10_shell* __cdecl BSMultiBoundSphere_CreateObject();
+NiObject* __cdecl BSPSysSimpleColorModifier_CreateObject();
+NiObject* __cdecl BSDebrisNode_CreateObject();
 NiObject* __cdecl CreatePositionModifierInstance();
 
 extern char const g_012043dc_arg0[];
@@ -733,30 +733,30 @@ extern char const g_01204388_arg0[];
 // @fnv 0x00c3a6d0
 void FUN_00c3a6d0()
 {
-    NiStream::RegisterObjectLoader(g_012043dc_arg0, FUN_00c64810);
-    NiStream::RegisterObjectLoader(g_012043e4_arg0, FUN_00c649f0);
-    NiStream::RegisterObjectLoader(g_012031b8_arg0, FUN_00c537f0);
+    NiStream::RegisterObjectLoader(g_012043dc_arg0, BSReference_CreateObject);
+    NiStream::RegisterObjectLoader(g_012043e4_arg0, BSNodeReferences_CreateObject);
+    NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
     NiStream::RegisterObjectLoader(g_012031e8_arg0, FUN_00c55010);
-    NiStream::RegisterObjectLoader(g_01202de0_arg0, FUN_00c43190);
+    NiStream::RegisterObjectLoader(g_01202de0_arg0, BSXFlags_CreateObject);
     NiStream::RegisterObjectLoader(g_012043d4_arg0, CreateNamedNode);
-    NiStream::RegisterObjectLoader(g_01202e60_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c46740));
+    NiStream::RegisterObjectLoader(g_01202e60_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSWindModifier_CreateObject));
     NiStream::RegisterObjectLoader(g_012043c8_arg0, CreatePositionModifierObject);
-    NiStream::RegisterObjectLoader(g_012031c4_arg0, FUN_00c54210);
-    NiStream::RegisterObjectLoader(g_012043b0_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c61e70));
-    NiStream::RegisterObjectLoader(g_012043a4_arg0, FUN_00c61510);
-    NiStream::RegisterObjectLoader(g_01202e8c_arg0, FUN_00c4b0c0);
-    NiStream::RegisterObjectLoader(g_01202e7c_arg0, FUN_00c4ac00);
-    NiStream::RegisterObjectLoader(g_01202de8_arg0, FUN_00c43a30);
-    NiStream::RegisterObjectLoader(g_01203340_arg0, FUN_00c5cbb0);
-    NiStream::RegisterObjectLoader(g_0120436c_arg0, FUN_00c5e5a0);
-    NiStream::RegisterObjectLoader(g_01202810_arg0, FUN_00c361a0);
+    NiStream::RegisterObjectLoader(g_012031c4_arg0, BSFurnitureMarker_CreateObject);
+    NiStream::RegisterObjectLoader(g_012043b0_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSPSysArrayEmitter_CreateObject));
+    NiStream::RegisterObjectLoader(g_012043a4_arg0, BSWArray_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e8c_arg0, BSDamageStage_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e7c_arg0, BSBlastNode_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202de8_arg0, BSValueNode_CreateObject);
+    NiStream::RegisterObjectLoader(g_01203340_arg0, BSPSysMultiTargetEmitterCtlr_CreateObject);
+    NiStream::RegisterObjectLoader(g_0120436c_arg0, BSMasterParticleSystem_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202810_arg0, BSMultiBound_CreateObject);
     NiStream::RegisterObjectLoader(g_01202e74_arg0, CreateNewObject);
     NiStream::RegisterObjectLoader(g_01202820_arg0, CreateNewBodyCls);
     NiStream::RegisterObjectLoader(g_01202818_arg0, CreateBC36500Object);
-    NiStream::RegisterObjectLoader(g_01204398_arg0, FUN_00c610a0);
-    NiStream::RegisterObjectLoader(g_01203108_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c4fdb0));
-    NiStream::RegisterObjectLoader(g_01204390_arg0, FUN_00c607d0);
-    NiStream::RegisterObjectLoader(g_01202e84_arg0, FUN_00c4ae60);
+    NiStream::RegisterObjectLoader(g_01204398_arg0, BSMultiBoundCapsule_CreateObject);
+    NiStream::RegisterObjectLoader(g_01203108_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSMultiBoundSphere_CreateObject));
+    NiStream::RegisterObjectLoader(g_01204390_arg0, BSPSysSimpleColorModifier_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e84_arg0, BSDebrisNode_CreateObject);
     NiStream::RegisterObjectLoader(g_01204388_arg0, CreatePositionModifierInstance);
 }
 
@@ -1208,7 +1208,7 @@ struct FUN_00c3a4b0_node
 struct FUN_00c3a4b0_sub
 {
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0045cee0(FUN_00c3a4b0_node* p);
+    void __thiscall NiTPointerAllocator_Deallocate(FUN_00c3a4b0_node* p);
 };
 
 struct FUN_00c3a4b0_cls
@@ -1235,7 +1235,7 @@ unsigned int FUN_00c3a4b0_cls::FUN_00c3a4b0()
     }
     unsigned int uiValue = pRemoved->m_08;
     pRemoved->m_08 = 0;
-    this->m_08.FUN_0045cee0(pRemoved);
+    this->m_08.NiTPointerAllocator_Deallocate(pRemoved);
     this->m_08.m_uiItemCount = this->m_08.m_uiItemCount - 1;
     return uiValue;
 }
@@ -2444,7 +2444,7 @@ struct S00c3a2e0_Node
 struct S00c3a2e0_Alloc
 {
     void* unk00;
-    void FUN_0045cee0(void* value);
+    void NiTPointerAllocator_Deallocate(void* value);
 };
 
 struct S00c3a2e0_Cls
@@ -2456,7 +2456,7 @@ struct S00c3a2e0_Cls
     void FUN_00c3a2e0();
 };
 
-// Walks the list from unk00, calls FUN_0066b0d0(0) on each node and passes it to FUN_0045cee0, then zeroes unk08.unk00, unk00 and unk04.
+// Walks the list from unk00, calls FUN_0066b0d0(0) on each node and passes it to NiTPointerAllocator_Deallocate, then zeroes unk08.unk00, unk00 and unk04.
 // @fnv 0x00c3a2e0
 void S00c3a2e0_Cls::FUN_00c3a2e0()
 {
@@ -2474,7 +2474,7 @@ void S00c3a2e0_Cls::FUN_00c3a2e0()
         pNext = p;
         p = p->unk00;
         pNext->unk08.FUN_0066b0d0(0);
-        this->unk08.FUN_0045cee0(pNext);
+        this->unk08.NiTPointerAllocator_Deallocate(pNext);
     }
     this->unk08.unk00 = 0;
     this->unk00 = 0;

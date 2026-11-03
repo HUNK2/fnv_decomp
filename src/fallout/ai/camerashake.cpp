@@ -76,7 +76,7 @@ struct FUN_0043c490_shell
 
 struct FUN_00558310_node;
 FUN_00558310_node* FUN_0045c670();
-FUN_0043c490_shell* __fastcall FUN_00558310(FUN_00558310_node* apNode);
+FUN_0043c490_shell* __fastcall BSSceneGraph_GetCameraRoot(FUN_00558310_node* apNode);
 
 extern SettingFloat originalRuntimeFloatSetting1063;
 extern SettingFloat originalRuntimeFloatSetting1065;
@@ -99,7 +99,7 @@ void UpdateDistanceFade(float afMult, const NiPoint3& arPos)
 
     if (DAT_011dfecc && afMult > 0.0)
     {
-        cameraPos = FUN_00558310(FUN_0045c670())->FUN_0043c490();
+        cameraPos = BSSceneGraph_GetCameraRoot(FUN_0045c670())->FUN_0043c490();
         fdelta = (cameraPos - arPos).Length();
         fFadeStart = *originalRuntimeFloatSetting1066.Float() * afMult;
         fFadeDelta = *originalRuntimeFloatSetting1067.Float() * afMult;

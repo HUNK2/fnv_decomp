@@ -18,7 +18,7 @@ void* __stdcall FUN_00c7a5d0(unsigned int a)
 
 // Allocates a+n bytes from g_memoryManager, aligns the returned pointer to 16 bytes and stores the alignment offset in the byte before it.
 // @fnv 0x00c66170
-void* __stdcall FUN_00c66170(unsigned int uiSize)
+void* __stdcall bhkMemoryAllocator_blockAlloc(unsigned int uiSize)
 {
     unsigned char n = 0x10;
     unsigned char* p = (unsigned char*)g_memoryManager.Allocate(uiSize + n);
@@ -33,7 +33,7 @@ struct MemoryManager
     void Deallocate(void*);
 };
 // @fnv 0x00c661a0
-void __stdcall FUN_00c661a0(void* apBlock, void* apUnused)
+void __stdcall bhkMemoryAllocator_blockFree(void* apBlock, void* apUnused)
 {
     if (apBlock)
     {
@@ -201,7 +201,7 @@ char* __fastcall FUN_00c66fd0(struct BhkPickData* self)
 
 struct FUN_005533f0_cls
 {
-    void FUN_005533f0(unsigned int);
+    void bhkWorld_AddEntityListener(unsigned int);
 };
 struct FUN_00c6a620_cls
 {
@@ -212,7 +212,7 @@ struct FUN_00c6a620_cls
 // @fnv 0x00c6a620
 void FUN_00c6a620_cls::SetField(void* pValue)
 {
-    ((FUN_005533f0_cls*)this)->FUN_005533f0((unsigned int)pValue);
+    ((FUN_005533f0_cls*)this)->bhkWorld_AddEntityListener((unsigned int)pValue);
     m_field = pValue;
 }
 
@@ -1304,10 +1304,10 @@ struct NiCollisionObject
 struct bhkNiCollisionObject : NiCollisionObject
 {
     void FUN_00c6b980(void* a);
-    void FUN_00c6bb70(NiStream& a);
+    void bhkNiCollisionObject_LinkObject(NiStream& a);
 };
 // @fnv 0x00c6bb70
-void bhkNiCollisionObject::FUN_00c6bb70(NiStream& aStream)
+void bhkNiCollisionObject::bhkNiCollisionObject_LinkObject(NiStream& aStream)
 {
     LinkObject(aStream);
     void* p = *(void**)((char*)this + 8);
@@ -2166,12 +2166,12 @@ struct FUN_00c66e70_Class
     int unk08;
     char* objectData;
 
-    void FUN_00c66e70(char destroy);
+    void bhkWorld_KillCinfo(char destroy);
 };
 
 // If destroy is set, releases the HavokOwner stored before objectData and clears objectData.
 // @fnv 0x00c66e70
-void FUN_00c66e70_Class::FUN_00c66e70(char destroy)
+void FUN_00c66e70_Class::bhkWorld_KillCinfo(char destroy)
 {
     HavokThreadStateScope scope;
     if (destroy)
@@ -4047,13 +4047,13 @@ found:
 struct CpuOpaque;
 extern CpuOpaque DAT_01267824;
 // @fnv 0x00c69220
-CpuOpaque* __cdecl FUN_00c69220()
+CpuOpaque* __cdecl bhkWorld_GetRTTI()
 {
     return &DAT_01267824;
 }
 
 // @fnv 0x00c69230
-int __cdecl FUN_00c69230()
+int __cdecl bhkWorld_QCinfoSize()
 {
     return 240;
 }
@@ -4211,7 +4211,7 @@ class FUN_00c6a810_cls
     int unk10;
     unsigned short unk14;
     unsigned char m_16;
-    void FUN_00c6a810(void* target, unsigned char value);
+    void bhkWorld_SetDebugDisplay(void* target, unsigned char value);
 };
 
 struct FlagRequestB3610
@@ -4235,7 +4235,7 @@ void __cdecl SpawnHelperB3610(void* target, FlagRequestB3610* req, void* ctx);
 
 // Stores value into m_16 and, if target is non-null and DAT_011afea0 is set, sends a flag request with type 6 and the stored flag's boolean value.
 // @fnv 0x00c6a810
-void FUN_00c6a810_cls::FUN_00c6a810(void* target, unsigned char value)
+void FUN_00c6a810_cls::bhkWorld_SetDebugDisplay(void* target, unsigned char value)
 {
     if (m_16 != value)
     {
@@ -4653,15 +4653,15 @@ struct S_00c6b760_Cls
     unsigned short m_0c;
     unsigned short unk0e;
     S_00c6b760_Obj* m_10;
-    bool FUN_00a81060(S_00c6b760_Cls* other);
-    bool FUN_00c6b760(S_00c6b760_Cls* other);
+    bool NiCollisionObject_IsEqual(S_00c6b760_Cls* other);
+    bool bhkNiCollisionObject_IsEqual(S_00c6b760_Cls* other);
 };
 
-// Compares this object with another: first via FUN_00a81060, then compares m_10 (via v5c or null check) and m_0c.
+// Compares this object with another: first via NiCollisionObject_IsEqual, then compares m_10 (via v5c or null check) and m_0c.
 // @fnv 0x00c6b760
-bool S_00c6b760_Cls::FUN_00c6b760(S_00c6b760_Cls* other)
+bool S_00c6b760_Cls::bhkNiCollisionObject_IsEqual(S_00c6b760_Cls* other)
 {
-    bool r = FUN_00a81060(other);
+    bool r = NiCollisionObject_IsEqual(other);
     if (r)
     {
         S_00c6b760_Obj* p = m_10;
@@ -4914,7 +4914,7 @@ bool __cdecl FUN_00c6b860(FUN_00c6b860_Object* object, unsigned int key)
 extern int DAT_01267b70;
 
 // @fnv 0x00c6b940
-void* __cdecl FUN_00c6b940()
+void* __cdecl bhkNiCollisionObject_GetRTTI()
 {
     return &DAT_01267b70;
 }
@@ -5695,7 +5695,7 @@ class BC6C330HavokCollision : public BC6C330CollisionObject
 {
   public:
     virtual void LoadBinary(BC6C330Stream& kStream);
-    void FUN_00c6c330(BC6C330Stream& kStream);
+    void bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream);
 
     int unk04;
     int unk08;
@@ -5703,7 +5703,7 @@ class BC6C330HavokCollision : public BC6C330CollisionObject
 };
 
 // @fnv 0x00c6c330
-void BC6C330HavokCollision::FUN_00c6c330(BC6C330Stream& kStream)
+void BC6C330HavokCollision::bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream)
 {
     BC6C330CollisionObject::LoadBinary(kStream);
     BC6C330LoadBinary(kStream, m_usFlags);
@@ -7026,7 +7026,7 @@ void __thiscall S_00c6c840_class::FUN_00c6c840(int a, S_00c6c840_Param* b)
 extern int g_unk012686d4;
 
 // @fnv 0x00c6cd90
-void* FUN_00c6cd90()
+void* bhkShapeCollection_GetRTTI()
 {
     return &g_unk012686d4;
 }
@@ -7109,7 +7109,7 @@ FUN_00c6ce80_cls::FUN_00c6ce80_cls() : m_10(0)
 }
 
 // @fnv 0x00c6cee0
-int __cdecl FUN_00c6cee0()
+int __cdecl bhkCharacterProxy_QCinfoSize()
 {
     return 0x80;
 }
@@ -7169,13 +7169,13 @@ FUN_00c6d010_Class* __thiscall FUN_00c6d010_Class::FUN_00c6d010(unsigned char fl
 extern int DAT_012685a4;
 
 // @fnv 0x00c6d0e0
-int __cdecl FUN_00c6d0e0()
+int __cdecl bhkCachingShapePhantom_GetRTTI()
 {
     return reinterpret_cast<int>(&DAT_012685a4);
 }
 
 // @fnv 0x00c6d0f0
-int FUN_00c6d0f0()
+int bhkCachingShapePhantom_QCinfoSize()
 {
     return 0x60;
 }
@@ -7206,7 +7206,7 @@ FUN_00c6d1e0::FUN_00c6d1e0(int a, int b)
 extern int DAT_01268444;
 
 // @fnv 0x00c6d250
-void* __cdecl FUN_00c6d250()
+void* __cdecl bhkCollisionBox_GetRTTI()
 {
     return &DAT_01268444;
 }
@@ -7294,7 +7294,7 @@ FUN_00c6d290::FUN_00c6d290(unsigned int a)
 extern int g_unk012681a8;
 
 // @fnv 0x00c6d310
-void* __cdecl FUN_00c6d310()
+void* __cdecl bhkListShape_GetRTTI()
 {
     return &g_unk012681a8;
 }
@@ -13956,14 +13956,14 @@ struct ReportOwner
     void* debug;
     unsigned char unk14;
     bool enabled;
-    void FUN_00c878c0(StrArr*);
+    void bhkSerializable_GetViewerStrings(StrArr*);
     void AppendReport(StrArr*);
 };
 // @fnv 0x00c69240
 void ReportOwner::AppendReport(StrArr* result)
 {
     ThreadMemoryScope scope;
-    FUN_00c878c0(result);
+    bhkSerializable_GetViewerStrings(result);
     result->Append(FUN_00a7d330(g_012681e8_arg1));
     ReportBool enabledValue(enabled);
     result->Append(FUN_00a7d370("Enabled", enabledValue));
@@ -15614,14 +15614,14 @@ int __stdcall FUN_00c75180(Input134* input)
 namespace fnv_00c66240 {
 struct NiAVObject
 {
-    void FUN_00c87c50(NiObject* a);
-    void FUN_00c66240(NiObject* a);
+    void bhkRefObject_SethkObject(NiObject* a);
+    void bhkWorld_SethkObject(NiObject* a);
 };
-// Calls FUN_00c87c50 with the given NiObject.
+// Calls bhkRefObject_SethkObject with the given NiObject.
 // @fnv 0x00c66240
-void NiAVObject::FUN_00c66240(NiObject* a)
+void NiAVObject::bhkWorld_SethkObject(NiObject* a)
 {
-    FUN_00c87c50(a);
+    bhkRefObject_SethkObject(a);
 }
 }  // namespace fnv_00c66240
 
@@ -15689,7 +15689,7 @@ bool __cdecl SetSelectionValue(int object, float value, unsigned char mode, unsi
 
 void __cdecl FUN_00a810b0();
 // @fnv 0x00c6b5e0
-void __cdecl FUN_00c6b5e0()
+void __cdecl bhkNiCollisionObject_SetSceneGraphObject()
 {
     FUN_00a810b0();
 }
@@ -16630,7 +16630,7 @@ template <class T> inline void BinLoad(CBinaryStream& kIstr, T* pValue, unsigned
 class FakeThis00a81040
 {
   public:
-    void FUN_00a81040(NiStream& kStream);
+    void NiCollisionObject_SaveBinary(NiStream& kStream);
 };
 
 class NiStream
@@ -16809,14 +16809,14 @@ class CollisionLoad : public FakeThis00a81040
     unsigned short unk0e;   // +0x0e
     int m_i10;              // +0x10
 
-    void FUN_00c6c380(NiStream& kStream);
+    void bhkNiCollisionObject_SaveBinary(NiStream& kStream);
 };
 
-// Calls the base routine FUN_00a81040, then loads m_us0c from the stream with BinLoad and passes m_i10 to kStream.v30.
+// Calls the base routine NiCollisionObject_SaveBinary, then loads m_us0c from the stream with BinLoad and passes m_i10 to kStream.v30.
 // @fnv 0x00c6c380
-void CollisionLoad::FUN_00c6c380(NiStream& kStream)
+void CollisionLoad::bhkNiCollisionObject_SaveBinary(NiStream& kStream)
 {
-    FUN_00a81040(kStream);
+    NiCollisionObject_SaveBinary(kStream);
     BinLoad(*kStream.m_pUnderlyingStream, &m_us0c);
     kStream.v30(m_i10);
 }
@@ -19880,18 +19880,18 @@ void __cdecl FUN_00c657f0()
     FUN_00c6ba30();
 }
 
-extern "C" void __cdecl FUN_00c6bb70();
+extern "C" void __cdecl bhkNiCollisionObject_LinkObject();
 // @fnv 0x00c65810
-void __cdecl FUN_00c65810()
+void __cdecl bhkCollisionObject_LinkObject()
 {
-    FUN_00c6bb70();
+    bhkNiCollisionObject_LinkObject();
 }
 
-extern "C" void __cdecl FUN_00c6c380();
+extern "C" void __cdecl bhkNiCollisionObject_SaveBinary();
 // @fnv 0x00c65820
 void __cdecl FUN_00c65820()
 {
-    FUN_00c6c380();
+    bhkNiCollisionObject_SaveBinary();
 }
 
 struct Key
@@ -24500,12 +24500,12 @@ struct ControllerC73
     ResourceC73* GetSource();
     void Update(InputC73*);
     void Sync();
-    void FUN_00c73ed0(InputC73*);
+    void bhkCharacterController_InitWithParams(InputC73*);
 };
 
 // Initialises the controller from pkInput, configures its primary and secondary resources, copies input values, and applies flags to pkNode.
 // @fnv 0x00c73ed0
-void ControllerC73::FUN_00c73ed0(InputC73* pkInput)
+void ControllerC73::bhkCharacterController_InitWithParams(InputC73* pkInput)
 {
     AutoMemContextC73 kContext(0x10);
     SetScale(pkInput->fValueac * pkInput->fValuea8);
@@ -27622,7 +27622,7 @@ class NiAVObjV : public NiRefObject
     NiTransform m_kLocalTransform;
     NiTransform m_kWorldSpaceTransform;
 
-    NiAVObjV* FUN_00a59e20(const NiFixedString& kName);
+    NiAVObjV* NiAVObject_GetObjectByName(const NiFixedString& kName);
     void AssignFixedString(const NiFixedString& kName);
     void FUN_00a5a040();
     void FUN_00a59c60(NiUpdateData& updateData);
@@ -27888,7 +27888,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
             {
                 NiAVObjV* b = a->m_ppChildren[i];
                 NiAVObjV* pkColDisp =
-                    b ? b->FUN_00a59e20(NiFixedString(NiGlobalStringTable::AddString("bhkColDisp"), 0)) : 0;
+                    b ? b->NiAVObject_GetObjectByName(NiFixedString(NiGlobalStringTable::AddString("bhkColDisp"), 0)) : 0;
                 if (pkColDisp)
                 {
                     NiPointer<NiAVObjV> spOld;
@@ -28973,7 +28973,7 @@ struct RTTIObj
     int m_00;
 };
 extern RTTIObj g_012683c8;
-bool __cdecl FUN_0043b300(const RTTIObj* rtti, struct C69960Node* obj);
+bool __cdecl NiObject_IsKindOf(const RTTIObj* rtti, struct C69960Node* obj);
 struct RetC
 {
     int m_00;
@@ -29274,7 +29274,7 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                         if (apTarget != apSource)
                         {
                             C69960Node* work = 0;
-                            if (FUN_0043b300(&g_012683c8, node))
+                            if (NiObject_IsKindOf(&g_012683c8, node))
                             {
                                 work = node;
                                 goto main_block;
@@ -29349,12 +29349,12 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
 
 struct Stub65800 : BC6C330HavokCollision
 {
-    void FUN_00c6c330(BC6C330Stream& kStream);
-    void FUN_00c65800(BC6C330Stream& kStream);
+    void bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream);
+    void bhkCollisionObject_LoadBinary(BC6C330Stream& kStream);
 };
 
 // @fnv 0x00c65800
-void Stub65800::FUN_00c65800(BC6C330Stream& kStream)
+void Stub65800::bhkCollisionObject_LoadBinary(BC6C330Stream& kStream)
 {
-    FUN_00c6c330(kStream);
+    bhkNiCollisionObject_LoadBinary(kStream);
 }

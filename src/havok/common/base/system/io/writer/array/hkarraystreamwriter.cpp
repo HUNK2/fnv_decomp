@@ -66,11 +66,11 @@ struct FUN_00d46c80_cls
     int unk08;
     int m_0c;
 
-    void FUN_00d46c80(int aiDelta);
+    void hkMemoryTrackStreamReader_skip(int aiDelta);
 };
 
 // @fnv 0x00d46c80
-void FUN_00d46c80_cls::FUN_00d46c80(int aiDelta)
+void FUN_00d46c80_cls::hkMemoryTrackStreamReader_skip(int aiDelta)
 {
     m_0c += aiDelta;
 }
@@ -357,10 +357,10 @@ struct FUN_00d46ca0_Class
     int unk00, unk04;
     Counters* counters;
     int position;
-    State FUN_00d46ca0();
+    State hkMemoryTrackStreamReader_isOk();
 };
 // @fnv 0x00d46ca0
-State FUN_00d46ca0_Class::FUN_00d46ca0()
+State FUN_00d46ca0_Class::hkMemoryTrackStreamReader_isOk()
 {
     State result;
     result.status = position <= (counters->length - 1) * counters->step + counters->base;
@@ -477,12 +477,12 @@ class hkStreamD467
     hkBufferD467* m_buffer;
     int m_offset;
 
-    int FUN_00d46710(void* dst, int n);
+    int hkMemoryTrackStreamReader_read(void* dst, int n);
 };
 
 // Reads up to n bytes from the stream buffer into dst, advancing m_offset, and returns the number of bytes actually read.
 // @fnv 0x00d46710
-int hkStreamD467::FUN_00d46710(void* apBuffer, int aiCount)
+int hkStreamD467::hkMemoryTrackStreamReader_read(void* apBuffer, int aiCount)
 {
     if (IsStreamValid())
     {
@@ -803,12 +803,12 @@ struct hkArrayStreamWriter_d469
     int m_memSizeAndRefCount;
     hkArray_d469<char>* m_aiIndexedValues;
     int m_offset;
-    int FUN_00d46920(const void* mem, int size);
+    int hkArrayStreamWriter_write(const void* mem, int size);
 };
 
 // Copies size bytes from mem into the indexed values array at m_offset, growing the array if needed, then advances m_offset and returns size.
 // @fnv 0x00d46920
-int hkArrayStreamWriter_d469::FUN_00d46920(const void* mem, int size)
+int hkArrayStreamWriter_d469::hkArrayStreamWriter_write(const void* mem, int size)
 {
     int spaceLeft = m_aiIndexedValues->GetLogicalSize() - m_offset;
     if (size > spaceLeft)

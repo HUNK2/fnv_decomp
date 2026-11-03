@@ -156,7 +156,7 @@ class ModelOps
 class MgrX
 {
   public:
-    NiControllerSequence* FUN_0047a520(const NiFixedString&);
+    NiControllerSequence* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0047aa40(bool);
     bool FUN_0047aab0(NiControllerSequence*, int, int, float, float, int);
 };
@@ -175,7 +175,7 @@ class DoorX
 class Door2
 {
   public:
-    bool FUN_00518080();
+    bool TESObjectDOOR_IsSlidingDoor();
 };
 class SoundH
 {
@@ -214,12 +214,12 @@ class OCF
 class FUN_00572d50_shell
 {
   public:
-    void FUN_00572d50(int);
+    void TESObjectREFR_SetAction(int);
 };
 class FUN_00572db0_shell
 {
   public:
-    void FUN_00572db0(int);
+    void TESObjectREFR_ClearAction(int);
 };
 struct TSETTING_VALUE
 {
@@ -240,7 +240,7 @@ class BSAudioSoundHandle
     int m8;
     BSAudioSoundHandle();
     ~BSAudioSoundHandle();
-    void FUN_00418890(const void*);
+    void ExtraDataList_GetSound(const void*);
     bool Play(bool);
     bool FUN_00ad8b60(float, float, float);
 };
@@ -254,7 +254,7 @@ NiFixedString& FUN_0047a500();
 NiFixedString& FUN_0047a510();
 
 // @fnv 0x0047a560
-void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseForm* apForm)
+void BGSOpenCloseForm_HandleActivate(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseForm* apForm)
 {
     if (!apRefr)
         return;
@@ -267,8 +267,8 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
             NiAVObject* pAV = (NiAVObject*)FUN_00653270(&DAT_011f36ac, (NiProperty*)p3d);
             if (pAV)
             {
-                NiControllerSequence* pSeqA = ((MgrX*)pAV)->FUN_0047a520(FUN_0047a500());
-                NiControllerSequence* pSeqB = ((MgrX*)pAV)->FUN_0047a520(FUN_0047a510());
+                NiControllerSequence* pSeqA = ((MgrX*)pAV)->NiControllerManager_GetSequenceByName(FUN_0047a500());
+                NiControllerSequence* pSeqB = ((MgrX*)pAV)->NiControllerManager_GetSequenceByName(FUN_0047a510());
                 if (pSeqA && pSeqB)
                 {
                     bFlag = true;
@@ -282,14 +282,14 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             if (pPathNodeDoor)
                                 p28 = (SoundH*)((DoorX*)pPathNodeDoor)->FUN_00407820();
                             p2c = pSeqA;
-                            ((FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
+                            ((FUN_00572d50_shell*)apRefr)->TESObjectREFR_SetAction(4);
                         }
                         else
                         {
                             if (pPathNodeDoor)
                                 p28 = (SoundH*)((DoorX*)pPathNodeDoor)->FUN_00407840();
                             p2c = pSeqB;
-                            ((FUN_00572db0_shell*)apRefr)->FUN_00572db0(4);
+                            ((FUN_00572db0_shell*)apRefr)->TESObjectREFR_ClearAction(4);
                         }
                         if (!((SettingX*)&DAT_011c4c64)->Bool()->b && apActor && ((RefV*)apActor)->v100() &&
                             apActor != _g_thePlayer && ((RefV*)apRefr)->v1d0())
@@ -298,7 +298,7 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             if (apRefr->GetObjectReference()->GetFormType() == ENUM_FORM_ID_DOOR_ID)
                             {
                                 TESBoundObject* pObj = apRefr->GetObjectReference();
-                                if (((Door2*)pObj)->FUN_00518080())
+                                if (((Door2*)pObj)->TESObjectDOOR_IsSlidingDoor())
                                     bSkip = false;
                             }
                             if (bSkip)
@@ -323,12 +323,12 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             BSAudioSoundHandle h;
                             if (apActor == _g_thePlayer)
                             {
-                                h.FUN_00418890(&((BSAudio2*)BSAudioS_::GetSingleton())
+                                h.ExtraDataList_GetSound(&((BSAudio2*)BSAudioS_::GetSingleton())
                                                     ->FUN_00ad73b0(p28->FUN_0084e3a0(0x80000121u)));
                             }
                             else
                             {
-                                h.FUN_00418890(
+                                h.ExtraDataList_GetSound(
                                     &((BSAudio2*)BSAudioS_::GetSingleton())->FUN_00ad73b0(p28->FUN_0084e3a0(0x102)));
                                 NiPoint3 pt = *((RefV*)apRefr)->v1f4();
                                 h.FUN_00ad8b60(pt.x, pt.y, pt.z);
@@ -355,11 +355,11 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
         {
         case BGSOpenCloseForm::OPEN:
         case BGSOpenCloseForm::OPENING:
-            ((FUN_00572db0_shell*)apRefr)->FUN_00572db0(4);
+            ((FUN_00572db0_shell*)apRefr)->TESObjectREFR_ClearAction(4);
             break;
         default:
             bOpen = true;
-            ((FUN_00572d50_shell*)apRefr)->FUN_00572d50(4);
+            ((FUN_00572d50_shell*)apRefr)->TESObjectREFR_SetAction(4);
             break;
         }
         OCF* pOCF2 = GetOpenCloseForm(apRefr->GetObjectReference());

@@ -18,7 +18,7 @@ class TESFile
 class TESObjectREFR
 {
   public:
-    TESObjectREFR* FUN_005693d0();
+    TESObjectREFR* TESObjectREFR_GetXTarget();
 };
 class TESTopic;
 template <class T> class BSSimpleList;

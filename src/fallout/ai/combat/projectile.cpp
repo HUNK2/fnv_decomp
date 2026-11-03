@@ -333,10 +333,10 @@ NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 struct Proxy
 {
     hkVector4 const& _ref_006815c0();
-    NiPoint3& FUN_004585f0(NiPoint3&);
+    NiPoint3& bhkPickData_GetFrom(NiPoint3&);
 };
 // @fnv 0x004585f0
-NiPoint3& Proxy::FUN_004585f0(NiPoint3& aPoint)
+NiPoint3& Proxy::bhkPickData_GetFrom(NiPoint3& aPoint)
 {
     return SetNiPoint3FromHkVector4(aPoint, _ref_006815c0());
 }
@@ -348,11 +348,11 @@ NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 struct FUN_004587f0_shell
 {
     hkVector4& FUN_00458820();
-    NiPoint3& FUN_004587f0(NiPoint3& a);
+    NiPoint3& bhkPickData_GetTo(NiPoint3& a);
 };
 
 // @fnv 0x004587f0
-NiPoint3& FUN_004587f0_shell::FUN_004587f0(NiPoint3& aPoint)
+NiPoint3& FUN_004587f0_shell::bhkPickData_GetTo(NiPoint3& aPoint)
 {
     return SetNiPoint3FromHkVector4(aPoint, FUN_00458820());
 }
@@ -602,7 +602,7 @@ struct S5870_Impact
 };
 struct S5870_Base
 {
-    void FUN_00932d60(S5870_Buf*);
+    void MobileObject_FinishLoadGame(S5870_Buf*);
 };
 struct S5870_List
 {
@@ -611,13 +611,13 @@ struct S5870_List
 };
 struct S5870_Holder
 {
-    void FUN_009c5870(S5870_Buf*);
+    void Projectile_FinishLoadGame(S5870_Buf*);
 };
 // @fnv 0x009c5870
-void S5870_Holder::FUN_009c5870(S5870_Buf* pBuffer)
+void S5870_Holder::Projectile_FinishLoadGame(S5870_Buf* pBuffer)
 {
     S5870_List* pCurrentElementNext;
-    ((S5870_Base*)this)->FUN_00932d60(pBuffer);
+    ((S5870_Base*)this)->MobileObject_FinishLoadGame(pBuffer);
     if (pBuffer->V0() >= 14)
     {
         pCurrentElementNext = (S5870_List*)((char*)this + 0x88);
@@ -1121,8 +1121,8 @@ struct NiTimeController
     static void __cdecl UpdateControllersForTarget(NiObjectNET*);
 };
 
-void __cdecl FUN_00578060(TESObjectREFR*);
-bool __cdecl FUN_005784b0(NiNode*);
+void __cdecl TESObjectREFR_AddMasterParticleAddonNodes(TESObjectREFR*);
+bool __cdecl TESObjectREFR_HasAddonFlags(NiNode*);
 
 struct FUN_009bdff0_shell
 {
@@ -1257,8 +1257,8 @@ void FUN_009bdff0_shell::FUN_009bdff0()
     {
         pn->FUN_00440490(1.0f);
         UpdateNodeTransform(1, 0);
-        if (pn->vfn_0c() && FUN_005784b0(pn->vfn_0c()))
-            FUN_00578060((TESObjectREFR*)pn->vfn_0c());
+        if (pn->vfn_0c() && TESObjectREFR_HasAddonFlags(pn->vfn_0c()))
+            TESObjectREFR_AddMasterParticleAddonNodes((TESObjectREFR*)pn->vfn_0c());
         NiTimeController::UpdateControllersForTarget((NiObjectNET*)pn);
     }
 }
@@ -1494,7 +1494,7 @@ struct FUN_009bf370_shell : Dummy009c4e60
     char pad_04[248];
     TESObjectREFR* m_fc;
 
-    void FUN_0092f260(float, const NiPoint3&, int);
+    void MobileObject_Move(float, const NiPoint3&, int);
     void ApplySpeedAndVector(float afSpeed, NiPoint3 arVector);
 };
 
@@ -1510,7 +1510,7 @@ void FUN_009bf370_shell::ApplySpeedAndVector(float afSpeed, NiPoint3 arVector)
             afSpeed *= 1.0f / hkpCharacterContext::GetReferenceTimeStep();
         }
     }
-    FUN_0092f260(afSpeed, arVector, 0xf);
+    MobileObject_Move(afSpeed, arVector, 0xf);
     NiPoint3 vecEndPos = *GetPos();
     FUN_009c4e60(((NiPoint3Ex*)&vecEndPos)->operator-(vecStartPos), true);
 }
@@ -2348,10 +2348,10 @@ struct BSOcclusionPlane
 
 struct MobileObjectCellAccess
 {
-    bool FUN_004518e0() const;
+    bool TESObjectCELL_HasWater() const;
 };
 
-float __fastcall FUN_005471e0(void*);
+float __fastcall TESObjectCELL_GetWaterHeight(void*);
 
 struct _ref_006815c0
 {
@@ -2361,12 +2361,12 @@ struct _ref_006815c0
 
 struct Proxy
 {
-    NiPoint3& FUN_004585f0(NiPoint3&);
+    NiPoint3& bhkPickData_GetFrom(NiPoint3&);
 };
 
 struct FUN_004587f0_shell
 {
-    NiPoint3& FUN_004587f0(NiPoint3&);
+    NiPoint3& bhkPickData_GetTo(NiPoint3&);
 };
 
 struct NiPoint3Ex
@@ -2383,13 +2383,13 @@ struct FUN_009c5af0_shell : BSOcclusionPlane
 bool FUN_009c5af0_shell::GetWaterPlaneIntersection(Proxy* apProxy, float* apWaterHeight)
 {
     void* cell5 = (void*)GetCullResult();
-    if (cell5 && ((MobileObjectCellAccess*)cell5)->FUN_004518e0())
+    if (cell5 && ((MobileObjectCellAccess*)cell5)->TESObjectCELL_HasWater())
     {
-        float fRate = FUN_005471e0(cell5);
+        float fRate = TESObjectCELL_GetWaterHeight(cell5);
         _ref_006815c0 kPos9;
-        apProxy->FUN_004585f0(*(NiPoint3*)&kPos9);
+        apProxy->bhkPickData_GetFrom(*(NiPoint3*)&kPos9);
         _ref_006815c0 kPos2;
-        ((FUN_004587f0_shell*)apProxy)->FUN_004587f0(*(NiPoint3*)&kPos2);
+        ((FUN_004587f0_shell*)apProxy)->bhkPickData_GetTo(*(NiPoint3*)&kPos2);
 
         if (kPos9.z > fRate && kPos2.z <= fRate)
         {
@@ -3110,7 +3110,7 @@ struct SceneNode
     void FUN_0043fa80(const Matrix&);
     void FUN_00440460(const Point&);
     void FUN_00450f90(bool);
-    const Matrix& FUN_00461130();
+    const Matrix& NiAVObject_GetWorldRotate();
     const Point& FUN_0045bb80();
 };
 struct VirtualObject
@@ -3343,21 +3343,21 @@ struct ProjectileView : VirtualObject
     int unk148;
     int unk14c;
     PathHolder path;
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     float FUN_00885bd0();
     void UpdateDetonation(float);
     Owner* FUN_00874480();
     void FUN_009c6330(const Matrix&);
-    void FUN_00575830(const Point&);
+    void TESObjectREFR_SetLocationOnReference(const Point&);
     float GetE0();
     void FUN_009bc8f0();
     BaseData* FUN_004181e0();
-    void FUN_00979330(float);
+    void BeamProjectile_UpdateProjectile(float);
 };
 // @fnv 0x00979330
-void ProjectileView::FUN_00979330(float delta)
+void ProjectileView::BeamProjectile_UpdateProjectile(float delta)
 {
-    if (FUN_00440d80())
+    if (TESForm_GetDelete())
         return;
     if (FUN_00885bd0() == 0.0)
         UpdateDetonation(delta);
@@ -3367,11 +3367,11 @@ void ProjectileView::FUN_00979330(float delta)
     {
         if (FUN_00874480() == g_thePlayer)
         {
-            parent->FUN_0043fa80(rotation.FUN_0043f8d0(node->FUN_00461130()));
-            FUN_009c6330(rotation.FUN_0043f8d0(node->FUN_00461130()));
+            parent->FUN_0043fa80(rotation.FUN_0043f8d0(node->NiAVObject_GetWorldRotate()));
+            FUN_009c6330(rotation.FUN_0043f8d0(node->NiAVObject_GetWorldRotate()));
         }
         parent->FUN_00440460(node->FUN_0045bb80());
-        FUN_00575830(node->FUN_0045bb80());
+        TESObjectREFR_SetLocationOnReference(node->FUN_0045bb80());
     }
     if (path.FUN_00559450())
         path.FUN_00559450()->FUN_0051b840(GetE0());
@@ -4553,11 +4553,11 @@ struct Mob9c
     int unk60;
     int unk64;
     BaseProcess9c* process;
-    bool FUN_009c47d0();
+    bool Projectile_StartHighProcess();
 };
 
 // @fnv 0x009c47d0
-bool Mob9c::FUN_009c47d0()
+bool Mob9c::Projectile_StartHighProcess()
 {
     g_lock9c.Lock(0);
     if (process)
@@ -4685,11 +4685,11 @@ struct Owner_9c4a40
     int unk60;
     int unk64;
     BaseProcess_9c4a40* process;
-    bool FUN_009c4a40();
+    bool Projectile_MoveToMiddleLow();
 };
 
 // @fnv 0x009c4a40
-bool Owner_9c4a40::FUN_009c4a40()
+bool Owner_9c4a40::Projectile_MoveToMiddleLow()
 {
     g_projectileLock_9c4a40.Lock(0);
     if (process)
@@ -4708,13 +4708,13 @@ bool Owner_9c4a40::FUN_009c4a40()
 
 struct ExplosionSource
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
     float FUN_006a78f0();
 };
 struct ProjectileBaseCalls
 {
     ExplosionSource* FUN_004fd3c0();
-    bool FUN_004fd360();
+    bool BGSProjectile_GetHasExplosion();
     bool FUN_00975300();
 };
 struct ProjectileCalls
@@ -4739,9 +4739,9 @@ void FUN_009a52f0_shell::UpdateExplosion(ProjectileCalls* projectile)
         return;
     ProjectileBaseCalls* base = projectile->FUN_004181e0();
     ExplosionSource* source = base->FUN_004fd3c0();
-    if (base->FUN_004fd360() && source)
+    if (base->BGSProjectile_GetHasExplosion() && source)
     {
-        float length = source->FUN_00477900();
+        float length = source->BGSExplosion_GetRadiusBSUnits();
         float radius = source->FUN_006a78f0();
         if (radius >= *setting11cf3f0.Float())
         {
@@ -5651,7 +5651,7 @@ struct P062Object
     void FUN_005de0a0(int, bool);
     void SetObject(void*);
     void FUN_00567ad0(void*);
-    bool FUN_004c0bf0();
+    bool TESObjectWEAP_IsThrownWeapon();
     float FUN_009bd540();
     void FUN_00586130(float);
     void FUN_0097f720(P062Object*);
@@ -5738,7 +5738,7 @@ struct P062World
 };
 extern P062World* DAT_011dea10;
 P062Scene* __cdecl CreateOctahedron(float, const FUN_00414430&, bool);
-P062Scene* __cdecl FUN_004b3890(const FUN_00416870&, const FUN_00414430&, const FUN_00416870&, const FUN_00414430&,
+P062Scene* __cdecl MakeLine(const FUN_00416870&, const FUN_00414430&, const FUN_00416870&, const FUN_00414430&,
                                 bool);
 struct P062Queue
 {
@@ -5828,7 +5828,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
             void* effect = FUN_0058db10(6);
             if (effect)
                 projectile->FUN_00567ad0(effect);
-            if (weapon->FUN_004c0bf0())
+            if (weapon->TESObjectWEAP_IsThrownWeapon())
                 projectile->FUN_00586130(FUN_0040ebd0(
                     1.0f, *DAT_011cf32c.FUN_00403e20() + *DAT_011cee00.FUN_00403e20() * DAT_011dea3c->FUN_009bd540()));
         }
@@ -5873,7 +5873,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         rotation.FUN_004a0c90(projectile->scale(false));
         color = FUN_00414430(1.0f, 1.0f, 0.0f, 0.6f);
         geometry =
-            FUN_004b3890(projectile->scene()->FUN_0045bb80(), color,
+            MakeLine(projectile->scene()->FUN_0045bb80(), color,
                          projectile->scene()->FUN_0045bb80() + rotation.FUN_004b4500(FUN_00416870(0.0f, 1000.0f, 0.0f)),
                          color, true);
         DAT_011dea10->FUN_00458e20(geometry, *DAT_011f210c.FUN_00403e20());
@@ -6189,11 +6189,11 @@ struct SpawnedResource
 };
 struct ActionTarget
 {
-    void FUN_00476ab0();
+    void BSFadeNode_TurnFadeNodeOn();
 };
 struct CameraObject
 {
-    void FUN_00548230(void*, int);
+    void TESObjectCELL_AddReference(void*, int);
 };
 struct GameVector;
 struct ActionObject
@@ -6444,7 +6444,7 @@ struct GameVector
 };
 extern float DAT_011c3c08;
 extern int DAT_011dea3c;
-extern bool __cdecl FUN_004753d0(void*);
+extern bool __cdecl BGSDestructibleObjectForm_IsDestructible(void*);
 extern void __cdecl FUN_00b6bb30(unsigned int, float);
 
 extern void* __cdecl operator new(unsigned int);
@@ -6455,9 +6455,9 @@ struct ActionConsumer
 struct ProjectileRuntime : Projectile
 {
     void FUN_009bda10();
-    bool FUN_00576d30();
+    bool TESForm_IsStillLoading();
     bool FUN_00444d00(unsigned int);
-    int FUN_00476c90();
+    int Sky_GetMode();
     TimingState* FUN_004181e0();
     void FUN_009bdf60(void*);
     StateFlags* FUN_007af430();
@@ -6675,12 +6675,12 @@ struct ProjectileRuntime : Projectile
 // @fnv 0x009bda10
 void ProjectileRuntime::FUN_009bda10()
 {
-    bool inactive = DAT_011ddf38->FUN_0042ce10() || FUN_00576d30() || FUN_00444d00(0x10000);
-    if (!FUN_00476c90())
+    bool inactive = DAT_011ddf38->FUN_0042ce10() || TESForm_IsStillLoading() || FUN_00444d00(0x10000);
+    if (!Sky_GetMode())
     {
         FUN_009bdf60(FUN_004181e0()->FUN_004fd400());
     }
-    if (FUN_004753d0(FUN_007af430()))
+    if (BGSDestructibleObjectForm_IsDestructible(FUN_007af430()))
     {
         FUN_004846a0(1);
     }
@@ -6708,7 +6708,7 @@ void ProjectileRuntime::FUN_009bda10()
             {
                 if (GetAction()->GetTarget())
                 {
-                    GetAction()->GetTarget()->FUN_00476ab0();
+                    GetAction()->GetTarget()->BSFadeNode_TurnFadeNodeOn();
                 }
                 else
                 {
@@ -6719,7 +6719,7 @@ void ProjectileRuntime::FUN_009bda10()
     }
     if (FUN_008d6f30())
     {
-        reinterpret_cast<CameraObject*>(FUN_008d6f30())->FUN_00548230(this, 0);
+        reinterpret_cast<CameraObject*>(FUN_008d6f30())->TESObjectCELL_AddReference(this, 0);
     }
     FUN_009c3d90();
     if (!inactive)
@@ -6787,7 +6787,7 @@ void ProjectileRuntime::FUN_009bda10()
 namespace fnv_009bf190 {
 struct ActionState
 {
-    bool FUN_004fd420();
+    bool BGSProjectile_IsFlagSet();
 };
 struct UIManager
 {
@@ -7112,7 +7112,7 @@ void GameScreen::FUN_009bf190()
     MenuObject* currentMenu;
     if (FUN_00444d00(0x400))
     {
-        if (!FUN_004181e0(0x400)->FUN_004fd420())
+        if (!FUN_004181e0(0x400)->BGSProjectile_IsFlagSet())
         {
             if (FUN_00885bd0() > *DAT_011ced88.Float())
             {
@@ -7145,7 +7145,7 @@ struct Vec
 {
     float x, y, z;
     Vec FUN_004a0bd0() const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     Vec operator-(Vec const&) const;
     Vec operator+(Vec const&) const;
     Vec operator*(float) const;
@@ -7430,9 +7430,9 @@ struct Obj
     virtual void Mark(bool);
     BodyPart* FUN_008b3d70(Vec, Vec);
     int FUN_008b3ef0(BodyPart*);
-    void FUN_00564db0(bool);
+    void TESObjectREFR_SetTargeted(bool);
     int FUN_00474cb0();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     unsigned FUN_0084e3a0();
     int GetNextListItem();
 };
@@ -7440,8 +7440,8 @@ struct CF845
 {
     CF845(int);
     bool FUN_00624070();
-    int FUN_004a3a20();
-    int FUN_0043b4d0();
+    int CFilter_GetGroup();
+    int CFilter_GetLayer();
     int value;
 };
 struct Shape
@@ -7450,8 +7450,8 @@ struct Shape
 };
 struct Buffer
 {
-    int FUN_0043b540();
-    void* FUN_004b59d0();
+    int hkpCollidable_getCollisionFilterInfo();
+    void* hkpCollidable_getOwner();
     int FUN_004b5980();
     void* FUN_00559450();
 };
@@ -7473,7 +7473,7 @@ struct Ref
     Node* FUN_0044ddc0();
 };
 Ref* __cdecl FUN_004b5260(void*);
-Shape* __cdecl FUN_004a3a40(void*);
+Shape* __cdecl bhkShape_Getbhk(void*);
 struct Hit
 {
     Obj* ref;
@@ -7500,7 +7500,7 @@ struct Impact
 };
 struct TESProxy
 {
-    int FUN_00457880(Vec const&);
+    int TES_GetLandMaterialType(Vec const&);
     Impact* FUN_0070ec90(Vec, float);
     void FUN_00458e20(Node*, float);
 };
@@ -7532,7 +7532,7 @@ struct ImageSpaceEffectParam
     float r, g, b, a;
 };
 Node* __cdecl CreateOctahedron(float, ImageSpaceEffectParam const&, bool);
-Node* __cdecl FUN_004b3890(Vec const&, ImageSpaceEffectParam const&, Vec const&, ImageSpaceEffectParam const&, bool);
+Node* __cdecl MakeLine(Vec const&, ImageSpaceEffectParam const&, Vec const&, ImageSpaceEffectParam const&, bool);
 struct ProjectileHit
 {
     virtual void v0();
@@ -7798,7 +7798,7 @@ struct ProjectileHit
     int FUN_009c0070();
     void SetField(int);
     float FUN_00885bd0();
-    Creature* FUN_00476c90();
+    Creature* Sky_GetMode();
     Obj* FUN_00874480();
     void FUN_009ab9a0(Obj*);
     bool ProcessHit(Obj*, Vec const&, Vec const&, Buffer*, int, int);
@@ -7814,7 +7814,7 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         hit->collision = 0;
         hit->point = target->GetPosition();
         hit->normal = position.FUN_004a0bd0();
-        hit->normal.FUN_004a0c10();
+        hit->normal.NiPoint3_Unitize();
         hit->part = 0;
         hit->material = 0;
         if (target->IsActor())
@@ -7837,12 +7837,12 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         hit->ref = object;
         hit->point = point;
         hit->normal = normal;
-        hit->collision = buffer ? buffer->FUN_004b59d0() : 0;
+        hit->collision = buffer ? buffer->hkpCollidable_getOwner() : 0;
         if (hit->collision)
         {
             ((WorldObject*)hit->collision)->FUN_00c90510();
             if (object && object->IsActor() && buffer->FUN_004b5980() == 1 &&
-                CF845(buffer->FUN_0043b540()).FUN_00624070())
+                CF845(buffer->hkpCollidable_getCollisionFilterInfo()).FUN_00624070())
             {
                 Body* body = FUN_004b5820(buffer);
                 Obj* actor = object;
@@ -7852,16 +7852,16 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         int hitMaterial = material;
         if (buffer && material == 0x24)
         {
-            bool special = CF845(buffer->FUN_0043b540()).FUN_004a3a20() == 1;
+            bool special = CF845(buffer->hkpCollidable_getCollisionFilterInfo()).CFilter_GetGroup() == 1;
             if (special)
-                hitMaterial = g_TES->FUN_00457880(point);
+                hitMaterial = g_TES->TES_GetLandMaterialType(point);
             else
             {
-                Shape* shape = FUN_004a3a40(buffer->FUN_00559450());
+                Shape* shape = bhkShape_Getbhk(buffer->FUN_00559450());
                 if (shape)
                     hitMaterial = shape->FUN_00c84f10(index);
             }
-            if (CF845(buffer->FUN_0043b540()).FUN_0043b4d0() == 11)
+            if (CF845(buffer->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() == 11)
                 hitMaterial = 8;
         }
         hit->material = hitMaterial;
@@ -7882,23 +7882,23 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         Obj* actual = FUN_008d8b80()->ref;
         valid = object == actual && (void*)expectedObject == (void*)expected;
         FUN_0040fbe0("Targetted VATS Projectile Result: %s", valid ? "SUCCESS" : "FAILURE");
-        FUN_0040fbe0("Target Ref ID:\t%s %08X", actual->FUN_00474cb0() ? actual->GetName() : actual->FUN_0055d520(),
+        FUN_0040fbe0("Target Ref ID:\t%s %08X", actual->FUN_00474cb0() ? actual->GetName() : actual->TESObjectREFR_GetFullName(),
                      actual->FUN_0084e3a0());
         FUN_0040fbe0("Target Part:\t%s", expected ? expected->FUN_00413f40().FUN_0043b1b0() : "");
         FUN_0040fbe0("Hit Ref ID:\t\t%s %08X",
-                     object ? (object->FUN_00474cb0() ? object->GetName() : object->FUN_0055d520()) : "Land",
+                     object ? (object->FUN_00474cb0() ? object->GetName() : object->TESObjectREFR_GetFullName()) : "Land",
                      object ? object->FUN_0084e3a0() : 0);
         FUN_0040fbe0("Hit Part:\t\t%s\n", expectedObject ? ((Node*)expectedObject)->FUN_00413f40().FUN_0043b1b0() : "");
     }
     if (hit->ref)
-        hit->ref->FUN_00564db0(true);
+        hit->ref->TESObjectREFR_SetTargeted(true);
     if (Kind() == 5)
     {
         ProjectileHit* projectile = this;
         if (projectile)
         {
             int count = projectile->FUN_009c0070();
-            if (FUN_00885bd0() > count / FUN_00476c90()->FUN_00821640())
+            if (FUN_00885bd0() > count / Sky_GetMode()->FUN_00821640())
             {
                 Obj* actor = FUN_00874480();
                 if (actor)
@@ -7928,7 +7928,7 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         node->FUN_00a5a040();
         node->FUN_00440460(hit->point);
         g_TES->FUN_00458e20(node, *g_011f210c.FUN_00403e20());
-        node = FUN_004b3890(hit->point, color, hit->point + hit->normal * 24.0f, color, true);
+        node = MakeLine(hit->point, color, hit->point + hit->normal * 24.0f, color, true);
         g_TES->FUN_00458e20(node, *g_011f210c.FUN_00403e20());
     }
     hits.FUN_005ae3d0(hit);
@@ -7967,11 +7967,11 @@ struct ZScene
 struct ZExplosion
 {
     float FUN_006a78f0();
-    void* FUN_004fb810();
+    void* BGSExplosion_GetSoundLevelValue();
 };
 struct ZBase
 {
-    bool FUN_004fd360();
+    bool BGSProjectile_GetHasExplosion();
     ZExplosion* FUN_004fd3c0();
     bool GetHasExplosionAltTrigger() const;
     float GetExplosionProximity() const;
@@ -8755,7 +8755,7 @@ struct ZProjectile : ZObject
     void FUN_009c6380(ZScene*, ZPoint*);
     void* FUN_008d6f30();
     ZObject* FUN_00874480();
-    unsigned int FUN_00476c90();
+    unsigned int Sky_GetMode();
     void FUN_009bc8f0();
     ZObject* FUN_009b4440();
     void UpdateDetonation(float elapsed);
@@ -8768,7 +8768,7 @@ void FUN_004d5c60(int);
 // @fnv 0x009c3190
 void ZProjectile::UpdateDetonation(float elapsed)
 {
-    if (FUN_004181e0()->FUN_004fd360() && FUN_004181e0()->FUN_004fd3c0() && !FUN_00444d00(0x200))
+    if (FUN_004181e0()->BGSProjectile_GetHasExplosion() && FUN_004181e0()->FUN_004fd3c0() && !FUN_00444d00(0x200))
     {
         bool detonate2 = false;
         if (FUN_004181e0()->GetHasExplosionAltTrigger())
@@ -8829,8 +8829,8 @@ void ZProjectile::UpdateDetonation(float elapsed)
                                     position8, rotationX);
             if (result3 && !impacts._ref_008256d0() && FUN_004181e0()->FUN_004fd4f0() == 0x10000)
                 result3->FUN_0089d640((*impacts._ref_006815c0())->normal);
-            if (result3 && FUN_00476c90())
-                result3->FUN_00476c70(FUN_00476c90());
+            if (result3 && Sky_GetMode())
+                result3->FUN_00476c70(Sky_GetMode());
             if (FUN_00444d00(0x8000))
             {
                 if (DAT_011f2250.FUN_0044ddc0() == 4)
@@ -8850,7 +8850,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
                 }
                 victim->Kill(killer3, 0.0f);
                 _g_thePlayer->FUN_008d8520()->event(_g_thePlayer, *victim->GetPosition(),
-                                                    FUN_004181e0()->FUN_004fd3c0()->FUN_004fb810(), 2, victim);
+                                                    FUN_004181e0()->FUN_004fd3c0()->BGSExplosion_GetSoundLevelValue(), 2, victim);
             }
         }
     }
@@ -8942,11 +8942,11 @@ extern RecursiveSpinLock DAT_011f11a0;
 extern ActorDeletionQueue DAT_011e0e80;
 struct FUN_009c4b60_shell : public MobileObject
 {
-    bool FUN_009c4b60();
+    bool Projectile_MoveToLow();
 };
 
 // @fnv 0x009c4b60
-bool FUN_009c4b60_shell::FUN_009c4b60()
+bool FUN_009c4b60_shell::Projectile_MoveToLow()
 {
     ((GlobalObject_0096a2d0*)&DAT_011f11a0)->Lock(0);
     if (this->word68 != 0)
@@ -9076,7 +9076,7 @@ void RemOwner::FUN_009c4c80(RemForm* apForm)
 class TESObjectWEAP : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 ActorCause* __cdecl FindStateByValue(unsigned int);
 struct LoadBuf52 : BGSLoadFormBuffer
 {
@@ -9218,14 +9218,14 @@ struct LoadProjectile52 : Projectile
     virtual void v114();
     virtual void v115();
     virtual int v116();
-    void FUN_00932a00(LoadBuf52*);
+    void MobileObject_LoadGame(LoadBuf52*);
     void LoadProjectile(LoadBuf52*);
 };
 // Loads projectile fields from a save buffer, including weapon, position, transform, cause, an optional extra object and a list of items, gated by version.
 // @fnv 0x009c52f0
 void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
 {
-    FUN_00932a00(buffer);
+    MobileObject_LoadGame(buffer);
     buffer->ReadTypedData(&wordC8, 4);
     buffer->ReadTypedData(&floatCC, 4);
     buffer->ReadTypedData(&floatD4, 4);
@@ -9235,7 +9235,7 @@ void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
     buffer->ReadTypedData(&floatE0, 4);
     buffer->ReadTypedData(&floatE4, 4);
     buffer->ReadTypedData(&floatE8, 4);
-    wordF8 = (unsigned int)dynamic_cast<TESObjectWEAP*>(FUN_004839c0(buffer->FUN_008648a0()));
+    wordF8 = (unsigned int)dynamic_cast<TESObjectWEAP*>(TESForm_GetFormByNumericID(buffer->FUN_008648a0()));
     buffer->ReadFormIdentifier(&wordFC);
     buffer->ReadFormIdentifier(&word100);
     buffer->ReadTypedData(&position, 12);
@@ -9290,7 +9290,7 @@ void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
         buffer->ReadTypedData(&byte90, 1);
 }
 
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 struct LoadItem9c5
 {
@@ -9322,17 +9322,17 @@ struct FUN_009c5740_shell
     char pad104[0x144 - 0x104];
     LoadExtra9c5* m_pkExtra;
 
-    void FUN_00932b70(BGSLoadFormBuffer* pkBuffer);
+    void MobileObject_InitLoadGame(BGSLoadFormBuffer* pkBuffer);
     void LoadForm(BGSLoadFormBuffer* pkBuffer);
 };
 
-// Loads the form via FUN_00932b70, resolves m_pkRef0/m_pkRef1, loads m_pkExtra, and for version >= 0xe iterates m_kList loading each item.
+// Loads the form via MobileObject_InitLoadGame, resolves m_pkRef0/m_pkRef1, loads m_pkExtra, and for version >= 0xe iterates m_kList loading each item.
 // @fnv 0x009c5740
 void FUN_009c5740_shell::LoadForm(BGSLoadFormBuffer* pkBuffer)
 {
-    FUN_00932b70(pkBuffer);
-    m_pkRef0 = m_pkRef0 ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)m_pkRef0)) : 0;
-    m_pkRef1 = m_pkRef1 ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)m_pkRef1)) : 0;
+    MobileObject_InitLoadGame(pkBuffer);
+    m_pkRef0 = m_pkRef0 ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID((unsigned int)m_pkRef0)) : 0;
+    m_pkRef1 = m_pkRef1 ? dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID((unsigned int)m_pkRef1)) : 0;
     if (m_pkExtra)
         m_pkExtra->FUN_004bef60(pkBuffer);
     if (pkBuffer->GetVersion() >= 0xe)
@@ -9557,7 +9557,7 @@ struct PVPoint
 {
     float x, y, z;
     PVPoint FUN_00439ef0(const PVPoint& kOther) const;  // operator-
-    void FUN_004a0c10();                                // Unitize
+    void NiPoint3_Unitize();                                // Unitize
 };
 
 class FUN_00416870_Offset
@@ -9577,7 +9577,7 @@ struct PVCamResult
 class PVCamera
 {
   public:
-    PVCamResult FUN_00461130(const FUN_00416870_Offset& kIntersectionOffset);
+    PVCamResult NiAVObject_GetWorldRotate(const FUN_00416870_Offset& kIntersectionOffset);
 };
 PVCamera* FUN_00524c90();
 
@@ -9589,7 +9589,7 @@ class PVAimNode
 class PVNode
 {
   public:
-    PVAimNode* FUN_00461130();
+    PVAimNode* NiAVObject_GetWorldRotate();
     const PVPoint* FUN_0045bb80();
 };
 
@@ -9880,7 +9880,7 @@ class PVPackageData
 class PVPackage
 {
   public:
-    PVPackageData* FUN_006758f0();
+    PVPackageData* TESPackage_GetUseWeaponPackageData();
 };
 
 class PVOwner
@@ -10073,8 +10073,8 @@ extern PVOwner* DAT_011dea3c;
 
 struct PVWeaponStats
 {
-    float FUN_00524b80(bool bFlag);
-    float FUN_00524be0(bool bFlag);
+    float TESObjectWEAP_GetMinSpreadDegrees(bool bFlag);
+    float TESObjectWEAP_GetSpreadDegrees(bool bFlag);
     bool IsFlag4Set();
 };
 struct PVFloatSetting
@@ -10389,27 +10389,27 @@ class PVProjectile
     int unk14c;
     PVModelPtr m_spModel;  // +0x150
 
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     void UpdateDetonation(float fTimeSinceScaleStart);
     PVOwner* FUN_00874480();
     bool FUN_00444d00(int iFlag);
     float GetE0();
     void FUN_009bc8f0();
-    PVWeaponStats* FUN_00476c90();
-    void FUN_005757d0(float fValue);
-    void FUN_00575770(float fValue);
-    void FUN_005757a0(float fValue);
-    void FUN_00575830(const PVPoint* pkPos);
+    PVWeaponStats* Sky_GetMode();
+    void TESObjectREFR_SetAngleOnReferenceZ(float fValue);
+    void TESObjectREFR_SetAngleOnReferenceX(float fValue);
+    void TESObjectREFR_SetAngleOnReferenceY(float fValue);
+    void TESObjectREFR_SetLocationOnReference(const PVPoint* pkPos);
     void UpdateNodeTransform(int iA, int iB);
     void FUN_009795c0(float fValue);
     float GetFirstLightParameter();
-    void FUN_009ab390(float fTimeSinceScaleStart);
+    void ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceScaleStart);
 };
 
 // @fnv 0x009ab390
-void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
+void PVProjectile::ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceScaleStart)
 {
-    if (FUN_00440d80())
+    if (TESForm_GetDelete())
         return;
     UpdateDetonation(fTimeSinceScaleStart);
     PVOwner* pkActor = FUN_00874480()->IsActor() ? FUN_00874480() : 0;
@@ -10423,21 +10423,21 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
         if (pkActor == DAT_011dea3c)
         {
             PVPoint kWorldPosition = DAT_011dea3c->FUN_009ab970().FUN_00439ef0(m_kPos);
-            kWorldPosition.FUN_004a0c10();
+            kWorldPosition.NiPoint3_Unitize();
             fYaw = GetDirectionAngle(&kWorldPosition);
             fCurrentSpeed = -FUN_004b5530(kWorldPosition.z);
         }
         else
         {
             float fRoll;
-            pkAimNode->FUN_00461130()->FUN_00a59400(&fYaw, &fCurrentSpeed, &fRoll);
+            pkAimNode->NiAVObject_GetWorldRotate()->FUN_00a59400(&fYaw, &fCurrentSpeed, &fRoll);
         }
         {
             bool bNoSpread = false;
             PVPackage* pkPackageTmp = pkActor ? pkActor->FUN_009344a0() : 0;
             if (pkPackageTmp)
             {
-                PVPackageData* pkData = pkPackageTmp->FUN_006758f0();
+                PVPackageData* pkData = pkPackageTmp->TESPackage_GetUseWeaponPackageData();
                 if (pkData)
                     bNoSpread = pkData->FUN_00424940();
             }
@@ -10452,7 +10452,7 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
                 if (pkActor && pkActor->FUN_008d8520() && pkWeaponCur && pkWeaponCur->HasEffect(3))
                     bScopedVal = true;
                 float fBodyPartChance =
-                    (FUN_00476c90()->FUN_00524b80(bScopedVal) + FUN_00476c90()->FUN_00524be0(bScopedVal) * fSkill) *
+                    (Sky_GetMode()->TESObjectWEAP_GetMinSpreadDegrees(bScopedVal) + Sky_GetMode()->TESObjectWEAP_GetSpreadDegrees(bScopedVal) * fSkill) *
                     0.017453292f;
                 float fUnusedTmp = pkActor->GetCachedSpeed(2);
                 float fExtraOut = pkActor->FUN_008d8520()->GetSpread();
@@ -10463,24 +10463,24 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
                 fYaw += FUN_004e4470(fAngleDifference) * fRadiusBase;
             }
         }
-        FUN_005757d0(fYaw);
-        FUN_00575770(fCurrentSpeed);
-        FUN_005757a0(0.0f);
+        TESObjectREFR_SetAngleOnReferenceZ(fYaw);
+        TESObjectREFR_SetAngleOnReferenceX(fCurrentSpeed);
+        TESObjectREFR_SetAngleOnReferenceY(0.0f);
     }
     void* pvNode3D = GetNode3D();
     if (pkAimNode && pvNode3D)
     {
         bool bFirstPerson = false;
-        if (FUN_00476c90()->IsFlag4Set() && pkActor->FUN_008bbc10() && pkActor == DAT_011dea3c)
+        if (Sky_GetMode()->IsFlag4Set() && pkActor->FUN_008bbc10() && pkActor == DAT_011dea3c)
             bFirstPerson = true;
         PVCamera* pkCameraTmp = FUN_00524c90();
         if (bFirstPerson && pkCameraTmp)
         {
             static FUN_00416870_Offset s_kOffset(0.0f, -15.0f, 0.0f);
-            FUN_00575830(pkCameraTmp->FUN_00461130(s_kOffset).FUN_00524c40());
+            TESObjectREFR_SetLocationOnReference(pkCameraTmp->NiAVObject_GetWorldRotate(s_kOffset).FUN_00524c40());
         }
         else
-            FUN_00575830(((PVNode*)pkAimNode)->FUN_0045bb80());
+            TESObjectREFR_SetLocationOnReference(((PVNode*)pkAimNode)->FUN_0045bb80());
     }
     UpdateNodeTransform(1, 0);
     FUN_009795c0(10000.0f);
@@ -10504,7 +10504,7 @@ struct Matrix9b34
 
 struct AVObject9b34
 {
-    const Matrix9b34& FUN_00461130();
+    const Matrix9b34& NiAVObject_GetWorldRotate();
     const NiPoint3& FUN_0045bb80();
 };
 
@@ -10519,8 +10519,8 @@ struct Node9b34
     void FUN_00450f90(bool bCulled);
 };
 
-void __cdecl FUN_00578060(void* pkObject);
-void __cdecl FUN_00578170(void* pkObject);
+void __cdecl TESObjectREFR_AddMasterParticleAddonNodes(void* pkObject);
+void __cdecl TESObjectREFR_RemoveMasterParticleAddonNodes(void* pkObject);
 
 struct Parent9b34
 {
@@ -10877,10 +10877,10 @@ struct Projectile9b34
     Matrix9b34 m_kRotate;
     char m_acPadB8[0x98];
     float m_fXValue;
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     Parent9b34* FUN_00874480();
     void FUN_009c6330(const Matrix9b34& kRotate);
-    void FUN_00575830(const NiPoint3& kPosition);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& kPosition);
     void UpdateDetonation(float fTimeDelta);
     void FUN_009bc8f0();
     void UpdateProjectile(float fTimeDelta);
@@ -10889,16 +10889,16 @@ struct Projectile9b34
 // @fnv 0x009b34c0
 void Projectile9b34::UpdateProjectile(float fTimeDelta)
 {
-    if (FUN_00440d80())
+    if (TESForm_GetDelete())
         return;
     AVObject9b34* pkRoot = FUN_00874480() ? FUN_00874480()->GetAttachNode() : 0;
     Node9b34* pkNode = Get3D();
     if (pkRoot && pkNode)
     {
-        pkNode->FUN_0043fa80(m_kRotate.FUN_0043f8d0(pkRoot->FUN_00461130()));
-        FUN_009c6330(m_kRotate.FUN_0043f8d0(pkRoot->FUN_00461130()));
+        pkNode->FUN_0043fa80(m_kRotate.FUN_0043f8d0(pkRoot->NiAVObject_GetWorldRotate()));
+        FUN_009c6330(m_kRotate.FUN_0043f8d0(pkRoot->NiAVObject_GetWorldRotate()));
         pkNode->FUN_00440460(pkRoot->FUN_0045bb80());
-        FUN_00575830(pkRoot->FUN_0045bb80());
+        TESObjectREFR_SetLocationOnReference(pkRoot->FUN_0045bb80());
     }
     if (m_fXValue == 0.0)
     {
@@ -10907,13 +10907,13 @@ void Projectile9b34::UpdateProjectile(float fTimeDelta)
     }
     if (m_fXValue == 0.0)
     {
-        FUN_00578060(Get3D()->GetUserData());
+        TESObjectREFR_AddMasterParticleAddonNodes(Get3D()->GetUserData());
         Get3D()->FUN_00450f90(false);
     }
     else if (m_fXValue > DAT_010290d0)
     {
         Get3D()->FUN_00450f90(true);
-        FUN_00578170(Get3D()->GetUserData());
+        TESObjectREFR_RemoveMasterParticleAddonNodes(Get3D()->GetUserData());
     }
     m_fXValue += fTimeDelta;
     if (m_fXValue > 1.0)
@@ -10973,7 +10973,7 @@ class ListNodeHelper
 class ProjectileHelper : public Projectile
 {
   public:
-    void FUN_00932880(BGSSaveFormBuffer* buf);
+    void MobileObject_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* buf);
     void SaveProjectile(BGSSaveFormBuffer* buf);
 };
 
@@ -10981,7 +10981,7 @@ class ProjectileHelper : public Projectile
 // @fnv 0x009c4ff0
 void ProjectileHelper::SaveProjectile(BGSSaveFormBuffer* buf)
 {
-    this->FUN_00932880(buf);
+    this->MobileObject_AppendSaveLoadFormBuffer(buf);
     buf->FUN_00865e50(&this->wordC8, 4, 0);
     buf->FUN_00865e50(&this->floatCC, 4, 0);
     buf->FUN_00865e50(&this->floatD4, 4, 0);
@@ -11036,7 +11036,7 @@ void ProjectileHelper::SaveProjectile(BGSSaveFormBuffer* buf)
 
 struct LoadBuffer9c58
 {
-    bool FUN_00562d00();
+    bool BGSLoadFormBuffer_GetRevertOnly();
 };
 
 struct ListItem9c58
@@ -11290,12 +11290,12 @@ struct Projectile9c58
     unsigned int m_ui140;
     Owned9c58* m_pkOwned144;
     void FUN_00932f60(LoadBuffer9c58* pkBuffer);
-    void FUN_009c58e0(LoadBuffer9c58* pkBuffer);
+    void Projectile_Revert(LoadBuffer9c58* pkBuffer);
 };
 
 // Calls FUN_00932f60, clears the change list, resets projectile fields to defaults, deletes m_pkOwned144, and calls ResetState if the buffer check passes.
 // @fnv 0x009c58e0
-void Projectile9c58::FUN_009c58e0(LoadBuffer9c58* pkBuffer)
+void Projectile9c58::Projectile_Revert(LoadBuffer9c58* pkBuffer)
 {
     FUN_00932f60(pkBuffer);
     while (!FUN_008256d0(&m_kChanges))
@@ -11328,7 +11328,7 @@ void Projectile9c58::FUN_009c58e0(LoadBuffer9c58* pkBuffer)
     m_ui140 = 0;
     delete m_pkOwned144;
     m_pkOwned144 = 0;
-    if (pkBuffer->FUN_00562d00())
+    if (pkBuffer->BGSLoadFormBuffer_GetRevertOnly())
         ResetState();
 }
 
@@ -11528,14 +11528,14 @@ struct S9b41b0
     virtual void v123();
     virtual void v124();
     virtual NiPoint3* v1f4();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     float FUN_00885bd0();
     unsigned FUN_0084e3a0();
     S9b41b0* FUN_009b4440();
     void FUN_009bc8f0();
     void FUN_009bf190();
     bool FUN_00444d00(int);
-    void FUN_00575830(NiPoint3 const&);
+    void TESObjectREFR_SetLocationOnReference(NiPoint3 const&);
     void UpdateDetonation(float);
     BGSProjectile* FUN_004181e0();
     void Update(float t);
@@ -11545,7 +11545,7 @@ struct S9b41b0
 // @fnv 0x009b41b0
 void S9b41b0::Update(float afTime)
 {
-    if (FUN_00440d80())
+    if (TESForm_GetDelete())
         return;
     if (!b150 && FUN_00885bd0() > 1.0)
     {
@@ -11573,7 +11573,7 @@ void S9b41b0::Update(float afTime)
     if (FUN_00444d00(0x400) && FUN_009b4440())
     {
         FUN_009bf190();
-        FUN_00575830(*FUN_009b4440()->v1f4());
+        TESObjectREFR_SetLocationOnReference(*FUN_009b4440()->v1f4());
     }
     UpdateDetonation(afTime);
 }
@@ -11905,7 +11905,7 @@ struct Proj : Virtuals
     Actor* unkFC;
     ActorBase* FUN_004181e0();
     Cell* FUN_008d6f30();
-    Form* FUN_00567790();
+    Form* TESObjectREFR_GetOwner();
     bool FUN_00444d00(unsigned int);
     void FUN_005de0a0(unsigned int, bool);
     bool IsFightReactionAllowed(Actor*, Actor*, Form*);
@@ -11927,7 +11927,7 @@ bool Proj::FUN_009c39e0()
         ownerActor53 = unkFC;
     else
     {
-        Form* owner = FUN_00567790();
+        Form* owner = TESObjectREFR_GetOwner();
         if (owner)
         {
             int type = owner->FUN_00401170();
@@ -12000,8 +12000,8 @@ class NiAVObject
     virtual NiNode* GetNiNode();
 };
 
-bool FUN_005784b0(NiNode*);
-void FUN_00578170(NiNode*);
+bool TESObjectREFR_HasAddonFlags(NiNode*);
+void TESObjectREFR_RemoveMasterParticleAddonNodes(NiNode*);
 
 class TESActorBase;
 class Actor;
@@ -12215,9 +12215,9 @@ FUN_009bc470::~FUN_009bc470()
 
     if (reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple() &&
         reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple()->GetNiNode() &&
-        FUN_005784b0(reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple()->GetNiNode()))
+        TESObjectREFR_HasAddonFlags(reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple()->GetNiNode()))
     {
-        FUN_00578170(reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple()->GetNiNode());
+        TESObjectREFR_RemoveMasterParticleAddonNodes(reinterpret_cast<TESObjectREFR*>(this)->Get3DSimple()->GetNiNode());
     }
     reinterpret_cast<TESObjectREFR*>(this)->TESObjectREFR::Set3D(0, 1);
 
@@ -12291,7 +12291,7 @@ FUN_009bc470::~FUN_009bc470()
 struct NiRTTI;
 extern NiRTTI const _g_01202e7c;
 
-bool __cdecl FUN_0043b300(NiRTTI const*, NiAVObject*);
+bool __cdecl NiObject_IsKindOf(NiRTTI const*, NiAVObject*);
 int __fastcall FUN_0045bb80(int);
 
 struct NiNode
@@ -12324,7 +12324,7 @@ bool ProjectileBlastSearch::FUN_009c6380(NiAVObject* apRoot, NiPoint3& aBlastPos
     NiNode* pnode;
     bool bblastNodeFound = false;
 
-    if (FUN_0043b300(&_g_01202e7c, apRoot))
+    if (NiObject_IsKindOf(&_g_01202e7c, apRoot))
     {
         bblastNodeFound = true;
         *(NiPoint3*)&aBlastPosition = *(NiPoint3*)FUN_0045bb80((int)apRoot);

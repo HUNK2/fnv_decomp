@@ -9,11 +9,11 @@ struct BaseFormComponent
 struct BGSAmmoForm : BaseFormComponent
 {
     void* m_pAmmo;
-    bool FUN_00474b70(BaseFormComponent* apCompareFC);
+    bool BGSAmmoForm_CompareComponent(BaseFormComponent* apCompareFC);
 };
 
 // @fnv 0x00474b70
-bool BGSAmmoForm::FUN_00474b70(BaseFormComponent* apCompareFC)
+bool BGSAmmoForm::BGSAmmoForm_CompareComponent(BaseFormComponent* apCompareFC)
 {
     BGSAmmoForm* pcompare = dynamic_cast<BGSAmmoForm*>(apCompareFC);
     if (!pcompare)
@@ -30,10 +30,10 @@ struct DeallocHolder
 };
 struct Shell474af0 : BGSAmmoForm
 {
-    void FUN_00474af0();
+    void BGSAmmoForm_Save();
 };
 // @fnv 0x00474af0
-void Shell474af0::FUN_00474af0()
+void Shell474af0::BGSAmmoForm_Save()
 {
     if (m_pAmmo != 0)
     {
@@ -69,15 +69,15 @@ struct GroupHolder
 };
 struct FUN_00474a80_Class
 {
-    GroupHolder* FUN_00474a40();
-    bool FUN_00474a80();
+    GroupHolder* BGSAmmoForm_GetAmmoFormList();
+    bool BGSAmmoForm_IsRockItLauncher();
 };
 // @fnv 0x00474a80
-bool FUN_00474a80_Class::FUN_00474a80()
+bool FUN_00474a80_Class::BGSAmmoForm_IsRockItLauncher()
 {
-    if (FUN_00474a40())
+    if (BGSAmmoForm_GetAmmoFormList())
     {
-        int value = *FUN_00474a40()->FUN_00500940()->FUN_006815c0();
+        int value = *BGSAmmoForm_GetAmmoFormList()->FUN_00500940()->FUN_006815c0();
         if (value != 0)
         {
             int result = FUN_00ec43fb(value, 0, &DAT_01183028, &DAT_011840c4, 0);
@@ -99,7 +99,7 @@ struct ComparisonInfo
     unsigned int __thiscall FUN_0084e3a0();
 };
 void __cdecl ResolveFormID(void**, int);
-void* __cdecl FUN_004839c0(void*);
+void* __cdecl TESForm_GetFormByNumericID(void*);
 void __cdecl FUN_005b5e40(const char*, ...);
 extern const char str_0101a3c8[];
 extern const char str_0101a404[];
@@ -117,7 +117,7 @@ void __thiscall FUN_00474bc0_shell::CompareAmmo(BaseFormComponent* apCompareFC)
     {
         void* oldAmmo = m_pAmmo;
         ResolveFormID(&oldAmmo, reinterpret_cast<ComparisonInfo*>(apCompareFC)->FUN_00484e60(-1));
-        m_pAmmo = FUN_004839c0(oldAmmo);
+        m_pAmmo = TESForm_GetFormByNumericID(oldAmmo);
         if (m_pAmmo && reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x29 &&
             reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x55)
         {

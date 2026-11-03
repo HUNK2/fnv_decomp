@@ -6,19 +6,19 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct S_00477f20
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -26,11 +26,11 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct FUN_0048b5c0_shell
 {
-    void FUN_0048b5c0();
+    void TESProduceForm_Save();
 };
 struct FUN_00508920_obj
 {

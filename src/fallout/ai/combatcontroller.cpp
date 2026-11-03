@@ -651,11 +651,11 @@ struct CombatController
     void UpdatePointer();
     void FUN_0097d9d0();
     void UpdateActorValues();
-    void FUN_00982310(BGSLoadFormBuffer* apLoadGameBuffer);
+    void CombatController_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // Reverts the combat controller from the load buffer, then calls FUN_0097f390, UpdatePointer, FUN_0097d9d0 and UpdateActorValues.
 // @fnv 0x00982310
-void CombatController::FUN_00982310(BGSLoadFormBuffer* apLoadGameBuffer)
+void CombatController::CombatController_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((TESNPC*)this)->Revert(apLoadGameBuffer);
     this->FUN_0097f390();
@@ -853,7 +853,7 @@ struct BaseFormComponent
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004c8f30_shell : public InventoryChanges
 {
-    int FUN_004c8f30(int);
+    int InventoryChanges_GetObjectCount(int);
 };
 
 struct BSSimpleListRef
@@ -867,7 +867,7 @@ struct TESContainer
 };
 struct FUN_004bffb0_shell
 {
-    TESContainer* FUN_004bffb0();
+    TESContainer* InventoryChanges_GetOriginalContainer();
 };
 struct InventoryStackRecord
 {
@@ -875,20 +875,20 @@ struct InventoryStackRecord
 };
 struct FUN_004bfba0_shell
 {
-    InventoryStackRecord* FUN_004bfba0(TESBoundObject*, int, int);
+    InventoryStackRecord* InventoryChanges_GetObjectInList(TESBoundObject*, int, int);
 };
 // Returns the original container count for apObject plus the change-list index, treating an empty change entry as one item.
 // @fnv 0x004c8f30
-int FUN_004c8f30_shell::FUN_004c8f30(int apObject)
+int FUN_004c8f30_shell::InventoryChanges_GetObjectCount(int apObject)
 {
     int icount = 0;
     TESContainer* porigContainer =
-        reinterpret_cast<TESContainer*>(reinterpret_cast<FUN_004bffb0_shell*>(this)->FUN_004bffb0());
+        reinterpret_cast<TESContainer*>(reinterpret_cast<FUN_004bffb0_shell*>(this)->InventoryChanges_GetOriginalContainer());
     icount = porigContainer ? porigContainer->GetObjectCount(reinterpret_cast<TESObject*>(apObject)) : 0;
     if (icount < 0)
         icount *= -1;
     InventoryStackRecord* pchange =
-        reinterpret_cast<FUN_004bfba0_shell*>(this)->FUN_004bfba0(reinterpret_cast<TESBoundObject*>(apObject), 1, 0);
+        reinterpret_cast<FUN_004bfba0_shell*>(this)->InventoryChanges_GetObjectInList(reinterpret_cast<TESBoundObject*>(apObject), 1, 0);
     if (pchange)
     {
         if (icount == 0 && !reinterpret_cast<BSSimpleListRef*>(pchange)->GetItem())
@@ -901,7 +901,7 @@ int FUN_004c8f30_shell::FUN_004c8f30(int apObject)
 
 struct FUN_00666f00_shell
 {
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
 };
 struct FUN_009804d0_shell
 {
@@ -910,9 +910,9 @@ struct FUN_009804d0_shell
 // @fnv 0x009804d0
 bool FUN_009804d0_shell::FUN_009804d0()
 {
-    if (*((int*)this + 0x21) && ((FUN_00666f00_shell*)*((int*)this + 0x21))->FUN_00666f00())
+    if (*((int*)this + 0x21) && ((FUN_00666f00_shell*)*((int*)this + 0x21))->BSTreeModel_IsInstance())
         return true;
-    if (*((int*)this + 0x22) && ((FUN_00666f00_shell*)*((int*)this + 0x22))->FUN_00666f00())
+    if (*((int*)this + 0x22) && ((FUN_00666f00_shell*)*((int*)this + 0x22))->BSTreeModel_IsInstance())
         return true;
     if (!*((int*)this + 0x21) && !*((int*)this + 0x22))
         return true;
@@ -1023,7 +1023,7 @@ void Cls_0097f3f0::UpdatePointer()
 typedef int COMBAT_WEAPON_TYPE;
 struct WEAPStub
 {
-    COMBAT_WEAPON_TYPE FUN_00522c80();
+    COMBAT_WEAPON_TYPE TESObjectWEAP_GetCombatWeaponType();
 };
 struct CombatStateStub
 {
@@ -1043,7 +1043,7 @@ void CombatControllerStub::ValidateCurrentWeapon()
 {
     if (m_pkCurrentWeapon)
     {
-        COMBAT_WEAPON_TYPE eWeaponType = m_pkCurrentWeapon->FUN_00522c80();
+        COMBAT_WEAPON_TYPE eWeaponType = m_pkCurrentWeapon->TESObjectWEAP_GetCombatWeaponType();
         if (m_pModifier->FUN_0097c150(eWeaponType) != m_pkCurrentWeapon)
             m_pkCurrentWeapon = 0;
     }
@@ -1387,7 +1387,7 @@ struct BSThread
 };
 struct FUN_006797c0_shell
 {
-    void FUN_006797c0(void*);
+    void TESPackage_AppendSaveLoadFormBuffer(void*);
 };
 struct FUN_009a5eb0_shell
 {
@@ -1438,12 +1438,12 @@ struct CombatController
     char pad143;
     int i144, i148;
     void FUN_00982350(CombatProcedure** p, BGSSaveFormBuffer* buf);
-    void FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void CombatController_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 // @fnv 0x009819f0
-void CombatController::FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer)
+void CombatController::CombatController_AppendSaveLoadFormBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    ((FUN_006797c0_shell*)this)->FUN_006797c0(apSaveGameBuffer);
+    ((FUN_006797c0_shell*)this)->TESPackage_AppendSaveLoadFormBuffer(apSaveGameBuffer);
     apSaveGameBuffer->SerializeFormData(m_pkAttacker, 0);
     apSaveGameBuffer->SerializeFormData(pTarget, 0);
     unsigned int icombatGroupID = m_pCombatData->GetCenterX();
@@ -2140,7 +2140,7 @@ struct PlayerCharacter
 
 struct CombatManagerSaveLoad
 {
-    ActorCombatGroup* FUN_00991f80(Actor*);
+    ActorCombatGroup* CombatManager_SplitPlayerCombatGroup(Actor*);
 };
 
 extern void* _g_thePlayer;
@@ -2168,7 +2168,7 @@ void FUN_0097f930_shell::FUN_0097f930(Actor* apTarget, int iPriority, bool abHig
         ((PlayerCharacter*)_g_thePlayer)->FUN_00967220(m_pkAttacker, 1);
         if (m_pCombatData == ((PlayerCharacter*)_g_thePlayer)->GetCombatGroup())
         {
-            m_pCombatData = ((CombatManagerSaveLoad*)BGSSaveLoadGlobalDataWorldspacePtr)->FUN_00991f80(m_pkAttacker);
+            m_pCombatData = ((CombatManagerSaveLoad*)BGSSaveLoadGlobalDataWorldspacePtr)->CombatManager_SplitPlayerCombatGroup(m_pkAttacker);
         }
     }
 
@@ -2228,7 +2228,7 @@ struct FUN_00497280_shell
 
 struct FUN_005f3780_shell
 {
-    float FUN_005f3780(int);
+    float TESAnimGroup_GetTime(int);
 };
 
 class AnimSequenceBase
@@ -2382,8 +2382,8 @@ float FUN_0097feb0(Actor* apActor, ANIM_GROUP_ENUM aePowerAttack)
                 ->GetAt(eanimGroup, panimSeq))
         {
             TESAnimGroup* panimGroup = panimSeq->GetControllerSequence(-1)->GetAnimGroup();
-            return ((FUN_005f3780_shell*)panimGroup)->FUN_005f3780(1) -
-                   ((FUN_005f3780_shell*)panimGroup)->FUN_005f3780(0);
+            return ((FUN_005f3780_shell*)panimGroup)->TESAnimGroup_GetTime(1) -
+                   ((FUN_005f3780_shell*)panimGroup)->TESAnimGroup_GetTime(0);
         }
     }
     return -1.0f;
@@ -2623,12 +2623,12 @@ struct TES
 
 struct ExtraH
 {
-    void FUN_005c1ae0();
+    void CombatController_ForceStopCombat();
 };
 
 struct FUN_0067a700_shell
 {
-    bool FUN_0067a700();
+    bool TESPackage_GetContinueDuringCombat();
 };
 
 struct FUN_0067a720_shell
@@ -2714,13 +2714,13 @@ class CombatController
 void CombatController::FUN_00981380()
 {
     bool bResult;
-    if (((FUN_00981300_shell*)this)->FUN_00981300() || ((FUN_0067a700_shell*)this)->FUN_0067a700())
+    if (((FUN_00981300_shell*)this)->FUN_00981300() || ((FUN_0067a700_shell*)this)->TESPackage_GetContinueDuringCombat())
     {
         TESPackage* package = 0;
         bResult = ((AIProcess*)pActor->GetLogDate())->MethodB4(pActor, &package);
         if (bResult)
         {
-            ((ExtraH*)this)->FUN_005c1ae0();
+            ((ExtraH*)this)->CombatController_ForceStopCombat();
         }
         else if (package)
         {
@@ -4205,7 +4205,7 @@ struct UpdateAction
     virtual void Slot2c();
     virtual void Slot30();
     bool IsField8One();
-    bool FUN_00666f00();
+    bool BSTreeModel_IsInstance();
 };
 struct UpdateProcess
 {
@@ -4899,10 +4899,10 @@ struct UpdateActor
     UpdateActor* baseForm;
     UpdateProcess* FUN_008d8520();
     bool FUN_00440da0();
-    bool FUN_00440d80();
-    bool FUN_00493830();
+    bool TESForm_GetDelete();
+    bool Animation_GetAnimsLoading();
     bool FUN_008a7a40();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     void SetActiveState(bool, int, bool);
 };
 struct DurationTracker
@@ -5222,7 +5222,7 @@ void CombatUpdater::FUN_0097da50()
     }
     FUN_0097f390();
     UpdateActor* actor = FUN_004030b0();
-    if (actor && ((actor->IsInvalid(0) && !actor->IsDead()) || actor->FUN_00440da0() || actor->FUN_00440d80()))
+    if (actor && ((actor->IsInvalid(0) && !actor->IsDead()) || actor->FUN_00440da0() || actor->TESForm_GetDelete()))
     {
         actor2->RejectAction(actor);
         return;
@@ -5237,7 +5237,7 @@ void CombatUpdater::FUN_0097da50()
         return;
     if (state->GetByteAtOffset())
         return;
-    if (current->FUN_00493830())
+    if (current->Animation_GetAnimsLoading())
         return;
     if (actor2->IsRestrained())
         return;
@@ -5304,13 +5304,13 @@ void CombatUpdater::FUN_0097da50()
         action88->Update();
     if (action84)
         action84->Update();
-    if (!actor2->FUN_00493bb0())
+    if (!actor2->Actor_IsInCombat())
         return;
     for (unsigned int i = 0; i < actions.FUN_0044ddc0(); ++i)
     {
         UpdateAction* item = actions.FUN_006a7ad0(i);
         item->Update();
-        if (item->FUN_00666f00() || item->IsField8One())
+        if (item->BSTreeModel_IsInstance() || item->IsField8One())
         {
             if (item->IsField8One())
                 InitFromArg(item);
@@ -5587,7 +5587,7 @@ struct OffsetVector
 extern OffsetVector DAT_011f426c;
 struct OffsetBounds
 {
-    float FUN_005f3780(int);
+    float TESAnimGroup_GetTime(int);
     OffsetVector GetVec() const;
 };
 struct OffsetShape
@@ -5754,7 +5754,7 @@ bool GetActorSlotExtent(OffsetActor* actor, int slot, OffsetVector& output)
         if (anim->FUN_00497280(id6, &object5)->Lookup())
         {
             OffsetBounds* bounds = object5->GetShape(-1)->FUN_0048f7f0();
-            OffsetVector extent4 = bounds->GetVec().ApplyScaled(bounds->FUN_005f3780(2) - bounds->FUN_005f3780(0));
+            OffsetVector extent4 = bounds->GetVec().ApplyScaled(bounds->TESAnimGroup_GetTime(2) - bounds->TESAnimGroup_GetTime(0));
             output = extent4.ApplyScaled(actor->FUN_00567400());
             result2 = true;
         }
@@ -6054,7 +6054,7 @@ struct Manager80830
     void FUN_00983970(Target80830*, int, int, bool);
 };
 extern void* DAT_011f1708;
-bool __cdecl FUN_005ac750(void*, void*, unsigned int);
+bool __cdecl Script_SetActionFlag(void*, void*, unsigned int);
 struct Target80830
 {
     int unk00;
@@ -6148,7 +6148,7 @@ void Target80830::FUN_00980830(void* target)
         {
             if (unk80->GetResultForArg(target) > 0)
             {
-                FUN_005ac750(unkc0, unkbc->FUN_005d43c0(), 0x8000);
+                Script_SetActionFlag(unkc0, unkbc->FUN_005d43c0(), 0x8000);
                 ((Manager80830*)DAT_011f1708)->FUN_00983970(this, 4, 4, true);
             }
         }
@@ -6610,11 +6610,11 @@ struct CombatStand
     int unk144, unk148;
     void LoadPackage(LoadBufferStand*);
     void LoadCombatProcedure(ProcedureStand**, LoadBufferStand*);
-    void FUN_00981d00(LoadBufferStand*);
+    void CombatController_LoadGame(LoadBufferStand*);
 };
 // Deserializes combat state from the buffer: pointers, procedure arrays, optional plan, action, timer, and version-gated fields.
 // @fnv 0x00981d00
-void CombatStand::FUN_00981d00(LoadBufferStand* buffer)
+void CombatStand::CombatController_LoadGame(LoadBufferStand* buffer)
 {
     LoadPackage(buffer);
     buffer->FUN_008648e0(&unkBC);
@@ -6900,11 +6900,11 @@ class C982080Controller : public C982080ControllerBase
     Actor* m_pkActor;
     Actor* m_pkTarget;
 
-    void FUN_00982080(C982080SaveGame* pkSaveGame);
+    void CombatController_InitLoadGame(C982080SaveGame* pkSaveGame);
 };
 
 // @fnv 0x00982080
-void C982080Controller::FUN_00982080(C982080SaveGame* pkSaveGame)
+void C982080Controller::CombatController_InitLoadGame(C982080SaveGame* pkSaveGame)
 {
     C982080ControllerBase::Revert(pkSaveGame);
 

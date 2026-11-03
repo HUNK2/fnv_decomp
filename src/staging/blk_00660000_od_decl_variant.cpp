@@ -192,7 +192,7 @@ struct FUN_0066c9c0_Class
 {
     T_ a;
     T_ b;
-    void FUN_0066c9c0(T_& x, T_& y, float f);
+    void hkContactPoint_set(T_& x, T_& y, float f);
 };
 struct Date
 {
@@ -563,7 +563,7 @@ struct FUN_006665c0_Entry
     int unk00;
     FUN_006665c0_Item* m_item;
 };
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeap_Free(void* p);
 void __cdecl FUN_0044e360(void* p);
 struct FUN_006665c0_cls
 {
@@ -655,8 +655,8 @@ struct SpawnedObject
 };
 extern int DAT_011ca278;
 extern int DAT_011dea3c;
-int __cdecl FUN_0066dba0(int a);
-float __cdecl FUN_0066dc70(int a);
+int __cdecl ActionPoints_GetAttackAction(int a);
+float __cdecl ActionPoints_GetBaseActionPoints(int a);
 void __cdecl FUN_005e58f0(int a, int b, int c, float* d);
 float __cdecl GetObjectValue(SpawnedObject* obj);
 extern "C" int __cdecl FUN_004019a0(void*);
@@ -781,7 +781,7 @@ class TESForm
 class Actor : public TESForm
 {
 };
-TESForm* __cdecl FUN_004839c0(void* p);
+TESForm* __cdecl TESForm_GetFormByNumericID(void* p);
 struct E640Item
 {
     void __thiscall ResolveActorFormId();
@@ -832,10 +832,10 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 }
 
-float __cdecl FUN_0066dc70(int value);
+float __cdecl ActionPoints_GetBaseActionPoints(int value);
 float* __fastcall FUN_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
-float __cdecl FUN_0066dca0(int value, bool unscaled);
+float __cdecl ActionPoints_GetActionPoints(int value, bool unscaled);
 struct Vector3
 {
     float x;

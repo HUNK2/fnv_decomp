@@ -2100,7 +2100,7 @@ class S00b700d0_Alpha : public NiProperty
     S00b700d0_Alpha();
     void FUN_0049ed90(bool);
     void FUN_004393c0(bool);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
     void FUN_004393e0(unsigned int);
 
     unsigned short m_usFlags;
@@ -2167,7 +2167,7 @@ class S00b700d0_Geom : public NiObjectNET
 
     NiProperty* FUN_00a59d30(unsigned int);
     void FUN_00a5b230(unsigned int);
-    void FUN_00439410(S00b700d0_Alpha*);
+    void NiAVObject_AttachProperty(S00b700d0_Alpha*);
     void FUN_00a5a040();
 
     int unk18;
@@ -2265,11 +2265,11 @@ bool S00b700d0_Shader::ApplyAlphaProperty(S00b700d0_Geom* apGeom)
     S00b700d0_Alpha* pAlpha = new S00b700d0_Alpha;
     pAlpha->FUN_0049ed90(pData->usFlags & 1);
     pAlpha->FUN_004393c0((pData->usFlags >> 9) & 1);
-    pAlpha->FUN_00439390((pData->usFlags >> 5) & 0xF);
+    pAlpha->NiAlphaProperty_SetDestBlendMode((pData->usFlags >> 5) & 0xF);
     pAlpha->m_usFlags &= 0xFFE1;
     pAlpha->FUN_004393e0((pData->usFlags >> 10) & 7);
     pAlpha->m_ucAlphaThreshold = pData->ucThreshold;
-    apGeom->FUN_00439410(pAlpha);
+    apGeom->NiAVObject_AttachProperty(pAlpha);
     apGeom->FUN_00a5a040();
     SetBit(ulFlags[1], iLastRenderPassState, 0x80000);
     return true;

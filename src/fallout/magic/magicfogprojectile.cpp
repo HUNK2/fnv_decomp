@@ -24,11 +24,11 @@ struct RefH
 };
 struct FUN_0081a920_shell : public RefH
 {
-    bool FUN_0081a920();
+    bool MagicFogProjectile_IsActive();
 };
 // Returns true when the int at offset 0xb4 is not 1 and the object is not deleted.
 // @fnv 0x0081a920
-bool FUN_0081a920_shell::FUN_0081a920()
+bool FUN_0081a920_shell::MagicFogProjectile_IsActive()
 {
     return *(int*)((char*)this + 0xb4) != 1 && !IsDeleted();
 }
@@ -42,10 +42,10 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct MagicFogProjectile
 {
     unsigned short GetSaveRecordSize(unsigned int);
-    unsigned short FUN_0081ad00(unsigned int flags);
+    unsigned short MagicFogProjectile_GetSaveSize(unsigned int flags);
 };
 // @fnv 0x0081ad00
-unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
+unsigned short MagicFogProjectile::MagicFogProjectile_GetSaveSize(unsigned int flags)
 {
     struct VirtualInterface
     {
@@ -203,7 +203,7 @@ struct Object
     virtual void method2();
     virtual void* AsNode();
 };
-bool FUN_0043b300(const RTTI*, Object*);
+bool NiObject_IsKindOf(const RTTI*, Object*);
 void* FUN_00653270(const RTTI*, Object*);
 struct Emitter
 {
@@ -212,7 +212,7 @@ struct Emitter
 };
 struct Controller
 {
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     void FUN_0098adb0(float);
     float FUN_004a7bd0();
     void FUN_00819a50(float);
@@ -221,7 +221,7 @@ struct Controller
 };
 struct Particle : Object
 {
-    unsigned FUN_004d7d50();
+    unsigned NiParticleSystem_GetModifierCount();
     Object* GetByIndex(unsigned);
 };
 struct Node : Object
@@ -288,10 +288,10 @@ void Effect::ScaleEffect(Object* object)
             float fSizeFactor = sizeScale * *DAT_011d1890.FUN_00403e20();
             fSpeedFactor = speedScale * *DAT_011d1bd4.FUN_00403e20();
             fSpeedFactor2 = speedScale * *DAT_011d19f0.FUN_00403e20();
-            if (FUN_0043b300(&DAT_012024e0, object))
+            if (NiObject_IsKindOf(&DAT_012024e0, object))
             {
                 Particle* particle = (Particle*)object;
-                for (unsigned i = 0; i < particle->FUN_004d7d50(); ++i)
+                for (unsigned i = 0; i < particle->NiParticleSystem_GetModifierCount(); ++i)
                 {
                     Controller* controller;
                     {
@@ -304,7 +304,7 @@ void Effect::ScaleEffect(Object* object)
                             controller = (Controller*)FUN_00653270(&DAT_01202540, entry);
                             if (controller)
                             {
-                                controller->FUN_0098adb0(controller->FUN_00639aa0() * fSizeFactor);
+                                controller->FUN_0098adb0(controller->NiControllerSequence_GetOffset() * fSizeFactor);
                                 controller->FUN_00819a50(controller->FUN_004a7bd0() * fSpeedFactor2);
                                 controller->FUN_00444020(controller->FUN_00792760() * fSpeedFactor);
                             }
@@ -511,7 +511,7 @@ struct Projectile
     FUN_0081aa80* head;
     unsigned id;
     void DeleteAllNodes();
-    void FUN_0081e980(int, int);
+    void MagicProjectile_LoadGame2(int, int);
     void FUN_00484d00(void*, unsigned);
     void FUN_00484d40(void*, unsigned);
     void LoadFromStream(int, int);
@@ -522,7 +522,7 @@ void Projectile::LoadFromStream(int a, int b)
 {
     DeleteAllNodes();
     Reset();
-    FUN_0081e980(a, b);
+    MagicProjectile_LoadGame2(a, b);
     FUN_00484d00(&unkA8, 4);
     FUN_00484d00(&unk88, 4);
     FUN_00484d00(&unkAC, 4);
@@ -585,7 +585,7 @@ struct FxSequence
 };
 struct FxControllerManager
 {
-    FxSequence* FUN_0047a520(const FxFixedString& kName);
+    FxSequence* NiControllerManager_GetSequenceByName(const FxFixedString& kName);
     void FUN_0048fef0(float fTime);
     bool FUN_0047aab0(FxSequence* pkSeq, int a2, int a3, float fWeight, float fEase, int a6);
     void FUN_0047aa40(int i);
@@ -806,7 +806,7 @@ void FogProjectileInit::InitProjectileEffect()
         FxControllerManager* pkManagerTmp = FUN_00653270(g_kNiControllerManagerRTTI_011f36ac, pkNode->FUN_0043b230());
         if (pkManagerTmp)
         {
-            FxSequence* pkSeqCur = pkManagerTmp->FUN_0047a520(FxFixedString(s_szSpecialIdle));
+            FxSequence* pkSeqCur = pkManagerTmp->NiControllerManager_GetSequenceByName(FxFixedString(s_szSpecialIdle));
             if (pkSeqCur)
             {
                 pkManagerTmp->FUN_0048fef0(0.0f);
@@ -848,7 +848,7 @@ struct SaveMgrExt
 class FUN_0081ade0_cls
 {
   public:
-    void FUN_0081e8c0(int);
+    void MagicProjectile_SaveGame(int);
     void FUN_00484ce0(void*, unsigned int);
     void ForwardToSaveLoadGame(void*, unsigned int);
     int FUN_00810fd0();
@@ -877,7 +877,7 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
 {
     float f;
     unsigned short* out;
-    FUN_0081e8c0(a1);
+    MagicProjectile_SaveGame(a1);
     FUN_00484ce0(&m_a8, 4);
     FUN_00484ce0(&m88, 4);
     FUN_00484ce0(&m_ac, 4);
@@ -931,7 +931,7 @@ class TESObjectREFR : public TESForm
 {
   public:
 };
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 struct FogSoundHandle
 {
@@ -964,7 +964,7 @@ struct FogLight
 
 struct FogProcess
 {
-    void FUN_00548230(void* pkProjectile, int iUnk);
+    void TESObjectCELL_AddReference(void* pkProjectile, int iUnk);
 };
 
 struct FogRefNode
@@ -976,7 +976,7 @@ struct FogRefNode
 
 struct FogIndexList
 {
-    int FUN_00406ee0(unsigned char m_ucClipIdentifier);
+    int EffectItemList_GetEffectItemByIndex(unsigned char m_ucClipIdentifier);
 };
 struct FogFile
 {
@@ -1135,7 +1135,7 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
 {
     ResolveMagicReferences(a1, a2);
     InitProjectileEffect();
-    FUN_008d6f30()->FUN_00548230(this, 0);
+    FUN_008d6f30()->TESObjectCELL_AddReference(this, 0);
     if (unkb4 != 1 && FUN_004fd400()->FUN_004fd3c0())
     {
         unsigned int uiProjectileSoundFormID = FUN_004fd400()->FUN_004fd3c0()->FUN_0084e3a0();
@@ -1163,9 +1163,9 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
             unsigned int uiFormID_2 = (unsigned int)pkNode->m_pkForm;
             unsigned char ucIndexZ = (unsigned char)pkNode->m_iValue;
             if (uiFormID_2)
-                pkNode->m_pkForm = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiFormID_2));
+                pkNode->m_pkForm = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(uiFormID_2));
             if (FUN_00810fd0())
-                pkNode->m_iValue = FUN_00810fd0()->kList.FUN_00406ee0(ucIndexZ);
+                pkNode->m_iValue = FUN_00810fd0()->kList.EffectItemList_GetEffectItemByIndex(ucIndexZ);
             pkNode = pkNode->m_pkNext;
         }
     }
@@ -1251,15 +1251,15 @@ struct FogColor
 {
     unsigned int m_uiColor;
     FogColor();
-    void FUN_004a39f0(int iAlpha);
-    void FUN_0059ce80(int iColor);
+    void CFilter_SetLayer(int iAlpha);
+    void CFilter_SetGroup(int iColor);
 };
 
 struct FogColorSource
 {
     unsigned int m_uiCurrentValue;
     FogColorSource();
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
 };
 struct FogColorHolder
 {
@@ -1554,11 +1554,11 @@ struct FogProjectileImpl
     void UpdateFlags(int a1, int a2);
     FogShader* FUN_009306d0();
     FogCasterSrc* FUN_009185e0();
-    void FUN_0081b430(int a1, int a2);
+    void MagicFogProjectile_FinishInitLoadGameTES(int a1, int a2);
 };
 
 // @fnv 0x0081b430
-void FogProjectileImpl::FUN_0081b430(int a1, int a2)
+void FogProjectileImpl::MagicFogProjectile_FinishInitLoadGameTES(int a1, int a2)
 {
     UpdateFlags(a1, a2);
     FogShader* pkShaderZ = FUN_009306d0();
@@ -1571,24 +1571,24 @@ void FogProjectileImpl::FUN_0081b430(int a1, int a2)
             Actor* pkActor = dynamic_cast<Actor*>(pkRef);
             if (pkActor)
             {
-                iColor = pkActor->FUN_00931ed0().FUN_004a3a20();
+                iColor = pkActor->FUN_00931ed0().CFilter_GetGroup();
             }
             else
             {
                 FogRace* pkRaceA = FUN_004b5260(reinterpret_cast<FogReference3DView*>(pkRef)->Get3D());
                 FogColorHolder* pkHolderPtr = pkRaceA ? pkRaceA->FUN_006fa820() : 0;
-                iColor = pkHolderPtr ? pkHolderPtr->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                iColor = pkHolderPtr ? pkHolderPtr->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
             }
         }
         else
         {
             FogRace* pkRace2 = FUN_004b5260(Get3D());
             FogColorHolder* pkHolder2 = pkRace2 ? pkRace2->FUN_006fa820() : 0;
-            iColor = pkHolder2 ? pkHolder2->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            iColor = pkHolder2 ? pkHolder2->FUN_0043b4f0().CFilter_GetGroup() : FUN_005dbe10();
         }
         FogColor kColor = pkShaderZ->FUN_0070c440();
-        kColor.FUN_004a39f0(7);
-        kColor.FUN_0059ce80(iColor);
+        kColor.CFilter_SetLayer(7);
+        kColor.CFilter_SetGroup(iColor);
         pkShaderZ->FUN_00810ff0(kColor);
     }
     TESObjectREFR* _pkCaster = FUN_009185e0() ? FUN_009185e0()->GetRef() : 0;

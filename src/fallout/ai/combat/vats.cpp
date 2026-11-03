@@ -7,10 +7,10 @@ void VATS::Update(int mode, bool force)
 {
     g_timeGlobal.ApplyGlobalTimeMultiplier();
     if (reinterpret_cast<PlayerCharacter*>(this)->GetAnimation(
-            !reinterpret_cast<PlayerCharacter*>(this)->FUN_004eaf60()))
+            !reinterpret_cast<PlayerCharacter*>(this)->PlayerCharacter_Is3rdPerson()))
     {
         reinterpret_cast<PlayerCharacter*>(this)
-            ->GetAnimation(!reinterpret_cast<PlayerCharacter*>(this)->FUN_004eaf60())
+            ->GetAnimation(!reinterpret_cast<PlayerCharacter*>(this)->PlayerCharacter_Is3rdPerson())
             ->FUN_0088b030(1.0f);
     }
     if (mode == 2 && (force || !PlayerCharacter::UpdatePlayerStatus()))
@@ -32,8 +32,8 @@ float VATS::GetModeTimeMultiplier()
     {
         if (pCamera && !pCamera->FUN_0058d630())
             multiplier = 1.0f;
-        else if (pCamera && pCamera->FUN_00639aa0() > 0.0)
-            multiplier = pCamera->FUN_00639aa0();
+        else if (pCamera && pCamera->NiControllerSequence_GetOffset() > 0.0)
+            multiplier = pCamera->NiControllerSequence_GetOffset();
         else
             multiplier = DAT_011cf374.Float()->f;
     }
@@ -82,7 +82,7 @@ struct Actor
 
 struct FUN_00498910_shell
 {
-    void FUN_00498910(bool, bool);
+    void Animation_SpecialIdleFree(bool, bool);
 };
 
 struct Node
@@ -108,7 +108,7 @@ void FUN_009ca410_shell::ProcessVATSCommands()
 {
     if (*(void**)((char*)this + 0x24))
     {
-        ((FUN_00498910_shell*)((Actor*)DAT_011f21f0)->GetAnimation())->FUN_00498910(true, false);
+        ((FUN_00498910_shell*)((Actor*)DAT_011f21f0)->GetAnimation())->Animation_SpecialIdleFree(true, false);
         *(void**)((char*)this + 0x24) = 0;
     }
 
@@ -291,7 +291,7 @@ void __thiscall VATS_COMMAND_LIST::CreateCommandAndUpdateHUD()
     HUDMainMenu::UpdateVisibilityState(4);
 }
 
-bool __cdecl FUN_0066dde0(int);
+bool __cdecl ActionPoints_IsAttackAction(int);
 
 struct ActorX_S
 {
@@ -313,7 +313,7 @@ struct FUN_009c8e00_shell
 // @fnv 0x009c8e00
 void FUN_009c8e00_shell::FUN_009c8e00(VATSCommand* apCommand)
 {
-    if (apCommand && FUN_0066dde0(apCommand->eAction))
+    if (apCommand && ActionPoints_IsAttackAction(apCommand->eAction))
     {
         if (apCommand->bSuccess && apCommand->pTarget && !FUN_009c8ea0())
         {
@@ -609,7 +609,7 @@ class NiPoint3
 
 struct ThisStub
 {
-    void FUN_00493bd0();
+    void Animation_UpdateSceneGraphNoController();
 };
 
 class TESObjectREFR
@@ -989,7 +989,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                     ((TESObjectREFR*)DAT_011f21f0)->vfn_2c0(pAttackCmd->pTarget);
                 }
 
-                ((TESObjectREFR*)DAT_011f21f0)->vfn_1e4()->FUN_00493bd0();
+                ((TESObjectREFR*)DAT_011f21f0)->vfn_1e4()->Animation_UpdateSceneGraphNoController();
             }
         }
 
@@ -1178,7 +1178,7 @@ struct ActorObj9c9
 
 struct LightTarget9c9
 {
-    NiAVObject* FUN_004e6540();
+    NiAVObject* ShadowSceneLight_GetLight();
 };
 struct LightPtr9c9
 {
@@ -1204,7 +1204,7 @@ struct ShadowSceneNode9c9
 struct NiAVObject
 {
     NiBound9c9 const& FUN_0043d450() const;
-    void FUN_004f00e0(void* pvValue);
+    void NiAVObject_SetWorldTranslate(void* pvValue);
     void FUN_0050dd50(NiPoint3 const& krValue);
     void SetEffectColor(NiPoint3 const& krValue);
     void SetAppCulled(bool abCulled);
@@ -1270,7 +1270,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
 
                     float fScaleTmp =
                         FUN_00450b80(0)->FUN_00b5b610(_kSpawn, &iOutVal, &fA9, &fB_, *g_pkPlayer9c9->v125(),
-                                                      m_spVATSLight.FUN_00726070()->FUN_004e6540()) *
+                                                      m_spVATSLight.FUN_00726070()->ShadowSceneLight_GetLight()) *
                         100.0;
 
                     float fRadiusTmp;
@@ -1282,10 +1282,10 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
 
                     fRadiusTmp = (kCenter5 - apActor->v116()->FUN_0043d450().FUN_006815c0()).Length() * 2.0f;
 
-                    m_spVATSLight.FUN_00726070()->FUN_004e6540()->FUN_004f00e0(&kCenter5);
-                    m_spVATSLight.FUN_00726070()->FUN_004e6540()->FUN_0050dd50(NiPoint3(fRadiusTmp, 0.0f, 0.0f));
-                    m_spVATSLight.FUN_00726070()->FUN_004e6540()->SetEffectColor(kOffset5);
-                    m_spVATSLight.FUN_00726070()->FUN_004e6540()->SetAppCulled(false);
+                    m_spVATSLight.FUN_00726070()->ShadowSceneLight_GetLight()->NiAVObject_SetWorldTranslate(&kCenter5);
+                    m_spVATSLight.FUN_00726070()->ShadowSceneLight_GetLight()->FUN_0050dd50(NiPoint3(fRadiusTmp, 0.0f, 0.0f));
+                    m_spVATSLight.FUN_00726070()->ShadowSceneLight_GetLight()->SetEffectColor(kOffset5);
+                    m_spVATSLight.FUN_00726070()->ShadowSceneLight_GetLight()->SetAppCulled(false);
                 }
             }
         }
@@ -1445,7 +1445,7 @@ struct Ref9c9
     virtual void W123();
     virtual void W124();
     virtual NiPoint3* GetPos();
-    NiAVObject* FUN_0043fcd0();
+    NiAVObject* TESObjectREFR_Get3D();
 };
 
 struct Cmd9c9
@@ -1463,7 +1463,7 @@ struct CmdList9c9
 // @fnv 0x009c9fe0
 NiPoint3 CmdList9c9::FUN_009c9fe0(float afScale)
 {
-    NiPoint3 kPlayerPos = *((Ref9c9*)DAT_011f21f0)->FUN_0043fcd0()->FUN_0043d450().FUN_006815c0();
+    NiPoint3 kPlayerPos = *((Ref9c9*)DAT_011f21f0)->TESObjectREFR_Get3D()->FUN_0043d450().FUN_006815c0();
     Cmd9c9* pkCmd = *FUN_006815c0();
     if ((pkCmd && pkCmd->m_pkTarget) || DAT_011f21cc)
     {
@@ -1643,8 +1643,8 @@ struct FUN_009c95e0_Ref
 };
 struct FUN_009c95e0_AnimGroup
 {
-    bool FUN_004937c0();
-    bool FUN_004937e0();
+    bool TESAnimGroup_IsAimAction();
+    bool TESAnimGroup_IsAttack();
 };
 struct FUN_009c95e0_Seq
 {
@@ -1704,8 +1704,8 @@ void FUN_009c95e0_VATS::HandleCommand(FUN_009c95e0_Command* command)
         if (DAT_011f21b8 == 0)
         {
             FUN_009c95e0_Seq* sequence = animation->FUN_00491040(4);
-            if (!sequence || (sequence->GetAnimGroup()->FUN_004937c0() && command->m_ucFirstActionCode == 0) ||
-                (sequence->GetAnimGroup()->FUN_004937e0() && animation->GetSlotValue(4) >= 1))
+            if (!sequence || (sequence->GetAnimGroup()->TESAnimGroup_IsAimAction() && command->m_ucFirstActionCode == 0) ||
+                (sequence->GetAnimGroup()->TESAnimGroup_IsAttack() && animation->GetSlotValue(4) >= 1))
             {
                 DAT_011f21b8 = 2;
             }
@@ -2094,7 +2094,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
         FUN_0063f7b0();
         if (m_pIdleForm)
         {
-            ((FUN_00498910_shell*)((Actor*)DAT_011f21f0)->GetAnimation())->FUN_00498910(true, false);
+            ((FUN_00498910_shell*)((Actor*)DAT_011f21f0)->GetAnimation())->Animation_SpecialIdleFree(true, false);
             m_pIdleForm = 0;
         }
         while (!FUN_008256d0())

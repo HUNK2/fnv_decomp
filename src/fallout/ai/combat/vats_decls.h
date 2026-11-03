@@ -32,7 +32,7 @@ class PlayerCharacter
     unsigned char layoutPadding0[0xE18];
     float fVATSTimer;
     unsigned char layoutPaddingE1C[0x34];
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     Animation* GetAnimation(bool firstPerson);
     static bool UpdatePlayerStatus();
 };
@@ -54,7 +54,7 @@ class BGSCameraShot
   public:
     void ResetCameraShot();
     bool FUN_0058d630();
-    float FUN_00639aa0();
+    float NiControllerSequence_GetOffset();
     char _pdbpad_1[55];
     char Data_pad37_pad37_pad37[40];
     char spLocationNode_pad5f_pad5f_pad5f[4];

@@ -283,7 +283,7 @@ struct PathingRequest
 };
 struct Standin77900
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
 };
 float __cdecl ComputeExplosionDamageFalloff(float, float, float);
 // @fnv 0x009a9720
@@ -294,7 +294,7 @@ bool __cdecl IsExplosionRadiusValid(PathingRequest* apExplosion)
     float fdamage = apExplosion->GetTargetRadius();
     if (fdamage < *originalRuntimeFloatSetting353.Float())
         return false;
-    float fradius = ((Standin77900*)apExplosion)->FUN_00477900();
+    float fradius = ((Standin77900*)apExplosion)->BGSExplosion_GetRadiusBSUnits();
     fradius = ComputeExplosionDamageFalloff(fradius, fdamage, *originalRuntimeFloatSetting353.Float());
     if (fradius < *originalRuntimeFloatSetting354.Float())
         return false;
@@ -1225,7 +1225,7 @@ struct S_9a64d0_Ref
 
 struct S_9a64d0_Actor : S_9a64d0_Ref
 {
-    bool FUN_005a2030() const;
+    bool Actor_IsSwimming() const;
 };
 
 struct S_9a64d0_Setting
@@ -1253,7 +1253,7 @@ float FUN_009a64d0(S_9a64d0_Ref* a, S_9a64d0_Ref* b, bool checkHeight)
         S_9a64d0_Actor* pB6 = (S_9a64d0_Actor*)b;
         if (pA3 && pB6)
         {
-            bool kBoth = pA3->FUN_005a2030() && pB6->FUN_005a2030();
+            bool kBoth = pA3->Actor_IsSwimming() && pB6->Actor_IsSwimming();
             S_9a64d0_Pt posA9 = *pA3->GetPos();
             S_9a64d0_Pt posB_2 = *pB6->GetPos();
             S_9a64d0_Pt ptA = posA9;
@@ -1472,7 +1472,7 @@ struct S_009a68b0_Pt
     S_009a68b0_Pt FUN_00439ef0(S_009a68b0_Pt* other);
     S_009a68b0_Pt FUN_00439e90(S_009a68b0_Pt* other);
     S_009a68b0_Pt* FUN_00439180(float f);
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct S_009a68b0_Z
@@ -1714,7 +1714,7 @@ S_009a68b0_Pt FUN_009a68b0(S_009a68b0_Ref* ref, S_009a68b0_Obj* obj, S_009a68b0_
     else
     {
         S_009a68b0_Pt diff = ((S_009a68b0_Pt*)ref->v125())->FUN_00439ef0(apPoint);
-        diff.FUN_004a0c10();
+        diff.NiPoint3_Unitize();
     }
     dir3.FUN_00439180(FUN_009a6830(ref, obj, f));
     return apPoint->FUN_00439e90(&dir3);
@@ -3326,7 +3326,7 @@ struct TrajVec
 };
 struct TrajWeapon
 {
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
     float FUN_006a78f0();
 };
 struct TrajActor
@@ -3379,7 +3379,7 @@ TrajOut* __cdecl ComputeTrajectory(TrajOut* out, TrajRef* target, void* a3, void
         }
         if (w2 != 0)
         {
-            if ((double)w2->FUN_00477900() >=
+            if ((double)w2->BGSExplosion_GetRadiusBSUnits() >=
                 *reinterpret_cast<SettingT<GameSettingCollection>*>(&DAT_011cf270)->Float())
             {
                 if (!f5)
@@ -3596,7 +3596,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
             *pfDerived = FUN_0040ebd0(*pfDerived, fValue);
             Standin77900* pProjectile = pObj->FUN_004fd3c0();
             if (pProjectile)
-                *pfMin = FUN_00404010(*pfMin, pProjectile->FUN_00477900());
+                *pfMin = FUN_00404010(*pfMin, pProjectile->BGSExplosion_GetRadiusBSUnits());
             *pfMin = FUN_0040ebd0(*pfMin, *pfMax - 256.0);
             *pfMin = FUN_00404010(*pfMin, 0.0f);
         }
@@ -3649,7 +3649,7 @@ class GlobalObject_0044f440
 };
 extern GlobalObject_0044f440 g_011f1c24;
 
-NiAVObject* __cdecl FUN_004b3890(const DebugPoint& kStart, const RgbaColor& kStartColor, const DebugPoint& kEnd,
+NiAVObject* __cdecl MakeLine(const DebugPoint& kStart, const RgbaColor& kStartColor, const DebugPoint& kEnd,
                                  const RgbaColor& kEndColor, bool bArg);
 NiAVObject* __cdecl CreateOctahedron(float fRadius, const RgbaColor& kColor, bool bArg);
 
@@ -3660,7 +3660,7 @@ void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int
     RgbaColor aKTipColor = pkTipColor ? *pkTipColor : RgbaColor(1.0f, 0.0f, 0.0f, 1.0f);
     RgbaColor kLineColor6 = pkLineColor ? *pkLineColor : RgbaColor(1.0f, 1.0f, 0.0f, 1.0f);
     DebugPoint kMid = bScaled ? (kEnd.FUN_00439ef0(kStart)).ApplyScaled(fScale).FUN_00439e90(kStart) : kEnd;
-    NiAVObject* pkLine_ = FUN_004b3890(kStart, kLineColor6, kMid, kLineColor6, true);
+    NiAVObject* pkLine_ = MakeLine(kStart, kLineColor6, kMid, kLineColor6, true);
     g_TES->FUN_00458e20(pkLine_, *g_011f1c24.Float());
     if (bScaled)
     {
@@ -3668,7 +3668,7 @@ void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int
         pkSphere4->FUN_00a5a040();
         pkSphere4->FUN_00440460(kMid);
         g_TES->FUN_00458e20(pkSphere4, *g_011f1c24.Float());
-        NiAVObject* pkTipLine = FUN_004b3890(kMid, aKTipColor, kEnd, aKTipColor, true);
+        NiAVObject* pkTipLine = MakeLine(kMid, aKTipColor, kEnd, aKTipColor, true);
         g_TES->FUN_00458e20(pkTipLine, *g_011f1c24.Float());
     }
 }
@@ -4214,7 +4214,7 @@ struct NiAVObject
 
 struct Weapon
 {
-    bool FUN_004c0c30();
+    bool TESObjectWEAP_IsRangedWeapon();
     int FUN_00446390();
 };
 
@@ -4607,7 +4607,7 @@ class Actor
 class PlayerCharacter : public Actor
 {
   public:
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     int FUN_00950b00(bool bFirstPerson);
 };
 
@@ -4630,14 +4630,14 @@ NiPoint3 FUN_009a8050(Actor* pkRef)
             pkWeap = pkProc->FUN_007031c0();
         else
             pkWeap = pkActor->FUN_008a1710();
-        if (!pkWeap || pkWeap->FUN_004c0c30())
+        if (!pkWeap || pkWeap->TESObjectWEAP_IsRangedWeapon())
         {
             NiNode* pkRoot = pkActor->FUN_008d8520();
             if (pkActor && pkRoot &&
                 (!pkWeap || pkWeap->FUN_00446390() == 0xa || pkWeap->FUN_00446390() == 0xb ||
                  pkWeap->FUN_00446390() == 0xd || pkWeap->FUN_00446390() == 0xc))
             {
-                int iBone = bIsPC ? DAT_011dea3c->FUN_00950b00(DAT_011dea3c->FUN_004eaf60()) : pkActor->GetHeadBone();
+                int iBone = bIsPC ? DAT_011dea3c->FUN_00950b00(DAT_011dea3c->PlayerCharacter_Is3rdPerson()) : pkActor->GetHeadBone();
                 NiAVObject* pkBone = pkRoot->GetObjectByBone(iBone);
                 if (pkBone)
                     return *pkBone->FUN_0045bb80();

@@ -89,11 +89,11 @@ void ExtraDataList::SetExtraHealth(float health)
     }
 }
 
-MemoryManager* FUN_00401020();
+MemoryManager* MemoryManager_Instance();
 // @fnv 0x0042f5d0
 void* Reallocate(void* pointer, unsigned int size)
 {
-    return FUN_00401020()->Reallocate(pointer, size);
+    return MemoryManager_Instance()->Reallocate(pointer, size);
 }
 
 // Looks up the scrap heap for the current thread ID, creating and storing a new one if none exists, and returns it.
@@ -113,14 +113,14 @@ ScrapHeapBuffer* MemoryManager::GetGeneralAllocator()
 
 struct FUN_00473960_shell : public TESFile
 {
-    void FUN_00473960();
+    void TESFile_FreeDecompressedBuffer();
 };
 
 void __cdecl Deallocate(void*);
 
 // If the pointer at offset 0x420 is non-null, deallocates it and clears the pointer and the count at offset 0x424.
 // @fnv 0x00473960
-void FUN_00473960_shell::FUN_00473960()
+void FUN_00473960_shell::TESFile_FreeDecompressedBuffer()
 {
     if (*(void**)((char*)this + 0x420) != 0)
     {

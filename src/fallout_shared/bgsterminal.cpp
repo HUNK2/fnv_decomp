@@ -263,7 +263,7 @@ struct BaseExtraList
 };
 
 // @fnv 0x00501a10
-void __cdecl FUN_00501a10(Script* apScript)
+void __cdecl BGSTerminal_ResetState(Script* apScript)
 {
     if (apScript)
         reinterpret_cast<BaseExtraList*>(apScript->GetReferencedObjectList())->RemoveExtra(0x50);
@@ -272,12 +272,12 @@ void __cdecl FUN_00501a10(Script* apScript)
 struct TESObjectREFR
 {
     TESObjectREFR* GetLinkedRef(void);
-    bool FUN_00568680(void);
+    bool TESObjectREFR_IsFurniture(void);
     bool IsReferenceActive(bool);
 };
 
 // @fnv 0x005012c0
-bool __cdecl FUN_005012c0(TESObjectREFR* apRef)
+bool __cdecl BGSTerminal_IsTerminalRefInUse(TESObjectREFR* apRef)
 {
     bool bretval = false;
     if (apRef)
@@ -285,7 +285,7 @@ bool __cdecl FUN_005012c0(TESObjectREFR* apRef)
         TESObjectREFR* plinkedref = apRef->GetLinkedRef();
         if (plinkedref)
         {
-            if (plinkedref->FUN_00568680())
+            if (plinkedref->TESObjectREFR_IsFurniture())
             {
                 if (!plinkedref->IsReferenceActive(true))
                     bretval = true;
@@ -315,11 +315,11 @@ struct BSSimpleList_REF
 struct FUN_00501b40_shell
 {
     bool __thiscall FUN_005015d0();
-    void FUN_00501b40(Script* a1);
+    void BGSTerminal_SetUnlocked(Script* a1);
 };
 
 // @fnv 0x00501b40
-void FUN_00501b40_shell::FUN_00501b40(Script* pScript)
+void FUN_00501b40_shell::BGSTerminal_SetUnlocked(Script* pScript)
 {
     if (pScript)
     {
@@ -332,33 +332,33 @@ void FUN_00501b40_shell::FUN_00501b40(Script* pScript)
 
 struct FUN_00511860_shell
 {
-    void FUN_00511860(void* apSaveGameBuffer);
+    void TESObjectACTI_AppendSaveLoadFormBuffer(void* apSaveGameBuffer);
 };
 
-void __thiscall FUN_00511860_shell::FUN_00511860(void* apSaveGameBuffer)
+void __thiscall FUN_00511860_shell::TESObjectACTI_AppendSaveLoadFormBuffer(void* apSaveGameBuffer)
 {}
 
 struct FUN_00501b90_shell : FUN_00511860_shell
 {
-    void FUN_00501b90(void* apSaveGameBuffer);
+    void BGSTerminal_AppendSaveLoadFormBuffer(void* apSaveGameBuffer);
 };
 
 // @fnv 0x00501b90
-void __thiscall FUN_00501b90_shell::FUN_00501b90(void* apSaveGameBuffer)
+void __thiscall FUN_00501b90_shell::BGSTerminal_AppendSaveLoadFormBuffer(void* apSaveGameBuffer)
 {
-    this->FUN_00511860(apSaveGameBuffer);
+    this->TESObjectACTI_AppendSaveLoadFormBuffer(apSaveGameBuffer);
 }
 
 struct FUN_00501270_shell : public TESForm
 {
-    int FUN_005011a0(TESObjectREFR* apRef);
-    unsigned int FUN_00501270(TESObjectREFR* apRef);
+    int BGSTerminal_GetHackDifficultyLockLevel(TESObjectREFR* apRef);
+    unsigned int BGSTerminal_GetHackMiniGameValue(TESObjectREFR* apRef);
 };
 // @fnv 0x00501270
-unsigned int FUN_00501270_shell::FUN_00501270(TESObjectREFR* apRef)
+unsigned int FUN_00501270_shell::BGSTerminal_GetHackMiniGameValue(TESObjectREFR* apRef)
 {
     int ilockval;
-    ilockval = FUN_005011a0(apRef);
+    ilockval = BGSTerminal_GetHackDifficultyLockLevel(apRef);
     ilockval <<= 1;
     ilockval += GetFormID() & 1;
     ilockval += 4;
@@ -369,30 +369,30 @@ unsigned int FUN_00501270_shell::FUN_00501270(TESObjectREFR* apRef)
 
 struct TermHack
 {
-    float __thiscall FUN_005017a0(TESObjectREFR* apItemActivated);
+    float __thiscall BGSTerminal_GetMinSkillRequiredToHack(TESObjectREFR* apItemActivated);
     bool __thiscall IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill);
 };
-// Returns whether the skill value returned by FUN_005017a0 for the activated reference is less than or equal to afSkill.
+// Returns whether the skill value returned by BGSTerminal_GetMinSkillRequiredToHack for the activated reference is less than or equal to afSkill.
 // @fnv 0x00501760
 bool __thiscall TermHack::IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill)
 {
-    return FUN_005017a0(apItemActivated) <= afSkill;
+    return BGSTerminal_GetMinSkillRequiredToHack(apItemActivated) <= afSkill;
 }
 
 struct Dummy0041BF50
 {
-    unsigned char __thiscall FUN_0041bf50();
+    unsigned char __thiscall ExtraDataList_GetTerminalState();
 };
 // Returns true if apRef is non-null and the state byte from its referenced object list has bit 0x80 set.
 // @fnv 0x00501870
-bool __cdecl FUN_00501870(TESObjectREFR* apRef)
+bool __cdecl BGSTerminal_IsHacked(TESObjectREFR* apRef)
 {
     bool bretval;
     unsigned char cstate;
     bretval = false;
     if (apRef)
     {
-        cstate = ((Dummy0041BF50*)((Script*)apRef)->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((Dummy0041BF50*)((Script*)apRef)->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (cstate & 0x80)
             bretval = true;
     }
@@ -407,10 +407,10 @@ struct FUN_00501a30_shell
 {
     unsigned char _pad[0xA4];
     char _mA4;
-    int __thiscall FUN_00501a30(Script* apScript);
+    int __thiscall BGSTerminal_GetRawDifficulty(Script* apScript);
 };
 // @fnv 0x00501a30
-int __thiscall FUN_00501a30_shell::FUN_00501a30(Script* apScript)
+int __thiscall FUN_00501a30_shell::BGSTerminal_GetRawDifficulty(Script* apScript)
 {
     char c = -1;
     if (apScript)
@@ -426,10 +426,10 @@ int __thiscall FUN_00501a30_shell::FUN_00501a30(Script* apScript)
 
 struct FUN_00501a80_shell : FUN_005015d0_shell
 {
-    void FUN_00501a80(Script* a1, int a2);
+    void BGSTerminal_SetRawDifficulty(Script* a1, int a2);
 };
 // @fnv 0x00501a80
-void FUN_00501a80_shell::FUN_00501a80(Script* apScript, int aiValue)
+void FUN_00501a80_shell::BGSTerminal_SetRawDifficulty(Script* apScript, int aiValue)
 {
     if (apScript)
     {
@@ -479,17 +479,17 @@ struct BGSLoadFormBuffer
 };
 struct BaseStub501bb0
 {
-    void __thiscall FUN_005118c0(BGSLoadFormBuffer*);
+    void __thiscall TESObjectACTI_LoadGame(BGSLoadFormBuffer*);
 };
 struct Host501bb0 : BaseStub501bb0
 {
-    void __thiscall FUN_00501bb0(BGSLoadFormBuffer*);
+    void __thiscall BGSTerminal_LoadGame(BGSLoadFormBuffer*);
 };
 // @fnv 0x00501bb0
-void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
+void Host501bb0::BGSTerminal_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned char ucTempData;
-    FUN_005118c0(apLoadGameBuffer);
+    TESObjectACTI_LoadGame(apLoadGameBuffer);
     if (apLoadGameBuffer->GetChangeFlags(0x80000000))
     {
         if (apLoadGameBuffer->GetVersion() < 13)
@@ -523,9 +523,9 @@ extern GlobalObject_0044f440 g_011d95d4;
 extern GlobalObject_0044f440 g_011d9640;
 
 // @fnv 0x005017a0
-float TermHack::FUN_005017a0(TESObjectREFR* apItemActivated)
+float TermHack::BGSTerminal_GetMinSkillRequiredToHack(TESObjectREFR* apItemActivated)
 {
-    switch (((FUN_00501270_shell*)this)->FUN_005011a0(apItemActivated))
+    switch (((FUN_00501270_shell*)this)->BGSTerminal_GetHackDifficultyLockLevel(apItemActivated))
     {
     case 0:
         return *g_011d961c.Float();
@@ -548,11 +548,11 @@ extern void* g_thePlayer;
 
 // Checks the script's referenced object state: returns false for state 0, compares a perk modifier against _gModifierZero for state 1, and true otherwise.
 // @fnv 0x00501990
-bool __cdecl FUN_00501990(Script* apScript)
+bool __cdecl BGSTerminal_IsLockedOut(Script* apScript)
 {
     if (apScript)
     {
-        unsigned char cstate = reinterpret_cast<Dummy0041BF50*>(apScript->GetReferencedObjectList())->FUN_0041bf50();
+        unsigned char cstate = reinterpret_cast<Dummy0041BF50*>(apScript->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         switch (cstate & 0x7f)
         {
         case 0:
@@ -571,7 +571,7 @@ bool __cdecl FUN_00501990(Script* apScript)
 
 struct ListProxy
 {
-    unsigned char __thiscall FUN_0041bf50();
+    unsigned char __thiscall ExtraDataList_GetTerminalState();
     void __thiscall SetExtraState(unsigned char a1);
 };
 struct VProxy
@@ -602,7 +602,7 @@ void __cdecl SetScriptLockState(Script* apRef, bool abLock)
     unsigned char cstate;
     if (apRef)
     {
-        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (abLock)
             cstate++;
         else
@@ -621,7 +621,7 @@ struct ExtraDataList
 
 struct FUN_005ac1e0_shell
 {
-    bool __thiscall FUN_005ac1e0(TESObjectREFR* apRef, ScriptLocals* apLocals, ScriptLocals* apNullLocals, bool abFlag);
+    bool __thiscall Script_Run(TESObjectREFR* apRef, ScriptLocals* apLocals, ScriptLocals* apNullLocals, bool abFlag);
 };
 
 struct FUN_00501830_shell
@@ -629,28 +629,28 @@ struct FUN_00501830_shell
     unsigned char _pad[0x10];
     Script m_kScript;
 
-    void __thiscall FUN_00501830(Script* apScript);
+    void __thiscall TERMINAL_MENU_ITEM_RunResultScript(Script* apScript);
 };
 
 // @fnv 0x00501830
-void FUN_00501830_shell::FUN_00501830(Script* apScript)
+void FUN_00501830_shell::TERMINAL_MENU_ITEM_RunResultScript(Script* apScript)
 {
     m_kScript.GetHeader()->quest = false;
 
     reinterpret_cast<FUN_005ac1e0_shell*>(&m_kScript)
-        ->FUN_005ac1e0(reinterpret_cast<TESObjectREFR*>(apScript),
+        ->Script_Run(reinterpret_cast<TESObjectREFR*>(apScript),
                        reinterpret_cast<ExtraDataList*>(apScript->GetReferencedObjectList())->GetScriptLocalData(), 0,
                        true);
 }
 
 // @fnv 0x005018b0
-void FUN_005018b0(Script* apRef, bool abVal)
+void BGSTerminal_SetHacked(Script* apRef, bool abVal)
 {
     unsigned char cstate;
     unsigned char ucNewState;
     if (apRef != 0)
     {
-        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((ListProxy*)apRef->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (abVal)
         {
             cstate = cstate | 0x80;
@@ -697,15 +697,15 @@ int B408A80String::FUN_00408a80(const char* pcOther, bool bIgnoreCase)
 struct TerminalCleanup
 {
     void FUN_00483710();
-    void FUN_00501050();
-    void FUN_004ffc90();
+    void BGSTerminal_ClearMenuItemList();
+    void BGSTerminal_ClearData();
 };
 
 // @fnv 0x004ffc90
-void TerminalCleanup::FUN_004ffc90()
+void TerminalCleanup::BGSTerminal_ClearData()
 {
     FUN_00483710();
-    FUN_00501050();
+    BGSTerminal_ClearMenuItemList();
 }
 
 extern "C" void* memcpy(void*, const void*, unsigned int);
@@ -848,11 +848,11 @@ class FUN_00501050_cls
   public:
     unsigned char unk00[0x98];
     FUN_00501050_sub sub;
-    void FUN_00501050();
+    void BGSTerminal_ClearMenuItemList();
 };
 
 // @fnv 0x00501050
-void FUN_00501050_cls::FUN_00501050()
+void FUN_00501050_cls::BGSTerminal_ClearMenuItemList()
 {
     while (sub.FUN_008256d0() == 0)
     {
@@ -866,12 +866,12 @@ void FUN_00501050_cls::FUN_00501050()
 
 struct SaveForm
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
 };
 struct SaveFullName : TESFullName
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct SaveModel : TESModelTextureSwap
 {
@@ -879,15 +879,15 @@ struct SaveModel : TESModelTextureSwap
 };
 struct SaveScriptable : TESScriptableForm
 {
-    void FUN_0048cca0();
+    void TESScriptableForm_Save();
 };
 struct S_00477f20 : BGSDestructibleObjectForm
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct SaveDescription : TESDescription
 {
-    void FUN_00482cb0();
+    void TESDescription_Save();
 };
 struct SaveScript
 {
@@ -932,24 +932,24 @@ struct TerminalSave : SaveActivator, SaveDescription
     TerminalCompareData Data;
     BSSimpleList<TerminalMenuItem*>* FUN_00461150();
     BGSNote* FUN_004fd400();
-    void FUN_00500a40();
+    void BGSTerminal_SaveForm();
 };
 bool __cdecl FUN_00401500();
 unsigned int __cdecl BSStringLength(const char*);
-void __cdecl FUN_004856f0(unsigned int, const void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, const void*, unsigned int);
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 
 // @fnv 0x00500a40
-void TerminalSave::FUN_00500a40()
+void TerminalSave::BGSTerminal_SaveForm()
 {
-    reinterpret_cast<SaveForm*>(this)->FUN_004855a0();
-    SaveFullName::FUN_00487010();
+    reinterpret_cast<SaveForm*>(this)->TESForm_StartForm();
+    SaveFullName::TESFullName_Save();
     SaveModel::ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    SaveScriptable::FUN_0048cca0();
-    S_00477f20::FUN_00477f20();
-    SaveDescription::FUN_00482cb0();
+    SaveScriptable::TESScriptableForm_Save();
+    S_00477f20::BGSDestructibleObjectForm_Save();
+    SaveDescription::TESDescription_Save();
     if (loopingSound)
     {
         unsigned int soundID = reinterpret_cast<SaveSound*>(loopingSound)->GetFormID();
@@ -971,13 +971,13 @@ void TerminalSave::FUN_00500a40()
         TerminalMenuItem* item = pMenuNode->GetItem();
         pMenuNode = pMenuNode->GetNext();
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)))
-            FUN_004856f0(
+            TESForm_AddChunkArray(
                 0x54585449, static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)),
                 BSStringLength(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText))) + 1);
         else
             FUN_00485910(0x54585449, 0);
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText)))
-            FUN_004856f0(
+            TESForm_AddChunkArray(
                 0x4d414e52, static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText)),
                 BSStringLength(static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->m_kMenuText))) + 1);
         else
@@ -996,7 +996,7 @@ void TerminalSave::FUN_00500a40()
         reinterpret_cast<SaveScript*>(&item->m_kScript)->FUN_005abe00();
         reinterpret_cast<TESConditionSave*>(&item->Conditions)->ProcessItems();
     }
-    reinterpret_cast<SaveForm*>(this)->FUN_00485680();
+    reinterpret_cast<SaveForm*>(this)->TESForm_CloseForm();
 }
 
 struct Ref;
@@ -1020,7 +1020,7 @@ struct Open
 {
     static int GetOpenState(Ref*);
 };
-bool FUN_005012c0(Ref*);
+bool BGSTerminal_IsTerminalRefInUse(Ref*);
 struct Text
 {
     char* data;
@@ -1136,8 +1136,8 @@ struct Faction
 {
     bool Test();
 };
-unsigned int FUN_0047e040(float);
-void FUN_0047a560(Ref*, Ref*, int);
+unsigned int TESActorBaseData_GetAlignmentForKarma(float);
+void BGSOpenCloseForm_HandleActivate(Ref*, Ref*, int);
 struct Terminal
 {
     int unk000;
@@ -1169,7 +1169,7 @@ struct Terminal
     int unk068;
     int unk06c;
     Activate activation;
-    float FUN_005017a0(Ref*);
+    float BGSTerminal_GetMinSkillRequiredToHack(Ref*);
     bool FUN_005015d0();
     bool ActivateTerminal(Ref*, Ref*, int, int, int);
 };
@@ -1187,11 +1187,11 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
     else if (user == (Ref*)_g_thePlayer && _g_thePlayer->Check(target) == 4)
     {
         Text message;
-        Format(&message, g_011c8394.GetString(), GetActorValueName(40), (int)Clamp(FUN_005017a0(target), 1.0f));
+        Format(&message, g_011c8394.GetString(), GetActorValueName(40), (int)Clamp(BGSTerminal_GetMinSkillRequiredToHack(target), 1.0f));
         QueueUIMessage(message, 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds", 0, 2.0f, false);
         Audio::GetSingleton()->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121).Play(false);
     }
-    else if (user == (Ref*)_g_thePlayer && FUN_005012c0(target))
+    else if (user == (Ref*)_g_thePlayer && BGSTerminal_IsTerminalRefInUse(target))
     {
         QueueUIMessage(g_011d4810.String(), 0, 0, 0, 2.0f, false);
         return false;
@@ -1215,7 +1215,7 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
                 OwnerActor* pOwnerActor = (OwnerActor*)owner;
                 if (pOwnerActor)
                 {
-                    unsigned int rank = FUN_0047e040(pOwnerActor->values.Get(23));
+                    unsigned int rank = TESActorBaseData_GetAlignmentForKarma(pOwnerActor->values.Get(23));
                     if (rank != 2 && rank != 4)
                         crime = true;
                 }
@@ -1223,7 +1223,7 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
             if (crime)
                 _g_thePlayer->Penalize((int)*originalRuntimeFloatSetting282.Float());
         }
-        FUN_0047a560(target, user, 0);
+        BGSOpenCloseForm_HandleActivate(target, user, 0);
     }
     return true;
 }
@@ -1300,18 +1300,18 @@ float* __fastcall FUN_00403e20(float*);
 unsigned short __fastcall FUN_0087f9f0(void*);
 struct RefLevel
 {
-    unsigned int __thiscall FUN_00567e10(bool);
+    unsigned int __thiscall TESObjectREFR_GetCalcLevel(bool);
 };
 
 // Returns the initial result, optionally adding a scaled level value and capping it at 4 when the flag is set.
 // @fnv 0x005011a0
-int __thiscall FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
+int __thiscall FUN_00501270_shell::BGSTerminal_GetHackDifficultyLockLevel(TESObjectREFR* apRef)
 {
-    unsigned int result = reinterpret_cast<FUN_00501a30_shell*>(this)->FUN_00501a30(reinterpret_cast<Script*>(apRef));
+    unsigned int result = reinterpret_cast<FUN_00501a30_shell*>(this)->BGSTerminal_GetRawDifficulty(reinterpret_cast<Script*>(apRef));
     if (reinterpret_cast<FUN_00501250_shell*>(this)->IsFlagSet())
     {
         unsigned int level =
-            apRef ? reinterpret_cast<RefLevel*>(apRef)->FUN_00567e10(false) : FUN_0087f9f0(DAT_011dea3c);
+            apRef ? reinterpret_cast<RefLevel*>(apRef)->TESObjectREFR_GetCalcLevel(false) : FUN_0087f9f0(DAT_011dea3c);
         result += (unsigned int)((double)level * *FUN_00403e20(&DAT_011c83c4));
         if (result > 4)
             result = 4;

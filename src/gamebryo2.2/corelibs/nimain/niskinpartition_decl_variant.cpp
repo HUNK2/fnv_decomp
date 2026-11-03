@@ -5,7 +5,7 @@
 
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiSkinPartition_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -641,7 +641,7 @@ class SkinPartitionOwner : public SkinObjectBase
     NiSkinPartition::Partition* m_pPartitions;
 
     virtual ~SkinPartitionOwner();
-    void FUN_00a846e0(SkinViewerStrings* pkStrings);
+    void NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 
 // Sorted skin-index sets; the limit is the first stack argument.

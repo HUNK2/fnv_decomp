@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_011f3f90;
-void* __cdecl FUN_00a4be10();
+void* __cdecl NiLookAtInterpolator_GetRTTI();
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
@@ -45,7 +45,7 @@ struct NiObject
 };
 struct Host_00a4bb80
 {
-    void __thiscall FUN_00a4bb80(CloningProcess&);
+    void __thiscall NiLookAtInterpolator_ProcessClone(CloningProcess&);
 };
 struct NiStream
 {
@@ -90,14 +90,14 @@ struct BaseInterp
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool __thiscall NiLookAtInterpolator_RegisterStreamables(NiStream*);
 };
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
     void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
-void* __cdecl FUN_00a4c5a0();
+void* __cdecl NiLookAtInterpolator_CreateObject();
 struct FUN_00a4b900_V
 {
     virtual void v00();
@@ -151,7 +151,7 @@ struct FUN_00a4b900_V
 };
 struct FUN_00a4b900_Holder
 {
-    void FUN_00a4b900();
+    void NiLookAtInterpolator_Collapse();
 };
 struct FakeInterp
 {
@@ -366,7 +366,7 @@ class A4BC40Data : public A4BC40Base
     A4BC40Transform m_kTransform;
     A4BC40Object* m_ppKeyData[3];
 
-    bool FUN_00a4bc40(A4BC40Object* pkObject);
+    bool NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject);
 };
 struct Builder
 {
@@ -439,9 +439,9 @@ struct FUN_00a4c780_cls
     Obj_b9286* m3c;
     Obj_b9286* m40;
 
-    void __thiscall FUN_00a570b0(Arg_b9286* a);
+    void __thiscall NiInterpolator_GetViewerStrings(Arg_b9286* a);
 
-    void FUN_00a4c780(Arg_b9286* a);
+    void NiLookAtInterpolator_GetViewerStrings(Arg_b9286* a);
 };
 // LoadBinary: base interpolator data, flags, the linked object, the name, the transform and three linked interpolators.
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
@@ -696,7 +696,7 @@ class C630Blend : public C630Interpolator
     C630Transform m_kTransform;
     C630Pointer<C630RefObject> m_akReferencedObjects[3];
 
-    void FUN_00a4c630(C630Stream& kStream);
+    void NiLookAtInterpolator_LoadBinary(C630Stream& kStream);
 };
 struct BinaryOutput341
 {

@@ -14801,7 +14801,7 @@ struct List2_af60
 struct Lock_af60
 {
     int m_pOwnerObject;
-    void FUN_0040fbf0(int a);
+    void BSSpinLock_Lock(int a);
 };
 struct Mgr_af60
 {
@@ -14913,7 +14913,7 @@ inline void List2_af60::RemoveHead()
         m_pTail = 0;
     }
     n->m_data = 0;
-    DAT_011c5f80.FUN_0040fbf0(0);
+    DAT_011c5f80.BSSpinLock_Lock(0);
     n->m_pSecondNode = 0;
     n->m_next = DAT_011c5f58;
     DAT_011c5f84 -= 1;
@@ -20301,7 +20301,7 @@ class B9Point3
     {
         return (float)sqrt(x * x + y * y + z * z);
     }
-    __declspec(noinline) void FUN_004a0c10();
+    __declspec(noinline) void NiPoint3_Unitize();
 };
 struct NiColor
 {
@@ -20704,12 +20704,12 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     B9Light* primary = manager->primary->light;
     B9Point3 fallback = -primary->direction;
     fallback.z *= radius * DAT_010b7e98;
-    fallback.FUN_004a0c10();
+    fallback.NiPoint3_Unitize();
     if (total == 0.0f)
     {
         direction = fallback;
         color = primary->diffuse;
-        direction.FUN_004a0c10();
+        direction.NiPoint3_Unitize();
         float zmin = (float)(radius / DAT_010731a8);
         if (zmin > direction.z)
             direction.z = zmin;
@@ -20732,7 +20732,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
                         float& acc = distance;
                         acc += (entry->light->attenuation.x * DAT_011ffea0[i] + other * 1000.0) * contribution;
                         B9Point3 delta = entry->light->worldPosition - position;
-                        delta.FUN_004a0c10();
+                        delta.NiPoint3_Unitize();
                         delta = delta * DAT_011ffea0[i] + fallback * (float)other;
                         direction += delta * contribution;
                         color += (light->diffuse * DAT_011ffea0[i] + primary->diffuse * (float)other) * contribution;
@@ -20741,11 +20741,11 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
             }
             entry = lights ? lights->FUN_00b70700(&cursor) : B9Mgr()->GetListItemAt(++scan);
         }
-        direction.FUN_004a0c10();
+        direction.NiPoint3_Unitize();
         if (direction.z < DAT_0101de30)
             direction.z = DAT_01016264;
     }
-    direction.FUN_004a0c10();
+    direction.NiPoint3_Unitize();
     float limitedDistance = ClipUpperRadius(radius);
     output->translation = position + (direction * limitedDistance) * (float)DAT_010b7e90;
     distance = (float)(limitedDistance * 8.0);
@@ -20757,7 +20757,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     output->SetAttenuation(B9Point3(distance, 0.0f, 0.0f));
 }
 
-void B9Point3::FUN_004a0c10()
+void B9Point3::NiPoint3_Unitize()
 {
     float n = Length();
     if (n > DAT_01017cf8)

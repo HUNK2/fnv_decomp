@@ -1495,7 +1495,7 @@ extern unsigned char DAT_011f94a6;
 extern char DAT_011f9422;
 extern int DAT_012007b0;
 extern int DAT_011f3728;
-bool __cdecl FUN_0045bad0(void*, void*);
+bool __cdecl NiObject_IsExactKindOf(void*, void*);
 __pragma(comment(
     linker,
     "/alternatename:?FUN_004a2020@BSPPL_b68880@@QAE_NH@Z=?FUN_004a2020@BSShaderPPLightingProperty@@QAE_NH@Z")) struct
@@ -1551,7 +1551,7 @@ FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
         {
             if (DAT_011f94a6)
             {
-                if (FUN_004a2020(0x1c) || FUN_0045bad0(&DAT_012007b0, this) || DAT_011f9422)
+                if (FUN_004a2020(0x1c) || NiObject_IsExactKindOf(&DAT_012007b0, this) || DAT_011f9422)
                     return new FUN_00bb4540(this);
             }
             m58 = 0xf;
@@ -1600,7 +1600,7 @@ FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
                 {
                     do
                     {
-                        FUN_0045bad0(&DAT_011f3728, node);
+                        NiObject_IsExactKindOf(&DAT_011f3728, node);
                         node = node->m30;
                     } while (node);
                 }

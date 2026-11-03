@@ -199,15 +199,15 @@ FUN_00a75dc0::FUN_00a75dc0(int a1, int a2, int a3, int a4, int a5, int a6, int a
 
 struct S_a76020_Strips : public NiTriStripsData
 {
-    unsigned int FUN_00a66f90();
-    unsigned int FUN_00a76020();
+    unsigned int NiGeometryData_GetBlockAllocationSize();
+    unsigned int NiTriStripsData_GetBlockAllocationSize();
 };
 // @fnv 0x00a76020
-unsigned int S_a76020_Strips::FUN_00a76020()
+unsigned int S_a76020_Strips::NiTriStripsData_GetBlockAllocationSize()
 {
     unsigned short listLen = m_usTriangles + m_usStrips * 2;
     unsigned int size = (listLen + m_usStrips) * 2;
-    return size + FUN_00a66f90();
+    return size + NiGeometryData_GetBlockAllocationSize();
 }
 
 class A76340BinaryStream
@@ -424,7 +424,7 @@ class A76340GeomData
     unsigned short m_usTriangles;
     unsigned short unk42;
 
-    void FUN_00a8aa70(A76340Stream& kStream);
+    void NiTriBasedGeomData_SaveBinary(A76340Stream& kStream);
 };
 
 // NiTriStripsData::SaveBinary
@@ -440,13 +440,13 @@ class A76340StripsData : public A76340GeomData
     {
         return m_usTriangles + 2 * m_usStrips;
     }
-    void FUN_00a76340(A76340Stream& kStream);
+    void NiTriStripsData_SaveBinary(A76340Stream& kStream);
 };
 
 // @fnv 0x00a76340
-void A76340StripsData::FUN_00a76340(A76340Stream& kStream)
+void A76340StripsData::NiTriStripsData_SaveBinary(A76340Stream& kStream)
 {
-    FUN_00a8aa70(kStream);
+    NiTriBasedGeomData_SaveBinary(kStream);
     A76340SaveBinary(kStream, m_usStrips);
     if (m_usStrips > 0)
     {
@@ -481,12 +481,12 @@ unsigned int FUN_00a7d5a0(const void*, const void*);
 
 struct NiTriStripsSerializer : NiTriStripsData
 {
-    void FUN_00a76430(NiStream& stream);
+    void NiTriStripsData_GetViewerStrings(NiStream& stream);
     void AppendTrianglesInfo(NiStream& stream);
 };
 
 // @fnv 0x00a76430
-void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
+void NiTriStripsSerializer::NiTriStripsData_GetViewerStrings(NiStream& stream)
 {
     AppendTrianglesInfo(stream);
     unsigned int entry = FUN_00a7d330(*reinterpret_cast<const NiRTTI* const*>(&DAT_011f4a70));
@@ -701,16 +701,16 @@ struct SharedView
 };
 struct BaseLoad
 {
-    void FUN_00a8aa30(NiStream&);
+    void NiTriBasedGeomData_LoadBinary(NiStream&);
 };
 struct StripLoad : NiTriStripsDataStandin
 {
-    void FUN_00a761c0(NiStream&);
+    void NiTriStripsData_LoadBinary(NiStream&);
 };
 // @fnv 0x00a761c0
-void StripLoad::FUN_00a761c0(NiStream& stream)
+void StripLoad::NiTriStripsData_LoadBinary(NiStream& stream)
 {
-    ((BaseLoad*)this)->FUN_00a8aa30(stream);
+    ((BaseLoad*)this)->NiTriBasedGeomData_LoadBinary(stream);
     stream.binary->Read(&m_uiItemCount, 2, 2);
     if (m_uiItemCount > 0)
     {
@@ -739,10 +739,10 @@ void StripLoad::FUN_00a761c0(NiStream& stream)
 
 struct TSD : NiTriStripsData
 {
-    void FUN_00a75e40(unsigned short i, unsigned short& i0, unsigned short& i1, unsigned short& i2) const;
+    void NiTriStripsData_GetTriangleIndices(unsigned short i, unsigned short& i0, unsigned short& i1, unsigned short& i2) const;
 };
 // @fnv 0x00a75e40
-void TSD::FUN_00a75e40(unsigned short i, unsigned short& i0, unsigned short& i1, unsigned short& i2) const
+void TSD::NiTriStripsData_GetTriangleIndices(unsigned short i, unsigned short& i0, unsigned short& i1, unsigned short& i2) const
 {
     unsigned short* pusStripLists = m_pusStripLists;
     unsigned short* pusStripLengths = m_pusStripLengths;
@@ -776,11 +776,11 @@ struct FUN_00a8a9c0_s
 class NiTriStripsDataA75F : public NiTriStripsData
 {
   public:
-    bool FUN_00a75f80(NiObject* pkObject);
+    bool NiTriStripsData_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00a75f80
-bool NiTriStripsDataA75F::FUN_00a75f80(NiObject* pkObject)
+bool NiTriStripsDataA75F::NiTriStripsData_IsEqual(NiObject* pkObject)
 {
     if (!((FUN_00a8a9c0_s*)this)->MatchesTriangleCount(pkObject))
         return false;
@@ -878,7 +878,7 @@ struct StripFactoryHeader
 };
 
 // @fnv 0x00a75ec0
-NiTriBasedGeomData* __fastcall FUN_00a75ec0(NiTriBasedGeomData*)
+NiTriBasedGeomData* __fastcall NiTriStripsData_CreateObject(NiTriBasedGeomData*)
 {
     NiTriStripsData* p = (NiTriStripsData*)BSFadeNode::operator new(sizeof(NiTriStripsData));
     if (p)

@@ -6,7 +6,7 @@
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpBoxShape.h"
-int __cdecl FUN_00c9db70();
+int __cdecl hkpBoxShape_getNumCollisionSpheresImpl();
 float __cdecl FUN_00c9e0f0(float a, float b);
 extern "C" void* DAT_0102e388;
 struct FUN_00c9db80_class
@@ -81,7 +81,7 @@ extern "C" int _mm_movemask_ps(__m128);
 extern float DAT_010c44d0[4];
 struct S00c9dc40_Box : public hkpBoxShape
 {
-    void __thiscall FUN_00c9dc40(const float* src, float* dst);
+    void __thiscall hkpBoxShape_getSupportingVertexImpl(const float* src, float* dst);
 };
 // @fnv 0x00c9dcb0
 extern "C" void __stdcall ZeroResult(__m128* result)
@@ -113,11 +113,11 @@ struct FUN_00c9dcd0_object
     unsigned char unknown00[0x20];
     __m128 halfExtents;
 
-    void __thiscall FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
+    void __thiscall hkpBoxShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
 };
 
 // @fnv 0x00c9dcd0
-void __thiscall FUN_00c9dcd0_object::FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
+void __thiscall FUN_00c9dcd0_object::hkpBoxShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
 {
     for (int i = count - 1; i >= 0; --i)
     {

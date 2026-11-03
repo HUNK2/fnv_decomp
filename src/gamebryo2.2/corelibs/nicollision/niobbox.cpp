@@ -74,7 +74,7 @@ struct S_00ebf4a0_Vec3
     float y;
     float z;
 
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct S_00ebf4a0_Class
@@ -112,7 +112,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const S_00ebf4a0_Vec3* in, S_00ebf4a0_Vec
     norm.x = unk6C;
     norm.y = unk70;
     norm.z = unk74;
-    norm.FUN_004a0c10();
+    norm.NiPoint3_Unitize();
 
     if (norm.x <= DAT_01032980)
     {
@@ -143,7 +143,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const S_00ebf4a0_Vec3* in, S_00ebf4a0_Vec
     float fDotZ = norm.x * unk60.x + norm.y * unk60.y + norm.z * unk60.z;
     out->z = fDotZ / (unk74 * unk74);
 
-    out->FUN_004a0c10();
+    out->NiPoint3_Unitize();
 }
 
 #include <math.h>

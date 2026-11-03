@@ -12,7 +12,7 @@ void NiIntegerExtraData::LoadBinary(NiStream& stream)
 extern char const* const g_01202de0_arg1;
 
 // @fnv 0x00a99c60
-char const* const* __cdecl FUN_00a99c60()
+char const* const* __cdecl NiIntegerExtraData_GetRTTI()
 {
     return &g_01202de0_arg1;
 }
@@ -44,7 +44,7 @@ struct NiExtraDataShell : NiExtraData
 };
 
 // @fnv 0x00a99cd0
-NiExtraData* FUN_00a99cd0()
+NiExtraData* NiIntegerExtraData_CreateObject()
 {
     NiExtraData* pExtraData = static_cast<NiExtraData*>(BSFadeNode::operator new(0x10));
     if (pExtraData)
@@ -98,12 +98,12 @@ char* __cdecl FUN_00a7d4d0(char const*, int);
 
 struct FUN_00a99d70_shell
 {
-    void __thiscall FUN_00a99d70(A89C70StringArray*);
+    void __thiscall NiIntegerExtraData_GetViewerStrings(A89C70StringArray*);
 };
 
 // Appends the base viewer strings plus a formatted "m_iValue" entry to the string array, growing it as needed.
 // @fnv 0x00a99d70
-void FUN_00a99d70_shell::FUN_00a99d70(A89C70StringArray* apViewerStrings)
+void FUN_00a99d70_shell::NiIntegerExtraData_GetViewerStrings(A89C70StringArray* apViewerStrings)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(apViewerStrings);
 

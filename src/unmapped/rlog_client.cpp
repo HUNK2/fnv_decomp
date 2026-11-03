@@ -58,12 +58,12 @@ struct LodGrid
     char pad00[0x24];
     int m_iCenterX;
     int m_iCenterY;
-    int FUN_00458be0(LodCell* pkCell, LodPoint* pkPos);
+    int TES_GetCellPriority(LodCell* pkCell, LodPoint* pkPos);
 };
 
 // Computes a LOD level from the cell's grid offset relative to the grid center or a position, caches it with the cell, and returns it.
 // @fnv 0x00458be0
-int LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
+int LodGrid::TES_GetCellPriority(LodCell* pkCell, LodPoint* pkPos)
 {
     if (g_pkLastCell_011c3f04 == pkCell)
         return g_iLastLod_011c3f00;

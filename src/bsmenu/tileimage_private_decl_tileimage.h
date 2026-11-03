@@ -138,7 +138,7 @@ typedef char tileimage_texture_check[offsetof(TileImage, spTexture) == 0x3c ? 1 
 class TextureReceiver
 {
   public:
-    void FUN_004bc320();
+    void BSRenderedTexture_GetTexture();
 };
 class ExtraDataList
 {

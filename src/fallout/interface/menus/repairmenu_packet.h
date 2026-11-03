@@ -76,7 +76,7 @@ class InterfaceManager
   public:
     Tile* FUN_00586150();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 int FUN_007b5720();
 int Warning(const char*, ...);
 float FUN_004a4240();

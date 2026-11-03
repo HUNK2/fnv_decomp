@@ -63,7 +63,7 @@ struct BaseCall
 {
     unsigned int unk00;
     unsigned int unk04;
-    void FUN_00a6d830(StrArr*);
+    void NiTimeController_GetViewerStrings(StrArr*);
 };
 extern const char* g_011f36bc_arg1;
 extern char* __cdecl FUN_00a7d330(const char*);
@@ -77,7 +77,7 @@ struct BaseWrap : BaseCall
 // @fnv 0x00a2f980
 void BaseWrap::WriteManagerControlledFlag(StrArr* stream)
 {
-    FUN_00a6d830(stream);
+    NiTimeController_GetViewerStrings(stream);
     char* value = FUN_00a7d330(g_011f36bc_arg1);
     unsigned int index = stream->unk0a;
     if (index >= stream->unk08)

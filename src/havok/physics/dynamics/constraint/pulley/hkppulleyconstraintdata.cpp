@@ -6,18 +6,18 @@ void __cdecl FUN_00d21a60(void* a, int b, int c);
 
 struct hkpPulleyConstraintData
 {
-    void FUN_00deef40(int a);
+    void hkpPulleyConstraintData_getConstraintInfo(int a);
 };
 
 // @fnv 0x00deef40
-void hkpPulleyConstraintData::FUN_00deef40(int a)
+void hkpPulleyConstraintData::hkpPulleyConstraintData_getConstraintInfo(int a)
 {
     FUN_00d21a60((char*)this + 0x10, 0x70, a);
 }
 
 // Writes 1 and 8 into b[1] and b[0] when a is nonzero, otherwise writes 0 into both.
 // @fnv 0x00deef60
-void __stdcall FUN_00deef60(char a, int* b)
+void __stdcall hkpPulleyConstraintData_getRuntimeInfo(char a, int* b)
 {
     if (a)
     {
@@ -72,12 +72,12 @@ struct S_00deef90
     int unk6c;
     float m_70;
     float m_74;
-    S_00deef90_hkBool FUN_00deef90() const;
+    S_00deef90_hkBool hkpPulleyConstraintData_isValid() const;
 };
 
 // Returns true when both m_70 and m_74 are greater than zero.
 // @fnv 0x00deef90
-S_00deef90_hkBool S_00deef90::FUN_00deef90() const
+S_00deef90_hkBool S_00deef90::hkpPulleyConstraintData_isValid() const
 {
     return m_70 > 0.0f && m_74 > 0.0f;
 }

@@ -417,7 +417,7 @@ struct Vec3
     {
         return Vec3(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 
 struct SubA
@@ -570,7 +570,7 @@ int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char
         Vec3 ub = *m_90 - *m_8c;
         Vec3 wa = *m_94 - *m_8c;
         Vec3 cross = ub.Cross(wa);
-        cross.FUN_004a0c10();
+        cross.NiPoint3_Unitize();
         n->m_28 = cross;
     }
     return 0;
@@ -812,7 +812,7 @@ struct S_eb6b90_Point
         return S_eb6b90_Point(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     }
 
-    void FUN_004a0c10();  // Unitize
+    void NiPoint3_Unitize();  // Unitize
 };
 
 inline S_eb6b90_Point operator*(float k, const S_eb6b90_Point& p)
@@ -925,11 +925,11 @@ FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, S_
     kTargetCenter = (kP0 + kP1 + kMid) / 3.0f;
 
     akAxis[0] = kP1 - kP0;
-    akAxis[0].FUN_004a0c10();
+    akAxis[0].NiPoint3_Unitize();
     akAxis[1] = kMid - kP0;
     float projection = akAxis[0] * akAxis[1];
     akAxis[1] -= projection * akAxis[0];
-    akAxis[1].FUN_004a0c10();
+    akAxis[1].NiPoint3_Unitize();
     akAxis[2] = akAxis[0].Cross(akAxis[1]);
 
     S_eb6b90_Point minCoord(0.0f, 0.0f, 0.0f);

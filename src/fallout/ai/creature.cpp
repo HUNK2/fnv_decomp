@@ -126,27 +126,27 @@ void FUN_008d4490_shell::SetRagdoll(bool bRagDoll)
 struct S008d48a0
 {
     int FUN_008d4a80(int, int);
-    void FUN_008806d0(int);
-    void FUN_008d48a0(int, int);
+    void Actor_SetActorValueInt(int);
+    void Creature_SetActorValueInt(int, int);
 };
-// Calls FUN_008d4a80 with a and b, then passes the result to FUN_008806d0.
+// Calls FUN_008d4a80 with a and b, then passes the result to Actor_SetActorValueInt.
 // @fnv 0x008d48a0
-void S008d48a0::FUN_008d48a0(int aiFirst, int aiSecond)
+void S008d48a0::Creature_SetActorValueInt(int aiFirst, int aiSecond)
 {
-    this->FUN_008806d0(this->FUN_008d4a80(aiFirst, aiSecond));
+    this->Actor_SetActorValueInt(this->FUN_008d4a80(aiFirst, aiSecond));
 }
 
 struct FUN_008d48d0_This
 {
     int FUN_008d4a80(int, float);
-    void FUN_00880700(int);
-    void FUN_008d48d0(int, float);
+    void Actor_SetActorValue(int);
+    void Creature_SetActorValue(int, float);
 };
-// Calls FUN_008d4a80 with aiWhich and aiValue, then passes the result to FUN_00880700.
+// Calls FUN_008d4a80 with aiWhich and aiValue, then passes the result to Actor_SetActorValue.
 // @fnv 0x008d48d0
-void FUN_008d48d0_This::FUN_008d48d0(int aiWhich, float aiValue)
+void FUN_008d48d0_This::Creature_SetActorValue(int aiWhich, float aiValue)
 {
-    FUN_00880700(FUN_008d4a80(aiWhich, aiValue));
+    Actor_SetActorValue(FUN_008d4a80(aiWhich, aiValue));
 }
 
 struct Unk008d49
@@ -165,14 +165,14 @@ void Unk008d49::FUN_008d4900(int aiArg1, int aiArg2, int aiArg3)
 struct FUN_008d4960_CLASS
 {
     int FUN_008d4a80(int, int, int);
-    void FUN_00880c70(int);
-    void FUN_008d4960(int, int, int);
+    void Actor_ModActorValueInt(int);
+    void Creature_ModActorValueInt(int, int, int);
 };
-// Computes a value from the three arguments via FUN_008d4a80 and passes the result to FUN_00880c70.
+// Computes a value from the three arguments via FUN_008d4a80 and passes the result to Actor_ModActorValueInt.
 // @fnv 0x008d4960
-void FUN_008d4960_CLASS::FUN_008d4960(int aiArg1, int aiArg2, int aiArg3)
+void FUN_008d4960_CLASS::Creature_ModActorValueInt(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00880c70(FUN_008d4a80(aiArg1, aiArg2, aiArg3));
+    Actor_ModActorValueInt(FUN_008d4a80(aiArg1, aiArg2, aiArg3));
 }
 
 struct Unk008d4a50
@@ -296,11 +296,11 @@ struct Holder
 {
     int FUN_008d4a80(int, float, void*);
     void ApplyActorValueDelta(int);
-    void FUN_008d49f0(int, float, void*);
+    void Creature_DamageActorValue(int, float, void*);
 };
 // Calls FUN_008d4a80 with the given arguments and passes its result to ApplyActorValueDelta.
 // @fnv 0x008d49f0
-void Holder::FUN_008d49f0(int aiArg, float afValue, void* a3)
+void Holder::Creature_DamageActorValue(int aiArg, float afValue, void* a3)
 {
     ApplyActorValueDelta(FUN_008d4a80(aiArg, afValue, a3));
 }
@@ -923,7 +923,7 @@ struct NiControllerManager
 };
 struct ActorAnimData
 {
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* Animation_GetControllerManager();
 };
 struct CreatureFlags30
 {
@@ -1090,9 +1090,9 @@ void XActorQ::FUN_008d4b60()
     ActorAnimData* pAnimData = GetAnimData();
     if (pAnimData)
     {
-        if (!pAnimData->FUN_00496940())
+        if (!pAnimData->Animation_GetControllerManager())
             return;
-        NiControllerManager* pManager = pAnimData->FUN_00496940()->GetStringAtOffset();
+        NiControllerManager* pManager = pAnimData->Animation_GetControllerManager()->GetStringAtOffset();
         if (((CreatureViewQ*)pCreature)->m30.vf38())
         {
             NiAVObject* pObject = pManager->GetObjectByName(FUN_008d4ca0());

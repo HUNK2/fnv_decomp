@@ -11,7 +11,7 @@ extern void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 struct COMUnknownInterface;
 struct NiD3DVertexShader
 {
-    void FUN_00be0bd0(COMUnknownInterface* hDecl);
+    void NiD3DVertexShader_SetVertexDeclaration(COMUnknownInterface* hDecl);
 };
 struct VTableObj
 {
@@ -32,15 +32,15 @@ struct FUN_00c7b0f0_shell
     void FUN_00c7b0f0();
 };
 extern "C" void* g_0126fa40;
-void* __cdecl FUN_00e95cc0();
+void* __cdecl NiD3DHLSLPixelShader_GetRTTI();
 extern const void* g_0126fa48;
-const void* __cdecl FUN_00e95df0();
+const void* __cdecl NiD3DHLSLVertexShader_GetRTTI();
 extern void(__cdecl* DAT_fdf3f0)();
-void __cdecl FUN_00ee6e2e();
+void __cdecl D3DXGetVertexShaderProfile();
 struct NiD3DShaderProgramCreator;
 struct NiD3DShaderProgram
 {
-    void __thiscall FUN_00eea540(NiD3DShaderProgramCreator* pkCreator);
+    void __thiscall NiD3DShaderProgram_SetCreator(NiD3DShaderProgramCreator* pkCreator);
 };
 
 struct ID3DXConstantTable;

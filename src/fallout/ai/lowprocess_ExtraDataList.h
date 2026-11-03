@@ -13,7 +13,7 @@ class ExtraDataList : public BaseExtraList
     RegionPoint* GetStartingPositionData();
     TESObjectREFR* GetReplacementReference();
     void AddGuardingActor(Actor*);
-    TESObjectREFR* FUN_0041c8d0();
+    TESObjectREFR* ExtraDataList_GetReferencePointer();
 
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);

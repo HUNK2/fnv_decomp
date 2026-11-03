@@ -448,7 +448,7 @@ struct Effect
     virtual void ApplyDamage(TargetObject* apTarget, float afAmount, int aiFlag);
 
     TargetSource* FUN_008d8520();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 
 struct EffectOwner
@@ -479,6 +479,6 @@ void FUN_0080d7b0_cls::ApplyDisintegrateWeaponDamage()
         pEffect->ApplyDamage(pTarget, GetFloatAtOffset1C(), 0);
 
     if (FUN_005b6f70())
-        FUN_00703c00("%s's %s takes %0.2f disintegrate weapon damage!", pEffect->FUN_0055d520(),
+        FUN_00703c00("%s's %s takes %0.2f disintegrate weapon damage!", pEffect->TESObjectREFR_GetFullName(),
                      pTarget->GetTargetFullName(), GetFloatAtOffset1C());
 }

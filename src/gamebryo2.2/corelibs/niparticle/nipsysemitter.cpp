@@ -39,13 +39,13 @@ void* __thiscall FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
 
 struct FUN_00c21fd0_shell : public NiPSysEmitter
 {
-    void* FUN_00c21fd0();
+    void* NiPSysEmitter_GetRTTI();
 };
 
 extern char const* const g_01202500_arg1;
 
 // @fnv 0x00c21fd0
-void* __thiscall FUN_00c21fd0_shell::FUN_00c21fd0()
+void* __thiscall FUN_00c21fd0_shell::NiPSysEmitter_GetRTTI()
 {
     return (void*)&g_01202500_arg1;
 }
@@ -64,7 +64,7 @@ struct StrArr
 
 struct Base00c319e0
 {
-    void FUN_00c319e0(StrArr*);
+    void NiPSysModifier_GetViewerStrings(StrArr*);
 };
 
 struct FUN_00a69720_shell
@@ -89,16 +89,16 @@ extern char const str_010bdfd0[];
 
 struct FUN_00c22780_shell : public Base00c319e0
 {
-    void FUN_00c22780(StrArr* pkStrings);
+    void NiPSysEmitter_GetViewerStrings(StrArr* pkStrings);
 };
 
 // @fnv 0x00c22780
-void FUN_00c22780_shell::FUN_00c22780(StrArr* pkStrings)
+void FUN_00c22780_shell::NiPSysEmitter_GetViewerStrings(StrArr* pkStrings)
 {
     char* pString;
     unsigned int index;
 
-    Base00c319e0::FUN_00c319e0(pkStrings);
+    Base00c319e0::NiPSysModifier_GetViewerStrings(pkStrings);
 
     pString = _FUN_00a7d330(g_01202500_arg1);
     index = pkStrings->m_usElementCount;
@@ -438,7 +438,7 @@ class Emitter : public NiPSysEmitter
     virtual void slot40();
     virtual void slot41();
     virtual void GetPositionAndDirection(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
-    void FUN_00c220c0(float fTime, unsigned short usNumParticles, const float* afAges);
+    void NiPSysEmitter_EmitParticles(float fTime, unsigned short usNumParticles, const float* afAges);
 };
 inline float NiFastSin(float fAngleDifference)
 {
@@ -449,7 +449,7 @@ inline float NiFastCos(float fAngleDifference)
     return DAT_011f4ae0[(int)(fAngleDifference * (512.0 / DAT_011aeae8)) & 511];
 }
 // @fnv 0x00c220c0
-void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const float* afAges)
+void Emitter::NiPSysEmitter_EmitParticles(float fTime, unsigned short usNumParticles, const float* afAges)
 {
     NiPSysData* pkData = m_pkTarget->m_spGeometryData;
     NiPoint3* pkVertex = pkData->m_pkVertex;
@@ -596,14 +596,14 @@ inline void S_00c22530_ReadFloat(S_00c22530_Stream& s, float& f)
 }
 struct S_00c22530_Emitter : NiPSysEmitter
 {
-    void FUN_00c31950(NiStream& stream);
-    void FUN_00c22530(S_00c22530_Stream& stream);
+    void NiPSysModifier_SaveBinary(NiStream& stream);
+    void NiPSysEmitter_SaveBinary(S_00c22530_Stream& stream);
 };
-// Calls FUN_00c31950, then reads emitter fields and particle color from the stream.
+// Calls NiPSysModifier_SaveBinary, then reads emitter fields and particle color from the stream.
 // @fnv 0x00c22530
-void S_00c22530_Emitter::FUN_00c22530(S_00c22530_Stream& stream)
+void S_00c22530_Emitter::NiPSysEmitter_SaveBinary(S_00c22530_Stream& stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     S_00c22530_ReadFloat(stream, m_fEmissionSpeed);
     S_00c22530_ReadFloat(stream, m_fSpeedVariation);
     S_00c22530_ReadFloat(stream, m_fEmissionDeclination);

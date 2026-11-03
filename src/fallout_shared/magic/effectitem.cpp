@@ -158,10 +158,10 @@ void FUN_00403db0_shell::FUN_00403db0(TESForm* apForm)
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_00403e60(unsigned int f);
+    bool EffectSetting_IsFlagSet(unsigned int f);
 };
 // @fnv 0x00403e60
-bool S3e60::FUN_00403e60(unsigned int auiFlag)
+bool S3e60::EffectSetting_IsFlagSet(unsigned int auiFlag)
 {
     return GetFlag(auiFlag);
 }
@@ -179,18 +179,18 @@ bool FUN_00403e80_shell::FUN_00403e80()
 
 struct FUN_00403ee0_shell : public EffectItem
 {
-    bool FUN_00403ee0();
+    bool EffectItem_IsActorValueUsed();
 };
 
 // @fnv 0x00403ee0
-bool FUN_00403ee0_shell::FUN_00403ee0()
+bool FUN_00403ee0_shell::EffectItem_IsActorValueUsed()
 {
     return (*(EffectSetting**)((char*)this + 0x14))->IsAssociatedActorValueUsed();
 }
 
 struct FUN_00403f00_shell : public EffectItem
 {
-    float FUN_00403f00();
+    float EffectItem_GetRawCost();
 };
 
 class TESGrass
@@ -202,7 +202,7 @@ class TESGrass
 float __cdecl CalcEffectCost(float, int, int, int, bool);
 
 // @fnv 0x00403f00
-float FUN_00403f00_shell::FUN_00403f00()
+float FUN_00403f00_shell::EffectItem_GetRawCost()
 {
     if (m_fCost < 0.0)
     {
@@ -278,7 +278,7 @@ struct FUN_00403f80_shell : public EffectItem
     float GetModifiedCost(Actor*);
 };
 
-float __fastcall FUN_00403f00(EffectItem*);
+float __fastcall EffectItem_GetRawCost(EffectItem*);
 float __cdecl ScaleBySettingBlend(float, int, int);
 float __cdecl FUN_00404040(float);
 float __cdecl FUN_00404010(float, float);
@@ -286,7 +286,7 @@ float __cdecl FUN_00404010(float, float);
 // @fnv 0x00403f80
 float FUN_00403f80_shell::GetModifiedCost(Actor* apActor)
 {
-    float fcost = FUN_00403f00(this);
+    float fcost = EffectItem_GetRawCost(this);
     if (apActor != 0)
     {
         fcost = ScaleBySettingBlend(fcost,
@@ -342,35 +342,35 @@ bool FUN_004042a0_shell::IsDifferentFrom(EffectItem* apCompare)
 
 struct FUN_00404390_shell : public EffectItem
 {
-    int FUN_00404390();
+    int EffectItem_GetMagnitude();
 };
 
 // Returns 0 if the EffectSetting at offset 0x14 has flag 0x100 set, otherwise returns the int at offset 0 of this EffectItem.
 // @fnv 0x00404390
-int FUN_00404390_shell::FUN_00404390()
+int FUN_00404390_shell::EffectItem_GetMagnitude()
 {
     return (*(EffectSetting**)((char*)this + 0x14))->IsFlagSet(0x100) ? 0 : *(int*)this;
 }
 
 struct FUN_00404420_shell : public EffectItem
 {
-    int FUN_00404420();
+    int EffectItem_GetArea();
 };
 
 // @fnv 0x00404420
-int FUN_00404420_shell::FUN_00404420()
+int FUN_00404420_shell::EffectItem_GetArea()
 {
     return (!m_pEffectSetting->IsFlagSet(0x200) && GetRange() != 0) ? data.m_iArea : 0;
 }
 
 struct FUN_004044d0_shell : public EffectItem
 {
-    int FUN_004044d0();
+    int EffectItem_GetDuration();
 };
 
 // Returns 0 if the EffectSetting at offset 0x14 has flag 0x80 set, otherwise returns the int at offset 0x8.
 // @fnv 0x004044d0
-int FUN_004044d0_shell::FUN_004044d0()
+int FUN_004044d0_shell::EffectItem_GetDuration()
 {
     return (*(EffectSetting**)((char*)this + 0x14))->IsFlagSet(0x80) ? 0 : *(int*)((char*)this + 0x8);
 }
@@ -451,14 +451,14 @@ struct S4eb0
     int a;
     unsigned int b;
     int c;
-    void FUN_00404f00(int, bool, char*, int);
+    void AutoMemContext_Enter(int, bool, char*, int);
     S4eb0* FUN_00404eb0(int, bool, char*, int);
 };
-// Calls FUN_00404f00 with the given arguments and returns this.
+// Calls AutoMemContext_Enter with the given arguments and returns this.
 // @fnv 0x00404eb0
 S4eb0* S4eb0::FUN_00404eb0(int m, bool o, char* f, int l)
 {
-    FUN_00404f00(m, o, f, l);
+    AutoMemContext_Enter(m, o, f, l);
     return this;
 }
 
@@ -474,14 +474,14 @@ struct AutoMemContext
 typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00404f00_shell : public AutoMemContext
 {
-    void FUN_00404f00(int, bool, char*, int);
+    void AutoMemContext_Enter(int, bool, char*, int);
 };
 
 int __cdecl GetTlsField();
 void __cdecl FUN_00404f30(int);
 
 // @fnv 0x00404f00
-void FUN_00404f00_shell::FUN_00404f00(int memContext, bool overridable, char* apFile, int aiLine)
+void FUN_00404f00_shell::AutoMemContext_Enter(int memContext, bool overridable, char* apFile, int aiLine)
 {
     m_eMemoryContext = GetTlsField();
     FUN_00404f30(memContext);
@@ -500,13 +500,13 @@ struct AutoMemContext
 typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00404f70_shell : public AutoMemContext
 {
-    void FUN_00404f70();
+    void AutoMemContext_Leave();
 };
 
 void __cdecl FUN_00404f30(int);
 
 // @fnv 0x00404f70
-void FUN_00404f70_shell::FUN_00404f70()
+void FUN_00404f70_shell::AutoMemContext_Leave()
 {
     FUN_00404f30(m_eMemoryContext);
 }
@@ -603,11 +603,11 @@ void FUN_004040b0_shell::Save()
 
 struct EffectItem_shell : EffectItem
 {
-    bool FUN_00404470(int range);
+    bool EffectItem_SetArea(int range);
 };
 
 // @fnv 0x00404470
-bool EffectItem_shell::FUN_00404470(int range)
+bool EffectItem_shell::EffectItem_SetArea(int range)
 {
     bool result = false;
     if (!m_pEffectSetting->IsFlagSet(0x200))
@@ -656,10 +656,10 @@ FUN_00403d50::~FUN_00403d50()
 
 struct Unk004043d0
 {
-    bool FUN_004043d0(int);
+    bool EffectItem_SetMagnitude(int);
 };
 // @fnv 0x004043d0
-bool Unk004043d0::FUN_004043d0(int a)
+bool Unk004043d0::EffectItem_SetMagnitude(int a)
 {
     bool result = false;
     if (!(*(EffectSetting**)((char*)this + 0x14))->IsFlagSet(0x100))
@@ -681,11 +681,11 @@ struct S00404510
     char _0C[8];
     EffectSetting* m14;
     float m18;
-    bool FUN_00404510(int);
+    bool EffectItem_SetDuration(int);
 };
 // If m14 lacks flag 0x80 and a is non-negative, stores a in m08 and sets m18 to -1.0f, returning true; otherwise returns false.
 // @fnv 0x00404510
-bool S00404510::FUN_00404510(int aiValue)
+bool S00404510::EffectItem_SetDuration(int aiValue)
 {
     bool b = false;
     if (!m14->IsFlagSet(0x80) && aiValue >= 0)
@@ -943,16 +943,16 @@ struct FUN_00404210_t
     S3e60* unk14;
     float unk18;
 
-    bool __thiscall FUN_00404560(unsigned int value);
+    bool __thiscall EffectItem_SetRange(unsigned int value);
 };
 
 // @fnv 0x00404560
-bool __thiscall FUN_00404210_t::FUN_00404560(unsigned int value)
+bool __thiscall FUN_00404210_t::EffectItem_SetRange(unsigned int value)
 {
     bool result = false;
 
-    if ((value == 1 && this->unk14->FUN_00403e60(0x20)) || (value == 2 && this->unk14->FUN_00403e60(0x40)) ||
-        (value == 0 && this->unk14->FUN_00403e60(0x10)))
+    if ((value == 1 && this->unk14->EffectSetting_IsFlagSet(0x20)) || (value == 2 && this->unk14->EffectSetting_IsFlagSet(0x40)) ||
+        (value == 0 && this->unk14->EffectSetting_IsFlagSet(0x10)))
     {
         this->unk0C = value;
         this->unk18 = DAT_01012054;
@@ -1013,7 +1013,7 @@ bool SettingRegistry::FUN_00405120()
     return isValid;
 }
 
-char* __cdecl FUN_00401000(unsigned int aSize);
+char* __cdecl FormHeap_Allocate(unsigned int aSize);
 const char* __cdecl FUN_00464f30(const char* apString, int aFlag);
 
 struct FUN_004d61b0_sub
@@ -1050,7 +1050,7 @@ FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, i
     m00 = a1;
     m04 = a2;
     m28 = a3;
-    char* pNameBuffer = FUN_00401000(FUN_0044a670(apName) + 1);
+    char* pNameBuffer = FormHeap_Allocate(FUN_0044a670(apName) + 1);
     m2c = pNameBuffer;
     FUN_004046f0(m2c, FUN_00464f30(apName, 0));
     CreateTreeWindows(a5, a6, a7, a8);

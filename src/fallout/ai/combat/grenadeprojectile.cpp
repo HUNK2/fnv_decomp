@@ -46,8 +46,8 @@ FUN_009b3fa0::FUN_009b3fa0(bool abFlag) : FUN_009bbc70(abFlag)
 
 struct S4700
 {
-    bool FUN_009c43e0(int, bool);
-    bool FUN_009b4700(int, bool);
+    bool Projectile_TurnOff(int, bool);
+    bool GrenadeProjectile_TurnOff(int, bool);
     virtual void f0(), f1(), f2(), f3(), f4(), f5(), f6(), f7(), f8(), f9(), f10(), f11(), f12(), f13(), f14(), f15(),
         f16(), f17(), f18(), f19(), f20(), f21(), f22(), f23(), f24(), f25(), f26(), f27(), f28(), f29(), f30(), f31(),
         f32(), f33(), f34(), f35(), f36(), f37(), f38(), f39(), f40(), f41(), f42(), f43(), f44(), f45(), f46(), f47(),
@@ -65,11 +65,11 @@ struct S4700
         f185(), f186(), f187(), f188(), f189(), f190(), f191(), f192(), f193(), f194();
     virtual void At30C();
 };
-// Calls FUN_009c43e0 with the given arguments, then invokes At30C, returning the result of the first call.
+// Calls Projectile_TurnOff with the given arguments, then invokes At30C, returning the result of the first call.
 // @fnv 0x009b4700
-bool S4700::FUN_009b4700(int aiArg, bool b)
+bool S4700::GrenadeProjectile_TurnOff(int aiArg, bool b)
 {
-    bool r = FUN_009c43e0(aiArg, b);
+    bool r = Projectile_TurnOff(aiArg, b);
     At30C();
     return r;
 }
@@ -98,16 +98,16 @@ void FUN_009b4c70_shell::FUN_009b4c70()
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
+    void __thiscall Projectile_Revert(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void __thiscall GrenadeProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009b4d10
-void __thiscall S009b4d10::FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
+void __thiscall S009b4d10::GrenadeProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    ((C009c58e0*)this)->FUN_009c58e0(apLoadGameBuffer);
+    ((C009c58e0*)this)->Projectile_Revert(apLoadGameBuffer);
     bFlag150 = 0;
 }
 
@@ -1217,17 +1217,17 @@ struct Ref
 
     virtual bool IsValidTarget();
 
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 
     bool FUN_00437b90();
 
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
 
     unsigned int FUN_0044ddc0();
 
     unsigned short GetShortAtOffset1C0();
 
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 
     int SetEffectValue(int, float, int);
 
@@ -1315,15 +1315,15 @@ struct LoadedProjectile
 struct Resource
 {
 
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
 };
 
 struct EventStatus
 {
 
-    bool FUN_004fd360();
+    bool BGSProjectile_GetHasExplosion();
 
     bool FUN_00975300();
 
@@ -1438,7 +1438,7 @@ struct ImpactProjectile : Ref
 
     Ref* FUN_00874480();
 
-    Ref* FUN_00476c90();
+    Ref* Sky_GetMode();
 
     EventStatus* FUN_004181e0();
 
@@ -1479,7 +1479,7 @@ bool ImpactProjectile::ProcessHits()
             if (aTarget && GetFieldDC() > DAT_01012060 && hit->valid29)
             {
 
-                int oldState = hit->reference->FUN_0043fcd0();
+                int oldState = hit->reference->TESObjectREFR_Get3D();
 
                 if (FUN_00874480() && FUN_00874480()->IsActor() &&
 
@@ -1495,7 +1495,7 @@ bool ImpactProjectile::ProcessHits()
 
                     Ref* form = FUN_004b5a80(hit->itemID);
 
-                    if (form && form->FUN_00517630() < 4)
+                    if (form && form->bhkRigidBody_GetMotionType() < 4)
 
                         aTarget->ApplyValue(GetValue());
 
@@ -1503,9 +1503,9 @@ bool ImpactProjectile::ProcessHits()
 
                     float jump = 0.0f;
 
-                    if (attacker && attacker->IsValidTarget() && DAT_011f2250.FUN_00525430() && FUN_00476c90())
+                    if (attacker && attacker->IsValidTarget() && DAT_011f2250.FUN_00525430() && Sky_GetMode())
 
-                        jump = (float)FUN_00476c90()->GetShortAtOffset1C0();
+                        jump = (float)Sky_GetMode()->GetShortAtOffset1C0();
 
                     float delay = GetFieldDC() + jump;
 
@@ -1527,19 +1527,19 @@ bool ImpactProjectile::ProcessHits()
                         hit->reference->ApplyTime(delay, 0);
                     }
 
-                    if (aTarget->FUN_00477ba0() && FUN_00874480() == DAT_011dea3c)
+                    if (aTarget->TESForm_GetDestroyed() && FUN_00874480() == DAT_011dea3c)
 
                         DAT_011dea3c->SetEffectValue(10, DAT_0102918c, 0);
                 }
 
-                if (oldState != aTarget->FUN_0043fcd0())
+                if (oldState != aTarget->TESObjectREFR_Get3D())
                     aChanged = true;
             }
 
             if (!aTarget || !(aTarget->FUN_0044ddc0() & 0x20))
             {
 
-                if (!FUN_004181e0()->FUN_004fd360() || FUN_004181e0()->FUN_00975300() || FUN_004181e0()->FUN_005de080())
+                if (!FUN_004181e0()->BGSProjectile_GetHasExplosion() || FUN_004181e0()->FUN_00975300() || FUN_004181e0()->FUN_005de080())
                 {
 
                     if (!aChanged)

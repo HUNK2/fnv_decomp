@@ -9,7 +9,7 @@ struct FUN_00a4f300_shell
     void* GetEntryAt(int idx);
 };
 extern "C" const void* g_011f3fd4;
-const void* __cdecl FUN_00a4f5d0();
+const void* __cdecl NiFlipController_GetRTTI();
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);

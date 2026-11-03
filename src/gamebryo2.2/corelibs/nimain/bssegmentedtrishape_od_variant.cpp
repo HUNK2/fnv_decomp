@@ -5,10 +5,10 @@
 // src/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_011f5b40;
-void* __cdecl FUN_00a86fe0();
+void* __cdecl BSSegmentedTriShape_GetRTTI();
 void __cdecl FinalizeEntries();
-void __cdecl FUN_00a745c0();
-void __cdecl FUN_00a87120();
+void __cdecl NiTriShape_RenderImmediate();
+void __cdecl BSSegmentedTriShape_RenderImmediate();
 struct FUN_00a86ff0_shell
 {
     void SetEntryActive(unsigned int index);

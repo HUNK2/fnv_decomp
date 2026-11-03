@@ -79,7 +79,7 @@ struct Transform_8cc740
 
 struct Node_8cc740
 {
-    Transform_8cc740* FUN_00461130();
+    Transform_8cc740* NiAVObject_GetWorldRotate();
 };
 
 struct Listener_8cc740;
@@ -415,10 +415,10 @@ class Controller_8cc740
 
 struct Grid_8cc740
 {
-    unsigned int FUN_00457880(const NiPoint3& kPos);
+    unsigned int TES_GetLandMaterialType(const NiPoint3& kPos);
 };
 
-void __cdecl FUN_00525340(NiPoint3* pkPt);
+void __cdecl NiPoint3_UnitizeVector(NiPoint3* pkPt);
 void __cdecl FUN_00458620(NiPoint3* pkOut, const Rotation_8cc740* pkRot);
 
 extern ThreeByThreeMatrix DAT_011a9448;
@@ -577,7 +577,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
 {
     m_pUserData = new ProjectionData_8cc740;
     NiPoint3 kIntersectionOffset = m_kOffset;
-    FUN_00525340(&kIntersectionOffset);
+    NiPoint3_UnitizeVector(&kIntersectionOffset);
     kIntersectionOffset *= 24.0f;
     m_pUserData->m_iFadeIndex = 2;
     m_pUserData->m_iFlags = 0;
@@ -592,12 +592,12 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
         if (kRot.FUN_00458700(0).FUN_004586d0() == -DAT_01085910)
         {
             if (GetNode())
-                m_pUserData->m_kValue = GetNode()->FUN_00461130()->FUN_004b4500(DAT_011a9478 * m_fScale);
+                m_pUserData->m_kValue = GetNode()->NiAVObject_GetWorldRotate()->FUN_004b4500(DAT_011a9478 * m_fScale);
         }
         else
             FUN_00458620(&m_pUserData->m_kValue, &kRot);
     }
-    unsigned int uiType = DAT_011dea10->FUN_00457880(kPos);
+    unsigned int uiType = DAT_011dea10->TES_GetLandMaterialType(kPos);
     switch (uiType)
     {
     case 0:
@@ -686,7 +686,7 @@ struct xDH
 };
 struct xDHOwner
 {
-    xDH* FUN_00461130();
+    xDH* NiAVObject_GetWorldRotate();
 };
 void xFUN_00458620(xP3*, xVec4*);
 struct xActor
@@ -844,7 +844,7 @@ void xActor::FUN_008ccce0(const xP3& akA, const xP3& akB)
         if (V.FUN_00458700(0).FUN_004586d0() == -xg_1085910)
         {
             if (FUN_1d0())
-                m_88->m_1c = FUN_1d0()->FUN_00461130()->FUN_004b4500(xg_11a9478 * m_98);
+                m_88->m_1c = FUN_1d0()->NiAVObject_GetWorldRotate()->FUN_004b4500(xg_11a9478 * m_98);
         }
         else
             xFUN_00458620(&m_88->m_1c, &V);
@@ -900,7 +900,7 @@ struct xDH
 };
 struct xDHOwner
 {
-    xDH* FUN_00461130();
+    xDH* NiAVObject_GetWorldRotate();
 };
 void xFUN_00458620(xP3*, xVec4*);
 struct xActor
@@ -1052,7 +1052,7 @@ void xActor::FUN_008ccfb0(int aiValue)
             if (V.FUN_00458700(0).FUN_004586d0() == -xg_1085910)
             {
                 if (FUN_1d0())
-                    m_88->m_1c = FUN_1d0()->FUN_00461130()->FUN_004b4500(xg_11a9478 * m_98);
+                    m_88->m_1c = FUN_1d0()->NiAVObject_GetWorldRotate()->FUN_004b4500(xg_11a9478 * m_98);
             }
             else
                 xFUN_00458620(&m_88->m_1c, &V);
@@ -1200,7 +1200,7 @@ class Target8CD
 
 void* __cdecl FUN_004b5260(void* pvTarget);
 void __cdecl FUN_00c6a350(void* pvSource, int a, int b, int c, int d);
-void __cdecl FUN_0062a7e0(Transform8CD* pkTransform, void* pvTarget);
+void __cdecl TESArrowTargetListener_AddArrowTarget(Transform8CD* pkTransform, void* pvTarget);
 void __cdecl FUN_005b5e40(const char* pcMessage);
 
 class Projectile8CD
@@ -1437,7 +1437,7 @@ bool Projectile8CD::FUN_008cd520(Caster8CD* pkCaster)
             {
                 Transform8CD kTransform;
                 pkCaster->GetTransform(kTransform);
-                FUN_0062a7e0(&kTransform, m_pkTarget->m_pvTarget);
+                TESArrowTargetListener_AddArrowTarget(&kTransform, m_pkTarget->m_pvTarget);
             }
         }
     }
@@ -1476,7 +1476,7 @@ extern SettingD0020 DAT_011ce224;
 struct TypeD0020
 {
     int value;
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct BodyD0020
 {
@@ -1528,7 +1528,7 @@ struct ObjectD0020
     virtual void v25();
     virtual BodyD0020* GetBody();
     void FUN_0043b4f0(TypeD0020*);
-    float FUN_004b5400();
+    float bhkRigidBody_GetMass();
     ResultD0020* FUN_004ae750(const VecD0020&, const VecD0020&);
 };
 struct TargetD0020
@@ -1549,7 +1549,7 @@ void TargetD0020::FUN_008d0020(Vec3D0020 position, Vec3D0020 direction, ObjectD0
         float strength = FUN_008d01e0();
         TypeD0020 type;
         object->FUN_0043b4f0(&type);
-        switch (type.FUN_0043b4d0())
+        switch (type.CFilter_GetLayer())
         {
         case 14:
             strength *= DAT_011ce3e4.FUN_00403e20();
@@ -1564,7 +1564,7 @@ void TargetD0020::FUN_008d0020(Vec3D0020 position, Vec3D0020 direction, ObjectD0
             strength *= DAT_011ce798.FUN_00403e20();
             break;
         }
-        float weight = object->FUN_004b5400();
+        float weight = object->bhkRigidBody_GetMass();
         if (weight < DAT_011cf114.FUN_00403e20())
             strength *= weight / DAT_011cf114.FUN_00403e20();
         strength *= DAT_011ce224.FUN_00403e20();
@@ -1621,7 +1621,7 @@ struct Data08
 };
 struct Col_0043b4f0
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 struct Node08
 {
@@ -1654,7 +1654,7 @@ struct GlobalObject_008c71b0
 {
     int value;
     GlobalObject_008c71b0(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 void* __cdecl GetReferenceFromObject(Col_0043b4f0*);
 struct FUN_0089f4e0_shell
@@ -1676,8 +1676,8 @@ void Holder00807080::FUN_008d1180(FUN_00807770_Class* nodes, Data08* data)
         Rec08* record = &data->records[i];
         Node08* node = (Node08*)nodes->FUN_00807770(i);
         void* collision = FUN_004b59f0(node->collision);
-        GlobalObject_008c71b0 filter(node->collision->FUN_0043b540());
-        int layer = filter.FUN_0043b4d0();
+        GlobalObject_008c71b0 filter(node->collision->hkpCollidable_getCollisionFilterInfo());
+        int layer = filter.CFilter_GetLayer();
         if (!collision)
         {
             if (layer != 30)

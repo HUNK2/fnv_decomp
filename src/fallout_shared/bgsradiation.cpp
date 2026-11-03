@@ -240,7 +240,7 @@ void* __thiscall Unnamed_00591bf0::FUN_00591bf0(unsigned int flags)
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_00591d30_t
@@ -253,26 +253,26 @@ void FUN_00591d30_t::CopyFrom(TESForm* apCopy)
     BGSRadiationStage* pcopy = dynamic_cast<BGSRadiationStage*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(((BGSCameraPath*)this)->GetConditions(), ((BGSCameraPath*)pcopy)->GetConditions(), 8);
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_00591d90_shell : BGSRadiationStage
 {
-    bool FUN_00591d90(TESForm* apCompare);
+    bool BGSRadiationStage_Compare(TESForm* apCompare);
 };
 // @fnv 0x00591d90
-bool FUN_00591d90_shell::FUN_00591d90(TESForm* apCompare)
+bool FUN_00591d90_shell::BGSRadiationStage_Compare(TESForm* apCompare)
 {
     BGSRadiationStage* pOtherStage = dynamic_cast<BGSRadiationStage*>(apCompare);
     if (!pOtherStage)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pOtherStage))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pOtherStage))
         return true;
     if (_memcmp(((BGSCameraPath*)this)->GetConditions(), ((BGSCameraPath*)pOtherStage)->GetConditions(), 8))
         return true;

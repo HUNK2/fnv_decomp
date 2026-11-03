@@ -22,7 +22,7 @@ void* FUN_00a4f300_shell::GetEntryAt(int uiIndex)
 extern "C" const void* g_011f3fd4;
 
 // @fnv 0x00a4f5d0
-const void* __cdecl FUN_00a4f5d0()
+const void* __cdecl NiFlipController_GetRTTI()
 {
     return &g_011f3fd4;
 }
@@ -157,7 +157,7 @@ struct FUN_00a40520 : BSFadeNode
     __declspec(nothrow) FUN_00a40520(bool, float, unsigned char);
 };
 // @fnv 0x00a4f2c0
-FUN_00a40520* __stdcall FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
+FUN_00a40520* __stdcall NiFlipController_CreateBlendInterpolator(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
                                      float fWeightThreshold, unsigned char ucArraySize)
 {
     FUN_00a40520* pkInterp = new FUN_00a40520(bManagerControlled, fWeightThreshold, ucArraySize);
@@ -197,10 +197,10 @@ struct BaseA
 };
 struct ProxyFlip : BaseA
 {
-    bool __thiscall FUN_00a4f350(NiStream& kStream);
+    bool __thiscall NiFlipController_RegisterStreamables(NiStream& kStream);
 };
 // @fnv 0x00a4f350
-bool ProxyFlip::FUN_00a4f350(NiStream& kStream)
+bool ProxyFlip::NiFlipController_RegisterStreamables(NiStream& kStream)
 {
     if (!FUN_00a57780(kStream))
         return false;
@@ -298,12 +298,12 @@ struct FUN_00a4f290_class
     int unk4c;
 
     bool __thiscall FUN_00a57c10(FUN_00a4f290_class*);
-    unsigned char __thiscall FUN_00a4f290(FUN_00a4f290_class*);
+    unsigned char __thiscall NiFlipController_IsEqual(FUN_00a4f290_class*);
 };
 
 // Returns 0 if FUN_00a57c10 fails, otherwise returns whether unk4c equals param->unk4c.
 // @fnv 0x00a4f290
-unsigned char FUN_00a4f290_class::FUN_00a4f290(FUN_00a4f290_class* param)
+unsigned char FUN_00a4f290_class::NiFlipController_IsEqual(FUN_00a4f290_class* param)
 {
     if (!FUN_00a57c10(param))
     {
@@ -1086,12 +1086,12 @@ struct A4F990Base
 
 struct A4F990Flip : A4F990Base
 {
-    void __thiscall FUN_00a4f990(A4F990Stream& kStream) throw();
+    void __thiscall NiFlipController_LinkObject(A4F990Stream& kStream) throw();
 };
 
 // Calls FUN_00a57630, then, when unk2C is nonnull, reads a count and stores that many F570RefObject pointers in m_kTextureSwapList.
 // @fnv 0x00a4f990
-void A4F990Flip::FUN_00a4f990(A4F990Stream& kStream) throw()
+void A4F990Flip::NiFlipController_LinkObject(A4F990Stream& kStream) throw()
 {
     FUN_00a57630(kStream);
     if (unk2C)

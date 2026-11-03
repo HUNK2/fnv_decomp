@@ -636,7 +636,7 @@ bool FUN_009aa3b0_Class::HasMatchingEntry(unsigned int auiFirst, unsigned int au
 
 struct DummyFontManager
 {
-    int FUN_005bd5c0(int a);
+    int FontManager_GetFont(int a);
 };
 struct FUN_009aad00Class
 {
@@ -649,13 +649,13 @@ struct FUN_009aae10_Class
     void FUN_009aae10(int a, unsigned int b);
 };
 
-// If the per-index byte in DAT_011a55b4 is set, ORs bit b into the flags from FUN_005bd5c0 and passes them to FUN_009aad00; otherwise passes b.
+// If the per-index byte in DAT_011a55b4 is set, ORs bit b into the flags from FontManager_GetFont and passes them to FUN_009aad00; otherwise passes b.
 // @fnv 0x009aae10
 void FUN_009aae10_Class::FUN_009aae10(int aiIndex, unsigned int auiBit)
 {
     if (DAT_011a55b4[aiIndex * 8])
     {
-        int flags = ((DummyFontManager*)this)->FUN_005bd5c0(aiIndex);
+        int flags = ((DummyFontManager*)this)->FontManager_GetFont(aiIndex);
         ((FUN_009aad00Class*)this)->FUN_009aad00(aiIndex, (1 << auiBit) | flags);
     }
     else
@@ -1166,7 +1166,7 @@ FUN_009b3160::FUN_009b3160(bool b) : Projectile(b)
 namespace fnv_009b5650 {
 struct Sky
 {
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 struct IC
 {
@@ -1201,7 +1201,7 @@ void InitFromObjects(BooleanFloatQuery* hd, void* target, void* weapon, void* so
         return;
     hd->a = target;
     hd->b = weapon;
-    ((int*)hd)[12] = extra ? ((Sky*)extra)->FUN_00476c90() : 0;
+    ((int*)hd)[12] = extra ? ((Sky*)extra)->Sky_GetMode() : 0;
     ((float*)hd)[13] = source ? ((IC*)source)->GetConditionPercent(true) : 1.0f;
     hd->p_08 = extra;
     ((float*)hd)[5] = ((Obj*)extra)->GetFieldDC();
@@ -1284,7 +1284,7 @@ struct NiPoint3
 };
 struct M9c10
 {
-    void FUN_00439f50(unsigned int, NiPoint3&);
+    void NiMatrix3_GetCol(unsigned int, NiPoint3&);
 };
 struct FUN_009ae540_Class
 {
@@ -1305,11 +1305,11 @@ FUN_009ae540_Class* __thiscall FUN_009ae4d0_Class::FUN_009ae4d0(void* a)
 {
     NiPoint3 l;
     ((BSSimpleListX*)&l)->GetItem();
-    ((M9c10*)a)->FUN_00439f50(0, l);
+    ((M9c10*)a)->NiMatrix3_GetCol(0, l);
     this->FUN_009ae540(l);
-    ((M9c10*)a)->FUN_00439f50(1, l);
+    ((M9c10*)a)->NiMatrix3_GetCol(1, l);
     ((FUN_009ae540_Class*)((char*)this + 0x10))->FUN_009ae540(l);
-    ((M9c10*)a)->FUN_00439f50(2, l);
+    ((M9c10*)a)->NiMatrix3_GetCol(2, l);
     ((FUN_009ae540_Class*)((char*)this + 0x20))->FUN_009ae540(l);
     return this;
 }
@@ -2077,7 +2077,7 @@ void __thiscall FUN_009a03d0_cls::FUN_009a03d0(unsigned char flag)
 }
 
 extern "C" int __fastcall FUN_004030b0(void* obj);
-extern "C" float __cdecl FUN_0047eeb0(unsigned int v);
+extern "C" float __cdecl TESAIForm_GetConfidenceLevel(unsigned int v);
 extern const double DAT_01012060;
 
 class FUN_009a1380_cls
@@ -2218,7 +2218,7 @@ unsigned char FUN_009a1380_cls::FUN_009a1380()
     {
         return 0;
     }
-    f = FUN_0047eeb0(m_c9);
+    f = TESAIForm_GetConfidenceLevel(m_c9);
     if (f > DAT_01012060)
     {
         f -= m_cc;
@@ -2910,7 +2910,7 @@ extern S_9a54a0_Setting DAT_011cf3f0;
 struct S_9a54a0_Actor
 {
     float FUN_006a78f0();
-    float FUN_00477900();
+    float BGSExplosion_GetRadiusBSUnits();
 };
 float __cdecl ComputeExplosionDamageFalloff(float a, float b, float c);
 struct S_9a54a0_Class
@@ -2924,7 +2924,7 @@ void S_9a54a0_Class::FUN_009a54a0(int a1, S_9a54a0_Actor* pActor, float a3)
     float cur = pActor->FUN_006a78f0();
     if (cur >= *DAT_011cf3f0.FUN_00403e20())
     {
-        float f = pActor->FUN_00477900();
+        float f = pActor->BGSExplosion_GetRadiusBSUnits();
         f = ComputeExplosionDamageFalloff(f, cur, *DAT_011cf3f0.FUN_00403e20());
         AddOrUpdateItem(a1, f, 0.0f, a3, cur);
     }
@@ -3142,15 +3142,15 @@ struct FUN_009aadc0_cls
     unsigned char FUN_009aadc0(int a, unsigned int b);
 };
 
-// Checks DAT_011a55b4 for entry a: if set, tests bit b of FUN_005bd5c0(a); otherwise compares FUN_005bd5c0(a) to b.
+// Checks DAT_011a55b4 for entry a: if set, tests bit b of FontManager_GetFont(a); otherwise compares FontManager_GetFont(a) to b.
 // @fnv 0x009aadc0
 unsigned char FUN_009aadc0_cls::FUN_009aadc0(int aiIndex, unsigned int auiBit)
 {
     if (DAT_011a55b4[aiIndex * 8] != 0)
     {
-        return (reinterpret_cast<DummyFontManager*>(this)->FUN_005bd5c0(aiIndex) & (1u << auiBit)) != 0;
+        return (reinterpret_cast<DummyFontManager*>(this)->FontManager_GetFont(aiIndex) & (1u << auiBit)) != 0;
     }
-    return (reinterpret_cast<DummyFontManager*>(this)->FUN_005bd5c0(aiIndex) == (int)auiBit) ? 1 : 0;
+    return (reinterpret_cast<DummyFontManager*>(this)->FontManager_GetFont(aiIndex) == (int)auiBit) ? 1 : 0;
 }
 
 class NiPoint39AB
@@ -3379,14 +3379,14 @@ class TESImageSpaceModifier : public TESForm
     virtual ~TESImageSpaceModifier();
 };
 extern TESImageSpaceModifier* DAT_011c9708;
-TESForm* __cdecl FUN_004839c0(unsigned int);
-// Returns the cached TESImageSpaceModifier, looking it up by form ID 0x166 via FUN_004839c0 if not yet set.
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
+// Returns the cached TESImageSpaceModifier, looking it up by form ID 0x166 via TESForm_GetFormByNumericID if not yet set.
 // @fnv 0x009ad630
 TESImageSpaceModifier* __cdecl FUN_009ad630()
 {
     if (DAT_011c9708 == 0)
     {
-        DAT_011c9708 = dynamic_cast<TESImageSpaceModifier*>(FUN_004839c0(0x166));
+        DAT_011c9708 = dynamic_cast<TESImageSpaceModifier*>(TESForm_GetFormByNumericID(0x166));
     }
     return DAT_011c9708;
 }
@@ -5794,14 +5794,14 @@ struct TargetRef
     virtual void vf192();
     virtual void Update();
     TargetRef* FUN_00874480();
-    unsigned int FUN_00476c90();
+    unsigned int Sky_GetMode();
     TargetRef* FUN_008d8520();
     unsigned int FUN_0044ddc0();
     float FUN_00644930();
     void FUN_00407880(float);
     TargetRef* GetFieldC8();
     void FUN_0056c7d0(TargetRef*);
-    bool FUN_00572c80();
+    bool TESObjectREFR_CanBeMoved();
 };
 struct FUN_009ac200 : TargetRef
 {
@@ -5906,7 +5906,7 @@ TargetRef* __cdecl CreateProjectileRef(void* form, TargetRef* source, TargetRef*
             if (owner == DAT_011dea3c)
             {
                 TargetRef* actor = source;
-                unsigned int actorFlags = actor ? actor->FUN_00476c90() : 0;
+                unsigned int actorFlags = actor ? actor->Sky_GetMode() : 0;
                 FUN_005e58f0(0x48, DAT_011dea3c, actorFlags, &scale);
             }
         }
@@ -5935,7 +5935,7 @@ TargetRef* __cdecl CreateProjectileRef(void* form, TargetRef* source, TargetRef*
             result->SetExtra(extra);
         }
         result->FUN_0056c7d0(parent);
-        if (parent && parent->FUN_00572c80())
+        if (parent && parent->TESObjectREFR_CanBeMoved())
         {
             parent->Mark(4);
         }
@@ -6397,7 +6397,7 @@ struct Form9af
 void* FUN_004b59f0(const void* p);
 Body9af* FUN_004b5a80(const void* p);
 Ref9af* FUN_004b5a20(const void* p);
-Form9af* FUN_0056f930(unsigned int id);
+Form9af* TESObjectREFR_FindReferenceFor3D(unsigned int id);
 
 struct Actor9af
 {
@@ -6478,7 +6478,7 @@ void Actor9af::FUN_009afef0()
             {
                 Ref9af* pRef = FUN_004b5a20(pObj2);
                 unsigned int uiIDA = pRef ? pRef->GetFlags() : 0;
-                Form9af* pForm5 = FUN_0056f930(uiIDA);
+                Form9af* pForm5 = TESObjectREFR_FindReferenceFor3D(uiIDA);
                 if (bFlag && pForm5 != unkcc)
                     continue;
                 if (pForm5)
@@ -6763,7 +6763,7 @@ struct Obj082
     unsigned char unkD7;
     int unkd8;
     Effect082* effect;
-    bool FUN_00477ba0();
+    bool TESForm_GetDestroyed();
     bool FUN_00440da0();
     float FUN_00644930();
     float FUN_008d01e0();
@@ -6793,11 +6793,11 @@ extern float DAT_0102918c;
 extern Setting082 DAT_011d0030, DAT_011d0490, DAT_011cfea0, DAT_011d0edc, DAT_011d0d38, DAT_011d00d8, DAT_011d05e0;
 float ComputeSquaredRatioComplement(float, float);
 void FUN_005299a0(void*, float, int);
-void FUN_005ac750(void*, int, int);
+void Script_SetActionFlag(void*, int, int);
 void InitCombatThing(Hit082*, Obj082*, Obj082*, Obj082*, float);
 Pair082 FUN_00532fd0(float, Pair082*);
 Obj082* FUN_00705950();
-bool FUN_00646400(void*, int);
+bool CombatFormulas_CheckKnockdown(void*, int);
 void FUN_00c6a350(Obj082*, int, int, int, int);
 // @fnv 0x009b00a0
 void Obj082::ProcessHits()
@@ -6808,7 +6808,7 @@ void Obj082::ProcessHits()
     {
         Entry082* entry = *iter->FUN_006815c0();
         iter = iter->FUN_00726070();
-        if (entry && entry->object && !entry->skip && !entry->object->FUN_00477ba0() && !entry->object->FUN_00440da0())
+        if (entry && entry->object && !entry->skip && !entry->object->TESForm_GetDestroyed() && !entry->object->FUN_00440da0())
         {
             float radius = entry->object->Position()->FUN_00439ef0(Position()).FUN_00457990();
             float distance = ComputeSquaredRatioComplement(FUN_00644930(), radius);
@@ -6834,13 +6834,13 @@ void Obj082::ProcessHits()
                 Obj082* amount = entry->object->IsActor() ? entry->object : 0;
                 if (amount)
                     amount->CallProcessAt778();
-                FUN_005ac750(GetSource() ? (void*)GetSource()->FUN_00559450() : 0, entry->object->FUN_005d43c0(), 0x80);
+                Script_SetActionFlag(GetSource() ? (void*)GetSource()->FUN_00559450() : 0, entry->object->FUN_005d43c0(), 0x80);
                 if (GetFieldE0())
-                    FUN_005ac750(GetFieldE0(), entry->object->FUN_005d43c0(), 0x100);
+                    Script_SetActionFlag(GetFieldE0(), entry->object->FUN_005d43c0(), 0x100);
                 else
-                    FUN_005ac750(FUN_004181e0(), entry->object->FUN_005d43c0(), 0x100);
+                    Script_SetActionFlag(FUN_004181e0(), entry->object->FUN_005d43c0(), 0x100);
                 actor = GetCachedValue() * distance;
-                if (entry->object->FUN_00477ba0() && GetFieldC8() == DAT_011dea3c)
+                if (entry->object->TESForm_GetDestroyed() && GetFieldC8() == DAT_011dea3c)
                     DAT_011dea3c->SetEffectValue(10, DAT_0102918c, 0);
                 if (amount)
                 {
@@ -6871,7 +6871,7 @@ void Obj082::ProcessHits()
                         }
                         if (!amount->State(0) && (FUN_004181e0()->HasAnyFlags(4) ||
                                                   (FUN_004181e0()->HasAnyFlags(8) &&
-                                                   FUN_00646400(amount ? &amount->hits : 0, (int)hit.unk14))))
+                                                   CombatFormulas_CheckKnockdown(amount ? &amount->hits : 0, (int)hit.unk14))))
                             FUN_009b0d70(amount, distance);
                         if (amount->State(0))
                         {
@@ -8701,11 +8701,11 @@ struct HitWeapon
     int unk94;
     int unk98;
     HitClip clip;
-    HitAmmo* FUN_00525980(HitActor*);
+    HitAmmo* TESObjectWEAP_GetCurrentAmmo(HitActor*);
     bool FUN_006450c0();
     int FUN_00446390();
     unsigned char FUN_00525b20(int, int, HitActor*);
-    bool FUN_00524b40();
+    bool TESObjectWEAP_IsAutomaticWeapon();
     int FUN_009b6600();
 };
 extern HitActor* DAT_011dea3c;
@@ -8718,7 +8718,7 @@ float ComputeAmmoEffectValue(int, int, float);
 float FUN_006462e0(float, float);
 bool IsTargetInCone(HitActor*, HitActor*, int);
 float FUN_006463a0(int);
-HitWeapon* FUN_004839c0(int);
+HitWeapon* TESForm_GetFormByNumericID(int);
 void FUN_005e58f0(int, HitActor*, HitWeapon*, HitActor*, float*);
 void FUN_005e58f0(int, HitActor*, HitActor*, HitWeapon*, float*);
 int FUN_009b65d0(unsigned short, int);
@@ -8751,7 +8751,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     original = damage;
     float minimumDamage8 = damage * *DAT_011ced4c.FUN_00403e20();
     if (weapon)
-        critical = ComputeAmmoEffectValue(5, weapon->FUN_00525980(attacker) ? weapon->FUN_00525980(attacker)->FUN_00923000() : 0,
+        critical = ComputeAmmoEffectValue(5, weapon->TESObjectWEAP_GetCurrentAmmo(attacker) ? weapon->TESObjectWEAP_GetCurrentAmmo(attacker)->FUN_00923000() : 0,
                                 critical);
     float resistanceVal = FUN_0040ebd0(target->values.Current(18), DAT_01016410) / DAT_01017a40;
     if (target->FUN_00566950())
@@ -8762,7 +8762,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     }
     if (weapon)
         resistanceVal = ComputeAmmoEffectValue(
-            1, weapon->FUN_00525980(attacker) ? weapon->FUN_00525980(attacker)->FUN_00923000() : 0, resistanceVal);
+            1, weapon->TESObjectWEAP_GetCurrentAmmo(attacker) ? weapon->TESObjectWEAP_GetCurrentAmmo(attacker)->FUN_00923000() : 0, resistanceVal);
     float maxResistance8 = *DAT_011d1020.FUN_00403e20() / DAT_01017a40;
     if (resistanceVal > maxResistance8)
         resistanceVal = maxResistance8;
@@ -8777,7 +8777,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     }
     float originalThreshold = threshold;
     if (weapon)
-        threshold = ComputeAmmoEffectValue(2, weapon->FUN_00525980(attacker) ? weapon->FUN_00525980(attacker)->FUN_00923000() : 0,
+        threshold = ComputeAmmoEffectValue(2, weapon->TESObjectWEAP_GetCurrentAmmo(attacker) ? weapon->TESObjectWEAP_GetCurrentAmmo(attacker)->FUN_00923000() : 0,
                                  threshold);
     if (!skipBlock)
     {
@@ -8811,7 +8811,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     if (attacker)
     {
         if (!weapon)
-            weapon = FUN_004839c0(500);
+            weapon = TESForm_GetFormByNumericID(500);
         FUN_005e58f0(58, attacker, weapon, target, &penetration);
     }
     float bonus9 = 0.0f;
@@ -8825,7 +8825,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     if (attacker && attacker->FUN_008d8520() && attacker->FUN_008d8520()->Weapon() &&
         attacker->FUN_008d8520()->Weapon()->HasEffect(12) && threshold > DAT_01012060)
         threshold /= weapon->FUN_00525b20(1, 0, attacker);
-    if (weapon && weapon->FUN_00524b40() && weapon->FUN_006450c0())
+    if (weapon && weapon->TESObjectWEAP_IsAutomaticWeapon() && weapon->FUN_006450c0())
     {
         float rounds = (float)FUN_009b65d0(weapon->clip.Count(), 1);
         float fraction = 1.0f - threshold / rounds;
@@ -8835,7 +8835,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     else
         damage = damage - threshold;
     if (weapon)
-        damage = ComputeAmmoEffectValue(0, weapon->FUN_00525980(attacker) ? weapon->FUN_00525980(attacker)->FUN_00923000() : 0,
+        damage = ComputeAmmoEffectValue(0, weapon->TESObjectWEAP_GetCurrentAmmo(attacker) ? weapon->TESObjectWEAP_GetCurrentAmmo(attacker)->FUN_00923000() : 0,
                               damage);
     if (weapon)
         FUN_005e58f0(0, attacker, weapon, target, &damage);

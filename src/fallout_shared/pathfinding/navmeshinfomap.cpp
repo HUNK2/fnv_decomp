@@ -421,11 +421,11 @@ struct FUN_00484020_shell
 };
 struct FUN_006b6910_shell
 {
-    bool FUN_006b6910(TESForm* apForm);
+    bool NavMeshInfoMap_Sort(TESForm* apForm);
 };
 // Returns true if apForm's form type is 0x43, otherwise delegates to IsLessThan.
 // @fnv 0x006b6910
-bool FUN_006b6910_shell::FUN_006b6910(TESForm* apForm)
+bool FUN_006b6910_shell::NavMeshInfoMap_Sort(TESForm* apForm)
 {
     if (_FNV_GetFormType(apForm) == 0x43)
         return true;
@@ -631,8 +631,8 @@ struct InfoView
 class NavMesh
 {
   public:
-    bool FUN_00460340();
-    bool FUN_00440d80();
+    bool TESForm_GetAltered();
+    bool TESForm_GetDelete();
     void FUN_006986d0();
 };
 struct PtrView
@@ -695,14 +695,14 @@ struct VirtualView
 };
 struct WorkerNavMap : NavMeshInfoMap
 {
-    bool FUN_00460340();
+    bool TESForm_GetAltered();
     void ValidateNavMeshes();
     bool FUN_006b6580();
 };
 // @fnv 0x006b6580
 bool WorkerNavMap::FUN_006b6580()
 {
-    if (!FUN_00460340())
+    if (!TESForm_GetAltered())
         return true;
     FormView* formTmp;
     unsigned int i5;
@@ -742,8 +742,8 @@ bool WorkerNavMap::FUN_006b6580()
         void* valueVal;
         m_kNavMeshInfosByFormID.GetNext(position, key3, valueVal);
         NavMeshPtr mesh8;
-        if (((NavMeshInfo*)valueVal)->AcquireNavMesh(mesh8) && ((PtrView*)&mesh8)->FUN_00559450()->FUN_00460340() &&
-            !((PtrView*)&mesh8)->FUN_00559450()->FUN_00440d80())
+        if (((NavMeshInfo*)valueVal)->AcquireNavMesh(mesh8) && ((PtrView*)&mesh8)->FUN_00559450()->TESForm_GetAltered() &&
+            !((PtrView*)&mesh8)->FUN_00559450()->TESForm_GetDelete())
             ((PtrView*)&mesh8)->FUN_00559450()->FUN_006986d0();
     }
     ValidateNavMeshes();
@@ -1428,7 +1428,7 @@ void WorkerNavMap::ValidateNavMeshes()
                                 invalidatedList.FUN_007cb2e0(&meshInfo);
                                 continue;
                             }
-                            if (activeMesh.GetPtr()->FUN_00440d80())
+                            if (activeMesh.GetPtr()->TESForm_GetDelete())
                                 invalidatedList.FUN_007cb2e0(&meshInfo);
                             for (unsigned int k = 0; k < meshInfo->adjacent.GetSize(); ++k)
                             {

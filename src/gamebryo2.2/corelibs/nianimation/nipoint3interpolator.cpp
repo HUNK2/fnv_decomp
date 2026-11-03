@@ -76,12 +76,12 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
             DAT_011f21e4 = false;
             if (state28)
             {
-                FUN_005293f0(state28);
+                ImageSpaceModifierInstance_Stop(state28);
                 state28 = 0;
             }
             if (state2c)
             {
-                FUN_005293f0(state2c);
+                ImageSpaceModifierInstance_Stop(state2c);
                 state2c = 0;
             }
             state2c = FUN_0052a440(0.0f, DAT_011ce564.Float()->f, DAT_011ce424.Float()->f, DAT_011cf1f8.Float()->f,
@@ -117,12 +117,12 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
             DAT_011f21d3 = false;
             if (state28)
             {
-                FUN_005293f0(state28);
+                ImageSpaceModifierInstance_Stop(state28);
                 state28 = 0;
             }
             if (state2c)
             {
-                FUN_005293f0(state2c);
+                ImageSpaceModifierInstance_Stop(state2c);
                 state2c = 0;
             }
             state38 = true;
@@ -156,8 +156,8 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
         if (reinterpret_cast<VATS*>(&g_011f2250)->FUN_005d8710())
         {
             reinterpret_cast<ExtraDataList*>(FUN_00450b80(0))
-                ->Set3DObject(reinterpret_cast<VATS*>(&g_011f2250)->FUN_005d8710()->FUN_004e6540());
-            FUN_00450b80(0)->vfn_e8(reinterpret_cast<VATS*>(&g_011f2250)->FUN_005d8710()->FUN_004e6540());
+                ->Set3DObject(reinterpret_cast<VATS*>(&g_011f2250)->FUN_005d8710()->ShadowSceneLight_GetLight());
+            FUN_00450b80(0)->vfn_e8(reinterpret_cast<VATS*>(&g_011f2250)->FUN_005d8710()->ShadowSceneLight_GetLight());
             reinterpret_cast<VATS*>(&g_011f2250)->SetLight(0, true);
         }
         break;
@@ -175,7 +175,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a49530_shell : public NiPoint3Interpolator
 {
-    void FUN_00a49530(NiStream*);
+    void NiPoint3Interpolator_LoadBinary(NiStream*);
 };
 
 class NiColor
@@ -196,7 +196,7 @@ struct NiKeyBasedInterpolator_LoadBinary_Helper : public NiKeyBasedInterpolator
 
 // Loads the base interpolator and a NiColor from the stream, then reads a NiObject and stores it as a ref-counted member.
 // @fnv 0x00a49530
-void FUN_00a49530_shell::FUN_00a49530(NiStream* pkStream)
+void FUN_00a49530_shell::NiPoint3Interpolator_LoadBinary(NiStream* pkStream)
 {
     reinterpret_cast<NiKeyBasedInterpolator_LoadBinary_Helper*>(this)
         ->NiKeyBasedInterpolator_LoadBinary_Helper::LoadBinary(*pkStream);
@@ -236,7 +236,7 @@ NiPoint3Interpolator* __fastcall FUN_00a49ae0(NiPoint3Interpolator* pThis, int, 
 }
 
 // @fnv 0x00a49410
-void* __fastcall FUN_00a49410(char* self, int, int)
+void* __fastcall NiPoint3Interpolator_GetKeyCount(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -281,7 +281,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a49590_shell : public NiPoint3Interpolator
 {
-    bool FUN_00a49590(NiStream*);
+    bool NiPoint3Interpolator_RegisterStreamables(NiStream*);
 };
 
 struct HC1Base
@@ -316,7 +316,7 @@ struct HC1Data
 
 // Calls FUN_00aa0ad0 on this as HC1Base; if it succeeds, registers the HC1Data at offset 0x18 with the stream and returns true.
 // @fnv 0x00a49590
-bool FUN_00a49590_shell::FUN_00a49590(NiStream* kStream)
+bool FUN_00a49590_shell::NiPoint3Interpolator_RegisterStreamables(NiStream* kStream)
 {
     if (!reinterpret_cast<HC1Base*>(this)->FUN_00aa0ad0(kStream))
         return false;
@@ -336,7 +336,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a495c0_shell : public NiPoint3Interpolator
 {
-    void FUN_00a495c0(NiStream*);
+    void NiPoint3Interpolator_SaveBinary(NiStream*);
 };
 
 struct FUN_00a95ca0_helper
@@ -364,7 +364,7 @@ struct NiStreamLinkHelper
     virtual void SaveLinkID(void*);
 };
 // @fnv 0x00a495c0
-void FUN_00a495c0_shell::FUN_00a495c0(NiStream* stream)
+void FUN_00a495c0_shell::NiPoint3Interpolator_SaveBinary(NiStream* stream)
 {
     ((FUN_00a95ca0_helper*)this)->FUN_00a95ca0(stream);
     ((NiColorSaveHelper*)(char*)this + 0xc)->SaveBinary(*stream);
@@ -374,7 +374,7 @@ void FUN_00a495c0_shell::FUN_00a495c0(NiStream* stream)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f70;
 // @fnv 0x00a49640
-GlobalObjectO2_00a7b610* FUN_00a49640()
+GlobalObjectO2_00a7b610* NiPoint3Interpolator_GetRTTI()
 {
     return &g_011f3f70;
 }
@@ -385,11 +385,11 @@ extern float DAT_011a942c;
 
 struct NiPoint3Interpolator_shell
 {
-    bool __thiscall FUN_00a49460(unsigned short channel);
+    bool __thiscall NiPoint3Interpolator_GetChannelPosed(unsigned short channel);
 };
 
 // @fnv 0x00a49460
-bool NiPoint3Interpolator_shell::FUN_00a49460(unsigned short channel)
+bool NiPoint3Interpolator_shell::NiPoint3Interpolator_GetChannelPosed(unsigned short channel)
 {
     if (*(int*)((char*)this + 0x18))
         return false;
@@ -615,7 +615,7 @@ class A49B30Point3Interpolator : public A49B30KeyBasedInterpolator
     virtual ~A49B30Point3Interpolator();
 
     void CopyMemberData(A49B30Point3Interpolator* pkDest, void* pvCloning);
-    A49B30Point3Interpolator* FUN_00a49b30(void* pvCloning);
+    A49B30Point3Interpolator* NiPoint3Interpolator_CreateClone(void* pvCloning);
 
     A49B30Point3 m_kPoint3Value;
     A49B30DataPtr m_spPoint3Data;
@@ -623,7 +623,7 @@ class A49B30Point3Interpolator : public A49B30KeyBasedInterpolator
 };
 
 // @fnv 0x00a49b30
-A49B30Point3Interpolator* A49B30Point3Interpolator::FUN_00a49b30(void* pvCloning)
+A49B30Point3Interpolator* A49B30Point3Interpolator::NiPoint3Interpolator_CreateClone(void* pvCloning)
 {
     A49B30Point3Interpolator* pkClone = new A49B30Point3Interpolator;
     CopyMemberData(pkClone, pvCloning);
@@ -658,7 +658,7 @@ class FUN_00a49bb0_cls
     unsigned int unk08;
     Sub0cHelper m_sub0c;
     unsigned int m_val18;
-    void FUN_00a3cbf0(StrArrList* list);
+    void NiKeyBasedInterpolator_GetViewerStrings(StrArrList* list);
     void AppendPoint3Fields(StrArrList* list);
 };
 
@@ -672,7 +672,7 @@ void FUN_00a49bb0_cls::AppendPoint3Fields(StrArrList* list)
 {
     unsigned int value;
 
-    FUN_00a3cbf0(list);
+    NiKeyBasedInterpolator_GetViewerStrings(list);
     value = FUN_00a7d330(DAT_011f3f70);
     {
         unsigned int count = list->count;
@@ -836,7 +836,7 @@ void FUN_00a49690_shell::CollapseConstantPosData()
 
 // Allocates and returns a new A49B30Point3Interpolator object.
 // @fnv 0x00a49a30
-A49B30Point3Interpolator* __cdecl FUN_00a49a30()
+A49B30Point3Interpolator* __cdecl NiPoint3Interpolator_CreateObject()
 {
     return new A49B30Point3Interpolator();
 }
@@ -877,11 +877,11 @@ struct Call_439090_tgt
 struct PosInterpEq : public NiPoint3Interpolator
 {
     bool FUN_00c85800(NiPoint3Interpolator* other);
-    bool FUN_00a49a80(NiPoint3Interpolator* other);
+    bool NiPoint3Interpolator_IsEqual(NiPoint3Interpolator* other);
 };
 
 // @fnv 0x00a49a80
-bool PosInterpEq::FUN_00a49a80(NiPoint3Interpolator* other)
+bool PosInterpEq::NiPoint3Interpolator_IsEqual(NiPoint3Interpolator* other)
 {
     if (!FUN_00c85800(other))
         return false;

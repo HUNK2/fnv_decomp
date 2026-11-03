@@ -59,7 +59,7 @@ struct BSFadeNode
 struct NiTriBasedGeomData;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
 extern int DAT_0109dac4;
-void* __cdecl FUN_00a7b790();
+void* __cdecl NiTriShapeData_CreateObject();
 void __fastcall FUN_00a71f60(void*);
 extern int DAT_0109dd0c;
 struct FUN_00a7d670_Class
@@ -94,7 +94,7 @@ struct FUN_00a7d6e0_Class
 {
     void __thiscall FUN_00a71f60();
 };
-void* FUN_00a7d6e0();
+void* NiPointLight_CreateObject();
 struct NiTMapBaseStub
 {
     void RemoveAll();
@@ -1563,7 +1563,7 @@ struct MyPool
 };
 struct FUN_0040fbf0_Class
 {
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
 };
 extern FUN_00a615c0_Class* DAT_011f4468;
 extern FUN_0040fbf0_Class DAT_011f4480;
@@ -1807,7 +1807,7 @@ class NiExtraDataMapA6F : public NiObjectA6F
     {}
     virtual ~NiExtraDataMapA6F() throw();
 
-    static NiObjectA6F* FUN_00a6f000();
+    static NiObjectA6F* NiDefaultAVObjectPalette_CreateObject();
 
     NiTPointerMapA6F m_kFormatEntries;
     void* m_pkLast;
@@ -1964,7 +1964,7 @@ struct ControllerA606
     bool m_bUnk41;
     bool m_bUseFirst;
     void FUN_00a5d7b0(NiStream& kStream);
-    void FUN_00a60600(NiStream& kStream);
+    void NiSourceTexture_SaveBinary(NiStream& kStream);
 };
 class FUN_00a5e3a0_Helper
 {
@@ -2078,12 +2078,12 @@ struct NodeList
     }
 };
 void* __cdecl FindNodeByObject(A61E60Obj* obj);
-bool __fastcall FUN_00a5c180(void*, int, NiStream*);
+bool __fastcall NiObjectNET_RegisterStreamables(void*, int, NiStream*);
 bool __fastcall FUN_00a62130(void* a, int b, NiStream* s);
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a5c820(void* other);
+    bool __thiscall NiObjectNET_IsEqual(void* other);
     bool __thiscall FUN_00a62140(void* other);
 };
 class ColorAStandIn
@@ -2107,7 +2107,7 @@ struct FUN_00a727b0_Class
 };
 extern void __cdecl FUN_00a8a9b0();
 void __cdecl FUN_00a75f00();
-unsigned short __fastcall FUN_00a75f20(char* p, int);
+unsigned short __fastcall NiTriBasedGeomData_GetActiveTriangleCount(char* p, int);
 class FileA609
 {
   public:
@@ -2330,7 +2330,7 @@ struct NiSourceTexture : SourceTextureBase
     bool isStatic;
     bool loadDirect;
     bool persistent;
-    void FUN_00a60180(TextureLoadStream& stream);
+    void NiSourceTexture_LoadBinary(TextureLoadStream& stream);
 };
 extern bool DAT_011f4780;
 void __cdecl FUN_00a76960(void*, void*);
@@ -2359,7 +2359,7 @@ struct StrArr
 };
 struct FUN_00a62a40_this
 {
-    void FUN_00a62a40(StrArr* pkStrings);
+    void NiTexture_GetViewerStrings(StrArr* pkStrings);
 };
 struct FUN_00a60770_shell : FUN_00a62a40_this
 {

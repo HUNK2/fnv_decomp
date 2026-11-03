@@ -771,7 +771,7 @@ extern FloatSetting9B6 g_kCrippledScale9B6;
 bool __cdecl FUN_0066de30(void* pvForm);
 Query9B6* __cdecl FUN_00626dd0(int iNotPlayer, int iMode);
 NiAVObject9B6* __cdecl FUN_004b5820(Collidable9B6* pkCollidable);
-Ref9B6* __cdecl FUN_0056f930(NiAVObject9B6* pkObject);
+Ref9B6* __cdecl TESObjectREFR_FindReferenceFor3D(NiAVObject9B6* pkObject);
 Entity9B6* __cdecl FUN_004b59f0(Collidable9B6* pkCollidable);
 void __cdecl FUN_00458620(Point9B6& kOut, const hkVector4_9B6& kIn);
 void __cdecl FUN_004a3e00(hkVector4_9B6& kOut, const Point9B6& kIn);
@@ -878,7 +878,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
                 {
                     Hit9B6 kHit(pkResults->GetHits()->GetAt(i));
                     NiAVObject9B6* pkObject = FUN_004b5820(kHit.m_pkCollidable);
-                    Ref9B6* pkRef = FUN_0056f930(pkObject);
+                    Ref9B6* pkRef = TESObjectREFR_FindReferenceFor3D(pkObject);
                     if (pkRef && pkRef == m_pkTarget)
                     {
                         FUN_00458620(kHitPos, kHit.GetPosition());

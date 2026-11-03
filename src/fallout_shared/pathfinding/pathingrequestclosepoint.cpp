@@ -54,7 +54,7 @@ struct BGSSaveFormBuffer
 
 struct PathingRequest
 {
-    void __thiscall FUN_006e3230(BGSSaveFormBuffer* apSaveGameBuffer);
+    void __thiscall PathingRequest_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 struct PathingRequestClosePoint : PathingRequest
@@ -66,7 +66,7 @@ struct PathingRequestClosePoint : PathingRequest
 // @fnv 0x006e5f00
 void __thiscall PathingRequestClosePoint::FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_006e3230(apSaveGameBuffer);
+    PathingRequest_SaveGame(apSaveGameBuffer);
     apSaveGameBuffer->SaveData((char*)this + 0xb0, 4, 0);
     apSaveGameBuffer->SaveData((char*)this + 0xb4, 4, 0);
 }

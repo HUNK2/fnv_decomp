@@ -159,7 +159,7 @@ void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
 extern int g_unk01268560;
 
 // @fnv 0x00cc04c0
-int* __cdecl FUN_00cc04c0()
+int* __cdecl hkOstream_getClassType()
 {
     return &g_unk01268560;
 }
@@ -167,7 +167,7 @@ int* __cdecl FUN_00cc04c0()
 extern int DAT_01268ad8;
 
 // @fnv 0x00cc0770
-int __cdecl FUN_00cc0770()
+int __cdecl hkArrayStreamWriter_getClassType()
 {
     return reinterpret_cast<int>(&DAT_01268ad8);
 }
@@ -743,16 +743,16 @@ struct bhkMoppBvTreeShape
     virtual void v2c();
     virtual MoppCodeHeader* slotB4(char* pAllocated);
 
-    void FUN_00c87710(NiStream& stream);
+    void bhkSerializable_LoadCInfo(NiStream& stream);
 
-    unsigned int FUN_00cc9f60(NiStream& stream);
+    unsigned int bhkMoppBvTreeShape_LoadCInfo(NiStream& stream);
 };
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
-// Gets a size and buffer, reads binary data and warns for versions below 6, otherwise calls FUN_00c87710 and may byte-swap m_data.
+// Gets a size and buffer, reads binary data and warns for versions below 6, otherwise calls bhkSerializable_LoadCInfo and may byte-swap m_data.
 // @fnv 0x00cc9f60
-unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
+unsigned int bhkMoppBvTreeShape::bhkMoppBvTreeShape_LoadCInfo(NiStream& stream)
 {
     unsigned int size = slotA8();
     char allocated;
@@ -778,7 +778,7 @@ unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
     }
     else
     {
-        FUN_00c87710(stream);
+        bhkSerializable_LoadCInfo(stream);
         if (stream.m_bLittleEndian != 1)
         {
             buffer->m_data = _byteswap_ulong(buffer->m_data);

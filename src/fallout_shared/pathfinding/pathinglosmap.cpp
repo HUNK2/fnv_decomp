@@ -594,7 +594,7 @@ template <class T> class NiPointer
 struct NavMeshTriangle
 {
     bool GetFlag(int flag);
-    unsigned short FUN_005582d0(int index);
+    unsigned short NavMeshTriangle_GetVert(int index);
 };
 
 struct NavMeshEx : NavMesh
@@ -615,7 +615,7 @@ class NavMeshLocalPtr
 
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float a, float b, float c);
+    void NiAVObject_SetTranslate(float a, float b, float c);
 };
 
 void* __cdecl FUN_00c58f00(float, int, void*);
@@ -692,7 +692,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
         {
             for (unsigned int k = 0; k < 3; ++k)
             {
-                cf[k] = *p2->FUN_0068f0a0(h->FUN_005582d0(k));
+                cf[k] = *p2->FUN_0068f0a0(h->NavMeshTriangle_GetVert(k));
                 cf[k].z += 5.0;
             }
             NiPointer<NiAVObject> spC(FUN_004b3570(cf[0], cf[1], cf[2], &h0, 1));
@@ -707,7 +707,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
         for (unsigned int m = 0; m < 5; ++m)
         {
             void* ac = FUN_00c58f00(this->f48, 0x24, &vec);
-            ((FUN_004bc1f0_S*)ac)->FUN_004bc1f0(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
+            ((FUN_004bc1f0_S*)ac)->NiAVObject_SetTranslate(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
             p4->AttachChildInAvailableSlot((NiAVObject*)ac, 1);
         }
         void* ac1 = FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, &vec);

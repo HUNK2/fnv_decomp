@@ -4,11 +4,11 @@
 
 struct RaceSexMenu
 {
-    int __thiscall FUN_007ac4f0();
+    int __thiscall RaceSexMenu_GetClass();
 };
 
 // @fnv 0x007ac4f0
-int __thiscall RaceSexMenu::FUN_007ac4f0()
+int __thiscall RaceSexMenu::RaceSexMenu_GetClass()
 {
     return 0x40c;
 }
@@ -436,7 +436,7 @@ struct InterfaceManager
 {
     FORenderedMenu* GetActiveRenderedMenu();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 extern Flt g_011da700;
 extern Flt g_011da70c;
 struct FUN_007af180_shell : FUN_007adc30_shell
@@ -461,8 +461,8 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
         else if (aeList == 3)
             SyncListItemTemplate();
         UpdateMinusPlusTiles();
-        if (FUN_004b7210()->GetActiveRenderedMenu() && aeList < 4)
-            FUN_004b7210()->GetActiveRenderedMenu()->UpdateSlotSelection(aeList);
+        if (InterfaceManager_Instance()->GetActiveRenderedMenu() && aeList < 4)
+            InterfaceManager_Instance()->GetActiveRenderedMenu()->UpdateSlotSelection(aeList);
         (*(Tile_Set_Helper**)((char*)this + 0x88))
             ->Set(0xfa3, ((OptList**)((char*)this + 0x28))[aeList]->FUN_0084e3a0() < 20);
         (*(Tile_Set_Helper**)((char*)this + 0x8c))
@@ -488,7 +488,7 @@ struct HairResult
 };
 struct FUN_004ac110_shell
 {
-    HairResult* FUN_004ac110();
+    HairResult* TESNPC_GetRace();
 };
 struct GlobalObject_00869f00
 {
@@ -502,7 +502,7 @@ struct MenuOption2
     void SetTileEnabled(bool);
     void FUN_007b3890(int, int);
 };
-void __cdecl FUN_00603280(HairResult*, int, GlobalObject_00869f00*);
+void __cdecl TESNPC_FillCharGenPresetList(HairResult*, int, GlobalObject_00869f00*);
 struct FUN_007af610_shell
 {
     void UpdateHairMenuOption();
@@ -511,7 +511,7 @@ struct FUN_007af610_shell
 void FUN_007af610_shell::UpdateHairMenuOption()
 {
     ((GlobalObject_00869f00*)((char*)this + 0xdc))->Clear(false);
-    FUN_00603280(((FUN_004ac110_shell*)*((FUN_004ac110_shell**)((char*)this + 0xd8)))->FUN_004ac110(),
+    TESNPC_FillCharGenPresetList(((FUN_004ac110_shell*)*((FUN_004ac110_shell**)((char*)this + 0xd8)))->TESNPC_GetRace(),
                  ((TESActorBase*)*((TESActorBase**)((char*)this + 0xd8)))->GetSex(),
                  (GlobalObject_00869f00*)((char*)this + 0xdc));
     MenuOption2* popt = ((MenuOption2*)*((MenuOption2**)((char*)this + 0x30)))->FindByColor(0x18);
@@ -554,12 +554,12 @@ struct HairNode
 };
 struct TESRace
 {
-    TESHair* FUN_00613870(int);
+    TESHair* TESRace_GetDefaultHair(int);
     TESEyes* GetReferencedValue();
 };
 struct FUN_004ac110_shell
 {
-    TESRace* FUN_004ac110();
+    TESRace* TESNPC_GetRace();
 };
 HairNode* __fastcall FUN_0045bb80(TESRace*);
 struct TESNPC
@@ -586,8 +586,8 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
 {
     if (!pNPC->GetHair()->IsValidForNPC(pNPC))
     {
-        TESHair* m_pHair = ((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->FUN_00613870(((TESActorBase*)pNPC)->GetSex());
-        for (HairNode* pNode = FUN_0045bb80(((FUN_004ac110_shell*)pNPC)->FUN_004ac110());
+        TESHair* m_pHair = ((FUN_004ac110_shell*)pNPC)->TESNPC_GetRace()->TESRace_GetDefaultHair(((TESActorBase*)pNPC)->GetSex());
+        for (HairNode* pNode = FUN_0045bb80(((FUN_004ac110_shell*)pNPC)->TESNPC_GetRace());
              m_pHair == 0 && pNode && *pNode->_ref_006815c0(); pNode = pNode->_ref_00726070())
         {
             if (((FUN_005fdf40_shell*)*pNode->_ref_006815c0())->FUN_005fdf40())
@@ -602,7 +602,7 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
     }
     if (!((FUN_005fc5f0_shell*)((MiddleHighProcess*)pNPC)->GetAnimation())->CanBeNPC(pNPC))
     {
-        pNPC->SetEyes(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()->GetReferencedValue());
+        pNPC->SetEyes(((FUN_004ac110_shell*)pNPC)->TESNPC_GetRace()->GetReferencedValue());
         UpdateEyeTextures();
     }
     ((FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
@@ -650,8 +650,8 @@ void FUN_007b1ae0_shell::UpdateShadowSceneNode()
     NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)->RemoveSceneObject(g_thePlayer->GetNode(false), false);
     NiUpdateData data(0.0f, false, false);
     reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))->Update(data);
-    if (FUN_004b7210()->GetActiveRenderedMenu())
-        reinterpret_cast<FUN_007fd660_shell*>(FUN_004b7210()->GetActiveRenderedMenu())->FUN_007fd660(1.0f);
+    if (InterfaceManager_Instance()->GetActiveRenderedMenu())
+        reinterpret_cast<FUN_007fd660_shell*>(InterfaceManager_Instance()->GetActiveRenderedMenu())->FUN_007fd660(1.0f);
 }
 
 struct IMStandIn
@@ -679,13 +679,13 @@ bool InputFocusController::SetFocus(bool abFocus)
     {
         if (m_20 && *(void**)m_20)
         {
-            reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00715860((int)*(void**)m_20, 0xfc3, 1);
+            reinterpret_cast<IMStandIn*>(InterfaceManager_Instance())->FUN_00715860((int)*(void**)m_20, 0xfc3, 1);
             bret = true;
         }
     }
     else
     {
-        reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00715860(0, 0xfc3, 1);
+        reinterpret_cast<IMStandIn*>(InterfaceManager_Instance())->FUN_00715860(0, 0xfc3, 1);
         m_20 = 0;
         bret = true;
     }
@@ -833,7 +833,7 @@ extern "C" unsigned char DAT_011da688;
 struct InventoryChanges
 {
     static InventoryChanges* GetOrAddInventoryChanges(Actor*);
-    ArrSI* FUN_004c8c10(unsigned int, int);
+    ArrSI* InventoryChanges_GetWornItem(unsigned int, int);
 };
 extern "C" ArrSI* DAT_011da638[];
 struct RaceInit
@@ -962,7 +962,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
     Tile* previous = FUN_00a09030(FUN_007ac9c0());
     if (previous)
         return previous;
-    Tile* tile = ((TileH*)((InterfaceManager_helper*)FUN_004b7210())->FUN_00586150())->ReadFile(DAT_010759bc);
+    Tile* tile = ((TileH*)((InterfaceManager_helper*)InterfaceManager_Instance())->FUN_00586150())->ReadFile(DAT_010759bc);
     if (tile)
     {
         DAT_011da634 = ((TileH*)tile)->GetMenu();
@@ -996,7 +996,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             case 11:
             case 14:
             case 15:
-                DAT_011da638[i] = inventory->FUN_004c8c10(i, 0);
+                DAT_011da638[i] = inventory->InventoryChanges_GetWornItem(i, 0);
                 if (DAT_011da638[i])
                     pPlayer->UnEquipObject((void*)DAT_011da638[i]->GetFlags(), 1, 0, 0, 0, 1);
                 break;
@@ -1010,7 +1010,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             pRenderData->FUN_007ac9d0(param);
             ((MagicHitEffect*)pRenderData)->FUN_00984f60((unsigned int)tile);
             ((NiPick*)pRenderData)->FUN_00705fc0(((TileNode*)tile)->FUN_0056c7f0());
-            ((Im7181*)FUN_004b7210())->SetRenderedMenu((int)pRenderData);
+            ((Im7181*)InterfaceManager_Instance())->SetRenderedMenu((int)pRenderData);
         }
     }
     return tile;
@@ -1280,7 +1280,7 @@ class StatsMenu7AE
 {
   public:
     int GetCurrentPage();
-    void FUN_007ae1b0(int iType, HighProcess7AE* pkProcess);
+    void RaceSexMenu_HandleLeftClickPress(int iType, HighProcess7AE* pkProcess);
 
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24;
@@ -1297,7 +1297,7 @@ class StatsMenu7AE
 
 // For type 0x69 stores the process and its level tile value; for type 1 stores the interface timer time.
 // @fnv 0x007ae1b0
-void StatsMenu7AE::FUN_007ae1b0(int iType, HighProcess7AE* pkProcess)
+void StatsMenu7AE::RaceSexMenu_HandleLeftClickPress(int iType, HighProcess7AE* pkProcess)
 {
     switch (iType)
     {
@@ -2196,7 +2196,7 @@ struct ControllerB50
 };
 struct AnimationB50
 {
-    ControllerB50* FUN_00496940();
+    ControllerB50* Animation_GetControllerManager();
 };
 struct PlayerB50
 {
@@ -2451,7 +2451,7 @@ struct DataB50
     virtual void v044();
     virtual void v048(int);
     unsigned FUN_004169d0();
-    float FUN_00602130();
+    float TESNPC_GetHairLength();
 };
 struct HostB50
 {
@@ -2520,7 +2520,7 @@ ObjectB50* __cdecl FUN_00653270(unsigned*, void*);
 void __cdecl FUN_00b57e30(NodeB50*, int, int);
 unsigned __cdecl FUN_0044a670(const char*);
 int __cdecl FUN_004564f0(const char*, const char*, unsigned);
-void __cdecl FUN_00653470(NodeB50*, float);
+void __cdecl BSFaceGenManager_ApplyHairMorph(NodeB50*, float);
 // @fnv 0x007b2b50
 bool HostB50::RebuildFaceGen(bool rebuild)
 {
@@ -2551,7 +2551,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
         BuildHairFaceGenNodes(&h, &cf, &i, false);
         j = pPlayer->FUN_00950a60(false);
-        void* a = j->FUN_00496940()->GetStringAtOffset();
+        void* a = j->Animation_GetControllerManager()->GetStringAtOffset();
         if (a)
         {
             ObjectB50* object = FUN_00653270(&DAT_011f4a04, a);
@@ -2599,7 +2599,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                 if ((NodeB50*)eb)
                 {
                     if (hair)
-                        FUN_00653470(eb, data->FUN_00602130());
+                        BSFaceGenManager_ApplyHairMorph(eb, data->TESNPC_GetHairLength());
                     PropertyB50* color = ((NodeB50*)eb)->FUN_00a59d30(3);
                     PropertyB50* typed = (!color ? false : color->FUN_00441110() == 8) ? color : 0;
                     if (typed)
@@ -3109,7 +3109,7 @@ struct InitForm
     {
         const char* FUN_00408da0();
     } name;
-    bool FUN_0059f610();
+    bool TESRace_GetPlayable();
     bool FUN_005e7a60();
 };
 struct InitNode
@@ -3561,7 +3561,7 @@ void InitRaceMenu::SetupRaceMenu(int mode)
     const char* names[20];
     if (tile->FUN_00a011b0(0xfa7) == 6006.0 || tile->FUN_00a011b0(0xfa7) == 102.0)
         tile->FUN_00a012d0(0xfad, FUN_00a01530(1));
-    ((InitRootManager*)FUN_004b7210())->messages.FUN_00718630(15, (void*)FUN_007ac9c0(), 0x200);
+    ((InitRootManager*)InterfaceManager_Instance())->messages.FUN_00718630(15, (void*)FUN_007ac9c0(), 0x200);
     FUN_00726070()->FUN_00a01350(0x1005, DAT_01063ab4, true);
     FUN_00726070()->FUN_00a01350(0x1006, DAT_010692d0, true);
     npc = dynamic_cast<TESNPC*>(DAT_011dea3c->FUN_007af430());
@@ -3625,7 +3625,7 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         for (InitNode* pRaceNode = ((InitData*)DAT_011c3f2c)->FUN_004ea950();
                              pRaceNode && *pRaceNode->FUN_006815c0(); pRaceNode = pRaceNode->FUN_00726070())
                         {
-                            if ((*pRaceNode->FUN_006815c0())->FUN_0059f610())
+                            if ((*pRaceNode->FUN_006815c0())->TESRace_GetPlayable())
                                 ((InitOptions*)options[1])
                                     ->FUN_007b3b80((*pRaceNode->FUN_006815c0())->name.FUN_00408da0(), 23)
                                     ->FUN_00403550(*pRaceNode->FUN_006815c0());
@@ -3816,11 +3816,11 @@ struct RaceSexMenu7
     void HandleOptionSelection();
     bool FUN_007b1970(float afAngle, int a2);
     void FUN_007adc60(int aiID, bool abVal);
-    void FUN_007ae240(int aiID, Tile7* apTile);
+    void RaceSexMenu_DoStillDown(int aiID, Tile7* apTile);
 };
 
 // @fnv 0x007ae240
-void RaceSexMenu7::FUN_007ae240(int aiID, Tile7* apTile)
+void RaceSexMenu7::RaceSexMenu_DoStillDown(int aiID, Tile7* apTile)
 {
     float fDelta2 = GetInterfaceMgr7()->FUN_007697f0() - fLastTime;
     if (fDelta2 != 0.0)
@@ -3928,7 +3928,7 @@ struct Interface
     void* selected;
     int FUN_0070ec70();
 };
-Interface* FUN_004b7210();
+Interface* InterfaceManager_Instance();
 bool FUN_004b71d0();
 unsigned int FUN_00457fe0();
 bool FUN_00702450(int);
@@ -4077,10 +4077,10 @@ void Menu::UpdateZoomAndScroll()
         else
         {
             FUN_007adc60(6, 0);
-            if (FUN_004b7210()->FUN_0070ec70() && FUN_004b7210()->selected)
+            if (InterfaceManager_Instance()->FUN_0070ec70() && InterfaceManager_Instance()->selected)
             {
-                bool up = FUN_004b7210()->FUN_0070ec70() > DAT_01012060;
-                if (FUN_004b7210()->selected == zoomTile)
+                bool up = InterfaceManager_Instance()->FUN_0070ec70() > DAT_01012060;
+                if (InterfaceManager_Instance()->selected == zoomTile)
                 {
                     desired += up ? DAT_01075aec : DAT_0105559c;
                     desired = FUN_00404010(FUN_0040ebd0(desired, 1.0f), 0.0f);
@@ -4310,10 +4310,10 @@ bool Menu67::HandleAction(int action, int argument)
         case 4:
         case 15:
         case 16: {
-            Tile67* tile = ((Interface67*)FUN_004b7210())->GetFieldBC();
+            Tile67* tile = ((Interface67*)InterfaceManager_Instance())->GetFieldBC();
             if (!tile && !FUN_004b71d0())
             {
-                tile = ((Interface67*)FUN_004b7210())->focused;
+                tile = ((Interface67*)InterfaceManager_Instance())->focused;
                 while (tile && tile->FUN_0045cd60() != parent)
                     tile = tile->FUN_0045cd60();
             }
@@ -4351,8 +4351,8 @@ bool Menu67::HandleAction(int action, int argument)
         case 1:
             return options[FUN_007dcc00()]->FUN_007b4260(action);
         case 2:
-            if (((Interface67*)FUN_004b7210())->GetFieldBC() == left ||
-                ((Interface67*)FUN_004b7210())->GetFieldBC() == right || options[FUN_007dcc00()]->FUN_007b4260(action))
+            if (((Interface67*)InterfaceManager_Instance())->GetFieldBC() == left ||
+                ((Interface67*)InterfaceManager_Instance())->GetFieldBC() == right || options[FUN_007dcc00()]->FUN_007b4260(action))
                 return true;
             else if (left->IsAllChildrenFlag0())
             {
@@ -4695,7 +4695,7 @@ struct MorphData
 };
 struct MorphRace
 {
-    void* FUN_005d9fb0(int);
+    void* TESRace_GetMeanFaceCoord(int);
 };
 struct MorphRaceLink
 {
@@ -4772,11 +4772,11 @@ struct FaceActor
     unsigned int unk108;
     MorphRaceLink race;
     int FUN_005f0cc0();
-    void* FUN_00601800();
+    void* TESNPC_GetOffsetFaceCoord();
 };
 void FUN_00652af0(void*, void*, MorphData*, int, float);
 void* FUN_00651b30();
-int FUN_006521b0(int, int);
+int BSFaceGenManager_GetMaxControlID(int, int);
 float GetMorphCoordinateValue(MorphData*, int, int, int);
 float FUN_0040ebd0(float, float);
 float FUN_00404010(float, float);
@@ -4908,9 +4908,9 @@ void FaceMorphMenu::BuildMorphOptions()
         {19, setting_011d5098.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
     };
     MorphData morphs[4];
-    FUN_00652af0(actor->race.FUN_00726070()->FUN_005d9fb0(actor->FUN_005f0cc0()), actor->FUN_00601800(), morphs, 0,
+    FUN_00652af0(actor->race.FUN_00726070()->TESRace_GetMeanFaceCoord(actor->FUN_005f0cc0()), actor->TESNPC_GetOffsetFaceCoord(), morphs, 0,
                  0.0f);
-    for (int index = 0; index < (FUN_00651b30(), FUN_006521b0(0, 0)); ++index)
+    for (int index = 0; index < (FUN_00651b30(), BSFaceGenManager_GetMaxControlID(0, 0)); ++index)
     {
         if (shape[index].group < 20 && shape[index].name)
         {
@@ -5058,7 +5058,7 @@ struct FUN_00449610
 };
 struct SliderName
 {
-    const char* FUN_005d9fb0(int);
+    const char* TESRace_GetMeanFaceCoord(int);
 };
 struct SliderNameRef
 {
@@ -5077,7 +5077,7 @@ struct SliderActor
     int unk100, unk104, unk108;
     SliderNameRef name;
     int FUN_005f0cc0();
-    void* FUN_00601800();
+    void* TESNPC_GetOffsetFaceCoord();
 };
 void __cdecl FUN_00652af0(const char*, void*, FUN_00449610*, int, float);
 float __cdecl GetMorphCoordinateValue(FUN_00449610*, int, int, int);
@@ -5103,7 +5103,7 @@ bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward
             if (option && (option->FUN_00726070() == 0x22 || option->FUN_00726070() == 0x23))
             {
                 FUN_00449610 values[4];
-                FUN_00652af0(actor->name.FUN_00726070()->FUN_005d9fb0(actor->FUN_005f0cc0()), actor->FUN_00601800(),
+                FUN_00652af0(actor->name.FUN_00726070()->TESRace_GetMeanFaceCoord(actor->FUN_005f0cc0()), actor->TESNPC_GetOffsetFaceCoord(),
                              values, 0, 0.0f);
                 {
                     int low, high;
@@ -5142,7 +5142,7 @@ struct PlayerStandIn
 
 struct PosTarget
 {
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
 };
 
 struct PosTargetPtr
@@ -5221,7 +5221,7 @@ bool RaceSexMenuCamera::UpdateProgress(float afDelta, bool abForce)
     if (fOldProgress == fProgress && !abForce)
         return false;
     ((PosTarget*)m_spTargetObject)
-        ->FUN_004bc1f0((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
+        ->NiAVObject_SetTranslate((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
                        ((PlayerStandIn*)g_thePlayer)->GetActorHeight() * ((fEndZ - fStartZ) * fProgress + fStartZ));
     UpdateShadowSceneNode();
     return true;
@@ -5285,7 +5285,7 @@ struct FaceModel
     virtual void slot090();
     virtual FaceModel* AsFaceModel();
     unsigned char FUN_007b2570();
-    void FUN_0065a840();
+    void BSFaceGenModel_ForceLoadModelTexture();
     void ApplyShape(void*, AppearanceObject*, int);
     bool ApplyTextureCoordinate(void*, struct TexturePointer&, unsigned int);
 };
@@ -6060,7 +6060,7 @@ struct ShaderProperty
 };
 struct AppearanceAnimation
 {
-    struct AppearanceManager* FUN_00496940();
+    struct AppearanceManager* Animation_GetControllerManager();
 };
 struct AppearanceManager
 {
@@ -6088,7 +6088,7 @@ extern AppearancePlayer* appearancePlayer;
 extern "C" unsigned int __cdecl strlen(const char*);
 int __cdecl _mbsnicmp(const char*, const char*, unsigned int);
 void __cdecl FUN_00a6e8e0(SkinRoot*, void*);
-void __cdecl FUN_00652e00(void*, void*, void*, int);
+void __cdecl BSFaceGenManager_OffsetFaceGenCoord(void*, void*, void*, int);
 unsigned int __cdecl FUN_006151d0();
 struct AppearanceMenu
 {
@@ -6182,8 +6182,8 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
         if (root)
         {
             void* manager = 0;
-            if (appearancePlayer->GetAnimation(false) && appearancePlayer->GetAnimation(false)->FUN_00496940())
-                manager = appearancePlayer->GetAnimation(false)->FUN_00496940()->GetStringAtOffset();
+            if (appearancePlayer->GetAnimation(false) && appearancePlayer->GetAnimation(false)->Animation_GetControllerManager())
+                manager = appearancePlayer->GetAnimation(false)->Animation_GetControllerManager()->GetStringAtOffset();
             SkinRoot* controller;
             void* skin = manager;
             controller = appearancePlayer->RootB(0);
@@ -6216,7 +6216,7 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
         FaceCoordinate modified[4];
         npc->FUN_00603ad0(coordinates);
         if (shape)
-            FUN_00652e00(&faceData, coordinates, modified, 0);
+            BSFaceGenManager_OffsetFaceGenCoord(&faceData, coordinates, modified, 0);
         SkinRoot* controller = appearancePlayer->RootA(0);
         for (int pass = 0; pass < 2; pass++)
         {
@@ -6249,7 +6249,7 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
                         continue;
                     TexturePointer pkTexture(0);
                     if (!object->FUN_007b2570())
-                        object->FUN_0065a840();
+                        object->BSFaceGenModel_ForceLoadModelTexture();
                     object->ApplyTextureCoordinate(coordinates, pkTexture, FUN_006151d0());
                     generated->SetTexture(1, pkTexture);
                 }
@@ -6694,7 +6694,7 @@ extern bool DAT_011c5cb4;
 extern Matrix DAT_011a9448;
 struct IOManager
 {
-    void FUN_00456520();
+    void IOManager_LoadAllQueuedPriorities();
 };
 extern IOManager* DAT_01202d98;
 Root511* FUN_00705990();
@@ -6718,7 +6718,7 @@ class QHeadLocal
     int unk34;
     QHeadLocal(TESNPC*, int);
     ~QHeadLocal();
-    void FUN_0043ecb0();
+    void QueuedHead_Run();
     void RunVirtualMethod28();
     void FUN_0043ed90(Player511*, void*);
 };
@@ -6793,7 +6793,7 @@ void Menu511::FUN_007b25a0()
     if (!_g_thePlayer->HasStateB(0) && !_g_thePlayer->HasStateA(0))
     {
         QHeadLocal head(npc, 0);
-        head.FUN_0043ecb0();
+        head.QueuedHead_Run();
         head.RunVirtualMethod28();
         head.FUN_0043ed90(_g_thePlayer, _g_thePlayer->FUN_00950b00(false));
     }
@@ -6803,7 +6803,7 @@ void Menu511::FUN_007b25a0()
     NiAVObject511* object = matrix->FUN_0043b4a0(0);
     Matrix node2 = DAT_011a9448;
     object->FUN_0043fa80(&_g_thePlayer->FUN_0056fac0(node2));
-    DAT_01202d98->FUN_00456520();
+    DAT_01202d98->IOManager_LoadAllQueuedPriorities();
     UpdateShadowSceneNode();
     FUN_00705990()->Update();
     FUN_00705990()->Refresh();
@@ -7144,7 +7144,7 @@ struct Option7
 };
 struct Race7
 {
-    char* FUN_005d9fb0(int);
+    char* TESRace_GetMeanFaceCoord(int);
 };
 struct RaceRef7
 {
@@ -7224,7 +7224,7 @@ struct NPC7
     void FUN_00603ad0(FUN_00449610*);
     unsigned int FUN_004169d0();
     int GetSex();
-    void* FUN_00601800();
+    void* TESNPC_GetOffsetFaceCoord();
 };
 struct FormArray7
 {
@@ -7304,11 +7304,11 @@ struct Menu7
 };
 
 void FUN_006521f0(FUN_00449610*);
-float FUN_00652440(FUN_00449610*, int, int);
-void FUN_00652470(FUN_00449610*, int, int, float);
-void FUN_00652e00(char*, FUN_00449610*, FUN_00449610*, int);
-bool FUN_00652900(FUN_00449610*, void*);
-void FUN_006529a0(FUN_00449610*, void*, int, int);
+float BSFaceGenManager_GetFaceCoordAttribute(FUN_00449610*, int, int);
+void BSFaceGenManager_SetFaceCoordAttribute(FUN_00449610*, int, int, float);
+void BSFaceGenManager_OffsetFaceGenCoord(char*, FUN_00449610*, FUN_00449610*, int);
+bool BSFaceGenManager_CompareFaceGenCoord(FUN_00449610*, void*);
+void BSFaceGenManager_CopyFaceGenCoord(FUN_00449610*, void*, int, int);
 // Handles the selected menu option by page and option type, updating lists, NPC face data and menu flags.
 // @fnv 0x007b4b50
 void Menu7::HandleOptionSelection()
@@ -7363,17 +7363,17 @@ void Menu7::HandleOptionSelection()
         FUN_006521f0(result6);
         npc->FUN_00603ad0(base3);
         npc->FUN_00603ad0(face);
-        float first2 = FUN_00652440(base3, 0, 0);
-        float second_ = FUN_00652440(base3, 0, 1);
+        float first2 = BSFaceGenManager_GetFaceCoordAttribute(base3, 0, 0);
+        float second_ = BSFaceGenManager_GetFaceCoordAttribute(base3, 0, 1);
         float remaining = second_ - (first2 - amount7);
         amount7 = (int)(((amount7 > 15.0 ? (float)amount7 : 15.0f) < 65.0) ? (amount7 > 15.0 ? (float)amount7 : 15.0f)
                                                                            : 65.0f);
         remaining = ((remaining > 15.0 ? remaining : 15.0f) < 65.0) ? (remaining > 15.0 ? remaining : 15.0f) : 65.0f;
-        FUN_00652470(base3, 0, 0, (float)amount7);
-        FUN_00652470(base3, 0, 1, remaining);
-        FUN_00652e00(npc->race.FUN_00726070()->FUN_005d9fb0(npc->GetSex()), base3, result6, 0);
-        if (FUN_00652900(result6, npc->FUN_00601800()))
-            FUN_006529a0(result6, npc->FUN_00601800(), 0, 0);
+        BSFaceGenManager_SetFaceCoordAttribute(base3, 0, 0, (float)amount7);
+        BSFaceGenManager_SetFaceCoordAttribute(base3, 0, 1, remaining);
+        BSFaceGenManager_OffsetFaceGenCoord(npc->race.FUN_00726070()->TESRace_GetMeanFaceCoord(npc->GetSex()), base3, result6, 0);
+        if (BSFaceGenManager_CompareFaceGenCoord(result6, npc->TESNPC_GetOffsetFaceCoord()))
+            BSFaceGenManager_CopyFaceGenCoord(result6, npc->TESNPC_GetOffsetFaceCoord(), 0, 0);
         ((Menu7*)DAT_011da634)->FUN_007adc60(7, true);
         ((Menu7*)DAT_011da634)->HandleMenuKey(34);
         ((Menu7*)DAT_011da634)->HandleMenuKey(35);
@@ -7388,14 +7388,14 @@ void Menu7::HandleOptionSelection()
 }  // namespace fnv_007b4b50
 
 int __fastcall FUN_0044ddc0(void* self);
-HairResult* __fastcall FUN_004ac110(void* self);
+HairResult* __fastcall TESNPC_GetRace(void* self);
 // Returns 1 if p is non-null, its FUN_0044ddc0 result is non-zero, and the holder's m_d8 hair result equals that value; otherwise 0.
 // @fnv 0x007ad7f0
 char __cdecl IsHairMatching(Obj0* p)
 {
     int result;
     if (p != 0 && FUN_0044ddc0(p) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        (int)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == FUN_0044ddc0(p))
+        (int)TESNPC_GetRace(((Holder*)DAT_011da634)->m_d8) == FUN_0044ddc0(p))
         result = 1;
     else
         result = 0;
@@ -7460,7 +7460,7 @@ class HCNPC
     int unk2c;
     HCFaceFlags m_kFlags;  // +0x30
     HCHairList* FUN_00602170();
-    HCFaceData* FUN_004ac110();
+    HCFaceData* TESNPC_GetRace();
     void SetRace(int iValue, int iFlag);
     void SetHair(int iValue);
     void SetEyes(int iValue);
@@ -7586,11 +7586,11 @@ class HCMenuView
     void FUN_007adc60(int m_uiSoundID, int iValue);
     void HandlePendingTileAction();
     void UpdateMinusPlusTiles();
-    void FUN_007adce0(int aiIndex, HCTile* pkTile);
+    void RaceSexMenu_DoClick(int aiIndex, HCTile* pkTile);
 };
 
 // @fnv 0x007adce0
-void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
+void HCMenuView::RaceSexMenu_DoClick(int aiIndex, HCTile* pkTile)
 {
     if (!pkTile && aiIndex < 6)
         pkTile = m_apDefaultTiles[aiIndex];
@@ -7610,7 +7610,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
             {
                 if (pkOption->FUN_00726070() == 0x17)
                 {
-                    m_pkNPC->FUN_004ac110()->FUN_00613fd0();
+                    m_pkNPC->TESNPC_GetRace()->FUN_00613fd0();
                     ((HCPlayer*)DAT_011dea3c)->FUN_0095e5f0();
                     ((HCPlayer*)DAT_011dea3c)->m_kSub94.FUN_008249d0(0);
                     ((HCPlayer*)DAT_011dea3c)->ApplyActorSpells();
@@ -7618,7 +7618,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
                 }
                 else
                 {
-                    m_pkNPC->FUN_004ac110()->FUN_00613fd0();
+                    m_pkNPC->TESNPC_GetRace()->FUN_00613fd0();
                     m_pkNPC->m_kFlags.FUN_0047dd50(1, pkOption->FUN_00726070() == 0x16, 1);
                     bUpdatePlayer = true;
                 }
@@ -8318,7 +8318,7 @@ class FGNode
     void FUN_00440490(float fScale);
     FGProperty* FUN_00a59d30(int iType);
     void ForwardToSubobject(FGProperty* pkProperty);
-    void FUN_00439410(FGShape* pkShape);
+    void NiAVObject_AttachProperty(FGShape* pkShape);
     void FUN_00874460(int iFlags);
     unsigned short CallTargetV36();
     FGSkin* FUN_005495f0();
@@ -8434,16 +8434,16 @@ struct FGGeometry
 };
 struct FGModel
 {
-    bool FUN_0065a910(FUN_00449610* pkCoords, FGPtr<FGNode>* pspNode);
+    bool BSFaceGenModel_ApplyCoordinateToNewMesh(FUN_00449610* pkCoords, FGPtr<FGNode>* pspNode);
 };
 struct FGGenerator;
 
 int FUN_00408b20(const char* pcA, const char* pcB);
 FGGeometry* FUN_006530e0(void* pvData);
 FGGenerator* FUN_006521e0();
-void FUN_006529a0(FGGenerator* pkGeneratorCur, FUN_00449610* pkCoords, int iA, int iB);
+void BSFaceGenManager_CopyFaceGenCoord(FGGenerator* pkGeneratorCur, FUN_00449610* pkCoords, int iA, int iB);
 void GetModelNifFilename(BSStringTChar* pkOut, const char* pcPath);
-void FUN_00653a10(BSStringTChar* pkOut, const char* pcPath);
+void BSFaceGenManager_GetAsNIFFileLowLOD(BSStringTChar* pkOut, const char* pcPath);
 void BuildModelFilename(BSStringTChar* pkOut, const char* pcPath);
 void HashPathComponents(const char* pcPath, FGPoint2* pkA, FGPoint2* pkB);
 int FindFileEntryInArchives(int iFlag, FGPoint2* pkA, FGPoint2* pkB, const char* pcPath);
@@ -8457,7 +8457,7 @@ void ComputeBoundingSphere(void* pvData, FGLink* pkLink, unsigned short usFlags)
 
 // For each non-FaceGenFace child, loads a model, builds a FaceGenFace node, copies transforms and shape properties, then replaces the child.
 // @fnv 0x00653e50
-void FUN_00653e50(FGRoot* pkRoot, int iMode)
+void BSFaceGenManager_ReplaceFaceMeshLOD(FGRoot* pkRoot, int iMode)
 {
     for (unsigned int i = 0; i < pkRoot->FUN_0043b480(); i++)
     {
@@ -8479,12 +8479,12 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                 BSStringTChar kUnusedCur;
                 FUN_00449610 akCoordsLocal[4];
                 FGGenerator* pkGeneratorCur = FUN_006521e0();
-                FUN_006529a0(pkGeneratorCur, akCoordsLocal, 0, 0);
+                BSFaceGenManager_CopyFaceGenCoord(pkGeneratorCur, akCoordsLocal, 0, 0);
                 GetModelNifFilename(&kModelPath, pkSampleGeom->GetFloatValue());
                 switch (iMode)
                 {
                 case 0:
-                    FUN_00653a10(&kPathLast, kModelPath.FUN_00559450());
+                    BSFaceGenManager_GetAsNIFFileLowLOD(&kPathLast, kModelPath.FUN_00559450());
                     break;
                 case 1:
                     BuildModelFilename(&kPathLast, kModelPath.FUN_00559450());
@@ -8501,7 +8501,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                     BuildEgmFilename(&kTriPathData, kPathLast.FUN_00559450(), -1), kPathLast.FUN_00559450(),
                     BuildTriPathAndSet(&kEgmPathEntry, kPathLast.FUN_00559450(), -1),
                     GetModelEgtFilename(&kEgtPath, kPathLast.FUN_00559450()), 1, -1, 0));
-                if (!m_pRenderedNodeEntry->FUN_0065a910(akCoordsLocal, &spFaceTmp) || !spFaceTmp)
+                if (!m_pRenderedNodeEntry->BSFaceGenModel_ApplyCoordinateToNewMesh(akCoordsLocal, &spFaceTmp) || !spFaceTmp)
                     return;
                 spFaceTmp->AssignFixedString(FGFixedString("FaceGenFace"));
                 pkFaceInfo = spFaceTmp;
@@ -8515,7 +8515,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                 FGShape* pkShape = pkChildPropertyValue->FUN_00a5d2c0(&kBufferData);
                 pkShape->FUN_00539f20(pkProperty->FUN_006546e0());
                 pkFaceInfo->ForwardToSubobject(pkProperty);
-                pkFaceInfo->FUN_00439410(pkShape);
+                pkFaceInfo->NiAVObject_AttachProperty(pkShape);
                 pkFaceInfo->FUN_00874460(pkChild->FUN_004030b0());
                 unsigned short usFlags = pkFaceInfo->CallTargetV36();
                 if (pkFaceInfo->FUN_005495f0()->FUN_00a67360(1))

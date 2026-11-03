@@ -25,11 +25,11 @@ struct FUN_005119e0_obj
     void FUN_00511a10();
     void* Destroy(unsigned int flags);
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
@@ -44,7 +44,7 @@ struct _ref_0084e3a0_t
 unsigned int __cdecl _FUN_00485910(unsigned int, unsigned int);
 struct FUN_00511d10_shell
 {
-    void __thiscall FUN_00511d10();
+    void __thiscall TESObjectANIO_SaveForm();
 };
 class B511A10Form
 {
@@ -80,11 +80,11 @@ class FUN_00511a10_cls : public B511A10Form, public B511A10TextureSwap
 
 struct AnimationObjectComparison : TESObjectANIO
 {
-    bool FUN_00511dc0(TESForm* otherForm);
+    bool TESObjectANIO_Compare(TESForm* otherForm);
 };
 
 // @fnv 0x00511dc0
-bool AnimationObjectComparison::FUN_00511dc0(TESForm* otherForm)
+bool AnimationObjectComparison::TESObjectANIO_Compare(TESForm* otherForm)
 {
     TESObjectANIO* otherAnimation = dynamic_cast<TESObjectANIO*>(otherForm);
     if (!otherAnimation)
@@ -98,18 +98,18 @@ bool AnimationObjectComparison::FUN_00511dc0(TESForm* otherForm)
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm*);
+    void __thiscall TESForm_CopyAllComponents(TESForm*);
 };
 struct AnimationCopyEntry : TESObjectANIO
 {
-    void __thiscall FUN_00511d70(TESForm* apCopy);
+    void __thiscall TESObjectANIO_CopyFrom(TESForm* apCopy);
 };
 // @fnv 0x00511d70
-void AnimationCopyEntry::FUN_00511d70(TESForm* apCopy)
+void AnimationCopyEntry::TESObjectANIO_CopyFrom(TESForm* apCopy)
 {
     TESObjectANIO* panimObj = dynamic_cast<TESObjectANIO*>(apCopy);
     if (panimObj == 0)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
     pObject = panimObj->pObject;
 }

@@ -23,7 +23,7 @@ struct GlobalObjectO2_00a7b618
 extern GlobalObjectO2_00a7b618 g_01202518;
 
 // @fnv 0x00c201c0
-GlobalObjectO2_00a7b618* __cdecl FUN_00c201c0()
+GlobalObjectO2_00a7b618* __cdecl NiPSysBoxEmitter_GetRTTI()
 {
     return &g_01202518;
 }
@@ -36,7 +36,7 @@ struct BSFadeNode
 };
 // Allocates a 100-byte BSFadeNode, runs its constructor, zeroes the floats at offsets 0x58-0x60, sets its vtable, and returns it (or null).
 // @fnv 0x00c20350
-BSFadeNode* __cdecl FUN_00c20350()
+BSFadeNode* __cdecl NiPSysBoxEmitter_CreateObject()
 {
     BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(100);
     if (node)
@@ -69,7 +69,7 @@ void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
 struct NiObject;
 struct BaseHack
 {
-    bool FUN_00c31b80(NiObject*);
+    bool NiPSysVolumeEmitter_IsEqual(NiObject*);
 };
 struct EmitterHack
 {
@@ -79,12 +79,12 @@ struct EmitterHack
     float m_fValueAtOffset60;
     bool IsEqual(NiObject* pkObject);
 };
-// Calls FUN_00c31b80 on pkObject and returns true only if that succeeds and the three floats at offsets 0x58, 0x5c and 0x60 match the other object's.
+// Calls NiPSysVolumeEmitter_IsEqual on pkObject and returns true only if that succeeds and the three floats at offsets 0x58, 0x5c and 0x60 match the other object's.
 // @fnv 0x00c20170
 bool EmitterHack::IsEqual(NiObject* pkObject)
 {
     EmitterHack* pkDest = (EmitterHack*)pkObject;
-    if (((BaseHack*)this)->FUN_00c31b80(pkObject) && m_fValueAtOffset58 == pkDest->m_fValueAtOffset58 &&
+    if (((BaseHack*)this)->NiPSysVolumeEmitter_IsEqual(pkObject) && m_fValueAtOffset58 == pkDest->m_fValueAtOffset58 &&
         m_fCylinderHeight == pkDest->m_fCylinderHeight && m_fValueAtOffset60 == pkDest->m_fValueAtOffset60)
         return true;
     return false;
@@ -172,12 +172,12 @@ struct NiPSysVolumeEmitterStand
 
 struct FUN_00c20440_cls : NiPSysBoxEmitter
 {
-    void FUN_00c20440(NiStream& stream);
+    void NiPSysBoxEmitter_SaveBinary(NiStream& stream);
 };
 
 // Loads the volume emitter base stream, then reads width, height and depth from the stream.
 // @fnv 0x00c20440
-void FUN_00c20440_cls::FUN_00c20440(NiStream& stream)
+void FUN_00c20440_cls::NiPSysBoxEmitter_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<NiPSysVolumeEmitterStand*>(this)->LoadStream(stream);
     BoxEmitterStreamView* s = reinterpret_cast<BoxEmitterStreamView*>(&stream);
@@ -209,17 +209,17 @@ char* __cdecl FUN_00a7d330(const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 struct VolumeViewer : NiPSysVolumeEmitter
 {
-    void FUN_00c31db0(StrArr*);
+    void NiPSysVolumeEmitter_GetViewerStrings(StrArr*);
 };
 struct BoxViewer : NiPSysBoxEmitter
 {
-    void FUN_00c204d0(StrArr*);
+    void NiPSysBoxEmitter_GetViewerStrings(StrArr*);
 };
 // Appends the base volume emitter's debug strings, then the box emitter's width, height and depth values to the string array.
 // @fnv 0x00c204d0
-void BoxViewer::FUN_00c204d0(StrArr* strings)
+void BoxViewer::NiPSysBoxEmitter_GetViewerStrings(StrArr* strings)
 {
-    ((VolumeViewer*)this)->FUN_00c31db0(strings);
+    ((VolumeViewer*)this)->NiPSysVolumeEmitter_GetViewerStrings(strings);
     strings->Add(FUN_00a7d330(DAT_01202518));
     strings->Add(FUN_00a7d550(DAT_0109dc8c, width));
     strings->Add(FUN_00a7d550(DAT_0109dc84, height));
@@ -240,11 +240,11 @@ void FUN_00c1fdd0::FUN_00c2f4f0(int a)
     ((FUN_00c61f60_class*)this)->FUN_00c2f4f0(a);
 }
 
-void __cdecl FUN_00c31c90();
+void __cdecl NiPSysVolumeEmitter_ProcessClone();
 // @fnv 0x00c20150
 void __cdecl FUN_00c20150()
 {
-    FUN_00c31c90();
+    NiPSysVolumeEmitter_ProcessClone();
 }
 
 extern void __cdecl FUN_00c31b40();
@@ -284,12 +284,12 @@ struct ThreeByThreeMatrix
 
 struct BoxEmitterInit : NiPSysBoxEmitter
 {
-    void FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition);
+    void NiPSysBoxEmitter_ComputeVolumeInitialPositionAndVelocity(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition);
 };
 
 // Generates a random point from the box dimensions, rotates it with kRot, and computes row dot products of kRot with kWorldPosition.
 // @fnv 0x00c201d0
-void BoxEmitterInit::FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition)
+void BoxEmitterInit::NiPSysBoxEmitter_ComputeVolumeInitialPositionAndVelocity(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition)
 {
     float fX = rand() / DAT_01029790;
     float fY = rand() / DAT_01029790;

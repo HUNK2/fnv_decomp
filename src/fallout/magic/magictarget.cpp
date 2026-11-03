@@ -261,7 +261,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
             bool done = pEffect->FUN_008240f0();
             bool bShouldUpdate = !done;
             if (bShouldUpdate && TESSpellList::RemoveSpell(((LocationDescriptor*)pEffect)->SetLocRef()) &&
-                pEffect->GetEffectSetting()->FUN_00403e60(2) && pEffect->GetByteAtOffset17())
+                pEffect->GetEffectSetting()->EffectSetting_IsFlagSet(2) && pEffect->GetByteAtOffset17())
             {
                 bShouldUpdate = pEffect->FUN_007df210() || ((LowProcess*)pEffect)->GetActiveCombatTarget();
             }
@@ -325,12 +325,12 @@ int MagicTarget::CompareActiveEffects(ActiveEffect* first, ActiveEffect* second)
     char buffer2[256];
     EffectItem* pEffect = EFFECT_ITEM(first);
     sprintf(buffer1, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
-            pEffect->GetEffectSetting()->FUN_00403e60(0x100) ? 1000.0f : first->GetFloatAtOffset1C(),
-            pEffect->GetEffectSetting()->FUN_00403e60(0x80) ? 1000.0f : first->FUN_007df1f0());
+            pEffect->GetEffectSetting()->EffectSetting_IsFlagSet(0x100) ? 1000.0f : first->GetFloatAtOffset1C(),
+            pEffect->GetEffectSetting()->EffectSetting_IsFlagSet(0x80) ? 1000.0f : first->FUN_007df1f0());
     pEffect = EFFECT_ITEM(second);
     sprintf(buffer2, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
-            pEffect->GetEffectSetting()->FUN_00403e60(0x100) ? 1000.0f : second->GetFloatAtOffset1C(),
-            pEffect->GetEffectSetting()->FUN_00403e60(0x80) ? 1000.0f : second->FUN_007df1f0());
+            pEffect->GetEffectSetting()->EffectSetting_IsFlagSet(0x100) ? 1000.0f : second->GetFloatAtOffset1C(),
+            pEffect->GetEffectSetting()->EffectSetting_IsFlagSet(0x80) ? 1000.0f : second->FUN_007df1f0());
     return _mbsicmp((const unsigned char*)buffer1, (const unsigned char*)buffer2);
 }
 
@@ -456,11 +456,11 @@ bool MagicTarget::FUN_00822f70(ActorValue::Index aeActorValue)
         {
             bool permanent = (int)((LocationDescriptor*)effect)->SetLocRef() == 4 && !effect->FUN_007df210() ? 1 : 0;
             if (((MagicTargetActorDispatch*)a)->IsPlayerRef() && permanent &&
-                effect->GetEffectSetting()->FUN_00403e60(2))
+                effect->GetEffectSetting()->EffectSetting_IsFlagSet(2))
             {
                 // Permanent player effects do not count here.
             }
-            else if (effect->GetEffectSetting()->FUN_00403e60(2))
+            else if (effect->GetEffectSetting()->EffectSetting_IsFlagSet(2))
                 b = true;
         }
         node = (BSSimpleList<ActiveEffect*>*)((BSSimpleList<BGSPerkEntry*>*)node)->GetNext();
@@ -760,7 +760,7 @@ bool FUN_00822e00_shell::FUN_00822e00()
         if (effect != 0 && reinterpret_cast<S3c60*>(effect->GetEffectSetting())->HasFlag2() &&
             reinterpret_cast<EffectItem*>(reinterpret_cast<TESForm*>(effect)->GetFormID())->GetAffectedActorValue() ==
                 0x10 &&
-            effect->GetEffectSetting()->FUN_00403e60(4))
+            effect->GetEffectSetting()->EffectSetting_IsFlagSet(4))
         {
             found = true;
         }
@@ -874,7 +874,7 @@ class NiNode;
 class CellS
 {
   public:
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
 };
 struct ActorS : public ActorPrefixS, public MagicTarget
 {
@@ -1022,7 +1022,7 @@ void MagicTargetUpd::UpdateEffectsByFlags(unsigned int auiFlags)
         ActorS* pActor = (ActorS*)(MagicTarget*)this;
         if ((pActor && !pActor->GetCurrentProcess()) || !((RefS*)GetMagicTargetReference())->Get3D() ||
             !((RefS*)GetMagicTargetReference())->GetParentCell() ||
-            !((RefS*)GetMagicTargetReference())->GetParentCell()->FUN_00545cb0())
+            !((RefS*)GetMagicTargetReference())->GetParentCell()->TESObjectCELL_Get3D())
             return;
     }
     while (pIter && !pIter->IsEmpty())

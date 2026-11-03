@@ -6,7 +6,7 @@ extern "C" void __cdecl FUN_00802a90();
 extern "C" int DAT_011db800;
 
 // @fnv 0x005ba8d0
-int __cdecl FUN_005ba8d0()
+int __cdecl DebugTextManager_Instance()
 {
     if (!DAT_011db800)
         FUN_00802a90();
@@ -741,7 +741,7 @@ struct MgrObj
     void __thiscall SetEntryStateByKey(int index, int value);
 };
 
-bool __cdecl FUN_004910d0(NiObj* o);
+bool __cdecl Animation_FindSkinnedNode(NiObj* o);
 NiObj* __cdecl FUN_00653270(void* rtti, NiObj* o);
 
 struct This8022
@@ -924,7 +924,7 @@ void __thiscall This8022::FUN_008022c0()
             NiObj* p60 = kIter->FUN_0043b4a0(r2);
             if (p60 != 0)
             {
-                if (FUN_004910d0(p60))
+                if (Animation_FindSkinnedNode(p60))
                 {
                     ListObj* r1;
                     r1 = p60->tv03();

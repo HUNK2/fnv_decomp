@@ -65,7 +65,7 @@ struct FUN_00a7b720_T
 
 // Reads three consecutive unsigned shorts from self->c at offset i*3 and writes them to the three output pointers.
 // @fnv 0x00a7b720
-void __fastcall FUN_00a7b720(FUN_00a7b720_T* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
+void __fastcall NiTriShapeData_GetTriangleIndices(FUN_00a7b720_T* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
                              unsigned short* i2)
 {
     unsigned int j = i * 3;
@@ -83,7 +83,7 @@ struct FUN_00a7b760_T
 };
 
 // @fnv 0x00a7b760
-void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
+void __fastcall NiTriShapeData_GetStripData(FUN_00a7b760_T* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
                              unsigned int* p4)
 {
     *p1 = self->a;
@@ -95,7 +95,7 @@ void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsi
 extern const char* const g_011f5af4_arg1;
 
 // @fnv 0x00a7b860
-const char* const* __fastcall FUN_00a7b860(void* self, int)
+const char* const* __fastcall NiTriShapeData_GetRTTI(void* self, int)
 {
     return &g_011f5af4_arg1;
 }
@@ -259,7 +259,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a7bbe0_shell : public NiTriShapeData
 {
-    void FUN_00a7bbe0(NiStream*);
+    void NiTriShapeData_SaveBinary(NiStream*);
 };
 
 struct BinStreamS
@@ -299,7 +299,7 @@ struct SharedNormalArrayS
 
 // Saves the triangle list length, its presence flag and data, then the shared-normal array sizes and entries to the stream.
 // @fnv 0x00a7bbe0
-void FUN_00a7bbe0_shell::FUN_00a7bbe0(NiStream* kStream)
+void FUN_00a7bbe0_shell::NiTriShapeData_SaveBinary(NiStream* kStream)
 {
     char* p = (char*)this;
     NiTriBasedGeomData::SaveBinary(*kStream);
@@ -335,7 +335,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a7b940_shell : public NiTriShapeData
 {
-    void FUN_00a7b940(NiStream*);
+    void NiTriShapeData_LoadBinary(NiStream*);
 };
 
 void* NiMalloc(unsigned int) throw();
@@ -420,7 +420,7 @@ template <class T> inline void ReadBinaryValue(NiBinaryStreamView& kStream, T* p
 
 // Loads triangle data from the stream: reads a count, an optional list flag, the index array, and per-element arrays allocated from a shared block pool.
 // @fnv 0x00a7b940
-void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
+void FUN_00a7b940_shell::NiTriShapeData_LoadBinary(NiStream* kStream)
 {
 
     ((NiTriBasedGeomData*)this)->LoadBinary(*(::NiStream*)kStream);
@@ -573,11 +573,11 @@ struct NameA7b7e0 : BaseA7b7e0
     unsigned int m_uiNameHash;
     char* m_pReferencedObject;
 
-    bool FUN_00a7b7e0(const NameA7b7e0* pkOther);
+    bool NiTriShapeData_IsEqual(const NameA7b7e0* pkOther);
 };
 
 // @fnv 0x00a7b7e0
-bool NameA7b7e0::FUN_00a7b7e0(const NameA7b7e0* pkOther)
+bool NameA7b7e0::NiTriShapeData_IsEqual(const NameA7b7e0* pkOther)
 {
     if (!BaseA7b7e0::MatchesTriangleCount(pkOther))
         return false;

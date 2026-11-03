@@ -5,7 +5,7 @@
 extern "C" void* g_011f5b60;
 
 // @fnv 0x00a89120
-void* __cdecl FUN_00a89120()
+void* __cdecl NiFloatsExtraData_GetRTTI()
 {
     return &g_011f5b60;
 }
@@ -21,7 +21,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a89190
-void* __cdecl FUN_00a89190()
+void* __cdecl NiFloatsExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p != 0)
@@ -128,11 +128,11 @@ float __thiscall FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
 
 struct NiFloatsExtraData_compare : NiFloatsExtraData
 {
-    bool __thiscall FUN_00a890b0(const NiFloatsExtraData* pOther);
+    bool __thiscall NiFloatsExtraData_IsEqual(const NiFloatsExtraData* pOther);
 };
 // Compares this NiFloatsExtraData with pOther: checks size, null-ness of the value array, and element-wise equality of the floats.
 // @fnv 0x00a890b0
-bool __thiscall NiFloatsExtraData_compare::FUN_00a890b0(const NiFloatsExtraData* pOther)
+bool __thiscall NiFloatsExtraData_compare::NiFloatsExtraData_IsEqual(const NiFloatsExtraData* pOther)
 {
     if (!pOther)
         return false;
@@ -449,12 +449,12 @@ struct NiFloatsExtraDataStub : NiExtraDataStub
     int unk08;
     unsigned int m_uiSize;
     float* m_pfValue;
-    void FUN_00a89280(NiViewerStringsArray* pkStrings);
+    void NiFloatsExtraData_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // Appends the base viewer strings, the m_uiSize entry and one entry per element of m_pfValue to pkStrings.
 // @fnv 0x00a89280
-void NiFloatsExtraDataStub::FUN_00a89280(NiViewerStringsArray* pkStrings)
+void NiFloatsExtraDataStub::NiFloatsExtraData_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     NiExtraDataStub::GetViewerStrings(pkStrings);
     pkStrings->Add(FUN_00a7d330((const char*)g_011f5b60));

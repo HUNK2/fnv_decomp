@@ -83,7 +83,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         }
         m_pOutputSolution->ReserveIndex(Location, Dir);
     }
-    if (pRequest->FUN_00505c00() && !Links.FUN_0076b610())
+    if (pRequest->PathingRequest_GetFaceTargetAtGoal() && !Links.FUN_0076b610())
     {
         NiPoint3 Dir = m_pOutputSolution->FUN_006b05a0()->FUN_005d8a70();
         float fStartAngle = GetDirectionAngle(Dir);
@@ -798,11 +798,11 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
 
 struct FUN_00505c00_shell : public PathingRequest
 {
-    bool FUN_00505c00();
+    bool PathingRequest_GetFaceTargetAtGoal();
 };
 
 // @fnv 0x00505c00
-bool FUN_00505c00_shell::FUN_00505c00()
+bool FUN_00505c00_shell::PathingRequest_GetFaceTargetAtGoal()
 {
     return *((bool*)((char*)this + 0x99));
 }
@@ -1909,7 +1909,7 @@ struct Point17
     float x, y, z;
     Point17 operator+(const Point17&) const;
     Point17 operator-(const Point17&) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     Point17& operator*=(float);
     Point17& Subtract(const Point17&);
 };
@@ -2009,7 +2009,7 @@ bool LastNodeSearch17::TryAddLastNode()
             s.Location.z = water;
     }
     Point17 l = ba - (const Point17&)cf.Location;
-    l.FUN_004a0c10();
+    l.NiPoint3_Unitize();
     l *= pRequest->GetFloatAtOffset68() * 2.0f;
     ((Point17&)s.Location).Subtract(l);
     Link17 a;

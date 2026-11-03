@@ -193,7 +193,7 @@ struct StandIn
     void FUN_0083c8a0(void*);
 };
 extern TESSaveLoadGame* g_TESSaveLoadGame;
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 void FNV_Warning(const char*, ...);
 struct ConversationLoad : Conversation
 {
@@ -217,7 +217,7 @@ void ConversationLoad::LoadFromSave()
             FormRecordMetadata* pheader = ((EffectSetting*)g_TESSaveLoadGame)->GetBoltSound();
             if (pheader)
             {
-                TESForm* pform = FUN_004839c0(pheader->iFormID);
+                TESForm* pform = TESForm_GetFormByNumericID(pheader->iFormID);
                 FNV_Warning(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\Conversation.cpp", 0xe7,
@@ -255,7 +255,7 @@ void ConversationLoad::LoadFromSave()
         FormRecordMetadata* pheader = ((EffectSetting*)g_TESSaveLoadGame)->GetBoltSound();
         if (pheader)
         {
-            TESForm* pform = FUN_004839c0(pheader->iFormID);
+            TESForm* pform = TESForm_GetFormByNumericID(pheader->iFormID);
             if (uiCurrentBufferPosition > usBlockSize + uiStartBufferPosition)
                 FNV_Warning(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
@@ -674,7 +674,7 @@ void CVConv::SaveConversation()
         void* _pWorld = g_saveLoad->GetHitSound();             // slot -0x28
         if (_pWorld)
         {
-            TESFormStub* pForm = (TESFormStub*)FUN_004839c0(*(unsigned int*)_pWorld);  // -0x30
+            TESFormStub* pForm = (TESFormStub*)TESForm_GetFormByNumericID(*(unsigned int*)_pWorld);  // -0x30
             FUN_0040fbe0(&DAT_010153a0, uiEndTime4 - pCount7, *(unsigned int*)_pWorld, pForm->GetFormDisplayName(),
                          *(unsigned int*)((char*)_pWorld + 5), 0xe1, &DAT_0107db20);
         }

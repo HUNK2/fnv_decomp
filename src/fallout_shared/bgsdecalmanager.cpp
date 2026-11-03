@@ -178,11 +178,11 @@ struct ThreeByThreeMatrix
 typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_004769c0_shell : public ThreeByThreeMatrix
 {
-    void FUN_004769c0(unsigned int, float*);
+    void NiMatrix3_SetCol(unsigned int, float*);
 };
 
 // @fnv 0x004769c0
-void FUN_004769c0_shell::FUN_004769c0(unsigned int uiCol, float* col)
+void FUN_004769c0_shell::NiMatrix3_SetCol(unsigned int uiCol, float* col)
 {
     ((float(*)[3])m_afEntries)[0][uiCol] = col[0];
     ((float(*)[3])m_afEntries)[1][uiCol] = col[1];
@@ -199,7 +199,7 @@ void __fastcall FUN_0082f1b0(void*);
 int __fastcall CallNestedAtOffset80(void*);
 
 // @fnv 0x004a0370
-void __fastcall FUN_004a0370(char* pThis)
+void __fastcall NiRenderer_LockRenderer(char* pThis)
 {
     FUN_0082f1b0(pThis + 0x80);
     if (CallNestedAtOffset80(pThis) == 1)
@@ -220,10 +220,10 @@ struct Date
 struct DD : Date
 {
     int CallNestedAtOffset80();
-    void FUN_004a03c0();
+    void NiRenderer_UnlockRenderer();
 };
 // @fnv 0x004a03c0
-void DD::FUN_004a03c0()
+void DD::NiRenderer_UnlockRenderer()
 {
     if (CallNestedAtOffset80() == 1)
         Date::~Date();
@@ -246,7 +246,7 @@ P3* P3::FUN_004a0bd0(P3* out)
 }
 
 // @fnv 0x004a0d10
-void* __fastcall FUN_004a0d10(char* pThis)
+void* __fastcall NiCamera_GetViewPort(char* pThis)
 {
     return pThis + 0x100;
 }
@@ -273,10 +273,10 @@ void FUN_004a0fd0_shell::FUN_004a0fd0(NiNode* apNode)
 
 struct BSA_
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
 };
 // @fnv 0x004a1020
-void BSA_::FUN_004a1020(void* p)
+void BSA_::BSShaderAccumulator_SetShadowSceneNode(void* p)
 {
     *(void**)((char*)this + 0x194) = p;
 }
@@ -383,12 +383,12 @@ struct CFilter
 typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a39f0_shell : public CFilter
 {
-    void FUN_004a39f0(int);
+    void CFilter_SetLayer(int);
 };
 
 // Clears the low 7 bits of iFilter and stores the low 7 bits of aeLayer into them.
 // @fnv 0x004a39f0
-void FUN_004a39f0_shell::FUN_004a39f0(int aeLayer)
+void FUN_004a39f0_shell::CFilter_SetLayer(int aeLayer)
 {
     iFilter &= ~0x7f;
     iFilter |= (aeLayer & 0x7f);
@@ -420,11 +420,11 @@ struct CFilter
 typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a3a20_shell : public CFilter
 {
-    unsigned int FUN_004a3a20();
+    unsigned int CFilter_GetGroup();
 };
 
 // @fnv 0x004a3a20
-unsigned int FUN_004a3a20_shell::FUN_004a3a20()
+unsigned int FUN_004a3a20_shell::CFilter_GetGroup()
 {
     return (iFilter >> 16) & 0xFFFF;
 }
@@ -438,7 +438,7 @@ class TESObjectREFR
 
 // Returns the flags of apRef, or 0 when apRef is null.
 // @fnv 0x004a3a40
-unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
+unsigned int __cdecl bhkShape_Getbhk(TESObjectREFR* apRef)
 {
     return apRef ? apRef->GetFlags() : 0;
 }
@@ -568,7 +568,7 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3da0_shell : public BhkPickData
 {
-    void FUN_004a3da0(void*);
+    void bhkPickData_SetFrom(void*);
 };
 
 struct __declspec(align(16)) hkVector4
@@ -586,7 +586,7 @@ hkVector4& __cdecl FUN_004a3e00(hkVector4&, NiPoint3 const&);
 
 // Converts the NiPoint3 at arFrom into a hkVector4 and passes it to FUN_0056d340 on this object.
 // @fnv 0x004a3da0
-void FUN_004a3da0_shell::FUN_004a3da0(void* arFrom)
+void FUN_004a3da0_shell::bhkPickData_SetFrom(void* arFrom)
 {
     hkVector4 hkv;
     hkv._ref_006815c0();
@@ -618,7 +618,7 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x004a3f70
-void __fastcall FUN_004a3f70(char* self, Flt f)
+void __fastcall bhkPickData_SetFilter(char* self, Flt f)
 {
     *(unsigned int*)(self + 0x24) = (unsigned int)f;
 }
@@ -713,11 +713,11 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3fb0_shell : public BhkPickData
 {
-    void FUN_004a3fb0(hkpAllRayHitCollector*);
+    void bhkPickData_SetAllCollector(hkpAllRayHitCollector*);
 };
 
 // @fnv 0x004a3fb0
-void FUN_004a3fb0_shell::FUN_004a3fb0(hkpAllRayHitCollector* apCollector)
+void FUN_004a3fb0_shell::bhkPickData_SetAllCollector(hkpAllRayHitCollector* apCollector)
 {
     m_pAllCollector = apCollector;
     m_pClosestCollector = 0;
@@ -1135,11 +1135,11 @@ struct MersenneTwister
 
 struct FUN_004a3fe0_shell
 {
-    void __thiscall FUN_004a3fe0(void* a, int b, char c);
+    void __thiscall TESObjectCELL_AddDecal(void* a, int b, char c);
 };
 
 // @fnv 0x004a3fe0
-void __thiscall FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
+void __thiscall FUN_004a3fe0_shell::TESObjectCELL_AddDecal(void* pObject, int b, char c)
 {
     if (*(int*)((char*)pObject + 0x48) == 0)
     {
@@ -1272,7 +1272,7 @@ char FUN_004a0350_shell::GetByteAt2D()
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_004a19d0_shell
@@ -1283,7 +1283,7 @@ struct FUN_004a19d0_shell
 // @fnv 0x004a19d0
 void FUN_004a19d0_shell::FUN_004a19d0()
 {
-    reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x400);
+    reinterpret_cast<FUN_00456630_helper*>(this)->NiAVObject_GetBit(0x400);
 }
 
 namespace fnv_004a1a50 {
@@ -1575,7 +1575,7 @@ struct Vec
 {
     float x, y, z;
     void FUN_006815c0();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     void FUN_00439180(float);
     Vec FUN_00439e90(const Vec&);
     Vec FUN_004a0bd0();
@@ -1588,7 +1588,7 @@ struct Matrix
     void FUN_004a0c90(float);
     Matrix FUN_0043f8d0(const Matrix&);
     void FUN_00476930(int, Vec&);
-    void FUN_004769c0(int, const Vec&);
+    void NiMatrix3_SetCol(int, const Vec&);
 };
 void FUN_00c4b600(Matrix*, Vec);
 struct Frustum
@@ -1644,7 +1644,7 @@ struct Scene
     void FUN_00a6faf0(const Frustum&);
     void FUN_00a59c60(Update*);
     Vec FUN_0045bba0();
-    void* FUN_004a0d10();
+    void* NiCamera_GetViewPort();
 };
 struct ScenePtr
 {
@@ -1653,7 +1653,7 @@ struct ScenePtr
 };
 struct Node
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
     void FUN_004a1040(int);
 };
 struct NodePtr
@@ -1753,7 +1753,7 @@ extern float DAT_0101b268, DAT_0101e2bc, DAT_01018f5c;
 extern double DAT_01011590, DAT_0101e2c0;
 extern char DAT_0101e298, DAT_0101e274, DAT_0101e24c, DAT_0101e1f8;
 void FUN_005b5e40(const char*, ...);
-void* FUN_004b3890(const Vec&, const Color&, const Vec&, const Color&, int);
+void* MakeLine(const Vec&, const Color&, const Vec&, const Color&, int);
 struct World
 {
     void FUN_00458e20(void*, float);
@@ -1771,7 +1771,7 @@ struct Camera
 void Camera::UpdateCamera(Input* input)
 {
     Vec directionSlot1Slot0 = input->FUN_004a0d60();
-    directionSlot1Slot0.FUN_004a0c10();
+    directionSlot1Slot0.NiPoint3_Unitize();
     directionSlot1Slot0.FUN_00439180(DAT_0101b268);
     Vec originSlot13 = input->FUN_004a0d30().FUN_00439e90(directionSlot1Slot0);
     Matrix rotationSlot17Slot12;
@@ -1789,9 +1789,9 @@ void Camera::UpdateCamera(Input* input)
     rotationSlot17Slot12.FUN_00476930(2, directionSlot1Slot0);
     Matrix basisSlot28Slot36;
     basisSlot28Slot36.FUN_006815c0();
-    basisSlot28Slot36.FUN_004769c0(0, directionSlot1Slot0);
-    basisSlot28Slot36.FUN_004769c0(1, column0Slot30Slot0);
-    basisSlot28Slot36.FUN_004769c0(2, column1Slot41Slot18);
+    basisSlot28Slot36.NiMatrix3_SetCol(0, directionSlot1Slot0);
+    basisSlot28Slot36.NiMatrix3_SetCol(1, column0Slot30Slot0);
+    basisSlot28Slot36.NiMatrix3_SetCol(2, column1Slot41Slot18);
     Vec startSlot14Slot30;
     startSlot14Slot30.FUN_006815c0();
     Vec endSlot11;
@@ -1818,7 +1818,7 @@ void Camera::UpdateCamera(Input* input)
         startSlot14Slot30 = originSlot13;
         endSlot11 = originSlot13.FUN_00439e90(scene.FUN_00559450()->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43));
         lineSlot0Slot21 =
-            FUN_004b3890(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
+            MakeLine(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
         DAT_011dea10->FUN_00458e20(lineSlot0Slot21, DAT_01018f5c);
     }
     if (*DAT_011c5904.FUN_00408d60())
@@ -1838,10 +1838,10 @@ void Camera::UpdateCamera(Input* input)
         FUN_00b6b8d0(0, render.FUN_00559450()->FUN_00b6b260());
     input->query = new Query;
     input->query->FUN_00c4ed70();
-    FUN_0043c4b0(scene.FUN_00559450()->FUN_004a0d10())->FUN_004a0dd0();
+    FUN_0043c4b0(scene.FUN_00559450()->NiCamera_GetViewPort())->FUN_004a0dd0();
     Cull cullSlot18Slot33(0);
     cullSlot18Slot33.FUN_004a0fd0(node.FUN_00559450());
-    node.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
+    node.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
     node.FUN_00559450()->FUN_004a1040(15);
     FUN_00b6bee0(scene.FUN_00559450(), input->FUN_004a0330(), &cullSlot18Slot33);
     FUN_00b6c0d0(scene.FUN_00559450(), node.FUN_00559450(), 0);
@@ -1889,7 +1889,7 @@ struct DecalPoint
     DecalPoint FUN_00439ef0(const DecalPoint& arOther) const;
     DecalPoint FUN_00439e90(const DecalPoint& arOther) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
     DecalPoint ApplyScaled(float afScale) const;
 };
 
@@ -1923,7 +1923,7 @@ struct DecalNode
     virtual DecalNode* GetNode();
     bool FUN_004a19d0();
     DecalBound* FUN_0043d450();
-    void* FUN_004543c0();
+    void* TESObjectCELL_GetbhkWorld();
 };
 
 struct DecalHolder
@@ -2247,7 +2247,7 @@ int __cdecl FUN_00406d00(char* apBuffer, unsigned int auiSize, const char* apFor
 void __cdecl FUN_0040fbe0(const char* apText, int aiFlags);
 float __cdecl FUN_00404010(float a, float b);
 DecalEmitter* __cdecl FUN_00622a70(float afSize, int aiFlags);
-void* __cdecl FUN_0056f930(DecalNode* apNode);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(DecalNode* apNode);
 bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
 
 static const char s_szSourceFile[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSDecalManager.cpp";
@@ -2348,19 +2348,19 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         }
         else if (*DAT_011c5834.FUN_00408d60())
         {
-            apRequest->kWorldPosition.FUN_004a0c10();
+            apRequest->kWorldPosition.NiPoint3_Unitize();
             if (!DAT_011c57e0)
                 DAT_011c57e0 = FUN_00622a70(FUN_00404010(apRequest->m_fGlyphExtent, apRequest->m_fGlyphWidthInPixels), 1);
             DAT_011c57e0->FUN_004a1a10(8, 0);
             DAT_011c57e0->FUN_004a1a10(0x1d, 0);
-            DAT_011c57e0->FUN_006231a0(apRequest->pParent->FUN_004543c0());
+            DAT_011c57e0->FUN_006231a0(apRequest->pParent->TESObjectCELL_GetbhkWorld());
             int iCount = DAT_011c57e0->FUN_00622f80(
                 apRequest, apRequest->kPos.FUN_00439e90(apRequest->kWorldPosition.ApplyScaled(80.0f)), 32.0f);
             if (iCount == 0)
             {
                 DecalPoint kNewDir =
                     apRequest->kWorldPosition.FUN_00439e90(DAT_011a9484.FUN_004a0bd0().ApplyScaled(2.0f));
-                kNewDir.FUN_004a0c10();
+                kNewDir.NiPoint3_Unitize();
                 apRequest->kWorldPosition = kNewDir;
                 iCount = DAT_011c57e0->FUN_00622f80(apRequest, apRequest->kPos.FUN_00439e90(kNewDir.ApplyScaled(80.0f)),
                                                     32.0f);
@@ -2376,8 +2376,8 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                 if (pHitTmp)
                 {
                     DAT_011c57e0->SetTileSetValues(i, &kHitPos, &kHitNormal);
-                    kHitNormal.FUN_004a0c10();
-                    void* m_pShaderGeometry = FUN_0056f930(pHitTmp);
+                    kHitNormal.NiPoint3_Unitize();
+                    void* m_pShaderGeometry = TESObjectREFR_FindReferenceFor3D(pHitTmp);
                     if (pHitTmp->FUN_004a19d0() || !m_pShaderGeometry ||
                         !IsAcousticSpaceFormTypeAllowed(m_pShaderGeometry, 1))
                         continue;
@@ -2527,8 +2527,8 @@ struct XMgr
     bool FUN_004a1a70(XRef* ref);
 };
 
-bool FUN_0043b300(const void* rtti, XNode* obj);
-bool FUN_0045bad0(const void* name, XNode* obj);
+bool NiObject_IsKindOf(const void* rtti, XNode* obj);
+bool NiObject_IsExactKindOf(const void* name, XNode* obj);
 struct NiPoint3Sq : NiPoint3
 {
 };
@@ -2565,7 +2565,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                             FUN_00ec8a19(pName4, DAT_0101e474, 7) == 0 || FUN_00ec8a19(pName4, DAT_0101e468, 9) == 0 ||
                             FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
-        if (FUN_0043b300(&DAT_011f4a20, ref->m28) && !ref->m28->FUN_00456610())
+        if (NiObject_IsKindOf(&DAT_011f4a20, ref->m28) && !ref->m28->FUN_00456610())
         {
             p9 = ref->m28;
             if (p9 != 0)
@@ -2584,7 +2584,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                     av_ = info2->GetAt(i5);
                     if (av_ != 0)
                     {
-                        if (FUN_0045bad0(&DAT_011c7d34, av_))
+                        if (NiObject_IsExactKindOf(&DAT_011c7d34, av_))
                         {
                             foundVal = true;
                             hit2 = av_;
@@ -2742,7 +2742,7 @@ struct DObj
     void* FUN_004030b0();
     void* FUN_0043fad0();
     DArray* FUN_009611e0();
-    unsigned FUN_00453470();
+    unsigned NiNode_GetChildCount();
     int FUN_0059e300();
     void AssignGo(DObj*);
     void AssignFixedString(CStringProvider*);
@@ -3035,8 +3035,8 @@ struct DManager
     void FUN_00973fd0(DObj*);
 };
 extern DManager DAT_011e0e80;
-bool FUN_0043b300(const void*, DObj*);
-bool FUN_0045bad0(const void*, DObj*);
+bool NiObject_IsKindOf(const void*, DObj*);
+bool NiObject_IsExactKindOf(const void*, DObj*);
 void FUN_005b5e40(const char*, ...);
 CStringProvider* FUN_004a2c60();
 int FUN_004a2c20(DProp*);
@@ -3062,7 +3062,7 @@ bool DWork::FUN_004a2070(DArg* arg)
         DPtr p(0);
         arg->parent->interface30.Get(0, p);
         DObj* parent = p.FUN_00559450();
-        if (FUN_0043b300(&DAT_011f444c, parent))
+        if (NiObject_IsKindOf(&DAT_011f444c, parent))
             original.FUN_0066b0d0(parent);
     }
     if (!original.FUN_00559450())
@@ -3095,7 +3095,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                         for (unsigned i = 0; i < array->FUN_0043b480(); ++i)
                         {
                             DObj* child = array->FUN_0043b4a0(i);
-                            if (child && FUN_0045bad0(&DAT_011c7d34, child))
+                            if (child && NiObject_IsExactKindOf(&DAT_011c7d34, child))
                             {
                                 selected = (DNode*)child;
                                 break;
@@ -3105,7 +3105,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             selected = new DNode(array, true);
                         else
                         {
-                            if (selected->FUN_00453470() >= (unsigned)*DAT_011c589c.FUN_0043d4d0())
+                            if (selected->NiNode_GetChildCount() >= (unsigned)*DAT_011c589c.FUN_0043d4d0())
                                 return true;
                         }
                         ++DAT_011c57e8;
@@ -3219,7 +3219,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             for (unsigned d = 0; d < array->FUN_0043b480(); ++d)
                             {
                                 DObj* entry = array->FUN_0043b4a0(d);
-                                if (entry && FUN_0045bad0(&DAT_011c7d34, entry))
+                                if (entry && NiObject_IsExactKindOf(&DAT_011c7d34, entry))
                                 {
                                     selected = (DNode*)entry;
                                     break;

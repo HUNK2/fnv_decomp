@@ -255,11 +255,11 @@ struct FUN_004f4c40_shell
 {
     char _pad[8];
     void* field8;
-    bool FUN_004f4c40(void* apType);
+    bool TESRegionDataSound_SetMusicType(void* apType);
 };
 // Stores apType in field8 and returns true when apType is non-null and differs from the current field8; otherwise returns false.
 // @fnv 0x004f4c40
-bool FUN_004f4c40_shell::FUN_004f4c40(void* apType)
+bool FUN_004f4c40_shell::TESRegionDataSound_SetMusicType(void* apType)
 {
     if (apType && apType != field8)
     {

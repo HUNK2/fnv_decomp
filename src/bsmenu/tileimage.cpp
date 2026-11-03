@@ -17,7 +17,7 @@ Tile* TileImage::SetTraitValue(int trait, float value, const char* text)
 // @fnv 0x0078cdf0
 void TileImage::UpdateTileImage()
 {
-    ((ExtraDataList*)&g_011ded3c)->GetStartingAngle(0)->FUN_004bc320();
+    ((ExtraDataList*)&g_011ded3c)->GetStartingAngle(0)->BSRenderedTexture_GetTexture();
 }
 
 // @fnv 0x00a1f6e0
@@ -544,7 +544,7 @@ struct NiNode : NiObject
     void AssignFixedString(const L::NiFixedString&);
     void SetExtraDataName(void*);
     void FUN_00a5a040();
-    void FUN_00439410(NiNode*);
+    void NiAVObject_AttachProperty(NiNode*);
     GeometryData* GetGeometryData()
     {
         return geometryData;
@@ -599,7 +599,7 @@ struct NiNode : NiObject
     unsigned int unk0bc;
     void* m_pExtraBuffer;
 };
-inline void NiNode::FUN_00439410(NiNode* property)
+inline void NiNode::NiAVObject_AttachProperty(NiNode* property)
 {
     if (property->GetPropertyType() < 7)
     {
@@ -764,11 +764,11 @@ struct TileImageShim
     float FUN_00a011b0(unsigned int, int);
     void FUN_00a037e0(unsigned int, float);
     void FUN_00a07530(unsigned int);
-    NiNode* FUN_00a1fd50();
+    NiNode* TileImage_MakeNode();
 };
 // Builds a quad geometry object, attaches it beneath a node returned by FUN_00a089c0() or a fallback, and returns the containing node.
 // @fnv 0x00a1fd50
-NiNode* TileImageShim::FUN_00a1fd50()
+NiNode* TileImageShim::TileImage_MakeNode()
 {
     NiNode* cnt_lgft;
     cnt_lgft = GetNiNode();
@@ -819,7 +819,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
     GD(ptr_k);
 
     m_spShaderProperty = (TileShaderProperty*)(new FUN_00bb7c30(0));
-    ptr_k->FUN_00439410((NiNode*)(TileShaderProperty*)m_spShaderProperty);
+    ptr_k->NiAVObject_AttachProperty((NiNode*)(TileShaderProperty*)m_spShaderProperty);
 
     void* v_r;
     void* kIter_bw;

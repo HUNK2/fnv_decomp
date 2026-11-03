@@ -53,12 +53,12 @@ struct BeamProjectile
 
 struct MissileProjectile : BeamProjectile
 {
-    void FUN_009baad0(BGSLoadFormBuffer*);
+    void MissileProjectile_LoadGame(BGSLoadFormBuffer*);
 };
 
 // Calls the base BeamProjectile load routine, then reads 4 bytes from the load buffer into this+0x150.
 // @fnv 0x009baad0
-void MissileProjectile::FUN_009baad0(BGSLoadFormBuffer* apLoadGameBuffer)
+void MissileProjectile::MissileProjectile_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     BeamProjectile::LoadProjectile(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x150), 4);
@@ -68,20 +68,20 @@ namespace fnv_009bab70 {
 struct BGSLoadFormBuffer;
 struct Projectile
 {
-    void FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Projectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct MissileProjectile : Projectile
 {
-    void FUN_009bab70(BGSLoadFormBuffer* apLoadGameBuffer);
+    void MissileProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
-void Projectile::FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer)
+void Projectile::Projectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {}
 
 // @fnv 0x009bab70
-void MissileProjectile::FUN_009bab70(BGSLoadFormBuffer* apLoadGameBuffer)
+void MissileProjectile::MissileProjectile_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    FUN_009c58e0(apLoadGameBuffer);
+    Projectile_Revert(apLoadGameBuffer);
     ((int*)this)[0x150 / 4] = 0;
 }
 }  // namespace fnv_009bab70
@@ -314,10 +314,10 @@ struct BGSSaveFormBuffer
 void __cdecl SaveProjectile(BGSLoadFormBuffer*);
 struct FUN_009baaa0_shell
 {
-    void FUN_009baaa0(BGSLoadFormBuffer* buffer);
+    void MissileProjectile_AppendSaveLoadFormBuffer(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x009baaa0
-void FUN_009baaa0_shell::FUN_009baaa0(BGSLoadFormBuffer* buffer)
+void FUN_009baaa0_shell::MissileProjectile_AppendSaveLoadFormBuffer(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<void(__thiscall*)(void*, BGSLoadFormBuffer*)>(SaveProjectile)(this, buffer);
     reinterpret_cast<BGSSaveFormBuffer*>(buffer)->SaveData(reinterpret_cast<char*>(this) + 0x150, 4, 0);
@@ -325,7 +325,7 @@ void FUN_009baaa0_shell::FUN_009baaa0(BGSLoadFormBuffer* buffer)
 
 struct S5870_Holder
 {
-    void FUN_009c5870(BGSLoadFormBuffer*);
+    void Projectile_FinishLoadGame(BGSLoadFormBuffer*);
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -448,11 +448,11 @@ struct S5870_Holder
     void FUN_009babe0();
     void LoadForm(BGSLoadFormBuffer*);
 };
-// Loads from the buffer via FUN_009c5870, then either calls FUN_009babe0 or sets b154 to 1 depending on v116().
+// Loads from the buffer via Projectile_FinishLoadGame, then either calls FUN_009babe0 or sets b154 to 1 depending on v116().
 // @fnv 0x009bab20
 void S5870_Holder::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    FUN_009c5870(apLoadGameBuffer);
+    Projectile_FinishLoadGame(apLoadGameBuffer);
     if (v116())
         FUN_009babe0();
     else
@@ -1004,7 +1004,7 @@ class NiNodeS : public NiAVObj
     NiAVObj* GetAt(int idx);
 };
 
-bool FUN_0043b300(const NiRTTI* rtti, NiAVObj* obj);
+bool NiObject_IsKindOf(const NiRTTI* rtti, NiAVObj* obj);
 
 struct PathReq
 {
@@ -1147,7 +1147,7 @@ class ProjS
 void ProjS::UpdateProjectileNodeVisibility()
 {
     NiAVObj* p3D = Get3D();
-    if (p3D && FUN_0043b300(&DAT_011f4428, p3D))
+    if (p3D && NiObject_IsKindOf(&DAT_011f4428, p3D))
     {
         NiNodeS* pNode5 = (NiNodeS*)p3D;
         pNode5->SetAppCulled(false);
@@ -1188,13 +1188,13 @@ struct HitList
 };
 struct Collider890
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 struct CF845
 {
     int value;
     CF845(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct Target890;
 bool CanProjectileHit(int, Collider890*, Target890*, void*);
@@ -1294,7 +1294,7 @@ struct Target890
 bool Target890::FUN_009b8900(int aiArg1, int aiArg2, int aiArg3, Collider890* collider, int aiArg5, int aiArg6)
 {
     bool p = hits.FUN_008256d0() || (*hits.FUN_006815c0())->flag;
-    int h = collider ? CF845(collider->FUN_0043b540()).FUN_0043b4d0() : 0;
+    int h = collider ? CF845(collider->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() : 0;
     if (p && CanProjectileHit(aiArg1, collider, this, GetActorBase()) &&
         (kind != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
         ProcessHit(aiArg1, aiArg2, aiArg3, collider, aiArg5, aiArg6))
@@ -1402,7 +1402,7 @@ struct UpdateNode
 struct UpdateRef
 {
     void* FUN_00460140();
-    UpdateTransform* FUN_00461130();
+    UpdateTransform* NiAVObject_GetWorldRotate();
     UpdateVec GetTargetPosition();
 };
 struct UpdateImpact
@@ -1445,7 +1445,7 @@ struct UpdateWorld
 extern UpdateWorld* DAT_011dea10;
 extern const char DAT_0108fd78[];
 UpdateRef* __cdecl FUN_004b5820(void*);
-void* __cdecl FUN_004b3890(const UpdateVec*, const void*, const UpdateVec*, const void*, int);
+void* __cdecl MakeLine(const UpdateVec*, const void*, const UpdateVec*, const void*, int);
 void __cdecl FUN_005b5e40(int, const char*, ...);
 struct UpdateColor
 {
@@ -1654,33 +1654,33 @@ struct UpdateProjectile
     bool active;
     float timeout;
     float angle;
-    void FUN_009b8030(float);
+    void MissileProjectile_UpdateProjectile(float);
     void FUN_009babe0();
     float FUN_00508070();
     float GetFirstLightParameter();
     void FUN_009bc8f0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     bool FUN_00440da0();
     bool FUN_00444d00(int);
     float FUN_00885bd0();
     UpdateRef* FUN_008d8b80();
     void SetOrientationFromDirection(UpdateVec);
     void ApplyScale(float);
-    void FUN_00575830(const UpdateVec*);
+    void TESObjectREFR_SetLocationOnReference(const UpdateVec*);
     void FUN_009c6330(UpdateTransform*);
     void UpdateNodeTransform(bool, bool);
     UpdateBase* FUN_004181e0();
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     void UpdateDetonation(float);
 };
 // @fnv 0x009b8030
-void UpdateProjectile::FUN_009b8030(float afDeltaTime)
+void UpdateProjectile::MissileProjectile_UpdateProjectile(float afDeltaTime)
 {
     if (active && Get3D())
         FUN_009babe0();
     if (GetFirstLightParameter() > FUN_00508070() && (hits.FUN_008256d0() || pending))
         FUN_009bc8f0();
-    if (FUN_00440d80() || FUN_00440da0())
+    if (TESForm_GetDelete() || FUN_00440da0())
         return;
     if (kind == 4)
     {
@@ -1697,11 +1697,11 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
             UpdateNode* reference = Get3D();
             if (node && reference)
             {
-                UpdateTransform worldTransform = node->FUN_00461130()->FUN_0062c250(transform);
+                UpdateTransform worldTransform = node->NiAVObject_GetWorldRotate()->FUN_0062c250(transform);
                 reference->FUN_0043fa80(&worldTransform);
                 FUN_009c6330(&worldTransform);
                 reference->FUN_00440460(&worldTransform.translation);
-                FUN_00575830(&worldTransform.translation);
+                TESObjectREFR_SetLocationOnReference(&worldTransform.translation);
             }
             UpdateNodeTransform(true, false);
         }
@@ -1728,7 +1728,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
                 ApplyScale(afDeltaTime);
                 UpdateVec color = *GetPosition();
                 UpdateColor debugColor(1.0f, 1.0f, 0.0f, 1.0f);
-                void* pDebugLine = FUN_004b3890(&newPosition, &debugColor, &color, &debugColor, 1);
+                void* pDebugLine = MakeLine(&newPosition, &debugColor, &color, &debugColor, 1);
                 DAT_011dea10->FUN_00458e20(pDebugLine, *DAT_011f210c.FUN_00403e20());
             }
             else
@@ -1736,7 +1736,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
         }
         bool nearby = hits.FUN_008256d0() || (*hits.FUN_006815c0())->flag;
         if (!nearby && (!FUN_00444d00(1) || GetFirstLightParameter() > FUN_00508070()))
-            FUN_00575830(&(*hits.FUN_006815c0())->position);
+            TESObjectREFR_SetLocationOnReference(&(*hits.FUN_006815c0())->position);
         UpdateNodeTransform(skipPosition, !stopped);
         if (Get3D())
             Get3D()->FUN_00a68bf0();
@@ -1765,7 +1765,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
                 Get3D()->FUN_0043fa80(&matrix);
             }
             else
-                FUN_005b5e40(11, DAT_0108fd78, FUN_0055d520());
+                FUN_005b5e40(11, DAT_0108fd78, TESObjectREFR_GetFullName());
         }
     }
     UpdateDetonation(afDeltaTime);
@@ -1797,7 +1797,7 @@ struct Vector
     float DotProduct(const Vector&);
 };
 Vector FUN_004a3760(float, const Vector&);
-void FUN_00525340(Vector&);
+void NiPoint3_UnitizeVector(Vector&);
 double FUN_00408820(float);
 double SignOfFloat(float);
 extern const float DAT_01012054, DAT_010162c0;
@@ -1827,7 +1827,7 @@ struct Node
 {
     void FUN_00440460(const Vector&);
     void FUN_00a59c60(const Update&);
-    Matrix* FUN_00461130();
+    Matrix* NiAVObject_GetWorldRotate();
 };
 struct Contact
 {
@@ -2113,8 +2113,8 @@ bool Impact::HandleContactResponse()
             Vector direction3;
             direction3 = FUN_004a3760(DAT_01012054, FUN_009b7010());
             direction3 = direction3;
-            FUN_00525340(direction3);
-            FUN_00525340(contact->normal);
+            NiPoint3_UnitizeVector(direction3);
+            NiPoint3_UnitizeVector(contact->normal);
             float dot = contact->normal.DotProduct(direction3);
             Vector correctionTmp =
                 FUN_004a3760(DAT_010162c0, FUN_004a3760(dot, contact->normal).FUN_00439ef0(direction3));
@@ -2123,15 +2123,15 @@ bool Impact::HandleContactResponse()
             FUN_0062b8d0(node7, linear_, 1);
             Vector kAngular = DAT_011f426c;
             Matrix rotation;
-            GetNode()->FUN_00461130()->FUN_004b46a0(rotation);
+            GetNode()->NiAVObject_GetWorldRotate()->FUN_004b46a0(rotation);
             Vector local = rotation.FUN_004b4500(contact->normal);
             if (FUN_00408820(local.y) > FUN_00408820(local.z))
                 local.z = FUN_00408820(local.y) * SignOfFloat(local.z);
             local.y = 0.0f;
-            FUN_00525340(local);
+            NiPoint3_UnitizeVector(local);
             Vector spin2;
             spin2.FUN_00416870(-local.z, 0.0f, -local.x);
-            kAngular = node7->FUN_00461130()->FUN_004b4500(spin2);
+            kAngular = node7->NiAVObject_GetWorldRotate()->FUN_004b4500(spin2);
             kAngular.FUN_00439180(*DAT_011ce1dc.FUN_00403e20());
             FUN_0062ba80(node7, kAngular, 1);
         }
@@ -2169,14 +2169,14 @@ struct MissileUpdate
 struct MissileHandle
 {
     unsigned value;
-    unsigned FUN_0043b4d0();
-    void FUN_004a39f0(unsigned);
+    unsigned CFilter_GetLayer();
+    void CFilter_SetLayer(unsigned);
 };
 struct MissileBody
 {
     MissileHandle FUN_0043b4f0();
     void FUN_00626cb0(unsigned);
-    int FUN_00517630();
+    int bhkRigidBody_GetMotionType();
     void SetFlag(unsigned, bool);
 };
 struct MissileCollision
@@ -2339,7 +2339,7 @@ struct MissileNode
     virtual MissileNode* Find(int);
     void* FUN_00460140();
     void FUN_00a59c60(MissileUpdate*);
-    MissileTransform* FUN_00461130();
+    MissileTransform* NiAVObject_GetWorldRotate();
 };
 struct MissileActor
 {
@@ -2588,7 +2588,7 @@ struct MissileActor
     float distance;
     void FUN_005de0a0(unsigned, bool);
     MissileVector FUN_009b7010();
-    void FUN_00575830(const MissileVector&, const MissileVector&);
+    void TESObjectREFR_SetLocationOnReference(const MissileVector&, const MissileVector&);
     void UpdateNodeTransform(int, int);
     bool FUN_00444d00(unsigned);
     void HandleContactResponse();
@@ -2610,7 +2610,7 @@ void MissileActor::HandleMissileImpact()
         MissileNode* node3 = Get3D();
         MissileNode* parent41 = FUN_004b5820(hit31->node->FUN_00460140());
         MissileBody* body20 = FUN_004b5a80(hit31->node);
-        unsigned layer1 = body20 ? body20->FUN_0043b4f0().FUN_0043b4d0() : 0;
+        unsigned layer1 = body20 ? body20->FUN_0043b4f0().CFilter_GetLayer() : 0;
         if (body20 && layer1 != 19 && (!hit31->reference || !hit31->reference->IsActor()))
         {
             FUN_005de0a0(4, true);
@@ -2620,16 +2620,16 @@ void MissileActor::HandleMissileImpact()
             if (ownBody53)
             {
                 MissileHandle handle = ownBody53->FUN_0043b4f0();
-                handle.FUN_004a39f0(15);
+                handle.CFilter_SetLayer(15);
                 ownBody53->FUN_00626cb0(handle.value);
             }
             if (!paused)
-                FUN_00575830(hit31->position.FUN_00439e90(), FUN_009b7010().ApplyScaled(impactScale));
+                TESObjectREFR_SetLocationOnReference(hit31->position.FUN_00439e90(), FUN_009b7010().ApplyScaled(impactScale));
             UpdateNodeTransform(0, 0);
             FUN_00c69f50(node3, 1, 1);
             MissileUpdate update53(0.0f, false, false);
             node3->FUN_00a59c60(&update53);
-            if (body20->FUN_00517630() == 5)
+            if (body20->bhkRigidBody_GetMotionType() == 5)
                 FUN_00c6a350(node3, 5, 1, 0, 1);
             else
             {
@@ -2645,8 +2645,8 @@ void MissileActor::HandleMissileImpact()
                 if (!paused && parent41)
                 {
                     MissileTransform inverse;
-                    parent41->FUN_00461130()->FUN_004b4880(inverse);
-                    impactTransform = inverse.FUN_0062c250(*node3->FUN_00461130());
+                    parent41->NiAVObject_GetWorldRotate()->FUN_004b4880(inverse);
+                    impactTransform = inverse.FUN_0062c250(*node3->NiAVObject_GetWorldRotate());
                 }
             }
             MissileNode* child2 = node3 ? node3->Find(FUN_009b7cb0()) : 0;

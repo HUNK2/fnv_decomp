@@ -57,7 +57,7 @@ struct Derived : BaseUnk
     char m14;
 };
 // @fnv 0x00a49020
-Derived* FUN_00a49020()
+Derived* NiPosData_CreateObject()
 {
     Derived* p = (Derived*)BSFadeNode::operator new(sizeof(Derived));
     if (p)
@@ -415,11 +415,11 @@ struct Owner_00a49380
     int unk04;
     int unk08;
     void AppendCameraPathEntries(FUN_0096ad30_param*);
-    void FUN_00a49380(FUN_0096ad30_param*);
+    void NiPosData_GetViewerStrings(FUN_0096ad30_param*);
 };
 
 // @fnv 0x00a49380
-void Owner_00a49380::FUN_00a49380(FUN_0096ad30_param* param)
+void Owner_00a49380::NiPosData_GetViewerStrings(FUN_0096ad30_param* param)
 {
     unsigned int value;
     unsigned int index;

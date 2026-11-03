@@ -74,7 +74,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
         if (g_thePlayer)
             g_thePlayer->ResetRegionSoundTimer();
         if (!Interface::GetSelectedTargetIndex(Interface::MenuLoading))
-            g_TES->FUN_00455690();
+            g_TES->TES_UpdateRefSounds();
         float fade = DAT_011dd044.Float()->f;
         if (DAT_011dd0d8.IsPlaying())
             fade = DAT_011dd094.Float()->f;
@@ -371,7 +371,7 @@ void Sky::SetMode(Sky__SKY_MODE mode)
         DAT_011ccb74 = false;
         eMode = mode;
         if (m_pPrecipitation)
-            m_pPrecipitation->FUN_00636ed0(0.0f);
+            m_pPrecipitation->Precipitation_Update(0.0f);
         m_fWeatherFade = 0.0f;
     }
     eMode = mode;

@@ -65,9 +65,9 @@ struct __declspec(align(16)) SpringInfo
 };
 struct MouseSpringDiagnostic
 {
-    void FUN_00c86b80(StrArr*);
+    void bhkUnaryAction_GetViewerStrings(StrArr*);
     void FUN_00c86d20(SpringInfo*);
-    void FUN_00c873d0(StrArr*);
+    void bhkMouseSpringAction_GetViewerStrings(StrArr*);
 };
 static void AppendString(StrArr* strings, char*& value)
 {
@@ -77,11 +77,11 @@ static void AppendString(StrArr* strings, char*& value)
     strings->SetAt(index, value);
 }
 // @fnv 0x00c873d0
-void MouseSpringDiagnostic::FUN_00c873d0(StrArr* strings)
+void MouseSpringDiagnostic::bhkMouseSpringAction_GetViewerStrings(StrArr* strings)
 {
     MemoryContextScope scope(16);
     char* str;
-    FUN_00c86b80(strings);
+    bhkUnaryAction_GetViewerStrings(strings);
     str = FUN_00a7d330(DAT_0126812c);
     AppendString(strings, str);
     SpringInfo info;

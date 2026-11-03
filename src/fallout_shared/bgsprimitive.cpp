@@ -165,11 +165,11 @@ bool FUN_004a4cc0_shell::FUN_004a4cc0(void* apOther)
 
 struct FUN_004a51d0_shell : public NiBound
 {
-    void FUN_004a51d0(void*, float);
+    void NiBound_SetCenterAndRadius(void*, float);
 };
 
 // @fnv 0x004a51d0
-void FUN_004a51d0_shell::FUN_004a51d0(void* apCenter, float fRadius)
+void FUN_004a51d0_shell::NiBound_SetCenterAndRadius(void* apCenter, float fRadius)
 {
     m_kCenter = *(const NiPoint3*)apCenter;
     m_fBoundRadius = fRadius;
@@ -208,7 +208,7 @@ void* __fastcall FUN_00c37ec0(void* this_ptr)
 }
 
 // @fnv 0x004a6100
-int __fastcall FUN_004a6100(int this_)
+int __fastcall BSOcclusionPlane_QDebugGeomShapeSize(int this_)
 {
     return 0x1e;
 }
@@ -235,28 +235,28 @@ extern int g_01202818;
 
 struct FUN_004a70f0_shell
 {
-    int* __thiscall FUN_004a70f0();
+    int* __thiscall BSMultiBoundOBB_GetRTTI();
 };
 
 // @fnv 0x004a70f0
-int* __thiscall FUN_004a70f0_shell::FUN_004a70f0()
+int* __thiscall FUN_004a70f0_shell::BSMultiBoundOBB_GetRTTI()
 {
     return &g_01202818;
 }
 
 // @fnv 0x00c365e0
-int __fastcall FUN_00c365e0(int)
+int __fastcall BSMultiBoundOBB_GetType(int)
 {
     return 2;
 }
 
 struct FUN_00c382a0_shell
 {
-    int FUN_00c382a0();
+    int BSMultiBoundAABB_GetType();
 };
 
 // @fnv 0x00c382a0
-int FUN_00c382a0_shell::FUN_00c382a0()
+int FUN_00c382a0_shell::BSMultiBoundAABB_GetType()
 {
     return 1;
 }
@@ -276,11 +276,11 @@ void* __thiscall FUN_00c4f8d0_shell::GetGlobalPtr()
 
 struct FUN_00c4fec0_shell
 {
-    int __thiscall FUN_00c4fec0();
+    int __thiscall BSMultiBoundSphere_GetType();
 };
 
 // @fnv 0x00c4fec0
-int __thiscall FUN_00c4fec0_shell::FUN_00c4fec0()
+int __thiscall FUN_00c4fec0_shell::BSMultiBoundSphere_GetType()
 {
     return 3;
 }
@@ -346,11 +346,11 @@ struct FUN_00c335d0 : NiRefObject
 struct FUN_00c33730_shell
 {
     void CopyStateTo(FUN_00c335d0* pkDest, CloningProcess& kCloning);
-    FUN_00c335d0* FUN_00c33730(CloningProcess& kCloning);
+    FUN_00c335d0* BSOcclusionPlane_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c33730
-FUN_00c335d0* FUN_00c33730_shell::FUN_00c33730(CloningProcess& kCloning)
+FUN_00c335d0* FUN_00c33730_shell::BSOcclusionPlane_CreateClone(CloningProcess& kCloning)
 {
     FUN_00c335d0* pkObject = new FUN_00c335d0;
     CopyStateTo(pkObject, kCloning);
@@ -381,11 +381,11 @@ struct FUN_00c36310 : NiRefObject
 struct FUN_00c36330_shell
 {
     void FUN_00c363c0(FUN_00c36310* pkDest, CloningProcess& kCloning);
-    FUN_00c36310* FUN_00c36330(CloningProcess& kCloning);
+    FUN_00c36310* BSMultiBoundOBB_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c36330
-FUN_00c36310* FUN_00c36330_shell::FUN_00c36330(CloningProcess& kCloning)
+FUN_00c36310* FUN_00c36330_shell::BSMultiBoundOBB_CreateClone(CloningProcess& kCloning)
 {
     FUN_00c36310* pkObject = new FUN_00c36310;
     FUN_00c363c0(pkObject, kCloning);
@@ -412,11 +412,11 @@ struct FUN_00c37ec0 : NiRefObject
 struct FUN_00c37ee0_shell
 {
     void FUN_00c37f70(FUN_00c37ec0* pkDest, CloningProcess& kCloning);
-    FUN_00c37ec0* FUN_00c37ee0(CloningProcess& kCloning);
+    FUN_00c37ec0* BSMultiBoundAABB_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c37ee0
-FUN_00c37ec0* FUN_00c37ee0_shell::FUN_00c37ee0(CloningProcess& kCloning)
+FUN_00c37ec0* FUN_00c37ee0_shell::BSMultiBoundAABB_CreateClone(CloningProcess& kCloning)
 {
     FUN_00c37ec0* pkObject = new FUN_00c37ec0;
     FUN_00c37f70(pkObject, kCloning);
@@ -443,11 +443,11 @@ struct FUN_00c4fb10 : NiRefObject
 struct FUN_00c4fb30_shell
 {
     void FUN_00c4fbc0(FUN_00c4fb10* pkDest, CloningProcess& kCloning);
-    FUN_00c4fb10* FUN_00c4fb30(CloningProcess& kCloning);
+    FUN_00c4fb10* BSMultiBoundSphere_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c4fb30
-FUN_00c4fb10* FUN_00c4fb30_shell::FUN_00c4fb30(CloningProcess& kCloning)
+FUN_00c4fb10* FUN_00c4fb30_shell::BSMultiBoundSphere_CreateClone(CloningProcess& kCloning)
 {
     FUN_00c4fb10* pkObject = new FUN_00c4fb10;
     FUN_00c4fbc0(pkObject, kCloning);
@@ -459,24 +459,24 @@ extern char const* const g_012030b0_arg1;
 
 struct FUN_004a60e0_shell
 {
-    char const* const* __thiscall FUN_004a60e0();
+    char const* const* __thiscall BSOcclusionPlane_GetRTTI();
 };
 
 // @fnv 0x004a60e0
-char const* const* __thiscall FUN_004a60e0_shell::FUN_004a60e0()
+char const* const* __thiscall FUN_004a60e0_shell::BSOcclusionPlane_GetRTTI()
 {
     return &g_012030b0_arg1;
 }
 
 struct FUN_004a62c0_shell
 {
-    int* FUN_004a62c0();
+    int* BSPortal_GetRTTI();
 };
 
 extern int g_012030b0;
 
 // @fnv 0x004a62c0
-int* FUN_004a62c0_shell::FUN_004a62c0()
+int* FUN_004a62c0_shell::BSPortal_GetRTTI()
 {
     return &g_012030b0;
 }
@@ -484,11 +484,11 @@ int* FUN_004a62c0_shell::FUN_004a62c0()
 namespace fnv_004a7030 {
 struct BSMultiBoundAABB
 {
-    int FUN_004a7030();
+    int BSMultiBoundAABB_QDebugGeomShapeSize();
 };
 
 // @fnv 0x004a7030
-int BSMultiBoundAABB::FUN_004a7030()
+int BSMultiBoundAABB::BSMultiBoundAABB_QDebugGeomShapeSize()
 {
     return 0x24;
 }
@@ -497,11 +497,11 @@ int BSMultiBoundAABB::FUN_004a7030()
 struct BGSPrimitiveSphere
 {
     void SetRadius(float radius);
-    void FUN_004a71d0(NiPoint3& akRadii);
+    void BGSPrimitiveSphere_SetRadii(NiPoint3& akRadii);
 };
 
 // @fnv 0x004a71d0
-void BGSPrimitiveSphere::FUN_004a71d0(NiPoint3& aPoint)
+void BGSPrimitiveSphere::BGSPrimitiveSphere_SetRadii(NiPoint3& aPoint)
 {
     SetRadius(aPoint.x);
 }
@@ -544,15 +544,15 @@ void* BSMultiBoundSphere::FUN_004a7bf0(unsigned int flags)
 
 struct FUN_00c38020_shell
 {
-    unsigned char __thiscall FUN_00c4fa30(int a);
-    unsigned char __thiscall FUN_00c38020(int a);
+    unsigned char __thiscall BSMultiBoundShape_RegisterStreamables(int a);
+    unsigned char __thiscall BSMultiBoundAABB_RegisterStreamables(int a);
 };
 
-// Returns 0 if FUN_00c4fa30(a) is false, otherwise returns 1.
+// Returns 0 if BSMultiBoundShape_RegisterStreamables(a) is false, otherwise returns 1.
 // @fnv 0x00c38020
-unsigned char __thiscall FUN_00c38020_shell::FUN_00c38020(int aiArg)
+unsigned char __thiscall FUN_00c38020_shell::BSMultiBoundAABB_RegisterStreamables(int aiArg)
 {
-    if (!FUN_00c4fa30(aiArg))
+    if (!BSMultiBoundShape_RegisterStreamables(aiArg))
         return 0;
     return 1;
 }
@@ -597,11 +597,11 @@ struct NiObject
 
 struct FUN_00c4f9f0_shell : NiObject
 {
-    void FUN_00c4f9f0(NiStream& stream);
+    void BSMultiBoundShape_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00c4f9f0
-void FUN_00c4f9f0_shell::FUN_00c4f9f0(NiStream& stream)
+void FUN_00c4f9f0_shell::BSMultiBoundShape_LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
 }
@@ -618,11 +618,11 @@ struct NiObject
 
 struct FUN_00c4fa10_shell : NiObject
 {
-    void FUN_00c4fa10(NiStream& stream);
+    void BSMultiBoundShape_LinkObject(NiStream& stream);
 };
 
 // @fnv 0x00c4fa10
-void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
+void FUN_00c4fa10_shell::BSMultiBoundShape_LinkObject(NiStream& stream)
 {
     NiObject::LinkObject(stream);
 }
@@ -638,12 +638,12 @@ struct NiObject
 
 struct FUN_00c4fa30_shell : NiObject
 {
-    bool FUN_00c4fa30(NiStream& stream);
+    bool BSMultiBoundShape_RegisterStreamables(NiStream& stream);
 };
 
 // Calls the base NiObject::RegisterStreamables and returns its result.
 // @fnv 0x00c4fa30
-bool FUN_00c4fa30_shell::FUN_00c4fa30(NiStream& stream)
+bool FUN_00c4fa30_shell::BSMultiBoundShape_RegisterStreamables(NiStream& stream)
 {
     if (!NiObject::RegisterStreamables(stream))
         return false;
@@ -666,11 +666,11 @@ void NiObject::LinkObject(NiStream&)
 
 struct FUN_00c4fa60_shell : NiObject
 {
-    void FUN_00c4fa60(NiStream& stream);
+    void BSMultiBoundShape_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00c4fa60
-void FUN_00c4fa60_shell::FUN_00c4fa60(NiStream& stream)
+void FUN_00c4fa60_shell::BSMultiBoundShape_SaveBinary(NiStream& stream)
 {
     NiObject::LinkObject(stream);
 }
@@ -680,11 +680,11 @@ extern char const* const g_01202820_arg1;
 
 struct FUN_00c4fb00_shell
 {
-    char const* const* FUN_00c4fb00();
+    char const* const* BSMultiBoundShape_GetRTTI();
 };
 
 // @fnv 0x00c4fb00
-char const* const* FUN_00c4fb00_shell::FUN_00c4fb00()
+char const* const* FUN_00c4fb00_shell::BSMultiBoundShape_GetRTTI()
 {
     return &g_01202820_arg1;
 }
@@ -823,10 +823,10 @@ struct TESCombatStyle
 };
 struct BGSPrimitiveSphere
 {
-    bool FUN_004a7240(TESCombatStyle& aPoint);
+    bool BGSPrimitiveSphere_IsInside(TESCombatStyle& aPoint);
 };
 // @fnv 0x004a7240
-bool BGSPrimitiveSphere::FUN_004a7240(TESCombatStyle& aPoint)
+bool BGSPrimitiveSphere::BGSPrimitiveSphere_IsInside(TESCombatStyle& aPoint)
 {
     return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > aPoint.UpdateCombatStyle();
 }
@@ -882,16 +882,16 @@ struct ThreeByThreeMatrix
 };
 struct My36400
 {
-    void FUN_00c37fc0(NiStream&);
-    void FUN_00c36400(NiStream&);
+    void BSMultiBoundAABB_LoadBinary(NiStream&);
+    void BSMultiBoundOBB_LoadBinary(NiStream&);
     char pad[0x24];
     ThreeByThreeMatrix m;
 };
-// Loads the object from the stream: calls FUN_00c37fc0(s), then loads the member via LoadBinary(s).
+// Loads the object from the stream: calls BSMultiBoundAABB_LoadBinary(s), then loads the member via LoadBinary(s).
 // @fnv 0x00c36400
-void My36400::FUN_00c36400(NiStream& aStream)
+void My36400::BSMultiBoundOBB_LoadBinary(NiStream& aStream)
 {
-    FUN_00c37fc0(aStream);
+    BSMultiBoundAABB_LoadBinary(aStream);
     m.LoadBinary(aStream);
 }
 }  // namespace fnv_00c36400
@@ -899,16 +899,16 @@ void My36400::FUN_00c36400(NiStream& aStream)
 namespace fnv_00c36450 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c38020(int);
+    unsigned char BSMultiBoundAABB_RegisterStreamables(int);
 };
 struct FUN_00c36450_shell : FUN_00c38020_shell
 {
-    bool FUN_00c36450(int);
+    bool BSMultiBoundOBB_RegisterStreamables(int);
 };
 // @fnv 0x00c36450
-bool FUN_00c36450_shell::FUN_00c36450(int aiValue)
+bool FUN_00c36450_shell::BSMultiBoundOBB_RegisterStreamables(int aiValue)
 {
-    if (!FUN_00c38020(aiValue))
+    if (!BSMultiBoundAABB_RegisterStreamables(aiValue))
         return false;
     return true;
 }
@@ -922,16 +922,16 @@ struct FUN_00a59a90_tgt
 struct S00c38050
 {
     char _f[36];
-    void FUN_00c38050(NiStream*);
+    void BSMultiBoundAABB_SaveBinary(NiStream*);
 };
 struct FUN_00c36480_tgt : S00c38050, FUN_00a59a90_tgt
 {
-    void FUN_00c36480(NiStream*);
+    void BSMultiBoundOBB_SaveBinary(NiStream*);
 };
 // @fnv 0x00c36480
-void FUN_00c36480_tgt::FUN_00c36480(NiStream* p)
+void FUN_00c36480_tgt::BSMultiBoundOBB_SaveBinary(NiStream* p)
 {
-    S00c38050::FUN_00c38050(p);
+    S00c38050::BSMultiBoundAABB_SaveBinary(p);
     FUN_00a59a90_tgt::ReadMatrixFromStream(p);
 }
 
@@ -980,19 +980,19 @@ struct NiColor
 struct FUN_00c4f9f0_shell
 {
     char _pad[12];
-    void FUN_00c4f9f0(class NiStream&);
+    void BSMultiBoundShape_LoadBinary(class NiStream&);
 };
 struct FUN_00c37fc0_shell : FUN_00c4f9f0_shell
 {
     NiColor unk0C;
     NiColor unk18;
-    void FUN_00c37fc0(class NiStream&);
+    void BSMultiBoundAABB_LoadBinary(class NiStream&);
 };
 // Calls the base loader, then reads two NiColor members from the stream.
 // @fnv 0x00c37fc0
-void FUN_00c37fc0_shell::FUN_00c37fc0(class NiStream& aStream)
+void FUN_00c37fc0_shell::BSMultiBoundAABB_LoadBinary(class NiStream& aStream)
 {
-    FUN_00c4f9f0_shell::FUN_00c4f9f0(aStream);
+    FUN_00c4f9f0_shell::BSMultiBoundShape_LoadBinary(aStream);
     unk0C.LoadBinary(aStream);
     unk18.LoadBinary(aStream);
 }
@@ -1009,13 +1009,13 @@ struct FUN_00c38050_Holder
     char _pad[12];
     NiColor c1;
     NiColor c2;
-    void FUN_00c4fa60(NiStream&);
-    void FUN_00c38050(NiStream&);
+    void BSMultiBoundShape_SaveBinary(NiStream&);
+    void BSMultiBoundAABB_SaveBinary(NiStream&);
 };
 // @fnv 0x00c38050
-void FUN_00c38050_Holder::FUN_00c38050(NiStream& aStream)
+void FUN_00c38050_Holder::BSMultiBoundAABB_SaveBinary(NiStream& aStream)
 {
-    FUN_00c4fa60(aStream);
+    BSMultiBoundShape_SaveBinary(aStream);
     c1.SaveBinary(aStream);
     c2.SaveBinary(aStream);
 }
@@ -1041,10 +1041,10 @@ struct BSMultiBoundAABB
     char pad0[12];
     Vec3 v;
     Pt pt;
-    void FUN_00c389e0(Vec4* p);
+    void BSMultiBoundAABB_GetNiBound(Vec4* p);
 };
 // @fnv 0x00c389e0
-void BSMultiBoundAABB::FUN_00c389e0(Vec4* apOut)
+void BSMultiBoundAABB::BSMultiBoundAABB_GetNiBound(Vec4* apOut)
 {
     int pad;
     {
@@ -1081,10 +1081,10 @@ void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 struct TCEq
 {
     bool IsSameAs(class NiObject*);
-    bool FUN_00c4fa80(class NiObject*);
+    bool BSMultiBoundShape_IsEqual(class NiObject*);
 };
 // @fnv 0x00c4fa80
-bool TCEq::FUN_00c4fa80(class NiObject* apObject)
+bool TCEq::BSMultiBoundShape_IsEqual(class NiObject* apObject)
 {
     bool result = IsSameAs(apObject);
     return result;
@@ -1119,17 +1119,17 @@ struct NiColor
 };
 struct FUN_00c4f9f0_shell
 {
-    void FUN_00c4f9f0(NiStream&);
+    void BSMultiBoundShape_LoadBinary(NiStream&);
 };
 template <typename T> void ReadBinaryValue(NiStream&, T&);
 struct FUN_00c4fc10_shell
 {
-    void FUN_00c4fc10(NiStream&);
+    void BSMultiBoundSphere_LoadBinary(NiStream&);
 };
 // @fnv 0x00c4fc10
-void FUN_00c4fc10_shell::FUN_00c4fc10(NiStream& stream)
+void FUN_00c4fc10_shell::BSMultiBoundSphere_LoadBinary(NiStream& stream)
 {
-    ((FUN_00c4f9f0_shell*)this)->FUN_00c4f9f0(stream);
+    ((FUN_00c4f9f0_shell*)this)->BSMultiBoundShape_LoadBinary(stream);
     ((NiColor*)((char*)this + 0xC))->LoadBinary(stream);
     ReadBinaryValue<unsigned int>(stream, *(unsigned int*)((char*)this + 0x18));
 }
@@ -1138,14 +1138,14 @@ void FUN_00c4fc10_shell::FUN_00c4fc10(NiStream& stream)
 namespace fnv_00c4fc70 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fa30(int);
-    unsigned char FUN_00c4fc70(int);
+    unsigned char BSMultiBoundShape_RegisterStreamables(int);
+    unsigned char BSMultiBoundSphere_RegisterStreamables(int);
 };
-// Returns 1 if FUN_00c4fa30 returns nonzero for a, otherwise returns 0.
+// Returns 1 if BSMultiBoundShape_RegisterStreamables returns nonzero for a, otherwise returns 0.
 // @fnv 0x00c4fc70
-unsigned char FUN_00c38020_shell::FUN_00c4fc70(int a)
+unsigned char FUN_00c38020_shell::BSMultiBoundSphere_RegisterStreamables(int a)
 {
-    if (!FUN_00c4fa30(a))
+    if (!BSMultiBoundShape_RegisterStreamables(a))
         return 0;
     return 1;
 }
@@ -1162,7 +1162,7 @@ struct NiColor
 };
 struct Holder60
 {
-    void FUN_00c4fa60(NiStream&);
+    void BSMultiBoundShape_SaveBinary(NiStream&);
 };
 void __cdecl CallAnimCallback(NiStream&, void*);
 struct FUN_00c4fca0_This
@@ -1175,7 +1175,7 @@ struct FUN_00c4fca0_This
 // @fnv 0x00c4fca0
 void FUN_00c4fca0_This::SaveToStream(NiStream& s)
 {
-    ((Holder60*)this)->FUN_00c4fa60(s);
+    ((Holder60*)this)->BSMultiBoundShape_SaveBinary(s);
     _c.SaveBinary(s);
     CallAnimCallback(s, &_f18);
 }
@@ -1185,11 +1185,11 @@ extern char const* const g_01202818_arg1;
 
 struct FUN_004a7020_shell
 {
-    char const* const* __thiscall FUN_004a7020();
+    char const* const* __thiscall BSMultiBoundAABB_GetRTTI();
 };
 
 // @fnv 0x004a7020
-char const* const* __thiscall FUN_004a7020_shell::FUN_004a7020()
+char const* const* __thiscall FUN_004a7020_shell::BSMultiBoundAABB_GetRTTI()
 {
     return &g_01202818_arg1;
 }
@@ -1218,10 +1218,10 @@ struct BGSPrimitiveSphere : NiGeometry
     BGSPrimitiveSphere();
     RgbaColor m_kRgbaColor;
     unsigned int m_uiValue1;
-    void FUN_004a7830(RgbaColor&);
+    void BGSPrimitiveSphere_SetColor(RgbaColor&);
 };
 // @fnv 0x004a7830
-void BGSPrimitiveSphere::FUN_004a7830(RgbaColor& apTextColor)
+void BGSPrimitiveSphere::BGSPrimitiveSphere_SetColor(RgbaColor& apTextColor)
 {
     *(RgbaColor*)((char*)this + 8) = apTextColor;
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x24)->operator unsigned int())
@@ -1272,26 +1272,26 @@ void FUN_004a7c20_shell::DestroyBase()
 
 struct FUN_00c36430_shell
 {
-    void FUN_00c38000(int);
-    void FUN_00c36430(int a);
+    void BSMultiBoundAABB_LinkObject(int);
+    void BSMultiBoundOBB_LinkObject(int a);
 };
 
 // @fnv 0x00c36430
-void FUN_00c36430_shell::FUN_00c36430(int a)
+void FUN_00c36430_shell::BSMultiBoundOBB_LinkObject(int a)
 {
-    FUN_00c38000(a);
+    BSMultiBoundAABB_LinkObject(a);
 }
 
 struct FUN_00c38000_shell
 {
-    void FUN_00c4fa10(int);
-    void FUN_00c38000(int a);
+    void BSMultiBoundShape_LinkObject(int);
+    void BSMultiBoundAABB_LinkObject(int a);
 };
 
 // @fnv 0x00c38000
-void FUN_00c38000_shell::FUN_00c38000(int a)
+void FUN_00c38000_shell::BSMultiBoundAABB_LinkObject(int a)
 {
-    FUN_00c4fa10(a);
+    BSMultiBoundShape_LinkObject(a);
 }
 
 struct FUN_00c4f9a0_shell
@@ -1308,33 +1308,33 @@ void* FUN_00c4f9a0_shell::GetSelf(void* apUnused)
 struct FUN_00c4fab0_shell
 {
     void __thiscall AppendCameraPathEntries(int);
-    void __thiscall FUN_00c4fab0(int a);
+    void __thiscall BSMultiBoundShape_GetViewerStrings(int a);
 };
 
 // @fnv 0x00c4fab0
-void __thiscall FUN_00c4fab0_shell::FUN_00c4fab0(int a)
+void __thiscall FUN_00c4fab0_shell::BSMultiBoundShape_GetViewerStrings(int a)
 {
     AppendCameraPathEntries(a);
 }
 
 struct FUN_00c4fa10_shell
 {
-    void __thiscall FUN_00c4fa10(int);
-    void __thiscall FUN_00c4fc50(int a);
+    void __thiscall BSMultiBoundShape_LinkObject(int);
+    void __thiscall BSMultiBoundSphere_LinkObject(int a);
 };
 // @fnv 0x00c4fc50
-void __thiscall FUN_00c4fa10_shell::FUN_00c4fc50(int a)
+void __thiscall FUN_00c4fa10_shell::BSMultiBoundSphere_LinkObject(int a)
 {
-    FUN_00c4fa10(a);
+    BSMultiBoundShape_LinkObject(a);
 }
 
 struct FUN_00c50370_shell
 {
-    void FUN_00c50370(int a, int b, int c, int d, int e, int f);
+    void BSMultiBoundSphere_CreateDebugGeometry(int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00c50370
-void FUN_00c50370_shell::FUN_00c50370(int a, int b, int c, int d, int e, int f)
+void FUN_00c50370_shell::BSMultiBoundSphere_CreateDebugGeometry(int a, int b, int c, int d, int e, int f)
 {}
 
 extern float _DAT_010162c0;
@@ -1453,14 +1453,14 @@ struct Obj364
 {
     char pad[36];
     Mat364 m;
-    bool __thiscall FUN_00c38090(Obj364*);
-    bool __thiscall FUN_00c364b0(Obj364*);
+    bool __thiscall BSMultiBoundAABB_IsEqual(Obj364*);
+    bool __thiscall BSMultiBoundOBB_IsEqual(Obj364*);
 };
-// Calls FUN_00c38090 on other; if it returns true, also compares m with other's m via _Call_4d9ae0 and returns that result.
+// Calls BSMultiBoundAABB_IsEqual on other; if it returns true, also compares m with other's m via _Call_4d9ae0 and returns that result.
 // @fnv 0x00c364b0
-bool __thiscall Obj364::FUN_00c364b0(Obj364* other)
+bool __thiscall Obj364::BSMultiBoundOBB_IsEqual(Obj364* other)
 {
-    bool ret = FUN_00c38090(other);
+    bool ret = BSMultiBoundAABB_IsEqual(other);
     if (ret)
     {
         Obj364* p = other;
@@ -1660,7 +1660,7 @@ struct FUN_00c4fb10_shell
 };
 // Allocates and constructs a new FUN_00c4fb10_shell object, returning the pointer.
 // @fnv 0x00c4fdb0
-FUN_00c4fb10_shell* FUN_00c4fdb0()
+FUN_00c4fb10_shell* BSMultiBoundSphere_CreateObject()
 {
     return new FUN_00c4fb10_shell;
 }
@@ -1768,7 +1768,7 @@ BSPortal* FUN_004a6150_shell::CreateBSPortal()
 namespace fnv_00c38220 {
 struct FUN_00c4fab0_shell
 {
-    void FUN_00c4fab0(int);
+    void BSMultiBoundShape_GetViewerStrings(int);
 };
 
 struct NiTPrimitiveArray_unsigned_int_
@@ -1797,7 +1797,7 @@ void FUN_00c38220_shell::AddPropertyNames(NiTPrimitiveArray_unsigned_int_* array
     char unused[0x20];
     char* denter;
 
-    FUN_00c4fab0_shell::FUN_00c4fab0(reinterpret_cast<int>(array));
+    FUN_00c4fab0_shell::BSMultiBoundShape_GetViewerStrings(reinterpret_cast<int>(array));
 
     char const* volatile property = g_01202818_arg1;
     void* propertyId = _FUN_00a7d330(property);
@@ -1831,12 +1831,12 @@ struct FUN_00c4f460 : public A51BF0Base
 struct FUN_00c4f6c0_shell
 {
     void FUN_00c4f6c0(int, int);
-    FUN_00c4f460* FUN_00c4f620(int);
+    FUN_00c4f460* BSPortalSharedNode_CreateClone(int);
 };
 
 // Allocates a FUN_00c4f460 using the int at this+0xc0, passes it and arg to FUN_00c4f6c0, and returns the new object.
 // @fnv 0x00c4f620
-FUN_00c4f460* FUN_00c4f6c0_shell::FUN_00c4f620(int arg)
+FUN_00c4f460* FUN_00c4f6c0_shell::BSPortalSharedNode_CreateClone(int arg)
 {
     FUN_00c4f460* object = new FUN_00c4f460(*(int*)((char*)this + 0xc0));
 
@@ -2288,12 +2288,12 @@ struct FUN_004a7aa0_cls
 {
     char _00[0x18];
     float m_f18;
-    void* FUN_004a7aa0(int a1);
+    void* BGSPrimitiveSphere_MakeMultiBoundShape(int a1);
 };
 
 // Allocates a new object constructed from a color built with the class's m_f18 value and returns it.
 // @fnv 0x004a7aa0
-void* FUN_004a7aa0_cls::FUN_004a7aa0(int aiUnused)
+void* FUN_004a7aa0_cls::BGSPrimitiveSphere_MakeMultiBoundShape(int aiUnused)
 {
     return new FUN_004a7aa0_obj(FUN_004a7aa0_color(0.0f, 0.0f, 0.0f, m_f18));
 }
@@ -2434,12 +2434,12 @@ struct FUN_0049da80_shell
 struct FUN_00c38920_cls
 {
     void __thiscall FUN_00c39270(Vec12* a);
-    bool __thiscall FUN_00c38920(ProbeSet* other);
+    bool __thiscall BSMultiBoundAABB_CompletelyWithinFrustum(ProbeSet* other);
 };
 
 // Builds eight box points, then for each masked element tests all eight points and returns false if any test returns 2, otherwise true.
 // @fnv 0x00c38920
-bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
+bool __thiscall FUN_00c38920_cls::BSMultiBoundAABB_CompletelyWithinFrustum(ProbeSet* pProbeSet)
 {
     Vec12 boxPts[8];
     int i;
@@ -2687,15 +2687,15 @@ struct FUN_00c4fce0_cls
     char _00[0xc];
     NiPoint3 m_pos;
     float m_18;
-    bool FUN_00c4fa80(void* other);
+    bool BSMultiBoundShape_IsEqual(void* other);
     bool Equals(FUN_00c4fce0_cls* other);
 };
 
-// Compares this object with another: first calls FUN_00c4fa80, then checks m_pos x/y/z and m_18 are equal, returning the combined result.
+// Compares this object with another: first calls BSMultiBoundShape_IsEqual, then checks m_pos x/y/z and m_18 are equal, returning the combined result.
 // @fnv 0x00c4fce0
 bool FUN_00c4fce0_cls::Equals(FUN_00c4fce0_cls* other)
 {
-    bool r6 = FUN_00c4fa80(other);
+    bool r6 = BSMultiBoundShape_IsEqual(other);
     if (r6)
     {
         FUN_00c4fce0_cls* o4 = other;
@@ -3411,12 +3411,12 @@ class FUN_00c4fed0_cls
     int unk04;
     int unk08;
     NiBound m_kBound;
-    int FUN_00c4fed0(const NiBound& kBound);
+    int BSMultiBoundSphere_CheckBound(const NiBound& kBound);
 };
 
 // Returns 2 when center distance is at most the radius difference plus DAT_01012060, 1 when at most the radius sum plus that value, otherwise 0.
 // @fnv 0x00c4fed0
-int FUN_00c4fed0_cls::FUN_00c4fed0(const NiBound& kBound)
+int FUN_00c4fed0_cls::BSMultiBoundSphere_CheckBound(const NiBound& kBound)
 {
     NiPoint3Ex kDiff = static_cast<const NiPoint3Ex&>(m_kBound.m_kCenter) - kBound.m_kCenter;
     float fCenterDist = kDiff.Length();

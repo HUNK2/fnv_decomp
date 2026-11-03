@@ -12,12 +12,12 @@ NiAVObject* FUN_0054f4f0();
 class TES
 {
   public:
-    void* FUN_00458be0(TESObjectCELL*, int);
+    void* TES_GetCellPriority(TESObjectCELL*, int);
 };
 extern TES* g_TES;
 struct ModelLoader
 {
-    void FUN_00444850(TESObjectREFR*, void*, int);
+    void ModelLoader_QueueReference(TESObjectREFR*, void*, int);
 };
 extern ModelLoader* g_pModelLoader;
 class TESBoundObject : public TESForm
@@ -29,20 +29,20 @@ class TESObjectSTAT : public TESBoundObject
 extern TESObjectSTAT* DAT_011ca238;
 extern TESObjectSTAT* DAT_011ca230;
 // @fnv 0x005571a0
-void TESObjectCELL::FUN_005571a0(bool active)
+void TESObjectCELL::TESObjectCELL_QueueReferences(bool active)
 {
     CellRefLockEnter();
-    void* list = g_TES->FUN_00458be0(this, 0);
+    void* list = g_TES->TES_GetCellPriority(this, 0);
     BSSimpleList<TESObjectREFR*>* terrain = FUN_009604f0();
     while (terrain)
     {
         TESObjectREFR* reference = terrain->FUN_006815c0();
         if (reference && (reference->FUN_007af430() == DAT_011ca238 || reference->FUN_007af430() == DAT_011ca230))
         {
-            if (!reference->GetNiNode() || reference->FUN_005651e0())
+            if (!reference->GetNiNode() || reference->TESObjectREFR_HasTemp3D())
             {
-                if (!reference->FUN_00440da0() && !reference->IsDeleted() && (!active || reference->FUN_0056b250()))
-                    g_pModelLoader->FUN_00444850(reference, list, 1);
+                if (!reference->FUN_00440da0() && !reference->IsDeleted() && (!active || reference->TESObjectREFR_Is3DHighPriority()))
+                    g_pModelLoader->ModelLoader_QueueReference(reference, list, 1);
             }
             else
             {
@@ -58,10 +58,10 @@ void TESObjectCELL::FUN_005571a0(bool active)
         TESObjectREFR* other = terrain->FUN_006815c0();
         if (other && other->FUN_007af430() != DAT_011ca238 && other->FUN_007af430() != DAT_011ca230)
         {
-            if (!other->GetNiNode() || other->FUN_005651e0())
+            if (!other->GetNiNode() || other->TESObjectREFR_HasTemp3D())
             {
-                if (!other->FUN_00440da0() && !other->IsDeleted() && (!active || other->FUN_0056b250()))
-                    g_pModelLoader->FUN_00444850(other, list, 1);
+                if (!other->FUN_00440da0() && !other->IsDeleted() && (!active || other->TESObjectREFR_Is3DHighPriority()))
+                    g_pModelLoader->ModelLoader_QueueReference(other, list, 1);
             }
             else
             {

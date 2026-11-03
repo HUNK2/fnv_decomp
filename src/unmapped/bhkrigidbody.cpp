@@ -9,15 +9,15 @@ struct NiStream
 };
 struct bhkRigidBody
 {
-    void FUN_00c859e0(NiStream*);
+    void bhkWorldObject_LinkObject(NiStream*);
     void FUN_00c8ef80(NiObject*);
-    void FUN_00c8f3c0(NiStream*);
+    void bhkRigidBody_LinkObject(NiStream*);
 };
-// Calls FUN_00c859e0, reads a count from the stream, then reads that many NiObjects and passes each non-null one to FUN_00c8ef80.
+// Calls bhkWorldObject_LinkObject, reads a count from the stream, then reads that many NiObjects and passes each non-null one to FUN_00c8ef80.
 // @fnv 0x00c8f3c0
-void bhkRigidBody::FUN_00c8f3c0(NiStream* stream)
+void bhkRigidBody::bhkRigidBody_LinkObject(NiStream* stream)
 {
-    FUN_00c859e0(stream);
+    bhkWorldObject_LinkObject(stream);
     unsigned int count = stream->GetLinkID();
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -92,15 +92,15 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
 struct FUN_00c8eb00_s
 {
     void __thiscall ProcessListNodes();
-    void __thiscall FUN_00c9d590();
-    void __thiscall FUN_00c8eb00();
+    void __thiscall bhkEntity_Remove();
+    void __thiscall bhkRigidBody_Remove();
 };
 // @fnv 0x00c8eb00
-void __thiscall FUN_00c8eb00_s::FUN_00c8eb00()
+void __thiscall FUN_00c8eb00_s::bhkRigidBody_Remove()
 {
     *(unsigned int*)(this + 0x10) &= 0xffffff77;
     ProcessListNodes();
-    FUN_00c9d590();
+    bhkEntity_Remove();
 }
 
 struct LinkedRecord
@@ -210,7 +210,7 @@ struct S_00c8d440_Target
 extern S_00c8d440_Target* DAT_01268360;
 
 // @fnv 0x00c8d440
-void __stdcall FUN_00c8d440(bool flag)
+void __stdcall bhkRigidBody_SetHavokAssertState(bool flag)
 {
     S_00c8d440_Target* t = DAT_01268360;
     t->v4(0xf043d534, S_00c8d440_Arg(flag));
@@ -939,7 +939,7 @@ struct SpawnedObject : public ChainB_cls
 
 // Allocates and constructs a new SpawnedObject, incrementing the three global counters in its constructors, and returns it.
 // @fnv 0x00c8ed70
-SpawnedObject* __cdecl FUN_00c8ed70()
+SpawnedObject* __cdecl bhkRigidBody_CreateObject()
 {
     return new SpawnedObject();
 }
@@ -1963,11 +1963,11 @@ struct Ent
     int unk;
     int unkCur;
     Body* m_pPhysicsBody;
-    hkVector FUN_00c8d200();
+    hkVector bhkRigidBody_GetCenterOfMassLocal();
 };
 // Returns the physics body's m_kPos, or the global DAT_01267e30 vector when this or the body pointer is null.
 // @fnv 0x00c8d200
-hkVector Ent::FUN_00c8d200()
+hkVector Ent::bhkRigidBody_GetCenterOfMassLocal()
 {
     const hkVector* p;
     if (this && m_pPhysicsBody)
@@ -2921,7 +2921,7 @@ class WorldObject_c8ea
 {
   public:
     virtual void v00();
-    void FUN_00c9d4f0(char* pkStream);
+    void bhkEntity_LoadBinary(char* pkStream);
     float FUN_0062ab20();
 };
 
@@ -2982,14 +2982,14 @@ class Entity_c8ea : public WorldObject_c8ea
     int unk04, unk08, unk0c;
     int m_iSlotCount;
 
-    void FUN_00c8ea30(char* pkStream);
+    void bhkRigidBody_LoadBinary(char* pkStream);
 };
 
-// Calls FUN_00c9d4f0, swaps the rigid body's endianness unless a stream byte is 1, clamps a float to 1000, may set a type byte, and reads m_iSlotCount.
+// Calls bhkEntity_LoadBinary, swaps the rigid body's endianness unless a stream byte is 1, clamps a float to 1000, may set a type byte, and reads m_iSlotCount.
 // @fnv 0x00c8ea30
-void Entity_c8ea::FUN_00c8ea30(char* pkStream)
+void Entity_c8ea::bhkRigidBody_LoadBinary(char* pkStream)
 {
-    FUN_00c9d4f0(pkStream);
+    bhkEntity_LoadBinary(pkStream);
     char* pkBody;
     {
         int iIndex;

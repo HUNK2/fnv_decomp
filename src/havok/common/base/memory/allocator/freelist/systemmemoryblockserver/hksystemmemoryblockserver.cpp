@@ -59,10 +59,10 @@ struct FUN_00d60460_Class
     int m_pAuxiliaryObject;
     FUN_00d60460_Block* m_block;
 
-    void FUN_00d60460(void*, int);
+    void hkSystemMemoryBlockServer_free(void*, int);
 };
 
-void FUN_00d60460_Class::FUN_00d60460(void* p, int size)
+void FUN_00d60460_Class::hkSystemMemoryBlockServer_free(void* p, int size)
 {
     m_uiBufferCapacity -= size;
     m_block->free(p, size);

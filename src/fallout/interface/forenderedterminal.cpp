@@ -57,7 +57,7 @@ int FUN_007ffb80()
 
 struct FUN_00456630_helper
 {
-    bool __thiscall FUN_00456630(unsigned int);
+    bool __thiscall NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_007ff8e0_shell
@@ -68,7 +68,7 @@ struct FUN_007ff8e0_shell
 // @fnv 0x007ff8e0
 bool FUN_007ff8e0_shell::FUN_007ff8e0()
 {
-    return reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x4000);
+    return reinterpret_cast<FUN_00456630_helper*>(this)->NiAVObject_GetBit(0x4000);
 }
 
 struct FUN_007ff8c0_shell : public FUN_007ff8e0_shell
@@ -94,7 +94,7 @@ struct BSAudio
 };
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 struct NiNode
 {
@@ -112,7 +112,7 @@ void FUN_007ff900_This::UpdateSynchTimeNode()
     proot = (NiAVObject*)((BSAudio*)this)->GetSynchTime();
     if (proot)
     {
-        ((FUN_004bc1f0_S*)proot)->FUN_004bc1f0(DAT_01078bb0, 0.0f, 0.0f);
+        ((FUN_004bc1f0_S*)proot)->NiAVObject_SetTranslate(DAT_01078bb0, 0.0f, 0.0f);
         NiUpdateData UpdateData(0.0f, 0, 0);
         ((NiNode*)proot)->Update(UpdateData);
     }
@@ -137,11 +137,11 @@ struct NiRenderer
 };
 struct FUN_007ff7c0_shell : public BSAudio, public FUN_00440460_S
 {
-    void FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode, BSRenderedTexture* apSwapTarget);
-    void FUN_007fba00(BSRenderedTexture*, int, int);
+    void FORenderedTerminal_Render(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode, BSRenderedTexture* apSwapTarget);
+    void FORenderedMenu_Render(BSRenderedTexture*, int, int);
 };
 // @fnv 0x007ff7c0
-void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode,
+void FUN_007ff7c0_shell::FORenderedTerminal_Render(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode,
                                       BSRenderedTexture* apSwapTarget)
 {
     NiAVObject* proot = (NiAVObject*)GetSynchTime();
@@ -151,7 +151,7 @@ void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::C
         NiUpdateData UpdateData(0.0f, false, false);
         ((NiNode*)proot)->Update(UpdateData);
     }
-    FUN_007fba00(apTarget, 1, 0);
+    FORenderedMenu_Render(apTarget, 1, 0);
 }
 
 struct Flt
@@ -200,7 +200,7 @@ struct AudioFallback
 float __fastcall GetFieldB4Float(AudioClock* clock);
 bool __fastcall UpdateScreenEffect(FUN_007ff820_shell* surface);
 void __fastcall SetRenderedMenu(AudioFallback* fallback);
-AudioFallback* __stdcall FUN_004b7210(int mode);
+AudioFallback* __stdcall InterfaceManager_Instance(int mode);
 
 // @fnv 0x007ff820
 bool FUN_007ff820_shell::UpdateAudioFallback()
@@ -210,7 +210,7 @@ bool FUN_007ff820_shell::UpdateAudioFallback()
         if (!g_011db63c || !((AudioClock*)(unsigned int)g_011db63c)->FUN_007ff8c0() ||
             *((float*)((char*)this + 0xe8)) == GetFieldB4Float((AudioClock*)(unsigned int)g_011db63c))
         {
-            SetRenderedMenu(FUN_004b7210(0));
+            SetRenderedMenu(InterfaceManager_Instance(0));
             return true;
         }
         else

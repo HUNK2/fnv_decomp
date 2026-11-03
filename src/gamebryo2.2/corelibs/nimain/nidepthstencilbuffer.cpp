@@ -10,7 +10,7 @@ extern "C"
 extern const NiRTTI DAT_011f603c;
 
 // @fnv 0x00a9fe50
-const NiRTTI* __cdecl FUN_00a9fe50()
+const NiRTTI* __cdecl NiDepthStencilBuffer_GetRTTI()
 {
     return &DAT_011f603c;
 }

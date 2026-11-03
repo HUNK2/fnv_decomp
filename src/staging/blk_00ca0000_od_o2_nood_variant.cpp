@@ -1240,10 +1240,10 @@ struct F7_Clone
     int unk00;
     F7_Shape* shape;
     void ReleaseObject(F7_Shape*, F7_Params*);
-    void FUN_00cbdb70(F7_Shape* dest, F7_Params* params);
+    void hkHingeConstraintCinfo_CloneData(F7_Shape* dest, F7_Params* params);
 };
 // @fnv 0x00cbdb70
-void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
+void F7_Clone::hkHingeConstraintCinfo_CloneData(F7_Shape* dest, F7_Params* params)
 {
     F7_Scope scope;
     F7_Shape* src = shape;
@@ -1569,12 +1569,12 @@ struct MeshShape
     unsigned references, field08, field0c;
     int material;
     void ReadGroup(NiStream&);
-    void FUN_00c84d00(NiStream&);
-    void FUN_00ca7a70(NiStream&);
+    void bhkShape_LoadBinary(NiStream&);
+    void bhkNiTriStripsShape_LoadBinary(NiStream&);
 };
 
 // @fnv 0x00ca7a70
-void MeshShape::FUN_00ca7a70(NiStream& stream)
+void MeshShape::bhkNiTriStripsShape_LoadBinary(NiStream& stream)
 {
     unsigned char allocated;
     RuntimeMesh* mesh = GetRuntime(&allocated);
@@ -1637,7 +1637,7 @@ void MeshShape::FUN_00ca7a70(NiStream& stream)
     }
     else
     {
-        FUN_00c84d00(stream);
+        bhkShape_LoadBinary(stream);
         stream.FUN_00a64670();
         unsigned count = 0;
         stream.ReadValue(count);

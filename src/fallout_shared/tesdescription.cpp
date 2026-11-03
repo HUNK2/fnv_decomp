@@ -124,16 +124,16 @@ void __cdecl WriteDescChunk(void*, int);
 
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void __thiscall TESDescription_Save();
 };
 
 // @fnv 0x00482cb0
-void __thiscall FUN_00482cb0_shell::FUN_00482cb0()
+void __thiscall FUN_00482cb0_shell::TESDescription_Save()
 {
     WriteDescChunk(this, 0x43534544);
 }
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct DescStandIn
 {
     int GetMenuParsedXmlLength();
@@ -151,13 +151,13 @@ void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
     {
         if (((DescStandIn*)apDesc)->GetMenuParsedXmlLength())
         {
-            FUN_004856f0(aiChunk, ((DescStandIn*)apDesc)->vf4(0, 0x43534544),
+            TESForm_AddChunkArray(aiChunk, ((DescStandIn*)apDesc)->vf4(0, 0x43534544),
                          ((DescStandIn*)apDesc)->GetMenuParsedXmlLength() + 1);
         }
         else
         {
             empty = 0;
-            FUN_004856f0(aiChunk, &empty, 1);
+            TESForm_AddChunkArray(aiChunk, &empty, 1);
         }
     }
 }
@@ -221,11 +221,11 @@ struct StrCmpHelper
 
 struct FUN_00482df0_shell
 {
-    bool __thiscall FUN_00482df0(BaseFormComponent* apComponent);
+    bool __thiscall TESDescription_CompareComponent(BaseFormComponent* apComponent);
 };
 
 // @fnv 0x00482df0
-bool __thiscall FUN_00482df0_shell::FUN_00482df0(BaseFormComponent* apComponent)
+bool __thiscall FUN_00482df0_shell::TESDescription_CompareComponent(BaseFormComponent* apComponent)
 {
     TESDescription* pDesc = dynamic_cast<TESDescription*>(apComponent);
     if (!pDesc)
@@ -277,7 +277,7 @@ float __cdecl FUN_004bd510(float afValue, float afMult);
 void __cdecl FUN_00709470(int, TESObjectREFR*, int, int, int, int);
 bool __cdecl QueueUIMessage(const char* apMsg, int aeType, const char* apIcon, const char* apSound, float afTime,
                             bool abInstant);
-void __cdecl FUN_0047a560(TESObjectREFR* apRef, PlayerCharacter* apActor, int aiUnk);
+void __cdecl BGSOpenCloseForm_HandleActivate(TESObjectREFR* apRef, PlayerCharacter* apActor, int aiUnk);
 
 struct TermHackBase0
 {
@@ -318,7 +318,7 @@ struct TermHackBase70
 
 struct TermHack : TermHackBase0, TermHackBase70
 {
-    float FUN_005017a0(TESObjectREFR* apRef);
+    float BGSTerminal_GetMinSkillRequiredToHack(TESObjectREFR* apRef);
     virtual void FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor);
 };
 
@@ -340,12 +340,12 @@ void TermHack::FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor)
         case 4: {
             BSStringT_char kMsg;
             FUN_00406f60(&kMsg, g_011c8394.GetString(), ActorValue::GetActorValueName((ActorValue::Index)0x28),
-                         (int)FUN_004bd510(FUN_005017a0(apRef), 1.0f));
+                         (int)FUN_004bd510(BGSTerminal_GetMinSkillRequiredToHack(apRef), 1.0f));
             QueueUIMessage(kMsg, 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0, 2.0f, false);
         }
         break;
         }
-        FUN_0047a560(apRef, apActor, 0);
+        BGSOpenCloseForm_HandleActivate(apRef, apActor, 0);
     }
 }
 
@@ -362,11 +362,11 @@ struct Off482d
 
 struct Desc482d : public TESDescription
 {
-    void FUN_00482d80(BaseFormComponent* apComponent);
+    void TESDescription_CopyComponent(BaseFormComponent* apComponent);
 };
 
 // @fnv 0x00482d80
-void Desc482d::FUN_00482d80(BaseFormComponent* apComponent)
+void Desc482d::TESDescription_CopyComponent(BaseFormComponent* apComponent)
 {
     TESDescription* pDesc = dynamic_cast<TESDescription*>(apComponent);
     if (!pDesc)

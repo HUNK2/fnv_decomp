@@ -162,13 +162,13 @@ class IOTask
     virtual void vfn_28();
     virtual void vfn_2c();
     virtual void vfn_30(BSSimpleList<InventoryStackRecord*>*);
-    void FUN_00c3d440();
+    void QueuedFileEntry_GenerateKey();
     void NotifyParents();
     bool FUN_00449110();
     bool FUN_00449130();
     bool FUN_0043caa0();
     bool FUN_0043caf0();
-    IO_TASK_PRIORITY FUN_0043cc60();
+    IO_TASK_PRIORITY IOTask_GetIOTaskPriority();
     void AddToPostProcessQueue();
 };
 class QueuedFile : public IOTask

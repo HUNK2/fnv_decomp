@@ -40,7 +40,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
     } templateSelection;
     {
         TESCreature defaultCreature;
-        defaultCreature.TESCreature::SetCombatStyle(FUN_00505000());
+        defaultCreature.TESCreature::SetCombatStyle(TESCombatStyle_GetDefaultCombatStyle());
         templateSelection.creature = 0;
         if (!IsTemplateLeveled())
             templateSelection.creature =
@@ -90,7 +90,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             TESModelList::BaseFormRecord((TESModelList*)templateSelection.creature);
             TESAnimation::BaseFormRecord((TESAnimation*)templateSelection.creature);
             SetBodyPartData(templateSelection.creature->GetBodyPartData());
-            FUN_0050eaa0(templateSelection.creature);
+            TESBoundObject_CopyBoundData(templateSelection.creature);
             SetImpactDataSet(templateSelection.creature->GetImpactDataSet());
             SetBloodImpactMaterial(templateSelection.creature->GetBloodImpactMaterial());
             BGSDestructibleObjectForm::BaseFormRecord((BGSDestructibleObjectForm*)templateSelection.creature);
@@ -156,7 +156,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         {
             SetLevel(templateSelection.creature->GetLevel());
             SetMatchesPCLevel(templateSelection.creature->GetMatchesPCLevel());
-            SetCalcLevelMin(templateSelection.creature->FUN_0047d390());
+            SetCalcLevelMin(templateSelection.creature->TESActorBaseData_GetCalcLevelMin());
             SetCalcLevelMax(templateSelection.creature->FUN_0047d3b0());
             TESAttributes::BaseFormRecord((TESAttributes*)templateSelection.creature);
             TESHealthForm::BaseFormRecord((TESHealthForm*)templateSelection.creature);
@@ -166,7 +166,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             SetByteAt12D(templateSelection.creature->GetCombatSkill());
             SetCreatureType(templateSelection.creature->FUN_005f9ad0());
             FUN_00507780(templateSelection.creature->FUN_00821640());
-            SetBoltGrowWidth(templateSelection.creature->FUN_00567470());
+            SetBoltGrowWidth(templateSelection.creature->TESCreature_GetBaseScale());
             SetBoltSmallWidth(templateSelection.creature->FUN_00821660());
         }
         if (GetTemplateUseFlag(USE_FACTIONS))
@@ -195,11 +195,11 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
 
 struct FUN_0047fe10_shell : public TESAttackDamageForm
 {
-    void FUN_0047fe10();
+    void TESAttackDamageForm_InitializeDataComponent();
 };
 
 // @fnv 0x0047fe10
-void FUN_0047fe10_shell::FUN_0047fe10()
+void FUN_0047fe10_shell::TESAttackDamageForm_InitializeDataComponent()
 {
     m_usAttackDamage = 0;
 }

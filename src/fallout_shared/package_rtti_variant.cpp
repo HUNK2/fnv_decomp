@@ -17,15 +17,15 @@ struct P : TESPackage
     int GetPackType();
     bool FUN_00678610();
     bool HasFlag400000();
-    bool FUN_0067a460();
+    bool TESPackage_GetDrawWeaponFlag();
     bool FUN_00441b00();
     void SetPackageType(int);
-    void FUN_00671a20(bool);
+    void TESPackage_SetDrawWeaponFlag(bool);
     void SetFlag200000(bool);
     void SetMustReachLocation(bool);
     void SetMustComplete(bool);
-    void FUN_00671d30(Loc*);
-    void FUN_00672fc0(Target*);
+    void TESPackage_SetPackageLocation(Loc*);
+    void TESPackage_SetPackageTarget(Target*);
     void SetProcedureType(int);
     Target* FUN_00671d10();
     bool IsSpellInList(A*);
@@ -842,7 +842,7 @@ struct A
     P* FUN_00881510();
     P* GetCurrentPackage();
     P* FUN_005d43c0();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_008a6650(int);
     unsigned int FUN_0044ddc0();
     bool FUN_00833c20();
@@ -855,7 +855,7 @@ struct A
 };
 struct Extra
 {
-    P* FUN_0041cb10();
+    P* ExtraDataList_GetPackageExtra();
 };
 // @fnv 0x008bed50
 void A::FUN_008bed50(A* source, int value, bool react, A* target)
@@ -893,8 +893,8 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
     P* package2;
     package2 = FUN_00881510();
     if (package2 && package2->FUN_00678610())
-        package2 = ((Extra*)FUN_005d43c0())->FUN_0041cb10();
-    if ((FUN_00493bb0() || IsState(0) || FUN_008a6650(0) ||
+        package2 = ((Extra*)FUN_005d43c0())->ExtraDataList_GetPackageExtra();
+    if ((Actor_IsInCombat() || IsState(0) || FUN_008a6650(0) ||
          (package2 && package2->HasFlag400000() && source &&
           source->FUN_0044ddc0() != (unsigned int)process->GetTarget())) &&
         react)
@@ -915,7 +915,7 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
     {
         source->FUN_008bf4e0(1);
         if (source->FUN_0084e3a0()->IsActor() && source->FUN_0084e3a0() != player &&
-            !source->FUN_0084e3a0()->FUN_00493bb0() && source->FUN_0084e3a0()->FUN_005653d0())
+            !source->FUN_0084e3a0()->Actor_IsInCombat() && source->FUN_0084e3a0()->FUN_005653d0())
         {
             A* locationX;
             locationX = source->FUN_0084e3a0();
@@ -935,7 +935,7 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
         current->SetPackageType(21);
         if (tmp)
         {
-            current->FUN_00671a20(tmp->FUN_0067a460());
+            current->TESPackage_SetDrawWeaponFlag(tmp->TESPackage_GetDrawWeaponFlag());
             current->SetFlag200000(tmp->FUN_00441b00());
         }
         current->SetMustReachLocation(true);
@@ -945,11 +945,11 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
             s->FUN_0067f3c0(source->FUN_0084e3a0());
         else
             s->FUN_0067f3c0(target);
-        current->FUN_00671d30(s);
+        current->TESPackage_SetPackageLocation(s);
         delete s;
         Target* created;
         created = new Target;
-        current->FUN_00672fc0(created);
+        current->TESPackage_SetPackageTarget(created);
         delete created;
         current->SetProcedureType(11);
         current->FUN_00671d10()->FUN_006800b0(0);

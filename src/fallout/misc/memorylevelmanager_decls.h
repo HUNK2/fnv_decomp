@@ -30,7 +30,7 @@ extern PlayerCharacter* g_thePlayer;
 class BSFaceGenModelMap
 {
   public:
-    bool FUN_00529ea0();
+    bool TESGlobal_GetType();
     void PurgeUnusedModels(bool);
 };
 class BSFaceGenManager

@@ -2040,7 +2040,7 @@ struct FUN_00865aa0_shell
 
 struct FUN_00853670_shell
 {
-    void FUN_00853670(int value);
+    void BGSSaveLoadFormInfo_SetFormType(int value);
 };
 
 unsigned int __cdecl FUN_00845d40(unsigned int value);
@@ -2070,7 +2070,7 @@ void FUN_008665d0_class::FUN_008665d0(void* source, unsigned int size, int value
     destination[1] = flag;
 
     reinterpret_cast<FUN_00865aa0_shell*>(destination)->SetFlags(data4);
-    reinterpret_cast<FUN_00853670_shell*>(destination)->FUN_00853670(value);
+    reinterpret_cast<FUN_00853670_shell*>(destination)->BGSSaveLoadFormInfo_SetFormType(value);
 
     headerSize += 2;
     WriteTypedValue(headerSize, size, data4);
@@ -3465,15 +3465,15 @@ FUN_00878030_cls* FUN_00878030_cls::FUN_00878030()
 
 struct StateControl
 {
-    bool __thiscall FUN_0044b130();
+    bool __thiscall BSCriticalSection_TryLock();
     void __thiscall FUN_0082f1f0();
 };
 struct ManagedEntry
 {
     void __thiscall RunStep();
 };
-void* __cdecl FUN_00401020();
-ManagedEntry* __stdcall FUN_00401020(int mode, unsigned int index, bool* enabled);
+void* __cdecl MemoryManager_Instance();
+ManagedEntry* __stdcall MemoryManager_Instance(int mode, unsigned int index, bool* enabled);
 struct FUN_00878080_Class
 {
     int unk00;
@@ -3487,19 +3487,19 @@ struct FUN_00878080_Class
 // @fnv 0x00878080
 void FUN_00878080_Class::FUN_00878080(int unused)
 {
-    if (!control.FUN_0044b130())
+    if (!control.BSCriticalSection_TryLock())
         return;
-    if (reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->FUN_00878110() > 0)
+    if (reinterpret_cast<FUN_00878110_Class*>(MemoryManager_Instance())->FUN_00878110() > 0)
     {
         bool enabled = true;
         {
             unsigned int index = 0;
-            for (; index <= reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->FUN_00878110(); ++index)
+            for (; index <= reinterpret_cast<FUN_00878110_Class*>(MemoryManager_Instance())->FUN_00878110(); ++index)
             {
-                FUN_00401020(0, index, &enabled)->RunStep();
+                MemoryManager_Instance(0, index, &enabled)->RunStep();
             }
         }
-        reinterpret_cast<FUN_00878130_Class*>(FUN_00401020())->ResetAndGetValue();
+        reinterpret_cast<FUN_00878130_Class*>(MemoryManager_Instance())->ResetAndGetValue();
     }
     control.FUN_0082f1f0();
 }
@@ -4172,7 +4172,7 @@ class AutoMemContext
     int context;
     AutoMemContext(int, bool, const char*, int);
     ~AutoMemContext();
-    void FUN_00404f00(int, bool, const char*, int);
+    void AutoMemContext_Enter(int, bool, const char*, int);
     void Leave();
 };
 void CreateC790Manager(int);
@@ -4237,7 +4237,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     CreateC790Manager(aiArg2);
     FUN_007fdf30()->LoadControlsFromIni();
     context.Leave();
-    context.FUN_00404f00(11, true, DAT_010829c4, 3541);
+    context.AutoMemContext_Enter(11, true, DAT_010829c4, 3541);
     InitAudioCallbacks();
     context.Leave();
 }
@@ -6817,7 +6817,7 @@ struct Actor
     int unk1ac;
     unsigned char flag1b0;
     unsigned char flag1b1;
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
     void FUN_008a08e0(int);
     void FUN_008bbdb0();
     void FUN_008bbe00();
@@ -6828,7 +6828,7 @@ struct Actor
 // @fnv 0x0087d890
 void Actor::FUN_0087d890(bool registerActor)
 {
-    FUN_0046a010(1);
+    TESForm_SetStillLoading(1);
     process = new Process;
     if (registerActor)
     {
@@ -7053,7 +7053,7 @@ class SSImage
     static void operator delete(void* pvMem);
     unsigned int FUN_0064da80(int iA, int iB);
     unsigned int FUN_0070ec90();
-    unsigned char* FUN_0064dac0(int iA, int iB);
+    unsigned char* NiPixelData_GetPixels(int iA, int iB);
     unsigned int unk04[28];
 };
 
@@ -7115,8 +7115,8 @@ bool FUN_004dc310();
 unsigned int FUN_004dc1f0();
 int FUN_004dc200();
 void* FUN_00401460(void* pvDst, const void* pvSrc, unsigned int uiSize);
-void* FUN_00401000(unsigned int uiSize);
-void FUN_00401030(void* pvMem);
+void* FormHeap_Allocate(unsigned int uiSize);
+void FormHeap_Free(void* pvMem);
 int FUN_00406d30(char* pcDst, unsigned int uiSize, const char* pcSrc);
 int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00ec623a(char* pcBuffer, const char* pcFormat, ...);
@@ -7158,7 +7158,7 @@ void SaveScreenshot(const char* pcPath)
     }
     SSImage* pkImageNew = new SSImage(FUN_004dc1f0(), FUN_004dc200(), &kFormatRes, true, true);
     unsigned int uiRowSize = pkImageNew->FUN_0064da80(0, 0) * pkImageNew->FUN_0070ec90();
-    unsigned char* pucDstPtr = pkImageNew->FUN_0064dac0(0, 0);
+    unsigned char* pucDstPtr = pkImageNew->NiPixelData_GetPixels(0, 0);
     unsigned char* pucSrc = kRectValue.pBits;
     for (int i = 0; i < FUN_004dc200(); i++)
     {
@@ -7179,8 +7179,8 @@ void SaveScreenshot(const char* pcPath)
         unsigned int uiWidth = pkImageNew->FUN_0064da80(0, 0);
         unsigned int uiHeightRes = FUN_004dc200();
         unsigned int uiBytesPerPixelOld = pkImageNew->FUN_0070ec90();
-        unsigned char* pucPixelsTmp = pkImageNew->FUN_0064dac0(0, 0);
-        unsigned char* pucBuffer = (unsigned char*)FUN_00401000(uiWidth * uiHeightRes * 3);
+        unsigned char* pucPixelsTmp = pkImageNew->NiPixelData_GetPixels(0, 0);
+        unsigned char* pucBuffer = (unsigned char*)FormHeap_Allocate(uiWidth * uiHeightRes * 3);
         unsigned int uiOutPos = 0;
         SSBitmapHeader kHeader;
         unsigned __int64 uiWritten;
@@ -7214,7 +7214,7 @@ void SaveScreenshot(const char* pcPath)
         *(unsigned int*)kHeader.ausClrImportant = 0;
         kFileLast.SetAndReturnPointer(&kHeader, 0x36, &uiWritten);
         kFileLast.SetAndReturnPointer(pucBuffer, uiWidth * uiHeightRes * uiBytesPerPixelOld, &uiWritten);
-        FUN_00401030(pucBuffer);
+        FormHeap_Free(pucBuffer);
         if (!pcPath)
         {
             char acMessage[260];
@@ -7327,7 +7327,7 @@ int FUN_004bc3f0();
 void __cdecl FUN_004dc6e0(int, int);
 bool FUN_00446e10();
 int FUN_004dc1e0();
-void FUN_004b7210();
+void InterfaceManager_Instance();
 bool FUN_004b71d0();
 
 // Handles window messages including activation, cursor visibility, and input by dispatching to DAT_011dea0c and returning DefWindowProcA results.
@@ -7443,7 +7443,7 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return 1;
         break;
     case 0x112:
-        FUN_004b7210();
+        InterfaceManager_Instance();
         if (FUN_004b71d0())
         {
             switch ((WORD)(wParam & 0xffff))
@@ -7473,10 +7473,10 @@ struct H
 {
     void FUN_0041a250();
     void* FUN_005d43c0(void*);
-    void FUN_00418890();
+    void ExtraDataList_GetSound();
     unsigned char FUN_00ad8ce0();
     void FUN_00ad8d10();
-    unsigned char FUN_004077c0();
+    unsigned char TESForm_GetTemporary();
     void FUN_0093a660(void*);
     void FUN_00967350(void*);
     void RemoveActor(void*);
@@ -7491,11 +7491,11 @@ struct H
     void FUN_0096f600(void*, int);
     void FUN_00975320(void*);
     void FUN_0096f400(void*);
-    void FUN_008a06c0(int);
+    void Actor_StopCombat(int);
     void DeleteAllItems();
     void FUN_009370b0();
     void FUN_008b3180();
-    void FUN_005702e0(int, int);
+    void TESObjectREFR_Set3D(int, int);
     void FUN_00483710();
     void FUN_0046ffb0();
     void FUN_00937030();
@@ -7660,7 +7660,7 @@ struct FUN_0087dcb0 : Base0, B88, B94
     ~FUN_0087dcb0();
 };
 
-// Deletes m_ac, m_b0, m_12c and m_130, then unless FUN_004077c0 is true runs a series of cleanup calls on this and global objects.
+// Deletes m_ac, m_b0, m_12c and m_130, then unless TESForm_GetTemporary is true runs a series of cleanup calls on this and global objects.
 // @fnv 0x0087dcb0
 FUN_0087dcb0::~FUN_0087dcb0()
 {
@@ -7670,7 +7670,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
 
     {
         Temp temp;
-        ((H*)((H*)this)->FUN_005d43c0(&temp))->FUN_00418890();
+        ((H*)((H*)this)->FUN_005d43c0(&temp))->ExtraDataList_GetSound();
         if (((H*)&temp)->FUN_00ad8ce0())
         {
             ((H*)&temp)->FUN_00ad8d10();
@@ -7680,7 +7680,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
         delete m_12c;
         delete m_130;
 
-        if (!((H*)this)->FUN_004077c0())
+        if (!((H*)this)->TESForm_GetTemporary())
         {
             ((H*)DAT_011dea3c)->FUN_0093a660(this);
             ((H*)DAT_011dea3c)->FUN_00967350(this);
@@ -7714,13 +7714,13 @@ FUN_0087dcb0::~FUN_0087dcb0()
             ((H*)&DAT_011e0e80)->FUN_0096f400(this);
             if (m_104)
             {
-                ((H*)this)->FUN_008a06c0(0);
+                ((H*)this)->Actor_StopCombat(0);
             }
             ((H*)this)->DeleteAllItems();
             m_d0.FUN_009370b0();
             m_e0.FUN_009370b0();
             ((H*)this)->FUN_008b3180();
-            ((H*)this)->FUN_005702e0(0, 0);
+            ((H*)this)->TESObjectREFR_Set3D(0, 0);
         }
     }
 }

@@ -4,11 +4,11 @@
 
 struct CharGenMenu
 {
-    int __thiscall FUN_00753340();
+    int __thiscall CharGenMenu_GetClass();
 };
 
 // @fnv 0x00753340
-int __thiscall CharGenMenu::FUN_00753340()
+int __thiscall CharGenMenu::CharGenMenu_GetClass()
 {
     return 0x418;
 }
@@ -781,7 +781,7 @@ struct MenuState
     unsigned int unk4d0;
     Animation animation;
 };
-MenuState* __stdcall FUN_004b7210(int, int);
+MenuState* __stdcall InterfaceManager_Instance(int, int);
 unsigned int __cdecl FUN_0066ecf0(int);
 int __cdecl FUN_0066ec10(int, unsigned char);
 const char* __cdecl FUN_0066e950(int);
@@ -891,7 +891,7 @@ void Context::InitMenu()
         maximum -= 7;
     list.FUN_0075a0d0(tile30, DAT_01071c88);
     tile30->FUN_00a012d0(4002, DAT_01071c84, true);
-    FUN_004b7210(12, GetMenuValue(500))->animation.FUN_00718630();
+    InterfaceManager_Instance(12, GetMenuValue(500))->animation.FUN_00718630();
     for (unsigned int i = 0; i < FUN_0066ecf0(0); ++i)
     {
         int e = FUN_0066ec10(0, (unsigned char)i);
@@ -1187,7 +1187,7 @@ struct Manager753
 {
     Tile753* Root();
 };
-Manager753* __cdecl FUN_004b7210();
+Manager753* __cdecl InterfaceManager_Instance();
 Menu753* __cdecl Lookup753(int);
 float __cdecl Scale753();
 void __cdecl FNV_Warning(const char*);
@@ -1260,7 +1260,7 @@ const char* __cdecl Desc753(int);
 Tile753* __cdecl FUN_00753420(int kind, int points, bool onlyAdd, bool flag)
 {
     Menu753* oldMenu = Lookup753(0x418);
-    Manager753* manager = FUN_004b7210();
+    Manager753* manager = InterfaceManager_Instance();
     if (points <= 0 || kind < 0 || kind > 1)
         return 0;
     if (oldMenu)
@@ -1705,10 +1705,10 @@ struct SkillInterface
     int unk4d0;
     SkillInterfacePart skills;
 };
-SkillInterface* __cdecl FUN_004b7210();
+SkillInterface* __cdecl InterfaceManager_Instance();
 unsigned int __cdecl FUN_0066ecf0(int);
 ActorValue::Index __cdecl FUN_0066ec10(int, unsigned char);
-bool __cdecl FUN_00406d70(ActorValue::Index, unsigned int);
+bool __cdecl ActorValue_GetFlag(ActorValue::Index, unsigned int);
 const char* __cdecl FUN_0066e950(ActorValue::Index);
 void __cdecl CompareActorValueNames();
 struct SkillSetting
@@ -1766,11 +1766,11 @@ void SkillMenu::BuildSkillList()
 {
     list.Initialize(skillRoot, DAT_01071ca0);
     skillRoot->Set(4002, g_011c72f0_arg1, true);
-    FUN_004b7210()->skills.FUN_00718630(14, GetMenuID(), 500);
+    InterfaceManager_Instance()->skills.FUN_00718630(14, GetMenuID(), 500);
     for (unsigned int i = 0; i < FUN_0066ecf0(2); ++i)
     {
         ActorValue::Index skill = FUN_0066ec10(2, (unsigned char)i);
-        if (!FUN_00406d70(skill, 8192))
+        if (!ActorValue_GetFlag(skill, 8192))
         {
             SkillTile* tile = list.AddListEntry(skill, FUN_0066e950(skill), 0, 0);
             float value = (float)((SkillPlayer*)g_thePlayer)->values.GetValue(skill);
@@ -2126,11 +2126,11 @@ struct CharGenInputMenu
     int unk54;
     SubList list;
 
-    bool FUN_00754150(int a1, float amount);
+    bool CharGenMenu_HandleSpecialKeyInput(int a1, float amount);
 };
 
 // @fnv 0x00754150
-bool CharGenInputMenu::FUN_00754150(int a1, float amount)
+bool CharGenInputMenu::CharGenMenu_HandleSpecialKeyInput(int a1, float amount)
 {
     bool result = false;
 

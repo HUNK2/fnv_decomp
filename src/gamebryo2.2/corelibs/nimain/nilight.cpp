@@ -24,13 +24,13 @@ void NiLight::CopyMemberData(NiLight* clone, CloningProcess& process)
 
 struct FUN_00a72000_shell : public NiLight
 {
-    void* FUN_00a72000();
+    void* NiLight_GetRTTI();
 };
 
 extern const char* const g_011f4a68_arg1;
 
 // @fnv 0x00a72000
-void* FUN_00a72000_shell::FUN_00a72000()
+void* FUN_00a72000_shell::NiLight_GetRTTI()
 {
     return (void*)&g_011f4a68_arg1;
 }
@@ -127,7 +127,7 @@ void FUN_00a72010_owner::FUN_00a72010()
 
 struct FUN_00a72160_shell : public NiLight
 {
-    bool FUN_00a72160(NiObject*);
+    bool NiLight_IsEqual(NiObject*);
 };
 struct Call_439090_tgt
 {
@@ -135,12 +135,12 @@ struct Call_439090_tgt
 };
 struct FUN_00a68d80_shell
 {
-    bool __thiscall FUN_00a68d80(NiObject*);
+    bool __thiscall NiDynamicEffect_IsEqual(NiObject*);
 };
 // @fnv 0x00a72160
-bool FUN_00a72160_shell::FUN_00a72160(NiObject* pObject)
+bool FUN_00a72160_shell::NiLight_IsEqual(NiObject* pObject)
 {
-    if (((FUN_00a68d80_shell*)this)->FUN_00a68d80(pObject) &&
+    if (((FUN_00a68d80_shell*)this)->NiDynamicEffect_IsEqual(pObject) &&
         *(float*)((char*)this + 0xc4) == *(float*)((char*)pObject + 0xc4) &&
         !((Call_439090_tgt*)((char*)this + 0xc8))->Call_439090(*(const NiPoint3*)((char*)pObject + 0xc8)) &&
         !((Call_439090_tgt*)((char*)this + 0xd4))->Call_439090(*(const NiPoint3*)((char*)pObject + 0xd4)) &&
@@ -157,7 +157,7 @@ struct StrArr
 
 struct Zx3Effect
 {
-    void FUN_00a69140(StrArr*);
+    void NiDynamicEffect_GetViewerStrings(StrArr*);
 };
 
 struct FUN_00a696c0_shell
@@ -179,7 +179,7 @@ void FUN_00a721e0_shell::AppendEffectProperties(StrArr* pArray)
 {
     char* pString;
 
-    reinterpret_cast<Zx3Effect*>(this)->FUN_00a69140(pArray);
+    reinterpret_cast<Zx3Effect*>(this)->NiDynamicEffect_GetViewerStrings(pArray);
 
     pString = _FUN_00a7d330(g_011f4a68_arg1);
     {
@@ -346,7 +346,7 @@ FUN_00a71f60_cls::FUN_00a71f60_cls()
 
 struct FUN_00a720f0_shell : public NiLight
 {
-    void FUN_00a720f0(NiStream& stream);
+    void NiLight_SaveBinary(NiStream& stream);
 };
 struct FUN_00a68f80_shell : public NiDynamicEffect
 {
@@ -367,7 +367,7 @@ struct NiBinaryStreamWriteShell : public NiBinaryStream
     }
 };
 // @fnv 0x00a720f0
-void FUN_00a720f0_shell::FUN_00a720f0(NiStream& stream)
+void FUN_00a720f0_shell::NiLight_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<FUN_00a68f80_shell*>(this)->SaveToStream(stream);
     reinterpret_cast<NiBinaryStreamWriteShell*>(stream.m_pBackingStream)->BinaryWrite(&m_fDimmer, 4);
@@ -378,11 +378,11 @@ void FUN_00a720f0_shell::FUN_00a720f0(NiStream& stream)
 
 struct FUN_00a71f50_cls : public NiDynamicEffect
 {
-    void FUN_00a71f50(NiStream& stream);
+    void NiLight_LinkObject(NiStream& stream);
 };
 
 // @fnv 0x00a71f50
-void FUN_00a71f50_cls::FUN_00a71f50(NiStream& stream)
+void FUN_00a71f50_cls::NiLight_LinkObject(NiStream& stream)
 {
     NiDynamicEffect::LinkObject(stream);
 }

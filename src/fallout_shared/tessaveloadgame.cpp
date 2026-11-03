@@ -749,7 +749,7 @@ struct ChangeData
 typedef char _sizecheck_ChangeData[sizeof(ChangeData) == 8 ? 1 : -1];
 struct FUN_00858730_shell : public TESSaveLoadGame
 {
-    bool FUN_00858730(TESForm*);
+    bool TESSaveLoadGame_LoadForm(TESForm*);
 };
 
 struct FUN_00485d50_slg
@@ -822,7 +822,7 @@ struct FUN_004534f0_shell
 };
 struct FUN_0046a010_shell
 {
-    void FUN_0046a010(bool);
+    void TESForm_SetStillLoading(bool);
 };
 struct FormV
 {
@@ -882,7 +882,7 @@ struct LoadFormHeader_s
 };
 
 // @fnv 0x00858730
-bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
+bool FUN_00858730_shell::TESSaveLoadGame_LoadForm(TESForm* apForm)
 {
     if (!((FUN_00485d50_slg*)this)->GetLoading())
         return false;
@@ -922,7 +922,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             ((EffectSetting*)this)->SetBoltSound((TESSound*)&bufferHeader4);
             brestore = ((FUN_00485d50_slg*)this)->GetLoading();
             ((FUN_004534f0_shell*)this)->FUN_004534f0(1);
-            ((FUN_0046a010_shell*)apForm)->FUN_0046a010(true);
+            ((FUN_0046a010_shell*)apForm)->TESForm_SetStillLoading(true);
             ((SLGStub*)this)->LoadChange(apForm, iflags);
             ((FormV*)apForm)->LoadGame(iflags, 0);
             ((FUN_004534f0_shell*)this)->FUN_004534f0(brestore);
@@ -1195,7 +1195,7 @@ void FUN_00858570_class::LoadTempEffectsList(int apFile)
 
 struct PlayerCharacter
 {
-    int __fastcall FUN_004f8960();
+    int __fastcall Actor_GetLifeState();
     bool GetUnderAIControl();
     static bool UpdatePlayerStatus();
 };
@@ -1209,7 +1209,7 @@ struct FUN_008616f0_shell
 // @fnv 0x008616f0
 bool __thiscall FUN_008616f0_shell::FUN_008616f0()
 {
-    if (_g_thePlayer->FUN_004f8960() == 2 || _g_thePlayer->FUN_004f8960() == 1)
+    if (_g_thePlayer->Actor_GetLifeState() == 2 || _g_thePlayer->Actor_GetLifeState() == 1)
         return false;
     if (_g_thePlayer->GetUnderAIControl())
         return false;
@@ -1332,7 +1332,7 @@ void FUN_008632a0_slg::AddLoadingTopic(TESTopicInfo* pTopic)
 
 struct BSFile
 {
-    int FUN_00473180(const char*, unsigned int);
+    int NiBinaryStream_Write(const char*, unsigned int);
 };
 struct FUN_00857b50_slg : TESSaveLoadGame
 {
@@ -1348,7 +1348,7 @@ int FUN_00857b50_slg::FUN_00857b50(BSFile* file, const char* name, unsigned int 
         *(unsigned int*)((char*)this + 0x94) += size;
         return size;
     }
-    int result = file->FUN_00473180(name, size);
+    int result = file->NiBinaryStream_Write(name, size);
     return result;
 }
 
@@ -2402,7 +2402,7 @@ int FUN_0085a450_cls::FUN_0085a450(unsigned int a1, unsigned int auiFlags)
 
 struct FUN_0085b240_ref
 {
-    int FUN_004720a0();
+    int BSFile_Tell();
 };
 struct FUN_0085b240_node
 {
@@ -2437,7 +2437,7 @@ void FUN_0085b240_cls::WritePluginList(FUN_0085b240_ref* a1)
     unsigned char flagA;
     if (this->m_44 != 0)
     {
-        iStartPos = a1->FUN_004720a0();
+        iStartPos = a1->BSFile_Tell();
     }
     FUN_00857b50(a1, &flag9, 1);
     for (i = 0; i < flag9; i++)
@@ -2453,7 +2453,7 @@ void FUN_0085b240_cls::WritePluginList(FUN_0085b240_ref* a1)
     if (this->m_44 != 0)
     {
         reinterpret_cast<FUN_0085b240_att*>(this->m_44)
-            ->SetExtraDataString(a1->FUN_004720a0() - iStartPos, "Plugin List");
+            ->SetExtraDataString(a1->BSFile_Tell() - iStartPos, "Plugin List");
     }
 }
 
@@ -4671,7 +4671,7 @@ struct SaveProcess
 };
 struct SaveTrespass
 {
-    SavePackage* FUN_0041cd70();
+    SavePackage* ExtraDataList_GetTrespassPackage();
 };
 struct SaveBase
 {
@@ -5529,8 +5529,8 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                 if (flags & 0x0)
                 {
                     unsigned int packageID = 0;
-                    if (actor && actor->FUN_005d43c0() && actor->FUN_005d43c0()->FUN_0041cd70())
-                        packageID = actor->FUN_005d43c0()->FUN_0041cd70()->FUN_0084e3a0();
+                    if (actor && actor->FUN_005d43c0() && actor->FUN_005d43c0()->ExtraDataList_GetTrespassPackage())
+                        packageID = actor->FUN_005d43c0()->ExtraDataList_GetTrespassPackage()->FUN_0084e3a0();
                     if (details)
                     {
                         FUN_00406d00(text, 50, "CHANGE_ACTOR_EXTRA_TRESPASS_PACKAGE %08X\r\n", packageID);
@@ -6012,7 +6012,7 @@ struct PixelData
     static void* operator new(unsigned int);
     static void operator delete(void*);
     PixelData(unsigned int, unsigned int, const PixelFormat&, unsigned int, unsigned int);
-    void* FUN_0064dac0(unsigned int, unsigned int);
+    void* NiPixelData_GetPixels(unsigned int, unsigned int);
 };
 struct Preferences
 {
@@ -6113,7 +6113,7 @@ Texture* Reader::ReadTexture(File* file, unsigned int size, unsigned int* puiFla
                 FUN_00857bd0(36);
             PixelFormat format = DAT_011aa2e8;
             PixelData* pixels3 = new PixelData(width, width, format, 1, 1);
-            FUN_008579e0(pixels3->FUN_0064dac0(0, 0), width * height8 * 3);
+            FUN_008579e0(pixels3->NiPixelData_GetPixels(0, 0), width * height8 * 3);
             Preferences preferences;
             preferences.format = 2;
             preferences.alpha = 0;
@@ -6307,8 +6307,8 @@ struct SaveLocation
 };
 struct SavePlayer
 {
-    const char* FUN_0055d520();
-    void FUN_00578870(BSStringT<char>*);
+    const char* TESObjectREFR_GetFullName();
+    void TESObjectREFR_GetMapNameForLocation(BSStringT<char>*);
     SaveLocation* FUN_008d6f30();
     unsigned int GetField790();
     unsigned short FUN_0087f9f0();
@@ -6346,8 +6346,8 @@ void SaveNamer::BuildSaveFilename(char* output)
         unsigned int counter = 0;
         unsigned int hours;
         unsigned int minutes5;
-        name = DAT_011dea3c->FUN_0055d520();
-        DAT_011dea3c->FUN_00578870(&locationString9);
+        name = DAT_011dea3c->TESObjectREFR_GetFullName();
+        DAT_011dea3c->TESObjectREFR_GetMapNameForLocation(&locationString9);
         location = locationString9.FUN_00559450();
         if (!location)
         {
@@ -6511,7 +6511,7 @@ struct PixelHeader
 {
     virtual ~PixelHeader();
     int GetRangeBetweenEntries(int, int);
-    void* FUN_0064dac0(int, int);
+    void* NiPixelData_GetPixels(int, int);
 };
 struct IOHeader
 {
@@ -6660,7 +6660,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
         {
             Write(file, &_ap, 4);
             Write(file, &_cb_, 4);
-            Write(file, _g->FUN_0064dac0(0, 0), _a);
+            Write(file, _g->NiPixelData_GetPixels(0, 0), _a);
             delete _g;
         }
     }
@@ -6758,8 +6758,8 @@ struct B006815c0
 };
 struct Extra624
 {
-    void* FUN_00410220(unsigned char);
-    void* FUN_0041b320();
+    void* BaseExtraList_GetExtraData(unsigned char);
+    void* ExtraDataList_GetStartingWorldOrCell();
 };
 struct Ref624
 {
@@ -6933,16 +6933,16 @@ struct Ref624
     const B006815c0& FUN_00430830();
     unsigned int FUN_0084e3a0();
     Extra624* FUN_005d43c0();
-    void FUN_00575830(const B006815c0&);
-    void FUN_005757d0(float);
-    void FUN_00575700(B006815c0);
+    void TESObjectREFR_SetLocationOnReference(const B006815c0&);
+    void TESObjectREFR_SetAngleOnReferenceZ(float);
+    void TESObjectREFR_SetAngleOnReference(B006815c0);
 };
 struct Repair624
 {
     bool HasInvalidComponents(B006815c0*);
     void FUN_008624e0(Ref624* reference);
 };
-void __cdecl FUN_00573800(Ref624*, void*, void*);
+void __cdecl TESObjectREFR_MoveRefToNewSpace(Ref624*, void*, void*);
 void __cdecl FNV_Warning(const char*, ...);
 extern const char DAT_01081de8[];
 extern const char DAT_01081d98[];
@@ -6969,35 +6969,35 @@ void Repair624::FUN_008624e0(Ref624* reference)
                 void* world = actor ? actor->GetStartingWorld() : 0;
                 if (cell || world)
                 {
-                    reference->FUN_00575830(actor->GetStartingPosition());
-                    reference->FUN_005757d0(actor->GetStartingAngle().z);
-                    FUN_00573800(reference, cell, world);
+                    reference->TESObjectREFR_SetLocationOnReference(actor->GetStartingPosition());
+                    reference->TESObjectREFR_SetAngleOnReferenceZ(actor->GetStartingAngle().z);
+                    TESObjectREFR_MoveRefToNewSpace(reference, cell, world);
                 }
             }
-            else if (reference->FUN_005d43c0()->FUN_00410220(15))
+            else if (reference->FUN_005d43c0()->BaseExtraList_GetExtraData(15))
             {
                 B006815c0 startRotation = reference->GetStartingPosition();
                 B006815c0 uiTimestamp = reference->GetStartingAngle();
-                reference->FUN_00575830(startRotation);
-                reference->FUN_00575700(uiTimestamp);
-                void* form = reference->FUN_005d43c0()->FUN_0041b320();
+                reference->TESObjectREFR_SetLocationOnReference(startRotation);
+                reference->TESObjectREFR_SetAngleOnReference(uiTimestamp);
+                void* form = reference->FUN_005d43c0()->ExtraDataList_GetStartingWorldOrCell();
                 if (form)
                 {
                     void* parentCell = (void*)FUN_00ec43fb((unsigned int)form, 0, &DAT_01183028, &DAT_01183fb4, 0);
                     void* parentWorld = (void*)FUN_00ec43fb((unsigned int)form, 0, &DAT_01183028, &DAT_01183fd0, 0);
                     if (parentCell || parentWorld)
-                        FUN_00573800(reference, parentCell, parentWorld);
+                        TESObjectREFR_MoveRefToNewSpace(reference, parentCell, parentWorld);
                 }
             }
             else
             {
-                reference->FUN_00575830(DAT_011f426c);
+                reference->TESObjectREFR_SetLocationOnReference(DAT_011f426c);
             }
         }
         if (HasInvalidComponents(&position))
         {
             FNV_Warning(DAT_01081d98, reference->FUN_0084e3a0());
-            reference->FUN_00575700(DAT_011f426c);
+            reference->TESObjectREFR_SetAngleOnReference(DAT_011f426c);
         }
     }
 }
@@ -7061,7 +7061,7 @@ struct ExpiredWorld
 struct ExpiredCell
 {
     unsigned int FUN_00401170();
-    unsigned int FUN_00546af0();
+    unsigned int TESObjectCELL_GetDetachTime();
     bool FUN_00425fd0();
     ExpiredWorld* FUN_0054ddd0();
     unsigned int FUN_0084e3a0();
@@ -7140,8 +7140,8 @@ struct ExpiredCalendar
     unsigned int FUN_00867e30();
 };
 extern ExpiredCalendar DAT_011de7b8;
-unsigned int __cdecl FUN_00526100();
-ExpiredReference* __cdecl FUN_004839c0(unsigned int);
+unsigned int __cdecl TESObjectCELL_GetHoursToRespawnCell();
+ExpiredReference* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct ExpiredSaveLoadGame
 {
     ExpiredChangesMap* changes;
@@ -7210,11 +7210,11 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
             }
             else
             {
-                ExpiredReference* form = FUN_004839c0(e);
+                ExpiredReference* form = TESForm_GetFormByNumericID(e);
                 if (form && form->FUN_00401170() == 0x39)
                 {
                     ExpiredCell* cell = (ExpiredCell*)form;
-                    resetTime = cell->FUN_00546af0();
+                    resetTime = cell->TESObjectCELL_GetDetachTime();
                     if (!cell->FUN_00425fd0())
                     {
                         e = cell->FUN_0054ddd0()->FUN_0084e3a0();
@@ -7223,7 +7223,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                     }
                 }
             }
-            if (resetTime && currentTime - resetTime > FUN_00526100())
+            if (resetTime && currentTime - resetTime > TESObjectCELL_GetHoursToRespawnCell())
             {
                 ExpiredCellCoordinates* storedCoordinates = 0;
                 if (p.x != 0x7fffffff)
@@ -7300,7 +7300,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
         }
         else
         {
-            ExpiredReference* form = FUN_004839c0(f);
+            ExpiredReference* form = TESForm_GetFormByNumericID(f);
             if (form)
             {
                 eb = form->FUN_00401170();
@@ -7907,7 +7907,7 @@ class EnchX
   public:
     FormX* FUN_00726070();
 };
-FormX* FUN_004839c0(unsigned int id);
+FormX* TESForm_GetFormByNumericID(unsigned int id);
 void FUN_005b5e40(const char* fmt, ...);
 struct ListX
 {
@@ -7953,7 +7953,7 @@ void SelfX::FUN_00861820(BufX* pBuf)
     while (pkNode_dhyats)
     {
         unsigned int uiID = *pkNode_dhyats->FUN_006815c0();
-        FormX* pkForm = FUN_004839c0(uiID);
+        FormX* pkForm = TESForm_GetFormByNumericID(uiID);
         if (pkForm)
         {
             FormX* pkBound = (FormX*)FUN_00ec43fb(pkForm, 0, &DAT_01183028, &DAT_01183108, 0);
@@ -7979,7 +7979,7 @@ void SelfX::FUN_00861820(BufX* pBuf)
     while (pkNode_dhyats)
     {
         unsigned int uiFormID_wk = *pkNode_dhyats->FUN_006815c0();
-        FormX* pkObj = FUN_004839c0(uiFormID_wk);
+        FormX* pkObj = TESForm_GetFormByNumericID(uiFormID_wk);
         if (pkObj)
         {
             FormX* pkBoundObj_ai = (FormX*)FUN_00ec43fb(pkObj, 0, &DAT_01183028, &DAT_01183108, 0);
@@ -8129,7 +8129,7 @@ struct TES58030
     Ref58030* __thiscall FUN_004fd3e0();
     int __thiscall FUN_0059bb30();
     int __thiscall FUN_0045cd60();
-    unsigned short __thiscall FUN_00459100();
+    unsigned short __thiscall TES_GetSaveSize();
     void __thiscall WriteSaveBlock();
 };
 extern TES58030* DAT_011dea10;
@@ -8149,8 +8149,8 @@ struct Global58030
 extern Global58030 DAT_011e0e80;
 struct Sky58030
 {
-    unsigned short __thiscall FUN_0063e940();
-    void __thiscall FUN_0063e9f0();
+    unsigned short __thiscall Sky_GetSaveSize();
+    void __thiscall Sky_SaveGame();
 };
 Sky58030* __cdecl FUN_0046dd00();
 unsigned short __cdecl FUN_007065c0();
@@ -8219,7 +8219,7 @@ void __thiscall Host58030::FUN_00858030(int aParam)
     FUN_00857b50(aParam, &vec, 12);
     FUN_00858480(aParam);
 
-    w4 = DAT_011dea10->FUN_00459100();
+    w4 = DAT_011dea10->TES_GetSaveSize();
     FUN_00857b50(aParam, &w4, 2);
     if (w4 != 0)
     {
@@ -8243,14 +8243,14 @@ void __thiscall Host58030::FUN_00858030(int aParam)
         FUN_00858700(v38);
     }
 
-    w4 = FUN_0046dd00()->FUN_0063e940();
+    w4 = FUN_0046dd00()->Sky_GetSaveSize();
     FUN_00857b50(aParam, &w4, 2);
     if (w4 != 0)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Sky/Weather");
         v3c4 = FUN_00858600(w4);
-        FUN_0046dd00()->FUN_0063e9f0();
+        FUN_0046dd00()->Sky_SaveGame();
         ForwardToFUN_00857b50(aParam, v3c4, w4);
         FUN_00858700(v3c4);
     }
@@ -8348,7 +8348,7 @@ struct FUN_0085a2e0_Class
     void* unknown_2C;
     void* unknown_30;
     BSSimpleList<BGSNote*> deferred;
-    void FUN_0085a2e0(TESForm*);
+    void TESSaveLoadGame_DeleteForm(TESForm*);
 };
 
 extern void __cdecl FUN_005b5e40(const char*);
@@ -8362,7 +8362,7 @@ struct IDSource0085a2e0
 struct FormCall0085a2e0
 {
     bool FUN_0047c850();
-    void FUN_00483c70();
+    void TESForm_RemoveFromDataStructures();
 };
 struct FormIdOne0085a2e0
 {
@@ -8607,7 +8607,7 @@ struct DeferredAdd0085a2e0
 };
 // Checks form changes, assigns an ID, and for non-temporary non-cell forms calls methods and adds the form to deferred if absent.
 // @fnv 0x0085a2e0
-void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
+void FUN_0085a2e0_Class::TESSaveLoadGame_DeleteForm(TESForm* form)
 {
     if (!reinterpret_cast<FormCall0085a2e0*>(this)->FUN_0047c850())
         FUN_005b5e40(DAT_010809a0);
@@ -8621,7 +8621,7 @@ void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
     else
     {
         reinterpret_cast<FormIdTwo0085a2e0*>(form)->SetFormID(0, 1);
-        reinterpret_cast<FormCall0085a2e0*>(form)->FUN_00483c70();
+        reinterpret_cast<FormCall0085a2e0*>(form)->TESForm_RemoveFromDataStructures();
         reinterpret_cast<FormSlot77_0085a2e0*>(form)->Call(reinterpret_cast<unsigned int>(DAT_01011584));
         if (!deferred.IsInList(reinterpret_cast<BGSNote*&>(form)))
             reinterpret_cast<DeferredAdd0085a2e0*>(&deferred)->FUN_005ae3d0(reinterpret_cast<BGSNote**>(&form));
@@ -8775,7 +8775,7 @@ struct SaveGameFile56
     virtual void V4();
     virtual void Vf(int, int);
     virtual int Vg();
-    unsigned int FUN_004720a0();
+    unsigned int BSFile_Tell();
 };
 
 struct SaveGameMap56
@@ -8972,7 +8972,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
     seekPos = 0;
     if (!((FUN_00485d50_slg*)this)->GetLoading())
     {
-        seekPos = (int)pForm->FUN_004720a0();
+        seekPos = (int)pForm->BSFile_Tell();
     }
     rTmp = 0;
     ((::FUN_008586a0_class*)this)->FUN_00857b50((int)pForm, (int)&rTmp, 4);
@@ -9047,7 +9047,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
     filePos2 = 0;
     if (!((FUN_00485d50_slg*)this)->GetLoading())
     {
-        filePos2 = (int)pForm->FUN_004720a0();
+        filePos2 = (int)pForm->BSFile_Tell();
     }
     ((::fnv_00861d10::TESSaveLoadGame_standin*)this)->WriteFormIDArrays((::fnv_00861d10::BSFile*)pForm);
     if (!((FUN_00485d50_slg*)this)->GetLoading())
@@ -9095,7 +9095,7 @@ class SaveCell85A520 : public SaveForm85A520
 };
 struct SaveExtra85A520
 {
-    SaveCell85A520* FUN_0041d460();
+    SaveCell85A520* ExtraDataList_GetPersistentCell();
 };
 struct SaveProcess85A520
 {
@@ -9103,7 +9103,7 @@ struct SaveProcess85A520
 };
 struct SaveEffect85A520
 {
-    unsigned int FUN_004086a0();
+    unsigned int EffectSetting_GetProjectileType();
 };
 struct SaveMagic85A520
 {
@@ -9402,7 +9402,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
     {
         if (!parent->FUN_005653d0())
             SaveWarning85A520::FUN_005b5e40(DAT_01080ba8, parent->FUN_0084e3a0());
-        if (parent->FUN_005653d0() && !parent->FUN_005d43c0()->FUN_0041d460())
+        if (parent->FUN_005653d0() && !parent->FUN_005d43c0()->ExtraDataList_GetPersistentCell())
             SaveWarning85A520::FUN_005b5e40(DAT_01080b38, parent->FUN_0084e3a0());
         SaveMobile85A520* mobile = (SaveMobile85A520*)_FNV_DynamicCast(parent, 0, &DAT_011841cc, &DAT_01184920, 0);
         if (mobile && mobile->FUN_008d8520())
@@ -9431,7 +9431,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
             world.type = 3;
             if (world.savedLocation.cell == 0)
             {
-                SaveCell85A520* persistent = parent->FUN_005d43c0()->FUN_0041d460();
+                SaveCell85A520* persistent = parent->FUN_005d43c0()->ExtraDataList_GetPersistentCell();
                 SaveForm85A520* pWorld = persistent->FUN_0054ddd0();
                 world.savedLocation.cell = FindOrAddValue(pWorld->FUN_0084e3a0());
             }
@@ -9441,7 +9441,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
         else if (pRef)
         {
             world.type = 2;
-            world.base = FindOrAddValue(pRef->FUN_00586150()->FUN_00825c00()->FUN_004086a0());
+            world.base = FindOrAddValue(pRef->FUN_00586150()->FUN_00825c00()->EffectSetting_GetProjectileType());
         }
         ((SaveStream85A520*)::DAT_011de45c)->FUN_008579b0(&world, 36);
     }
@@ -9667,7 +9667,7 @@ struct FullName
 };
 struct NamedForm
 {
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 
 struct Entry
@@ -9734,7 +9734,7 @@ int FUN_00406d00(char*, unsigned int, const char*, ...);
 int FUN_00456a20(const char*, int, int, int);
 void FUN_00aff0b0(const char*);
 unsigned int FUN_0044a670(const char*);
-Form* FUN_004839c0(unsigned int);
+Form* TESForm_GetFormByNumericID(unsigned int);
 int FUN_00408b20(const char*, const char*);
 
 extern char DAT_01039788;
@@ -9832,7 +9832,7 @@ void Main::FUN_00855ba0(const char* filename)
             Entry* entry = *node->FUN_006815c0();
             if (entry)
             {
-                Form* formSlot19 = FUN_004839c0(entry->id);
+                Form* formSlot19 = TESForm_GetFormByNumericID(entry->id);
                 if (entry->size > statsSlot13.largest)
                     statsSlot13.largest = entry->size;
                 if (entry->size < statsSlot13.smallest)
@@ -9852,7 +9852,7 @@ void Main::FUN_00855ba0(const char* filename)
                 if (formSlot19)
                 {
                     if (namedSlot10)
-                        name = namedSlot10->FUN_0055d520();
+                        name = namedSlot10->TESObjectREFR_GetFullName();
                     if (fullSlot10 && (!name || !FUN_00408b20(name, &DAT_01011584)))
                         name = fullSlot10->FUN_00408da0();
                     if (!name || !FUN_00408b20(name, &DAT_01011584))
@@ -9983,7 +9983,7 @@ class FormMethods77
     virtual void v73();
     virtual void SetID(unsigned int, int);
     int unk04, unk08, unk0c, unk10, unk14;
-    void FUN_0046a010(int);
+    void TESForm_SetStillLoading(int);
 };
 struct CreatedForm77
 {
@@ -9999,7 +9999,7 @@ class TESObjectREFR : public TESForm
 {
   public:
     TESBoundObject* FUN_007af430();
-    void FUN_00575690(TESBoundObject*);
+    void TESObjectREFR_SetObjectReference(TESBoundObject*);
 };
 struct NPC77 : CreatedForm77
 {
@@ -10459,7 +10459,7 @@ struct Record77
 };
 struct Save77
 {
-    void FUN_0085a2e0(TESForm*);
+    void TESSaveLoadGame_DeleteForm(TESForm*);
     TESForm* FUN_00859a90(unsigned int, Record77*);
 };
 // Looks up or creates a TESForm from the record and initializes it according to its type.
@@ -10467,11 +10467,11 @@ struct Save77
 TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
 {
     AutoMemContext scope6(static_cast<MEM_CONTEXT>(49), true, DAT_010804c8, 0x133b);
-    TESForm* pForm = (TESForm*)::FUN_004839c0(id);
+    TESForm* pForm = (TESForm*)::TESForm_GetFormByNumericID(id);
     TESBoundObject* bound28 = 0;
     if (record->type != 2)
     {
-        bound28 = dynamic_cast<TESBoundObject*>((TESForm*)::FUN_004839c0(record->object));
+        bound28 = dynamic_cast<TESBoundObject*>((TESForm*)::TESForm_GetFormByNumericID(record->object));
         if (!bound28)
         {
             FUN_005b5e40("SAVELOAD: Bound object %08X no longer exists.  Reference %08X will not be created.",
@@ -10484,7 +10484,7 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
         TESObjectREFR* reference = dynamic_cast<TESObjectREFR*>(pForm);
         if (!reference || (record->type != 0 && record->type != 3) || reference->FUN_007af430() != bound28)
         {
-            FUN_0085a2e0(pForm);
+            TESSaveLoadGame_DeleteForm(pForm);
             pForm = 0;
         }
     }
@@ -10505,14 +10505,14 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
                 break;
             }
             TESObjectREFR* reference = dynamic_cast<TESObjectREFR*>(pForm);
-            reference->FUN_00575690(bound28);
+            reference->TESObjectREFR_SetObjectReference(bound28);
             ((FormMethods77*)pForm)->SetID(id, 1);
         }
         else if (record->type == 1)
         {
             pForm = (TESForm*)new Projectile77;
             TESObjectREFR* reference = dynamic_cast<TESObjectREFR*>(pForm);
-            reference->FUN_00575690(bound28);
+            reference->TESObjectREFR_SetObjectReference(bound28);
             ((FormMethods77*)pForm)->SetID(id, 1);
         }
         else if (record->type == 2)
@@ -10539,6 +10539,6 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
                 record->type, id, record->object, record->location);
     }
     if (pForm)
-        ((FormMethods77*)pForm)->FUN_0046a010(1);
+        ((FormMethods77*)pForm)->TESForm_SetStillLoading(1);
     return pForm;
 }

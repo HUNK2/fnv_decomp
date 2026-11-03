@@ -110,7 +110,7 @@ class HotkeyWheelDisplay
 class InventoryMenu : public Menu
 {
   public:
-    bool FUN_00782190(int input, int unused);  // declared for the original code (decl_variants.py)
+    bool InventoryMenu_HandleSpecialKeyInput(int input, int unused);  // declared for the original code (decl_variants.py)
   public:
     InventoryMenu();
     virtual ~InventoryMenu();
@@ -255,7 +255,7 @@ extern InventoryMenuSetting DAT_011d3810;
 extern InventoryMenuSetting DAT_011d1e18;
 extern bool DAT_011d9f38;
 bool FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 int Warning(const char*, ...);
 extern InventoryMenuSetting DAT_011d3258;
 extern InventoryMenuSetting DAT_011d2acc;

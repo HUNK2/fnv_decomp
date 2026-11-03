@@ -34,7 +34,7 @@ struct BSFadeNode
     static void* operator new(unsigned int size);
 };
 extern const void* DAT_0109e984;
-BSFadeNode* FUN_00a877a0();
+BSFadeNode* NiScreenElements_CreateObject();
 struct NiBound
 {
     void ComputeFromPoints(int count, const NiPoint3* points);
@@ -137,14 +137,14 @@ struct NiLODData
         return p;
     }
 };
-BSFadeNode* FUN_00a81fb0();
+BSFadeNode* NiSkinPartition_CreateObject();
 unsigned int __cdecl FUN_00a88ac0(unsigned int a);
 struct NiExtraDataHelper
 {
     void FUN_00a7b2e0();
 };
 extern int DAT_0109fb94;
-void* __cdecl FUN_00a91fe0();
+void* __cdecl NiVectorExtraData_CreateObject();
 extern int DAT_010a02e4;
 struct NiProperty
 {
@@ -159,7 +159,7 @@ struct NiProperty
     int m_1c;
     NiProperty();
 };
-NiProperty* __cdecl FUN_00a95160();
+NiProperty* __cdecl NiSpecularProperty_CreateObject();
 struct NiParticleMeshes
 {
     void* vft;
@@ -171,7 +171,7 @@ struct NiParticleMeshes
     void Init();
 };
 extern const void* DAT_010a0a6c;
-NiParticleMeshes* __cdecl FUN_00a98e70();
+NiParticleMeshes* __cdecl NiParticleMeshes_CreateObject();
 void __cdecl NiFree(void*);
 void* __cdecl NiMalloc(unsigned int);
 struct FUN_00a99800_shell
@@ -185,7 +185,7 @@ struct FUN_00a99800_shell
 };
 extern const void* DAT_010a12cc;
 void __fastcall FUN_00a71f60(void*);
-void* __cdecl FUN_00a9b330();
+void* __cdecl NiAmbientLight_CreateObject();
 extern unsigned int kVtbl_NiAlphaAccumulator;
 struct NiAlphaAccumulator
 {
@@ -300,7 +300,7 @@ struct FUN_00a87140_class
     char m_cc;
     void FUN_00a87140_ctor();
 };
-FUN_00a87140_class* FUN_00a87140();
+FUN_00a87140_class* BSSegmentedTriShape_CreateObject();
 struct NiDirectionalLight
 {
     void FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& cp);
@@ -464,7 +464,7 @@ struct FUN_00a81760_obj
 
     void FUN_00a7b690();
 };
-FUN_00a81760_obj* __cdecl FUN_00a81760();
+FUN_00a81760_obj* __cdecl NiTriShapeDynamicData_CreateObject();
 struct S_a819e0_O
 {
     virtual ~S_a819e0_O()
@@ -620,7 +620,7 @@ struct SpawnedObject
 
     void InitBase() throw();
 };
-SpawnedObject* __cdecl FUN_00a866f0() throw();
+SpawnedObject* __cdecl NiSkinInstance_CreateObject() throw();
 // FUN_00a87790: thiscall, 10 bytes.
 // Loads the vtable pointer of this, reads the function pointer stored in
 // vtable slot 0xdc and tail-jumps to it, forwarding the single stack
@@ -1471,10 +1471,10 @@ struct BmpReader
     unsigned short bpp;
     unsigned int colorCount, dataOffset;
     bool flip;
-    NiPixelData* FUN_00a8e810(BmpStream& stream, NiPixelData* optional);
+    NiPixelData* NiBMPReader_ReadFile(BmpStream& stream, NiPixelData* optional);
 };
 // @fnv 0x00a8e810
-NiPixelData* BmpReader::FUN_00a8e810(BmpStream& stream, NiPixelData* optional)
+NiPixelData* BmpReader::NiBMPReader_ReadFile(BmpStream& stream, NiPixelData* optional)
 {
     bool mipmap;
     unsigned int w, h, faces;

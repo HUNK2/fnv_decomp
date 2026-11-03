@@ -148,27 +148,27 @@ struct Date
 };
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct DoorPart68
 {
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct DoorPart3c
 {
     void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(Date*, int);
+    void TESForm___SaveData(Date*, int);
 };
 struct SoundH
 {
@@ -184,13 +184,13 @@ struct FUN_004fbf20_shell
 void FUN_004fbf20_shell::Destroy()
 {
     unsigned int itempint;
-    ((FUN_004855a0*)this)->M();
-    ((DoorPart30*)((char*)this - 0x14))->FUN_00487010();
+    ((TESForm_StartForm*)this)->M();
+    ((DoorPart30*)((char*)this - 0x14))->TESFullName_Save();
     ((DoorPart3c*)((char*)this + 0x30))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((DoorPart68*)((char*)this - 8))->FUN_00477f20();
+    ((DoorPart68*)((char*)this - 8))->BGSDestructibleObjectForm_Save();
     if (FUN_00401500())
         ((Date*)((char*)this + 0x5c))->Date::~Date();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((Date*)((char*)this + 0x5c), 1);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((Date*)((char*)this + 0x5c), 1);
     if (FUN_00401500())
         ((Date*)((char*)this + 0x5c))->Date::~Date();
     if (*(void**)((char*)this + 0x58))
@@ -198,7 +198,7 @@ void FUN_004fbf20_shell::Destroy()
         itempint = (*(SoundH**)((char*)this + 0x58))->Deallocate();
         FUN_00485910(0x4d414e53, itempint);
     }
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct S_004fbac0_P
@@ -371,7 +371,7 @@ struct StaticRecord
     unsigned int unk28;
     unsigned int unk2c;
     void LoadRecordHeader(TESFile*);
-    void FUN_004861f0(TESFile*, void*, unsigned short);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
 };
 struct RecordName
 {
@@ -432,7 +432,7 @@ bool MovableRecord::LoadRecordChunks(TESFile* file)
             FUN_004781e0(reinterpret_cast<AlchDestr*>(static_cast<RecordDestruct*>(this)), file);
             break;
         case 0x41544144:
-            FUN_004861f0(file, &this->data, 1);
+            TESForm_LoadData(file, &this->data, 1);
             break;
         case 0x4d414e53:
             f = 0;
@@ -468,7 +468,7 @@ struct TESChallenge
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 
 struct FUN_004fbfe0_shell : public BGSMovableStatic
@@ -490,7 +490,7 @@ void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
         reinterpret_cast<FUN_004fc060_shell*>(this->_pdbpad_5c)
             ->SetByteFromPtr(reinterpret_cast<const unsigned char*>(reinterpret_cast<BGSMovableStatic*>(result)->data));
 
-        reinterpret_cast<FUN_005e78f0_t*>(this)->FUN_004851b0(
+        reinterpret_cast<FUN_005e78f0_t*>(this)->TESForm_CopyAllComponents(
             result ? reinterpret_cast<TESForm*>(reinterpret_cast<char*>(result) + 0x14) : 0);
     }
 }
@@ -592,7 +592,7 @@ class TESForm
 
 struct MovableStaticComponentComparison
 {
-    bool FUN_00485270(::TESForm*);
+    bool TESForm_CompareAllComponents(::TESForm*);
 };
 struct MovableStaticDataComparison
 {
@@ -614,7 +614,7 @@ bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
     if (!pMovableStatic)
         return true;
     if (((MovableStaticComponentComparison*)this)
-            ->FUN_00485270(pMovableStatic ? (::TESForm*)((char*)pMovableStatic + 0x14) : 0))
+            ->TESForm_CompareAllComponents(pMovableStatic ? (::TESForm*)((char*)pMovableStatic + 0x14) : 0))
         return true;
     if (((MovableStaticDataComparison*)this->_pdbpad_5c)->IsByteDifferent((unsigned char*)pMovableStatic->data))
         return true;

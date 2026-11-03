@@ -78,7 +78,7 @@ class ReferenceIntersectionData;
 class ExtraDecalRefs : public BSExtraData
 {
   public:
-    void FUN_00433db0(TESForm* form);  // declared for the original code (decl_variants.py)
+    void ExtraDecalRefs_InitItem(TESForm* form);  // declared for the original code (decl_variants.py)
 
   public:
     // base BSExtraData at +0x0, size 12

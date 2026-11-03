@@ -7,7 +7,7 @@
 // @fnv 0x008ae4c0
 NiPoint3* MobileObject::GetPos() const
 {
-    if (!FUN_005a2030())
+    if (!Actor_IsSwimming())
         return reinterpret_cast<NiPoint3*>(
             reinterpret_cast<TESTopicInfo*>(const_cast<MobileObject*>(this))->GetAddTopicList());
     if (GetRelevantWaterHeight() == DAT_010241b0)
@@ -19,7 +19,7 @@ NiPoint3* MobileObject::GetPos() const
     DAT_011df7a0[DAT_011df880] = *reinterpret_cast<NiPoint3*>(
         reinterpret_cast<TESTopicInfo*>(const_cast<MobileObject*>(this))->GetAddTopicList());
     TESObjectCELL* cell = const_cast<MobileObject*>(this)->GetParentCell();
-    if (cell && reinterpret_cast<MobileObjectCellAccess*>(cell)->FUN_004518e0())
+    if (cell && reinterpret_cast<MobileObjectCellAccess*>(cell)->TESObjectCELL_HasWater())
     {
         MobileObjectWaterPositionHeight heights;
         heights.waterHeight = GetRelevantWaterHeight() - DAT_01020998;

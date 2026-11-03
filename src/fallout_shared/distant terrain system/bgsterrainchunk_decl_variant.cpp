@@ -58,7 +58,7 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     ChunkPtr<void> unk54;
     bool unk58;
     BGSTerrainChunkLoadTask(void* block, TESWorldSpace* space, int x, int y, int level);
-    bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
+    bool BGSTerrainChunkLoadTask_GetDescription(char* apDescription, unsigned int aiBufferSize);
 };
 extern int _sprintf_s(char*, unsigned int, const char*, ...);
 extern "C" void __cdecl UpdateListItems();
@@ -393,7 +393,7 @@ struct ModelLoader
 };
 struct FUN_0043cc60_shell
 {
-    int FUN_0043cc60();
+    int IOTask_GetIOTaskPriority();
 };
 struct FUN_006fbbd0_virtual
 {
@@ -594,7 +594,7 @@ struct FUN_00c37ec0 : TESObjectDoorController
     virtual void v44();
     virtual void v45();
     virtual void position(const Point006fac&);
-    void FUN_00439680(const Point006fac&);
+    void BSMultiBoundAABB_SetHalfExtents(const Point006fac&);
 };
 struct FUN_00c46970 : TESObjectDoorController
 {

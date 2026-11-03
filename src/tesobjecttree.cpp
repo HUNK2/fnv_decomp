@@ -164,11 +164,11 @@ FUN_0051d1c0::~FUN_0051d1c0()
 
 struct FUN_0051b830_shell
 {
-    unsigned int __thiscall FUN_0051b830();
+    unsigned int __thiscall TESTexture1024_GetMaxAllowedSize();
 };
 
 // @fnv 0x0051b830
-unsigned int __thiscall FUN_0051b830_shell::FUN_0051b830()
+unsigned int __thiscall FUN_0051b830_shell::TESTexture1024_GetMaxAllowedSize()
 {
     return 1024;
 }
@@ -338,12 +338,12 @@ extern unsigned int __cdecl DialogueRandom(void);
 
 struct FUN_0051c360_shell
 {
-    unsigned int FUN_0051c360();
+    unsigned int TESObjectTREE_GetRandomSeed();
 };
 
 // Returns a random element from the Arr at offset 0x5c, or 0 when that Arr is empty.
 // @fnv 0x0051c360
-unsigned int FUN_0051c360_shell::FUN_0051c360()
+unsigned int FUN_0051c360_shell::TESObjectTREE_GetRandomSeed()
 {
     unsigned int index = reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetSize();
     if (!index)
@@ -400,10 +400,10 @@ unsigned int __thiscall FUN_009b0900_shell::GetFieldE0()
 
 struct FUN_0051b8a0_shell
 {
-    void FUN_0051b8a0(float f);
+    void TESObjectTREE_SetShadowRadius(float f);
 };
 // @fnv 0x0051b8a0
-void FUN_0051b8a0_shell::FUN_0051b8a0(float afValue)
+void FUN_0051b8a0_shell::TESObjectTREE_SetShadowRadius(float afValue)
 {
     *(int*)((char*)this + 0x80) = (int)afValue;
 }
@@ -964,7 +964,7 @@ void SoundListView::AddSoundEntry(float* apFirst, float* apSecond)
 namespace fnv_0051c220 {
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct NiPoint2_shell
@@ -1114,7 +1114,7 @@ bool FUN_0051c220_shell::IsNotEqual(TESForm* apCompare)
             return true;
     }
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(i))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(i))
         return true;
 
     return false;
@@ -1307,12 +1307,12 @@ struct FUN_004891d0_shell
 struct FUN_0048e370_obj
 {
     int unk00, unk04, unk08;
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct S_00477f20
 {
     int unk00, unk04;
-    void FUN_00477f20();
+    void BGSDestructibleObjectForm_Save();
 };
 struct ArrBlock : Arr
 {
@@ -1338,17 +1338,17 @@ struct SaveTree
     ArrBlock seeds;
     TreeData data;
     float billboardX, billboardY;
-    void FUN_004855a0();
-    void FUN_00485680();
-    void FUN_0051bfb0();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
+    void TESObjectTREE_SaveForm();
 };
 // @fnv 0x0051bfb0
-void SaveTree::FUN_0051bfb0()
+void SaveTree::TESObjectTREE_SaveForm()
 {
-    FUN_004855a0();
+    TESForm_StartForm();
     model.WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    icon.FUN_0048e370(0x4e4f4349);
-    destruct.FUN_00477f20();
+    icon.TESTexture_Save(0x4e4f4349);
+    destruct.BGSDestructibleObjectForm_Save();
     if (seeds.GetSize() > 0)
     {
         unsigned int* count = 0;
@@ -1373,7 +1373,7 @@ void SaveTree::FUN_0051bfb0()
     if (FUN_00401500())
         data.FUN_00414290();
     FUN_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 class TreeNameView
@@ -2128,8 +2128,8 @@ FUN_0051d2c0_shell* FUN_0051d2c0_shell::Init(void* apField0, void* apField4, voi
 class TreeCopy : public TESObjectTREE
 {
   public:
-    void FUN_004851b0(TESForm*);
-    void FUN_0051c140(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
+    void TESObjectTREE_CopyFrom(TESForm*);
 };
 
 typedef TreeRecordData*(__thiscall* TreeDataGetter)(TESObjectTREE*);
@@ -2142,14 +2142,14 @@ class TreeSeedAppender : public NiTPrimitiveArray_unsigned_int_
 
 // Copies seed array, tree record data, and billboard dimensions from a source TESObjectTREE into this TreeCopy.
 // @fnv 0x0051c140
-void TreeCopy::FUN_0051c140(TESForm* source)
+void TreeCopy::TESObjectTREE_CopyFrom(TESForm* source)
 {
     TESObjectTREE* tree;
     tree = dynamic_cast<TESObjectTREE*>(source);
     if (!tree)
         return;
 
-    FUN_004851b0(source);
+    TESForm_CopyAllComponents(source);
     {
         unsigned int count;
         count = tree->m_kSeedArray.GetSize();

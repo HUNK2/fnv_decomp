@@ -138,7 +138,7 @@ class hkReferencedObjectD1EE : public hkBaseObjectD1EE
 class hkpSphereMotionD1EE : public hkReferencedObjectD1EE
 {
   public:
-    void FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const;
+    void hkpCharacterMotion_getInertiaInvLocal(hkMatrix3D1EE& kInertiaInv) const;
 
     unsigned char m_type;
     unsigned char m_ucDeactivationIntegrateCounter;
@@ -150,7 +150,7 @@ class hkpSphereMotionD1EE : public hkReferencedObjectD1EE
 
 // Fills kInertiaInv with a diagonal matrix whose entries are the inverse inertia stored in m_kInertiaAndMassInv.
 // @fnv 0x00d1ee40
-void hkpSphereMotionD1EE::FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const
+void hkpSphereMotionD1EE::hkpCharacterMotion_getInertiaInvLocal(hkMatrix3D1EE& kInertiaInv) const
 {
     float fInv = m_kInertiaAndMassInv(0);
     kInertiaInv.setDiagonal(fInv, fInv, fInv);
@@ -224,7 +224,7 @@ class hkReferencedObjectD1E8x : public hkBaseObjectD1E8x
 class hkpSphereMotionD1E8x : public hkReferencedObjectD1E8x
 {
   public:
-    void FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const;
+    void hkpCharacterMotion_getInertiaInvWorld(hkMatrix3D1E8x& kInertiaInv) const;
 
     unsigned char m_type;
     unsigned char m_ucDeactivationIntegrateCounter;
@@ -236,7 +236,7 @@ class hkpSphereMotionD1E8x : public hkReferencedObjectD1E8x
 
 // Fills kInertiaInv with a diagonal matrix whose entries are all the inverse inertia value stored in m_kInertiaAndMassInv.
 // @fnv 0x00d1ee80
-void hkpSphereMotionD1E8x::FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const
+void hkpSphereMotionD1E8x::hkpCharacterMotion_getInertiaInvWorld(hkMatrix3D1E8x& kInertiaInv) const
 {
     float fInv = m_kInertiaAndMassInv(0);
     kInertiaInv.setDiagonal(fInv, fInv, fInv);
@@ -315,12 +315,12 @@ struct FUN_00d1ecc0_Class
     unsigned char m_Padding[0xc0];
     float m_InertiaLocal;
 
-    void FUN_00d1ecc0(FUN_00d1ecc0_Matrix& inertia) const;
+    void hkpCharacterMotion_getInertiaLocal(FUN_00d1ecc0_Matrix& inertia) const;
 };
 
 // Writes to inertia three rows of four floats with 1/m_InertiaLocal at indices 0, 5 and 10 and zeros elsewhere.
 // @fnv 0x00d1ecc0
-void FUN_00d1ecc0_Class::FUN_00d1ecc0(FUN_00d1ecc0_Matrix& inertia) const
+void FUN_00d1ecc0_Class::hkpCharacterMotion_getInertiaLocal(FUN_00d1ecc0_Matrix& inertia) const
 {
     const float value = 1.0f / m_InertiaLocal;
     const __m128 zero = _mm_setzero_ps();
@@ -418,12 +418,12 @@ class hkpSphereMotionX
     hkVector4X m_kTranslationalVelocity;
     hkVector4X m_kAngularVelocity;
 
-    void FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p);
+    void hkpCharacterMotion_applyPointImpulse(const hkVector4X& imp, const hkVector4X& p);
 };
 
 // Adds imp scaled by the W of m_kInertiaAndMassInv to translational velocity, and (p - center of mass) x imp scaled by m_kInertiaAndMassInv to angular velocity.
 // @fnv 0x00d1eec0
-void hkpSphereMotionX::FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p)
+void hkpSphereMotionX::hkpCharacterMotion_applyPointImpulse(const hkVector4X& imp, const hkVector4X& p)
 {
     m_kTranslationalVelocity.addMul4(m_kInertiaAndMassInv.getW(), imp);
     hkVector4X relMassCenter;

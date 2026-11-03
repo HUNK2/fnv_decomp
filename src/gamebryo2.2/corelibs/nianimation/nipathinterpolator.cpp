@@ -5,19 +5,19 @@
 extern "C" void* g_011f3f68;
 
 // @fnv 0x00a3dab0
-void* __cdecl FUN_00a3dab0()
+void* __cdecl NiPosData_GetRTTI()
 {
     return &g_011f3f68;
 }
 
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* __thiscall NiPathInterpolator_GetKeyCount(short idx);
 };
 
 // Returns the pointer stored at offset 8 of the object at this+0x18 for idx 0 or this+0x1c for idx 1, or null if absent.
 // @fnv 0x00a3dae0
-void* __thiscall FUN_00a3dae0_shell::FUN_00a3dae0(short idx)
+void* __thiscall FUN_00a3dae0_shell::NiPathInterpolator_GetKeyCount(short idx)
 {
     if (idx == 0)
     {
@@ -110,7 +110,7 @@ char __thiscall FUN_00a3db70_shell::FUN_00a3db70(unsigned short ausIndex)
 extern "C" void* g_011f3e48;
 
 // @fnv 0x00a3dde0
-void* __cdecl FUN_00a3dde0()
+void* __cdecl NiPathInterpolator_GetRTTI()
 {
     return &g_011f3e48;
 }
@@ -223,7 +223,7 @@ struct StrArr
 };
 struct FUN_00a3cbf0_shell
 {
-    void __thiscall FUN_00a3cbf0(StrArr*);
+    void __thiscall NiKeyBasedInterpolator_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 extern const char* _g_011f3e48;
@@ -235,7 +235,7 @@ struct TargetHolder : FUN_00a3cbf0_shell
 // @fnv 0x00a3f4d0
 void __thiscall TargetHolder::AppendString(StrArr* pkStrings)
 {
-    FUN_00a3cbf0(pkStrings);
+    NiKeyBasedInterpolator_GetViewerStrings(pkStrings);
     char* pcString = _FUN_00a7d330(_g_011f3e48);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
@@ -291,11 +291,11 @@ struct FUN_00a3dc80_shell
     char _pad[0x18];
     PathPtr m_pPathObject;
     PctPtr m_pPathInterp;
-    void __thiscall FUN_00a3dc80(CloningProcess&);
+    void __thiscall NiPathInterpolator_ProcessClone(CloningProcess&);
 };
 // Calls ProcessClone on this object and on the path and percentage objects if they are set.
 // @fnv 0x00a3dc80
-void __thiscall FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
+void __thiscall FUN_00a3dc80_shell::NiPathInterpolator_ProcessClone(CloningProcess& kCloning)
 {
     ((NiObject*)this)->NiObject::ProcessClone(kCloning);
     NiObject* pkPath = m_pPathObject.m_pObject;
@@ -340,10 +340,10 @@ struct FUN_00a3dcc0_cls
     char _pad[0x18];
     FUN_00a3dcc0_Reg* m_path;
     FUN_00a3dcc0_Reg* m_pct;
-    bool __thiscall FUN_00a3dcc0(void*);
+    bool __thiscall NiPathInterpolator_RegisterStreamables(void*);
 };
 // @fnv 0x00a3dcc0
-bool FUN_00a3dcc0_cls::FUN_00a3dcc0(void* pkStream)
+bool FUN_00a3dcc0_cls::NiPathInterpolator_RegisterStreamables(void* pkStream)
 {
     if (!((HC1Base*)this)->FUN_00aa0ad0(pkStream))
         return false;
@@ -1313,11 +1313,11 @@ struct PathInterpLink : public NiPathInterp
     }
     void FUN_00a95ca0(NiStream&);
     float GetAccumulatedValue();
-    void FUN_00a3ee80(NiStream&);
+    void NiPathInterpolator_LinkObject(NiStream&);
 };
 // Reads path data from a stream, updates constant-velocity state, and computes curvature from the path object's position keys.
 // @fnv 0x00a3ee80
-void PathInterpLink::FUN_00a3ee80(NiStream& stream)
+void PathInterpLink::NiPathInterpolator_LinkObject(NiStream& stream)
 {
     FUN_00a95ca0(stream);
     m_pPathObject = (NiPosData*)stream.FUN_00a63430();
@@ -1586,12 +1586,12 @@ struct NiPathInterpolatorStub : NiKeyBasedInterpolatorStub
         GetPathKeys(uiNumKeys, eType, ucSize);
         return memcmp(m_pfPathLengths, pkPath->m_pfPathLengths, uiNumKeys * sizeof(float)) == 0;
     }
-    bool FUN_00a3e7b0(NiObjectStub* pkObject);
+    bool NiPathInterpolator_IsEqual(NiObjectStub* pkObject);
 };
 
 // Compares base equality, path objects and interpolator, path lengths, total length, point count, flags, and timing state.
 // @fnv 0x00a3e7b0
-bool NiPathInterpolatorStub::FUN_00a3e7b0(NiObjectStub* pkObject)
+bool NiPathInterpolatorStub::NiPathInterpolator_IsEqual(NiObjectStub* pkObject)
 {
     if (!NiKeyBasedInterpolatorStub::IsEqual(pkObject))
         return false;
@@ -1695,7 +1695,7 @@ struct FV3
         v.z = -z;
         return v;
     }
-    void __thiscall FUN_004a0c10();
+    void __thiscall NiPoint3_Unitize();
     FV3 __thiscall FUN_004b3800(const FV3&) const;
     FV3 __thiscall FUN_00439e90(const FV3&) const;
 };
@@ -1837,7 +1837,7 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
                                            type, &vOtherPos, &vOtherTangent, &normal, &otherCurvature);
                         vTangent =
                             FUN_004a3760(firstWeight, vTangent).FUN_00439e90(FUN_004a3760(secondWeight, vOtherTangent));
-                        vTangent.FUN_004a0c10();
+                        vTangent.NiPoint3_Unitize();
                         curvature = firstWeight * curvature + secondWeight * otherCurvature;
                         normal = vPosition.FUN_004b3800(vTangent);
                     }
@@ -1861,7 +1861,7 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
                                            &otherCurvature);
                         vTangent =
                             FUN_004a3760(firstWeight, vTangent).FUN_00439e90(FUN_004a3760(secondWeight, vOtherTangent));
-                        vTangent.FUN_004a0c10();
+                        vTangent.NiPoint3_Unitize();
                         curvature = firstWeight * curvature + secondWeight * otherCurvature;
                         normal = vPosition.FUN_004b3800(vTangent);
                     }

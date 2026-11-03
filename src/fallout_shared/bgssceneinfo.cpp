@@ -208,11 +208,11 @@ struct BSThread
 };
 struct FUN_004a8030_shell
 {
-    unsigned int FUN_004a8030();
+    unsigned int NiGeometry_GetNormals();
 };
 // Returns the thread ID of the BSThread stored at offset 0xb8 of this object.
 // @fnv 0x004a8030
-unsigned int FUN_004a8030_shell::FUN_004a8030()
+unsigned int FUN_004a8030_shell::NiGeometry_GetNormals()
 {
     return ((BSThread*)((Flt*)((char*)this + 0xb8))->operator unsigned int())->GetThreadID();
 }
@@ -517,7 +517,7 @@ struct SceneCache
 };
 struct SceneLoader
 {
-    void* FUN_00447080(const char*, int, int, int, int, int);
+    void* ModelLoader_LoadFile(const char*, int, int, int, int, int);
     void FUN_0045a5e0(const char*);
 };
 extern SceneSource* DAT_011c3f2c;
@@ -553,7 +553,7 @@ void LoadScenes::LoadSceneModels()
                 char cPath[260];
                 FUN_00406d30(cPath, 260, &DAT_01016fac);
                 FUN_00406d50(cPath, 260, pSceneRecord->description.Name());
-                void* model = DAT_011c3b3c->FUN_00447080(cPath, 0, 1, 0, 0, 0);
+                void* model = DAT_011c3b3c->ModelLoader_LoadFile(cPath, 0, 1, 0, 0, 0);
                 if (model)
                 {
                     if (!FUN_00c511f0(model))
@@ -669,7 +669,7 @@ struct ScriptProgram
     unsigned short CallTargetV36();
     int FUN_0049ec60();
     int GetNextProc();
-    int FUN_004a8030();
+    int NiGeometry_GetNormals();
     int GetScriptText();
 };
 struct MeshPart
@@ -819,7 +819,7 @@ struct MeshNode
 };
 struct SceneOwner
 {
-    MeshNode* FUN_00545710();
+    MeshNode* TESObjectCELL_GetWaterRefList();
 };
 struct SceneCounter
 {
@@ -873,7 +873,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         e.FUN_00438af0();
         ba = l;
     }
-    MeshNode* c = owner->FUN_00545710();
+    MeshNode* c = owner->TESObjectCELL_GetWaterRefList();
     while (c && *c->FUN_006815c0())
     {
         MeshObject* h = *c->FUN_006815c0();
@@ -890,7 +890,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                     e2 += j2 * 12;
                 if (b->GetNextProc())
                     e2 += j2 * 16;
-                if (b->FUN_004a8030())
+                if (b->NiGeometry_GetNormals())
                     e2 += j2 * 12;
                 if (b->GetScriptText())
                     e2 += j2 * 8;
@@ -933,7 +933,7 @@ struct StatKeyHolder
 };
 struct StatRef
 {
-    bool FUN_00444ed0();
+    bool TESObjectREFR_IsMarker();
     StatForm* FUN_007af430();
     StatLink* FUN_005d43c0();
 };
@@ -976,7 +976,7 @@ struct ScriptExecutionContext
     unsigned short CallTargetV36();
     void* FUN_0049ec60();
     void* GetNextProc();
-    void* FUN_004a8030();
+    void* NiGeometry_GetNormals();
     void* GetScriptText();
 };
 struct StatBlocks
@@ -1060,7 +1060,7 @@ extern StatUnique DAT_011c5b30;
 
 extern StatTextureCount DAT_011c5a90;
 extern char DAT_01202de8, DAT_011c7d34, DAT_011f4a28, DAT_012024e0;
-bool __cdecl FUN_0043b300(const void*, const void*);
+bool __cdecl NiObject_IsKindOf(const void*, const void*);
 void* __cdecl FUN_00653270(const void*, const void*);
 bool __cdecl FUN_00565580(StatObject*);
 StatActor* __cdecl FUN_004a8b00(StatObject*);
@@ -1093,7 +1093,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
             if (node3->FUN_00413f40()->FUN_0043b1b0() &&
                 !strncmp(node3->FUN_00413f40()->FUN_0043b1b0(), "FurnitureMarker", 15))
                 return;
-            if (FUN_0043b300(&DAT_01202de8, node3))
+            if (NiObject_IsKindOf(&DAT_01202de8, node3))
             {
                 StatExtra* extra = (StatExtra*)FUN_00653270(&DAT_01202de8, node3);
                 int index = extra->FUN_009ee040();
@@ -1121,7 +1121,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
             StatObject* fade = 0;
             if (node3->AsFade())
                 fade = node3;
-            if (fade && (reference = fade->FUN_009ad610()) && !reference->FUN_00444ed0() && (!actorNode || !addon))
+            if (fade && (reference = fade->FUN_009ad610()) && !reference->TESObjectREFR_IsMarker() && (!actorNode || !addon))
             {
                 counts[0]++;
                 if (FUN_00565580(object))
@@ -1187,7 +1187,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                     {
                         int* textureCount = &counts[10];
                         textureProperty1->Visit(AddToRefCountIfNotFlagged, &textureCount);
-                        if ((parent && FUN_0043b300(&DAT_011c7d34, parent)) || textureProperty1->FUN_004a2020(26) ||
+                        if ((parent && NiObject_IsKindOf(&DAT_011c7d34, parent)) || textureProperty1->FUN_004a2020(26) ||
                             textureProperty1->FUN_004a2020(27))
                             counts[14]++;
                     }
@@ -1223,7 +1223,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                             bytes += vertices * 12;
                         if (data->GetNextProc())
                             bytes += vertices * 16;
-                        if (data->FUN_004a8030())
+                        if (data->NiGeometry_GetNormals())
                             bytes += vertices * 12;
                         if (data->GetScriptText())
                             bytes += vertices * 8;
@@ -1266,7 +1266,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
 namespace fnv_004a8bb0 {
 struct Cell245
 {
-    NiNode* FUN_00545cb0();
+    NiNode* TESObjectCELL_Get3D();
 };
 struct FUN_004a7c40
 {
@@ -1302,7 +1302,7 @@ struct GlobalObject2_0096a2d0
 struct TES245
 {
     Cell245* GetInteriorCell();
-    Cell245** FUN_00457050(unsigned int, unsigned int);
+    Cell245** TES_GetGridCell(unsigned int, unsigned int);
 };
 extern TES245* DAT_011dea10;
 extern GlobalObject2_0045cfe0 DAT_011c63cc;
@@ -1320,7 +1320,7 @@ extern Clear245 DAT_011c5c40;
 void* __cdecl operator new(unsigned int);
 // Accumulates cost and count over the interior cell or nearby exterior cells, adding the list total when include is set, then calls FUN_00438af0.
 // @fnv 0x004a8bb0
-void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
+void __cdecl BGSSceneInfo_CollectSceneDataForLoadedArea(float* cost, float* count, bool include, bool addons)
 {
     *cost = 0.0f;
     *count = 0.0f;
@@ -1332,9 +1332,9 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
         Cell245* cell = DAT_011dea10->GetInteriorCell();
         FUN_004a7c40* scene = new FUN_004a7c40;
         scene->SetDifficultyLevel(cell);
-        scene->ResetAndProcessNode(cell->FUN_00545cb0(), addons, false);
+        scene->ResetAndProcessNode(cell->TESObjectCELL_Get3D(), addons, false);
         scene->AccumulateSceneStats(cell);
-        list.SetValueAndCall(cell->FUN_00545cb0(), cell, 0);
+        list.SetValueAndCall(cell->TESObjectCELL_Get3D(), cell, 0);
         map.FUN_005ae3d0(scene);
     }
     else
@@ -1346,14 +1346,14 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
         {
             for (unsigned int y = center; y <= first; y++)
             {
-                Cell245** entry = DAT_011dea10->FUN_00457050(x, y);
+                Cell245** entry = DAT_011dea10->TES_GetGridCell(x, y);
                 if (*entry)
                 {
                     Cell245* scene2 = *entry;
                     FUN_004a7c40* cell2 = new FUN_004a7c40;
                     cell2->SetDifficultyLevel(scene2);
-                    cell2->ResetAndProcessNode(scene2->FUN_00545cb0(), addons, false);
-                    list.SetValueAndCall(scene2->FUN_00545cb0(), scene2, 0);
+                    cell2->ResetAndProcessNode(scene2->TESObjectCELL_Get3D(), addons, false);
+                    list.SetValueAndCall(scene2->TESObjectCELL_Get3D(), scene2, 0);
                     cell2->AccumulateSceneStats(scene2);
                     map.FUN_005ae3d0(cell2);
                 }

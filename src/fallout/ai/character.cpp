@@ -102,22 +102,22 @@ void __fastcall FUN_008d1e90(Character* this_ptr, float value)
 
 struct FUN_008d34b0_shell : public Character
 {
-    void FUN_008d34b0(BGSLoadFormBuffer*);
+    void Character_InitLoadGame(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x008d34b0
-void FUN_008d34b0_shell::FUN_008d34b0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_008d34b0_shell::Character_InitLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((CharacterActorCalls*)this)->InitLoadGame(apLoadGameBuffer);
 }
 
 struct FUN_008d34d0_shell : public Character
 {
-    void FUN_008d34d0(BGSLoadFormBuffer*);
+    void Character_FinishLoadGame(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x008d34d0
-void FUN_008d34d0_shell::FUN_008d34d0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_008d34d0_shell::Character_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((CharacterActorCalls*)this)->ApplyLoadBuffer(apLoadGameBuffer);
 }
@@ -147,11 +147,11 @@ struct FUN_009dcc80_target
 struct FUN_008b3b30_shell
 {
     NiPoint3* GetAddTopicList();
-    NiPoint3 FUN_008b3b30(float f);
+    NiPoint3 Actor_GetAnticipatedLocation(float f);
 };
 // Returns the stored point when f is not above _gModifierZero, otherwise delegates to the object at offset 0x190 with f.
 // @fnv 0x008b3b30
-NiPoint3 FUN_008b3b30_shell::FUN_008b3b30(float f)
+NiPoint3 FUN_008b3b30_shell::Actor_GetAnticipatedLocation(float f)
 {
     if (f <= _gModifierZero)
     {
@@ -188,31 +188,31 @@ FUN_008d1f10_shell* FUN_008d1f10_shell::FUN_008d1f10(unsigned int aiFlags)
     return this;
 }
 
-int __cdecl FUN_00646310(void*, int, float*, float*);
+int __cdecl CombatFormulas_CalcHandToHandDamage(void*, int, float*, float*);
 struct FUN_008d24a0_shell : public Character
 {
     int FUN_008d24a0();
 };
-// Calls FUN_00646310 on the object at offset 0xa4 to fill fx and fy, then returns fx as an int.
+// Calls CombatFormulas_CalcHandToHandDamage on the object at offset 0xa4 to fill fx and fy, then returns fx as an int.
 // @fnv 0x008d24a0
 int FUN_008d24a0_shell::FUN_008d24a0()
 {
     float fx = 0.0f;
     float fy = 0.0f;
-    FUN_00646310(this ? (char*)this + 0xa4 : 0, 0, &fx, &fy);
+    CombatFormulas_CalcHandToHandDamage(this ? (char*)this + 0xa4 : 0, 0, &fx, &fy);
     return (int)fx;
 }
 
 struct FUN_008d32b0_shell : public Character
 {
-    unsigned short FUN_008a9020(unsigned int);
-    unsigned short FUN_008d32b0(unsigned int aiFlags);
+    unsigned short Actor_GetSaveSize(unsigned int);
+    unsigned short Character_GetSaveSize(unsigned int aiFlags);
 };
 // @fnv 0x008d32b0
-unsigned short FUN_008d32b0_shell::FUN_008d32b0(unsigned int aiFlags)
+unsigned short FUN_008d32b0_shell::Character_GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += FUN_008a9020(aiFlags);
+    isize += Actor_GetSaveSize(aiFlags);
     return isize;
 }
 
@@ -222,23 +222,23 @@ struct FUN_008a9380_target
 };
 struct FUN_008d32f0_shell
 {
-    void FUN_008d32f0(unsigned int aiFlags);
+    void Character_SaveGame(unsigned int aiFlags);
 };
 // @fnv 0x008d32f0
-void FUN_008d32f0_shell::FUN_008d32f0(unsigned int aiFlags)
+void FUN_008d32f0_shell::Character_SaveGame(unsigned int aiFlags)
 {
     ((FUN_008a9380_target*)this)->SaveActorData(aiFlags);
 }
 
 struct FUN_008d3310_shell : public Character
 {
-    void FUN_008a9940(unsigned int, unsigned int);
-    void FUN_008d3310(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void Actor_LoadGame2(unsigned int, unsigned int);
+    void Character_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 // @fnv 0x008d3310
-void FUN_008d3310_shell::FUN_008d3310(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_008d3310_shell::Character_LoadGame2(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
-    FUN_008a9940(aiFlags, aiCurrentFlags);
+    Actor_LoadGame2(aiFlags, aiCurrentFlags);
 }
 
 struct TESSaveLoadGame
@@ -249,11 +249,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_008d3330_shell : public Character
 {
     void FUN_008aa210(unsigned int);
-    void FUN_008d3330(unsigned int aiFlags);
+    void Character_Revert(unsigned int aiFlags);
 };
 // Calls FUN_008aa210 with aiFlags, then if g_TESSaveLoadGame->FUN_0055f5b0() succeeds, sets two floats to -1.0f.
 // @fnv 0x008d3330
-void FUN_008d3330_shell::FUN_008d3330(unsigned int aiFlags)
+void FUN_008d3330_shell::Character_Revert(unsigned int aiFlags)
 {
     FUN_008aa210(aiFlags);
     if (g_TESSaveLoadGame->FUN_0055f5b0())
@@ -265,13 +265,13 @@ void FUN_008d3330_shell::FUN_008d3330(unsigned int aiFlags)
 
 struct FUN_008d3380_shell : public Character
 {
-    void FUN_008aa4c0(unsigned int, unsigned int);
-    void FUN_008d3380(unsigned int, unsigned int);
+    void Actor_InitLoadGameTES(unsigned int, unsigned int);
+    void Character_InitLoadGameTES(unsigned int, unsigned int);
 };
 // @fnv 0x008d3380
-void FUN_008d3380_shell::FUN_008d3380(unsigned int a, unsigned int b)
+void FUN_008d3380_shell::Character_InitLoadGameTES(unsigned int a, unsigned int b)
 {
-    FUN_008aa4c0(a, b);
+    Actor_InitLoadGameTES(a, b);
 }
 
 struct BGSSaveFormBuffer
@@ -280,14 +280,14 @@ struct BGSSaveFormBuffer
 };
 struct FUN_008d33a0_shell : public Character
 {
-    void FUN_008aaf40(BGSSaveFormBuffer*);
+    void Actor_AppendSaveLoadFormBuffer(BGSSaveFormBuffer*);
     void SaveFormData(BGSSaveFormBuffer*);
 };
-// Calls FUN_008aaf40, then saves the two bytes at offsets 0x1c0 and 0x1c1 of this into the save buffer.
+// Calls Actor_AppendSaveLoadFormBuffer, then saves the two bytes at offsets 0x1c0 and 0x1c1 of this into the save buffer.
 // @fnv 0x008d33a0
 void FUN_008d33a0_shell::SaveFormData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_008aaf40(apSaveGameBuffer);
+    Actor_AppendSaveLoadFormBuffer(apSaveGameBuffer);
     apSaveGameBuffer->SaveData((char*)this + 0x1c0, 1, 0);
     apSaveGameBuffer->SaveData((char*)this + 0x1c1, 1, 0);
 }
@@ -306,11 +306,11 @@ bool __fastcall FUN_00524d10(bool*);
 struct FUN_00950ad0_shell : public PlayerCharacter
 {
     BipedAnim* GetBipedAnimation(bool);
-    BipedAnim* FUN_00950ad0();
+    BipedAnim* PlayerCharacter_CallGetValidBip01Names();
 };
 // Returns the BipedAnim for the player, choosing the variant based on the result of FUN_00524d10(this).
 // @fnv 0x00950ad0
-BipedAnim* FUN_00950ad0_shell::FUN_00950ad0()
+BipedAnim* FUN_00950ad0_shell::PlayerCharacter_CallGetValidBip01Names()
 {
     return GetBipedAnimation(!FUN_00524d10((bool*)this));
 }
@@ -444,11 +444,11 @@ struct Slot12cHolder
 
 struct FUN_008b1910_shell
 {
-    TESObjectREFR* FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr);
+    TESObjectREFR* Actor_SetUpTalkingActivatorActor(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr);
 };
 
 // @fnv 0x008b1910
-TESObjectREFR* FUN_008b1910_shell::FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
+TESObjectREFR* FUN_008b1910_shell::Actor_SetUpTalkingActivatorActor(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
 {
     BGSTalkingActivator* m_pLinkedReference = ((TESObject*)apRefr)->GetNext();
     ((ExtraDataList_Accessor*)apRefr->GetExtraData())->FUN_0042e060(m_pLinkedReference, apRefr);
@@ -494,11 +494,11 @@ struct Point3 : public NiPoint3
 
 struct FUN_00968690_shell : public Character
 {
-    NiPoint3 FUN_00968690(float f);
+    NiPoint3 PlayerCharacter_GetAnticipatedLocation(float f);
 };
 
 // @fnv 0x00968690
-NiPoint3 FUN_00968690_shell::FUN_00968690(float f)
+NiPoint3 FUN_00968690_shell::PlayerCharacter_GetAnticipatedLocation(float f)
 {
     Point3 kPos = *(Point3*)((TopicH*)this)->GetAddTopicList();
     Point3 kMotionVelocity;
@@ -2202,10 +2202,10 @@ struct XAObj
 {
     void FUN_00826b40(int);
     void FUN_00826b90(int);
-    void FUN_00671d30(void*);
+    void TESPackage_SetPackageLocation(void*);
     void FUN_00984f60(int);
     void* FUN_00671d10(int);
-    void FUN_00672fc0(void*);
+    void TESPackage_SetPackageTarget(void*);
 };
 struct XPObj
 {
@@ -2843,8 +2843,8 @@ struct XObj
     virtual void v2ec();
     virtual void v2f0();
     virtual void Finish(XAObj*, int, int);
-    void FUN_009694d0(void* arg0);
-    void FUN_005cc7a0(int);
+    void PlayerCharacter_CannibalizeActor(void* arg0);
+    void PlayerCharacter_SetAIControlledPackage(int);
     void FUN_00950340(int);
     XUpdatable* FUN_008d8520();
     void* unk04[25];
@@ -2852,11 +2852,11 @@ struct XObj
 };
 
 // @fnv 0x009694d0
-void XObj::FUN_009694d0(void* arg0)
+void XObj::PlayerCharacter_CannibalizeActor(void* arg0)
 {
     if (((XA8a*)arg0)->GetExtraDataVersion())
         return;
-    FUN_005cc7a0(1);
+    PlayerCharacter_SetAIControlledPackage(1);
     FUN_00950340(1);
     member68->Attach(0, this);
     member68->Detach(0);
@@ -2866,10 +2866,10 @@ void XObj::FUN_009694d0(void* arg0)
     XPObj* P = new XPObj;
     P->FUN_0067f140(0);
     P->FUN_0067f3c0(this);
-    A5->FUN_00671d30(P);
+    A5->TESPackage_SetPackageLocation(P);
     delete P;
     XVObj* X = new XVObj;
-    A5->FUN_00672fc0(X);
+    A5->TESPackage_SetPackageTarget(X);
     delete X;
     A5->FUN_00984f60(0x2F);
     ((XTmpObj*)A5->FUN_00671d10(0))->FUN_006800b0();
@@ -2937,8 +2937,8 @@ struct PackBF
     void SetPackageType(int);
     void FUN_00826b40(bool);
     void FUN_00826b90(bool);
-    void FUN_00671d30(LocBF*);
-    void FUN_00672fc0(DataBF*);
+    void TESPackage_SetPackageLocation(LocBF*);
+    void TESPackage_SetPackageTarget(DataBF*);
     void FUN_00984f60(int);
     DataBF* FUN_00671d10();
 };
@@ -2957,7 +2957,7 @@ struct ActorBF : SlotsBF<26, ActorBF0>
     virtual void apply(PackBF*, int, bool);
     char pad[0x64];
     OtherBF* other;
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     ProcBF* FUN_008d8520();
     TargetBF* FUN_009344a0();
     void FUN_008bf7b0(void*, int);
@@ -2965,7 +2965,7 @@ struct ActorBF : SlotsBF<26, ActorBF0>
 // @fnv 0x008bf7b0
 void ActorBF::FUN_008bf7b0(void* arg, int unused)
 {
-    if (FUN_00493bb0())
+    if (Actor_IsInCombat())
         return;
     other->reset();
     FUN_008d8520()->set(true);
@@ -2978,10 +2978,10 @@ void ActorBF::FUN_008bf7b0(void* arg, int unused)
     pack->FUN_00826b90(true);
     LocBF* loc = new LocBF;
     loc->FUN_0067f3c0(arg);
-    pack->FUN_00671d30(loc);
+    pack->TESPackage_SetPackageLocation(loc);
     delete loc;
     DataBF* kDat = new DataBF;
-    pack->FUN_00672fc0(kDat);
+    pack->TESPackage_SetPackageTarget(kDat);
     delete kDat;
     pack->FUN_00984f60(0x2a);
     pack->FUN_00671d10()->FUN_006800b0(0);
@@ -3608,7 +3608,7 @@ struct AssignedTargetView
 };
 struct AssignedExtraView
 {
-    void FUN_0041c930(void*, unsigned int, unsigned int, bool, bool, bool);
+    void ExtraDataList_SetPackageExtra(void*, unsigned int, unsigned int, bool, bool, bool);
 };
 struct AssignedArgument
 {
@@ -3616,7 +3616,7 @@ struct AssignedArgument
 };
 struct AssignedCharacter : Character
 {
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     AssignedPackageView* FUN_009344a0();
     AssignedExtraView* FUN_005d43c0();
     void FUN_008d2a80(AssignedArgument* argument);
@@ -3624,7 +3624,7 @@ struct AssignedCharacter : Character
 // @fnv 0x008d2a80
 void AssignedCharacter::FUN_008d2a80(AssignedArgument* argument)
 {
-    if (FUN_00493bb0())
+    if (Actor_IsInCombat())
         return;
     ((AssignedProcess*)m_pBaseProcess)->Attach(0, this);
     ((AssignedProcess*)GetProcess())->Detach(0);
@@ -3640,10 +3640,10 @@ void AssignedCharacter::FUN_008d2a80(AssignedArgument* argument)
     package = new XPObj;
     package->FUN_0067f140(0);
     package->FUN_0067f3c0(this);
-    location->FUN_00671d30(package);
+    location->TESPackage_SetPackageLocation(package);
     delete package;
     XVObj* target = new XVObj;
-    location->FUN_00672fc0(target);
+    location->TESPackage_SetPackageTarget(target);
     delete target;
     location->FUN_00984f60(47);
     ((AssignedPackageDataView*)location)->FUN_00671d10()->FUN_006800b0(0);
@@ -3652,7 +3652,7 @@ void AssignedCharacter::FUN_008d2a80(AssignedArgument* argument)
     ((AssignedProcess*)GetProcess())->Update();
     if (((AssignedProcess*)m_pBaseProcess)->GetTarget())
     {
-        FUN_005d43c0()->FUN_0041c930(
+        FUN_005d43c0()->ExtraDataList_SetPackageExtra(
             ((AssignedProcess*)m_pBaseProcess)->GetTarget(), ((AssignedProcess*)m_pBaseProcess)->State23c(),
             ((AssignedProcess*)m_pBaseProcess)->State128(), ((AssignedProcess*)m_pBaseProcess)->State11c(),
             ((AssignedProcess*)m_pBaseProcess)->State4e8(), ((AssignedProcess*)m_pBaseProcess)->State5a4());

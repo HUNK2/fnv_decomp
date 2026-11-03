@@ -8,7 +8,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5ec4;
 
 // @fnv 0x00a94d50
-GlobalObjectO2_00a7b610* __cdecl FUN_00a94d50()
+GlobalObjectO2_00a7b610* __cdecl NiSpotLight_GetRTTI()
 {
     return &g_011f5ec4;
 }
@@ -40,7 +40,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a94e20
-void* __cdecl FUN_00a94e20()
+void* __cdecl NiSpotLight_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x114);
     if (p)
@@ -53,7 +53,7 @@ struct NiObject
 };
 struct NiPointLight
 {
-    bool __thiscall FUN_00a7d730(NiObject*);
+    bool __thiscall NiPointLight_IsEqual(NiObject*);
 };
 
 struct NiSpotLight
@@ -70,7 +70,7 @@ struct NiSpotLight
 bool __thiscall NiSpotLight::IsEqual(NiObject* pObject)
 {
     NiSpotLight* pOther = (NiSpotLight*)pObject;
-    if (((NiPointLight*)this)->FUN_00a7d730(pObject))
+    if (((NiPointLight*)this)->NiPointLight_IsEqual(pObject))
     {
         if (m_f0108 == pOther->m_f0108 && m_f0110 == pOther->m_f0110 && m_f010c == pOther->m_f010c)
             return true;
@@ -83,17 +83,17 @@ struct NiUpdateData
 };
 struct C_00a7d7a0
 {
-    void __thiscall FUN_00a7d7a0(NiUpdateData&);
+    void __thiscall NiPointLight_UpdateWorldData(NiUpdateData&);
 };
 struct S_00a94d90
 {
-    void __thiscall FUN_00a94d90(NiUpdateData&);
+    void __thiscall NiSpotLight_UpdateWorldData(NiUpdateData&);
 };
 // Calls the base update, copies three floats from offsets 0x68/0x74/0x80 to 0xFC/0x100/0x104, and increments the counter at 0xA8.
 // @fnv 0x00a94d90
-void __thiscall S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
+void __thiscall S_00a94d90::NiSpotLight_UpdateWorldData(NiUpdateData& UpdateData)
 {
-    ((C_00a7d7a0*)this)->FUN_00a7d7a0(UpdateData);
+    ((C_00a7d7a0*)this)->NiPointLight_UpdateWorldData(UpdateData);
     *(volatile float*)((char*)this + 0xFC) = *(volatile float*)((char*)this + 0x68);
     *(volatile float*)((char*)this + 0x100) = *(volatile float*)((char*)this + 0x74);
     *(volatile float*)((char*)this + 0x104) = *(volatile float*)((char*)this + 0x80);
@@ -119,7 +119,7 @@ struct NiPoint3
 
 struct NiPointLightViewerStrings
 {
-    void __thiscall FUN_00a7d960(StrArr* strings);
+    void __thiscall NiPointLight_GetViewerStrings(StrArr* strings);
 };
 
 char* __cdecl _FUN_00a7d330(void* object);
@@ -137,7 +137,7 @@ void FUN_00a94f70_shell::AppendViewerStrings(StrArr* strings)
     char* value;
     unsigned int index;
 
-    reinterpret_cast<NiPointLightViewerStrings*>(this)->FUN_00a7d960(strings);
+    reinterpret_cast<NiPointLightViewerStrings*>(this)->NiPointLight_GetViewerStrings(strings);
 
     value = _FUN_00a7d330(*reinterpret_cast<void**>(&g_011f5ec4));
 
@@ -355,7 +355,7 @@ struct FUN_00a94e40_cls
     float m_f010c;
     float m_f0110;
     void __thiscall SaveToStream(FUN_00a94e40_arg* a);
-    void __thiscall FUN_00a94e40(FUN_00a94e40_arg* a);
+    void __thiscall NiSpotLight_LoadBinary(FUN_00a94e40_arg* a);
 };
 
 struct StreamCb
@@ -518,7 +518,7 @@ struct FUN_00a94e40_arg
 };
 
 // @fnv 0x00a94e40
-void __thiscall FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
+void __thiscall FUN_00a94e40_cls::NiSpotLight_LoadBinary(FUN_00a94e40_arg* apArg)
 {
     SaveToStream(apArg);
     StreamCb* s = apArg->m_024c;
@@ -681,7 +681,7 @@ class NiStream;
 extern "C" void __cdecl FUN_00a9b360(void* thisPtr, NiStream& stream);
 
 // @fnv 0x00a94c60
-void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
+void __cdecl NiSpotLight_LinkObject(void* thisPtr, NiStream& stream)
 {
     FUN_00a9b360(thisPtr, stream);
 }
@@ -689,7 +689,7 @@ void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
 extern "C" void __cdecl _FUN_00a75c10();
 
 // @fnv 0x00a94c70
-void __cdecl FUN_00a94c70()
+void __cdecl NiSpotLight_RegisterStreamables()
 {
     _FUN_00a75c10();
 }

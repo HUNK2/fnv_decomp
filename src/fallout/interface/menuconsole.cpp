@@ -28,7 +28,7 @@ ConsoleManager* ConsoleManager::Instance(bool bCreate)
 // @fnv 0x0071b210
 bool ConsoleManager::Idle(int aiKeyCode)
 {
-    if (cVisible <= 0 || !FUN_004b7210()->FUN_007023a0())
+    if (cVisible <= 0 || !InterfaceManager_Instance()->FUN_007023a0())
         return false;
 
     struct InputState
@@ -90,7 +90,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
             if (text[0])
             {
                 DAT_011d8ce4 = true;
-                InterfaceManager* manager = FUN_004b7210();
+                InterfaceManager* manager = InterfaceManager_Instance();
                 reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(
                     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kOutputLines)->GetSize());
                 FUN_0071d030(this, text);
@@ -257,7 +257,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     FUN_0071d030(this, "Max Depth: %i", (int)Tile::GetInterfaceScale());
                     FUN_0071d030(this, "Cursor Depth: %i",
                                  (int)reinterpret_cast<TileListBoxCalls*>(
-                                     reinterpret_cast<TESResponse*>(FUN_004b7210())->GetNext())
+                                     reinterpret_cast<TESResponse*>(InterfaceManager_Instance())->GetNext())
                                      ->GetFloat(4013));
                 }
                 else if (!FUN_0071cfd0(text, "new fonts", 9))
@@ -352,7 +352,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             script.NotifySaveLoadGameOfFormChange();
                                             script.SetText(batchLine);
                                             script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_CONSOLE,
-                                                                     FUN_004b7210()->FUN_007031c0());
+                                                                     InterfaceManager_Instance()->FUN_007031c0());
                                         }
                                     }
                                 }
@@ -394,7 +394,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                 {
                                     char batchLine[100];
                                     sprintf_s(batchLine, 100, "%s\r\n", m_aacCommandHistory[i]);
-                                    file->FUN_00473180(batchLine, BSStringLength(batchLine));
+                                    file->NiBinaryStream_Write(batchLine, BSStringLength(batchLine));
                                 }
                                 file->Close();
                                 DebugLog("Batch file '%s' created.", filename);
@@ -424,7 +424,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     script.SetText(text);
-                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_CONSOLE, FUN_004b7210()->FUN_007031c0());
+                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_CONSOLE, InterfaceManager_Instance()->FUN_007031c0());
                 }
             }
         }
@@ -623,7 +623,7 @@ struct DummyFont
 
 struct DummyFontManager
 {
-    DummyFont* FUN_005bd5c0(int);
+    DummyFont* FontManager_GetFont(int);
 };
 
 DummyFontManager* __cdecl FUN_005bd5b0();
@@ -663,7 +663,7 @@ FUN_0071af10::FUN_0071af10()
     f24 = 0;
     f38 = 0;
     f1c = 0;
-    f2c = (int)FUN_005bd5b0()->FUN_005bd5c0(DAT_011d8d38.Int()->i - 1)->FUN_005bd580() + 3;
+    f2c = (int)FUN_005bd5b0()->FontManager_GetFont(DAT_011d8d38.Int()->i - 1)->FUN_005bd580() + 3;
     f30 = g_011d8d44.Int()->i;
     f34 = g_011d8d08.Int()->i;
     f3a = 0;
@@ -948,10 +948,10 @@ bool FUN_0071d580_cls::FUN_0071d580()
     }
     else
     {
-        if (m_38 == 1 && ((FUN_0071d580_probe*)FUN_004b7210())->Probe_0070ecf0())
+        if (m_38 == 1 && ((FUN_0071d580_probe*)InterfaceManager_Instance())->Probe_0070ecf0())
         {
-            if (((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(0) == 3 &&
-                ((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(1) == 0)
+            if (((FUN_0071d580_probe*)InterfaceManager_Instance())->Probe_00714f70(0) == 3 &&
+                ((FUN_0071d580_probe*)InterfaceManager_Instance())->Probe_00714f70(1) == 0)
             {
                 Call_0071d620(2);
             }
@@ -1022,7 +1022,7 @@ struct DumpRTTI
 {
 };
 extern DumpRTTI DAT_011f444c;
-bool FUN_0043b300(const DumpRTTI*, DumpTexture*);
+bool NiObject_IsKindOf(const DumpRTTI*, DumpTexture*);
 struct DumpSetting
 {
     bool* FUN_00408d60();
@@ -1045,7 +1045,7 @@ struct DumpCell
 };
 struct DumpTES
 {
-    DumpCell* FUN_00457070();
+    DumpCell* TES_GetCurrentCell();
     int FUN_0059bb30();
     int FUN_0045cd60();
 };
@@ -1071,7 +1071,7 @@ void DumpConsole::DumpLoadedTextures()
         a1 = FUN_00456510();
         while (a1)
         {
-            if (FUN_0043b300(&DAT_011f444c, a1))
+            if (NiObject_IsKindOf(&DAT_011f444c, a1))
             {
                 a9 = a1;
                 a7 = a9->FUN_0059bb30();
@@ -1109,13 +1109,13 @@ void DumpConsole::DumpLoadedTextures()
             sprintf_s(
                 buffer, 1024,
                 "Texture dump for cell: %s grid: (%d, %d) worldspace: %s \n---------------------------------------\n",
-                g_TES->FUN_00457070() ? g_TES->FUN_00457070()->name.FUN_00408da0() : "{unknown}", g_TES->FUN_0059bb30(),
+                g_TES->TES_GetCurrentCell() ? g_TES->TES_GetCurrentCell()->name.FUN_00408da0() : "{unknown}", g_TES->FUN_0059bb30(),
                 g_TES->FUN_0045cd60(),
-                g_TES->FUN_00457070() ? (g_TES->FUN_00457070()->FUN_0054ddd0()
-                                             ? g_TES->FUN_00457070()->FUN_0054ddd0()->name.FUN_00408da0()
+                g_TES->TES_GetCurrentCell() ? (g_TES->TES_GetCurrentCell()->FUN_0054ddd0()
+                                             ? g_TES->TES_GetCurrentCell()->FUN_0054ddd0()->name.FUN_00408da0()
                                              : "{unknown}")
                                       : "{unknown}");
-            a8->FUN_00473180(buffer, BSStringLength(buffer));
+            a8->NiBinaryStream_Write(buffer, BSStringLength(buffer));
             {
                 for (int k = 0; k < 200 && a0[k]; k++)
                 {
@@ -1123,11 +1123,11 @@ void DumpConsole::DumpLoadedTextures()
                     unsigned int name;
                     name = a0[k]->FUN_0059bb30();
                     a7 = a0[k]->v9c()->FUN_0043b1b0();
-                    a8->FUN_00473180(buffer, BSStringLength(buffer));
+                    a8->NiBinaryStream_Write(buffer, BSStringLength(buffer));
                 }
             }
             sprintf_s(buffer, 1024, "---------------------------------------\nTotal memory: %dkb", a6);
-            a8->FUN_00473180(buffer, BSStringLength(buffer));
+            a8->NiBinaryStream_Write(buffer, BSStringLength(buffer));
             a8->Close();
             DebugLog("200 largest loaded textures dumped to the file textures.txt.");
         }

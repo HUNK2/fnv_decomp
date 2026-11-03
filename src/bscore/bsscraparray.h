@@ -7,7 +7,7 @@ template <>
 BSScrapArray<NiPointer<NiAVObject>, 1024>::BSScrapArray()
 {
     vtable = &DAT_01084074;
-    m_pAllocator = FUN_00401020()->GetGeneralAllocator();
+    m_pAllocator = MemoryManager_Instance()->GetGeneralAllocator();
     FUN_00822860(0, false);
 }
 template <>
@@ -15,7 +15,7 @@ template <>
 BSScrapArray<Animation*, 1024>::BSScrapArray()
 {
     vtable = &DAT_0108c228;
-    m_pAllocator = FUN_00401020()->GetGeneralAllocator();
+    m_pAllocator = MemoryManager_Instance()->GetGeneralAllocator();
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(this)->FUN_006b3eb0(0, false);
 }
 #endif

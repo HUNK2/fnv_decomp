@@ -13,7 +13,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
         pResult = 0;
         attachment.attachNode = parent;
         NiPointer<NiAVObject> spDataCopy(0);
-        model->FUN_004add70();
+        model->NiNode_CompactChildArray();
         attachment.face = faceModel;
         if (!attachment.face && IsSlotHidden(slot))
             attachment.face = GetFaceGenModelForSlot(slot);
@@ -105,7 +105,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                     ((NiSkinPartition*)((NiObjectNET*)skinned.geom->FUN_0043fad0())->GetControllers())
                         ->ResolveObjectPointer(*(NiPointer<NiObject>*)&spDataCopy);
                     NiPointer<NiAVObject> partition((NiAVObject*)spDataCopy);
-                    skinned.geom->FUN_004adde0((NiSkinInstance*)skinned.geom->FUN_0043fad0()->Clone());
+                    skinned.geom->NiGeometry_SetSkinInstance((NiSkinInstance*)skinned.geom->FUN_0043fad0()->Clone());
                     skinned.geom->FUN_0043fad0()->FUN_004addc0((NiSkinPartition*)(NiAVObject*)partition);
                 }
                 m_pActorBaseFormItem->GetFaceGenCoords(coords);
@@ -142,7 +142,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                 }
             }
         }
-        model->FUN_004add70();
+        model->NiNode_CompactChildArray();
         return pResult;
     }
 }
@@ -216,7 +216,7 @@ void BipedAnim::AttachFaceGenNode()
                         if (pOwnerContext.process)
                         {
                             pWeaponNode = pOwnerContext.process->GetWeaponNode(false);
-                            m_bHeaderParsed = pWeaponNode && pWeaponNode->FUN_00453470();
+                            m_bHeaderParsed = pWeaponNode && pWeaponNode->NiNode_GetChildCount();
                             if (!m_bHeaderParsed)
                             {
                                 pWeaponNode = pOwnerContext.process->GetQuiverNode(false);
@@ -235,7 +235,7 @@ void BipedAnim::AttachFaceGenNode()
                                     }
                                 }
                                 if (bow)
-                                    m_bHeaderParsed = pWeaponNode && pWeaponNode->FUN_00453470();
+                                    m_bHeaderParsed = pWeaponNode && pWeaponNode->NiNode_GetChildCount();
                             }
                             if (!m_bHeaderParsed)
                             {
@@ -382,7 +382,7 @@ void BipedAnim::AttachFaceGenNode(NiNode* rootNode, NiNode* objectNode, NiNode* 
                     attachment.parent->AddObject(scabbard, true);
                     SetCollisionRefFlag(attachment.parent, true);
                     scabbard->UpdateSceneObject();
-                    objectNode->FUN_004add70();
+                    objectNode->NiNode_CompactChildArray();
                 }
             }
             NiAVObject* pBackpackNode = SceneObjectLookup::GetObjectByName(objectNode, "Backpack");
@@ -418,11 +418,11 @@ void BipedAnim::AttachFaceGenNode(NiNode* rootNode, NiNode* objectNode, NiNode* 
                     if (pCollision)
                     {
                         bhkWorldObject* pBody = pCollision ? pCollision->FUN_006fa820() : 0;
-                        bhkShape* pShape = pBody ? pBody->FUN_004ae6a0() : 0;
+                        bhkShape* pShape = pBody ? pBody->bhkWorldObject_GetShape() : 0;
                         if (!pShape)
                             Warning("HAVOK: Weapon '%s' doesn't have a good Havok shape on it.",
                                     BIPED_OBJECT_TEXT(objectNode));
-                        if (pBody && pBody->FUN_0043b4f0().FUN_0043b4d0() != 5)
+                        if (pBody && pBody->FUN_0043b4f0().CFilter_GetLayer() != 5)
                             Warning("MODELS: Weapon '%s' needs to have the layer defined as a WEAPON.",
                                     BIPED_OBJECT_TEXT(objectNode));
                     }
@@ -565,8 +565,8 @@ void BipedAnim::QueueBipedObjectLoads(unsigned int flags, IO_TASK_PRIORITY prior
         if (flags & 8)
             LoadBipedObject(npc, (BIPED_OBJECT)3, priority, parent);
         char base[260], mod[260];
-        ((TESRace*)((TESHairCanBeNPCData*)npc)->FUN_004ac110())->BuildBodyTexturePath(npc, base);
-        if (((TESRace*)((TESHairCanBeNPCData*)npc)->FUN_004ac110())->BuildBodyModTexturePath(npc, base, mod))
+        ((TESRace*)((TESHairCanBeNPCData*)npc)->TESNPC_GetRace())->BuildBodyTexturePath(npc, base);
+        if (((TESRace*)((TESHairCanBeNPCData*)npc)->TESNPC_GetRace())->BuildBodyModTexturePath(npc, base, mod))
             g_modelLoader->QueueModelFilePath(mod, priority, parent);
     }
 }
@@ -635,7 +635,7 @@ BSShaderPPLightingProperty* BipedAnim::FindLightingShaderProperty(NiAVObject* ob
         return 0;
     NiTriBasedGeom* m_pShaderGeometry = (NiTriBasedGeom*)object;
     BipedRenderProperties renderProps;
-    renderProps.alpha = m_pShaderGeometry->GetProperty(FUN_004af350());
+    renderProps.alpha = m_pShaderGeometry->GetProperty(NiMaterialProperty_GetType());
     renderProps.material = m_pShaderGeometry->GetProperty(FUN_004af340());
     renderProps.shader = (BSShaderPPLightingProperty*)m_pShaderGeometry->GetProperty(3);
     BSShaderPPLightingProperty* pLightingProp =
@@ -652,7 +652,7 @@ BSShaderPPLightingProperty* BipedAnim::FindLightingShaderProperty(NiAVObject* ob
 void BipedAnim::LoadBipedObject(TESNPC* npc, BIPED_OBJECT slot, IO_TASK_PRIORITY priority, QueuedFile* parent)
 {
     char base[260], mod[260];
-    if (((TESRace*)((TESHairCanBeNPCData*)npc)->FUN_004ac110())->GetBipedObjectModelPath(npc, slot, base))
+    if (((TESRace*)((TESHairCanBeNPCData*)npc)->TESNPC_GetRace())->GetBipedObjectModelPath(npc, slot, base))
     {
         g_modelLoader->QueueModelFilePath(base, priority, parent);
         BSShaderManager::BuildTexturePath(mod, base, "_n", true);
@@ -743,21 +743,21 @@ struct TESForm;
 struct FUN_004aaff0_S
 {
     void ClearBipedObject(BipedAnimObject*, bool, TESForm*);
-    void FUN_004aaff0(int a, bool b, TESForm* f);
+    void BipedAnim_RemovePart(int a, bool b, TESForm* f);
 };
 // Calls ClearBipedObject with a pointer computed from this, a*16+0x2c, passing b and f.
 // @fnv 0x004aaff0
-void FUN_004aaff0_S::FUN_004aaff0(int aiIndex, bool abFlag, TESForm* apForm)
+void FUN_004aaff0_S::BipedAnim_RemovePart(int aiIndex, bool abFlag, TESForm* apForm)
 {
     ClearBipedObject((BipedAnimObject*)((char*)this + aiIndex * 16 + 0x2c), abFlag, apForm);
 }
 
 bool __cdecl IsConditionMet();
-void __cdecl FUN_004ab0c0(NiAVObject*);
+void __cdecl BipedAnim_RunBiped3DDetach(NiAVObject*);
 
 struct BipedAnim_Ext : public BipedAnim
 {
-    void FUN_004ab130(NiAVObject*);
+    void BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(NiAVObject*);
 };
 
 struct TaskQueueInterface_Ext
@@ -772,9 +772,9 @@ void BipedAnim::ClearBipedObject(BipedAnimObject* apObj, bool abClear, TESForm* 
 {
     if (apObj->m_pSceneObject)
     {
-        reinterpret_cast<BipedAnim_Ext*>(this)->FUN_004ab130(apObj->m_pSceneObject);
+        reinterpret_cast<BipedAnim_Ext*>(this)->BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(apObj->m_pSceneObject);
         if (!IsConditionMet())
-            FUN_004ab0c0(apObj->m_pSceneObject);
+            BipedAnim_RunBiped3DDetach(apObj->m_pSceneObject);
         else
             FUN_004537b0()->FUN_0087acb0(apObj->m_pSceneObject);
         g_modelLoader->FUN_0045a5e0(apObj->m_pModel->GetModelFilePath());
@@ -795,11 +795,11 @@ int __fastcall FUN_004abf80(unsigned char* pThis)
 
 struct FUN_004ac110_shell : public TESNPC
 {
-    TESRace* FUN_004ac110();
+    TESRace* TESNPC_GetRace();
 };
 
 // @fnv 0x004ac110
-TESRace* FUN_004ac110_shell::FUN_004ac110()
+TESRace* FUN_004ac110_shell::TESNPC_GetRace()
 {
     return (TESRace*)((BGSBipedModelList*)((char*)this + 0x10c))->GetList();
 }
@@ -891,7 +891,7 @@ void __cdecl FUN_004add50(char* dst, const char* src, unsigned int count)
 
 struct FUN_004add70_shell : public NiNode
 {
-    void FUN_004add70();
+    void NiNode_CompactChildArray();
 };
 
 void __fastcall FUN_004afc80(void* p);
@@ -899,7 +899,7 @@ void __fastcall TrimTrailingNullPointers(void* p);
 
 // Calls FUN_004afc80 and TrimTrailingNullPointers on the sub-object at offset 0x9C of this node.
 // @fnv 0x004add70
-void FUN_004add70_shell::FUN_004add70()
+void FUN_004add70_shell::NiNode_CompactChildArray()
 {
     FUN_004afc80(reinterpret_cast<char*>(this) + 0x9C);
     TrimTrailingNullPointers(reinterpret_cast<char*>(this) + 0x9C);
@@ -956,16 +956,16 @@ void __fastcall FUN_004ade20(void* pThis)
 
 struct FUN_004ae6a0_shell : public bhkWorldObject
 {
-    bhkShape* FUN_004ae6a0();
+    bhkShape* bhkWorldObject_GetShape();
 };
 
 void* __fastcall GetStringCStr(void*);
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 
 // @fnv 0x004ae6a0
-bhkShape* FUN_004ae6a0_shell::FUN_004ae6a0()
+bhkShape* FUN_004ae6a0_shell::bhkWorldObject_GetShape()
 {
-    return FUN_004a3a40(GetStringCStr(this));
+    return bhkShape_Getbhk(GetStringCStr(this));
 }
 
 struct Dummy_004ae6c0
@@ -1198,7 +1198,7 @@ int FUN_004af340()
 }
 
 // @fnv 0x004af350
-unsigned int FUN_004af350()
+unsigned int NiMaterialProperty_GetType()
 {
     return 2;
 }
@@ -1331,11 +1331,11 @@ struct FUN_004adde0_shell
 {
     unsigned char pad[0xbc];
     NiPointer<NiNode> m_ptr;
-    void FUN_004adde0(NiNode* apGO);
+    void NiGeometry_SetSkinInstance(NiNode* apGO);
 };
 
 // @fnv 0x004adde0
-void FUN_004adde0_shell::FUN_004adde0(NiNode* apGO)
+void FUN_004adde0_shell::NiGeometry_SetSkinInstance(NiNode* apGO)
 {
     m_ptr = apGO;
 }
@@ -1580,7 +1580,7 @@ struct HandleVectorProbe
 {
     void FUN_004afc50(const NiPointer<NiAVObject>&);
 };
-extern bool __cdecl FUN_0043b300(const NiRTTI*, NiNode*);
+extern bool __cdecl NiObject_IsKindOf(const NiRTTI*, NiNode*);
 extern const char* __cdecl FUN_0044a670(const char*);
 extern int __cdecl FUN_00ec7ec0(const char*, const char*, const char*);
 extern void __cdecl FUN_005b5e40(const char*, ...);
@@ -1590,7 +1590,7 @@ extern const char DAT_0101f840[];
 extern const char DAT_0101f7c8[];
 
 // @fnv 0x004ade40
-void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify, bool report)
+void __cdecl BipedAnim_AttachToSkeleton(NiNode* source, NiAVObject* object, NiAVObject* notify, bool report)
 {
     if (!object)
         return;
@@ -1650,7 +1650,7 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
     bool printed = false;
     if (node)
     {
-        node->FUN_004add70();
+        node->NiNode_CompactChildArray();
         GlobalObject_004aff00 children(0, 1);
         for (unsigned int j = 0; j < node->FUN_0043b480(); ++j)
         {
@@ -1660,14 +1660,14 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
                 child = childNode->IsSceneNode();
             else
                 continue;
-            if (FUN_0043b300(&DAT_011f9140, node) && child)
+            if (NiObject_IsKindOf(&DAT_011f9140, node) && child)
             {
-                FUN_004ade40(source, childNode, notify, true);
+                BipedAnim_AttachToSkeleton(source, childNode, notify, true);
                 continue;
             }
             if (!childNode->IsGeometry())
             {
-                if (!printed && child && reinterpret_cast<NiNode*>(childNode)->FUN_00453470())
+                if (!printed && child && reinterpret_cast<NiNode*>(childNode)->NiNode_GetChildCount())
                 {
                     FUN_005b5e40(DAT_0101f7c8,
                                  (const char*)static_cast<SceneNodeProbe*>(node)->FUN_009611e0()->GetName(),
@@ -1681,9 +1681,9 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
                 node->RemoveObject(childNode);
                 continue;
             }
-            FUN_004ade40(source, childNode, notify, report);
+            BipedAnim_AttachToSkeleton(source, childNode, notify, report);
         }
-        node->FUN_004add70();
+        node->NiNode_CompactChildArray();
     }
 }
 
@@ -1698,10 +1698,10 @@ BSFaceGenModel* __cdecl GetOrCreateFaceGenModel(void*, int, int, int, int, int, 
 void* __cdecl BuildEgmFilename(BSStringT<char>*, const char*, int);
 struct FaceLoader : BipedAnim
 {
-    BSFaceGenModel* FUN_004ae790(int slot);
+    BSFaceGenModel* BipedAnim_LoadFaceGenModel(int slot);
 };
 // @fnv 0x004ae790
-BSFaceGenModel* FaceLoader::FUN_004ae790(int slot)
+BSFaceGenModel* FaceLoader::BipedAnim_LoadFaceGenModel(int slot)
 {
     ((ATM*)&g_011c5cf0)->QueryPerformanceCounter(0);
     TESModel* model = object[slot].m_pModel;
@@ -1764,7 +1764,7 @@ struct B4AEE60Slot
 class B4AEE60ModelLoader
 {
   public:
-    void FUN_004450c0(B4AEE60Owner* pkOwner, B4AEE60Request* pkRequest, int iParamA, int iParamB, int iSlot);
+    void ModelLoader_QueueHelmet(B4AEE60Owner* pkOwner, B4AEE60Request* pkRequest, int iParamA, int iParamB, int iSlot);
 };
 
 extern B4AEE60ModelLoader* g_pModelLoader;
@@ -1797,7 +1797,7 @@ void B4AEE60Owner::RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pk
         return;
 
     if (m_akSlots[iSlot].m_iHandle != 0 && m_akSlots[iSlot].m_iHandle != -1)
-        g_pModelLoader->FUN_004450c0(this, pkRequest, iParamA, iParamB, iSlot);
+        g_pModelLoader->ModelLoader_QueueHelmet(this, pkRequest, iParamA, iParamB, iSlot);
     else
         pkRequest->FUN_006f74f0(0);
 }
@@ -1806,7 +1806,7 @@ struct ActorCalls
 {
     BaseProcess* FUN_008d8520();
     void FUN_008b0b00(bool);
-    Animation* FUN_008b70d0();
+    Animation* Actor_GetAnimData();
     bool FUN_008a16d0();
 };
 struct PlayerCalls
@@ -1820,18 +1820,18 @@ struct BGSLoadShell
 };
 struct AnimShell
 {
-    void FUN_004994f0(int, bool);
+    void Animation_BlendOut(int, bool);
 };
 extern BGSLoadShell* DAT_011ddf38;
 NiAVObject* __cdecl FUN_004aeed0(TESForm*, TESModel*, int, TESObjectREFR*, NiNode*);
 int __cdecl FUN_00406f60(void*, const char*, ...);
 struct FUN_004ab750_shell : BipedAnim
 {
-    void FUN_004ab750(TESObjectWEAP* apWeapon, unsigned char iModSlots);
+    void BipedAnim_AttachBipedWeapon(TESObjectWEAP* apWeapon, unsigned char iModSlots);
 };
 // Rebuilds the weapon model for a weapon form, names it, and updates the actor's animation and weapon-drawn state.
 // @fnv 0x004ab750
-void FUN_004ab750_shell::FUN_004ab750(TESObjectWEAP* apWeapon, unsigned char iModSlots)
+void FUN_004ab750_shell::BipedAnim_AttachBipedWeapon(TESObjectWEAP* apWeapon, unsigned char iModSlots)
 {
     if (!apWeapon || (int)apWeapon->GetFormType() != 0x28 ||
         (apWeapon == object[5].pParent && object[5].m_pSceneObject))
@@ -1867,9 +1867,9 @@ void FUN_004ab750_shell::FUN_004ab750(TESObjectWEAP* apWeapon, unsigned char iMo
                     if (m_pActor == _g_thePlayer && this == ((PlayerCalls*)_g_thePlayer)->FUN_00950b00(true))
                         anim = _g_thePlayer->GetAnimation(true);
                     else
-                        anim = ((ActorCalls*)pActor)->FUN_008b70d0();
+                        anim = ((ActorCalls*)pActor)->Actor_GetAnimData();
                     if (anim)
-                        ((AnimShell*)anim)->FUN_004994f0(4, false);
+                        ((AnimShell*)anim)->Animation_BlendOut(4, false);
                     if (m_pActor == _g_thePlayer && this == ((PlayerCalls*)_g_thePlayer)->FUN_00950b00(true))
                         ((ActorCalls*)pActor)
                             ->FUN_008d8520()
@@ -1879,7 +1879,7 @@ void FUN_004ab750_shell::FUN_004ab750(TESObjectWEAP* apWeapon, unsigned char iMo
                         ((ActorCalls*)pActor)
                             ->FUN_008d8520()
                             ->UpdateWeaponDrawn(((ActorCalls*)pActor)->FUN_008a16d0(), this,
-                                                ((ActorCalls*)pActor)->FUN_008b70d0(), pActor);
+                                                ((ActorCalls*)pActor)->Actor_GetAnimData(), pActor);
                 }
             }
         }
@@ -2017,7 +2017,7 @@ LoadedObject* FUN_004ae910_cls::LoadSlotObject(void* owner, ModelSource* source,
         int unused = 0;
         if (kObj)
         {
-            if (FUN_0043b300(&DAT_011f9140, (NiNode*)kObj))
+            if (NiObject_IsKindOf(&DAT_011f9140, (NiNode*)kObj))
             {
                 LoadedObject* pLoadedObject = kObj;
                 pLoadedObject->SetFlags(7);
@@ -2065,9 +2065,9 @@ struct TesOps
 bool FUN_004b5bf0(NiAVObject*);
 void FUN_004b7660(NiAVObject*);
 void FUN_004af240(NiAVObject*, NiAVObject*, int, TESObjectREFR*);
-void FUN_00578060(NiAVObject*);
+void TESObjectREFR_AddMasterParticleAddonNodes(NiAVObject*);
 void FUN_004ae250(NiAVObject*, NiAVObject*, NiAVObject*, int, int, int);
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 
 void FNV_Warning(const char*, ...);
 NiAVObject* FUN_004aae30(NiAVObject*, NiFixedString*);
@@ -2104,7 +2104,7 @@ NiAVObject* __cdecl FUN_004aeed0(TESForm* form, TESModel* model, int slot, TESOb
     if (form && form->Unk_2B())
         FUN_004b7660(result5);
     FUN_004af240(loaded6, result5, slot, ref);
-    FUN_00578060(result5);
+    TESObjectREFR_AddMasterParticleAddonNodes(result5);
     NiPointer<NiExtraData> extra(result5->GetExtraData(FUN_004ab220()));
     ((ObjectOps*)result5)->ClearData();
     if (extra)
@@ -2114,14 +2114,14 @@ NiAVObject* __cdecl FUN_004aeed0(TESForm* form, TESModel* model, int slot, TESOb
     }
     if (result5)
     {
-        if (FUN_0043b300(&DAT_011f9140, result5))
+        if (NiObject_IsKindOf(&DAT_011f9140, result5))
         {
             NiAVObject* fade = result5;
             ((ObjectOps*)fade)->SetType(7);
         }
         result5->FUN_00440460(NiPoint3::ZERO);
         result5->FUN_0043fa80(DAT_011a9448);
-        if (FUN_004910d0((NiNode*)result5))
+        if (Animation_FindSkinnedNode((NiNode*)result5))
             skinned2 = true;
         if (skinned2)
             FNV_Warning("MODELS: Tyring to add skinned object '%s' as an add on to skeleton.",
@@ -2180,15 +2180,15 @@ void BipedAnimHelper::ApplySkinTextures(NiAVObject* apObject, bool abArg2)
 
     bool bResultTmp = false;
     if (abArg2)
-        bResultTmp = pNPC->FUN_004ac110()->GetSkinTextures(_ptrA, ptrB3, pNPC, (BIPED_OBJECT)bipedObject, true);
+        bResultTmp = pNPC->TESNPC_GetRace()->GetSkinTextures(_ptrA, ptrB3, pNPC, (BIPED_OBJECT)bipedObject, true);
     else
-        bResultTmp = pNPC->FUN_004ac110()->GetSkinTextures(_ptrA, ptrB3, pNPC, (BIPED_OBJECT)bipedObject, false);
+        bResultTmp = pNPC->TESNPC_GetRace()->GetSkinTextures(_ptrA, ptrB3, pNPC, (BIPED_OBJECT)bipedObject, false);
 
     if (pNPC && !bResultTmp)
     {
         Warning("TEXTURES: Missing '%s' race texture for '%s' in race '%s'.",
                 FUN_00464f30(DAT_01199e8c[((TESActorBase*)pNPC)->GetSex()], false),
-                FUN_00464f30(DAT_01188b98[bipedObject], true), pNPC->FUN_004ac110()->fullName.GetFullName());
+                FUN_00464f30(DAT_01188b98[bipedObject], true), pNPC->TESNPC_GetRace()->fullName.GetFullName());
     }
     else
     {
@@ -2252,13 +2252,13 @@ struct BipedLoadAccess : BipedAnim
 {
     void UpdateBipedObjects(bool);
     void ApplySkinTextures(NiAVObject*, bool);
-    void FUN_004ab750(TESObjectWEAP*, unsigned char);
+    void BipedAnim_AttachBipedWeapon(TESObjectWEAP*, unsigned char);
 };
 struct ActorLoadAccess : Actor
 {
     void FUN_00571760(TESObjectWEAP*);
     bool FUN_008a16d0();
-    Animation* FUN_008b70d0();
+    Animation* Actor_GetAnimData();
 };
 struct PlayerLoadAccess : PlayerCharacter
 {
@@ -2266,8 +2266,8 @@ struct PlayerLoadAccess : PlayerCharacter
 };
 struct ItemLoadAccess : InventoryStackRecord
 {
-    unsigned char FUN_004bd820();
-    bool FUN_004bd8d0(unsigned char, float&);
+    unsigned char ItemChange_GetModSlots();
+    bool ItemChange_HasModEffectActive(unsigned char, float&);
 };
 struct WeapLoadAccess : TESObjectWEAP
 {
@@ -2292,7 +2292,7 @@ struct MatrixLoadAccess
 };
 struct TESLoadAccess : TES
 {
-    NiNode* FUN_00457ba0(NiNode*, CloningProcess&);
+    NiNode* TES_CreateDeepCopySameTextures(NiNode*, CloningProcess&);
 };
 struct ExtraLoadAccess : ExtraDataList
 {
@@ -2362,10 +2362,10 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
             {
                 TESObjectWEAP* weapon = (TESObjectWEAP*)object[slot].pParent;
                 ItemLoadAccess* pWeaponInfo = (ItemLoadAccess*)g_thePlayer->GetProcess()->GetWeaponInfo();
-                modScope = pWeaponInfo->FUN_004bd820();
+                modScope = pWeaponInfo->ItemChange_GetModSlots();
                 float info = 0.0f;
-                mods = pWeaponInfo->FUN_004bd8d0(14, info);
-                FUN_004ab750(weapon, modScope);
+                mods = pWeaponInfo->ItemChange_HasModEffectActive(14, info);
+                BipedAnim_AttachBipedWeapon(weapon, modScope);
                 if (weapon->GetHasScope() && this == ((PlayerLoadAccess*)g_thePlayer)->FUN_00950b00(false))
                 {
                     if (!((WeapLoadAccess*)weapon)->FUN_004ad030() || mods)
@@ -2409,7 +2409,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
             NiObject* model;
             if (FUN_004b5bf0(_clone))
             {
-                copy = ((TESLoadAccess*)g_TES)->FUN_00457ba0(_clone, boneIndex);
+                copy = ((TESLoadAccess*)g_TES)->TES_CreateDeepCopySameTextures(_clone, boneIndex);
                 model = copy;
             }
             else
@@ -2477,7 +2477,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                                                                        g_thePlayer->GetAnimation(true), actor);
                             else
                                 actor->GetProcess()->UpdateWeaponDrawn(actor->FUN_008a16d0(), this,
-                                                                       actor->FUN_008b70d0(), actor);
+                                                                       actor->Actor_GetAnimData(), actor);
                         }
                     }
                 }

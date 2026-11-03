@@ -461,7 +461,7 @@ struct Im7181
 };
 extern PlayerCharacter* g_thePlayer;
 extern unsigned char DAT_011d8a85;
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 MobileObject* GetDialogCastSound();
 void FUN_007053b0();
 void FUN_00705780();
@@ -488,7 +488,7 @@ struct FUN_00706cb0_shell2
 {
     void ResetFieldBC();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 void ClearInterfaceRefs(unsigned int a);
 struct QuantityData
 {
@@ -550,18 +550,18 @@ void __cdecl RemoveNodeById(int);
 void __cdecl FUN_00706f90(int aiValue);
 struct FUN_00709920_Class
 {
-    const char* FUN_00709920();
+    const char* Tile_GetTypeName();
 };
 class Tile;
 class TileRect
 {
   public:
-    const char* FUN_00709970();
+    const char* TileRect_GetTypeName();
 };
 class TileMenu
 {
   public:
-    const char* FUN_00709a50();
+    const char* TileMenu_GetTypeName();
 };
 bool IsSomethingZero();
 void FUN_0077f2f0(int a1);
@@ -819,7 +819,7 @@ class FUN_00707870_Temp
 };
 struct FUN_00707870_Owner
 {
-    int FUN_00457ba0(unsigned int a, FUN_00707870_Temp* b);
+    int TES_CreateDeepCopySameTextures(unsigned int a, FUN_00707870_Temp* b);
 };
 struct FUN_00707870_Target
 {
@@ -1213,8 +1213,8 @@ struct Player
     virtual void Unknown188();
     virtual void ActivateInterface(Helper*, int, int);
     InterfaceObject* FUN_008d8520();
-    bool FUN_00437bf0();
-    bool FUN_00437bd0();
+    bool Actor_IsRestrained();
+    bool Actor_IsUnConscious();
     int FUN_008d6f30(int);
     void OpenDialogMenu();
 };
@@ -1665,13 +1665,13 @@ struct FUN_0047ee30_shell : public InterfaceManager
 {
     char GetAssistance();
 };
-// If FUN_004b7210 returns a non-null object whose FUN_009373f0 is true, returns its GetAssistance result; otherwise returns -1.
+// If InterfaceManager_Instance returns a non-null object whose FUN_009373f0 is true, returns its GetAssistance result; otherwise returns -1.
 // @fnv 0x00705c70
 extern "C" char __cdecl GetInterfaceManagerResult()
 {
-    if (FUN_004b7210() && reinterpret_cast<FUN_009373f0_shell*>(FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && reinterpret_cast<FUN_009373f0_shell*>(InterfaceManager_Instance())->FUN_009373f0())
     {
-        return reinterpret_cast<FUN_0047ee30_shell*>(FUN_004b7210())->GetAssistance();
+        return reinterpret_cast<FUN_0047ee30_shell*>(InterfaceManager_Instance())->GetAssistance();
     }
     return -1;
 }
@@ -1714,7 +1714,7 @@ struct FUN_00401170_s
 class TESGlobal : public TESForm
 {
   public:
-    char FUN_00529ea0();
+    char TESGlobal_GetType();
     float GetValue();
 };
 class Setting
@@ -2066,7 +2066,7 @@ class Model
 };
 struct Loader_S
 {
-    NiNode* FUN_00447080(const char*, int, bool, bool, bool, bool);
+    NiNode* ModelLoader_LoadFile(const char*, int, bool, bool, bool, bool);
 };
 extern bool DAT_011d8908;
 class FileFinder
@@ -2214,7 +2214,7 @@ struct M70Player
     M70Trait* FUN_00586150();
     M70Hud* FUN_00704370();
 };
-M70Player* FUN_004b7210();
+M70Player* InterfaceManager_Instance();
 M70Menu* FUN_00a09030(int id);
 bool FUN_00702680(int id, int a);
 M70Menu* CreateInventoryMenuIfModifierKey();
@@ -2235,7 +2235,7 @@ void FUN_007048f0(bool show, bool fade, bool reset)
     M70Menu* pMenu3ff8;
     bool bOpen;
 
-    if (FUN_004b7210() && FUN_004b7210()->FUN_009373f0())
+    if (InterfaceManager_Instance() && InterfaceManager_Instance()->FUN_009373f0())
     {
         pMenu3eb = FUN_00a09030(0x3eb);
         pMenu3ea = FUN_00a09030(0x3ea);
@@ -2278,14 +2278,14 @@ void FUN_007048f0(bool show, bool fade, bool reset)
             if (pMenu3ea)
             {
                 FUN_00782a90();
-                FUN_004b7210()->FUN_00586150()->FUN_00700320(0x1771, 0x3ea);
+                InterfaceManager_Instance()->FUN_00586150()->FUN_00700320(0x1771, 0x3ea);
             }
             if (reset)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8a80();
-                FUN_004b7210()->FUN_00704370()->FUN_007fa010(2);
+                InterfaceManager_Instance()->FUN_00704370()->FUN_007f8a80();
+                InterfaceManager_Instance()->FUN_00704370()->FUN_007fa010(2);
             }
-            if (FUN_004b7210()->FUN_00704370()->IsUnk28Set())
+            if (InterfaceManager_Instance()->FUN_00704370()->IsUnk28Set())
             {
                 FUN_00782470(0);
             }
@@ -2898,10 +2898,10 @@ struct ChainObj
     void FUN_00450f90(bool);
     void* FUN_005875a0(int, int);
     void FUN_00555bc0();
-    void FUN_004a0370();
-    void FUN_004a03c0();
-    void FUN_00555b10(NiPt3*, NiPt3*, int);
-    void FUN_00556ef0(int, int, int);
+    void NiRenderer_LockRenderer();
+    void NiRenderer_UnlockRenderer();
+    void TESObjectCELL_AdjustCoordForNorthRotation(NiPt3*, NiPt3*, int);
+    void TESObjectCELL_GetIntSeenSection(int, int, int);
     void FUN_0054e640(Local12*);
     void FUN_0054e750(int, int, Local12*);
     void CollectCellReferences(unsigned int*);
@@ -2909,9 +2909,9 @@ struct ChainObj
 };
 struct Mesh34
 {
-    void FUN_00439410(void*);
+    void NiAVObject_AttachProperty(void*);
     void FUN_00a5a040();
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
 };
 struct ObjD_11dea3c
 {
@@ -3096,8 +3096,8 @@ struct Obj1C
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     Obj1C();
-    void FUN_00439340(int);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetSrcBlendMode(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
     void FUN_0049ed90(int);
 };
 // map-menu state global, fields at their offsets
@@ -3181,9 +3181,9 @@ struct MapMenuR6
     unsigned char field_12c;
     void UpdateLocalMap();
 };
-int __cdecl FUN_00556870(V3Maker*);
+int __cdecl TESObjectCELL_GetSeenValue(V3Maker*);
 // free helpers; conventions read from add esp evidence
-extern "C" void* __cdecl FUN_00401000(unsigned int);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int);
 extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
 extern "C" void* __cdecl FUN_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
@@ -3191,7 +3191,7 @@ extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
 extern "C" int __cdecl FUN_00406d90(float);
 extern "C" void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
-extern "C" void __stdcall FUN_00ee6dc2(char*, int, unsigned int);
+extern "C" void __stdcall D3DXSaveTextureToFileA(char*, int, unsigned int);
 extern "C" bool __cdecl FUN_007a1750();
 extern "C" void* __cdecl FUN_007a1480();
 extern "C" void* __cdecl FUN_00653270(unsigned int, unsigned int);
@@ -3246,8 +3246,8 @@ namespace s7094f0 {
 
 struct Lock
 {
-    void FUN_0040fbf0(int iArg);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int iArg);
+    void BSSpinLock_Unlock();
 };
 
 struct InterfaceManagerView
@@ -3616,7 +3616,7 @@ extern int DAT_011d8964;
 extern int DAT_011d8998;
 extern int DAT_011d899c;
 
-InterfaceManagerView* FUN_004b7210();
+InterfaceManagerView* InterfaceManager_Instance();
 int FUN_00704ed0(TESObjectREFR* pkRef, int iArg);
 bool FUN_00705ec0(TESObjectREFR* pkRef);
 bool FUN_00706130(TESObjectREFR* pkRef);
@@ -3632,8 +3632,8 @@ static const char s_szPlayerNameEntryMenu[] = "Player Name Entry Menu";
 // @fnv 0x007094f0
 void FUN_007094f0()
 {
-    DAT_011d89c0.FUN_0040fbf0(0);
-    if (DAT_011d8950 && (!FUN_004b7210()->m_iModalCount || DAT_011d8950 == 6 || DAT_011d8950 == 7))
+    DAT_011d89c0.BSSpinLock_Lock(0);
+    if (DAT_011d8950 && (!InterfaceManager_Instance()->m_iModalCount || DAT_011d8950 == 6 || DAT_011d8950 == 7))
     {
         bool bPickResultFound = false;
         switch (DAT_011d8950)
@@ -3648,7 +3648,7 @@ void FUN_007094f0()
             bPickResultFound = FUN_00706130(DAT_011d8954);
             break;
         case 4:
-            if (!FUN_004b7210()->FUN_007023a0())
+            if (!InterfaceManager_Instance()->FUN_007023a0())
                 bPickResultFound = FUN_00705070(DAT_011d8954, DAT_011d8958, DAT_011d895c) ? 1 : 0;
             break;
         case 5:
@@ -3668,7 +3668,7 @@ void FUN_007094f0()
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
             NameTile* pkTile = new NameTile;
-            pkNameMenu->FUN_00a087d0(FUN_004b7210()->FUN_00586150(0));
+            pkNameMenu->FUN_00a087d0(InterfaceManager_Instance()->FUN_00586150(0));
             pkNameMenu->FUN_00707e10(s_szPlayerNameEntryMenu);
             pkTile->FUN_00a1dc70(pkNameMenu, 1);
             pkNameMenu->FUN_00409480(pkTile);
@@ -3681,7 +3681,7 @@ void FUN_007094f0()
             DAT_011d8954 = 0;
         }
     }
-    if (DAT_011d8998 && (!FUN_004b7210()->m_iModalCount || DAT_011d8998 == 6 || DAT_011d8998 == 7))
+    if (DAT_011d8998 && (!InterfaceManager_Instance()->m_iModalCount || DAT_011d8998 == 6 || DAT_011d8998 == 7))
     {
         bool bDone2 = false;
         switch (DAT_011d8998)
@@ -3695,7 +3695,7 @@ void FUN_007094f0()
             DAT_011d899c = 0;
         }
     }
-    DAT_011d89c0.FUN_0040fba0();
+    DAT_011d89c0.BSSpinLock_Unlock();
 }
 
 }
@@ -3732,10 +3732,10 @@ struct DisplayItem
 {
     DisplayForm* FUN_0044ddc0();
     DisplayForm* GetExtraForm();
-    float FUN_004bd400();
-    unsigned char FUN_004bd820();
+    float ItemChange_GetItemValue();
+    unsigned char ItemChange_GetModSlots();
     bool HasEffect(int);
-    float FUN_004bcdb0(bool);
+    float ItemChange_GetItemHealth(bool);
     DisplayList* FUN_00559450();
     int FUN_00726070();
 };
@@ -3772,13 +3772,13 @@ struct DisplayForm
     float FUN_004be380(bool);
     int GetField19C();
     unsigned char FUN_00525b20(bool, int, DisplayPlayer*);
-    DisplayForm* FUN_00525980(DisplayPlayer*);
+    DisplayForm* TESObjectWEAP_GetCurrentAmmo(DisplayPlayer*);
     const char* GetStringAtOffsetC4();
     int GetFlaggedValue(bool);
     float FUN_00709430(int);
-    float FUN_004be060();
-    float FUN_004be180();
-    DisplayForm* FUN_004bd570(int);
+    float TESObjectARMO_GetArmorRating();
+    float TESObjectARMO_GetDamageThreshold();
+    DisplayForm* TESObjectWEAP_GetModItem(int);
     bool FUN_0040e210(int);
 };
 struct DisplayProcess
@@ -4042,12 +4042,12 @@ struct DisplayPlayerPrefix
 };
 struct DisplayPlayer : DisplayPlayerPrefix, ActorValues
 {
-    bool FUN_004d1360();
+    bool PlayerCharacter_IsHardcore();
     DisplayProcess* FUN_008d8520();
 };
 struct DisplayInventory
 {
-    int FUN_004c8f30(DisplayForm*);
+    int InventoryChanges_GetObjectCount(DisplayForm*);
 };
 struct DisplaySetting
 {
@@ -4057,7 +4057,7 @@ struct DisplaySetting
 struct ArmorFlags
 {
     bool FUN_004c0bd0();
-    bool FUN_00514450();
+    bool TESBipedModelForm_IsMedium();
 };
 class TESObjectARMO : public TESBoundObject
 {
@@ -4238,7 +4238,7 @@ void ShutdownVats();
 // @fnv 0x00705780
 void __cdecl FUN_00705780()
 {
-    if (FUN_004b7210() && reinterpret_cast<FUN_009373f0_shell*>(FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_Instance() && reinterpret_cast<FUN_009373f0_shell*>(InterfaceManager_Instance())->FUN_009373f0())
     {
         Tile* pTile = (Tile*)FUN_00a09030(Interface::eVATSMenu);
         VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(pTile->GetMenu()) : 0;

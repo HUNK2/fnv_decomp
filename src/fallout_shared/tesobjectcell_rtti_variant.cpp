@@ -25,7 +25,7 @@ struct FUN_0040f410 : BSExtraData
 };
 struct ExtraListAccess548 : ExtraDataList
 {
-    BSExtraData* FUN_0040ff60(BSExtraData*);
+    BSExtraData* BaseExtraList_AddExtra(BSExtraData*);
     bool FUN_00410020(BSExtraData*, bool);
 };
 class BaseProcess;
@@ -51,8 +51,8 @@ class GlobalObject_0096d020
 struct Cell548 : TESObjectCELL
 {
     RefList548* FUN_009604f0();
-    void FUN_00541ae0();
-    void FUN_00551480(bool RetainReference);
+    void TESObjectCELL_CellRefLockLeave();
+    void TESObjectCELL_SetLowestProcessToMiddleLow(bool RetainReference);
 };
 
 class RefView : public TESObjectREFR
@@ -207,14 +207,14 @@ class RefView : public TESObjectREFR
     virtual void Unk_24c();  // +0x24c
 
     void* FUN_007af430();
-    bool FUN_00564e60();
+    bool TESObjectREFR_GetVisibleDistant();
     bool FUN_00440da0();  // GetDisabled
     class RefExtra* FUN_005d43c0();
     CellView* FUN_008d6f30();  // GetParentCell
-    bool FUN_005656d0();
-    bool FUN_0056a250();
+    bool TESObjectREFR_HasScript();
+    bool TESObjectREFR_IsActivatingChildren();
     bool FUN_00437b90();
-    void FUN_005728c0(int iValue);
+    void TESObjectREFR_AddLight(int iValue);
     bool FUN_00548700();
     bool IsFlag20000000Set();
 };
@@ -222,7 +222,7 @@ class RefView : public TESObjectREFR
 class RefExtra
 {
   public:
-    void FUN_0041d390(CellView* pkCell);
+    void ExtraDataList_SetPersistentCell(CellView* pkCell);
 };
 
 struct RefList
@@ -236,7 +236,7 @@ extern RefList DAT_011ca144;
 class CellNavHandler
 {
   public:
-    void FUN_00587d10(RefView* pkRef);
+    void TESWorldSpace_AddToPersistentRefData(RefView* pkRef);
 };
 class CellDataHandler
 {
@@ -247,8 +247,8 @@ extern CellDataHandler* DAT_011c3f2c;
 class CellTES
 {
   public:
-    bool FUN_004511e0(CellView* pkCell, int iValue);
-    int FUN_00458be0(CellView* pkCell, int iA, int iB);
+    bool TES_IsCellLoaded(CellView* pkCell, int iValue);
+    int TES_GetCellPriority(CellView* pkCell, int iA, int iB);
 };
 extern CellTES* DAT_011dea10;
 class CellPlayer
@@ -266,7 +266,7 @@ extern CellSaveLoad* DAT_011de45c;
 class CellModelLoader
 {
   public:
-    void FUN_00444850(RefView* pkRef, int iCell);
+    void ModelLoader_QueueReference(RefView* pkRef, int iCell);
 };
 extern CellModelLoader* DAT_011c3b3c;
 class CellProcessLists
@@ -395,54 +395,54 @@ class CellView
 
     bool FUN_005516c0();
     void FUN_00541ac0();  // CellRefLockEnter
-    void FUN_00541ae0();  // CellRefLockLeave
+    void TESObjectCELL_CellRefLockLeave();  // CellRefLockLeave
     RefList* FUN_009604f0();
     CellNavHandler* FUN_0054ddd0();
-    void FUN_0054ca90(RefView* pkRef);  // RemoveReference
-    bool FUN_00450ff0();
-    bool FUN_004523c0();
+    void TESObjectCELL_RemoveReference(RefView* pkRef);  // RemoveReference
+    bool TESObjectCELL_IsAttached();
+    bool TESObjectCELL_IsAttaching();
     void FUN_00545560(RefView* pkRef);
     void FUN_005455c0(RefView* pkRef);
-    void FUN_00548880(RefView* pkRef, bool bArg);
-    bool FUN_00548720();
+    void TESObjectCELL_AttachReference3D(RefView* pkRef, bool bArg);
+    bool TESObjectCELL_IsLoading();
     bool FUN_00425fd0();  // IsInterior
-    void FUN_00548230(RefView* pkRef, bool bArg);
+    void TESObjectCELL_AddReference(RefView* pkRef, bool bArg);
 };
 
 // @fnv 0x00548230
-void CellView::FUN_00548230(RefView* pkRef, bool bArg)
+void CellView::TESObjectCELL_AddReference(RefView* pkRef, bool bArg)
 {
     if (!pkRef || !pkRef->FUN_007af430())
         return;
-    if (pkRef->FUN_00564e60() && !pkRef->FUN_00440da0())
+    if (pkRef->TESObjectREFR_GetVisibleDistant() && !pkRef->FUN_00440da0())
         m_usPersistentCount++;
     if (FUN_005516c0())
     {
         FUN_00541ac0();
         FUN_009604f0()->FUN_005ae3d0(pkRef);
-        FUN_00541ae0();
-        pkRef->FUN_005d43c0()->FUN_0041d390(this);
+        TESObjectCELL_CellRefLockLeave();
+        pkRef->FUN_005d43c0()->ExtraDataList_SetPersistentCell(this);
         CellNavHandler* pkHandler = FUN_0054ddd0();
         if (pkHandler)
-            pkHandler->FUN_00587d10(pkRef);
+            pkHandler->TESWorldSpace_AddToPersistentRefData(pkRef);
         if (!DAT_011c3f2c->FUN_004516b0())
             Unk_0c8(1);
         return;
     }
     CellView* pkOldCell = pkRef->FUN_008d6f30();
     if (pkOldCell)
-        pkOldCell->FUN_0054ca90(pkRef);
+        pkOldCell->TESObjectCELL_RemoveReference(pkRef);
     FUN_00541ac0();
     FUN_009604f0()->FUN_005ae3d0(pkRef);
     pkRef->SetParentCell(this);
-    FUN_00541ae0();
-    if (FUN_00450ff0())
+    TESObjectCELL_CellRefLockLeave();
+    if (TESObjectCELL_IsAttached())
         DAT_011c95c8->FUN_00526f20((BGSPerkEntry*)pkRef);
     if (m_pkNavMeshes)
     {
-        if ((!pkRef->IsActor() || pkRef->FUN_00440da0()) && pkRef->FUN_005656d0())
+        if ((!pkRef->IsActor() || pkRef->FUN_00440da0()) && pkRef->TESObjectREFR_HasScript())
             FUN_00545560(pkRef);
-        if (pkRef->FUN_0056a250())
+        if (pkRef->TESObjectREFR_IsActivatingChildren())
             FUN_005455c0(pkRef);
     }
     if (!pkRef->FUN_00440da0() && pkRef->GetNode3D())
@@ -455,27 +455,27 @@ void CellView::FUN_00548230(RefView* pkRef, bool bArg)
     if (!DAT_011c3f2c->FUN_004516b0() && !bHandled && !pkRef->FUN_00437b90())
     {
         void* pvNode = pkRef->GetNode3D();
-        if (DAT_011dea10->FUN_004511e0(this, 0))
+        if (DAT_011dea10->TES_IsCellLoaded(this, 0))
         {
             bool bQueue = false;
             if (pvNode)
-                FUN_00548880(pkRef, bArg);
+                TESObjectCELL_AttachReference3D(pkRef, bArg);
             else
             {
                 if (!pkRef->IsActor())
                     bQueue = true;
-                else if (!DAT_011dea3c->FUN_0094df60() && !FUN_00548720())
+                else if (!DAT_011dea3c->FUN_0094df60() && !TESObjectCELL_IsLoading())
                     bQueue = true;
                 if (bQueue)
                 {
                     if (pkRef->IsActor() && (!DAT_011de45c->FUN_0047c850() || DAT_011de45c->FUN_0047c850()))
                     {
-                        if (FUN_00450ff0() || FUN_004523c0())
+                        if (TESObjectCELL_IsAttached() || TESObjectCELL_IsAttaching())
                             pkRef->Unk_240();
                         else
                             pkRef->Unk_24c();
                     }
-                    DAT_011c3b3c->FUN_00444850(pkRef, DAT_011dea10->FUN_00458be0(this, 0, 0));
+                    DAT_011c3b3c->ModelLoader_QueueReference(pkRef, DAT_011dea10->TES_GetCellPriority(this, 0, 0));
                 }
             }
             if (!bQueue && pkRef->IsActor())
@@ -493,7 +493,7 @@ void CellView::FUN_00548230(RefView* pkRef, bool bArg)
             }
         }
     }
-    pkRef->FUN_005728c0(0);
+    pkRef->TESObjectREFR_AddLight(0);
     if (!pkRef->FUN_008d6f30()->FUN_00425fd0())
     {
         if (pkRef->FUN_00548700() && !DAT_011ca13c.FUN_005f65d0(pkRef))
@@ -518,7 +518,7 @@ class TESBoundObject : public TESObject
 class TESObjectDOOR : public TESBoundObject
 {
   public:
-    bool FUN_005194d0();
+    bool TESObjectDOOR_IsRandomDoor();
     bool HasEntry(TESForm* destination);
 };
 class ReferenceList
@@ -538,14 +538,14 @@ class ReferenceList
 ReferenceList* __fastcall FUN_009604f0(TESObjectCELL* cell);
 TESObjectCELL* __fastcall FUN_005f36f0(TESWorldSpace* world);
 TESBoundObject* __fastcall FUN_007af430(TESObjectREFR* reference);
-bool __fastcall FUN_00440d80(const TESObjectREFR* reference);
+bool __fastcall TESForm_GetDelete(const TESObjectREFR* reference);
 bool __fastcall FUN_00440da0(TESObjectREFR* reference);
-bool __fastcall FUN_00477ba0(TESObjectREFR* reference);
+bool __fastcall TESForm_GetDestroyed(TESObjectREFR* reference);
 void* __fastcall FUN_00568e50(TESObjectREFR* reference);
-void __fastcall FUN_00541ae0(TESObjectCELL* cell);
+void __fastcall TESObjectCELL_CellRefLockLeave(TESObjectCELL* cell);
 unsigned int __cdecl GetRandomNumberInRange(int low, int high);
 // @fnv 0x0054afb0
-TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void* context)
+TESObjectREFR* __cdecl TESObjectCELL_PickRandomTeleportDoorInSpace(TESForm* source, TESForm* destination, void* context)
 {
     TESObjectREFR* result = 0;
     if (source && destination && context && source != destination)
@@ -574,11 +574,11 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void*
         while (cursor4 && !cursor4->IsEmpty())
         {
             TESObjectREFR* reference = cursor4->GetItem();
-            if (FUN_007af430(reference)->GetFormType() == 28 && !FUN_00440d80(reference) && !FUN_00440da0(reference) &&
-                !FUN_00477ba0(reference))
+            if (FUN_007af430(reference)->GetFormType() == 28 && !TESForm_GetDelete(reference) && !FUN_00440da0(reference) &&
+                !TESForm_GetDestroyed(reference))
             {
                 TESObjectDOOR* door = dynamic_cast<TESObjectDOOR*>(FUN_007af430(reference));
-                if (door && door->FUN_005194d0() && door->HasEntry(destination) && !FUN_00568e50(reference))
+                if (door && door->TESObjectDOOR_IsRandomDoor() && door->HasEntry(destination) && !FUN_00568e50(reference))
                 {
                     candidatesVal.Append(reference);
                     ++countB;
@@ -586,7 +586,7 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void*
             }
             cursor4 = cursor4->GetNext();
         }
-        FUN_00541ae0(lockedCellVal);
+        TESObjectCELL_CellRefLockLeave(lockedCellVal);
         if (countB > 0 && !candidatesVal.IsEmpty())
         {
             unsigned int selectedX = GetRandomNumberInRange(0, countB);
@@ -895,13 +895,13 @@ class Actor : public MobileObject
     virtual void slot_45c();
     virtual void FUN_virtual460(TESObjectREFR*, float);
     bool FUN_00440da0();
-    bool FUN_00440d80();
+    bool TESForm_GetDelete();
     bool FUN_0087f3d0();
     void FUN_0089d900(Actor*, float);
 };
 struct ContainerChanges550
 {
-    float FUN_004ce380(TESObjectREFR*, TESObjectREFR*, bool, bool, bool, bool, int, int);
+    float InventoryChanges_RemoveAllItems(TESObjectREFR*, TESObjectREFR*, bool, bool, bool, bool, int, int);
 };
 struct ExtraListAccess550 : ExtraDataList
 {
@@ -910,8 +910,8 @@ struct ExtraListAccess550 : ExtraDataList
 struct ReferenceAccess550 : TESObjectREFR
 {
     ExtraDataList* FUN_005d43c0();
-    void* FUN_00569160();
-    void FUN_005692a0();
+    void* TESObjectREFR_GetLock();
+    void TESObjectREFR_UnLock();
 };
 struct RefList550
 {
@@ -921,11 +921,11 @@ struct RefList550
     RefList550* FUN_00726070();
 };
 extern TESObjectREFR* g_thePlayer;
-void FUN_00555c20();
+void TESObjectCELL_UpdateSeenDataForPlayer();
 struct Cell550 : TESObjectCELL
 {
     RefList550* FUN_009604f0();
-    void FUN_00541ae0();
+    void TESObjectCELL_CellRefLockLeave();
     void FUN_0054b5b0();
 };
 // @fnv 0x0054b5b0
@@ -943,22 +943,22 @@ void Cell550::FUN_0054b5b0()
                 static_cast<ExtraListAccess550*>(static_cast<ReferenceAccess550*>(reference)->FUN_005d43c0())
                     ->FUN_00418520();
             if (changes)
-                changes->FUN_004ce380(reference, g_thePlayer, false, false, true, false, -1, 0);
-            if (actor && !actor->FUN_00440da0() && !actor->FUN_00440d80())
+                changes->InventoryChanges_RemoveAllItems(reference, g_thePlayer, false, false, true, false, -1, 0);
+            if (actor && !actor->FUN_00440da0() && !actor->TESForm_GetDelete())
                 actor->FUN_virtual460(g_thePlayer, 10.0f);
-            if (actor && !actor->FUN_0087f3d0() && !actor->FUN_00440da0() && !actor->FUN_00440d80() &&
+            if (actor && !actor->FUN_0087f3d0() && !actor->FUN_00440da0() && !actor->TESForm_GetDelete() &&
                 !actor->FUN_virtual22c(0))
             {
                 actor->FUN_virtual424(g_thePlayer, 0, 0, 0, 0, 0, 1, 0);
                 actor->FUN_0089d900(0, 0.0f);
             }
-            if (static_cast<ReferenceAccess550*>(reference)->FUN_00569160())
-                static_cast<ReferenceAccess550*>(reference)->FUN_005692a0();
-            FUN_00555c20();
+            if (static_cast<ReferenceAccess550*>(reference)->TESObjectREFR_GetLock())
+                static_cast<ReferenceAccess550*>(reference)->TESObjectREFR_UnLock();
+            TESObjectCELL_UpdateSeenDataForPlayer();
         }
         position = position->FUN_00726070();
     }
-    FUN_00541ae0();
+    TESObjectCELL_CellRefLockLeave();
 }
 
 void* __cdecl operator new(unsigned int);
@@ -968,13 +968,13 @@ void* __cdecl operator new(unsigned int);
 extern GlobalObject_0096d020 g_011e0e80;
 
 // @fnv 0x00551480
-void Cell548::FUN_00551480(bool RetainReference)
+void Cell548::TESObjectCELL_SetLowestProcessToMiddleLow(bool RetainReference)
 {
     FUN_0040f410* extra = static_cast<FUN_0040f410*>(extraDataList.GetExtraData(9));
     if (!extra && RetainReference)
     {
         extra = new FUN_0040f410;
-        static_cast<ExtraListAccess548*>(&extraDataList)->FUN_0040ff60(extra);
+        static_cast<ExtraListAccess548*>(&extraDataList)->BaseExtraList_AddExtra(extra);
         CellRefLockEnter();
         RefList548* position = FUN_009604f0();
         while (position && position->FUN_006815c0())
@@ -984,7 +984,7 @@ void Cell548::FUN_00551480(bool RetainReference)
             if (mobile && !mobile->FUN_00440da0() && mobile->FUN_008d8520() && mobile->FUN_00931850() == 3)
                 g_011e0e80.FUN_0096e870(mobile);
         }
-        FUN_00541ae0();
+        TESObjectCELL_CellRefLockLeave();
     }
     if (extra)
     {
@@ -1000,7 +1000,7 @@ void Cell548::FUN_00551480(bool RetainReference)
 class TESWeather : public TESForm
 {
 };
-TESForm* FUN_004839c0(unsigned int auiFormId);
+TESForm* TESForm_GetFormByNumericID(unsigned int auiFormId);
 
 class NiUpdateData
 {
@@ -1346,8 +1346,8 @@ struct SkyColorData
 class Sky
 {
   public:
-    void FUN_0063b630(SkyColorData* pkData, TESWeather* pkWeather, float fBlendRes, float* pfOut, int* piOut);
-    void FUN_0063bab0(SkyColorData* pkData, TESWeather* pkWeather, int iA, int iB, float* pfOut, int* piOut);
+    void Sky_FillColorBlend(SkyColorData* pkData, TESWeather* pkWeather, float fBlendRes, float* pfOut, int* piOut);
+    void Sky_FillColorBlendColors(SkyColorData* pkData, TESWeather* pkWeather, int iA, int iB, float* pfOut, int* piOut);
     float FUN_00644950();
     void FUN_0063c690(NiColor* pkColorPos, SkyColorData* pkData, float fValue);
 };
@@ -1507,8 +1507,8 @@ class CellUpdateView
     bool m_bWaterD2;  // +0xd2
 
     bool FUN_00425fd0();
-    bool FUN_00450ff0();
-    SceneRoot* FUN_004543c0();
+    bool TESObjectCELL_IsAttached();
+    SceneRoot* TESObjectCELL_GetbhkWorld();
     NodeView* FUN_005497a0();
     bool FUN_005495a0();
     bool FUN_00557d10();
@@ -1520,9 +1520,9 @@ class CellUpdateView
 // @fnv 0x00551890
 void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
 {
-    if (FUN_00425fd0() && FUN_00450ff0())
+    if (FUN_00425fd0() && TESObjectCELL_IsAttached())
     {
-        SceneRoot* pkRoot = FUN_004543c0();
+        SceneRoot* pkRoot = TESObjectCELL_GetbhkWorld();
         if (pkRoot)
             pkRoot->Unk_0c4();
     }
@@ -1643,15 +1643,15 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                         LightForm* pkRegion = pkForm;
                         TESWeather* pkWeather = pkRegion->FUN_0059bb30();
                         if (!pkWeather)
-                            pkWeather = dynamic_cast<TESWeather*>(FUN_004839c0(0x15e));
+                            pkWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(0x15e));
                         if (pkWeather)
                         {
                             Sky* pkSky = FUN_0046dd00();
                             SkyColorData kSkyDataOut;
                             float fBlendRes;
                             int iIndexNew;
-                            pkSky->FUN_0063b630(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
-                            pkSky->FUN_0063bab0(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
+                            pkSky->Sky_FillColorBlend(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
+                            pkSky->Sky_FillColorBlendColors(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
                             float fValue = pkSky->FUN_00644950() * *DAT_011ccccc.FUN_00403e20();
                             pkSky->FUN_0063c690(pkColorPos, &kSkyDataOut, fValue);
                         }
@@ -1689,15 +1689,15 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                             LightForm* pkRegion = pkSource;
                             TESWeather* pkWeather = pkRegion->FUN_0059bb30();
                             if (!pkWeather)
-                                pkWeather = dynamic_cast<TESWeather*>(FUN_004839c0(0x15e));
+                                pkWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(0x15e));
                             if (pkWeather)
                             {
                                 Sky* pkSky = FUN_0046dd00();
                                 SkyColorData kSkyDataOut;
                                 float fBlendRes;
                                 int iIndexNew;
-                                pkSky->FUN_0063b630(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
-                                pkSky->FUN_0063bab0(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
+                                pkSky->Sky_FillColorBlend(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
+                                pkSky->Sky_FillColorBlendColors(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
                                 float fValue = pkSky->FUN_00644950() * *DAT_011ccccc.FUN_00403e20();
                                 pkSky->FUN_0063c690(&kColor, &kSkyDataOut, fValue);
                             }

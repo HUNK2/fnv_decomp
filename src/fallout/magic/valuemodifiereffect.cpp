@@ -178,10 +178,10 @@ FUN_0080a900::FUN_0080a900(void* apArg1, void* apArg2, void* apArg3) : ValueModi
 struct FUN_0082ccb0_Cls : ActiveEffect
 {
     EffectSetting* GetEffectSetting();
-    bool FUN_0082ccb0();
+    bool ValueModifierEffect_IsCausingDamage();
 };
 // @fnv 0x0082ccb0
-bool FUN_0082ccb0_Cls::FUN_0082ccb0()
+bool FUN_0082ccb0_Cls::ValueModifierEffect_IsCausingDamage()
 {
     return *(int*)((char*)this + 0x48) == 16 && GetEffectSetting()->IsFlagSet(4) && !GetEffectSetting()->IsFlagSet(2);
 }
@@ -258,12 +258,12 @@ struct LoadedValueEffect : ValueModifierEffect
     ParentCellStub* GetParentCell();
     CasterStub* GetCaster();
     float GetMagnitude();
-    void FUN_0082cd10(Actor* apActor);
+    void ValueModifierEffect_FinishInitLoadGame(Actor* apActor);
 };
 
 // Restarts the effect on the actor, then for save versions 0x5f-0x61 re-applies the magnitude to the player target via SetActorValueF and ModActorValue.
 // @fnv 0x0082cd10
-void LoadedValueEffect::FUN_0082cd10(Actor* apActor)
+void LoadedValueEffect::ValueModifierEffect_FinishInitLoadGame(Actor* apActor)
 {
     Restart(apActor);
     if (g_TESSaveLoadGame->GetVersion() >= 0x5f && g_TESSaveLoadGame->GetVersion() < 0x62)
@@ -293,11 +293,11 @@ class MagicItem
 class AlchemyItem : public MagicItem
 {
   public:
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 struct EffectDuration
 {
-    int FUN_004044d0();
+    int EffectItem_GetDuration();
 };
 struct TargetGetter
 {
@@ -391,19 +391,19 @@ struct LocalEffect
 void LocalEffect::FUN_0082c490()
 {
     Actor* target = FUN_0059bb30() ? FUN_0059bb30()->FUN_00822b40() : 0;
-    if (target == (Actor*)g_thePlayer && effect && effect->FUN_004044d0() > 0 && which == 16)
+    if (target == (Actor*)g_thePlayer && effect && effect->EffectItem_GetDuration() > 0 && which == 16)
     {
         float missing = ((LocalPlayer*)g_thePlayer)->values.base(16) - ((LocalPlayer*)g_thePlayer)->values.current(16);
         MagicItem* pMagicItem = FUN_0044ddc0();
         bool potion = pMagicItem->GetSpellType() == 7;
         AlchemyItem* item = potion ? dynamic_cast<AlchemyItem*>(pMagicItem) : 0;
-        if (item && item->FUN_004029d0(2))
+        if (item && item->AlchemyItem_IsFlagSet(2))
         {
-            FUN_004d5e10(18, (int)FUN_0040ebd0(magnitude * effect->FUN_004044d0(), missing));
+            FUN_004d5e10(18, (int)FUN_0040ebd0(magnitude * effect->EffectItem_GetDuration(), missing));
         }
-        if (item && item->FUN_004029d0(4))
+        if (item && item->AlchemyItem_IsFlagSet(4))
         {
-            FUN_004d5e10(16, (int)FUN_0040ebd0(magnitude * effect->FUN_004044d0(), missing));
+            FUN_004d5e10(16, (int)FUN_0040ebd0(magnitude * effect->EffectItem_GetDuration(), missing));
         }
     }
 }
@@ -1149,16 +1149,16 @@ struct TESWeightForm : public BaseFormComponent
 typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct FUN_0082c000_shell : public ValueModifierEffect
 {
-    void FUN_0082c000();
+    void ValueModifierEffect_Start();
 };
 
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 struct FUN_004044d0_shell
 {
-    int FUN_004044d0();
+    int EffectItem_GetDuration();
 };
 struct BGSMessageInitAccess
 {
@@ -1685,14 +1685,14 @@ extern double _gModifierZero;
 
 // Updates a modifier, may add misc stats or call Kill, and may update radiation rate and player effects.
 // @fnv 0x0082c000
-void FUN_0082c000_shell::FUN_0082c000()
+void FUN_0082c000_shell::ValueModifierEffect_Start()
 {
     Actor* pActor = ((ActorMover*)this)->GetCurrentMoveModeType()
                         ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
                         : 0;
 
     if ((*(EffectItem**)((char*)this + 0xc))->GetEffectSetting()->IsFlagSet(2) ||
-        (!(*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() && !((ActiveEffect*)this)->IsFlagged() &&
+        (!(*(FUN_004044d0_shell**)((char*)this + 0xc))->EffectItem_GetDuration() && !((ActiveEffect*)this)->IsFlagged() &&
          ((BGSMessageInitAccess*)this)->GetIconFormID() != 4 && ((BGSMessageInitAccess*)this)->GetIconFormID() != 1))
     {
         *(float*)((char*)this + 0x1c) =
@@ -1704,10 +1704,10 @@ void FUN_0082c000_shell::FUN_0082c000()
             MagicItem* pMagicItem = (MagicItem*)((InventoryStackRecord*)this)->GetObject();
             bool bpotion = pMagicItem->GetSpellType() == 7;
             AlchemyItem* ppotion = bpotion ? dynamic_cast<AlchemyItem*>(pMagicItem) : 0;
-            if (ppotion && ppotion->FUN_004029d0(2))
+            if (ppotion && ppotion->AlchemyItem_IsFlagSet(2))
                 MiscStatManager::AddMiscStat((MiscStatManager::MiscStat)0x12,
                                              (int)FUN_0040ebd0(*(float*)((char*)this + 0x1c), fPlayerHealthDiff));
-            if (ppotion && ppotion->FUN_004029d0(4))
+            if (ppotion && ppotion->AlchemyItem_IsFlagSet(4))
                 MiscStatManager::AddMiscStat((MiscStatManager::MiscStat)0x10,
                                              (int)FUN_0040ebd0(*(float*)((char*)this + 0x1c), fPlayerHealthDiff));
         }
@@ -1722,7 +1722,7 @@ void FUN_0082c000_shell::FUN_0082c000()
         ((ValueModifierEffect*)this)
             ->ApplyActorValueModifier(pActor, *(float*)((char*)this + 0x1c), (ActorValue::Index)-1);
     }
-    else if (pActor == (Actor*)g_thePlayer && (*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() > 0 &&
+    else if (pActor == (Actor*)g_thePlayer && (*(FUN_004044d0_shell**)((char*)this + 0xc))->EffectItem_GetDuration() > 0 &&
              *(int*)((char*)this + 0x48) == 16)
     {
         float fPlayerHealthDiff =
@@ -1730,16 +1730,16 @@ void FUN_0082c000_shell::FUN_0082c000()
         MagicItem* pMagicItem = (MagicItem*)((InventoryStackRecord*)this)->GetObject();
         bool bpotion = pMagicItem->GetSpellType() == 7;
         AlchemyItem* ppotion = bpotion ? dynamic_cast<AlchemyItem*>(pMagicItem) : 0;
-        if (ppotion && ppotion->FUN_004029d0(2))
+        if (ppotion && ppotion->AlchemyItem_IsFlagSet(2))
             MiscStatManager::AddMiscStat(
                 (MiscStatManager::MiscStat)0x12,
-                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() *
+                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->EffectItem_GetDuration() *
                                       *(float*)((char*)this + 0x1c),
                                   fPlayerHealthDiff));
-        if (ppotion && ppotion->FUN_004029d0(4))
+        if (ppotion && ppotion->AlchemyItem_IsFlagSet(4))
             MiscStatManager::AddMiscStat(
                 (MiscStatManager::MiscStat)0x10,
-                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() *
+                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->EffectItem_GetDuration() *
                                       *(float*)((char*)this + 0x1c),
                                   fPlayerHealthDiff));
     }

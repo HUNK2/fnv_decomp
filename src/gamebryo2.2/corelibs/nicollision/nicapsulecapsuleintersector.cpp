@@ -88,7 +88,7 @@ class NiPoint3 : public S_00eaee50_Point3
     NiPoint3(const S_00eaee50_Point3& p) : S_00eaee50_Point3(p)
     {}
 
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 
     NiPoint3 operator*(double s) const
     {
@@ -181,7 +181,7 @@ void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee5
         FUN_Offset(kPointB, kOffsetB, unk1C);
 
         m_kPoint2C = kPointB - kPointA;
-        m_kPoint2C.FUN_004a0c10();
+        m_kPoint2C.NiPoint3_Unitize();
 
         m_kPoint20 = kPointA + m_kPoint2C * m_pkShapeA->m_fBoundRadius;
     }
@@ -193,7 +193,7 @@ void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee5
         if (((Call_439090_tgt*)&kPointB)->Call_439090(kPointA))
         {
             m_kPoint2C = kPointB - kPointA;
-            m_kPoint2C.FUN_004a0c10();
+            m_kPoint2C.NiPoint3_Unitize();
         }
         else
         {

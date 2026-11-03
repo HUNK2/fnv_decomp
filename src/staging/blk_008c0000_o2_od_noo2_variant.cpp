@@ -38,7 +38,7 @@ class NiPoint3
     NiPoint3 operator+(const NiPoint3&) const;
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3 FUN_0053d280(float) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 class ThreeByThreeMatrix
 {
@@ -48,7 +48,7 @@ class ThreeByThreeMatrix
     void FUN_004a0c90(float);
     void FUN_00524ac0(float);
     ThreeByThreeMatrix FUN_0043f8d0(const ThreeByThreeMatrix&) const;
-    void FUN_00439f50(int, NiPoint3*) const;
+    void NiMatrix3_GetCol(int, NiPoint3*) const;
 };
 class NiTransform
 {
@@ -76,7 +76,7 @@ struct Link8;
 struct Material8;
 struct Node8
 {
-    Node8* FUN_00461130();
+    Node8* NiAVObject_GetWorldRotate();
     NiPoint3 FUN_004b4500(const NiPoint3&);
     void FUN_004b4880(NiTransform*);
     void FUN_004b46a0(ThreeByThreeMatrix*);
@@ -90,7 +90,7 @@ struct Form8
 };
 struct Link8
 {
-    Material8* FUN_004ae6a0();
+    Material8* bhkWorldObject_GetShape();
     Form8* FUN_004ae750();
 };
 struct Material8
@@ -432,12 +432,12 @@ struct Ref8
     unsigned short unk0c2;
     Ref8* FUN_009306d0();
     FUN_004a3c90* FUN_00807080();
-    Node8* FUN_0043fcd0();
+    Node8* TESObjectREFR_Get3D();
     Node8* FUN_00950bb0(int);
     void CallProcessAt778();
     void* FUN_005d43c0();
     int FUN_007af430();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     float FUN_00931d70();
     bool FUN_00894d60();
     void* FUN_008d8520();
@@ -466,13 +466,13 @@ extern Ref8* DAT_011dea3c;
 extern float DAT_01085910, DAT_01085c58, DAT_010231a0, DAT_010162c0, DAT_0102226c, DAT_01047224;
 extern double DAT_010356f0, DAT_01011590;
 void FUN_00458620(void*, const void*);
-void FUN_005ac750(int, void*, int);
+void Script_SetActionFlag(int, void*, int);
 float RemapValueBySettings(float, int);
 void FUN_00cb9650(Node8*);
 void FUN_00c6a350(Node8*, int, int, int, int);
 void FUN_004a3e00(void*, const void*);
 void SetCollisionScale(Node8*, const hkVector4&, float, int);
-void FUN_00525340(NiPoint3*);
+void NiPoint3_UnitizeVector(NiPoint3*);
 Node8* FUN_008cfbc0(Node8*, NiPoint3, NiPoint3, float*, bool);
 Form8* FUN_004b5260(Node8*);
 bool IsTargetInCone(Ref8*, Ref8*, int);
@@ -499,7 +499,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         if (direction.FUN_00458700(0).FUN_004586d0() == -DAT_01085910)
         {
             if (v1d0())
-                state->direction = v1d0()->FUN_00461130()->FUN_004b4500(DAT_011a9478 * angle);
+                state->direction = v1d0()->NiAVObject_GetWorldRotate()->FUN_004b4500(DAT_011a9478 * angle);
         }
         else
             FUN_00458620(&state->direction, &direction);
@@ -513,15 +513,15 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         state->victim = victim;
         if (victim)
             victim->CallProcessAt778();
-        FUN_005ac750(FUN_007af430(), state->victim->FUN_005d43c0(), 0x100);
+        Script_SetActionFlag(FUN_007af430(), state->victim->FUN_005d43c0(), 0x100);
         if (actor)
         {
-            if (actor != DAT_011dea3c && !actor->FUN_00493bb0())
+            if (actor != DAT_011dea3c && !actor->Actor_IsInCombat())
                 goto sceneReady;
             bool blocked = victim->v22c(0);
             if (!blocked && victim->v22c(0) && (!victim->v21c() || victim->v38c()))
             {
-                Node8* scene = victim->FUN_0043fcd0();
+                Node8* scene = victim->TESObjectREFR_Get3D();
                 if (scene)
                 {
                     float setting = RemapValueBySettings(*DAT_011cf624.FUN_00403e20(), 1);
@@ -529,8 +529,8 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     FUN_00c6a350(scene, 1, 1, 0, 1);
                     NiUpdateData zero(0.0f, false, false);
                     scene->FUN_00a59c60(zero);
-                    NiPoint3 offset = root->FUN_00461130()->FUN_004b4500(DAT_011a9478);
-                    offset.FUN_004a0c10();
+                    NiPoint3 offset = root->NiAVObject_GetWorldRotate()->FUN_004b4500(DAT_011a9478);
+                    offset.NiPoint3_Unitize();
                     offset = *v1f4() + (offset * DAT_01085c58);
                     hkVector4 position;
                     FUN_004a3e00(&position, &offset);
@@ -544,7 +544,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         if (victim == DAT_011dea3c)
             victimScene = DAT_011dea3c->FUN_00950bb0(0);
         else
-            victimScene = victim->FUN_0043fcd0();
+            victimScene = victim->TESObjectREFR_Get3D();
         float range = DAT_010231a0;
         NiPoint3 direction;
         ThreeByThreeMatrix pitch;
@@ -552,8 +552,8 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         pitch.FUN_004a0c90(v2bc(0));
         heading.FUN_00524ac0(FUN_00931d70());
         pitch = pitch.FUN_0043f8d0(heading);
-        pitch.FUN_00439f50(1, &direction);
-        FUN_00525340(&direction);
+        pitch.NiMatrix3_GetCol(1, &direction);
+        NiPoint3_UnitizeVector(&direction);
         NiPoint3 ray = *v1f4() - (direction * range).FUN_0053d280(DAT_010162c0);
         bool found = false;
         Node8* hit = FUN_008cfbc0(victim->v1d0(), ray, direction, &range, !victim->v22c(1));
@@ -561,11 +561,11 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         {
             NiPoint3 scaled = direction * (float)(range + DAT_010356f0);
             NiTransform transform;
-            hit->FUN_00461130()->FUN_004b4880(&transform);
+            hit->NiAVObject_GetWorldRotate()->FUN_004b4880(&transform);
             state->target = transform.FUN_00524c40(ray + scaled);
             ThreeByThreeMatrix inverse;
-            hit->FUN_00461130()->FUN_004b46a0(&inverse);
-            state->rotation = inverse.FUN_0043f8d0(*reinterpret_cast<ThreeByThreeMatrix*>(root->FUN_00461130()));
+            hit->NiAVObject_GetWorldRotate()->FUN_004b46a0(&inverse);
+            state->rotation = inverse.FUN_0043f8d0(*reinterpret_cast<ThreeByThreeMatrix*>(root->NiAVObject_GetWorldRotate()));
             state->node = hit;
             Form8* form = FUN_004b5260(hit);
             if (form)
@@ -601,11 +601,11 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     hit = object->FUN_0044ddc0();
                     NiPoint3 scaled = direction * DAT_01047224;
                     NiTransform transform;
-                    hit->FUN_00461130()->FUN_004b4880(&transform);
+                    hit->NiAVObject_GetWorldRotate()->FUN_004b4880(&transform);
                     state->target = transform.FUN_00524c40(*hit->FUN_0045bb80() + scaled);
                     ThreeByThreeMatrix inverse;
-                    hit->FUN_00461130()->FUN_004b46a0(&inverse);
-                    state->rotation = inverse.FUN_0043f8d0(*reinterpret_cast<ThreeByThreeMatrix*>(root->FUN_00461130()));
+                    hit->NiAVObject_GetWorldRotate()->FUN_004b46a0(&inverse);
+                    state->rotation = inverse.FUN_0043f8d0(*reinterpret_cast<ThreeByThreeMatrix*>(root->NiAVObject_GetWorldRotate()));
                     state->node = hit;
                 }
             }
@@ -616,12 +616,12 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
             }
         }
         if (linked)
-            FUN_008d0020(*start, root->FUN_00461130()->FUN_004b4500(DAT_011a9478), linked);
+            FUN_008d0020(*start, root->NiAVObject_GetWorldRotate()->FUN_004b4500(DAT_011a9478), linked);
         if (state->node)
         {
             Form8* form = FUN_0043b610(state->node);
             Link8* object = form ? form->FUN_006fa820() : 0;
-            Material8* material = object ? object->FUN_004ae6a0() : 0;
+            Material8* material = object ? object->bhkWorldObject_GetShape() : 0;
             if (material)
             {
                 switch (material->FUN_006205a0())

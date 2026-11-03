@@ -356,11 +356,11 @@ FUN_005808e0::~FUN_005808e0()
 
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void TESForm_StartForm();
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void TESForm_CloseForm();
 };
 class FUN_00582040_Class : public TESImageSpaceModifiableCountForm_6_
 {
@@ -369,13 +369,13 @@ class FUN_00582040_Class : public TESImageSpaceModifiableCountForm_6_
 };
 struct FUN_0048e370_holder
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_004891d0_holder
 {
     void WriteToBuffer(unsigned int, unsigned int);
 };
-void FUN_004856f0(unsigned int, void*, unsigned int);
+void TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void FUN_00485710(unsigned int, unsigned int*, unsigned int);
 void FUN_00485910(unsigned int, int);
 void AppendChunk(unsigned int, void*, unsigned int);
@@ -395,20 +395,20 @@ class WeatherSave : public TESForm, public FUN_00582040_Class
     float m_afHdrParameters[14];
     ImageSpaceModifierParameterData m_akImageSpaceModifierParameters[2];
     int m_iCloudLayerCount;
-    void FUN_005813d0();
+    void TESWeather_SaveForm();
 };
 // @fnv 0x005813d0
-void WeatherSave::FUN_005813d0()
+void WeatherSave::TESWeather_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0_shell*>(this)->FUN_004855a0();
+    reinterpret_cast<FUN_004855a0_shell*>(this)->TESForm_StartForm();
     FUN_00582040_Class::ReleaseSoundSlots();
     unsigned int auiChunkIds[8] = {0x4d414e44, 0x4d414e43, 0x4d414e41, 0x4d414e42,
                                    0x4d414e45, 0x4d414e47, 0x4d414e4a, 0x4d414e4b};
     for (int i = 0; i < m_iCloudLayerCount; ++i)
-        reinterpret_cast<FUN_0048e370_holder*>(&m_kCloudLayerTextures[i])->FUN_0048e370(auiChunkIds[i]);
+        reinterpret_cast<FUN_0048e370_holder*>(&m_kCloudLayerTextures[i])->TESTexture_Save(auiChunkIds[i]);
     reinterpret_cast<FUN_004891d0_holder*>(&m_kWeatherModel)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
     FUN_00485910(0x4d414e4c, m_iCloudLayerCount);
-    FUN_004856f0(0x4d414e4f, m_aucCloudLayerSpeeds, 4);
+    TESForm_AddChunkArray(0x4d414e4f, m_aucCloudLayerSpeeds, 4);
     FUN_00485710(0x4d414e50, &m_auiCloudLayerColors[0][0], 24);
     FUN_00485710(0x304d414e, &m_auiWeatherColors[0][0], 60);
     FUN_00485710(0x4d414e46, reinterpret_cast<unsigned int*>(m_afFogDistances), 6);
@@ -423,7 +423,7 @@ void WeatherSave::FUN_005813d0()
         for (unsigned int k = 0; k < 2; ++k)
             m_akImageSpaceModifierParameters[k].Endian();
     }
-    FUN_004856f0(0x41544144, m_aucWeatherFlags, 15);
+    TESForm_AddChunkArray(0x41544144, m_aucWeatherFlags, 15);
     for (BSSimpleList<TESWeather__WeatherSound*>* node = &soundList; node && node->GetItem(); node = node->GetNext())
     {
         if (FUN_00401500())
@@ -432,7 +432,7 @@ void WeatherSave::FUN_005813d0()
         if (FUN_00401500())
             node->GetItem()->FUN_00462230();
     }
-    reinterpret_cast<FUN_00485680_shell*>(this)->FUN_00485680();
+    reinterpret_cast<FUN_00485680_shell*>(this)->TESForm_CloseForm();
 }
 
 extern "C" int memcmp(const void* buf1, const void* buf2, unsigned int count);
@@ -452,7 +452,7 @@ template <> class BSSimpleList<TESRegionData*>
 class FUN_005e79a0_t
 {
   public:
-    bool FUN_00485270(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm* form);
 };
 
 class WeatherEq : public TESWeather
@@ -495,7 +495,7 @@ bool WeatherEq::IsDifferentFrom(TESForm* pOther)
     {
         return 1;
     }
-    return ((FUN_005e79a0_t*)this)->FUN_00485270(other) || m_kWeatherModel.CompareWithBase(&other->m_kWeatherModel) ||
+    return ((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(other) || m_kWeatherModel.CompareWithBase(&other->m_kWeatherModel) ||
            memcmp(this->m_aucWeatherFlags, other->m_aucWeatherFlags, 15) != 0 ||
            memcmp(this->m_auiWeatherColors, other->m_auiWeatherColors, 240) != 0 ||
            memcmp(this->m_afFogDistances, other->m_afFogDistances, 24) != 0 ||
@@ -515,18 +515,18 @@ struct FUN_004b0680
 class WeatherCopy : public TESWeather
 {
   public:
-    void FUN_004851b0(TESForm* source);
-    void FUN_00581630(TESForm* source);
+    void TESForm_CopyAllComponents(TESForm* source);
+    void TESWeather_CopyFrom(TESForm* source);
 };
 
 // Copies weather data from a source TESWeather into this WeatherCopy, including cloud layers, model, flags, colors, fog, image space modifiers, and sound list.
 // @fnv 0x00581630
-void WeatherCopy::FUN_00581630(TESForm* source)
+void WeatherCopy::TESWeather_CopyFrom(TESForm* source)
 {
     TESWeather* weather = dynamic_cast<TESWeather*>(source);
     if (!weather)
         return;
-    FUN_004851b0(weather);
+    TESForm_CopyAllComponents(weather);
     m_iCloudLayerCount = weather->m_iCloudLayerCount;
     for (int i = 0; i < m_iCloudLayerCount; ++i)
         m_kCloudLayerTextures[i].CopyFromBase(&weather->m_kCloudLayerTextures[i]);

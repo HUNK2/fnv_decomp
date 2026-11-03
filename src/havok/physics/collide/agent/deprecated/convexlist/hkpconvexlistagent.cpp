@@ -39,11 +39,11 @@ extern "C"
 
 struct FUN_00d33c80_class
 {
-    void __thiscall FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void __thiscall hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
 };
 
 // @fnv 0x00d33c80
-void __thiscall FUN_00d33c80_class::FUN_00d33c80(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+void __thiscall FUN_00d33c80_class::hkpConvexListAgent_getPenetrations(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d33b90(apArg1, apArg2, apArg3, apArg4);
 }
@@ -100,7 +100,7 @@ void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self)
 
 struct FUN_00d337f0_self
 {
-    void __thiscall FUN_00dacb20(int a);
+    void __thiscall hkpGskfAgent_removePoint(int a);
     void __thiscall FUN_00d337f0(int a);
 };
 
@@ -108,7 +108,7 @@ struct FUN_00d337f0_self
 void __thiscall FUN_00d337f0_self::FUN_00d337f0(int a)
 {
     if (*(char*)((char*)this + 0x84))
-        FUN_00dacb20(a);
+        hkpGskfAgent_removePoint(a);
 }
 
 struct hkpGskfAgent

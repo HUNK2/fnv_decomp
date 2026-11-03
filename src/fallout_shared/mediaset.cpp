@@ -33,16 +33,16 @@ void MediaSet::InitItem()
     SetInitializationState(true);
 }
 
-// Calls FUN_00597850 on six members, then zeroes two members.
+// Calls MediaSet_MediaLayer_Clear on six members, then zeroes two members.
 // @fnv 0x00599bd0
 void MediaSet::ClearData()
 {
-    m_kMediaSetEntry1.FUN_00597850();
-    m_kMediaSetEntry2.FUN_00597850();
-    m_kMediaSetEntry3.FUN_00597850();
-    m_kMediaSetEntry4.FUN_00597850();
-    m_kMediaSetEntry5.FUN_00597850();
-    m_kMediaSetEntry6.FUN_00597850();
+    m_kMediaSetEntry1.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry2.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry3.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry4.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry5.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry6.MediaSet_MediaLayer_Clear();
     m_pSound1 = 0;
     m_pSound2 = 0;
 }
@@ -50,12 +50,12 @@ void MediaSet::ClearData()
 // @fnv 0x00599b30
 void MediaSet::ResetFormData()
 {
-    m_kMediaSetEntry1.FUN_00597850();
-    m_kMediaSetEntry2.FUN_00597850();
-    m_kMediaSetEntry3.FUN_00597850();
-    m_kMediaSetEntry4.FUN_00597850();
-    m_kMediaSetEntry5.FUN_00597850();
-    m_kMediaSetEntry6.FUN_00597850();
+    m_kMediaSetEntry1.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry2.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry3.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry4.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry5.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry6.MediaSet_MediaLayer_Clear();
     m_fMediaParameter1 = 0.0f;
     fSkillValueBonus = 0.0f;
     m_fMediaParameter3 = 0.0f;
@@ -99,12 +99,12 @@ MediaSet::MediaSet()
 {
     SetFormType(ENUM_FORM_ID_MSET_ID);
     Type = static_cast<MEDIASETTYPE>(-1);
-    m_kMediaSetEntry1.FUN_00597850();
-    m_kMediaSetEntry2.FUN_00597850();
-    m_kMediaSetEntry3.FUN_00597850();
-    m_kMediaSetEntry4.FUN_00597850();
-    m_kMediaSetEntry5.FUN_00597850();
-    m_kMediaSetEntry6.FUN_00597850();
+    m_kMediaSetEntry1.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry2.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry3.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry4.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry5.MediaSet_MediaLayer_Clear();
+    m_kMediaSetEntry6.MediaSet_MediaLayer_Clear();
     m_fMediaParameter1 = 0.0f;
     fSkillValueBonus = 0.0f;
     m_fMediaParameter3 = 0.0f;
@@ -269,7 +269,7 @@ struct FUN_00597850_Class
 
 // Clears the string, then sets m_f08 to runtimeFloatSettingDefault313 and m_f0c to 100.0f.
 // @fnv 0x00597850
-void __fastcall FUN_00597850(FUN_00597850_Class* pThis)
+void __fastcall MediaSet_MediaLayer_Clear(FUN_00597850_Class* pThis)
 {
     pThis->m_str.Set(0, 0);
     pThis->m_f08 = runtimeFloatSettingDefault313;
@@ -302,12 +302,12 @@ struct TESFormLoadDataHelper
 
 struct MediaSetLoad : public MediaSet
 {
-    bool FUN_00598bc0(TESFile* apFile);
+    bool MediaSet_Load(TESFile* apFile);
 };
 
 // Reads a MediaSet record from the file, handling EDID, OBND, FULL, type, name, attenuation, percent, sound and float chunks, then returns true.
 // @fnv 0x00598bc0
-bool MediaSetLoad::FUN_00598bc0(TESFile* apFile)
+bool MediaSetLoad::MediaSet_Load(TESFile* apFile)
 {
     unsigned int itempint = 0;
     int chunkid;
@@ -545,45 +545,45 @@ struct S7010 : GO
 
 struct DoorPart30
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
 
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 
 struct FUN_005991b0_shell
 {
-    void FUN_005991b0();
+    void MediaSet_SaveForm();
 };
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 void __cdecl FUN_004858f0(unsigned int, unsigned char);
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 void __cdecl _FUN_00485910(unsigned int, float);
 
 // @fnv 0x005991b0
-void FUN_005991b0_shell::FUN_005991b0()
+void FUN_005991b0_shell::MediaSet_SaveForm()
 {
-    reinterpret_cast<FUN_004855a0*>(this)->M();
-    reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
+    reinterpret_cast<TESForm_StartForm*>(this)->M();
+    reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x18)->TESFullName_Save();
 
     _FUN_00485910(0x314d414e, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44));
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)->Length() > 0)
     {
-        FUN_004856f0(0x324d414e,
+        TESForm_AddChunkArray(0x324d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)->Length() + 1);
@@ -591,7 +591,7 @@ void FUN_005991b0_shell::FUN_005991b0()
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)->Length() > 0)
     {
-        FUN_004856f0(0x334d414e,
+        TESForm_AddChunkArray(0x334d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)->Length() + 1);
@@ -599,7 +599,7 @@ void FUN_005991b0_shell::FUN_005991b0()
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)->Length() > 0)
     {
-        FUN_004856f0(0x344d414e,
+        TESForm_AddChunkArray(0x344d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)->Length() + 1);
@@ -607,7 +607,7 @@ void FUN_005991b0_shell::FUN_005991b0()
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)->Length() > 0)
     {
-        FUN_004856f0(0x354d414e,
+        TESForm_AddChunkArray(0x354d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)->Length() + 1);
@@ -615,7 +615,7 @@ void FUN_005991b0_shell::FUN_005991b0()
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)->Length() > 0)
     {
-        FUN_004856f0(0x364d414e,
+        TESForm_AddChunkArray(0x364d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)->Length() + 1);
@@ -623,7 +623,7 @@ void FUN_005991b0_shell::FUN_005991b0()
 
     if (reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)->Length() > 0)
     {
-        FUN_004856f0(0x374d414e,
+        TESForm_AddChunkArray(0x374d414e,
                      reinterpret_cast<void*>(static_cast<unsigned int>(
                          *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)))),
                      reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)->Length() + 1);
@@ -663,8 +663,8 @@ void FUN_005991b0_shell::FUN_005991b0()
                           ->GetFormID());
     }
 
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e00();
-    reinterpret_cast<FUN_00485680*>(this)->M();
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm_SaveData();
+    reinterpret_cast<TESForm_CloseForm*>(this)->M();
 }
 
 struct S_5978b0_Form
@@ -707,8 +707,8 @@ class Sky
   public:
     float GetFieldEC();
 };
-float __fastcall FUN_00595ea0(void* apSky);
-float __fastcall FUN_00596030(void* apSky);
+float __fastcall Sky_GetSunriseBegin(void* apSky);
+float __fastcall Sky_GetSunsetEnd(void* apSky);
 
 class TES
 {
@@ -748,8 +748,8 @@ bool MediaSetBattle::UpdateBattleMusic(unsigned int auiTime)
         return true;
     }
     Sky* pWeatherSky = g_TES->GetSky();
-    bool m_bConditionWasTrue = pWeatherSky ? (FUN_00595ea0(pWeatherSky) <= pWeatherSky->GetFieldEC() &&
-                                              pWeatherSky->GetFieldEC() <= FUN_00596030(pWeatherSky))
+    bool m_bConditionWasTrue = pWeatherSky ? (Sky_GetSunriseBegin(pWeatherSky) <= pWeatherSky->GetFieldEC() &&
+                                              pWeatherSky->GetFieldEC() <= Sky_GetSunsetEnd(pWeatherSky))
                                            : true;
     if (m_bConditionWasTrue)
     {
@@ -783,12 +783,12 @@ struct MediaSetBaseCopy
 
 struct MediaSetCopy : public MediaSet
 {
-    void FUN_00599550(TESForm* apForm);
+    void MediaSet_CopyFrom(TESForm* apForm);
 };
 
 // Copies Type, six layer entries and several scalar fields from another MediaSet, then calls CopyBase.
 // @fnv 0x00599550
-void MediaSetCopy::FUN_00599550(TESForm* apForm)
+void MediaSetCopy::MediaSet_CopyFrom(TESForm* apForm)
 {
     MediaSet* pOther = dynamic_cast<MediaSet*>(apForm);
     if (!pOther)
@@ -1170,7 +1170,7 @@ struct MediaLayerCompare
 };
 struct MediaFormCompare
 {
-    bool FUN_00485270(TESForm* other);
+    bool TESForm_CompareAllComponents(TESForm* other);
 };
 struct MediaSetCompare : MediaSet
 {
@@ -1218,7 +1218,7 @@ bool MediaSetCompare::IsDifferentFrom(TESForm* form)
         return true;
     if (m_pSound2 != other->m_pSound2)
         return true;
-    if (reinterpret_cast<MediaFormCompare*>(this)->FUN_00485270(other))
+    if (reinterpret_cast<MediaFormCompare*>(this)->TESForm_CompareAllComponents(other))
         return true;
     return false;
 }

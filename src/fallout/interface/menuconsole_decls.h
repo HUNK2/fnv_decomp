@@ -296,7 +296,7 @@ class InterfaceManager
     int GetMenuStackEntry(int);
     int AddMenuStackEntry(int, bool);
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_Instance();
 class MenuSystem
 {
   public:
@@ -345,7 +345,7 @@ class BSFile : public NiFile
     virtual unsigned int vfn_34(char*, unsigned int, char);
     unsigned char m_fileData[0x154];
     BSFile(const char*, OpenMode, unsigned int, bool);
-    void FUN_00473180(const void*, unsigned int);
+    void NiBinaryStream_Write(const void*, unsigned int);
     void Close();
 };
 FNV_STATIC_ASSERT(sizeof(BSFile) == 0x158);

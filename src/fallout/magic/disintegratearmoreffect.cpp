@@ -32,12 +32,12 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct DisintegrateArmorEffect : ActiveEffect
 {
-    unsigned short FUN_0080d4f0(Actor* actor);
+    unsigned short DisintegrateArmorEffect_GetSaveSize(Actor* actor);
 };
 
 // Returns the save size: the base ActiveEffect size plus 4 when the save version is at least 0x37.
 // @fnv 0x0080d4f0
-unsigned short DisintegrateArmorEffect::FUN_0080d4f0(Actor* actor)
+unsigned short DisintegrateArmorEffect::DisintegrateArmorEffect_GetSaveSize(Actor* actor)
 {
     unsigned short size = 0;
     size += GetSaveSize(actor);
@@ -136,18 +136,18 @@ struct FUN_0080d540_cls
     unsigned int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44;
     Holder48* m_48;
 
-    void FUN_008050d0(unsigned int a);
-    void FUN_0080d540(unsigned int arg);
+    void ActiveEffect_SaveGame(unsigned int a);
+    void DisintegrateArmorEffect_SaveGame(unsigned int arg);
 };
 
 // @fnv 0x0080d540
-void FUN_0080d540_cls::FUN_0080d540(unsigned int arg)
+void FUN_0080d540_cls::DisintegrateArmorEffect_SaveGame(unsigned int arg)
 {
     unsigned int i2;
     TESObjectARMO* obj;
     int result;
 
-    FUN_008050d0(arg);
+    ActiveEffect_SaveGame(arg);
     if (((GlobalMgr*)DAT_011de45c)->FUN_008df040() >= 0x37)
     {
         result = -1;
@@ -208,11 +208,11 @@ struct FUN_0080d610_cls
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34,
         unk38, unk3c, unk40, unk44;
     void* unk48;
-    void FUN_0080d610(Node* arg);
+    void DisintegrateArmorEffect_LoadGame(Node* arg);
 };
 
 // @fnv 0x0080d610
-void FUN_0080d610_cls::FUN_0080d610(Node* pNode)
+void FUN_0080d610_cls::DisintegrateArmorEffect_LoadGame(Node* pNode)
 {
     reinterpret_cast<Ctl*>(this)->Apply(pNode);
     if (DAT_011de45c->Check() >= 0x37)
@@ -488,7 +488,7 @@ struct Result
     virtual void v0f1();
     virtual void FUN_slot242(void* a, float b);
     Sub* FUN_0089d8b0(unsigned int flags);
-    int FUN_0055d520();
+    int TESObjectREFR_GetFullName();
 };
 struct Node
 {
@@ -504,11 +504,11 @@ struct FUN_0080d340_cls
     Node* FUN_0059bb30();
     float GetFloatAtOffset1C(int a);
     float GetFloatAtOffset1C();
-    void FUN_0080d340();
+    void DisintegrateArmorEffect_Start();
 };
 
 // @fnv 0x0080d340
-void FUN_0080d340_cls::FUN_0080d340()
+void FUN_0080d340_cls::DisintegrateArmorEffect_Start()
 {
     Result* p;
     Sub* t;
@@ -523,7 +523,7 @@ void FUN_0080d340_cls::FUN_0080d340()
             p->FUN_slot242((void*)this->m_48, this->GetFloatAtOffset1C(1));
             if (FUN_005b6f70())
             {
-                FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", p->FUN_0055d520(),
+                FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", p->TESObjectREFR_GetFullName(),
                              this->m_48->GetTargetFullName(), this->GetFloatAtOffset1C());
             }
             t = this->m_48;

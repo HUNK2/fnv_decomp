@@ -146,11 +146,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081bd80_s
 {
-    void FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    void MagicHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget);
 };
 
 // @fnv 0x0081bd80
-void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget)
+void FUN_0081bd80_s::MagicHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x20, 4);
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x24, 1);
@@ -182,19 +182,19 @@ struct BGSSaveFormBuffer
 
 struct FUN_00682a30_base
 {
-    void FUN_00682a30(BGSSaveFormBuffer* apBuffer);
+    void BSTempEffect_SaveGameBGS(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_0081be80_s : FUN_00682a30_base
 {
-    void FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // Calls the base save, writes the 4-byte field at 0x20 and the byte at 0x24, then saves the TESObjectREFR pointer at 0x1c.
 // @fnv 0x0081be80
-void FUN_0081be80_s::FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_0081be80_s::MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    FUN_00682a30(apSaveGameBuffer);
+    BSTempEffect_SaveGameBGS(apSaveGameBuffer);
     apSaveGameBuffer->SaveData((char*)this + 0x20, 4, 0);
     apSaveGameBuffer->SaveData((char*)this + 0x24, 1, 0);
     apSaveGameBuffer->SerializeFormData(*(TESObjectREFR**)((char*)this + 0x1c), 0);
@@ -208,7 +208,7 @@ struct BGSLoadFormBuffer
 
 struct FUN_00682a80_shell
 {
-    void FUN_00682a80(BGSLoadFormBuffer* apBuffer);
+    void BSTempEffect_LoadGameBGS(BGSLoadFormBuffer* apBuffer);
 };
 
 struct FUN_0081bed0_s : FUN_00682a80_shell
@@ -219,7 +219,7 @@ struct FUN_0081bed0_s : FUN_00682a80_shell
 // @fnv 0x0081bed0
 void FUN_0081bed0_s::LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    FUN_00682a80(apLoadGameBuffer);
+    BSTempEffect_LoadGameBGS(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData((char*)this + 0x20, 4);
     apLoadGameBuffer->ReadTypedData((char*)this + 0x24, 1);
     apLoadGameBuffer->ReadFormIdentifier((char*)this + 0x1c);
@@ -384,7 +384,7 @@ struct FUN_0081b860_vt
 
 struct FUN_00440d80_shell
 {
-    unsigned char FUN_00440d80();
+    unsigned char TESForm_GetDelete();
 };
 
 struct FUN_0081b860_cls : MagicHitEffect
@@ -397,7 +397,7 @@ bool FUN_0081b860_cls::UpdateMagicHitEffect(float afDelta)
 {
     m_fFirstFloatValue += afDelta;
     if (pTarget == 0 || reinterpret_cast<FUN_0081b860_vt*>(pTarget)->vf116() == 0 ||
-        reinterpret_cast<FUN_00440d80_shell*>(pTarget)->FUN_00440d80() != 0)
+        reinterpret_cast<FUN_00440d80_shell*>(pTarget)->TESForm_GetDelete() != 0)
     {
         return false;
     }
@@ -474,7 +474,7 @@ struct Node
 {
     void* FUN_008d6f30();
     Node* FUN_009611e0();
-    Node* FUN_00545cb0();
+    Node* TESObjectCELL_Get3D();
     VObj* FUN_005497a0();
 };
 
@@ -494,9 +494,9 @@ void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
         FUN_0041fd00(FUN_00441110()->FUN_008d6f30());
         if (apArg)
         {
-            if (FUN_0084e3a0() && FUN_0084e3a0()->FUN_00545cb0())
+            if (FUN_0084e3a0() && FUN_0084e3a0()->TESObjectCELL_Get3D())
             {
-                if (!apArg->FUN_009611e0() || FUN_0084e3a0()->FUN_00545cb0() != apArg->FUN_009611e0()->FUN_009611e0())
+                if (!apArg->FUN_009611e0() || FUN_0084e3a0()->TESObjectCELL_Get3D() != apArg->FUN_009611e0()->FUN_009611e0())
                 {
                     VObj* m = FUN_0084e3a0()->FUN_005497a0();
                     m->v55(apArg, 1);
@@ -554,7 +554,7 @@ class TESActorBase
 class TESCreature : public TESActorBase
 {
   public:
-    bool FUN_005fbf20() const;
+    bool TESCreature_IsHumanoidCreature() const;
 };
 class Actor
 {
@@ -654,7 +654,7 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
     {
         TESCreature* pCreature = dynamic_cast<TESCreature*>(pEffect->FUN_0059bb30()->FUN_00822b40()->GetActorBase());
         Character* pCharacter = dynamic_cast<Character*>(pEffect->FUN_0059bb30()->FUN_00822b40());
-        if ((!pCreature || !pCreature->FUN_005fbf20()) && pCharacter)
+        if ((!pCreature || !pCreature->TESCreature_IsHumanoidCreature()) && pCharacter)
             pCharacter->V218();
     }
     FUN_00470440* c = 0;

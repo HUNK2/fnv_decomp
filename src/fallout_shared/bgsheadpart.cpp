@@ -323,7 +323,7 @@ struct TESFile
 typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005e7530_shell : public BGSHeadPart
 {
-    bool FUN_005e7530(TESFile*);
+    bool BGSHeadPart_Load(TESFile*);
 };
 
 extern "C" void* __cdecl _alloca(unsigned int);
@@ -481,7 +481,7 @@ struct TESForm_vtable_helper : public BGSHeadPart
 };
 
 // @fnv 0x005e7530
-bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
+bool FUN_005e7530_shell::BGSHeadPart_Load(TESFile* apFile)
 {
     if (apFile->GetTESForm() != 9)
         return false;
@@ -555,7 +555,7 @@ struct List_005e7480
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct S_0048a520
 {
@@ -566,8 +566,8 @@ void FUN_00485910(unsigned int, unsigned int);
 struct FUN_005e7480_t : public BGSHeadPart
 {
     void InitializeHeadPart();
-    void FUN_004855a0();
-    void FUN_00485680();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
     unsigned int FUN_0084e3a0();
     List_005e7480* FUN_00624700();
 };
@@ -575,8 +575,8 @@ struct FUN_005e7480_t : public BGSHeadPart
 void FUN_005e7480_t::InitializeHeadPart()
 {
     BSSimpleList<BGSHeadPart*>* pCurrentElementNext;
-    FUN_004855a0();
-    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
+    TESForm_StartForm();
+    reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->TESFullName_Save();
     reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x24)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     FUN_004858f0(0x41544144, cFlags);
@@ -590,7 +590,7 @@ void FUN_005e7480_t::InitializeHeadPart()
         itempint = static_cast<FUN_005e7480_t*>(ppart)->FUN_0084e3a0();
         FUN_00485910(0x4d414e48, itempint);
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct List_009e03e0
@@ -602,20 +602,20 @@ struct List_009e03e0
 };
 struct FUN_005e78f0_t : public BGSHeadPart
 {
-    void FUN_005e78f0(TESForm* apCopy);
-    void FUN_004851b0(TESForm*);
+    void BGSHeadPart_CopyFrom(TESForm* apCopy);
+    void TESForm_CopyAllComponents(TESForm*);
     List_009e03e0* FUN_00624700();
     void FUN_005e7790(BGSHeadPart*);
 };
 // @fnv 0x005e78f0
-void FUN_005e78f0_t::FUN_005e78f0(TESForm* apCopy)
+void FUN_005e78f0_t::BGSHeadPart_CopyFrom(TESForm* apCopy)
 {
     BSSimpleList<BGSHeadPart*>* pCurrentElementNext;
     BGSHeadPart* pSourcePart;
     pSourcePart = dynamic_cast<BGSHeadPart*>(apCopy);
     if (!pSourcePart)
         return;
-    FUN_004851b0(apCopy);
+    TESForm_CopyAllComponents(apCopy);
     cFlags = pSourcePart->cFlags;
     pCurrentElementNext = 0;
     FUN_00624700()->RemoveAll();
@@ -637,19 +637,19 @@ struct LH
 };
 struct FUN_005e79a0_t : public BGSHeadPart
 {
-    bool FUN_005e79a0(TESForm* apCompare);
-    bool FUN_00485270(TESForm*);
+    bool BGSHeadPart_Compare(TESForm* apCompare);
+    bool TESForm_CompareAllComponents(TESForm*);
     LH* FUN_00624700();
 };
 // @fnv 0x005e79a0
-bool FUN_005e79a0_t::FUN_005e79a0(TESForm* apCompare)
+bool FUN_005e79a0_t::BGSHeadPart_Compare(TESForm* apCompare)
 {
     BGSHeadPart* pcomp;
     BSSimpleList<BGSHeadPart*>* pCurrentElementNext;
     pcomp = dynamic_cast<BGSHeadPart*>(apCompare);
     if (!pcomp)
         return true;
-    if (FUN_00485270(pcomp))
+    if (TESForm_CompareAllComponents(pcomp))
         return true;
     if ((char)pcomp->cFlags != (char)cFlags)
         return true;
@@ -702,7 +702,7 @@ struct ListX
 struct FUN_005e73a0 : public Base5a, public FUN_00591300, public TESModelTextureSwap
 {
     ~FUN_005e73a0();
-    void FUN_005e7460();
+    void BGSHeadPart_ClearData();
     unsigned char cFlags;
     unsigned char padding[3];
     ListX m_kExtraParts;
@@ -710,7 +710,7 @@ struct FUN_005e73a0 : public Base5a, public FUN_00591300, public TESModelTexture
 // @fnv 0x005e73a0
 FUN_005e73a0::~FUN_005e73a0()
 {
-    FUN_005e7460();
+    BGSHeadPart_ClearData();
 }
 
 // FUN_005e6600: real destructor (__thiscall, no params) of a class with:
@@ -782,7 +782,7 @@ struct HeadPartListOperations
 };
 
 // @fnv 0x005e7460
-void FUN_005e73a0::FUN_005e7460()
+void FUN_005e73a0::BGSHeadPart_ClearData()
 {
     reinterpret_cast<HeadPartListOperations*>(reinterpret_cast<FUN_00624700_shell*>(this)->FUN_00624700())
         ->FUN_00470470();
@@ -968,11 +968,11 @@ struct HeadPartInit : public TESForm, public TESFullName, public TexSwapStub
     unsigned char ucPad33;
     void* pExtraPartsItem;
     void* pExtraPartsNext;
-    void FUN_005e77b0();
+    void BGSHeadPart_InitItem();
 };
 
 // @fnv 0x005e77b0
-void HeadPartInit::FUN_005e77b0()
+void HeadPartInit::BGSHeadPart_InitItem()
 {
     if (GetInitialized())
         return;

@@ -6,7 +6,7 @@ extern "C" void* g_011f3f30;
 
 // Returns the address of the global g_011f3f30.
 // @fnv 0x00a47140
-void* __cdecl FUN_00a47140()
+void* __cdecl NiStringPalette_GetRTTI()
 {
     return &g_011f3f30;
 }
@@ -113,12 +113,12 @@ void S_00a47210::WriteToStream(NiStream& kStream)
 struct S_00a470c0 : S_00a47190
 {
     bool IsSameAs(S_00a470c0* other);
-    bool FUN_00a470c0(S_00a470c0* other);
+    bool NiStringPalette_IsEqual(S_00a470c0* other);
 };
 
 // Compares this object with another: checks the base comparison, matching m_0C and m_10, then byte-compares m_0C bytes at m_08; returns true if all match.
 // @fnv 0x00a470c0
-bool S_00a470c0::FUN_00a470c0(S_00a470c0* other)
+bool S_00a470c0::NiStringPalette_IsEqual(S_00a470c0* other)
 {
     if (IsSameAs(other) && other->m_0C == m_0C && other->m_10 == m_10)
     {
@@ -176,7 +176,7 @@ struct S_00a47150_Obj : S_00a47150_Base
 };
 // Allocates and constructs a new S_00a47150_Obj via its operator new and returns the pointer.
 // @fnv 0x00a47150
-S_00a47150_Obj* __cdecl FUN_00a47150()
+S_00a47150_Obj* __cdecl NiStringPalette_CreateObject()
 {
     return new S_00a47150_Obj;
 }

@@ -84,7 +84,7 @@ struct LitWaterOwner
 };
 
 void __cdecl ResolveFormID(unsigned int* apFormID, TESFile* apFile);
-TESForm* __cdecl FUN_004839c0(unsigned int auiFormID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int auiFormID);
 void __cdecl FNV_Warning(const char* apFormat, ...);
 
 struct ExtraLitWaterRefsStandIn
@@ -93,11 +93,11 @@ struct ExtraLitWaterRefsStandIn
     int unk04;
     int unk08;
     BSSimpleList<LitWaterRef*> kRefs;
-    void FUN_00434050(LitWaterOwner* apOwner);
+    void ExtraLitWaterRefs_InitItem(LitWaterOwner* apOwner);
 };
 
 // @fnv 0x00434050
-void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
+void ExtraLitWaterRefsStandIn::ExtraLitWaterRefs_InitItem(LitWaterOwner* apOwner)
 {
     BSSimpleList<LitWaterRef*>* pNodeB8 = &kRefs;
     BSSimpleList<LitWaterRef*> kResolved4;
@@ -106,7 +106,7 @@ void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
         LitWaterRef* pItem3 = pNodeB8->GetItem();
         unsigned int auiFormId = (unsigned int)pItem3;
         ResolveFormID(&auiFormId, apOwner->GetFile(-1));
-        LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
+        LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(auiFormId));
         if (!pRef || !pRef->IsPersistent())
         {
             if (!pRef)

@@ -4,11 +4,11 @@
 
 struct SlotMachineMenu
 {
-    int FUN_007c0800();
+    int SlotMachineMenu_GetClass();
 };
 
 // @fnv 0x007c0800
-int SlotMachineMenu::FUN_007c0800()
+int SlotMachineMenu::SlotMachineMenu_GetClass()
 {
     return 0x438;
 }
@@ -300,7 +300,7 @@ struct NiBoundW7
 };
 struct CtrlObj
 {
-    CtrlObj* FUN_0047a520(const NiFixedString&);
+    CtrlObj* NiControllerManager_GetSequenceByName(const NiFixedString&);
     void FUN_0048fef0(float);
     void FUN_0047aab0(CtrlObj*, int, int, float, float, int);
 };
@@ -367,7 +367,7 @@ struct NiNodeW7
     virtual void Vf54();
     virtual void Vf55(void*, int);
     void FUN_0043fa80(const void*);
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(float, float, float);
     void FUN_00a59c60(const NiUpdateData&);
     NiBoundW7* FUN_0043d450();
 };
@@ -517,17 +517,17 @@ void MenuW7::InitPayoutMenu()
     xObjB.FUN_00524ac0(1.5707963705062866f);
     objC7.FUN_004a0c90(1.5707963705062866f);
     ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_0043fa80((const void*)&xObjB.FUN_0043f8d0(&objC7));
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
+    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->NiAVObject_SetTranslate(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
     ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_00a59c60(upd1);
     CtrlObj* xPCtrl = m_104->FUN_00a5c570(&DAT_011f36ac);
     if (xPCtrl != 0)
     {
         m_134 = xPCtrl;
-        m_138 = m_134->FUN_0047a520(NiFixedString("Forward"));
-        m_13c = m_134->FUN_0047a520(NiFixedString("Backward"));
-        m_140 = m_134->FUN_0047a520(NiFixedString(kPayoutIn));
-        m_144 = m_134->FUN_0047a520(NiFixedString("Payout_Out"));
+        m_138 = m_134->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
+        m_13c = m_134->NiControllerManager_GetSequenceByName(NiFixedString("Backward"));
+        m_140 = m_134->NiControllerManager_GetSequenceByName(NiFixedString(kPayoutIn));
+        m_144 = m_134->NiControllerManager_GetSequenceByName(NiFixedString("Payout_Out"));
         m_134->FUN_0048fef0(0.0f);
         if (m_138 != 0)
         {
@@ -548,7 +548,7 @@ void MenuW7::InitPayoutMenu()
         if (arr12[jX] != 0)
         {
             aarr2[jX] = arr12[jX];
-            m_148[jX] = aarr2[jX]->FUN_0047a520(NiFixedString("Forward"));
+            m_148[jX] = aarr2[jX]->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
             aarr2[jX]->FUN_0048fef0(0.0f);
             if (m_148[jX] != 0)
             {
@@ -1144,7 +1144,7 @@ class BSAudio
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 };
 void* __cdecl FUN_00a09030(int);
-int __cdecl FUN_004839c0(void*);
+int __cdecl TESForm_GetFormByNumericID(void*);
 void __cdecl DispatchMessageToSink(const char*, int, const char*, int, float, int);
 void __cdecl FUN_005b5e40(const char*);
 int __cdecl FUN_0044a670(const char*);
@@ -1193,7 +1193,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     RecordList* node = DAT_011dea3c->FUN_005a6260();
     while (node && *node->FUN_006815c0())
     {
-        if (!(*node->FUN_006815c0())->owner || !FUN_004839c0((*node->FUN_006815c0())->owner))
+        if (!(*node->FUN_006815c0())->owner || !TESForm_GetFormByNumericID((*node->FUN_006815c0())->owner))
         {
             DispatchMessageToSink(DAT_01076694, 0, DAT_01049638, 0, DAT_010162c0, 0);
             return 0;
@@ -2790,12 +2790,12 @@ struct SlotAssets
 };
 struct SlotTextureLoader
 {
-    void FUN_004568c0(const char*, void**, bool, bool);
+    void TES_CreateTextureImage(const char*, void**, bool, bool);
 };
 extern SlotTextureLoader* DAT_011dea10;
 struct SlotModelLoader
 {
-    void* FUN_00447080(const char*, int, bool, bool, bool, bool);
+    void* ModelLoader_LoadFile(const char*, int, bool, bool, bool, bool);
 };
 extern SlotModelLoader* DAT_011c3b3c;
 void FUN_00406d00(char*, unsigned int, const char*, ...);
@@ -2890,19 +2890,19 @@ bool SlotMachineAssets::LoadAssets()
                 FUN_00406d00(path, 260, "%s%s", "Textures\\",
                              reinterpret_cast<SlotAssets*>(DAT_011da9ac)->FUN_00504e20(i)->FUN_00408da0());
                 FUN_004b7240(path, normalized, 260);
-                DAT_011dea10->FUN_004568c0(normalized, &symbols[i], false, false);
+                DAT_011dea10->TES_CreateTextureImage(normalized, &symbols[i], false, false);
             }
         }
         FUN_00406d00(path, 260, "%sNV_SlotMachine-Symbol%s.dds", "Textures\\terminals\\NV_SlotMachine\\", "S");
         FUN_004b7240(path, normalized, 260);
-        DAT_011dea10->FUN_004568c0(normalized, &special, false, false);
-        machine = DAT_011c3b3c->FUN_00447080(reinterpret_cast<SlotAssets*>(DAT_011da9ac)->FUN_00504e00(7)->GetPath(), 0,
+        DAT_011dea10->TES_CreateTextureImage(normalized, &special, false, false);
+        machine = DAT_011c3b3c->ModelLoader_LoadFile(reinterpret_cast<SlotAssets*>(DAT_011da9ac)->FUN_00504e00(7)->GetPath(), 0,
                                              true, false, false, false);
-        reel1 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF", 0, true,
+        reel1 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF", 0, true,
                                            false, false, false);
-        reel2 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF", 0, true,
+        reel2 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF", 0, true,
                                            false, false, false);
-        reel3 = DAT_011c3b3c->FUN_00447080("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF", 0, true,
+        reel3 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF", 0, true,
                                            false, false, false);
         loading = false;
         return InitReels();
@@ -3170,7 +3170,7 @@ struct SlotsMenu
     int FUN_007c56e0();
     bool AdjustReels(int);
     int FUN_007c5760();
-    void FUN_007c2460(int, void*);
+    void SlotMachineMenu_DoClick(int, void*);
 };
 extern int DAT_011a0828, DAT_011a082c, DAT_011da998;
 extern SlotsMenu* DAT_011da9a4;
@@ -3180,7 +3180,7 @@ int FUN_00406d00(char*, unsigned int, const char*, ...);
 SlotsAudio* FUN_00453a70();
 // Processes input actions for the slots menu, adjusting the bet, starting a spin, or transitioning between states based on the current state.
 // @fnv 0x007c2460
-void SlotsMenu::FUN_007c2460(int action, void* target)
+void SlotsMenu::SlotMachineMenu_DoClick(int action, void* target)
 {
     if (state == 6)
     {

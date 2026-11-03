@@ -453,7 +453,7 @@ struct Pending_cls
     int unk00;
     int unk04;
     void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
+    void hkBinaryTagfileReader_load(Holder_cls* h, int a, int b);
 };
 
 struct Owner_cls
@@ -469,7 +469,7 @@ static __declspec(noinline) int FUN_00d48a90(int a1, int esi_in, int edi_in, int
     Holder_cls h;
 
     p.FUN_00dc5d30();
-    p.FUN_00dc5d50(&h, a1, esi_in);
+    p.hkBinaryTagfileReader_load(&h, a1, esi_in);
     h.FUN_00dba7f0();
 
     if (edi_in != 0)
@@ -792,7 +792,7 @@ struct TypeRegistry : RegistryBase
     {
         types.clear();
     }
-    void FUN_00d47970(const TypeRegistry&) throw();
+    void hkTypeInfoRegistry_merge(const TypeRegistry&) throw();
 };
 struct RuntimeClass;
 struct ClassRegistry
@@ -985,7 +985,7 @@ static __declspec(noinline) ObjectResource* FUN_00d48840(LoadStream* input, Load
                                                          const ClassRegistry* classes, const TypeRegistry* types)
 {
     TypeRegistry unfinished(0);
-    unfinished.FUN_00d47970(*types);
+    unfinished.hkTypeInfoRegistry_merge(*types);
     ResourceRef resource;
     resource.take((Resource*)FUN_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
                                           (S00d48d30_Result*)error, (int)&unfinished));

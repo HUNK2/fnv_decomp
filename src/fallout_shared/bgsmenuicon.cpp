@@ -109,59 +109,59 @@ struct FUN_00485680_shell
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_00509280_obj
 {
-    void FUN_004855a0();
-    void FUN_0048e370(unsigned int);
-    void FUN_00485680();
-    void FUN_00590470();
+    void TESForm_StartForm();
+    void TESTexture_Save(unsigned int);
+    void TESForm_CloseForm();
+    void BGSMenuIcon_SaveForm();
 };
 // @fnv 0x00590470
-void FUN_00509280_obj::FUN_00590470()
+void FUN_00509280_obj::BGSMenuIcon_SaveForm()
 {
     ((FUN_004855a0_shell*)this)->M();
-    ((FUN_0048e370_obj*)((char*)this + 0x18))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_obj*)((char*)this + 0x18))->TESTexture_Save(0x4e4f4349);
     ((FUN_00485680_shell*)this)->M();
 }
 
 extern const void* DAT_01183028;
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_005904a0_shell
 {
-    void FUN_004851b0(TESForm*);
-    void FUN_005904a0(TESForm* form);
+    void TESForm_CopyAllComponents(TESForm*);
+    void BGSMenuIcon_CopyFrom(TESForm* form);
 };
-// Casts the TESForm to BGSMenuIcon and calls FUN_004851b0 on it if the cast succeeds.
+// Casts the TESForm to BGSMenuIcon and calls TESForm_CopyAllComponents on it if the cast succeeds.
 // @fnv 0x005904a0
-void FUN_005904a0_shell::FUN_005904a0(TESForm* form)
+void FUN_005904a0_shell::BGSMenuIcon_CopyFrom(TESForm* form)
 {
     BGSMenuIcon* icon = dynamic_cast<BGSMenuIcon*>(form);
     if (!icon)
         return;
-    FUN_004851b0(icon);
+    TESForm_CopyAllComponents(icon);
 }
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm* apCompare);
+    bool TESForm_CompareAllComponents(TESForm* apCompare);
 };
 struct FUN_005904e0_s
 {
-    bool FUN_005904e0(TESForm* apCompare);
+    bool BGSMenuIcon_Compare(TESForm* apCompare);
 };
 // Returns true if apCompare is not a BGSMenuIcon or the base comparison returns true.
 // @fnv 0x005904e0
-bool FUN_005904e0_s::FUN_005904e0(TESForm* apCompare)
+bool FUN_005904e0_s::BGSMenuIcon_Compare(TESForm* apCompare)
 {
     BGSMenuIcon* pcomp = dynamic_cast<BGSMenuIcon*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     return false;
 }

@@ -139,11 +139,11 @@ struct Date
 {
     ~Date();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
@@ -165,11 +165,11 @@ struct FUN_0050a8e0_shell
 // @fnv 0x0050a8e0
 void FUN_0050a8e0_shell::FUN_0050a8e0()
 {
-    ((FUN_004855a0*)((char*)this + 0x00))->M();
+    ((TESForm_StartForm*)((char*)this + 0x00))->M();
     ((Date*)((char*)this + 0x00))->Date::~Date();
     ((FUN_00488400_shell*)((char*)this + 0x30))->SaveLeveledList();
     ((DoorPart3c*)((char*)this + 0x4c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_00485680*)((char*)this + 0x00))->M();
+    ((TESForm_CloseForm*)((char*)this + 0x00))->M();
 }
 
 // Destructor of a form component with three polymorphic bases; the bases clean up in reverse order.
@@ -224,19 +224,19 @@ namespace LevCreatureCopyImplementation {
 
 struct Entry : public TESLevCreature
 {
-    void FUN_004851b0(TESForm*);
-    void FUN_0050b2e0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
+    void TESLevCreature_CopyFrom(TESForm*);
 };
 
-// Casts source to TESLevCreature and, if valid, calls FUN_004851b0 to copy data from it.
+// Casts source to TESLevCreature and, if valid, calls TESForm_CopyAllComponents to copy data from it.
 // @fnv 0x0050b2e0
-void Entry::FUN_0050b2e0(TESForm* source)
+void Entry::TESLevCreature_CopyFrom(TESForm* source)
 {
     TESLevCreature* creature;
     creature = dynamic_cast<TESLevCreature*>(source);
     if (!creature)
         return;
-    FUN_004851b0(source);
+    TESForm_CopyAllComponents(source);
 }
 
 }
@@ -245,19 +245,19 @@ namespace LevCreatureComparisonImplementation {
 
 struct Entry : public TESLevCreature
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_0050b320(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool TESLevCreature_Compare(TESForm*);
 };
 
-// Returns true if the other form is not a TESLevCreature or if FUN_00485270(creature) is true, otherwise false.
+// Returns true if the other form is not a TESLevCreature or if TESForm_CompareAllComponents(creature) is true, otherwise false.
 // @fnv 0x0050b320
-bool Entry::FUN_0050b320(TESForm* other)
+bool Entry::TESLevCreature_Compare(TESForm* other)
 {
     TESLevCreature* creature;
     creature = dynamic_cast<TESLevCreature*>(other);
     if (!creature)
         return true;
-    if (FUN_00485270(creature))
+    if (TESForm_CompareAllComponents(creature))
         return true;
     return false;
 }

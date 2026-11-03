@@ -28,7 +28,7 @@ struct Filter
 {
     int v;
     Filter();
-    int __thiscall FUN_0043b4d0();
+    int __thiscall CFilter_GetLayer();
     int __thiscall FUN_006240b0();
 };
 
@@ -98,7 +98,7 @@ struct WorldObj
     virtual void slot3b();
     virtual void slot3c();
     virtual void GetTransform(EObj*);
-    Shape* __thiscall FUN_004ae6a0();
+    Shape* __thiscall bhkWorldObject_GetShape();
     Filter __thiscall FUN_0043b4f0();
     bool __thiscall FUN_008cffa0();
     void* __thiscall FUN_00436aa0();
@@ -112,7 +112,7 @@ struct CollObj
 };
 
 CollObj* __cdecl FUN_0043b610(void* p);
-bool __cdecl FUN_0043b300(const void* rtti, void* obj);
+bool __cdecl NiObject_IsKindOf(const void* rtti, void* obj);
 extern char RTTI_01267e64;
 extern char RTTI_012683c8;
 
@@ -195,7 +195,7 @@ struct P1Obj
     virtual void slot01();
     virtual void slot02();
     virtual NiNode* getNode();
-    void* __thiscall FUN_00461130();
+    void* __thiscall NiAVObject_GetWorldRotate();
 };
 
 // @fnv 0x008cfbc0
@@ -208,10 +208,10 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
         if (coll)
         {
             WorldObj* world = coll->FUN_006fa820();
-            Shape* shape = world ? world->FUN_004ae6a0() : 0;
+            Shape* shape = world ? world->bhkWorldObject_GetShape() : 0;
             if (shape)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 8)
+                if (world->FUN_0043b4f0().CFilter_GetLayer() == 8)
                 {
                     if (world->FUN_0043b4f0().FUN_006240b0() != 0x12)
                     {
@@ -228,13 +228,13 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
                                 DObj od;
                                 od.FUN_004a3d20();
                                 EObj oe;
-                                if (FUN_0043b300(&RTTI_01267e64, coll))
+                                if (NiObject_IsKindOf(&RTTI_01267e64, coll))
                                 {
                                     CollObj* scaledColl = coll;
                                     if (!world->FUN_008cffa0() || scaledColl->FUN_004a7bd0() == 1.0)
                                     {
-                                        FUN_0056df80(&oe, ((P1Obj*)p1)->FUN_00461130());
-                                        if (FUN_0043b300(&RTTI_012683c8, world))
+                                        FUN_0056df80(&oe, ((P1Obj*)p1)->NiAVObject_GetWorldRotate());
+                                        if (NiObject_IsKindOf(&RTTI_012683c8, world))
                                         {
                                             WorldObj* transformedWorld = world;
                                             EObj of;

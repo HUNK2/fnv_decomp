@@ -121,7 +121,7 @@ struct HeaderBuffer
 };
 struct HeaderManager
 {
-    unsigned int FUN_0066d730();
+    unsigned int bhkCapsuleShape_QCinfoSize();
     bool FUN_00424940();
     unsigned int FUN_0044ddc0();
     void CopyPlayerName(char*);
@@ -129,7 +129,7 @@ struct HeaderManager
 };
 struct HeaderPlayer
 {
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
     unsigned short FUN_0087f9f0();
 };
 struct HeaderSetting
@@ -140,7 +140,7 @@ struct HeaderSetting
 struct HeaderPixels
 {
     virtual ~HeaderPixels();
-    void* FUN_0064dac0(int, int);
+    void* NiPixelData_GetPixels(int, int);
 };
 extern HeaderManager* DAT_011de134;
 extern HeaderPlayer* DAT_011dea3c;
@@ -152,14 +152,14 @@ int FUN_00406d30(char*, unsigned int, const char*);
 int FUN_004dc200();
 int FUN_004dc1f0();
 HeaderPixels* FUN_00878f60(int*, int*, const char*);
-const char* FUN_0047e0e0(HeaderPlayer*);
+const char* TESActorBaseData_GetKarmicTitle(HeaderPlayer*);
 // @fnv 0x0084d4b0
 void FUN_0084d4b0(HeaderFile* file)
 {
     file->WriteToFile(DAT_011a2224, strlen(DAT_011a2224));
     HeaderBuffer buffer_;
     HeaderBuffer* stream = &buffer_;
-    unsigned int version = DAT_011de134->FUN_0066d730();
+    unsigned int version = DAT_011de134->bhkCapsuleShape_QCinfoSize();
     stream->FUN_00865e50(&version, 4, false);
     char playerName3[64];
     FUN_00403d30(playerName3, 0, 64);
@@ -189,8 +189,8 @@ void FUN_0084d4b0(HeaderFile* file)
     stream->FUN_00865e50(&width2, 4, false);
     unsigned int numberVal = DAT_011de134->FUN_0044ddc0();
     stream->FUN_00865e50(&numberVal, 4, false);
-    stream->FUN_00865e70(DAT_011dea3c->FUN_0055d520(), false);
-    stream->FUN_00865e70(FUN_0047e0e0(DAT_011dea3c), false);
+    stream->FUN_00865e70(DAT_011dea3c->TESObjectREFR_GetFullName(), false);
+    stream->FUN_00865e70(TESActorBaseData_GetKarmicTitle(DAT_011dea3c), false);
     unsigned int level2 = DAT_011dea3c->FUN_0087f9f0();
     stream->FUN_00865e50(&level2, 4, false);
     char location9[260];
@@ -201,7 +201,7 @@ void FUN_0084d4b0(HeaderFile* file)
     stream->FUN_00865e70(time, false);
     buffer_.FUN_00865c40(file);
     if (!DAT_011de134->FUN_00424940())
-        file->WriteToFile(pixels->FUN_0064dac0(0, 0), height5 * width2 * 3);
+        file->WriteToFile(pixels->NiPixelData_GetPixels(0, 0), height5 * width2 * 3);
     else
         file->WriteToFile(0, height5 * width2 * 3);
     delete pixels;

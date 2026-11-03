@@ -7,7 +7,7 @@ struct NiRTTI;
 extern NiRTTI g_011f5f5c;
 
 // @fnv 0x00a9af30
-NiRTTI* __cdecl FUN_00a9af30()
+NiRTTI* __cdecl NiBooleanExtraData_GetRTTI()
 {
     return &g_011f5f5c;
 }
@@ -25,7 +25,7 @@ struct BSFadeNode
 extern int DAT_010a112c;
 
 // @fnv 0x00a9af90
-void* __cdecl FUN_00a9af90()
+void* __cdecl NiBooleanExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)
@@ -107,11 +107,11 @@ struct S_00a9af40 : NiExtraData
         unkC = false;
     }
     void FUN_00a7b330(S_00a9af40* pkClone, CloningProcess* pkCloning);
-    S_00a9af40* FUN_00a9af40(CloningProcess* pkCloning);
+    S_00a9af40* NiBooleanExtraData_CreateClone(CloningProcess* pkCloning);
 };
 
 // @fnv 0x00a9af40
-S_00a9af40* S_00a9af40::FUN_00a9af40(CloningProcess* pkCloning)
+S_00a9af40* S_00a9af40::NiBooleanExtraData_CreateClone(CloningProcess* pkCloning)
 {
     S_00a9af40* pkClone = new S_00a9af40;
     FUN_00a7b330(pkClone, pkCloning);
@@ -487,11 +487,11 @@ struct FnVNode
     int unk08;
     unsigned char unk0c;
     void helper_b2c0(FnVArg* a);
-    void FUN_00a9b040(FnVArg* s);
+    void NiBooleanExtraData_SaveBinary(FnVArg* s);
 };
 
 // @fnv 0x00a9b040
-void FnVNode::FUN_00a9b040(FnVArg* s)
+void FnVNode::NiBooleanExtraData_SaveBinary(FnVArg* s)
 {
     this->helper_b2c0(s);
     unsigned char ucValue = this->unk0c;

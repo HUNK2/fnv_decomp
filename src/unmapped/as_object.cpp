@@ -93,7 +93,7 @@ struct TESObjectREFR
 struct TESObjectCELL;
 struct S00561ef0
 {
-    bool FUN_00561ef0(TESObjectCELL*);
+    bool TESObjectREFR_MoveToEditorLocation(TESObjectCELL*);
 };
 struct P01ObjA
 {
@@ -182,8 +182,8 @@ struct TESObjectCELL
     void CellRefLockEnter();
     void CellRefLockLeave();
     void SetLandscape(TESObjectLAND*);
-    void FUN_005576c0();
-    void FUN_00558ba0(TESObjectREFR*);
+    void TESObjectCELL_RemoveObstaclesAndDoors();
+    void TESObjectCELL_RemoveAutoWaterReferenceFromReferencesCurrentWater(TESObjectREFR*);
     void RemoveNonPersistentRefs();
 };
 
@@ -200,7 +200,7 @@ void TESObjectCELL::RemoveNonPersistentRefs()
         {
             BSSimpleList* pNode;
             bool bOldAllow = g_BGSSaveLoadGame->SetThreadAllowChanges(false);
-            FUN_005576c0();
+            TESObjectCELL_RemoveObstaclesAndDoors();
             pNode = ((FUN_009604f0_shell*)this)->FUN_009604f0();
             pPrevNode = 0;
             while (pNode && !pNode->FUN_008256d0())
@@ -230,13 +230,13 @@ void TESObjectCELL::RemoveNonPersistentRefs()
                     bool bPrint = true;
                     if (g_BGSSaveLoadGame->FUN_0042ce10() &&
                         ((Class_0084a700*)g_BGSSaveLoadGame)->HasChangeForForm(pRef, CF845(8)) &&
-                        ((S00561ef0*)pRef)->FUN_00561ef0(this))
+                        ((S00561ef0*)pRef)->TESObjectREFR_MoveToEditorLocation(this))
                         bPrint = false;
                     if (((P01ObjA*)pRef)->GetNext() && ((P01ObjA*)pRef)->GetNext()->FNV_GetFormType() == 0x23)
                     {
                         FUN_00452440_shell* pBase = (FUN_00452440_shell*)((P01ObjA*)pRef)->GetNext();
                         if (pBase->FUN_00452440())
-                            FUN_00558ba0(pRef);
+                            TESObjectCELL_RemoveAutoWaterReferenceFromReferencesCurrentWater(pRef);
                     }
                     if (bPrint && pRef != g_thePlayer)
                         FUN_00867f90(pRef);

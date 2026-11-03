@@ -256,7 +256,7 @@ struct NiStream
 struct HC1Base
 {
     bool FUN_00aa0ad0(NiStream*);
-    bool FUN_00ca54c0(NiStream*);
+    bool bhkPackedNiTriStripsShape_RegisterStreamables(NiStream*);
 };
 float __fastcall FUN_00ca6620(void* p, int);
 float __cdecl FUN_00ca98e0();
@@ -282,7 +282,7 @@ struct BaseThunk
 };
 struct FUN_00cac070_Stub : BaseThunk
 {
-    void FUN_00cac070(NiStream&);
+    void bhkCharacterProxy_RegisterStreamables(NiStream&);
 };
 struct hkpShapePhantom
 {
@@ -1261,7 +1261,7 @@ struct FUN_00ca5290 : FUN_00cd2de0
     void FUN_00c876a0();
 };
 extern int DAT_012682dc;
-int* __cdecl FUN_00ca5300();
+int* __cdecl bhkPackedNiTriStripsShape_GetRTTI();
 struct MatchData
 {
     int unk00;
@@ -1304,7 +1304,7 @@ struct MatchObject
     int unk00;
     int unk04;
     MatchData* data;
-    bool __thiscall FUN_00c84dc0(MatchObject* rhs);
+    bool __thiscall bhkShape_IsEqual(MatchObject* rhs);
     bool __thiscall Equals(MatchObject* rhs);
 };
 struct S_00ca59d0_Out;
@@ -1586,8 +1586,8 @@ struct S_00ca59d0_Self
     virtual void v45(int* out);
     int unk04;
     S_00ca59d0_Member* unk08;
-    void FUN_00c84d50(S_00ca59d0_Stream* s);
-    void FUN_00ca59d0(S_00ca59d0_Stream* s);
+    void bhkShape_SaveBinary(S_00ca59d0_Stream* s);
+    void bhkPackedNiTriStripsShape_SaveBinary(S_00ca59d0_Stream* s);
 };
 struct TlsBlock_t
 {
@@ -1800,9 +1800,9 @@ struct FUN_00ca5a80_cls
 
     void ReleaseOwned(bool flag);
 };
-// FUN_00ca6600 : a one-line function - getter
+// bhkNiTriStripsShape_GetRTTI : a one-line function - getter
 extern int g_target_00ca6600;
-void* FUN_00ca6600();
+void* bhkNiTriStripsShape_GetRTTI();
 extern int DAT_012680f8;
 extern int DAT_012686d0;
 extern int DAT_012682e4;
@@ -1993,7 +1993,7 @@ struct S_00ca6810_Class
     S_00ca6810_Inner* unk08;
 
     void __thiscall FUN_00aa0ad0(int arg);
-    void __thiscall FUN_00ca6810(int arg);
+    void __thiscall bhkNiTriStripsShape_RegisterStreamables(int arg);
 };
 struct S_00ca6880_Node
 {
@@ -2044,7 +2044,7 @@ struct S_00ca6880_Class
     int unk00;
     int unk04;
     S_00ca6880_Node* unk08;
-    char __thiscall FUN_00c84dc0(S_00ca6880_Class* arg);
+    char __thiscall bhkShape_IsEqual(S_00ca6880_Class* arg);
     char __thiscall IsEquivalent(S_00ca6880_Class* arg);
 };
 static inline int Val(S_00ca6880_Class* o)
@@ -2301,7 +2301,7 @@ class FUN_00ca9860_cls : public FUN_00ca9860_base
     void FUN_00c876a0();
 };
 extern int DAT_01268310;
-int __cdecl FUN_00ca9910();
+int __cdecl bhkMalleableConstraint_GetRTTI();
 struct S_00ca9940_Child
 {
     virtual void vfn_00();
@@ -2570,7 +2570,7 @@ class BCA9D50Wrapper : public BCA9D50Base
     int unk00;
     BCA9D50Data* m_pUserData;
 
-    void FUN_00ca9d50(BCA9D50Stream& kStream);
+    void hkMalleableConstraintCinfo_SaveBinary(BCA9D50Stream& kStream);
 };
 struct FUN_00ca9b40_Obj
 {
@@ -2690,7 +2690,7 @@ struct FUN_00cabff0_cls
     virtual void vb0();
     virtual FUN_00cabff0_res* SlotB4(int* p);
     void FUN_00c87650(int a);
-    void FUN_00cabff0(int a);
+    void bhkCharacterProxy_LoadBinary(int a);
 };
 void __fastcall FUN_00a645b0(int a);
 struct S_00cac0b0_Arg
@@ -2728,7 +2728,7 @@ struct S_00cac0b0_cls
     int unk00;
     int unk04;
     S_00cac0b0_Obj* unk08;
-    void FUN_00cac0b0(S_00cac0b0_Arg* a);
+    void bhkCharacterProxy_SaveBinary(S_00cac0b0_Arg* a);
     void SaveSerializeData(S_00cac0b0_Arg* a);
 };
 struct FUN_00cac110_Class
@@ -3012,7 +3012,7 @@ struct FUN_00cb9a90 : S_cb9a90_C
 };
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126864c;
-GlobalObjectO2_00a7b610* __cdecl FUN_00cb9b50();
+GlobalObjectO2_00a7b610* __cdecl bhkBallAndSocketConstraint_GetRTTI();
 struct CB9B80Header
 {
     int unk00;
@@ -3064,7 +3064,7 @@ class FUN_00cb9b80 : public CB9B80WorldObject
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268610;
-CpuOpaque* __cdecl FUN_00cb9c00();
+CpuOpaque* __cdecl bhkRagdollConstraint_GetRTTI();
 class FUN_00cb9c70_item
 {
   public:
@@ -3101,7 +3101,7 @@ class FUN_00cb9c70_cls
     FUN_00cb9c70_item** m_ppItems;
     unsigned int m_uiCount;
     bool Check(int a1);
-    bool FUN_00cb9c70(int a1);
+    bool bhkRagdollTemplate_RegisterStreamables(int a1);
 };
 struct RefCountedStandIn
 {
@@ -3339,7 +3339,7 @@ class BCB9F60LinkData : public BCB9F60ExtraData
     void** m_ppkObjects;
     unsigned int m_uiCount;
 
-    void FUN_00cb9f60(BCB9F60Stream& kStream);
+    void bhkRagdollTemplate_SaveBinary(BCB9F60Stream& kStream);
 };
 // Releases the resource held by the object and resets it to its empty state.
 typedef void(__stdcall* FreeFn)(void*);
@@ -3419,7 +3419,7 @@ class FUN_00cba110 : public CBaseOwner
     FUN_00cba110();
 };
 extern int DAT_01268400;
-void* __cdecl FUN_00cba1c0();
+void* __cdecl bhkRagdollTemplateData_GetRTTI();
 extern unsigned int DAT_01268418;
 void FUN_00cbbfb0(unsigned int a1);
 // FUN_00cbd960 registers the 0x00cbd7a0 comparison helper in the global
@@ -3453,7 +3453,7 @@ struct BufferOwner
 {
     void* unk00;
     unsigned char* buffer;
-    void __thiscall FUN_00c8a280(void*);
+    void __thiscall hkConstraintCinfo_SaveBinary(void*);
     void __thiscall WriteToStream(void*);
 };
 extern "C" void _ReadWriteBarrier(void);
@@ -4245,7 +4245,7 @@ struct CA5940
     virtual void slot43();
     virtual void slot44();
     virtual ReadData* GetData(char* out);
-    void FUN_00c84d00(ReadStream* stream);
+    void bhkShape_LoadBinary(ReadStream* stream);
     void ReadDataFromStream(ReadStream* stream);
 };
 extern __declspec(thread) int g_CA6E60AllocTag;
@@ -4351,7 +4351,7 @@ struct PartValue
 };
 struct DiagnosticShape : S_00ca6810_Class
 {
-    void FUN_00cd2fd0(StrArr* output);
+    void bhkShapeCollection_GetViewerStrings(StrArr* output);
     void AppendSubpartDiagnostics(StrArr* output);
     unsigned int Count() const
     {
@@ -4602,7 +4602,7 @@ char* __cdecl FUN_00a7d330(const char* pcString);
 class BCBEA40Owner
 {
   public:
-    void FUN_00c9f270(BCBEA40StringArray* pkArray);
+    void bhkSimpleShapePhantom_GetViewerStrings(BCBEA40StringArray* pkArray);
     void AddNameToArray(BCBEA40StringArray* pkArray);
 };
 // Registers a batch of classes with the registry while it is temporarily locked.
@@ -4641,7 +4641,7 @@ struct FUN_00ca3dc0_cls
     int unk1C;
     void* m_20;
     void* m_24;
-    void __thiscall FUN_00ca3dc0(S_00ca59d0_Stream* s);
+    void __thiscall hkPackedNiTriStripsData_SaveBinary(S_00ca59d0_Stream* s);
 };
 struct SArr046
 {
@@ -4722,7 +4722,7 @@ struct ThisCls046
     int unk00;
     int unk04;
     SubObj046* m_8;
-    void FUN_00cd2fd0(SArr046* arr);
+    void bhkShapeCollection_GetViewerStrings(SArr046* arr);
     void AppendSubpartNames(SArr046* arr);
 };
 struct bhkSerializable
@@ -4844,7 +4844,7 @@ class LinkBase
     virtual void v43();
     virtual void v44();
     virtual LandTextureParameters* GetHavokData(char& rcFlag);  // +0xb4
-    void FUN_00c87670(LinkStream& kStream);                     // base LinkObject
+    void bhkSerializable_LinkObject(LinkStream& kStream);                     // base LinkObject
 };
 class LinkWrapper : public LinkBase
 {
@@ -5142,7 +5142,7 @@ class bhkRagdollTemplateData : public RagdollBase
     int m_38;
     int m_3c;
 
-    void FUN_00cba340(StandInStream& kStream);
+    void bhkRagdollTemplateData_LoadBinary(StandInStream& kStream);
 };
 struct FUN_00ca0ca0_Class
 {
@@ -5430,7 +5430,7 @@ struct PositionOwner
     void OnTrigger(float* position);
     void SendPositionCommand(float* position);
 };
-void __cdecl FUN_00c896b0();
+void __cdecl bhkConstraint_LoadBinary();
 void __cdecl FUN_00ca98d0();
 char FUN_00ca98f0();
 unsigned int __cdecl PackColorBigEndian(float, float, float, float);
@@ -5544,14 +5544,14 @@ extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count);
 void __stdcall FUN_00cd4af0(int a1);
 unsigned int __stdcall FUN_00cb2d70(unsigned int param_1);
-void __cdecl FUN_00c87f60(void);
-void __cdecl FUN_00cb75f0(void);
-void __cdecl FUN_00c87f80();
-void __cdecl FUN_00cb7600();
+void __cdecl bhkPCollisionObject_LoadBinary(void);
+void __cdecl bhkSPCollisionObject_LoadBinary(void);
+void __cdecl bhkPCollisionObject_LinkObject();
+void __cdecl bhkSPCollisionObject_LinkObject();
 void __cdecl FUN_00c87fa0();
 void __cdecl FUN_00cb7610();
 bool __cdecl FUN_00c87fb0(int param_1, int param_2);
-bool __cdecl FUN_00cb7630(int param_1, int param_2);
+bool __cdecl bhkSPCollisionObject_IsEqual(int param_1, int param_2);
 extern int DAT_012683e8;
 struct FUN_00c86720
 {
@@ -5564,7 +5564,7 @@ struct FUN_00cb83f0 : FUN_00c86720
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_012683ec;
-CpuOpaque* __cdecl FUN_00cb8460();
+CpuOpaque* __cdecl bhkOrientHingedBodyAction_GetRTTI();
 void __cdecl FUN_00c86800();
 void __cdecl FUN_00cb8470();
 extern "C" void __cdecl FUN_00aa1460(void* self, int size);
@@ -5605,13 +5605,13 @@ extern GlobalObjectO2_00a7b610 g_012683ec;
 char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* p);
 struct FUN_00cb89c0_cls
 {
-    void FUN_00c86b80(SArr046* arr);
+    void bhkUnaryAction_GetViewerStrings(SArr046* arr);
     void AppendGlobalReference(SArr046* arr);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_012683f4;
-CpuOpaque* __cdecl FUN_00cb9250();
-void __cdecl FUN_00a7b3d0();
+CpuOpaque* __cdecl bhkForceController_GetRTTI();
+void __cdecl NiExtraData_IsEqual();
 void __cdecl FUN_00cb9920();
 class CBADDynamicArray : public CA0E60Array
 {
@@ -5622,7 +5622,7 @@ class CBADDynamicArray : public CA0E60Array
 };
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01268408;
-GlobalObjectO2_00a7b610* __cdecl FUN_00cbaf80();
+GlobalObjectO2_00a7b610* __cdecl bhkRagdollTemplate_GetRTTI();
 struct FUN_00cbaf90_Obj
 {
     void FUN_00cbaf90();
@@ -6093,7 +6093,7 @@ struct Holder_ca9e60
 };
 struct Host_ca9e60
 {
-    void* __thiscall FUN_00ca9e60(void* arg);
+    void* __thiscall bhkMalleableConstraint_CreateClone(void* arg);
     void __thiscall FUN_00c89730(void* a, void* b);
 };
 void __cdecl DispatchToTarget();
@@ -6284,7 +6284,7 @@ struct Cb1b80Arr
     Cb1b80Arr* FUN_00cb1b80(void* data, unsigned int size);
 };
 void __cdecl FUN_00c65820(void);
-void __cdecl FUN_00cb7620(void);
+void __cdecl bhkSPCollisionObject_SaveBinary(void);
 extern int DAT_0102009c;
 extern int DAT_0102016c;
 extern int DAT_010c8914;
@@ -6307,7 +6307,7 @@ struct S00cb84f0_Obj : FUN_00c87c30
         *(void**)this = (void*)&DAT_010c8914;
     }
 };
-void* __cdecl FUN_00cb84f0();
+void* __cdecl bhkOrientHingedBodyAction_CreateObject();
 void __cdecl FUN_00a6d290(void);
 struct FUN_00aa4060_Class
 {
@@ -6396,7 +6396,7 @@ struct CBB050Object
     int unk08;
     CBB050Array array;
     void FUN_00a7b4a0(ReadStream* stream);
-    void FUN_00cbb050(ReadStream* stream);
+    void bhkRagdollTemplate_LoadBinary(ReadStream* stream);
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_011f49e0;

@@ -37,7 +37,7 @@ void* __cdecl __memcpy(void* dst, const void* src, unsigned int size);
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 
 struct TESLoadScreenType_Shell
@@ -54,7 +54,7 @@ void __thiscall TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
         return;
     }
     __memcpy((char*)this + 0x18, (char*)pmisc + 0x18, 0x58);
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(apCopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 void __cdecl _Deallocate(void*);
@@ -74,17 +74,17 @@ void* __thiscall ScalarStandIn::DestroyIfFlagged(unsigned int flags)
 }
 
 bool __cdecl FUN_00401500();
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void __thiscall M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void __thiscall M();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e20(int, int);
+    void __thiscall TESForm___SaveData(int, int);
 };
 struct FUN_005a7630_shell
 {
@@ -92,17 +92,17 @@ struct FUN_005a7630_shell
     LoadScreenTypeData _data;
     void __thiscall SwapEndianAndProcess();
 };
-// Calls M, conditionally byte-swaps _data before and after FUN_00485e20, then calls M again.
+// Calls M, conditionally byte-swaps _data before and after TESForm___SaveData, then calls M again.
 // @fnv 0x005a7630
 void __thiscall FUN_005a7630_shell::SwapEndianAndProcess()
 {
-    ((FUN_004855a0*)this)->M();
+    ((TESForm_StartForm*)this)->M();
     if (FUN_00401500())
         _data.Endian();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)&_data, 0x58);
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)&_data, 0x58);
     if (FUN_00401500())
         _data.Endian();
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 
 struct ScriptS
@@ -112,23 +112,23 @@ struct ScriptS
 int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 struct FUN_005a76f0_shell
 {
     char _pad[0x18];
-    bool __thiscall FUN_005a76f0(TESForm* apCompare);
+    bool __thiscall TESLoadScreenType_Compare(TESForm* apCompare);
 };
 // Compares a TESLoadScreenType against this object's header bytes and a nested check, returning true when either differs or the cast fails.
 // @fnv 0x005a76f0
-bool __thiscall FUN_005a76f0_shell::FUN_005a76f0(TESForm* apCompare)
+bool __thiscall FUN_005a76f0_shell::TESLoadScreenType_Compare(TESForm* apCompare)
 {
     TESLoadScreenType* pcomp = dynamic_cast<TESLoadScreenType*>(apCompare);
     if (!pcomp)
         return true;
     if (_memcmp(&this->_pad[0x18], ((ScriptS*)pcomp)->GetHeader(), 0x58))
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
     return false;
 }

@@ -346,7 +346,7 @@ struct NiPoint3
     float y;
     float z;
     NiPoint3();
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 struct NiPoint2
 {
@@ -787,7 +787,7 @@ struct FUN_006240d0
 {
     float x, y, z, radius;
     FUN_006240d0();
-    void FUN_004a51d0(const NiPoint3Ex&, float);
+    void NiBound_SetCenterAndRadius(const NiPoint3Ex&, float);
     float FUN_0084d030();
 };
 struct TreeGeometry

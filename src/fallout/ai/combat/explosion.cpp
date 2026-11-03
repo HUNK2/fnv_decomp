@@ -13,11 +13,11 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void __thiscall Explosion_SetActorCause(ActorCause* apActorCause);
 };
 
 // @fnv 0x009ac170
-void __thiscall FUN_009ac170_shell::FUN_009ac170(ActorCause* apActorCause)
+void __thiscall FUN_009ac170_shell::Explosion_SetActorCause(ActorCause* apActorCause)
 {
     m_actorCause = apActorCause;
 }
@@ -88,11 +88,11 @@ struct MobileObject
 
 struct Explosion : MobileObject
 {
-    void FUN_009b2770(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Explosion_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x009b2770
-void Explosion::FUN_009b2770(BGSLoadFormBuffer* apLoadGameBuffer)
+void Explosion::Explosion_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     MobileObject::ApplyLoadBuffer(apLoadGameBuffer);
 }
@@ -557,11 +557,11 @@ struct RetObj
 struct Actor
 {
     RetObj* _FNV_GetObjectReference();
-    bool FUN_00565690();
+    bool TESObjectREFR_IsQuestObject();
 };
 // Returns true if _FNV_GetObjectReference() is non-null and its vf37() call returns true, otherwise false.
 // @fnv 0x00565690
-bool Actor::FUN_00565690()
+bool Actor::TESObjectREFR_IsQuestObject()
 {
     return _FNV_GetObjectReference() ? _FNV_GetObjectReference()->vf37() : false;
 }
@@ -680,7 +680,7 @@ struct MobileObject_9b22c0
     unsigned int unk7C;
     unsigned int unk80;
     unsigned int unk84;
-    void FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer);
+    void MobileObject_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct FUN_009b22c0_shell : MobileObject_9b22c0
 {
@@ -716,12 +716,12 @@ struct FUN_009b22c0_shell : MobileObject_9b22c0
     float unkE8[3];
     float unkF4[3];
     int unk100;
-    void FUN_009b22c0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Explosion_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009b22c0
-void FUN_009b22c0_shell::FUN_009b22c0(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009b22c0_shell::Explosion_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    FUN_00932a00(apLoadGameBuffer);
+    MobileObject_LoadGame(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData(&unk88, 4);
     apLoadGameBuffer->ReadTypedData(&unk8C, 4);
     apLoadGameBuffer->ReadTypedData(&unk94, 4);
@@ -1488,11 +1488,11 @@ struct Explosion_9b25b0 : ExplosionBase
     unsigned int unkD4;
     unsigned int unkD8;
     CasterData* m_pEffectInstance;
-    void FUN_009b25b0(void* apBuffer);
+    void Explosion_InitLoadGame(void* apBuffer);
 };
 
 // @fnv 0x009b25b0
-void Explosion_9b25b0::FUN_009b25b0(void* apBuffer)
+void Explosion_9b25b0::Explosion_InitLoadGame(void* apBuffer)
 {
     BaseFinishLoad(apBuffer);
     pRefC8 = pRefC8 ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)pRefC8)) : 0;
@@ -2037,7 +2037,7 @@ void B17A0Ref::Update3D(int iUnused)
     }
 }
 
-// FUN_009b2790 v01 - worker7 data round
+// Explosion_Revert v01 - worker7 data round
 struct BGSLoadFormBuffer;
 
 struct MobileObject
@@ -2141,11 +2141,11 @@ struct OwnerW7 : MobileObject
     Vec3W7 m_e8;
     Vec3W7 m_f4;
 
-    void FUN_009b2790(BGSLoadFormBuffer* apBuffer);
+    void Explosion_Revert(BGSLoadFormBuffer* apBuffer);
 };
 
 // @fnv 0x009b2790
-void OwnerW7::FUN_009b2790(BGSLoadFormBuffer* apBuffer)
+void OwnerW7::Explosion_Revert(BGSLoadFormBuffer* apBuffer)
 {
     MobileObject::Revert(apBuffer);
     m_d4 = 0;
@@ -2544,7 +2544,7 @@ struct SceneX
     virtual void v62();
     virtual void v63();
     void FUN_00450f90(bool);
-    void FUN_00476ab0();
+    void BSFadeNode_TurnFadeNodeOn();
     void FUN_00440460(const NiPoint3&);
     void FUN_00a5a040();
 };
@@ -2577,14 +2577,14 @@ struct BaseX
     void* FUN_004fd380();
     float GetScaledValue();
     float FUN_008d01e0();
-    int* FUN_004fb810();
+    int* BGSExplosion_GetSoundLevelValue();
 };
 struct CellX
 {
     void RemoveReference(RefX*);
     void AddReference(RefX*, bool);
     SceneX* FUN_005497a0();
-    float FUN_005471e0();
+    float TESObjectCELL_GetWaterHeight();
 };
 struct ActorProcX
 {
@@ -2860,7 +2860,7 @@ struct RefX
 extern RefX* DAT_011dea3c;
 struct ExtraX
 {
-    void FUN_00422220(float);
+    void ExtraDataList_SetRadius(float);
 };
 struct HandlerX
 {
@@ -2920,7 +2920,7 @@ void RefX::UpdateExplosion()
         if (!loading4 && FUN_004181e0()->GetScaledValue() > 0.0 && FUN_004181e0()->FUN_008d01e0() > 0.0)
         {
             FUN_009b13a0();
-            FUN_005d43c0()->FUN_00422220(FUN_004181e0()->GetScaledValue());
+            FUN_005d43c0()->ExtraDataList_SetRadius(FUN_004181e0()->GetScaledValue());
             SetFlags(0x40000000);
         }
         UpdateCastSound();
@@ -2940,7 +2940,7 @@ void RefX::UpdateExplosion()
         SceneX* node7 = sceneB ? sceneB->AsNode() : 0;
         SceneX* fade9 = node7 ? node7->AsFade() : 0;
         if (fade9)
-            fade9->FUN_00476ab0();
+            fade9->BSFadeNode_TurnFadeNodeOn();
         animationTime = GetAnimValueByPrefix(sceneB, "SpecialIdle_AreaEffect", "Hit");
     }
     if (!loading4)
@@ -2949,7 +2949,7 @@ void RefX::UpdateExplosion()
         if (actorPointer && actorPointer->FUN_00559450() && actorPointer->FUN_00559450()->FUN_008d8520())
         {
             ActorX* actor = actorPointer->FUN_00559450();
-            actor->FUN_008d8520()->React((RefX*)actor, GetPosition(), FUN_004181e0()->FUN_004fb810(), 2,
+            actor->FUN_008d8520()->React((RefX*)actor, GetPosition(), FUN_004181e0()->BGSExplosion_GetSoundLevelValue(), 2,
                                          FUN_009ad610());
         }
         FUN_009b1090();
@@ -2958,7 +2958,7 @@ void RefX::UpdateExplosion()
         if (FUN_008d6f30() && GetByteAtOffsetD9())
         {
             NiPoint3 position8 = GetPosition();
-            position8.z = FUN_008d6f30()->FUN_005471e0();
+            position8.z = FUN_008d6f30()->TESObjectCELL_GetWaterHeight();
             float size_2 = FUN_00644930() / *DAT_011d0da4.FUN_00403e20();
             MatrixWater rotationA;
             rotationA.FUN_004a0c90(FUN_004a4240());
@@ -3288,7 +3288,7 @@ class SavedActorCausePointer
 class CasterReference
 {
   public:
-    unsigned int FUN_0040a1e0();
+    unsigned int MagicItem_GetMagicItemFormID();
 };
 class CasterSource
 {
@@ -3352,14 +3352,14 @@ class ExplosionSave
     int frameCount;
     Vec3f pointE8, pointF4;
     int unk100;
-    void FUN_00932880(BGSSaveFormBuffer*);
+    void MobileObject_AppendSaveLoadFormBuffer(BGSSaveFormBuffer*);
     void WriteToSaveBuffer(BGSSaveFormBuffer*);
 };
 // Writes explosion save fields, actor cause ID, and optional caster data to the save buffer.
 // @fnv 0x009b2040
 void ExplosionSave::WriteToSaveBuffer(BGSSaveFormBuffer* buffer)
 {
-    FUN_00932880(buffer);
+    MobileObject_AppendSaveLoadFormBuffer(buffer);
     buffer->FUN_00865e50(&unk88, 4, 0);
     buffer->FUN_00865e50(&unk8C, 4, 0);
     buffer->FUN_00865e50(&unk94, 4, 0);
@@ -3382,7 +3382,7 @@ void ExplosionSave::WriteToSaveBuffer(BGSSaveFormBuffer* buffer)
     buffer->FUN_00865e50(&casterPresent, 1, 0);
     if (casterPresent)
     {
-        buffer->FUN_00865db0(caster->reference ? caster->reference->FUN_0040a1e0() : 0, 0);
+        buffer->FUN_00865db0(caster->reference ? caster->reference->MagicItem_GetMagicItemFormID() : 0, 0);
         buffer->FUN_00865db0(caster->source ? caster->source->RefreshItem() : 0, 0);
         buffer->FUN_00865df0(caster->weapon, 0);
     }

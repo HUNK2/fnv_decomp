@@ -71,11 +71,11 @@ void* AlchemyItem::FUN_004030b0()
 
 struct FUN_004029d0_shell : public AlchemyItem
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 
 // @fnv 0x004029d0
-bool FUN_004029d0_shell::FUN_004029d0(int aiFlag)
+bool FUN_004029d0_shell::AlchemyItem_IsFlagSet(int aiFlag)
 {
     return (*((unsigned char*)this + 0xbc) & aiFlag) != 0;
 }
@@ -351,14 +351,14 @@ FUN_00402b40::FUN_00402b40()
 namespace fnv_004029b0 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
-    bool FUN_004029b0();
+    bool AlchemyItem_IsFlagSet(int);
+    bool AlchemyItem_IsAutoCalc();
 };
 
 // @fnv 0x004029b0
-bool FUN_004029d0_shell::FUN_004029b0()
+bool FUN_004029d0_shell::AlchemyItem_IsAutoCalc()
 {
-    return !FUN_004029d0(1);
+    return !AlchemyItem_IsFlagSet(1);
 }
 }  // namespace fnv_004029b0
 
@@ -407,28 +407,28 @@ void __thiscall FUN_00403720_shell::SwapEndian()
 namespace fnv_00402a90 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 struct FUN_00405da0_shell
 {
-    bool FUN_00405da0();
+    bool EffectItemList_CanBePoison();
 };
 struct FUN_00402a90_shell
 {
     bool FUN_00402a90();
 };
-// Returns true when the object at this-0x3c passes FUN_004029d0(2) and this object's FUN_00405da0 returns false.
+// Returns true when the object at this-0x3c passes AlchemyItem_IsFlagSet(2) and this object's EffectItemList_CanBePoison returns false.
 // @fnv 0x00402a90
 bool FUN_00402a90_shell::FUN_00402a90()
 {
-    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(2) && !((FUN_00405da0_shell*)this)->FUN_00405da0();
+    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->AlchemyItem_IsFlagSet(2) && !((FUN_00405da0_shell*)this)->EffectItemList_CanBePoison();
 }
 }  // namespace fnv_00402a90
 
 namespace fnv_00402ae0 {
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 
 struct FUN_00402ae0_shell
@@ -439,7 +439,7 @@ struct FUN_00402ae0_shell
 // @fnv 0x00402ae0
 bool FUN_00402ae0_shell::FUN_00402ae0()
 {
-    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(4);
+    return ((FUN_004029d0_shell*)((char*)this - 0x3c))->AlchemyItem_IsFlagSet(4);
 }
 }  // namespace fnv_00402ae0
 
@@ -486,7 +486,7 @@ struct S_0048a520
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_0047a240_shell
 {
@@ -494,11 +494,11 @@ struct FUN_0047a240_shell
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0(void);
+    void TESScriptableForm_Save(void);
 };
 struct S_00477f20
 {
-    void FUN_00477f20(void);
+    void BGSDestructibleObjectForm_Save(void);
 };
 struct FUN_0047b560_holder
 {
@@ -506,11 +506,11 @@ struct FUN_0047b560_holder
 };
 struct FUN_00479350_shell
 {
-    void FUN_00479350(void);
+    void BGSEquipType_Save(void);
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00(void);
+    void TESForm_SaveData(void);
 };
 
 struct FUN_00402f10_shell
@@ -522,13 +522,13 @@ struct FUN_00402f10_shell
 void FUN_00402f10_shell::FUN_00402f10()
 {
     ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    ((FUN_0048e370_obj*)((char*)this + 0x3c))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0048e370_obj*)((char*)this + 0x3c))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x48))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x58))->FUN_0048cca0();
-    ((S_00477f20*)((char*)this + 0x74))->FUN_00477f20();
+    ((S_0048cca0*)((char*)this + 0x58))->TESScriptableForm_Save();
+    ((S_00477f20*)((char*)this + 0x74))->BGSDestructibleObjectForm_Save();
     ((FUN_0047b560_holder*)((char*)this + 0x7c))->LogFormIDs();
-    ((FUN_00479350_shell*)((char*)this + 0x6c))->FUN_00479350();
-    ((FUN_00485e00_shell*)((char*)this - 0x30))->FUN_00485e00();
+    ((FUN_00479350_shell*)((char*)this + 0x6c))->BGSEquipType_Save();
+    ((FUN_00485e00_shell*)((char*)this - 0x30))->TESForm_SaveData();
 }
 
 namespace fnv_00403790 {
@@ -554,11 +554,11 @@ extern TESObjectSTAT* DAT_011ca23c;
 struct H0050fb90
 {
     int _FNV_GetFormType();
-    bool FUN_0050fb90();
+    bool TESObject_IsOcclusionMarker();
 };
 // Returns true if this object's form type is 0x20 and it matches one of the three TESObjectSTAT globals; otherwise false.
 // @fnv 0x0050fb90
-bool H0050fb90::FUN_0050fb90()
+bool H0050fb90::TESObject_IsOcclusionMarker()
 {
     if (!this)
         return false;
@@ -577,7 +577,7 @@ struct FUN_00401660_t
 };
 struct FUN_00472890_t
 {
-    bool FUN_00472890(void*, unsigned int);
+    bool TESFile_GetChunkData(void*, unsigned int);
 };
 struct FUN_00403570_t
 {
@@ -591,7 +591,7 @@ struct AlchBase00
 {
     virtual void v0();
     char pad[0x2c];
-    void FUN_004861f0(TESFile*, void*, unsigned short);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
 };
 struct AlchBase30
 {
@@ -671,7 +671,7 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x53444f4d: {
         unsigned int uiChunkSize = ((FUN_00401660_t*)apFile)->GetField25C();
         char* pChunkData = (char*)_alloca(uiChunkSize);
-        ((FUN_00472890_t*)apFile)->FUN_00472890(pChunkData, uiChunkSize);
+        ((FUN_00472890_t*)apFile)->TESFile_GetChunkData(pChunkData, uiChunkSize);
         AlchTexSwap::LoadTextureSwapList(pChunkData, uiChunkSize, ((FUN_00403570_t*)apFile)->FUN_00403570());
         break;
     }
@@ -711,7 +711,7 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
         break;
     }
     case 0x41544144:
-        FUN_004861f0(apFile, 0, 0);
+        TESForm_LoadData(apFile, 0, 0);
         break;
     }
 }

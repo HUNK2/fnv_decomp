@@ -673,7 +673,7 @@ struct Elements12Ex : FNVElements12
 };
 struct Base6e3230
 {
-    void FUN_006e3230(void* pkBuffer);
+    void PathingRequest_SaveGame(void* pkBuffer);
 };
 
 struct Saver6e4 : Base6e3230
@@ -698,7 +698,7 @@ struct Saver6e4 : Base6e3230
 // @fnv 0x006e4fd0
 void Saver6e4::SaveToBuffer(SaveBuffer6e4* pkBuffer)
 {
-    FUN_006e3230(pkBuffer);
+    PathingRequest_SaveGame(pkBuffer);
     pkBuffer->FUN_00865e50(&m_iB0, 4, 0);
     pkBuffer->FUN_00865e50(&m_iB4, 4, 0);
     pkBuffer->FUN_00865e50(&m_iB8, 4, 0);

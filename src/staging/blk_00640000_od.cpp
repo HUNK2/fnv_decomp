@@ -1472,11 +1472,11 @@ float __cdecl GetActorValueScaledSetting(ActorValueOwner* apActorValueOwner)
 
 struct S_0064dac0
 {
-    int __thiscall FUN_0064dac0(int, int);
+    int __thiscall NiPixelData_GetPixels(int, int);
 };
 // Returns the value at this+0x50 plus b times the element at index this+0x60 of the array at this+0x5C, plus the element at index a of that array.
 // @fnv 0x0064dac0
-int __thiscall S_0064dac0::FUN_0064dac0(int a, int b)
+int __thiscall S_0064dac0::NiPixelData_GetPixels(int a, int b)
 {
     return *(int*)((char*)this + 0x50) + b * *(int*)(*(int*)((char*)this + 0x5C) + *(int*)((char*)this + 0x60) * 4) +
            *(int*)(*(int*)((char*)this + 0x5C) + a * 4);
@@ -1658,7 +1658,7 @@ struct Holder00aad6b0
     void __thiscall FUN_00aad6b0();
 };
 // @fnv 0x00652fc0
-void __cdecl FUN_00652fc0(float a1, int a2, int a3)
+void __cdecl BSFaceGenManager_RandomizeFaceGenetic(float a1, int a2, int a3)
 {
     if (a3 != 0 && a2 != 0)
     {
@@ -2732,7 +2732,7 @@ struct PropHelper
 struct SkyShaderProperty
 {
     void SetTexture(NiTexture*);
-    void FUN_00634900(int*);
+    void SkyShaderProperty_SetTextureFile(int*);
 };
 void* DynamicCastByRTTI(const NiRTTI*, NiProperty*);
 extern int DAT_011f49e0;
@@ -2755,10 +2755,10 @@ struct FUN_00642940_class
     int n;
     int o;
     int p;
-    void FUN_00642940();
+    void Sun_RemoveTextures();
 };
 // @fnv 0x00642940
-void FUN_00642940_class::FUN_00642940()
+void FUN_00642940_class::Sun_RemoveTextures()
 {
     void* pProperty;
     SkyShaderProperty* obj;
@@ -2767,14 +2767,14 @@ void FUN_00642940_class::FUN_00642940()
     if (obj)
     {
         obj->SetTexture(0);
-        obj->FUN_00634900(&DAT_011f49e0);
+        obj->SkyShaderProperty_SetTextureFile(&DAT_011f49e0);
     }
     pProperty = ((PropHelper*)((Flt*)((char*)this + 0x14))->operator unsigned int())->GetProperty(3);
     obj = (SkyShaderProperty*)DynamicCastByRTTI((const NiRTTI*)&DAT_012005b8, (NiProperty*)pProperty);
     if (obj)
     {
         obj->SetTexture(0);
-        obj->FUN_00634900(&DAT_011f49e0);
+        obj->SkyShaderProperty_SetTextureFile(&DAT_011f49e0);
     }
 }
 
@@ -3618,7 +3618,7 @@ extern FloatSetting_646400 gs_011ce808;
 unsigned int DialogueRandom();
 
 // @fnv 0x00646400
-bool FUN_00646400(AVOwnerStub_646400* owner, int value)
+bool CombatFormulas_CheckKnockdown(AVOwnerStub_646400* owner, int value)
 {
     bool result2 = false;
     float current4 = owner->GetCurAV(16);
@@ -3940,8 +3940,8 @@ int __thiscall FUN_0064bda0_Class::FUN_0064bda0()
 
 struct FUN_0040fbf0_lock
 {
-    void FUN_0040fbf0(int);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int);
+    void BSSpinLock_Unlock();
 };
 struct FUN_0064be40_shell
 {
@@ -3960,7 +3960,7 @@ void __cdecl FUN_005330e0(float* value, float minimum, float maximum);
 // @fnv 0x0064be40
 bool FUN_0064be40_shell::FUN_0064be40(float elapsed, int unused)
 {
-    ((FUN_0040fbf0_lock*)((char*)this + 0x1a0))->FUN_0040fbf0(0);
+    ((FUN_0040fbf0_lock*)((char*)this + 0x1a0))->BSSpinLock_Lock(0);
     bool updateNeeded = !*(bool*)((char*)this + 0x18e);
     if (updateNeeded)
     {
@@ -3979,7 +3979,7 @@ bool FUN_0064be40_shell::FUN_0064be40(float elapsed, int unused)
         *(float*)((char*)this + 0x144) += stage;
         SetEyeHeadingAndPitch(*(float*)((char*)this + 0x140), *(float*)((char*)this + 0x144));
     }
-    ((FUN_0040fbf0_lock*)((char*)this + 0x1a0))->FUN_0040fba0();
+    ((FUN_0040fbf0_lock*)((char*)this + 0x1a0))->BSSpinLock_Unlock();
     return updateNeeded;
 }
 
@@ -4423,7 +4423,7 @@ struct FUN_0064fcd0_Other
     virtual int v02();
     virtual float v03();
     unsigned int __thiscall FUN_0044edb0(int flag);
-    float __thiscall FUN_005dd4e0(unsigned int index);
+    float __thiscall BSFaceGenKeyframeMultiple_GetQuantity(unsigned int index);
 };
 
 struct FUN_0064fcd0_Self
@@ -4453,11 +4453,11 @@ struct FUN_0064fcd0_Self
     int unk08;
     int unk0c;
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0064a4d0(unsigned int index, float value);
+    void __thiscall BSFaceGenKeyframeMultiple_SetQuantity(unsigned int index, float value);
     FUN_0064fcd0_Self* __thiscall CopyFrom(FUN_0064fcd0_Other* other);
 };
 
-// If the other object's v01 matches, copies its v03, its FUN_0044edb0(1) result and each FUN_005dd4e0 value into this object, then returns this.
+// If the other object's v01 matches, copies its v03, its FUN_0044edb0(1) result and each BSFaceGenKeyframeMultiple_GetQuantity value into this object, then returns this.
 // @fnv 0x0064fcd0
 FUN_0064fcd0_Self* FUN_0064fcd0_Self::CopyFrom(FUN_0064fcd0_Other* other)
 {
@@ -4469,7 +4469,7 @@ FUN_0064fcd0_Self* FUN_0064fcd0_Self::CopyFrom(FUN_0064fcd0_Other* other)
     this->v20(other->FUN_0044edb0(1));
     for (unsigned int i = 0; i < this->m_uiItemCount; i++)
     {
-        this->FUN_0064a4d0(i, other->FUN_005dd4e0(i));
+        this->BSFaceGenKeyframeMultiple_SetQuantity(i, other->BSFaceGenKeyframeMultiple_GetQuantity(i));
     }
     return this;
 }
@@ -4542,19 +4542,19 @@ struct S_006503b0_List
     void FUN_00559120(int* pos, int* out, S_006503b0_Slot* slot);
     void RemoveKey(int item);
 };
-void __cdecl FUN_00652140();
-void __cdecl FUN_00652190();
+void __cdecl BSFaceGenManager_LockFaceGenAccess();
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 struct S_006503b0_Owner
 {
     int unk00;
     S_006503b0_List list04;
     void FUN_006503b0();
 };
-// Iterates list04, removing each item whose nested slot reports 1, then calls FUN_00652140 and FUN_00652190 around the loop.
+// Iterates list04, removing each item whose nested slot reports 1, then calls BSFaceGenManager_LockFaceGenAccess and BSFaceGenManager_UnlockFaceGenAccess around the loop.
 // @fnv 0x006503b0
 void S_006503b0_Owner::FUN_006503b0()
 {
-    FUN_00652140();
+    BSFaceGenManager_LockFaceGenAccess();
     int pos2 = list04.FUN_004b9ba0();
     int item3;
     S_006503b0_Slot slot(0);
@@ -4567,7 +4567,7 @@ void S_006503b0_Owner::FUN_006503b0()
         }
         slot.FUN_0066b0d0(0);
     }
-    FUN_00652190();
+    BSFaceGenManager_UnlockFaceGenAccess();
 }
 
 struct ModelHelper
@@ -4594,11 +4594,11 @@ struct NPX
 struct FileNames
 {
     const char* GetFloatValue();
-    const char* FUN_00650600();
+    const char* BSFaceGenModel_GetEGTFilename();
 };
 unsigned FUN_0044a670(const char*);
-void FUN_00652140();
-void FUN_00652190();
+void BSFaceGenManager_LockFaceGenAccess();
+void BSFaceGenManager_UnlockFaceGenAccess();
 unsigned gm_GetTickCount();
 struct CacheMap
 {
@@ -4611,18 +4611,18 @@ struct Target
     CacheMap map;
     bool dirty;
     void FUN_00650ba0(ModelRecord*);
-    bool FUN_00650480(FileNames*);
+    bool BSFaceGenModelMap_LoadEGMData(FileNames*);
 };
 // @fnv 0x00650480
-bool Target::FUN_00650480(FileNames* pFileNames)
+bool Target::BSFaceGenModelMap_LoadEGMData(FileNames* pFileNames)
 {
     NPX a(0);
     if (!pFileNames || !pFileNames->GetFloatValue() || !FUN_0044a670(pFileNames->GetFloatValue()))
         return false;
     bool p = false;
-    FUN_00652140();
+    BSFaceGenManager_LockFaceGenAccess();
     if (map.FUN_006c62d0(pFileNames->GetFloatValue(), a) ||
-        (pFileNames->FUN_00650600() && map.FUN_006c62d0(pFileNames->FUN_00650600(), a)))
+        (pFileNames->BSFaceGenModel_GetEGTFilename() && map.FUN_006c62d0(pFileNames->BSFaceGenModel_GetEGTFilename(), a)))
     {
         a.FUN_00559450()->time = gm_GetTickCount();
         FUN_00650ba0(a.FUN_00559450());
@@ -4630,7 +4630,7 @@ bool Target::FUN_00650480(FileNames* pFileNames)
         dirty = true;
         p = true;
     }
-    FUN_00652190();
+    BSFaceGenManager_UnlockFaceGenAccess();
     return p;
 }
 
@@ -4934,7 +4934,7 @@ struct Hldr0044
 };
 
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(int scaled);
+extern "C" void __cdecl FormHeap_Allocate(int scaled);
 extern "C" int DAT_01140ef8;
 
 // @fnv 0x00658c10
@@ -4955,7 +4955,7 @@ extern "C" void __cdecl FUN_00658c10(int aiValue, int aiUnused)
         }
     }
 
-    FUN_00401000(aiValue * 60);
+    FormHeap_Allocate(aiValue * 60);
 }
 
 class Base_b9895
@@ -5995,7 +5995,7 @@ struct FUN_0065e310_cls
 };
 
 extern "C" void __stdcall FUN_00ec7894(void* obj, void* dtor);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int size);
 extern int DAT_01140ef8;
 
 // @fnv 0x0065e310
@@ -6014,7 +6014,7 @@ extern "C" void __cdecl FUN_0065e310(int count, int)
             FUN_00ec7894(&tmp, &DAT_01140ef8);
         }
     }
-    FUN_00401000((unsigned int)count * 12);
+    FormHeap_Allocate((unsigned int)count * 12);
 }
 }  // namespace fnv_0065e310
 
@@ -6105,7 +6105,7 @@ struct FUN_0065e5e0_Hldr
 };
 
 extern "C" void __stdcall FUN_00ec7894(FUN_0065e5e0_Hldr* p, void* dat);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int size);
 extern "C" int DAT_01140ef8;
 
 // @fnv 0x0065e5e0
@@ -6126,7 +6126,7 @@ void* __cdecl FUN_0065e5e0(unsigned int n)
         }
     }
 
-    return FUN_00401000(n * 56);
+    return FormHeap_Allocate(n * 56);
 }
 }  // namespace fnv_0065e5e0
 
@@ -6141,7 +6141,7 @@ class FUN_0065e670_cls
 };
 
 extern "C" char DAT_01140ef8;
-int __cdecl FUN_00401000(unsigned int size);
+int __cdecl FormHeap_Allocate(unsigned int size);
 void __stdcall FUN_00ec7894(FUN_0065e670_cls* obj, char* msg);
 
 // @fnv 0x0065e670
@@ -6159,7 +6159,7 @@ void __cdecl FUN_0065e670(unsigned int count, int unused)
             FUN_00ec7894(&local, &DAT_01140ef8);
         }
     }
-    FUN_00401000(count * 0x1c);
+    FormHeap_Allocate(count * 0x1c);
 }
 }  // namespace fnv_0065e670
 
@@ -6765,10 +6765,10 @@ struct FUN_00649680 : NiMemObject
     int value1b8;
     int value1bc;
     FUN_00649680();
-    FUN_00649680* FUN_0064c5a0();
+    FUN_00649680* BSFaceGenAnimationData_CreateCopyBS();
 };
 // @fnv 0x0064c5a0
-FUN_00649680* FUN_00649680::FUN_0064c5a0()
+FUN_00649680* FUN_00649680::BSFaceGenAnimationData_CreateCopyBS()
 {
     FUN_00649680* copy = new FUN_00649680;
     copy->member10.CopyFrom(&member10);
@@ -7250,7 +7250,7 @@ void __cdecl FUN_0065e3a0(int aiCount, int)
         holder.FUN_0044d6c0(0);
         FUN_00ec7894((Hldr0044*)&holder, (void*)&DAT_01140ef8);
     }
-    FUN_00401000(aiCount << 3);
+    FormHeap_Allocate(aiCount << 3);
 }
 
 struct B65E760Item

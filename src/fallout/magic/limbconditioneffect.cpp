@@ -11,7 +11,7 @@ bool GetLimbConditionEffectInitialized()
 struct Actor;
 struct LimbConditionEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short __thiscall ValueModifierEffect_GetSaveSize(Actor* apActor);
     unsigned short __thiscall FUN_0080f2b0(Actor* apActor);
 };
 
@@ -19,7 +19,7 @@ struct LimbConditionEffect
 unsigned short __thiscall LimbConditionEffect::FUN_0080f2b0(Actor* apActor)
 {
     unsigned short isize = 0;
-    isize += ((LimbConditionEffect*)this)->FUN_00802d90(apActor);
+    isize += ((LimbConditionEffect*)this)->ValueModifierEffect_GetSaveSize(apActor);
     isize += 4;
     return isize;
 }
@@ -48,7 +48,7 @@ struct TESSaveLoadGame
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct Base00802dd0
 {
-    void FUN_00802dd0(void*);
+    void ValueModifierEffect_LoadGame(void*);
 };
 struct FUN_0080f2f0_Owner
 {
@@ -59,7 +59,7 @@ struct FUN_0080f2f0_Owner
 // @fnv 0x0080f2f0
 void FUN_0080f2f0_Owner::FUN_0080f2f0(void* a1)
 {
-    ((Base00802dd0*)this)->FUN_00802dd0(a1);
+    ((Base00802dd0*)this)->ValueModifierEffect_LoadGame(a1);
     g_TESSaveLoadGame->ReadTypedData(&m_4C, 4);
 }
 
@@ -69,7 +69,7 @@ struct BGSSaveFormBuffer
 };
 struct Unk0080F320
 {
-    void FUN_00806230(BGSSaveFormBuffer*);
+    void ActiveEffect_SaveGameBGS(BGSSaveFormBuffer*);
     void SaveToBuffer(BGSSaveFormBuffer*);
     char _pad[0x4C];
     int _m4C;
@@ -77,7 +77,7 @@ struct Unk0080F320
 // @fnv 0x0080f320
 void Unk0080F320::SaveToBuffer(BGSSaveFormBuffer* apBuffer)
 {
-    FUN_00806230(apBuffer);
+    ActiveEffect_SaveGameBGS(apBuffer);
     apBuffer->SaveData(&_m4C, 4, 0);
 }
 
@@ -114,12 +114,12 @@ struct LimbConditionEffectShell : public LimbConditionEffect
 {
     char _pad[0x4C];
     int m_4C;
-    void __thiscall FUN_0080f150(ActiveEffect* other);
+    void __thiscall LimbConditionEffect_CopyData(ActiveEffect* other);
 };
 
 // Copies the base value-modifier data from other, then, if other is a LimbConditionEffect, copies m_4C into it.
 // @fnv 0x0080f150
-void __thiscall LimbConditionEffectShell::FUN_0080f150(ActiveEffect* other)
+void __thiscall LimbConditionEffectShell::LimbConditionEffect_CopyData(ActiveEffect* other)
 {
     reinterpret_cast<ValueModifierEffectShell*>(this)->CopyData(other);
     LimbConditionEffect* target = dynamic_cast<LimbConditionEffect*>(other);
@@ -132,7 +132,7 @@ struct ValueModifierEffect
 {
     char _pad[0x4C];
     int m_4C;
-    void FUN_00802db0(Actor*);
+    void ValueModifierEffect_SaveGame(Actor*);
     void FUN_0082ba30(Actor*);
 };
 struct TESSaveLoadGame
@@ -143,7 +143,7 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 // @fnv 0x0082ba30
 void ValueModifierEffect::FUN_0082ba30(Actor* apActor)
 {
-    FUN_00802db0(apActor);
+    ValueModifierEffect_SaveGame(apActor);
     g_TESSaveLoadGame->FUN_008579b0(&m_4C, 4);
 }
 }  // namespace fnv_0082ba30
@@ -174,10 +174,10 @@ struct LimbConditionEffect_0080f220
 {
     char _pad[0x4C];
     int m_4C;
-    void __thiscall FUN_0080f220(Actor* apActor, float afModifier, ActorValue::Index aeOverrideActorValue);
+    void __thiscall LimbConditionEffect_ModifyActorValue(Actor* apActor, float afModifier, ActorValue::Index aeOverrideActorValue);
 };
 // @fnv 0x0080f220
-void __thiscall LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier,
+void __thiscall LimbConditionEffect_0080f220::LimbConditionEffect_ModifyActorValue(Actor* apActor, float afModifier,
                                                            ActorValue::Index aeOverrideActorValue)
 {
     if (m_4C != ActorValue::None)
@@ -257,7 +257,7 @@ struct FUN_0080f0a0_Class
     void* _p28;
 };
 
-ActiveEffect* __fastcall FUN_0080f0a0(FUN_0080f0a0_Class* self)
+ActiveEffect* __fastcall LimbConditionEffect_Clone(FUN_0080f0a0_Class* self)
 {
     ActiveEffect* presult = (ActiveEffect*)new FUN_0080f1a0_StandIn(self->_p28, self->_p8, self->_pC);
 

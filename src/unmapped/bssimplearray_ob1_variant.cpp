@@ -518,7 +518,7 @@ struct HeapProvider
 {
     void* FUN_00aa42e0();
 };
-HeapProvider* __cdecl FUN_00401020();
+HeapProvider* __cdecl MemoryManager_Instance();
 struct FUN_006cf2a0 : FUN_005e0510
 {
     void* m_pStreamAllocator;

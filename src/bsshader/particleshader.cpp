@@ -1074,7 +1074,7 @@ struct Q64_Top : Q64_Obj
     Q64_Sub* sub;
     int unkbc;
     int unkc0;
-    void __thiscall FUN_00439410(Q64_Ren* a);
+    void __thiscall NiAVObject_AttachProperty(Q64_Ren* a);
     Q64_Top(Q64_Geo* geo);
 };
 
@@ -1166,7 +1166,7 @@ NiObject* __cdecl FUN_00ba64e0()
     sub->bound.center = kBound.center;
 
     Q64_Ren* ren = new Q64_Ren;
-    top->FUN_00439410(ren);
+    top->NiAVObject_AttachProperty(ren);
 
     if (DAT_012003f4 != (ComTarget*)top)
     {

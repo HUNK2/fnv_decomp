@@ -509,7 +509,7 @@ bool ActorValue::IsAIAttribute(Index index)
 
 // Returns the pointer stored at index aiIndex in the g_011d61c8 array if aiIndex is in [0, 0x4d), otherwise returns null.
 // @fnv 0x0066e920
-void* __cdecl FUN_0066e920(int aiIndex)
+void* __cdecl ActorValue_GetActorValueInfo(int aiIndex)
 {
     void* pinfo = 0;
     if (aiIndex >= 0 && aiIndex < 0x4d)
@@ -634,23 +634,23 @@ const char* __cdecl GetWeaponSkillIconPath(int aiSkillIndex)
 namespace fnv_006703b0 {
 struct S_00487010
 {
-    void FUN_00487010();
+    void TESFullName_Save();
 };
 struct FUN_00482cb0_shell
 {
-    void FUN_00482cb0();
+    void TESDescription_Save();
 };
-struct FUN_004855a0
+struct TESForm_StartForm
 {
     void M();
 };
-struct FUN_00485680
+struct TESForm_CloseForm
 {
     void M();
 };
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct S7010
 {
@@ -660,22 +660,22 @@ struct Flt
 {
     operator unsigned int();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_006703b0_shell
 {
-    void FUN_006703b0();
+    void ActorValueInfo_SaveForm();
 };
 // @fnv 0x006703b0
-void FUN_006703b0_shell::FUN_006703b0()
+void FUN_006703b0_shell::ActorValueInfo_SaveForm()
 {
-    ((FUN_004855a0*)this)->M();
-    ((S_00487010*)((char*)this + 0x18))->FUN_00487010();
-    ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
-    ((FUN_0048e370_obj*)((char*)this + 0x2c))->FUN_0048e370(0x4e4f4349);
+    ((TESForm_StartForm*)this)->M();
+    ((S_00487010*)((char*)this + 0x18))->TESFullName_Save();
+    ((FUN_00482cb0_shell*)((char*)this + 0x24))->TESDescription_Save();
+    ((FUN_0048e370_obj*)((char*)this + 0x2c))->TESTexture_Save(0x4e4f4349);
     if (((S7010*)((char*)this + 0x3c))->Length())
-        FUN_004856f0(0x4d414e41, (void*)((Flt*)((char*)this + 0x3c))->operator unsigned int(),
+        TESForm_AddChunkArray(0x4d414e41, (void*)((Flt*)((char*)this + 0x3c))->operator unsigned int(),
                      ((S7010*)((char*)this + 0x3c))->Length() + 1);
-    ((FUN_00485680*)this)->M();
+    ((TESForm_CloseForm*)this)->M();
 }
 }  // namespace fnv_006703b0
 
@@ -703,7 +703,7 @@ const char* GetActorValueDescription(ActorValue::Index aiIndex)
 }
 
 extern double DAT_01012060;
-bool __cdecl FUN_00406d70(int, unsigned int);
+bool __cdecl ActorValue_GetFlag(int, unsigned int);
 
 struct FUN_0066eea0_Object
 {
@@ -722,7 +722,7 @@ float __cdecl FUN_0066eea0(FUN_0066eea0_Object* object, int index, float value)
 
     if (value < DAT_01012060)
     {
-        if (FUN_00406d70(index, 0x20))
+        if (ActorValue_GetFlag(index, 0x20))
         {
             float total = static_cast<float>(object->vf04(index) + object->vf14(index));
             if (total < -value)
@@ -825,12 +825,12 @@ struct FormCopyHelper
 
 struct ActorValueInfoCopy : ActorValueInfo
 {
-    void FUN_00670430(TESForm* form);
+    void ActorValueInfo_CopyFrom(TESForm* form);
 };
 
 // Clears data, copies fields and up to 15 array entries from a dynamic-cast ActorValueInfo source, pads the rest, then copies the base form.
 // @fnv 0x00670430
-void ActorValueInfoCopy::FUN_00670430(TESForm* form)
+void ActorValueInfoCopy::ActorValueInfo_CopyFrom(TESForm* form)
 {
     ClearData();
     ActorValueInfo* pSource = dynamic_cast<ActorValueInfo*>(form);
@@ -862,19 +862,19 @@ struct ActorValueStringCompare
 
 struct ActorValueCompare : ActorValueInfo
 {
-    bool FUN_00485270(TESForm*);
-    bool FUN_00670540(TESForm* form);
+    bool TESForm_CompareAllComponents(TESForm*);
+    bool ActorValueInfo_Compare(TESForm* form);
 };
 
-// Returns true when the cast fails, FUN_00485270 succeeds, or the abbreviation strings compare equal.
+// Returns true when the cast fails, TESForm_CompareAllComponents succeeds, or the abbreviation strings compare equal.
 // @fnv 0x00670540
-bool ActorValueCompare::FUN_00670540(TESForm* form)
+bool ActorValueCompare::ActorValueInfo_Compare(TESForm* form)
 {
     ActorValueInfo* other =
         static_cast<ActorValueInfo*>(FNV_DynamicCast(form, 0, &_DAT_01183028, &typeinfo_BGSPerk, 0));
     if (!other)
         return true;
-    if (FUN_00485270(other))
+    if (TESForm_CompareAllComponents(other))
         return true;
     if (reinterpret_cast<ActorValueStringCompare*>(&m_cAbbreviation)->FUN_00501c30(&other->m_cAbbreviation))
         return true;

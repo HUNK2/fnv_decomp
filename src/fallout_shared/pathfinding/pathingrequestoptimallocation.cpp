@@ -72,11 +72,11 @@ struct PathingRequestOptimalLocation
     float m_fUnknownValue2;
     float m_fUnknownValue3;
     float m_fUnknownValue4;
-    void FUN_006e5e60(PathingRequest* apDest);
+    void PathingRequestOptimalLocation_CopyTo(PathingRequest* apDest);
 };
 
 // @fnv 0x006e5e60
-void PathingRequestOptimalLocation::FUN_006e5e60(PathingRequest* apDest)
+void PathingRequestOptimalLocation::PathingRequestOptimalLocation_CopyTo(PathingRequest* apDest)
 {
     PathingRequest* pdest = apDest;
     base.CopyTo(pdest);

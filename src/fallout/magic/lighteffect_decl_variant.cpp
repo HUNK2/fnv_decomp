@@ -70,11 +70,11 @@ struct FUN_00b5b4a0_holder
 };
 struct FUN_0080e8a0_holder
 {
-    void FUN_0080e8a0(float afSecondsElapsed);
+    void LightEffect_Update(float afSecondsElapsed);
 };
 struct FUN_00805760_shell
 {
-    void FUN_00805760(Actor*);
+    void ActiveEffect_FinishInitLoadGame(Actor*);
 };
 struct FUN_0080efd0_shell
 {
@@ -99,7 +99,7 @@ struct FUN_0080efd0_shell
     virtual void v18();
     virtual void v19();
     virtual void v20();
-    void FUN_0080efd0(Actor* apActor);
+    void LightEffect_FinishInitLoadGame(Actor* apActor);
 };
 class BGSLoadFormBuffer;
 struct EffectSetting;
@@ -186,7 +186,7 @@ struct FUN_0080e7e0_Class : ActiveEffect
     void* unk44;
     CopiedState state48;
     void FUN_00804090(ActiveEffect* other);
-    void FUN_0080e7e0(ActiveEffect* other);
+    void LightEffect_CopyData(ActiveEffect* other);
 };
 struct Effect
 {
@@ -236,7 +236,7 @@ struct Source
 struct Host
 {
     Source* FUN_0059bb30();
-    void FUN_0080e830();
+    void LightEffect_Start();
 };
 void __cdecl FUN_0080ee50(int* value);
 struct FUN_0080e900_inner
@@ -258,7 +258,7 @@ struct EdCallee
     void* FUN_00559450();
     void* FUN_009611e0();
     void FUN_00b5eed0(void* apArg);
-    void FUN_00572a50(int aiArg);
+    void TESObjectREFR_KillLight(int aiArg);
     void FUN_0066b0d0(int aiArg);
 };
 void* __cdecl FUN_00450b80(int aiArg);
@@ -279,7 +279,7 @@ template <class T> class NiPointer
 };
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate(float x, float y, float z);
 };
 struct NiPoint3_POD : FUN_0080ed20_shell
 {

@@ -1211,7 +1211,7 @@ struct GameReference
     virtual void unknownVirtual_109();
     virtual void unknownVirtual_10a();
     virtual GameReference* GetLinkedReference();
-    void FUN_00564db0(bool enabled);
+    void TESObjectREFR_SetTargeted(bool enabled);
 };
 struct ReferenceLinkController
 {
@@ -1230,9 +1230,9 @@ void ReferenceLinkController::SetSourceReference(GameReference* apSource)
     linked = apSource->GetLinkedReference();
     enabled = true;
     hasLinkedReference = linked != 0;
-    source->FUN_00564db0(true);
+    source->TESObjectREFR_SetTargeted(true);
     if (linked)
-        linked->FUN_00564db0(true);
+        linked->TESObjectREFR_SetTargeted(true);
     FUN_009f6d50();
 }
 
@@ -1384,7 +1384,7 @@ struct DestCls
 };
 struct MidCls
 {
-    DestCls* FUN_0041cf00();
+    DestCls* ExtraDataList_GetPlayerCrimeList();
 };
 struct SrcCls
 {
@@ -1457,7 +1457,7 @@ struct SrcCls
 };
 struct ItemCls
 {
-    void FUN_0047eb90(int);
+    void TESFaction_SetPCAnEnemy(int);
     bool FUN_008a61b0();
     void FUN_00881680(int);
     MidCls* FUN_005d43c0();
@@ -1531,15 +1531,15 @@ FUN_009eb660::~FUN_009eb660()
         DAT_011e0e80.FUN_009726e0(this);
         if (f08 != 0)
         {
-            if (f08->FUN_005d43c0()->FUN_0041cf00() != 0)
-                f08->FUN_005d43c0()->FUN_0041cf00()->FUN_00905330(this);
+            if (f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList() != 0)
+                f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList()->FUN_00905330(this);
         }
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
         {
             node5 = (ItemCls*)*pB6->FUN_006815c0();
             if (!DAT_011e0e80.IsActorInOtherList(node5, this))
-                node5->FUN_0047eb90(0);
+                node5->TESFaction_SetPCAnEnemy(0);
             pB6 = pB6->FUN_00726070();
         }
         pACopy = FUN_0044ddc0();
@@ -1548,7 +1548,7 @@ FUN_009eb660::~FUN_009eb660()
             if (pACopy->VCall100())
             {
                 destA8 = pACopy;
-                itemB = destA8->FUN_005d43c0()->FUN_0041cf00();
+                itemB = destA8->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
                 if (itemB != 0)
                     itemB->FUN_00905330(this);
             }
@@ -1559,7 +1559,7 @@ FUN_009eb660::~FUN_009eb660()
             item6 = (ItemCls*)*pA3->FUN_006815c0();
             if (item6->FUN_008a61b0())
                 item6->FUN_00881680(0);
-            destB_ = item6->FUN_005d43c0()->FUN_0041cf00();
+            destB_ = item6->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
             if (destB_ != 0)
                 destB_->FUN_00905330(this);
         }
@@ -1579,7 +1579,7 @@ class NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3 operator+(const NiPoint3&) const;
     NiPoint3 operator*(float) const;
-    void FUN_004a0c10();
+    void NiPoint3_Unitize();
 };
 extern const NiPoint3 NiPoint3_ZERO;
 struct RefPoint
@@ -1724,7 +1724,7 @@ NiPoint3 FUN_009ed380(RefPoint* source, RefPoint* target)
         NiPoint3 distance = source->GetPosition();
         float targetPos = 300.0f;
         NiPoint3 sourcePos = distance - cell;
-        sourcePos.FUN_004a0c10();
+        sourcePos.NiPoint3_Unitize();
         sourcePos = distance + sourcePos * targetPos;
         result = sourcePos;
         void* direction = source->FUN_008d6f30();

@@ -982,7 +982,7 @@ struct Calendar
 
 struct FUN_0050f5a0_struct
 {
-    void FUN_0050f5a0();
+    void NiAVObject_DetachParent();
 };
 
 extern char DAT_011a9448;
@@ -1012,7 +1012,7 @@ NiAVObject* LoadAndCloneModel(char const* path)
             reinterpret_cast<Object*>(scale)->FUN_00440460(_NiPoint3_ZERO);
 
             if (reinterpret_cast<Calendar*>(scale)->GetDaysPassed())
-                reinterpret_cast<FUN_0050f5a0_struct*>(scale)->FUN_0050f5a0();
+                reinterpret_cast<FUN_0050f5a0_struct*>(scale)->NiAVObject_DetachParent();
 
             scale->UpdateSceneObject();
         }
@@ -2325,7 +2325,7 @@ struct EquipNode
     EquipObject* FUN_0043b4a0(unsigned int);
 };
 extern char DAT_011f49d8;
-bool __cdecl FUN_004910d0(EquipObject*);
+bool __cdecl Animation_FindSkinnedNode(EquipObject*);
 void* __cdecl FUN_00653270(const void*, const void*);
 struct EquipVisibility
 {
@@ -2495,7 +2495,7 @@ void EquipVisibility::UpdateEquipmentVisibility()
         EquipObject* object = root->FUN_0043b4a0(i);
         if (object)
         {
-            if (FUN_004910d0(object))
+            if (Animation_FindSkinnedNode(object))
             {
                 EquipNode* node9 = object->AsNode();
                 EquipGeometry* geometry = object->AsGeometry();

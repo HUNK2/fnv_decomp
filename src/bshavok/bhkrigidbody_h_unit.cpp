@@ -284,20 +284,20 @@ class FUN_00c8d960_cls
     unsigned int m_uiValue1;
     C8D9List m_kList;
 
-    void FUN_00c9d530(C8D9Stream* pkStream);
-    void FUN_00c8d960(C8D9Stream* pkStream);
+    void bhkEntity_SaveBinary(C8D9Stream* pkStream);
+    void bhkRigidBody_SaveBinary(C8D9Stream* pkStream);
 };
 
 // Creates Havok data, swaps endianness when not in mode 1, saves list count and item link IDs, then swaps endianness back.
 // @fnv 0x00c8d960
-void FUN_00c8d960_cls::FUN_00c8d960(C8D9Stream* pkStream)
+void FUN_00c8d960_cls::bhkRigidBody_SaveBinary(C8D9Stream* pkStream)
 {
     bool bCreated;
     C8D9HavokData* pkData = CreateHavokData(&bCreated);
     if (pkStream->m_ucMode != 1)
         pkData->SwapEndian();
 
-    FUN_00c9d530(pkStream);
+    bhkEntity_SaveBinary(pkStream);
 
     C8D9SaveBinary(pkStream, m_kList.ItemsInList());
 
@@ -403,12 +403,12 @@ struct WorldObject
     virtual void v58();
     virtual void v59(void* out);
     void* AddDebugNodeToWorld(void* a1);
-    void* FUN_00c8d2f0(void* a1);
+    void* bhkRigidBody_CreateDisplayGeometry(void* a1);
 };
 
 // Gets a node from AddDebugNodeToWorld, creates a shape with 6.0f, sets its position, attaches it, and returns the node.
 // @fnv 0x00c8d2f0
-void* WorldObject::FUN_00c8d2f0(void* a1)
+void* WorldObject::bhkRigidBody_CreateDisplayGeometry(void* a1)
 {
     WorldObject* pDebugNode = (WorldObject*)AddDebugNodeToWorld(a1);
     if (pDebugNode != 0)

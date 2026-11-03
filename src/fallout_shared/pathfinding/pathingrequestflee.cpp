@@ -38,12 +38,12 @@ struct PathingRequest
 
 struct FUN_006e54b0_shell : PathingRequest
 {
-    void FUN_006e54b0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void PathingRequestFlee_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // Calls PathingRequest::SaveGame and then writes 4 bytes from this+0xb0 into the save buffer.
 // @fnv 0x006e54b0
-void FUN_006e54b0_shell::FUN_006e54b0(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_006e54b0_shell::PathingRequestFlee_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     PathingRequest::SaveGame(apSaveGameBuffer);
     apSaveGameBuffer->SaveData(this + 0xb0, 4, 0);
@@ -64,12 +64,12 @@ struct PathingRequestFlee;
 
 struct PathingRequestFleeShell : PathingRequestFlee
 {
-    void FUN_006e54e0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void PathingRequestFlee_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // Loads the base game state from the buffer, then reads 4 bytes into the field at offset 0xb0.
 // @fnv 0x006e54e0
-void PathingRequestFleeShell::FUN_006e54e0(BGSLoadFormBuffer* apLoadGameBuffer)
+void PathingRequestFleeShell::PathingRequestFlee_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((PathingRequestLoadGameHelper*)this)->LoadGame(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0xb0), 4);

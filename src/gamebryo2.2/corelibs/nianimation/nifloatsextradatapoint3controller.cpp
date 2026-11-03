@@ -12,7 +12,7 @@ extern int DAT_0109917c;
 extern int EmptyFS;
 
 // @fnv 0x00a4ecd0
-int* __cdecl FUN_00a4ecd0()
+int* __cdecl NiFloatsExtraDataPoint3Controller_CreateObject()
 {
     int* p = (int*)BSFadeNode::operator new(0x48);
     if (p)
@@ -35,10 +35,10 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     char pad[0x3c];
     int m_iFloatsExtraDataIndex;
     int m_kCtlrID;
-    NiFloatsExtraDataPoint3Controller* FUN_00a4ec80(void* proc);
+    NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller_CreateClone(void* proc);
 };
 // @fnv 0x00a4ec80
-NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::FUN_00a4ec80(void* proc)
+NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::NiFloatsExtraDataPoint3Controller_CreateClone(void* proc)
 {
     NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)BSFadeNode::operator new(0x48);
     if (p) {
@@ -70,10 +70,10 @@ struct NiPSysModifierCtlr {
 struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     char _pad[0x40];
     float m_fPoint3Value;
-    void FUN_00a4ee90(NiStream&);
+    void NiFloatsExtraDataPoint3Controller_LoadBinary(NiStream&);
 };
 // @fnv 0x00a4ee90
-void NiFloatsExtraDataPoint3Controller::FUN_00a4ee90(NiStream& stream)
+void NiFloatsExtraDataPoint3Controller::NiFloatsExtraDataPoint3Controller_LoadBinary(NiStream& stream)
 {
     NiPSysModifierCtlr::LoadBinary(stream);
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
@@ -131,7 +131,7 @@ struct StrArr {
 
 struct Base57420 {
     unsigned char pad[0x3d];
-    void FUN_00a57420(StrArr* strings);
+    void NiExtraDataController_GetViewerStrings(StrArr* strings);
 };
 
 extern void* g_011f3fc4;
@@ -142,13 +142,13 @@ char* __cdecl FUN_00a7d4d0(char const* name, int value);
 struct FUN_00a4eed0_shell : Base57420 {
     int m_iFloatsExtraDataIndex;
 
-    void FUN_00a4eed0(StrArr* strings);
+    void NiFloatsExtraDataPoint3Controller_GetViewerStrings(StrArr* strings);
 };
 
 // @fnv 0x00a4eed0
-void FUN_00a4eed0_shell::FUN_00a4eed0(StrArr* strings)
+void FUN_00a4eed0_shell::NiFloatsExtraDataPoint3Controller_GetViewerStrings(StrArr* strings)
 {
-    Base57420::FUN_00a57420(strings);
+    Base57420::NiExtraDataController_GetViewerStrings(strings);
 
     {
         char* value = _FUN_00a7d330(g_011f3fc4);
@@ -173,7 +173,7 @@ void FUN_00a4eed0_shell::FUN_00a4eed0(StrArr* strings)
 int* __fastcall InitTimeController(int*);
 extern int DAT_0109917c;
 extern int EmptyFS;
-int* __cdecl FUN_00a4ecd0();
+int* __cdecl NiFloatsExtraDataPoint3Controller_CreateObject();
 
 
 struct NiRTTI;

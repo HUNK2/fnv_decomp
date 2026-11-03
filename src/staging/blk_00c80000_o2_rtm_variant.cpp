@@ -37,7 +37,7 @@ struct NiObject
 };
 struct FUN_00c87670_Class : NiObject
 {
-    void FUN_00c87670(NiStream& stream);
+    void bhkSerializable_LinkObject(NiStream& stream);
     void* m_pad_0x4;
     void* m_pad_0x8;
     void* m_field_0xc;
@@ -164,7 +164,7 @@ struct FUN_00c9aeb0_t
     ~FUN_00c9aeb0_t();
     static void* operator new(unsigned int);
 };
-FUN_00c9aeb0_t* FUN_00c9b020();
+FUN_00c9aeb0_t* bhkBlendController_CreateObject();
 struct FUN_00c9eba0_IFace
 {
     virtual void v0();
@@ -228,7 +228,7 @@ struct bhkBlendCollisionObject : FUN_00c6b910
         m_flag14 = 0;
     }
 
-    bhkBlendCollisionObject* FUN_00c81670(int value);
+    bhkBlendCollisionObject* bhkBlendCollisionObject_CreateClone(int value);
 };
 struct NiGlobalStringTable
 {
@@ -567,9 +567,9 @@ struct FUN_00c80b20_cls
     void CopyItems(void* dst, void* src, unsigned int count);
     void InsertItemAt(unsigned int index, FUN_00c80b20_item8& item);
 };
-// FUN_00c81570 : a one-line function - getter
+// bhkBlendCollisionObject_GetRTTI : a one-line function - getter
 extern int g_target_00c81570;
-void* FUN_00c81570();
+void* bhkBlendCollisionObject_GetRTTI();
 struct FUN_00c81580_cls
 {
     int unk00;
@@ -603,7 +603,7 @@ class C815B0Constraint : public C815B0Base
     float m_fMinAngle;
     float m_fMaxAngle;
 
-    bool FUN_00c815b0(C815B0Constraint* pkOther);
+    bool bhkBlendCollisionObject_IsEqual(C815B0Constraint* pkOther);
 };
 extern int DAT_010c53dc;
 extern int DAT_01267e60;
@@ -960,7 +960,7 @@ struct FUN_00c84dc0_cls
     int m_0c;
     int m_10;
     bool FUN_00ba87d0(FUN_00c84dc0_param* p);
-    bool FUN_00c84dc0(FUN_00c84dc0_param* p);
+    bool bhkShape_IsEqual(FUN_00c84dc0_param* p);
 };
 class FUN_00c84df0_cls
 {
@@ -1216,7 +1216,7 @@ struct FUN_00c85ac0_cls : BaseThunk
     int unk04;
     A_t* unk08;
 
-    void FUN_00c85ac0(NiStream* a);
+    void bhkWorldObject_RegisterStreamables(NiStream* a);
 };
 struct TlsBlock_t
 {
@@ -1930,7 +1930,7 @@ class C87710HavokObject
     virtual void vfunc2C();
     virtual void* GetData(bool& bIsValid);
 
-    unsigned int FUN_00c87710(C87710Stream& kStream);
+    unsigned int bhkSerializable_LoadCInfo(C87710Stream& kStream);
 };
 class BC87850BinaryStream
 {
@@ -2211,7 +2211,7 @@ class C87A10WorldObject : public C87A10RefObject
     void FUN_00c87a10(bool bAdd);
 };
 extern int DAT_0126817c;
-void* __cdecl FUN_00c88370();
+void* __cdecl WeaponObject_GetRTTI();
 // Constructor of a two-level Havok wrapper: attach the given Havok object (through its referenced-object base).
 extern int g_iC88380RefObjectCount;
 extern int g_iC88380WrapperCount;
@@ -2261,7 +2261,7 @@ class FUN_00c88380 : public C88380RefObject
     virtual ~FUN_00c88380();
 };
 extern int DAT_0126831c;
-int* __cdecl FUN_00c88400();
+int* __cdecl bhkLimitedHingeConstraint_GetRTTI();
 struct FNVTransformState
 {
     int component00, component04, component08, component0c;
@@ -2961,8 +2961,8 @@ struct FUN_00c89960_cls
     virtual void v43();
     virtual void v44();
     virtual void* v45(unsigned int* p);
-    void __thiscall FUN_00c878c0(unsigned int a);
-    void FUN_00c89960(unsigned int a1);
+    void __thiscall bhkSerializable_GetViewerStrings(unsigned int a);
+    void bhkConstraint_GetViewerStrings(unsigned int a1);
 };
 class FUN_00c899b0_target
 {
@@ -3287,7 +3287,7 @@ struct S_00c8a280_Obj
     unsigned int m_08;
     S_00c8a280_Child* m_0c;
     S_00c8a280_Child* m_10;
-    void FUN_00c8a280(S_00c8a280_Stream& kStream);
+    void hkConstraintCinfo_SaveBinary(S_00c8a280_Stream& kStream);
 };
 class C8A4B0BinaryStream
 {
@@ -3498,7 +3498,7 @@ struct GlobalObject
     int unk00;
 };
 extern GlobalObject g_global;
-GlobalObject* __cdecl FUN_00c8a790();
+GlobalObject* __cdecl bhkBinaryAction_GetRTTI();
 struct FUN_00c8a7a0_cls;
 struct Callee_a645
 {
@@ -3553,7 +3553,7 @@ struct FUN_00c8a7a0_cls
     virtual void v2C();
     virtual void* v2D(unsigned int* out);
     void Init(unsigned int a);
-    void FUN_00c8a7a0(unsigned int a1);
+    void bhkBinaryAction_LoadBinary(unsigned int a1);
 };
 // Result block filled in by WriteScriptTargetInfo.
 struct ScriptOutBlock
@@ -3605,7 +3605,7 @@ class FUN_00c8a980_cls
     int unk04;
     Ca980Block* m_08;
     bool FUN_00ba87d0(FUN_00c8a980_cls* p);
-    bool FUN_00c8a980(FUN_00c8a980_cls* p);
+    bool bhkBinaryAction_IsEqual(FUN_00c8a980_cls* p);
 };
 extern int DAT_012681a0;
 class FUN_00c8adf0_base
@@ -3797,7 +3797,7 @@ struct H_00c8b1d0
     virtual void reservedVirtual43();
     virtual void reservedVirtual44();
     virtual char* GetDataPosition(FileContext* volatile* object);
-    void FUN_00c84d00(FileContext* object);
+    void bhkShape_LoadBinary(FileContext* object);
     void ProcessFileContext(FileContext* object);
 };
 void __cdecl FUN_00cf0930(char* data, void* shared, char* component);
@@ -4049,7 +4049,7 @@ struct bhkListShapeStub : bhkShapeCollectionBase
     int unk04;
     hkpListShapeStub* m_pHavokObject;
 
-    void FUN_00c8bcd0(ViewerStrings* pkStrings);
+    void bhkListShape_GetViewerStrings(ViewerStrings* pkStrings);
 };
 static inline hkpListShapeStub* GetHkListShape(bhkListShapeStub* p)
 {
@@ -4068,7 +4068,7 @@ class C8CCC0Base
 class C8CCC0Derived : public C8CCC0Base
 {
   public:
-    bool FUN_00c8ccc0(const C8CCC0Derived& kOther) const;
+    bool bhkRigidBody_IsEqual(const C8CCC0Derived& kOther) const;
 
     int m_iValue;
 };
@@ -4266,7 +4266,7 @@ struct FUN_00c90e00
     FUN_00c90e00(int flag);
 };
 extern int DAT_012681e8;
-void* __cdecl FUN_00c99fe0();
+void* __cdecl bhkWorldM_GetRTTI();
 struct FUN_00653290_cls
 {
     int unk00;
@@ -4326,8 +4326,8 @@ struct FUN_00c9a840_cls
     int unk44;
     unsigned int m_uiItemCount;
 
-    bool FUN_00a6cc80(FUN_00c9a840_cls* other);
-    bool FUN_00c9a840(FUN_00c9a840_cls* other);
+    bool NiTimeController_IsEqual(FUN_00c9a840_cls* other);
+    bool bhkBlendController_IsEqual(FUN_00c9a840_cls* other);
 };
 extern double DAT_010231b0;
 extern double DAT_010241b0;
@@ -4430,9 +4430,9 @@ SubObject_c9ad60::~SubObject_c9ad60()
 {
     FUN_00aa10f0(m_00);
 }
-// FUN_00c9add0 : a one-line function - getter
+// bhkBlendController_GetRTTI : a one-line function - getter
 extern int g_target_00c9add0;
-void* FUN_00c9add0();
+void* bhkBlendController_GetRTTI();
 struct S_00c9af40_BinStream
 {
     int unk00;
@@ -4623,7 +4623,7 @@ inline void SwapPoint(S_00c9af40_Point& p)
 }
 struct S_00c9af40_Base
 {
-    void __thiscall FUN_00a6d730(S_00c9af40_Stream& kStream);
+    void __thiscall NiTimeController_SaveBinary(S_00c9af40_Stream& kStream);
 };
 struct S_00c9af40_Obj : S_00c9af40_Base
 {
@@ -5020,8 +5020,8 @@ struct C818F0_cls
     int m_14;
     int m_18;
     int m_1c;
-    void FUN_00c65800(NiStream* p);
-    void FUN_00c818f0(NiStream* p);
+    void bhkCollisionObject_LoadBinary(NiStream* p);
+    void bhkBlendCollisionObject_LoadBinary(NiStream* p);
 };
 struct S_00c81b40_Callee
 {
@@ -5111,7 +5111,7 @@ struct FUN_00c825b0_cls
     int unk20;
     int m_i24;
 
-    void FUN_00c66060(ViewerStrings* pkStrings);
+    void bhkCollisionObject_AddViewerStrings(ViewerStrings* pkStrings);
     void AddToViewerStrings(ViewerStrings* pkStrings);
 };
 struct FUN_00c84900_vtbl
@@ -5360,7 +5360,7 @@ struct FUN_00c84d50_cls
     unsigned int m_flags;
 
     void SaveSerializeData(void* arg);
-    void FUN_00c84d50(void* arg);
+    void bhkShape_SaveBinary(void* arg);
 };
 struct Out_00c85880
 {
@@ -5596,7 +5596,7 @@ class BC88760Derived : public BC88760Base
     virtual ~BC88760Derived();
 
     void CopyMemberData(BC88760Derived* pkDest, BC88760CloningProcess& kCloning);
-    BC88760Derived* FUN_00c88760(BC88760CloningProcess& kCloning);
+    BC88760Derived* WeaponObject_CreateClone(BC88760CloningProcess& kCloning);
 };
 class NiNode;
 class NiAVObject;
@@ -5798,7 +5798,7 @@ class C8A910Constraint
     virtual C8A910ConstraintData* GetConstraintData(unsigned int& ruiType);
 
     void LinkObjectBase(C8A910Stream& kStream);
-    void FUN_00c8a910(C8A910Stream& kStream);
+    void bhkBinaryAction_LinkObject(C8A910Stream& kStream);
 };
 class Dispatcher
 {
@@ -5884,7 +5884,7 @@ struct Object_00c8ae60 : Base_00c8ae60
         ++DAT_012681a0;
     }
 };
-Object_00c8ae60* __cdecl FUN_00c8ae60();
+Object_00c8ae60* __cdecl bhkListShape_CreateObject();
 // Forward a call to every child wrapper of this group's Havok object.
 class C8B4D0Wrapper
 {
@@ -6227,7 +6227,7 @@ struct ListShapeSave
     virtual void v43();
     virtual void v44();
     virtual ListShapeData* GetDataPosition(bool* owned);
-    void FUN_00c84d50(C8A4B0Stream* stream);
+    void bhkShape_SaveBinary(C8A4B0Stream* stream);
     void SaveListShape(C8A4B0Stream* stream);
 };
 void __cdecl SaveUIntArray(C8A4B0Stream* stream, ShapeArray* array);
@@ -7300,10 +7300,10 @@ struct C817D0Cls
     unsigned int m_28;
 
     void UpdateNodeState(int);
-    void FUN_00c65b00();
+    void bhkCollisionObject_NitohkTransform();
 };
-void __cdecl FUN_00c87670(int* param_1, unsigned int param_2);
-void __cdecl FUN_00c84cc0(int* param_1, unsigned int param_2);
+void __cdecl bhkSerializable_LinkObject(int* param_1, unsigned int param_2);
+void __cdecl bhkShape_LinkObject(int* param_1, unsigned int param_2);
 // Fallout: New Vegas — FUN_00c85620
 // __cdecl aligned-allocation helper: requests an over-sized block from the
 // heap object's virtual allocator, aligns the returned pointer up to the
@@ -7384,10 +7384,10 @@ struct FUN_00c87c50_cls
     virtual void slot36(bool b);
     int unk04;
     NiObject* unk08;
-    void FUN_00c87c50(NiObject* arg);
+    void bhkRefObject_SethkObject(NiObject* arg);
 };
 extern int DAT_01268160;
-int* __cdecl FUN_00c87c80();
+int* __cdecl bhkRefObject_GetRTTI();
 extern __declspec(thread) int DAT_tls_field;
 struct MemoryContextGuard
 {
@@ -7423,7 +7423,7 @@ struct FUN_00c87dc0_class
 extern "C" void __cdecl operator delete(void*, unsigned int);
 void __cdecl DispatchToTarget();
 void __cdecl FUN_00c87fa0();
-void FUN_00c6b760();
+void bhkNiCollisionObject_IsEqual();
 void FUN_00c87fb0();
 extern int DAT_010c5dc0;
 struct FUN_00c88430_t
@@ -7524,7 +7524,7 @@ struct Cls_c891
     void FUN_00c891c0();
 };
 extern void FUN_00c87650();
-void FUN_00c896b0();
+void bhkConstraint_LoadBinary();
 struct FnvCpu_FUN_00c89720_CpuInterface
 {
     virtual void slot00();
@@ -7960,20 +7960,20 @@ struct C8B540Group : C8B4D0Group
     int GetSelectedResult(int iArg);
 };
 extern int DAT_012681cc;
-int __cdecl FUN_00c8ff70();
-void __cdecl FUN_00c818f0(int, int);
-void __cdecl FUN_00c8ff80(int param_1, int param_2);
+int __cdecl bhkBlendCollisionObjectAddRotation_GetRTTI();
+void __cdecl bhkBlendCollisionObject_LoadBinary(int, int);
+void __cdecl bhkBlendCollisionObjectAddRotation_LoadBinary(int param_1, int param_2);
 struct FUN_00c819a0_holder
 {
     static void InitFromFlags();
 };
-void __cdecl FUN_00c8ff90();
+void __cdecl bhkBlendCollisionObjectAddRotation_LinkObject();
 extern "C" void __cdecl FUN_00cb7610();
-void __cdecl FUN_00c8ffa0();
-extern void __cdecl FUN_00c819f0();
-void __cdecl FUN_00c8ffb0();
-bool __cdecl FUN_00c815b0(C815B0Constraint* pkOther);
-bool __cdecl FUN_00c8ffc0(C815B0Constraint* pkOther);
+void __cdecl bhkBlendCollisionObjectAddRotation_RegisterStreamables();
+extern void __cdecl bhkBlendCollisionObject_SaveBinary();
+void __cdecl bhkBlendCollisionObjectAddRotation_SaveBinary();
+bool __cdecl bhkBlendCollisionObject_IsEqual(C815B0Constraint* pkOther);
+bool __cdecl bhkBlendCollisionObjectAddRotation_IsEqual(C815B0Constraint* pkOther);
 struct C90160Matrix
 {
     float m00, m01, m02;
@@ -7990,7 +7990,7 @@ class C90160Derived : public BC88760Base
     virtual ~C90160Derived();
 
     void FUN_00c81580(C90160Derived* destination, BC88760CloningProcess& cloning);
-    C90160Derived* FUN_00c90160(BC88760CloningProcess& cloning);
+    C90160Derived* bhkBlendCollisionObjectAddRotation_CreateClone(BC88760CloningProcess& cloning);
 };
 void __cdecl FUN_00c90330();
 void __cdecl FUN_00c90340();
@@ -8139,7 +8139,7 @@ class FUN_00c819f0_cls
     unsigned int m_18;
     unsigned int m_1c;
     void Callee65820(int a1);
-    void FUN_00c819f0(int a1);
+    void bhkBlendCollisionObject_SaveBinary(int a1);
 };
 struct MeshMemoryScope
 {
@@ -8361,7 +8361,7 @@ struct ObjectController
     void* unk04;
     void* m_pObject;
     void SetObject(void* replacement);
-    void FUN_00c87c50(void* replacement);
+    void bhkRefObject_SethkObject(void* replacement);
 };
 struct FUN_00c87a50_t
 {
@@ -8509,7 +8509,7 @@ struct FUN_00d53200_class
     virtual void vfn10();
     int unk04;
     int unk08;
-    void FUN_00c8a230(NiStream& kStream);
+    void hkConstraintCinfo_LoadBinary(NiStream& kStream);
 };
 extern int DAT_01268194;
 struct ActorBase
@@ -8573,7 +8573,7 @@ struct FUN_00c8aa80_cls : BaseThunk
     int unk00;
     int unk04;
     Mid* m_08;
-    void FUN_00c8aa80(NiStream* a);
+    void bhkBinaryAction_RegisterStreamables(NiStream* a);
 };
 extern unsigned int DAT_010c6234;
 struct Ffd0base
@@ -9032,7 +9032,7 @@ extern __declspec(thread) int DAT_tls_0x2c0;
 // TLS slot +0x2C0 (module index 0x126fd98)
 struct FUN_00c65b00_holder
 {
-    int __thiscall FUN_00c65b00();
+    int __thiscall bhkCollisionObject_NitohkTransform();
 };
 struct FUN_00a68bf0_holder
 {
@@ -9423,7 +9423,7 @@ struct FUN_00c84d00_cls
     virtual void v2C();
     virtual int* vGet(FUN_00c84d00_obj** pp);
     void FUN_00c87650(FUN_00c84d00_obj* a);
-    void FUN_00c84d00(FUN_00c84d00_obj* a1);
+    void bhkShape_LoadBinary(FUN_00c84d00_obj* a1);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -9504,7 +9504,7 @@ struct FUN_00cca4e0
 };
 struct FUN_00c87670_class
 {
-    void FUN_00c87670(unsigned int value);
+    void bhkSerializable_LinkObject(unsigned int value);
 };
 struct S00c859e0_holder
 {
@@ -9514,7 +9514,7 @@ struct S00c859e0_holder
 typedef S00c859e0_holder*(__thiscall* S00c859e0_slot45)(void*, unsigned int*);
 struct S00c859e0_cls
 {
-    void FUN_00c859e0(unsigned int value);
+    void bhkWorldObject_LinkObject(unsigned int value);
 };
 extern __declspec(thread) unsigned int t_uiMemContextC877;
 inline unsigned int GetMemContextC877()
@@ -10298,8 +10298,8 @@ struct C8AC00_Self
     virtual C8AC00_Owner* GetOwner();
     int unk04;
     C8AC00_Sub* sub;
-    bool FUN_00c87b40();
-    bool FUN_00c8ac00();
+    bool bhkAction_Remove();
+    bool bhkBinaryAction_Remove();
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
@@ -10529,13 +10529,13 @@ struct LoaderLocal
     virtual void v43();
     virtual void v44();
     virtual ListLocal* GetList(bool*);
-    void FUN_00c84cc0(LoadStreamLocal*);
+    void bhkShape_LinkObject(LoadStreamLocal*);
     void LoadShapes(LoadStreamLocal*);
 };
 class S00c8bf40_Flags
 {
   public:
-    bool FUN_00c84dc0(const S00c8bf40_Flags* pkOther) const;
+    bool bhkShape_IsEqual(const S00c8bf40_Flags* pkOther) const;
     bool FUN_00c8bf40(const S00c8bf40_Flags* pkOther) const;
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -10642,7 +10642,7 @@ struct bhkTransformShapeStub : FUN_00c825b0_cls
     int unk28;
     NiMatrix3Stub m_kAdditionalRotation;
 
-    void FUN_00c90240(ViewerStrings* pkStrings);
+    void bhkBlendCollisionObjectAddRotation_AddViewerStrings(ViewerStrings* pkStrings);
 };
 extern const float DAT_01017870;
 extern const float DAT_010177e8;
@@ -11679,7 +11679,7 @@ struct S00c89ec0_cls
     virtual void process(S00c89ec0_Res* r, int flag);
     int unk04;
     int unk08;
-    bool FUN_00c89ec0();
+    bool bhkConstraint_Remove();
 };
 __declspec(noinline) int __stdcall FUN_00c84ec0(void* apObject);
 struct ShareChildShape
@@ -11764,7 +11764,7 @@ class ListShapeSharingView : public bhkListShapeStub
         return this != 0 ? (ShareListData*)m_pHavokObject : 0;
     }
 
-    unsigned char FUN_00c8b440(int a1);
+    unsigned char bhkListShape_CanShare(int a1);
 };
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -12888,7 +12888,7 @@ struct TargetLocal
 struct LockLocal
 {
     unsigned int owner, count;
-    void FUN_0040fbf0(char*);
+    void BSSpinLock_Lock(char*);
     void Unlock()
     {
         if (--count == 0)
@@ -12962,10 +12962,10 @@ struct BlendLocal
     unsigned int motion;
     TargetLocal* target;
     unsigned int unk28;
-    void FUN_00c65f40(unsigned int, BodyLocal*, bool);
-    void FUN_00c65a80();
+    void bhkCollisionObject_SetMotionType(unsigned int, BodyLocal*, bool);
+    void bhkCollisionObject_hktoNiTransform();
     void FUN_00c81aa0();
-    void FUN_00c81e30();
+    void bhkBlendCollisionObject_hktoNiTransform();
 };
 extern "C" unsigned long __readfsdword(unsigned long);
 struct TlsModeLocal
@@ -12982,7 +12982,7 @@ inline TlsModeLocal& GetBlendMode()
     return ((TlsLocal*)&g_tls)->mode;
 }
 // @fnv 0x00c81e30
-void BlendLocal::FUN_00c81e30()
+void BlendLocal::bhkBlendCollisionObject_hktoNiTransform()
 {
     SceneLocal* node = scene;
     BodyLocal* rigid = body;
@@ -13023,8 +13023,8 @@ void BlendLocal::FUN_00c81e30()
             rigid->FUN_00561690(DAT_01267e30);
             rigid->FUN_005617c0(DAT_01267e30);
         }
-        DAT_01267b80.FUN_0040fbf0(0);
-        FUN_00c65f40(desiredMotion, rigid, false);
+        DAT_01267b80.BSSpinLock_Lock(0);
+        bhkCollisionObject_SetMotionType(desiredMotion, rigid, false);
         DAT_01267b80.Unlock();
         motion = desiredMotion;
         changed = true;
@@ -13070,7 +13070,7 @@ void BlendLocal::FUN_00c81e30()
         break;
     }
     case 1:
-        FUN_00c65a80();
+        bhkCollisionObject_hktoNiTransform();
         break;
     case 2:
         Reset();
@@ -13222,11 +13222,11 @@ struct BlendCollObj
 
     void FUN_00c81890();
     void FUN_00c81a50();
-    void FUN_00c823b0(int iMotion, DynCastHelper* pkObj, bool bFlag);
+    void bhkBlendCollisionObject_SetMotionType(int iMotion, DynCastHelper* pkObj, bool bFlag);
 };
 
 // @fnv 0x00c823b0
-void BlendCollObj::FUN_00c823b0(int iMotion, DynCastHelper* pkObj, bool bFlag)
+void BlendCollObj::bhkBlendCollisionObject_SetMotionType(int iMotion, DynCastHelper* pkObj, bool bFlag)
 {
     WorldObj* pkBody = pkObj == 0 ? 0 : (WorldObj*)pkObj->DynamicCast((unsigned int const*)&DAT_012681c0);
     float fHeir = FUN_00c8cce0(&iMotion) ? 0.0f : 1.0f;
@@ -13746,7 +13746,7 @@ struct PairE610
 };
 
 // @fnv 0x00c9e610
-void __stdcall FUN_00c9e610(void* pvSource, const PairE610* pkPair, void* pvUnused)
+void __stdcall bhkWaterPhantomCallbackShape_phantomEnterEvent(void* pvSource, const PairE610* pkPair, void* pvUnused)
 {
     EventE610 kEvent;
     kEvent.m_pvSource = pvSource;
@@ -14066,7 +14066,7 @@ inline WaterLeaveUserWorld* WaterLeaveGetUserWorld(WaterLeaveWorldObject* pkObje
 }
 
 // @fnv 0x00c9e670
-void __stdcall FUN_00c9e670(void* pArg, WaterLeaveCollidable* pkCollidable)
+void __stdcall bhkWaterPhantomCallbackShape_phantomLeaveEvent(void* pArg, WaterLeaveCollidable* pkCollidable)
 {
     WaterLeaveContact kEvent;
     kEvent.rootCollidableA = pArg;
@@ -14176,7 +14176,7 @@ class RayHitCollectorE700
 };
 
 // @fnv 0x00c9e700
-void __stdcall FUN_00c9e700(const RayInputE700& kInput, const CdBodyE700& kBody, RayHitCollectorE700* pkCollector)
+void __stdcall bhkWaterPhantomCallbackShape_castRayWithCollector(const RayInputE700& kInput, const CdBodyE700& kBody, RayHitCollectorE700* pkCollector)
 {
     ScopedMemoryCategory kScope;
     const ParentE700* pkParent = kBody.m_pParentNode;

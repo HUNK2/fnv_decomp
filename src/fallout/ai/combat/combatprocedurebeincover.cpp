@@ -458,11 +458,11 @@ struct FUN_009a5eb0_shell
 
 struct FUN_009d3800_cls
 {
-    void FUN_009d3800(void* a1);
+    void CombatProcedureBeInCover_SaveGame(void* a1);
 };
 
 // @fnv 0x009d3800
-void FUN_009d3800_cls::FUN_009d3800(void* a1)
+void FUN_009d3800_cls::CombatProcedureBeInCover_SaveGame(void* a1)
 {
     unsigned char flag;
 
@@ -518,11 +518,11 @@ struct FUN_009d38f0_shell : FUN_00996ef0_shell
     FUN_009a5f20_Timer kTimer54;
     FUN_009a5f20_Timer kTimer5c;
     FUN_009a5f20_Timer kTimer64;
-    void FUN_009d38f0(BGSLoadFormBuffer* apBuffer);
+    void CombatProcedureBeInCover_LoadGame(BGSLoadFormBuffer* apBuffer);
 };
 // Loads state, cover location, three 3-float vectors and six timers from the form buffer, resolving the cover location via the interface manager.
 // @fnv 0x009d38f0
-void FUN_009d38f0_shell::FUN_009d38f0(BGSLoadFormBuffer* apBuffer)
+void FUN_009d38f0_shell::CombatProcedureBeInCover_LoadGame(BGSLoadFormBuffer* apBuffer)
 {
     FUN_00996ef0(apBuffer);
     bool bHasCover = false;

@@ -527,7 +527,7 @@ struct MiscStatManager
 };
 
 // @fnv 0x0060cad0
-void FUN_0060cad0(int aeStatId)
+void DecPCMiscStat(int aeStatId)
 {
     MiscStatManager::AddMiscStat((MiscStatManager::MiscStat)aeStatId, -1);
 }
@@ -635,10 +635,10 @@ struct BSStr
 };
 struct FUN_0060dab0_shell
 {
-    bool FUN_0060dab0(const char* arg);
+    bool TESQuest_SetEditorID(const char* arg);
 };
 // @fnv 0x0060dab0
-bool FUN_0060dab0_shell::FUN_0060dab0(const char* pcString)
+bool FUN_0060dab0_shell::TESQuest_SetEditorID(const char* pcString)
 {
     unsigned int size = BSStringLength(pcString) + 1;
     char* buffer = static_cast<char*>(_alloca(size));
@@ -668,7 +668,7 @@ const char* FUN_0060c5f0_Class::GetStringOrEmpty()
 
 struct BGSSaveFormBuffer : BGSLoadFormBuffer
 {
-    void FUN_005621f0(unsigned int);
+    void BGSSaveFormBuffer_RemoveChange(unsigned int);
 };
 struct FUN_0060e7c0_outer
 {
@@ -680,7 +680,7 @@ struct FUN_0060e7c0_outer
 void FUN_0060e7c0_outer::FUN_0060e7c0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     if (apSaveGameBuffer->GetChangeFlags(0x40000000) && _5c == 0)
-        apSaveGameBuffer->FUN_005621f0(0x40000000);
+        apSaveGameBuffer->BGSSaveFormBuffer_RemoveChange(0x40000000);
 }
 
 namespace stand {
@@ -764,12 +764,12 @@ void __cdecl FUN_0077a480(void* apQuest);
 
 struct FUN_0060caf0_shell : TESQuest
 {
-    void FUN_0060caf0(bool abCompleted);
+    void TESQuest_SetFailed(bool abCompleted);
 };
 
 // Sets or clears the completed flag bit 0x40 on the quest, calls vtable slot 18 with 2, and notifies via FUN_0077a480 when newly completed.
 // @fnv 0x0060caf0
-void FUN_0060caf0_shell::FUN_0060caf0(bool abCompleted)
+void FUN_0060caf0_shell::TESQuest_SetFailed(bool abCompleted)
 {
     if (abCompleted && GetCompleted())
         return;
@@ -838,10 +838,10 @@ struct FUN_0060ca30_shell
     unsigned char _pad[0x38];
     unsigned char data;
 
-    void FUN_0060ca30(bool abCompleted);
+    void TESQuest_SetCompleted(bool abCompleted);
 };
 
-void FUN_0060ca30_shell::FUN_0060ca30(bool abCompleted)
+void FUN_0060ca30_shell::TESQuest_SetCompleted(bool abCompleted)
 {
     if (abCompleted && !(data & 2))
     {
@@ -854,7 +854,7 @@ void FUN_0060ca30_shell::FUN_0060ca30(bool abCompleted)
     {
         data &= ~2;
         RemoveTopic(2);
-        FUN_0060cad0(0);
+        DecPCMiscStat(0);
     }
 }
 
@@ -894,7 +894,7 @@ FUN_0060c660::~FUN_0060c660()
 struct FUN_0060c950_item
 {
     bool FUN_005a5e70();
-    void FUN_005ec5d0(int a1);
+    void BGSQuestObjective_SetState(int a1);
 };
 
 struct FUN_0060c950_node
@@ -906,16 +906,16 @@ struct FUN_0060c950_node
 struct FUN_0060c950_cls
 {
     FUN_0060c950_node* FUN_005d43e0();
-    void FUN_0060c950(int a1);
+    void TESQuest_SetAllObjectivesComplete(int a1);
 };
 
 // @fnv 0x0060c950
-void FUN_0060c950_cls::FUN_0060c950(int a1)
+void FUN_0060c950_cls::TESQuest_SetAllObjectivesComplete(int a1)
 {
     FUN_0060c950_node* node = FUN_005d43e0();
     while (node && *node->FUN_006815c0())
     {
-        (*node->FUN_006815c0())->FUN_005ec5d0((*node->FUN_006815c0())->FUN_005a5e70() ? 3 : 2);
+        (*node->FUN_006815c0())->BGSQuestObjective_SetState((*node->FUN_006815c0())->FUN_005a5e70() ? 3 : 2);
         node = node->FUN_00726070();
     }
 }
@@ -938,20 +938,20 @@ struct FNV_InitNode
 };
 struct FNV_InitPart
 {
-    void FUN_0048cca0();
-    void FUN_00487010();
-    void FUN_0048e370(unsigned int);
+    void TESScriptableForm_Save();
+    void TESFullName_Save();
+    void TESTexture_Save(unsigned int);
     void FUN_0060ce80();
 };
 struct FUN_0060cd60_shell : TESQuest
 {
-    void FUN_004855a0();
-    void FUN_00485e20(void*, unsigned int);
+    void TESForm_StartForm();
+    void TESForm___SaveData(void*, unsigned int);
     FNV_SubObject* FUN_005f5760();
     FNV_InitNode* FUN_005d43c0();
     FNV_InitNode* FUN_005d43e0();
-    void FUN_00485680();
-    void FUN_0060cd60();
+    void TESForm_CloseForm();
+    void TESQuest_SaveForm();
 };
 struct FNV_EventObject
 {
@@ -960,17 +960,17 @@ struct FNV_EventObject
 extern "C" bool __cdecl FUN_00401500();
 
 // @fnv 0x0060cd60
-void FUN_0060cd60_shell::FUN_0060cd60()
+void FUN_0060cd60_shell::TESQuest_SaveForm()
 {
-    FUN_004855a0();
-    reinterpret_cast<FNV_InitPart*>(&tESScriptableFormComponent)->FUN_0048cca0();
-    reinterpret_cast<FNV_InitPart*>(&tESIconComponent + 1)->FUN_00487010();
-    reinterpret_cast<FNV_InitPart*>(&tESIconComponent)->FUN_0048e370(0x4e4f4349);
+    TESForm_StartForm();
+    reinterpret_cast<FNV_InitPart*>(&tESScriptableFormComponent)->TESScriptableForm_Save();
+    reinterpret_cast<FNV_InitPart*>(&tESIconComponent + 1)->TESFullName_Save();
+    reinterpret_cast<FNV_InitPart*>(&tESIconComponent)->TESTexture_Save(0x4e4f4349);
     if (FUN_00401500())
     {
         reinterpret_cast<FNV_InitPart*>(&tESFullNameComponent + 1)->FUN_0060ce80();
     }
-    FUN_00485e20(reinterpret_cast<char*>(&tESFullNameComponent) + 12, 8);
+    TESForm___SaveData(reinterpret_cast<char*>(&tESFullNameComponent) + 12, 8);
     if (FUN_00401500())
     {
         reinterpret_cast<FNV_InitPart*>(&tESFullNameComponent + 1)->FUN_0060ce80();
@@ -991,7 +991,7 @@ void FUN_0060cd60_shell::FUN_0060cd60()
         pOtherNode->FUN_006815c0()->object->FUN_005ec280();
         pOtherNode = pOtherNode->FUN_00726070();
     }
-    FUN_00485680();
+    TESForm_CloseForm();
 }
 
 struct QuestEntryStandIn
@@ -1092,11 +1092,11 @@ void __cdecl SaveGameSizeWarning(const char* message, ...);
 struct QuestSaveSize : TESQuest
 {
     StageNodeStub* GetStageNodes();
-    unsigned short FUN_0060dba0(unsigned int changedFlags);
+    unsigned short TESQuest_GetSaveSize(unsigned int changedFlags);
 };
 
 // @fnv 0x0060dba0
-unsigned short QuestSaveSize::FUN_0060dba0(unsigned int changedFlags)
+unsigned short QuestSaveSize::TESQuest_GetSaveSize(unsigned int changedFlags)
 {
     unsigned short size7 = 0;
     size7 += ((FormSaveSizeStub*)this)->GetSaveSize(changedFlags);
@@ -1161,11 +1161,11 @@ struct QuestScriptLocals
 
 struct FUN_0060e6a0_shell : TESQuest
 {
-    void FUN_0060e6a0(unsigned int auiFlags);
+    void TESQuest_Revert(unsigned int auiFlags);
 };
 
 // @fnv 0x0060e6a0
-void FUN_0060e6a0_shell::FUN_0060e6a0(unsigned int auiFlags)
+void FUN_0060e6a0_shell::TESQuest_Revert(unsigned int auiFlags)
 {
     ((FUN_004534f0_shell*)this)->FUN_004534f0(auiFlags);
     if (auiFlags & 0x80000000)
@@ -1234,20 +1234,20 @@ struct QuestSaveLocals
 };
 struct QuestSave : TESQuest
 {
-    void FUN_00484c20(unsigned int);
+    void TESForm_SaveGame(unsigned int);
     unsigned char* FUN_005a8080();
     void FUN_00484ce0(void*, unsigned int);
     QuestSaveStageNode* FUN_005d43c0();
-    void FUN_0060dd50(unsigned int flags);
+    void TESQuest_SaveGame(unsigned int flags);
 };
 void __cdecl FUN_0040fbe0(const char*, ...);
 void __cdecl FUN_005b5e40(const char*, ...);
 
 // Writes the quest's save data: flags, stage and item lists, optional locals, debug size logging, and a block-size header when block saving is active.
 // @fnv 0x0060dd50
-void QuestSave::FUN_0060dd50(unsigned int flags)
+void QuestSave::TESQuest_SaveGame(unsigned int flags)
 {
-    FUN_00484c20(flags);
+    TESForm_SaveGame(flags);
     unsigned short h = 0;  // Reserved block size.
     unsigned char* p = 0;  // Address of the reserved block-size field.
     unsigned char* a = ((QuestSaveManager*)g_TESSaveLoadGame)->FUN_00825c00();
@@ -1352,7 +1352,7 @@ extern "C" char UNK_01015500[];
 extern "C" char UNK_010154a0[];
 extern "C" char UNK_01015440[];
 void __cdecl FUN_005b5e40(const char*, ...);
-void* __cdecl FUN_004839c0(void*);
+void* __cdecl TESForm_GetFormByNumericID(void*);
 struct StreamReader
 {
     bool FUN_00862110();
@@ -1364,7 +1364,7 @@ struct StreamReader
 };
 struct QuestInput
 {
-    void FUN_00484c50(unsigned int, unsigned int);
+    void TESForm_LoadGame2(unsigned int, unsigned int);
     void FUN_00484d00(void*, unsigned int);
     unsigned char* FUN_005a8080();
     void* FUN_0060db40(unsigned char);
@@ -1409,7 +1409,7 @@ struct QuestLoader : TESQuest
 // @fnv 0x0060e0d0
 void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
 {
-    ((QuestInput*)this)->FUN_00484c50(flags, extra);
+    ((QuestInput*)this)->TESForm_LoadGame2(flags, extra);
     unsigned short sizeRead = 0;
     unsigned int start = 0;
     if (((StreamReader*)DAT_011de45c)->FUN_00862110())
@@ -1421,7 +1421,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             void* entry = ((StreamReader*)DAT_011de45c)->FUN_004fd3c0();
             if (entry)
             {
-                void* view = FUN_004839c0(*(void**)entry);
+                void* view = TESForm_GetFormByNumericID(*(void**)entry);
                 FUN_005b5e40(UNK_01015718, UNK_0104ad80, 0xfaf, *(void**)entry, ((TagMethod*)*(void**)view)[76](view),
                              *(unsigned char*)((char*)entry + 9), *(unsigned int*)((char*)entry + 5));
             }
@@ -1530,7 +1530,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             entry = ((StreamReader*)DAT_011de45c)->FUN_004fd3c0();
             if (entry)
             {
-                void* view = FUN_004839c0(*(void**)entry);
+                void* view = TESForm_GetFormByNumericID(*(void**)entry);
                 if (actual > start + sizeRead)
                     FUN_005b5e40(UNK_01015588, actual - (start + sizeRead), UNK_0104ad80, 0x1010, *(void**)entry,
                                  ((TagMethod*)*(void**)view)[76](view), *(unsigned char*)((char*)entry + 9),
@@ -1601,7 +1601,7 @@ struct F810Node1
 };
 struct F810Obj
 {
-    void FUN_005a9db0(F810Buf* buf);
+    void ScriptLocals_SaveGame(F810Buf* buf);
 };
 struct F810Buf
 {
@@ -1722,7 +1722,7 @@ void FUN_0060e810_shell::WriteToBuffer(F810Buf* buf)
     }
     if (buf->FUN_00428110(&tagD, 0x40000000)->FUN_004280f0())
     {
-        pObj5c->FUN_005a9db0(buf);
+        pObj5c->ScriptLocals_SaveGame(buf);
     }
     if (buf->FUN_00428110(&flagsE, 0x20000000)->FUN_004280f0())
     {
@@ -1795,7 +1795,7 @@ struct StageNode
 };
 struct ObjItem
 {
-    void FUN_005ec5d0(int);
+    void BGSQuestObjective_SetState(int);
 };
 struct ObjNode
 {
@@ -1815,15 +1815,15 @@ struct QuestShell : TESForm, ScriptableBase, IconBase, NameBase
     ObjNode* FUN_005d43e0();
     bool HasFlag0x10();
     void FUN_0060c9c0(bool);
-    void FUN_0060ca30(bool);
-    void FUN_0060caf0(bool);
+    void TESQuest_SetCompleted(bool);
+    void TESQuest_SetFailed(bool);
     void SetFlag20(bool);
-    void FUN_0060d720();
+    void TESQuest_ResetQuest();
 };
-void __cdecl FUN_00619b60(QuestShell*);
+void __cdecl TESTopic_ClearAllSaidOnceInfosForQuest(QuestShell*);
 
 // @fnv 0x0060d720
-void QuestShell::FUN_0060d720()
+void QuestShell::TESQuest_ResetQuest()
 {
     StageNode* aStageNode;
     ObjNode* objNode;
@@ -1862,7 +1862,7 @@ void QuestShell::FUN_0060d720()
     objNode = FUN_005d43e0();
     while (objNode && *objNode->FUN_006815c0())
     {
-        (*objNode->FUN_006815c0())->FUN_005ec5d0(0);
+        (*objNode->FUN_006815c0())->BGSQuestObjective_SetState(0);
         objNode = objNode->FUN_00726070();
     }
 
@@ -1872,9 +1872,9 @@ void QuestShell::FUN_0060d720()
         m_pScriptLocals = FUN_00726070()->FUN_005abf60();
     }
 
-    FUN_00619b60(this);
+    TESTopic_ClearAllSaidOnceInfosForQuest(this);
     FUN_0060c9c0(HasFlag0x10());
-    FUN_0060ca30(false);
-    FUN_0060caf0(false);
+    TESQuest_SetCompleted(false);
+    TESQuest_SetFailed(false);
     SetFlag20(false);
 }

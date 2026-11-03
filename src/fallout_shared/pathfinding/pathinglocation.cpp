@@ -630,11 +630,11 @@ struct FUN_006def40_shell
     void* pCell;
     void* m_pContainingWorldspace;
 
-    void FUN_006def40(BGSSaveFormBuffer*);
+    void PathingLocation_SaveGame(BGSSaveFormBuffer*);
 };
 
 // @fnv 0x006def40
-void FUN_006def40_shell::FUN_006def40(BGSSaveFormBuffer* buffer)
+void FUN_006def40_shell::PathingLocation_SaveGame(BGSSaveFormBuffer* buffer)
 {
     bool bhadNavMeshesArray;
 
@@ -658,7 +658,7 @@ struct PathingCellAccess : TESObjectCELL
     int FUN_00544c60();
     int FUN_00544c30();
 };
-unsigned int FUN_00587440(const NiPoint3&);
+unsigned int TESWorldSpace_GetKeyForWorldCoord(const NiPoint3&);
 unsigned int PackShortPair(int, int);
 const BSSimpleArray<NavMeshInfo_const*, 1024>* ForwardToPathing(TESWorldSpace*, unsigned int);
 const BSSimpleArray<NavMeshInfo_const*, 1024>* FUN_006d6f40(TESObjectCELL*);
@@ -675,7 +675,7 @@ void SetupPathingLocation::FUN_006dd280(const NiPoint3& position, TESObjectCELL*
     if (world)
     {
         m_pContainingWorldspace = world;
-        m_uiPathingFlags = FUN_00587440(Location);
+        m_uiPathingFlags = TESWorldSpace_GetKeyForWorldCoord(Location);
         pCell = 0;
         pNavMeshInfoArray = ForwardToPathing(m_pContainingWorldspace, m_uiPathingFlags);
     }
@@ -957,7 +957,7 @@ struct DebugForm
 };
 struct DebugWorld : DebugForm
 {
-    DebugForm* FUN_00587550(const NiPoint3&);
+    DebugForm* TESWorldSpace_GetCellFromWorldCoord(const NiPoint3&);
 };
 struct DebugMesh
 {
@@ -997,7 +997,7 @@ void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
         {
             int cellX2 = (int)location.x >> 12;
             int y8 = (int)location.y >> 12;
-            DebugForm* found8 = world->FUN_00587550(location);
+            DebugForm* found8 = world->TESWorldSpace_GetCellFromWorldCoord(location);
             if (found8)
                 FUN_00406d00(acBuffer, capacity, "Cell %s[%d,%d] %s,  %.2f %.2f %.2f", world->editorName(), cellX2, y8,
                              found8->editorName(), location.x, location.y, location.z);

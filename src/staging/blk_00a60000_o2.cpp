@@ -196,7 +196,7 @@ struct NiTriBasedGeomData;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
 extern int DAT_0109dac4;
 // @fnv 0x00a7b790
-void* __cdecl FUN_00a7b790()
+void* __cdecl NiTriShapeData_CreateObject()
 {
     char* p = (char*)BSFadeNode::operator new(0x58);
     if (p)
@@ -327,7 +327,7 @@ struct FUN_00a7d6e0_Class
 };
 
 // @fnv 0x00a7d6e0
-void* FUN_00a7d6e0()
+void* NiPointLight_CreateObject()
 {
     FUN_00a7d6e0_Class* obj = (FUN_00a7d6e0_Class*)A51BF0Base::operator new(0xfc);
     if (obj)
@@ -3306,7 +3306,7 @@ struct MyPool
 };
 struct FUN_0040fbf0_Class
 {
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
 };
 extern FUN_00a615c0_Class* DAT_011f4468;
 extern FUN_0040fbf0_Class DAT_011f4480;
@@ -3317,7 +3317,7 @@ void __cdecl FUN_00a62030()
 {
     if (DAT_011f4468 != 0)
     {
-        DAT_011f4480.FUN_0040fbf0(0);
+        DAT_011f4480.BSSpinLock_Lock(0);
         DAT_011f4468->ClearAllBuckets();
         for (unsigned int i = 0; i < 7; i++)
             ((MyPool*)DAT_011f4464)->m_buckets[i].ClearAllSlots();
@@ -3603,7 +3603,7 @@ class NiExtraDataMapA6F : public NiObjectA6F
     {}
     virtual ~NiExtraDataMapA6F() throw();
 
-    static NiObjectA6F* FUN_00a6f000();
+    static NiObjectA6F* NiDefaultAVObjectPalette_CreateObject();
 
     NiTPointerMapA6F m_kFormatEntries;
     void* m_pkLast;
@@ -3611,7 +3611,7 @@ class NiExtraDataMapA6F : public NiObjectA6F
 
 // Allocates and constructs a new NiExtraDataMapA6F and returns it as a NiObjectA6F pointer.
 // @fnv 0x00a6f000
-NiObjectA6F* NiExtraDataMapA6F::FUN_00a6f000()
+NiObjectA6F* NiExtraDataMapA6F::NiDefaultAVObjectPalette_CreateObject()
 {
     return new NiExtraDataMapA6F;
 }
@@ -3896,11 +3896,11 @@ struct ControllerA606
     bool m_bUnk41;
     bool m_bUseFirst;
     void FUN_00a5d7b0(NiStream& kStream);
-    void FUN_00a60600(NiStream& kStream);
+    void NiSourceTexture_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a60600
-void ControllerA606::FUN_00a60600(NiStream& kStream)
+void ControllerA606::NiSourceTexture_SaveBinary(NiStream& kStream)
 {
     FUN_00a5d7b0(kStream);
     bool bNoTargets = !m_pkTarget1 && !m_pkTarget2;
@@ -4064,24 +4064,24 @@ void* __cdecl FindNodeByObject(A61E60Obj* obj)
     return n;
 }
 
-bool __fastcall FUN_00a5c180(void*, int, NiStream*);
+bool __fastcall NiObjectNET_RegisterStreamables(void*, int, NiStream*);
 // @fnv 0x00a62130
 bool __fastcall FUN_00a62130(void* a, int b, NiStream* s)
 {
-    return FUN_00a5c180(a, b, s);
+    return NiObjectNET_RegisterStreamables(a, b, s);
 }
 
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a5c820(void* other);
+    bool __thiscall NiObjectNET_IsEqual(void* other);
     bool __thiscall FUN_00a62140(void* other);
 };
 
 // @fnv 0x00a62140
 bool __thiscall EqBase::FUN_00a62140(void* other)
 {
-    return FUN_00a5c820(other);
+    return NiObjectNET_IsEqual(other);
 }
 
 class ColorAStandIn
@@ -4127,7 +4127,7 @@ void __cdecl FUN_00a75f00()
 }
 
 // @fnv 0x00a75f20
-unsigned short __fastcall FUN_00a75f20(char* p, int)
+unsigned short __fastcall NiTriBasedGeomData_GetActiveTriangleCount(char* p, int)
 {
     return *reinterpret_cast<unsigned short*>(p + 0x40);
 }
@@ -4381,7 +4381,7 @@ struct NiSourceTexture : SourceTextureBase
     bool isStatic;
     bool loadDirect;
     bool persistent;
-    void FUN_00a60180(TextureLoadStream& stream);
+    void NiSourceTexture_LoadBinary(TextureLoadStream& stream);
 };
 extern bool DAT_011f4780;
 void __cdecl FUN_00a76960(void*, void*);
@@ -4389,7 +4389,7 @@ bool __cdecl FUN_00aa1a30(const char*, int);
 
 // Reads texture metadata and file references from a TextureLoadStream, resolving the texture name and registering the texture object.
 // @fnv 0x00a60180
-void NiSourceTexture::FUN_00a60180(TextureLoadStream& stream)
+void NiSourceTexture::NiSourceTexture_LoadBinary(TextureLoadStream& stream)
 {
     FUN_00a47350(stream);
     InterlockedIncrement((volatile long*)&m_uiRefCount);
@@ -4549,7 +4549,7 @@ struct StrArr
 };
 struct FUN_00a62a40_this
 {
-    void FUN_00a62a40(StrArr* pkStrings);
+    void NiTexture_GetViewerStrings(StrArr* pkStrings);
 };
 struct FUN_00a60770_shell : FUN_00a62a40_this
 {
@@ -4569,11 +4569,11 @@ struct FUN_00a60770_shell : FUN_00a62a40_this
     const char* m_pcFileName;
     void GetFileStrings(StrArr* pkStrings);
 };
-// Calls FUN_00a62a40(pkStrings), then adds FUN_00a7d330 of the string at g_011f444c and a 'File:' string built from m_pcFileName to pkStrings.
+// Calls NiTexture_GetViewerStrings(pkStrings), then adds FUN_00a7d330 of the string at g_011f444c and a 'File:' string built from m_pcFileName to pkStrings.
 // @fnv 0x00a60770
 void FUN_00a60770_shell::GetFileStrings(StrArr* pkStrings)
 {
-    FUN_00a62a40(pkStrings);
+    NiTexture_GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(*(char**)&g_011f444c);
     pkStrings->Add(pcString);
     const char* pcFile = m_pcFileName;

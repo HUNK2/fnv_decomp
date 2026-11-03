@@ -81,10 +81,10 @@ struct S0047b8a0
 {
     int _00;
     TESForm* _04;
-    void FUN_0047b8a0();
+    void BGSRepairItemList_Save();
 };
 // @fnv 0x0047b8a0
-void S0047b8a0::FUN_0047b8a0()
+void S0047b8a0::BGSRepairItemList_Save()
 {
     unsigned int formID;
     if (_04 != 0)
@@ -106,12 +106,12 @@ void MyHolder::CopyFrom(BaseFormComponent* apCopyFC)
 
 struct RepairListComparison : BGSRepairItemList
 {
-    bool FUN_0047ba20(BaseFormComponent* component);
+    bool BGSRepairItemList_CompareComponent(BaseFormComponent* component);
 };
 
 // Returns true if the component is not a BGSRepairItemList or if its _ref_00726070 differs from this list's _ref_00726070.
 // @fnv 0x0047ba20
-bool RepairListComparison::FUN_0047ba20(BaseFormComponent* component)
+bool RepairListComparison::BGSRepairItemList_CompareComponent(BaseFormComponent* component)
 {
     BGSRepairItemList* other = dynamic_cast<BGSRepairItemList*>(component);
     if (!other)

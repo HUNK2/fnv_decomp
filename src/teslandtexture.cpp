@@ -158,10 +158,10 @@ struct List_009e03e0
 struct FUN_00540dc0_shell : TESFile
 {
     const char* GetName();
-    void FUN_00540dc0();
+    void TESLandTexture_ClearData();
 };
 // @fnv 0x00540dc0
-void FUN_00540dc0_shell::FUN_00540dc0()
+void FUN_00540dc0_shell::TESLandTexture_ClearData()
 {
     ((List_009e03e0*)(void*)GetName())->RemoveAll();
 }
@@ -211,11 +211,11 @@ struct LTHelper
 void MemCopy(void* dst, const void* src, unsigned int n);
 struct LTCopy : TESLandTexture
 {
-    void FUN_00540de0(TESForm* pForm);
+    void TESLandTexture_CopyFrom(TESForm* pForm);
 };
 // Copies land texture data from pForm into this object, clearing and rebuilding the grass list from the source's grass entries.
 // @fnv 0x00540de0
-void LTCopy::FUN_00540de0(TESForm* pForm)
+void LTCopy::TESLandTexture_CopyFrom(TESForm* pForm)
 {
     TESLandTexture* src = dynamic_cast<TESLandTexture*>(pForm);
     if (!src)

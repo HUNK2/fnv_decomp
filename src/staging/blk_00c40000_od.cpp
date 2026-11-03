@@ -47,11 +47,11 @@ int __stdcall FUN_00c42da0(FUN_00c42da0_Class* p)
 
 struct FUN_00c430a0_class
 {
-    int __thiscall FUN_00c430a0(int);
+    int __thiscall BSXFlags_CreateClone(int);
 };
 
 // @fnv 0x00c430a0
-int __thiscall FUN_00c430a0_class::FUN_00c430a0(int)
+int __thiscall FUN_00c430a0_class::BSXFlags_CreateClone(int)
 {
     return (int)this;
 }
@@ -79,10 +79,10 @@ void FUN_00c430d0::LoadBinary(NiStream& stream)
 struct NiAVObject;
 struct NiBinaryExtraData {
     void FUN_00a9af00(NiAVObject* a);
-    void FUN_00c430f0(NiAVObject* a);
+    void BSXFlags_LinkObject(NiAVObject* a);
 };
 // @fnv 0x00c430f0
-void __thiscall NiBinaryExtraData::FUN_00c430f0(NiAVObject* apObject)
+void __thiscall NiBinaryExtraData::BSXFlags_LinkObject(NiAVObject* apObject)
 {
     FUN_00a9af00(apObject);
 }
@@ -90,11 +90,11 @@ void __thiscall NiBinaryExtraData::FUN_00c430f0(NiAVObject* apObject)
 namespace fnv_00c43110 {
 struct NiBinaryExtraData {
     bool FUN_00a89ae0(void* arg);
-    bool FUN_00c43110(void* arg);
+    bool BSXFlags_RegisterStreamables(void* arg);
 };
 // Returns the negation of FUN_00a89ae0(arg).
 // @fnv 0x00c43110
-bool NiBinaryExtraData::FUN_00c43110(void* apData)
+bool NiBinaryExtraData::BSXFlags_RegisterStreamables(void* apData)
 {
     return !FUN_00a89ae0(apData);
 }
@@ -102,11 +102,11 @@ bool NiBinaryExtraData::FUN_00c43110(void* apData)
 
 struct FUN_00c43140_StandIn {
     void FUN_00a9a4e0(int a);
-    void FUN_00c43140(int a);
+    void BSXFlags_SaveBinary(int a);
 };
 
 // @fnv 0x00c43140
-void FUN_00c43140_StandIn::FUN_00c43140(int aiValue)
+void FUN_00c43140_StandIn::BSXFlags_SaveBinary(int aiValue)
 {
     FUN_00a9a4e0(aiValue);
 }
@@ -114,7 +114,7 @@ void FUN_00c43140_StandIn::FUN_00c43140(int aiValue)
 struct NiStringExtraData {
     char* m_p;
     char IsEqual(const char*);
-    char FUN_00c43160(const char* other);
+    char BSXFlags_IsEqual(const char* other);
 };
 
 char NiStringExtraData::IsEqual(const char* other)
@@ -123,7 +123,7 @@ char NiStringExtraData::IsEqual(const char* other)
 }
 
 // @fnv 0x00c43160
-char NiStringExtraData::FUN_00c43160(const char* other)
+char NiStringExtraData::BSXFlags_IsEqual(const char* other)
 {
     char result = IsEqual(other);
     return result;
@@ -141,11 +141,11 @@ void NiAVObject::FUN_00c43470()
 extern "C" void* g_01202de0;
 
 struct FUN_00c43650_Class {
-    void* __thiscall FUN_00c43650();
+    void* __thiscall BSXFlags_GetRTTI();
 };
 
 // @fnv 0x00c43650
-void* __thiscall FUN_00c43650_Class::FUN_00c43650()
+void* __thiscall FUN_00c43650_Class::BSXFlags_GetRTTI()
 {
     return &g_01202de0;
 }
@@ -155,11 +155,11 @@ struct NiNode {
 };
 
 struct FUN_00c43900_class {
-    void __thiscall FUN_00c43900(void* apParam);
+    void __thiscall BSValueNode_LinkObject(void* apParam);
 };
 
 // @fnv 0x00c43900
-void __thiscall FUN_00c43900_class::FUN_00c43900(void* apParam)
+void __thiscall FUN_00c43900_class::BSValueNode_LinkObject(void* apParam)
 {
     ((NiNode*)this)->ReadChildListFromStream(apParam);
 }
@@ -167,11 +167,11 @@ void __thiscall FUN_00c43900_class::FUN_00c43900(void* apParam)
 extern "C" void* g_01202de8;
 
 struct FUN_00c43cf0_Class {
-    void* __thiscall FUN_00c43cf0();
+    void* __thiscall BSValueNode_GetRTTI();
 };
 
 // @fnv 0x00c43cf0
-void* __thiscall FUN_00c43cf0_Class::FUN_00c43cf0()
+void* __thiscall FUN_00c43cf0_Class::BSValueNode_GetRTTI()
 {
     return &g_01202de8;
 }
@@ -240,11 +240,11 @@ FUN_00c44e20::~FUN_00c44e20()
 
 struct FUN_00c452a0_Class {
     void __thiscall ReadChildListFromStream(int a);
-    void __thiscall FUN_00c452a0(int a);
+    void __thiscall BSRangeNode_LinkObject(int a);
 };
 
 // @fnv 0x00c452a0
-void __thiscall FUN_00c452a0_Class::FUN_00c452a0(int aiValue)
+void __thiscall FUN_00c452a0_Class::BSRangeNode_LinkObject(int aiValue)
 {
     ReadChildListFromStream(aiValue);
 }
@@ -256,11 +256,11 @@ struct FUN_00a5e5b0_helper {
 };
 
 struct FUN_00c452c0_class {
-    unsigned char FUN_00c452c0(NiStream*);
+    unsigned char BSRangeNode_RegisterStreamables(NiStream*);
 };
 
 // @fnv 0x00c452c0
-unsigned char FUN_00c452c0_class::FUN_00c452c0(NiStream* stream)
+unsigned char FUN_00c452c0_class::BSRangeNode_RegisterStreamables(NiStream* stream)
 {
     if (!((FUN_00a5e5b0_helper*)this)->RegisterChildStreamables(stream))
         return 0;
@@ -271,11 +271,11 @@ extern char const* const g_01202e7c_arg1;
 
 struct FUN_00c457d0_Class
 {
-    char const* const* __thiscall FUN_00c457d0();
+    char const* const* __thiscall BSRangeNode_GetRTTI();
 };
 
 // @fnv 0x00c457d0
-char const* const* __thiscall FUN_00c457d0_Class::FUN_00c457d0()
+char const* const* __thiscall FUN_00c457d0_Class::BSRangeNode_GetRTTI()
 {
     return &g_01202e7c_arg1;
 }
@@ -293,21 +293,21 @@ bool FUN_00c45ab0()
 struct NiStream;
 struct NiPSysModifier {
     void LinkObject(NiStream&);
-    void FUN_00c467f0(NiStream& stream);
+    void BSWindModifier_LinkObject(NiStream& stream);
 };
 // @fnv 0x00c467f0
-void NiPSysModifier::FUN_00c467f0(NiStream& stream)
+void NiPSysModifier::BSWindModifier_LinkObject(NiStream& stream)
 {
     LinkObject(stream);
 }
 
 struct FUN_00c46810_Class {
     void __thiscall FUN_00c31670(int);
-    void __thiscall FUN_00c46810(int);
+    void __thiscall BSWindModifier_RegisterStreamables(int);
 };
 
 // @fnv 0x00c46810
-void __thiscall FUN_00c46810_Class::FUN_00c46810(int aiValue)
+void __thiscall FUN_00c46810_Class::BSWindModifier_RegisterStreamables(int aiValue)
 {
     FUN_00c31670(aiValue);
 }
@@ -319,11 +319,11 @@ struct NiStream {
 
 struct NiNode {
     void LoadBinary(NiStream& stream);
-    void FUN_00c46ca0(NiStream& stream);
+    void BSMultiBoundNode_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00c46ca0
-void NiNode::FUN_00c46ca0(NiStream& stream)
+void NiNode::BSMultiBoundNode_LoadBinary(NiStream& stream)
 {
     LoadBinary(stream);
     stream.ResetStreamState();
@@ -333,11 +333,11 @@ void NiNode::FUN_00c46ca0(NiStream& stream)
 extern "C" void* g_01202e74;
 
 struct FUN_00c47650_Class {
-    void* __thiscall FUN_00c47650();
+    void* __thiscall BSMultiBoundNode_GetRTTI();
 };
 
 // @fnv 0x00c47650
-void* __thiscall FUN_00c47650_Class::FUN_00c47650()
+void* __thiscall FUN_00c47650_Class::BSMultiBoundNode_GetRTTI()
 {
     return &g_01202e74;
 }
@@ -405,66 +405,66 @@ void __thiscall FUN_00c4aae0_class::FUN_00c4aae0(int a, int b)
 }
 
 struct FUN_00c4ab40_class {
-    void __thiscall FUN_00c45220(int);
-    void __thiscall FUN_00c4ab40(int);
+    void __thiscall BSRangeNode_LoadBinary(int);
+    void __thiscall BSBlastNode_LoadBinary(int);
 };
 
 // @fnv 0x00c4ab40
-void __thiscall FUN_00c4ab40_class::FUN_00c4ab40(int aiValue)
+void __thiscall FUN_00c4ab40_class::BSBlastNode_LoadBinary(int aiValue)
 {
-    FUN_00c45220(aiValue);
+    BSRangeNode_LoadBinary(aiValue);
 }
 
 struct FUN_00c452a0_class {
-    void FUN_00c452a0(int a);
+    void BSRangeNode_LinkObject(int a);
 };
 
-void FUN_00c452a0_class::FUN_00c452a0(int a)
+void FUN_00c452a0_class::BSRangeNode_LinkObject(int a)
 {
 }
 
 struct FUN_00c4ab60_class {
-    void FUN_00c4ab60(int a);
+    void BSBlastNode_LinkObject(int a);
 };
 
 // @fnv 0x00c4ab60
-void FUN_00c4ab60_class::FUN_00c4ab60(int a)
+void FUN_00c4ab60_class::BSBlastNode_LinkObject(int a)
 {
-    ((FUN_00c452a0_class*)this)->FUN_00c452a0(a);
+    ((FUN_00c452a0_class*)this)->BSRangeNode_LinkObject(a);
 }
 
 struct FUN_00c4abb0_class {
-    void FUN_00c452f0(int);
-    void FUN_00c4abb0(int a);
+    void BSRangeNode_SaveBinary(int);
+    void BSBlastNode_SaveBinary(int a);
 };
 
 // @fnv 0x00c4abb0
-void FUN_00c4abb0_class::FUN_00c4abb0(int a)
+void FUN_00c4abb0_class::BSBlastNode_SaveBinary(int a)
 {
-    FUN_00c452f0(a);
+    BSRangeNode_SaveBinary(a);
 }
 
 struct FUN_00c4abd0_class {
-    char FUN_00c45380(int);
-    char FUN_00c4abd0(int a1);
+    char BSRangeNode_IsEqual(int);
+    char BSBlastNode_IsEqual(int a1);
 };
 
-// Calls FUN_00c45380 with a1 and returns its result.
+// Calls BSRangeNode_IsEqual with a1 and returns its result.
 // @fnv 0x00c4abd0
-char FUN_00c4abd0_class::FUN_00c4abd0(int a1)
+char FUN_00c4abd0_class::BSBlastNode_IsEqual(int a1)
 {
-    char result = FUN_00c45380(a1);
+    char result = BSRangeNode_IsEqual(a1);
     return result;
 }
 
 extern "C" void* g_01202e7c;
 
 struct FUN_00c4ac90_Class {
-    void* __thiscall FUN_00c4ac90();
+    void* __thiscall BSBlastNode_GetRTTI();
 };
 
 // @fnv 0x00c4ac90
-void* __thiscall FUN_00c4ac90_Class::FUN_00c4ac90()
+void* __thiscall FUN_00c4ac90_Class::BSBlastNode_GetRTTI()
 {
     return &g_01202e7c;
 }
@@ -480,78 +480,78 @@ void __thiscall FUN_00c4ad40_class::FUN_00c4ad40(int a, int b)
     CopyStateTo(a, b);
 }
 
-extern "C" void __cdecl FUN_00c45220(int);
+extern "C" void __cdecl BSRangeNode_LoadBinary(int);
 
 struct FUN_00c4ada0_Class {
-    void __thiscall FUN_00c4ada0(int a);
+    void __thiscall BSDebrisNode_LoadBinary(int a);
 };
 
 // @fnv 0x00c4ada0
-void __thiscall FUN_00c4ada0_Class::FUN_00c4ada0(int a)
+void __thiscall FUN_00c4ada0_Class::BSDebrisNode_LoadBinary(int a)
 {
-    ((void (__thiscall*)(void*, int))FUN_00c45220)(this, a);
+    ((void (__thiscall*)(void*, int))BSRangeNode_LoadBinary)(this, a);
 }
 
 namespace fnv_00c4adc0 {
 struct FUN_00c4adc0_class {
-    void __thiscall FUN_00c4adc0(int);
+    void __thiscall BSDebrisNode_LinkObject(int);
 };
 
 struct FUN_00c452a0_class {
-    void __thiscall FUN_00c452a0(int);
+    void __thiscall BSRangeNode_LinkObject(int);
 };
 
 // @fnv 0x00c4adc0
-void __thiscall FUN_00c4adc0_class::FUN_00c4adc0(int arg)
+void __thiscall FUN_00c4adc0_class::BSDebrisNode_LinkObject(int arg)
 {
-    ((FUN_00c452a0_class*)this)->FUN_00c452a0(arg);
+    ((FUN_00c452a0_class*)this)->BSRangeNode_LinkObject(arg);
 }
 }  // namespace fnv_00c4adc0
 
 struct FUN_00c4ade0_class {
-    unsigned char FUN_00c452c0(int);
-    unsigned char FUN_00c4ade0(int);
+    unsigned char BSRangeNode_RegisterStreamables(int);
+    unsigned char BSDebrisNode_RegisterStreamables(int);
 };
 // @fnv 0x00c4ade0
-unsigned char FUN_00c4ade0_class::FUN_00c4ade0(int a)
+unsigned char FUN_00c4ade0_class::BSDebrisNode_RegisterStreamables(int a)
 {
-    if (!FUN_00c452c0(a))
+    if (!BSRangeNode_RegisterStreamables(a))
         return 0;
     return 1;
 }
 
 struct FUN_00c4ae10_Class {
-    void FUN_00c452f0(int);
-    void FUN_00c4ae10(int a);
+    void BSRangeNode_SaveBinary(int);
+    void BSDebrisNode_SaveBinary(int a);
 };
 
 // @fnv 0x00c4ae10
-void FUN_00c4ae10_Class::FUN_00c4ae10(int a)
+void FUN_00c4ae10_Class::BSDebrisNode_SaveBinary(int a)
 {
-    FUN_00c452f0(a);
+    BSRangeNode_SaveBinary(a);
 }
 
 struct FUN_00c4ae30_class {
-    unsigned char FUN_00c45380(unsigned int a);
-    unsigned char FUN_00c4ae30(unsigned int a);
+    unsigned char BSRangeNode_IsEqual(unsigned int a);
+    unsigned char BSDebrisNode_IsEqual(unsigned int a);
 };
 
-// Calls FUN_00c45380 with a and returns its result.
+// Calls BSRangeNode_IsEqual with a and returns its result.
 // @fnv 0x00c4ae30
-unsigned char FUN_00c4ae30_class::FUN_00c4ae30(unsigned int a)
+unsigned char FUN_00c4ae30_class::BSDebrisNode_IsEqual(unsigned int a)
 {
-    unsigned char result = FUN_00c45380(a);
+    unsigned char result = BSRangeNode_IsEqual(a);
     return result;
 }
 
 extern int g_01202e84;
 
 struct FUN_00c4aef0_Class {
-    int* __thiscall FUN_00c4aef0();
+    int* __thiscall BSDebrisNode_GetRTTI();
 };
 
 // @fnv 0x00c4aef0
-int* __thiscall FUN_00c4aef0_Class::FUN_00c4aef0()
+int* __thiscall FUN_00c4aef0_Class::BSDebrisNode_GetRTTI()
 {
     return &g_01202e84;
 }
@@ -568,72 +568,72 @@ void __thiscall FUN_00c4afa0_class::FUN_00c4afa0(int aiArg1, int aiArg2)
 }
 
 struct FUN_00c4b000_class {
-    void __thiscall FUN_00c45220(int);
-    void __thiscall FUN_00c4b000(int a);
+    void __thiscall BSRangeNode_LoadBinary(int);
+    void __thiscall BSDamageStage_LoadBinary(int a);
 };
 
 // @fnv 0x00c4b000
-void __thiscall FUN_00c4b000_class::FUN_00c4b000(int aiValue)
+void __thiscall FUN_00c4b000_class::BSDamageStage_LoadBinary(int aiValue)
 {
-    FUN_00c45220(aiValue);
+    BSRangeNode_LoadBinary(aiValue);
 }
 
 struct FUN_00c4b020_Class {
-    void __thiscall FUN_00c452a0(int);
-    void __thiscall FUN_00c4b020(int a);
+    void __thiscall BSRangeNode_LinkObject(int);
+    void __thiscall BSDamageStage_LinkObject(int a);
 };
 
 // @fnv 0x00c4b020
-void __thiscall FUN_00c4b020_Class::FUN_00c4b020(int aiValue)
+void __thiscall FUN_00c4b020_Class::BSDamageStage_LinkObject(int aiValue)
 {
-    FUN_00c452a0(aiValue);
+    BSRangeNode_LinkObject(aiValue);
 }
 
 namespace fnv_00c4b040 {
 struct FUN_00c452c0_class {
-    unsigned char FUN_00c452c0(int);
+    unsigned char BSRangeNode_RegisterStreamables(int);
     char IsNonZero(int a);
 };
 
-unsigned char FUN_00c452c0_class::FUN_00c452c0(int a) { return (unsigned char)a; }
+unsigned char FUN_00c452c0_class::BSRangeNode_RegisterStreamables(int a) { return (unsigned char)a; }
 
-// Returns 1 when FUN_00c452c0(a) is non-zero, otherwise returns 0.
+// Returns 1 when BSRangeNode_RegisterStreamables(a) is non-zero, otherwise returns 0.
 // @fnv 0x00c4b040
 char FUN_00c452c0_class::IsNonZero(int aiValue)
 {
-    if (!FUN_00c452c0(aiValue))
+    if (!BSRangeNode_RegisterStreamables(aiValue))
         return 0;
     return 1;
 }
 }  // namespace fnv_00c4b040
 
 struct FUN_00c452f0_cls {
-    void __thiscall FUN_00c452f0(int a1);
+    void __thiscall BSRangeNode_SaveBinary(int a1);
 };
 
-void __thiscall FUN_00c452f0_cls::FUN_00c452f0(int a1)
+void __thiscall FUN_00c452f0_cls::BSRangeNode_SaveBinary(int a1)
 {
 }
 
 struct FUN_00c4b070_cls {
-    void __thiscall FUN_00c4b070(int a1);
+    void __thiscall BSDamageStage_SaveBinary(int a1);
 };
 
 // @fnv 0x00c4b070
-void __thiscall FUN_00c4b070_cls::FUN_00c4b070(int a1)
+void __thiscall FUN_00c4b070_cls::BSDamageStage_SaveBinary(int a1)
 {
-    ((FUN_00c452f0_cls*)this)->FUN_00c452f0(a1);
+    ((FUN_00c452f0_cls*)this)->BSRangeNode_SaveBinary(a1);
 }
 
 struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_01202e8c;
 
 struct FUN_00c4b210_Class {
-    GlobalObject_00a7b610* FUN_00c4b210();
+    GlobalObject_00a7b610* BSDamageStage_GetRTTI();
 };
 
 // @fnv 0x00c4b210
-GlobalObject_00a7b610* FUN_00c4b210_Class::FUN_00c4b210()
+GlobalObject_00a7b610* FUN_00c4b210_Class::BSDamageStage_GetRTTI()
 {
     return &g_01202e8c;
 }
@@ -648,14 +648,14 @@ void __thiscall FUN_00c51550::Copy(NiNode* apNode, void* b)
 }
 
 struct FUN_00c51570_Class {
-    void* __thiscall FUN_00a5ea70(void* arg);
-    void* __thiscall FUN_00c51570(void* arg);
+    void* __thiscall NiNode_GetViewerStrings(void* arg);
+    void* __thiscall BSParticleSystemManager_GetViewerStrings(void* arg);
 };
 
 // @fnv 0x00c51570
-void* __thiscall FUN_00c51570_Class::FUN_00c51570(void* arg)
+void* __thiscall FUN_00c51570_Class::BSParticleSystemManager_GetViewerStrings(void* arg)
 {
-    return FUN_00a5ea70(arg);
+    return NiNode_GetViewerStrings(arg);
 }
 
 struct BaseT {
@@ -675,11 +675,11 @@ void FUN_00c516d0::DoIt()
 extern void* g_01203110;
 
 struct FUN_00c516f0_Class {
-    void* __thiscall FUN_00c516f0();
+    void* __thiscall BSParticleSystemManager_GetRTTI();
 };
 
 // @fnv 0x00c516f0
-void* __thiscall FUN_00c516f0_Class::FUN_00c516f0()
+void* __thiscall FUN_00c516f0_Class::BSParticleSystemManager_GetRTTI()
 {
     return &g_01203110;
 }
@@ -688,20 +688,20 @@ extern const char* const g_011df0c0_arg1;
 
 struct FUN_00c52870_class
 {
-    const char* const* FUN_00c52870();
+    const char* const* BSSceneGraph_GetRTTI();
 };
 
 // @fnv 0x00c52870
-const char* const* FUN_00c52870_class::FUN_00c52870()
+const char* const* FUN_00c52870_class::BSSceneGraph_GetRTTI()
 {
     return &g_011df0c0_arg1;
 }
 
 struct FUN_00c54dc0_class {
-    int __thiscall FUN_00c54dc0(int);
+    int __thiscall BSBound_CreateClone(int);
 };
 // @fnv 0x00c54dc0
-int __thiscall FUN_00c54dc0_class::FUN_00c54dc0(int)
+int __thiscall FUN_00c54dc0_class::BSBound_CreateClone(int)
 {
     return (int)this;
 }
@@ -711,34 +711,34 @@ struct NiExtraData {
     void LinkObject(NiStream&);
 };
 struct BSBound : NiExtraData {
-    void FUN_00c54e70(NiStream& stream);
+    void BSBound_LinkObject(NiStream& stream);
 };
 // @fnv 0x00c54e70
-void BSBound::FUN_00c54e70(NiStream& stream)
+void BSBound::BSBound_LinkObject(NiStream& stream)
 {
     NiExtraData::LinkObject(stream);
 }
 
 struct FUN_00a7b290_shell {
-    bool FUN_00a7b290(int);
-    int FUN_00c54e90(int arg);
+    bool NiExtraData_RegisterStreamables(int);
+    int BSBound_RegisterStreamables(int arg);
 };
 
-// Returns the logical negation of FUN_00a7b290(arg).
+// Returns the logical negation of NiExtraData_RegisterStreamables(arg).
 // @fnv 0x00c54e90
-int FUN_00a7b290_shell::FUN_00c54e90(int arg)
+int FUN_00a7b290_shell::BSBound_RegisterStreamables(int arg)
 {
-    return !FUN_00a7b290(arg);
+    return !NiExtraData_RegisterStreamables(arg);
 }
 
 extern "C" void* g_012031e8;
 
 struct FUN_00c55320_Class {
-    void* __thiscall FUN_00c55320();
+    void* __thiscall BSBound_GetRTTI();
 };
 
 // @fnv 0x00c55320
-void* __thiscall FUN_00c55320_Class::FUN_00c55320()
+void* __thiscall FUN_00c55320_Class::BSBound_GetRTTI()
 {
     return &g_012031e8;
 }
@@ -760,11 +760,11 @@ struct NiPSysEmitterCtlr {
 };
 
 struct BSPSysMultiTargetEmitterCtlr : NiPSysEmitterCtlr {
-    void FUN_00c5cc90(NiStream& stream);
+    void BSPSysMultiTargetEmitterCtlr_LinkObject(NiStream& stream);
 };
 
 // @fnv 0x00c5cc90
-void BSPSysMultiTargetEmitterCtlr::FUN_00c5cc90(NiStream& stream)
+void BSPSysMultiTargetEmitterCtlr::BSPSysMultiTargetEmitterCtlr_LinkObject(NiStream& stream)
 {
     NiPSysEmitterCtlr::LinkObject(stream);
 }
@@ -772,10 +772,10 @@ void BSPSysMultiTargetEmitterCtlr::FUN_00c5cc90(NiStream& stream)
 struct NiStream;
 struct FUN_00c1be10_shell {
     bool RegisterEmitterInterpolatorStreamables(NiStream&);
-    char FUN_00c5ccb0(NiStream&);
+    char BSPSysMultiTargetEmitterCtlr_RegisterStreamables(NiStream&);
 };
 // @fnv 0x00c5ccb0
-char FUN_00c1be10_shell::FUN_00c5ccb0(NiStream& stream)
+char FUN_00c1be10_shell::BSPSysMultiTargetEmitterCtlr_RegisterStreamables(NiStream& stream)
 {
     if (!RegisterEmitterInterpolatorStreamables(stream))
         return 0;
@@ -785,11 +785,11 @@ char FUN_00c1be10_shell::FUN_00c5ccb0(NiStream& stream)
 extern int g_01203340;
 
 struct FUN_00c5cea0_Class {
-    int* __thiscall FUN_00c5cea0();
+    int* __thiscall BSPSysMultiTargetEmitterCtlr_GetRTTI();
 };
 
 // @fnv 0x00c5cea0
-int* __thiscall FUN_00c5cea0_Class::FUN_00c5cea0()
+int* __thiscall FUN_00c5cea0_Class::BSPSysMultiTargetEmitterCtlr_GetRTTI()
 {
     return &g_01203340;
 }
@@ -832,24 +832,24 @@ FUN_00c5cfb0::~FUN_00c5cfb0()
 
 struct StrArr;
 struct Caller74690 {
-    void FUN_00a74690(StrArr*);
+    void NiTriShape_GetViewerStrings(StrArr*);
     void ForwardTo74690(StrArr* p);
 };
 
 // @fnv 0x00c5d0f0
 void Caller74690::ForwardTo74690(StrArr* pStrArr)
 {
-    FUN_00a74690(pStrArr);
+    NiTriShape_GetViewerStrings(pStrArr);
 }
 
 extern "C" void* g_01203348;
 
 struct FUN_00c5d2a0_Class {
-    void* __thiscall FUN_00c5d2a0();
+    void* __thiscall BSScissorTriShape_GetRTTI();
 };
 
 // @fnv 0x00c5d2a0
-void* __thiscall FUN_00c5d2a0_Class::FUN_00c5d2a0()
+void* __thiscall FUN_00c5d2a0_Class::BSScissorTriShape_GetRTTI()
 {
     return &g_01203348;
 }
@@ -924,11 +924,11 @@ void FUN_00c5faa0::FUN_00a5e930()
 extern const char* const g_01201f84_arg1;
 
 struct FUN_00c5fc60_class {
-    const char* const* FUN_00c5fc60();
+    const char* const* BSNiNode_GetRTTI();
 };
 
 // @fnv 0x00c5fc60
-const char* const* FUN_00c5fc60_class::FUN_00c5fc60()
+const char* const* FUN_00c5fc60_class::BSNiNode_GetRTTI()
 {
     return &g_01201f84_arg1;
 }
@@ -966,11 +966,11 @@ struct NiPSysModifier {
 };
 
 struct NiPSysModifierSub : NiPSysModifier {
-    void FUN_00c5ff90(NiStream& stream);
+    void BSPSysStripUpdateModifier_LinkObject(NiStream& stream);
 };
 
 // @fnv 0x00c5ff90
-void NiPSysModifierSub::FUN_00c5ff90(NiStream& stream)
+void NiPSysModifierSub::BSPSysStripUpdateModifier_LinkObject(NiStream& stream)
 {
     NiPSysModifier::LinkObject(stream);
 }
@@ -978,11 +978,11 @@ void NiPSysModifierSub::FUN_00c5ff90(NiStream& stream)
 
 struct FUN_00c5ffb0_Class {
     void __thiscall FUN_00c31670(int param);
-    void __thiscall FUN_00c5ffb0(int param);
+    void __thiscall BSPSysStripUpdateModifier_RegisterStreamables(int param);
 };
 
 // @fnv 0x00c5ffb0
-void __thiscall FUN_00c5ffb0_Class::FUN_00c5ffb0(int param)
+void __thiscall FUN_00c5ffb0_Class::BSPSysStripUpdateModifier_RegisterStreamables(int param)
 {
     FUN_00c31670(param);
 }
@@ -1140,11 +1140,11 @@ struct FUN_00c448f0_Class {
     int m50;
     int m54;
     int m58;
-    void __thiscall FUN_00c448f0();
+    void __thiscall BSParallelTaskThread_OnStartup();
 };
 // Zeroes m50 and m54, copies the int at offset 0x24 into m58, then calls EnsureArenaAllocated with &m50.
 // @fnv 0x00c448f0
-void __thiscall FUN_00c448f0_Class::FUN_00c448f0()
+void __thiscall FUN_00c448f0_Class::BSParallelTaskThread_OnStartup()
 {
     m50 = 0;
     m54 = 0;
@@ -1252,14 +1252,14 @@ struct SStream;
 struct SObj;
 void __cdecl CallAnimCallback(SStream*, SObj*);
 struct FUN_00c46830_class {
-    void __thiscall FUN_00c31950(NiStream* stream);
+    void __thiscall NiPSysModifier_SaveBinary(NiStream* stream);
     void __thiscall Load(NiStream* stream);
 };
-// Calls FUN_00c31950 on the stream, then CallAnimCallback with the stream and the object at this+0x18.
+// Calls NiPSysModifier_SaveBinary on the stream, then CallAnimCallback with the stream and the object at this+0x18.
 // @fnv 0x00c46830
 void __thiscall FUN_00c46830_class::Load(NiStream* stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     CallAnimCallback(reinterpret_cast<SStream*>(stream), reinterpret_cast<SObj*>(this + 0x18));
 }
 
@@ -1307,11 +1307,11 @@ struct NiTPrimitiveArray_unsigned_int_ {
     void AddFirstEmpty(unsigned int&);
 };
 struct FUN_00c4ab00_Class {
-    void __thiscall FUN_00c454c0(int);
-    void __thiscall FUN_00c4ab00(int a);
+    void __thiscall BSRangeNode_GetViewerStrings(int);
+    void __thiscall BSBlastNode_GetViewerStrings(int a);
 };
 // @fnv 0x00c4ab00
-void __thiscall FUN_00c4ab00_Class::FUN_00c4ab00(int pArray)
+void __thiscall FUN_00c4ab00_Class::BSBlastNode_GetViewerStrings(int pArray)
 {
     void* v;
     unsigned int x8;
@@ -1319,7 +1319,7 @@ void __thiscall FUN_00c4ab00_Class::FUN_00c4ab00(int pArray)
     int pad2;
     int pad3;
     int pad4;
-    FUN_00c454c0(pArray);
+    BSRangeNode_GetViewerStrings(pArray);
     v = g_01202e7c;
     x8 = (unsigned int)FUN_00a7d330(v);
     ((NiTPrimitiveArray_unsigned_int_*)pArray)->AddFirstEmpty(x8);
@@ -1451,11 +1451,11 @@ struct NiExtraDataSaveHelper {
     void SaveBinary(NiStream&);
 };
 struct FUN_00c54ec0_class {
-    void __thiscall FUN_00c54ec0(NiStream& stream);
+    void __thiscall BSBound_SaveBinary(NiStream& stream);
 };
 // Saves the extra data helper and two NiColor members at offsets 0xc and 0x18 to the stream.
 // @fnv 0x00c54ec0
-void __thiscall FUN_00c54ec0_class::FUN_00c54ec0(NiStream& stream)
+void __thiscall FUN_00c54ec0_class::BSBound_SaveBinary(NiStream& stream)
 {
     ((NiExtraDataSaveHelper*)this)->SaveBinary(stream);
     ((NiColor*)((char*)this + 0xc))->SaveBinary(stream);
@@ -1531,29 +1531,29 @@ FUN_00c5c400_Class* __thiscall FUN_00c5c400_Class::FUN_00c5c400()
 struct NiStream;
 void __cdecl FUN_00a303a0(NiStream&, unsigned short*);
 struct S_00c1be40 {
-    void FUN_00c1be40(NiStream& stream);
+    void NiPSysEmitterCtlr_SaveBinary(NiStream& stream);
 };
 struct FUN_00c5cce0_Class {
     char pad[0x5c];
     int m_0x5c;
-    void __thiscall FUN_00c5cce0(NiStream& stream);
+    void __thiscall BSPSysMultiTargetEmitterCtlr_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00c5cce0
-void __thiscall FUN_00c5cce0_Class::FUN_00c5cce0(NiStream& stream)
+void __thiscall FUN_00c5cce0_Class::BSPSysMultiTargetEmitterCtlr_SaveBinary(NiStream& stream)
 {
-    ((S_00c1be40*)this)->FUN_00c1be40(stream);
+    ((S_00c1be40*)this)->NiPSysEmitterCtlr_SaveBinary(stream);
     FUN_00a303a0(stream, (unsigned short*)((char*)this + 0x60));
     ((void (__thiscall*)(NiStream*, int))*((void***)*(void**)&stream + 12))(&stream, m_0x5c);
 }
 
 struct FUN_00c1be60_StandIn {
-    unsigned char __thiscall FUN_00c1be60(void*);
-    char FUN_00c5cd20(void* other);
+    unsigned char __thiscall NiPSysEmitterCtlr_IsEqual(void*);
+    char BSPSysMultiTargetEmitterCtlr_IsEqual(void* other);
 };
 // @fnv 0x00c5cd20
-char FUN_00c1be60_StandIn::FUN_00c5cd20(void* other)
+char FUN_00c1be60_StandIn::BSPSysMultiTargetEmitterCtlr_IsEqual(void* other)
 {
-    if (!FUN_00c1be60(other))
+    if (!NiPSysEmitterCtlr_IsEqual(other))
         return 0;
     void* p = other;
     if (*(int*)((char*)this + 0x5c) == *(int*)((char*)p + 0x5c) &&
@@ -1779,20 +1779,20 @@ void* __thiscall FUN_00c5fc20_class::FUN_00c5fc20(unsigned int flags)
     return this;
 }
 
-struct BaseForCall { bool FUN_00a5e600(NiObject*); };
+struct BaseForCall { bool NiNode_IsEqual(NiObject*); };
 struct NiObject {
     char pad[0xb0];
     int p;
     unsigned char flag;
 };
 struct FUN_00c439b0_class : BaseForCall {
-    char FUN_00c439b0(NiObject* apParam);
+    char BSValueNode_IsEqual(NiObject* apParam);
 };
-// Calls FUN_00a5e600 on apParam; if true, returns whether this and apParam have equal p and byte at 0xac.
+// Calls NiNode_IsEqual on apParam; if true, returns whether this and apParam have equal p and byte at 0xac.
 // @fnv 0x00c439b0
-char FUN_00c439b0_class::FUN_00c439b0(NiObject* apParam)
+char FUN_00c439b0_class::BSValueNode_IsEqual(NiObject* apParam)
 {
-    bool result2 = FUN_00a5e600(apParam);
+    bool result2 = NiNode_IsEqual(apParam);
     if (result2) {
         NiObject* localParam2 = apParam;
         int localOther3 = ((NiObject*)this)->p;
@@ -1836,11 +1836,11 @@ FUN_00c46270_Class& FUN_00c46270_Class::AssignRefCounted(const FUN_00c46270_Clas
 extern GlobalObject_00a7b610 g_01202e60;
 
 struct FUN_00c46960_Class {
-    GlobalObject_00a7b610* FUN_00c46960();
+    GlobalObject_00a7b610* BSWindModifier_GetRTTI();
 };
 
 // @fnv 0x00c46960
-GlobalObject_00a7b610* FUN_00c46960_Class::FUN_00c46960()
+GlobalObject_00a7b610* FUN_00c46960_Class::BSWindModifier_GetRTTI()
 {
     return &g_01202e60;
 }
@@ -2088,11 +2088,11 @@ struct FUN_00c465a0_class {
     char pad[0x1c];
 };
 struct FUN_00c46670_class {
-    void* __thiscall FUN_00c46670(CloningProcess& process);
+    void* __thiscall BSWindModifier_CreateClone(CloningProcess& process);
 };
 // Allocates a FUN_00c465a0_class object, passes it with process to CopyModifier, and returns the new object.
 // @fnv 0x00c46670
-void* __thiscall FUN_00c46670_class::FUN_00c46670(CloningProcess& process)
+void* __thiscall FUN_00c46670_class::BSWindModifier_CreateClone(CloningProcess& process)
 {
     NiPSysModifier_StandIn* p = (NiPSysModifier_StandIn*)new FUN_00c465a0_class;
     ((NiPSysModifier_StandIn*)this)->CopyModifier(p, process);
@@ -2113,7 +2113,7 @@ struct FUN_00c465a0 {
 };
 // Allocates and constructs a new FUN_00c465a0 object, returning its pointer.
 // @fnv 0x00c46740
-FUN_00c465a0* __cdecl FUN_00c46740()
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject()
 {
     return new FUN_00c465a0;
 }
@@ -2242,10 +2242,10 @@ struct NiStream {
 void __cdecl FUN_00a30370(NiStream*, void const*);
 struct FUN_00c5cc30_class {
     void LoadBinary(NiStream&);
-    void FUN_00c5cc30(NiStream&);
+    void BSPSysMultiTargetEmitterCtlr_LoadBinary(NiStream&);
 };
 // @fnv 0x00c5cc30
-void FUN_00c5cc30_class::FUN_00c5cc30(NiStream& stream)
+void FUN_00c5cc30_class::BSPSysMultiTargetEmitterCtlr_LoadBinary(NiStream& stream)
 {
     LoadBinary(stream);
     FUN_00a30370(&stream, (void*)((char*)this + 0x60));
@@ -2292,7 +2292,7 @@ int __cdecl GetStateResult(int* apParams)
 }
 
 struct FUN_00c5e620_Class {
-    void __thiscall FUN_00c5e620(NiStream* stream);
+    void __thiscall BSMasterParticleSystem_LoadBinary(NiStream* stream);
 };
 
 struct NiNode_LoadBinary_StandIn {
@@ -2304,7 +2304,7 @@ struct NiStream_ReadMultipleLinkIDs_Helper {
 };
 
 // @fnv 0x00c5e620
-void __thiscall FUN_00c5e620_Class::FUN_00c5e620(NiStream* stream)
+void __thiscall FUN_00c5e620_Class::BSMasterParticleSystem_LoadBinary(NiStream* stream)
 {
     ((NiNode_LoadBinary_StandIn*)this)->LoadBinary(stream);
     FUN_00a30370(stream, (char*)this + 0xba);
@@ -2435,7 +2435,7 @@ FUN_00c43660::FUN_00c43660()
 }
 
 struct NiNode_StandIn {
-    void FUN_00c438a0(NiStream& stream);
+    void BSValueNode_LoadBinary(NiStream& stream);
 };
 
 void __cdecl ReadBinaryValue(NiStream& stream, unsigned int& value);
@@ -2445,14 +2445,14 @@ struct BSValueNode_StandIn : NiNode_StandIn {
     char pad[0xac];
     unsigned int m_field_ac;
     unsigned int m_field_b0;
-    void FUN_00c438a0(NiStream& stream);
+    void BSValueNode_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00c438a0
-void BSValueNode_StandIn::FUN_00c438a0(NiStream& stream)
+void BSValueNode_StandIn::BSValueNode_LoadBinary(NiStream& stream)
 {
     unsigned int local2;
-    NiNode_StandIn::FUN_00c438a0(stream);
+    NiNode_StandIn::BSValueNode_LoadBinary(stream);
     ReadBinaryValue(stream, local2);
     unsigned int val = local2;
     m_field_b0 = val;
@@ -2462,11 +2462,11 @@ void BSValueNode_StandIn::FUN_00c438a0(NiStream& stream)
 }
 
 struct FUN_00c43920_class {
-    char FUN_00c43920(NiStream* stream);
+    char BSValueNode_RegisterStreamables(NiStream* stream);
 };
 
 // @fnv 0x00c43920
-char FUN_00c43920_class::FUN_00c43920(NiStream* stream)
+char FUN_00c43920_class::BSValueNode_RegisterStreamables(NiStream* stream)
 {
     if (!((FUN_00a5e5b0_helper*)this)->RegisterChildStreamables(stream))
         return 0;
@@ -2474,19 +2474,19 @@ char FUN_00c43920_class::FUN_00c43920(NiStream* stream)
 }
 
 struct MyBase {
-    void __thiscall FUN_00a5e880(NiStream& stream);
+    void __thiscall NiNode_SaveBinary(NiStream& stream);
 };
 
 void __cdecl FUN_00a29550(NiStream& stream, unsigned char* p);
 
 struct FUN_00c43950_Class : MyBase {
-    void __thiscall FUN_00c43950(NiStream& stream);
+    void __thiscall BSValueNode_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00c43950
-void __thiscall FUN_00c43950_Class::FUN_00c43950(NiStream& stream)
+void __thiscall FUN_00c43950_Class::BSValueNode_SaveBinary(NiStream& stream)
 {
-    FUN_00a5e880(stream);
+    NiNode_SaveBinary(stream);
     int b = *(int*)((char*)this + 0xb0);
     int a = b;
     CallAnimCallback((SStream*)&stream, (SObj*)&a);
@@ -2562,12 +2562,12 @@ struct A51BF0Base {
     A51BF0Base();
 
     void __thiscall FUN_00c46c30(A51BF0Base* copy, int a);
-    A51BF0Base* __thiscall FUN_00c46ba0(int a);
+    A51BF0Base* __thiscall BSMultiBoundNode_CreateClone(int a);
 };
 
 // Allocates a new A51BF0Base, initialises it from a via FUN_00c46c30, and returns the new object.
 // @fnv 0x00c46ba0
-A51BF0Base* __thiscall A51BF0Base::FUN_00c46ba0(int aiValue)
+A51BF0Base* __thiscall A51BF0Base::BSMultiBoundNode_CreateClone(int aiValue)
 {
     A51BF0Base* copy = new A51BF0Base;
     FUN_00c46c30(copy, aiValue);
@@ -2716,14 +2716,14 @@ void* FUN_00c4a960_Class::FUN_00c4a960(unsigned int flags)
 }
 
 struct FUN_00c4ab80_class {
-    unsigned char FUN_00c452c0(int);
-    char FUN_00c4ab80(int a);
+    unsigned char BSRangeNode_RegisterStreamables(int);
+    char BSBlastNode_RegisterStreamables(int a);
 };
 
 // @fnv 0x00c4ab80
-char FUN_00c4ab80_class::FUN_00c4ab80(int a)
+char FUN_00c4ab80_class::BSBlastNode_RegisterStreamables(int a)
 {
-    if (!FUN_00c452c0(a))
+    if (!BSRangeNode_RegisterStreamables(a))
         return 0;
     return 1;
 }
@@ -2737,7 +2737,7 @@ struct FUN_00c4ad60_class : public FUN_00c4ab00_Class {
 // @fnv 0x00c4ad60
 void FUN_00c4ad60_class::AddFirstEmptyFromGlobal(int pArray)
 {
-    FUN_00c454c0(pArray);
+    BSRangeNode_GetViewerStrings(pArray);
 
     unsigned int result;
     {
@@ -2777,7 +2777,7 @@ void __thiscall FUN_00c4afc0_class::AddValueToArray(NiTPrimitiveArray<unsigned i
     unsigned int p;
     void* value;
 
-    reinterpret_cast<FUN_00c4ab00_Class*>(this)->FUN_00c454c0(reinterpret_cast<int>(array));
+    reinterpret_cast<FUN_00c4ab00_Class*>(this)->BSRangeNode_GetViewerStrings(reinterpret_cast<int>(array));
 
     value = *reinterpret_cast<void**>(&g_01202e8c);
     p = _FUN_00a7d330(value);
@@ -2786,14 +2786,14 @@ void __thiscall FUN_00c4afc0_class::AddValueToArray(NiTPrimitiveArray<unsigned i
 }
 
 struct FUN_00c4b090_class {
-    char FUN_00c4b090(int a1);
+    char BSDamageStage_IsEqual(int a1);
 };
 
-// Calls FUN_00c45380 on this with a1 and returns its char result.
+// Calls BSRangeNode_IsEqual on this with a1 and returns its char result.
 // @fnv 0x00c4b090
-char FUN_00c4b090_class::FUN_00c4b090(int a1)
+char FUN_00c4b090_class::BSDamageStage_IsEqual(int a1)
 {
-    char result = ((FUN_00c4abd0_class*)this)->FUN_00c45380(a1);
+    char result = ((FUN_00c4abd0_class*)this)->BSRangeNode_IsEqual(a1);
     return result;
 }
 
@@ -2996,11 +2996,11 @@ struct FUN_00c503d0 : public A51BF0Base {
 };
 
 struct FUN_00c514c0_Class : public FUN_00c51550 {
-    void* __thiscall FUN_00c514c0(void* source);
+    void* __thiscall BSParticleSystemManager_CreateClone(void* source);
 };
 
 // @fnv 0x00c514c0
-void* __thiscall FUN_00c514c0_Class::FUN_00c514c0(void* source)
+void* __thiscall FUN_00c514c0_Class::BSParticleSystemManager_CreateClone(void* source)
 {
     FUN_00c503d0* copy = new FUN_00c503d0;
     Copy(reinterpret_cast<NiNode*>(copy), source);
@@ -3115,7 +3115,7 @@ struct FUN_00c5da70_Class : public A51BF0Base {
 
 // Allocates and constructs a FUN_00c5da70_Class object, returning the new instance.
 // @fnv 0x00c5e5a0
-FUN_00c5da70_Class* __cdecl FUN_00c5e5a0()
+FUN_00c5da70_Class* __cdecl BSMasterParticleSystem_CreateObject()
 {
     FUN_00c5da70_Class* result = new FUN_00c5da70_Class;
     return result;
@@ -3142,11 +3142,11 @@ void FUN_00c5e6f0_class::FUN_00c5e6f0(int a)
 }
 
 struct FUN_00c5e720_Class {
-    unsigned char FUN_00c5e720(NiStream* stream);
+    unsigned char BSMasterParticleSystem_RegisterStreamables(NiStream* stream);
 };
 
 // @fnv 0x00c5e720
-unsigned char FUN_00c5e720_Class::FUN_00c5e720(NiStream* stream)
+unsigned char FUN_00c5e720_Class::BSMasterParticleSystem_RegisterStreamables(NiStream* stream)
 {
     unsigned int i;
     void* obj;
@@ -3227,7 +3227,7 @@ void __thiscall FUN_00c5fd70_Class::FUN_00c5fd70(void* pTarget, unsigned short u
 }
 
 struct NiPSysModifier_00c31950 {
-    void FUN_00c31950(NiStream*);
+    void NiPSysModifier_SaveBinary(NiStream*);
 };
 struct FUN_00c5ffd0 : NiPSysModifier_00c31950 {
     void Method(NiStream* stream);
@@ -3235,7 +3235,7 @@ struct FUN_00c5ffd0 : NiPSysModifier_00c31950 {
 // @fnv 0x00c5ffd0
 void FUN_00c5ffd0::Method(NiStream* stream)
 {
-    FUN_00c31950(stream);
+    NiPSysModifier_SaveBinary(stream);
     CallAnimCallback((SStream*)stream, (SObj*)((char*)this + 0x18));
 }
 
@@ -3361,7 +3361,7 @@ struct SpawnedObject_b9874 {
 };
 
 // @fnv 0x00c43190
-SpawnedObject_b9874* FUN_00c43190() {
+SpawnedObject_b9874* BSXFlags_CreateObject() {
     SpawnedObject_b9874* obj = new SpawnedObject_b9874();
     obj->Init(&DAT_011f49e0);
     return obj;
@@ -3391,7 +3391,7 @@ struct SpawnedObject_b9504 : FUN_00c43660 {
 
 // Allocates and returns a new SpawnedObject_b9504 instance via its class-specific operator new.
 // @fnv 0x00c43a30
-FUN_00c43660* __cdecl FUN_00c43a30() {
+FUN_00c43660* __cdecl BSValueNode_CreateObject() {
     return new SpawnedObject_b9504();
 }
 
@@ -3579,12 +3579,12 @@ public:
 class BSNodeC45 : public NiNodeC45 {
 public:
     void SetFlag(bool m_bHeaderParsed);
-    void FUN_00c45220(NiStream& kStream);
+    void BSRangeNode_LoadBinary(NiStream& kStream);
 };
 
 // Loads the base node binary, reads three booleans from the stream into m_bFlagAE, m_bFlagAF and SetFlag.
 // @fnv 0x00c45220
-void BSNodeC45::FUN_00c45220(NiStream& kStream)
+void BSNodeC45::BSRangeNode_LoadBinary(NiStream& kStream)
 {
     NiNodeC45::LoadBinary(kStream);
 
@@ -3601,7 +3601,7 @@ void BSNodeC45::FUN_00c45220(NiStream& kStream)
     SetFlag(m_bHeaderParsed);
 }
 
-struct S_00c45380_Base { bool FUN_00a5e600(S_00c45380_Base*); };
+struct S_00c45380_Base { bool NiNode_IsEqual(S_00c45380_Base*); };
 struct S_00c45380_Obj : S_00c45380_Base {
     int unk00;
     int unk04;
@@ -3650,13 +3650,13 @@ struct S_00c45380_Obj : S_00c45380_Base {
     unsigned char unkAD;
     unsigned char unkAE;
     unsigned char unkAF;
-    char FUN_00c45380(S_00c45380_Obj* other);
+    char BSRangeNode_IsEqual(S_00c45380_Obj* other);
 };
 
-// Calls FUN_00a5e600 on other, then if true compares unkAE, unkAF and unkAD against other's and returns the result.
+// Calls NiNode_IsEqual on other, then if true compares unkAE, unkAF and unkAD against other's and returns the result.
 // @fnv 0x00c45380
-char S_00c45380_Obj::FUN_00c45380(S_00c45380_Obj* other) {
-    bool r7 = FUN_00a5e600(other);
+char S_00c45380_Obj::BSRangeNode_IsEqual(S_00c45380_Obj* other) {
+    bool r7 = NiNode_IsEqual(other);
     if (r7) {
         S_00c45380_Obj* oB = other;
         unsigned char a8, b, c5, d, e, f7;
@@ -3671,7 +3671,7 @@ extern "C" __declspec(dllimport) void __stdcall fnv_Import_LeaveCriticalSection(
 class GameLockA {
 public:
     bool FUN_0078d200();
-    void FUN_0040fbf0(int a);
+    void BSSpinLock_Lock(int a);
 };
 
 class GameLockB {
@@ -3707,7 +3707,7 @@ void __cdecl FUN_00c459d0(unsigned char a1)
     if (a1 != 0) {
         flag = DAT_01202e40.FUN_0078d200();
     } else {
-        DAT_01202e40.FUN_0040fbf0(0);
+        DAT_01202e40.BSSpinLock_Lock(0);
     }
     if (flag) {
         got = fnv_Import_TryEnterCriticalSection(&DAT_011f4380) ? true : false;
@@ -4045,12 +4045,12 @@ public:
     float m_18;
 
     bool unkCheck(FUN_00c46860_cls* other);
-    bool FUN_00c46860(FUN_00c46860_cls* other);
+    bool BSWindModifier_IsEqual(FUN_00c46860_cls* other);
 };
 
 // Calls unkCheck on other and, if it passes, returns whether m_18 equals other's m_18.
 // @fnv 0x00c46860
-bool FUN_00c46860_cls::FUN_00c46860(FUN_00c46860_cls* other) {
+bool FUN_00c46860_cls::BSWindModifier_IsEqual(FUN_00c46860_cls* other) {
     bool ok = unkCheck(other);
     if (ok) {
         FUN_00c46860_cls* p = other;
@@ -4133,7 +4133,7 @@ public:
 
 class C46D60Base {
 public:
-    void FUN_00a5e880(C46D60Stream& kStream);
+    void NiNode_SaveBinary(C46D60Stream& kStream);
 };
 
 class C46D60Node : public C46D60Base {
@@ -4183,24 +4183,24 @@ public:
     int unkA8;
     void* m_pkChild;
 
-    void FUN_00c46d60(C46D60Stream& kStream);
+    void BSMultiBoundNode_SaveBinary(C46D60Stream& kStream);
 };
 
 // @fnv 0x00c46d60
-void C46D60Node::FUN_00c46d60(C46D60Stream& kStream) {
-    C46D60Base::FUN_00a5e880(kStream);
+void C46D60Node::BSMultiBoundNode_SaveBinary(C46D60Stream& kStream) {
+    C46D60Base::NiNode_SaveBinary(kStream);
     void* pkChild = m_pkChild;
     kStream.SaveLinkID(pkChild);
 }
 
 struct FUN_00c46da0_class : BaseForCall {
-    bool __thiscall FUN_00c46da0(NiObject* other);
+    bool __thiscall BSMultiBoundNode_IsEqual(NiObject* other);
 };
-// Calls FUN_00a5e600 on other, then returns whether the int at offset 0xAC matches between this and other.
+// Calls NiNode_IsEqual on other, then returns whether the int at offset 0xAC matches between this and other.
 // @fnv 0x00c46da0
-bool __thiscall FUN_00c46da0_class::FUN_00c46da0(NiObject* other)
+bool __thiscall FUN_00c46da0_class::BSMultiBoundNode_IsEqual(NiObject* other)
 {
-    bool result = FUN_00a5e600(other);
+    bool result = NiNode_IsEqual(other);
     NiObject* comparison = other;
     if (static_cast<int>(static_cast<unsigned char>(static_cast<int>(
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xAC) ==
@@ -5429,11 +5429,11 @@ struct S_00c4b1d0_Cls {
     int unk2c;
     unsigned int flags;
     void FUN_00a5e1f0(int a, int b);
-    void FUN_00c4b1d0(int a, int b);
+    void BSDamageStage_UpdateRigidDownwardPass(int a, int b);
 };
 // If the flags bit 0 is clear, forwards a and b to FUN_00a5e1f0.
 // @fnv 0x00c4b1d0
-void S_00c4b1d0_Cls::FUN_00c4b1d0(int a, int b) {
+void S_00c4b1d0_Cls::BSDamageStage_UpdateRigidDownwardPass(int a, int b) {
     if (!(bool)(flags & 1 ? 1 : 0)) {
         FUN_00a5e1f0(a, b);
     }
@@ -6312,12 +6312,12 @@ struct FUN_00c516a0_Class {
     FUN_00c516a0_Virtual* unk18;
     void* unk1C;
 
-    void __thiscall FUN_00c516a0();
+    void __thiscall UpdateMasterPsysTaskletData_Process();
 };
 
 // Calls the virtual method v41 on unk18 with unk1C and 0 as arguments.
 // @fnv 0x00c516a0
-void __thiscall FUN_00c516a0_Class::FUN_00c516a0()
+void __thiscall FUN_00c516a0_Class::UpdateMasterPsysTaskletData_Process()
 {
     unk18->v41(unk1C, 0);
 }
@@ -6507,20 +6507,20 @@ struct C00c541e0 {
     int unk00;
     int unk04;
     int unk08;
-    bool FUN_00a7b3d0(int other);
+    bool NiExtraData_IsEqual(int other);
 };
 
 struct C00c54f00 : C00c541e0 {
     Point3_c54f00 m_vec0C;
     Point3_c54f00 m_vec18;
-    bool FUN_00c54f00(int other);
+    bool BSBound_IsEqual(int other);
 };
 
 // Calls the base comparison and, if it passes, also compares m_vec0C and m_vec18 component-wise with the other object's vectors.
 // @fnv 0x00c54f00
-bool C00c54f00::FUN_00c54f00(int other)
+bool C00c54f00::BSBound_IsEqual(int other)
 {
-    bool result = C00c541e0::FUN_00a7b3d0(other);
+    bool result = C00c541e0::NiExtraData_IsEqual(other);
     if (result) {
         C00c54f00* pOther = (C00c54f00*)other;
         {
@@ -6770,10 +6770,10 @@ struct FUN_00c5c400 {
 };
 struct NiPSysEmitterCtlr_CloneShell {
     void FUN_00c5cb20(FUN_00c5c400* clone, void* process);
-    FUN_00c5c400* FUN_00c5ca90(void* process);
+    FUN_00c5c400* BSPSysMultiTargetEmitterCtlr_CreateClone(void* process);
 };
 // @fnv 0x00c5ca90
-FUN_00c5c400* NiPSysEmitterCtlr_CloneShell::FUN_00c5ca90(void* process) {
+FUN_00c5c400* NiPSysEmitterCtlr_CloneShell::BSPSysMultiTargetEmitterCtlr_CreateClone(void* process) {
     FUN_00c5c400* clone = new FUN_00c5c400;
     FUN_00c5cb20(clone, process);
     return clone;
@@ -6792,11 +6792,11 @@ struct FUN_00c5cb50_pad {
 
 struct FUN_00c5cb50_cls {
     void FUN_00c1bdc0(int a1);
-    void FUN_00c5cb50(int a1);
+    void BSPSysMultiTargetEmitterCtlr_ProcessClone(int a1);
 };
 
 // @fnv 0x00c5cb50
-void FUN_00c5cb50_cls::FUN_00c5cb50(int a1)
+void FUN_00c5cb50_cls::BSPSysMultiTargetEmitterCtlr_ProcessClone(int a1)
 {
     FUN_00c5cb50_pad pad;
     void* found;
@@ -6850,7 +6850,7 @@ public:
 
 // Allocates and constructs a BC5CBB0Controller, returning it as a BC5CBB0Object pointer.
 // @fnv 0x00c5cbb0
-BC5CBB0Object* __cdecl FUN_00c5cbb0()
+BC5CBB0Object* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject()
 {
     BC5CBB0Controller* pkController = new BC5CBB0Controller;
     return pkController;
@@ -7480,12 +7480,12 @@ struct S_00c5e3d0 {
     void FUN_00c5e080();
     bool FUN_00c5eb90();
     void FUN_00a5ded0(float* p, int b);
-    void FUN_00c5e3d0(float* p, int b);
+    void BSMasterParticleSystem_UpdateSelectedDownwardPass(float* p, int b);
 };
 struct S_00c5e3d0_pad { int a, b, c, d; float saved; };
 // Calls FUN_00c5e080, then if unkb8 > 0 or FUN_00c5eb90() adds *p to unkdc, passes the sum to FUN_00a5ded0, and restores *p.
 // @fnv 0x00c5e3d0
-void S_00c5e3d0::FUN_00c5e3d0(float* p, int b)
+void S_00c5e3d0::BSMasterParticleSystem_UpdateSelectedDownwardPass(float* p, int b)
 {
     S_00c5e3d0_pad tmp;
     FUN_00c5e080();
@@ -7560,12 +7560,12 @@ struct FUN_00c5e450_cls {
     void FUN_00c5e080();
     unsigned char FUN_00c5eb90();
     void FUN_00a5e1f0(float* f, int b);
-    void FUN_00c5e450(float* f, int b);
+    void BSMasterParticleSystem_UpdateRigidDownwardPass(float* f, int b);
 };
 
 // Calls FUN_00c5e080, then if m_b8 > 0 or FUN_00c5eb90() is true, adds *f to m_dc, passes the sum to FUN_00a5e1f0, and restores *f.
 // @fnv 0x00c5e450
-void FUN_00c5e450_cls::FUN_00c5e450(float* pfValue, int b)
+void FUN_00c5e450_cls::BSMasterParticleSystem_UpdateRigidDownwardPass(float* pfValue, int b)
 {
     float saved;
     int a0;
@@ -7660,13 +7660,13 @@ public:
     unsigned short unkD4;
     unsigned short m_usChildCount;
 
-    void FUN_00c5e7a0(C5E7A0Stream& kStream);
+    void BSMasterParticleSystem_SaveBinary(C5E7A0Stream& kStream);
 };
 
 // SaveBinary
 // Saves the node via C5E7A0Node::SaveBinary, then writes m_usFlags, the child count and each child's link ID to kStream.
 // @fnv 0x00c5e7a0
-void C5E7A0Switch::FUN_00c5e7a0(C5E7A0Stream& kStream)
+void C5E7A0Switch::BSMasterParticleSystem_SaveBinary(C5E7A0Stream& kStream)
 {
     C5E7A0Node::SaveBinary(kStream);
     C5E7A0SaveShort(kStream, &m_usFlags);
@@ -7753,11 +7753,11 @@ struct ListOwner_c5e830 : BaseForCall {
     unsigned short unkD4;
     unsigned short m_usChildCount;
 
-    bool FUN_00c5e830(NiObject* pObject);
+    bool BSMasterParticleSystem_IsEqual(NiObject* pObject);
 };
 
 // @fnv 0x00c5e830
-bool ListOwner_c5e830::FUN_00c5e830(NiObject* pObject)
+bool ListOwner_c5e830::BSMasterParticleSystem_IsEqual(NiObject* pObject)
 {
     ListOwner_c5e830* kPOther;
     ListNode* kPos8;
@@ -7770,7 +7770,7 @@ bool ListOwner_c5e830::FUN_00c5e830(NiObject* pObject)
     SwitchChild* p1;
     SwitchChild* p6;
 
-    if (!BaseForCall::FUN_00a5e600(pObject))
+    if (!BaseForCall::NiNode_IsEqual(pObject))
         return false;
 
     kPOther = (ListOwner_c5e830*)pObject;
@@ -7873,11 +7873,11 @@ void __cdecl FUN_00a26df0(int a, int* out);
 
 class FUN_00c5ef50_cls {
 public:
-    void __thiscall FUN_00c5ef50(int a1);
+    void __thiscall BSTextureData_LoadBinary(int a1);
 };
 
 // @fnv 0x00c5ef50
-void FUN_00c5ef50_cls::FUN_00c5ef50(int pTarget) {
+void FUN_00c5ef50_cls::BSTextureData_LoadBinary(int pTarget) {
     int n;
     ((FUN_00a7b4a0_cls*)this)->FUN_00a7b4a0(pTarget);
     FUN_00a26df0(pTarget, &n);
@@ -8003,10 +8003,10 @@ struct CloneNode : NiMemObject {
     void* runtimeState;
 };
 struct CloneOwnerObj : FUN_00c5fb60_Class {
-    CloneNode* __thiscall FUN_00c5fac0(void* context);
+    CloneNode* __thiscall BSNiNode_CreateClone(void* context);
 };
 // @fnv 0x00c5fac0
-CloneNode* CloneOwnerObj::FUN_00c5fac0(void* context)
+CloneNode* CloneOwnerObj::BSNiNode_CreateClone(void* context)
 {
     CloneNode* clone = new CloneNode();
     ForwardToBase(reinterpret_cast<int>(clone), reinterpret_cast<int>(context));
@@ -8104,11 +8104,11 @@ struct ParticlePositionModifier {
     unsigned int unk14;
     unsigned int unk18;
     void FUN_00c318b0(MyStream* stream);
-    void FUN_00c5ff60(MyStream* stream);
+    void BSPSysStripUpdateModifier_LoadBinary(MyStream* stream);
 };
 
 // @fnv 0x00c5ff60
-void ParticlePositionModifier::FUN_00c5ff60(MyStream* stream)
+void ParticlePositionModifier::BSPSysStripUpdateModifier_LoadBinary(MyStream* stream)
 {
     FUN_00c318b0(stream);
     FUN_00a26df0(stream, &unk18);
@@ -8223,7 +8223,7 @@ struct ThisC43220 {
     int f04;
     int f08;
     unsigned int m_flags;
-    void FUN_00a99d70(ArrC43220* arr);
+    void NiIntegerExtraData_GetViewerStrings(ArrC43220* arr);
     void AppendKeywordFlags(ArrC43220* arr);
 };
 
@@ -8243,7 +8243,7 @@ void ThisC43220::AppendKeywordFlags(ArrC43220* arr)
     void* s2;
     KwHi v8;
     KwLo obj;
-    this->FUN_00a99d70(arr);
+    this->NiIntegerExtraData_GetViewerStrings(arr);
     s2 = g_01202de0;
     v6 = (unsigned int)FUN_00a7d330(s2);
     arr->FUN_00470000(arr->m_usSize, v6);
@@ -9210,11 +9210,11 @@ void FUN_00c44d30_cls::WaitForWorkers() {
 }
 
 struct FUN_00c467c0_cls : ParticlePositionModifier {
-    void FUN_00c467c0(MyStream* stream);
+    void BSWindModifier_LoadBinary(MyStream* stream);
 };
 // Calls FUN_00c318b0 on stream, then FUN_00a26df0 on stream and unk18.
 // @fnv 0x00c467c0
-void FUN_00c467c0_cls::FUN_00c467c0(MyStream* stream) {
+void FUN_00c467c0_cls::BSWindModifier_LoadBinary(MyStream* stream) {
     FUN_00c318b0(stream);
     FUN_00a26df0(stream, &unk18);
 }
@@ -9462,12 +9462,12 @@ struct FUN_00c5efb0_Class : NiExtraData {
     int unk0C;
     unsigned int* unk10;
     unsigned int unk14;
-    void FUN_00c5efb0(NiStream& stream);
+    void BSTextureData_LinkObject(NiStream& stream);
 };
 
 // Links the stream, then reads unk14 unsigned ints from the stream into the array at unk10.
 // @fnv 0x00c5efb0
-void FUN_00c5efb0_Class::FUN_00c5efb0(NiStream& stream)
+void FUN_00c5efb0_Class::BSTextureData_LinkObject(NiStream& stream)
 {
     unsigned int i;
     unsigned int count;
@@ -9480,7 +9480,7 @@ void FUN_00c5efb0_Class::FUN_00c5efb0(NiStream& stream)
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-// FUN_00c43d00: builds the INISettings list snapshot ("INISettings" name + AddFirstEmpty,
+// INISettingCollection_GetViewerStrings: builds the INISettings list snapshot ("INISettings" name + AddFirstEmpty,
 // then count via FUN_0044f890 and "Total INISettings" message + AddFirstEmpty).
 // SinkSave is a stand-in for the TU's local aggregate frame reservation.
 
@@ -9488,11 +9488,11 @@ struct SinkSave { unsigned int data[15]; };
 
 struct FUN_00c43d00_Host {
     unsigned int FUN_0044f890(NiTPrimitiveArray_unsigned_int_& arr);
-    unsigned int FUN_00c43d00(NiTPrimitiveArray_unsigned_int_& arr);
+    unsigned int INISettingCollection_GetViewerStrings(NiTPrimitiveArray_unsigned_int_& arr);
 };
 
 // @fnv 0x00c43d00
-unsigned int FUN_00c43d00_Host::FUN_00c43d00(NiTPrimitiveArray_unsigned_int_& arr)
+unsigned int FUN_00c43d00_Host::INISettingCollection_GetViewerStrings(NiTPrimitiveArray_unsigned_int_& arr)
 {
     SinkSave save;
     unsigned int key = (unsigned int)FUN_00a7d330("INISettings");
@@ -9528,12 +9528,12 @@ struct IniFile {
     virtual void Close();
     char path[0x104];
     int fileHandle;
-    bool FUN_00c43e90(SetView* setting);
+    bool INISettingCollection_WriteSetting(SetView* setting);
 };
 
 // Writes setting to the INI file at path via WritePrivateProfileStringA, formatting data by the type from FUN_00c33090(name); opens and closes the file if needed.
 // @fnv 0x00c43e90
-bool IniFile::FUN_00c43e90(SetView* setting) {
+bool IniFile::INISettingCollection_WriteSetting(SetView* setting) {
     bool handle;
     bool result = false;
     {
@@ -9693,15 +9693,15 @@ struct S_00c454c0 {
     unsigned char unkad;
     unsigned char unkae;
     unsigned char unkaf;
-    void FUN_00a5ea70(S_00c454c0_Stream* s);
-    void FUN_00c454c0(S_00c454c0_Stream* s);
+    void NiNode_GetViewerStrings(S_00c454c0_Stream* s);
+    void BSRangeNode_GetViewerStrings(S_00c454c0_Stream* s);
 };
-// Calls FUN_00a5ea70, then writes formatted strings for unkae, unkaf, unkad, and a bool derived from unkac into the stream s.
+// Calls NiNode_GetViewerStrings, then writes formatted strings for unkae, unkaf, unkad, and a bool derived from unkac into the stream s.
 // @fnv 0x00c454c0
-void S_00c454c0::FUN_00c454c0(S_00c454c0_Stream* s) {
+void S_00c454c0::BSRangeNode_GetViewerStrings(S_00c454c0_Stream* s) {
     S_00c454c0_Pad pad;
     S_00c454c0_Low CNVal;
-    FUN_00a5ea70(s);
+    NiNode_GetViewerStrings(s);
     S_00c454c0_Byte8 aT1;
     aT1.v = unkae;
     char* a = FUN_00a7d410(str_010c1c40, aT1.v);
@@ -9783,12 +9783,12 @@ struct C465 {
     int unk14;
     float unk18;
 
-    void FUN_00c465e0(float value, A465* arg);
+    void BSWindModifier_Update(float value, A465* arg);
 };
 
 // For each of arg->unk50 entries at arg->unk70, scales DAT_01202e68 by (value - time)*unk18 and passes the result to the entry point's FUN_0063c8a0.
 // @fnv 0x00c465e0
-void C465::FUN_00c465e0(float value, A465* arg)
+void C465::BSWindModifier_Update(float value, A465* arg)
 {
     H465 half;
     R465* h;
@@ -9867,15 +9867,15 @@ unsigned int __cdecl FUN_00a7d5e0(const char* label, const char* value);
 
 struct E70Owner : UpdateOwner
 {
-    void FUN_00a5ea70(StrArr* stream);
-    void FUN_00c46e70(StrArr* stream);
+    void NiNode_GetViewerStrings(StrArr* stream);
+    void BSMultiBoundNode_GetViewerStrings(StrArr* stream);
 };
 
-// Calls FUN_00a5ea70, adds a name string and a string chosen by replacement to the stream, then calls v24 on the linked object with the stream.
+// Calls NiNode_GetViewerStrings, adds a name string and a string chosen by replacement to the stream, then calls v24 on the linked object with the stream.
 // @fnv 0x00c46e70
-void E70Owner::FUN_00c46e70(StrArr* stream)
+void E70Owner::BSMultiBoundNode_GetViewerStrings(StrArr* stream)
 {
-    FUN_00a5ea70(stream);
+    NiNode_GetViewerStrings(stream);
 
     void* _global = g_01202e74;
     char* name5 = FUN_00a7d330((const char*)_global);
@@ -9925,12 +9925,12 @@ struct Node47250 {
     unsigned int m_34[27]; Node47250** m_a0;
     unsigned short m_a4,m_a6,m_a8,m_aa; Ref47250* m_ac;
     void FUN_005467e0();
-    void FUN_00c47250();
+    void BSMultiBoundNode_UpdateWorldBound();
 };
 struct Pad47250 { unsigned int m_00,m_04,m_08; };
 // Fills m_20 via the m_ac provider if present, else copies the first child bound with nonzero m_0c and merges later such bounds via FUN_00a7f3f0.
 // @fnv 0x00c47250
-void Node47250::FUN_00c47250() {
+void Node47250::BSMultiBoundNode_UpdateWorldBound() {
     const Bound47250* local14;
     float local35;
     Node47250** local37;
@@ -10770,14 +10770,14 @@ struct W5Self {
     int f10;
     int f14;
     W5Sub sub18;
-    void __thiscall FUN_00a7b580(ArrC43220* a1);
-    void __thiscall FUN_00c550f0(ArrC43220* a1);
+    void __thiscall NiExtraData_GetViewerStrings(ArrC43220* a1);
+    void __thiscall BSBound_GetViewerStrings(ArrC43220* a1);
 };
 
-// Calls FUN_00a7b580(a1), then a1->FUN_0096a610 with FUN_00a7d330(g_012031e8), then with the results of FUN_00a59af0 on subC and sub18.
+// Calls NiExtraData_GetViewerStrings(a1), then a1->FUN_0096a610 with FUN_00a7d330(g_012031e8), then with the results of FUN_00a59af0 on subC and sub18.
 // @fnv 0x00c550f0
-void W5Self::FUN_00c550f0(ArrC43220* a1) {
-    FUN_00a7b580(a1);
+void W5Self::BSBound_GetViewerStrings(ArrC43220* a1) {
+    NiExtraData_GetViewerStrings(a1);
     unsigned int r1;
     unsigned int p;
     unsigned int r2;
@@ -10957,15 +10957,15 @@ struct S00c5cd80_Owner {
     int unk58;
     int m_5c;
     unsigned short m_60;
-    void FUN_00c1ce70(NiTPrimitiveArray_unsigned_int_* a);
-    void FUN_00c5cd80(NiTPrimitiveArray_unsigned_int_* arg);
+    void NiPSysEmitterCtlr_GetViewerStrings(NiTPrimitiveArray_unsigned_int_* a);
+    void BSPSysMultiTargetEmitterCtlr_GetViewerStrings(NiTPrimitiveArray_unsigned_int_* arg);
 };
 
-// Calls FUN_00c1ce70, then appends to arg a global-derived entry, one for "Master Particle System" with m_5c, and one for "Max Full Emitters" with m_60.
+// Calls NiPSysEmitterCtlr_GetViewerStrings, then appends to arg a global-derived entry, one for "Master Particle System" with m_5c, and one for "Max Full Emitters" with m_60.
 // @fnv 0x00c5cd80
-void S00c5cd80_Owner::FUN_00c5cd80(NiTPrimitiveArray_unsigned_int_* apArray) {
+void S00c5cd80_Owner::BSPSysMultiTargetEmitterCtlr_GetViewerStrings(NiTPrimitiveArray_unsigned_int_* apArray) {
     S00c5cd80_Scratch j;
-    FUN_00c1ce70(apArray);
+    NiPSysEmitterCtlr_GetViewerStrings(apArray);
     int global = g_01203340;
     unsigned int full = (unsigned int)FUN_00a7d330((void*)global);
     apArray->AddFirstEmpty(full);
@@ -11392,12 +11392,12 @@ struct RangeNameObj {
     short unkAC;
     unsigned char m_ucMin;
     unsigned char m_ucMax;
-    void FUN_00c45670();
+    void BSRangeNode_ParseNameForRanges();
 };
 
 // Parses a trailing numeric range from m_pcName, extracting min and max values into m_ucMin and m_ucMax.
 // @fnv 0x00c45670
-void RangeNameObj::FUN_00c45670()
+void RangeNameObj::BSRangeNode_ParseNameForRanges()
 {
     const char* pcName2 = m_pcName;
     const char* pcStr = pcName2;
@@ -11437,12 +11437,12 @@ extern "C" __declspec(dllimport) long __stdcall RegCloseKey(HKEY);
 
 struct RegistryClose : RegSettingCollection
 {
-    bool FUN_00c5d9b0();
+    bool RegSettingCollection_Close();
 };
 
 // Closes the open registry key hKey via RegCloseKey, clears hKey to zero, and returns whether the close succeeded.
 // @fnv 0x00c5d9b0
-bool RegistryClose::FUN_00c5d9b0()
+bool RegistryClose::RegSettingCollection_Close()
 {
     bool ok = true;
     HKEY key = hKey;
@@ -11473,7 +11473,7 @@ public:
 
 
 
-    void FUN_00c5f080(C5E7A0Stream& stream);
+    void BSTextureData_SaveBinary(C5E7A0Stream& stream);
 
 };
 
@@ -11481,7 +11481,7 @@ public:
 
 // Saves the node's binary data by calling the base class, writing the item count, and saving the link ID of each item in the items array.
 // @fnv 0x00c5f080
-void C5F080Node::FUN_00c5f080(C5E7A0Stream& stream)
+void C5F080Node::BSTextureData_SaveBinary(C5E7A0Stream& stream)
 
 {
 
@@ -11528,7 +11528,7 @@ void TaskThreadResume::FUN_00c42f50()
 }
 
 struct Base_00c452f0 {
-    void __thiscall FUN_00a5e880(NiStream& stream);
+    void __thiscall NiNode_SaveBinary(NiStream& stream);
 };
 
 
@@ -11580,16 +11580,16 @@ struct FUN_00c452f0_fields {
     unsigned char field_ad;
     unsigned char field_ae;
     unsigned char field_af;
-    void __thiscall FUN_00c452f0(int a1);
+    void __thiscall BSRangeNode_SaveBinary(int a1);
 };
 
 // Calls the base class stream write, then writes field_ae, field_af, and field_ad to the NiStream via FUN_00a29550.
 // @fnv 0x00c452f0
-void FUN_00c452f0_fields::FUN_00c452f0(int apStream)
+void FUN_00c452f0_fields::BSRangeNode_SaveBinary(int apStream)
 {
     unsigned char value;
 
-    ((Base_00c452f0*)this)->FUN_00a5e880(
+    ((Base_00c452f0*)this)->NiNode_SaveBinary(
         *reinterpret_cast<NiStream*>(apStream));
 
     {
@@ -11626,12 +11626,12 @@ extern "C" __declspec(dllimport) long __stdcall RegOpenKeyExA(
     HKEY, const char*, DWORD, DWORD, HKEY*);
 
 struct RegistryOpen : RegSettingCollection {
-    bool FUN_00c5d920(bool create);
+    bool RegSettingCollection_Open(bool create);
 };
 
 // Opens or creates the registry key under HKEY_LOCAL_MACHINE using RegOpenKeyExA or RegCreateKeyExA depending on the create flag.
 // @fnv 0x00c5d920
-bool RegistryOpen::FUN_00c5d920(bool create)
+bool RegistryOpen::RegSettingCollection_Open(bool create)
 {
     DWORD disposition;
     bool result;

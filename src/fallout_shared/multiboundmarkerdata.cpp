@@ -111,7 +111,7 @@ struct NiPoint3
 struct ThreeByThreeMatrix
 {
     float m[3][3];
-    void FUN_00439f50(int iCol, NiPoint3& kCol) const;
+    void NiMatrix3_GetCol(int iCol, NiPoint3& kCol) const;
 };
 
 struct BoundRef
@@ -243,9 +243,9 @@ struct BoundRef
     virtual void v124();
     virtual const NiPoint3& GetBoundCenter();
 
-    bool FUN_00439f90();
+    bool TESObjectREFR_IsMultiBoundRef();
     const NiPoint3& FUN_00569880();
-    ThreeByThreeMatrix FUN_0056fa00();
+    ThreeByThreeMatrix TESObjectREFR_GetOrientation();
 };
 
 struct CellRect
@@ -261,7 +261,7 @@ bool __cdecl FUN_004b1e80(CellRect* pkRect, NiPoint3* pkStart, NiPoint3* pkEnd, 
 // @fnv 0x00439940
 bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGridCoordinateY)
 {
-    if (pRef && pRef->FUN_00439f90())
+    if (pRef && pRef->TESObjectREFR_IsMultiBoundRef())
     {
         CellRect kRectWork;
         kRectWork.iLeft = m_iGridPositionX << 12;
@@ -275,12 +275,12 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
         NiPoint3 kZ6;
         NiPoint3 kExtentLoc = pRef->FUN_00569880();
         NiPoint3 kCenterZ = pRef->GetBoundCenter();
-        ThreeByThreeMatrix kRot9 = pRef->FUN_0056fa00();
-        kRot9.FUN_00439f50(0, kXY);
+        ThreeByThreeMatrix kRot9 = pRef->TESObjectREFR_GetOrientation();
+        kRot9.NiMatrix3_GetCol(0, kXY);
         kXY.FUN_00439180(kExtentLoc.x);
-        kRot9.FUN_00439f50(1, kY_);
+        kRot9.NiMatrix3_GetCol(1, kY_);
         kY_.FUN_00439180(kExtentLoc.y);
-        kRot9.FUN_00439f50(2, kZ6);
+        kRot9.NiMatrix3_GetCol(2, kZ6);
         kZ6.FUN_00439180(kExtentLoc.z);
 
         akCornersY[0] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);

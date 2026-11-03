@@ -4,11 +4,11 @@
 
 struct SleepWaitMenu
 {
-    int FUN_007bfbc0();
+    int SleepWaitMenu_GetClass();
 };
 
 // @fnv 0x007bfbc0
-int SleepWaitMenu::FUN_007bfbc0()
+int SleepWaitMenu::SleepWaitMenu_GetClass()
 {
     return 0x3f4;
 }
@@ -221,7 +221,7 @@ struct DecMgr
 {
     void FUN_005c1a00(int);
     void FUN_005c1a00(int, int);
-    bool FUN_005c7870();
+    bool PlayerCharacter_GetInChargen();
 };
 struct DecBox
 {
@@ -250,11 +250,11 @@ struct FUN_007c0220_cls
     unsigned char m_44;
     unsigned char m_45;
 
-    void FUN_007c0220(int slot, int value);
+    void SleepWaitMenu_DoClick(int slot, int value);
 };
 
 // @fnv 0x007c0220
-void FUN_007c0220_cls::FUN_007c0220(int slot, int value)
+void FUN_007c0220_cls::SleepWaitMenu_DoClick(int slot, int value)
 {
     if (value == 0 && slot >= 0 && slot < 6)
     {
@@ -281,7 +281,7 @@ void FUN_007c0220_cls::FUN_007c0220(int slot, int value)
         {
             FUN_004d5c60(0x17);
         }
-        if (!DAT_011dea3c->FUN_005c7870())
+        if (!DAT_011dea3c->PlayerCharacter_GetInChargen())
         {
             DAT_011e0e80.FUN_00974fc0();
         }
@@ -323,11 +323,11 @@ struct FUN_007c04d0_cls
     int unk34;
     FUN_007c04d0_sub38* m_38;
 
-    bool FUN_007c04d0(int a1, int a2);
+    bool SleepWaitMenu_HandleSpecialKeyInput(int a1, int a2);
 };
 
 // @fnv 0x007c04d0
-bool FUN_007c04d0_cls::FUN_007c04d0(int a1, int aiUnused)
+bool FUN_007c04d0_cls::SleepWaitMenu_HandleSpecialKeyInput(int a1, int aiUnused)
 {
     bool done = false;
     if (m_38->IsTraitNonZero(0xfaf))
@@ -415,7 +415,7 @@ struct OSGlobalsStub
 struct PlayerStub
 {
     bool FUN_0094df60();
-    bool FUN_004d1360();
+    bool PlayerCharacter_IsHardcore();
     void FUN_00969c30();
     void FUN_0094df80();
     int FUN_005cde20();
@@ -428,7 +428,7 @@ struct TimeGlobalStub
 
 struct TESStub
 {
-    void FUN_00455490();
+    void TES_RunScripts();
 };
 
 struct TileStub
@@ -505,8 +505,8 @@ bool MenuClass::FUN_007c0580()
     {
         return false;
     }
-    DAT_011dea10->FUN_00455490();
-    if (DAT_011dea3c->FUN_004d1360())
+    DAT_011dea10->TES_RunScripts();
+    if (DAT_011dea3c->PlayerCharacter_IsHardcore())
     {
         DAT_011dea3c->FUN_00969c30();
     }
@@ -570,7 +570,7 @@ struct SwInterface
 {
     SwMenuRoot* FUN_00586150();
 };
-SwInterface* __cdecl FUN_004b7210();
+SwInterface* __cdecl InterfaceManager_Instance();
 int __cdecl FUN_00705770();
 SwMenu* __cdecl FUN_00a09030(int m_uiSoundID);
 void __cdecl FUN_005b5e40(const char* pcFormat, ...);
@@ -617,7 +617,7 @@ extern const char g_szSleepWaitEnd[] = "";
 // @fnv 0x007bfc30
 SwTile* __cdecl CreateSleepWaitMenu(bool bSleep)
 {
-    SwInterface* pkInterfaceY = FUN_004b7210();
+    SwInterface* pkInterfaceY = InterfaceManager_Instance();
     SwMenu* pkOld_ = FUN_00a09030(FUN_00705770());
     if (pkOld_)
         delete pkOld_;
