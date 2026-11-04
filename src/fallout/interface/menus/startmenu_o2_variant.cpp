@@ -4,5 +4,5 @@
 
 #include "startmenu_packet.h"
 void FUN_007d1b30();
-float FUN_007d1d00(int type);
+float GetFadeOutMultiplier(int type);
 void FUN_007d30d0();

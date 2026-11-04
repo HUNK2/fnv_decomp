@@ -96,7 +96,7 @@ Tile* __cdecl FindNamedTile(Tile*, char const*);
 void __cdecl _FNV_Warning(char const*);
 void __cdecl _FUN_007037e0();
 void __cdecl ShutdownVats();
-Tile* __cdecl FUN_007f4890(Tile* a1, char const* a2);
+Tile* __cdecl VatsMenuGetTileByName(Tile* a1, char const* a2);
 struct AnimIdle
 {
     int GetSection();
