@@ -85,8 +85,8 @@ sides and compares every function at its address:
 - a new unit's source is a `.c` or `.cpp` file in `src/` (or `third_party/`).
 
 What has to stay: every function's address and size, each unit's `eh_tails` and `literal_symbols`, and `totals`
-(apart from `units`, which is the number of units). A function that uses exception-handling code stays in the unit
-that lists its EH tails. A unit lists each address once, and a function's `fold_aliases` must compile to exactly the
+(apart from `units`, which is the number of units). A function that uses exception-handling code, itself or through
+one of its `fold_aliases`, stays in the unit that lists its EH tails. A unit lists each address once, and a function's `fold_aliases` must compile to exactly the
 same code as the function. A unit is identified by its source; when two units build the same source, by their order
 among those. The tree may only hold regular files (no symlinks).
 

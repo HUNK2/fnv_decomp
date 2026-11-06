@@ -10,10 +10,11 @@ passes, as long as build/units.json gets the new decorated names at the same add
 compiles to fails.
 
   plan    BASE HEAD --out plan.json   what changed, whether the change keeps to what this check can vouch for, and the
-                                      units to build (split into shards)
+                                      units to build (split into shards); BASE and HEAD are clean git checkouts, and
+                                      the plan names their two commits
   shard   REPO BASE_SHA HEAD_SHA --plan plan.json --shard N --out result.json
-                                      build the shard's units at both commits in the same folder (REPO, a git clone)
-                                      and compare them
+                                      build the shard's units at both commits (the plan's) in the same folder (REPO, a
+                                      git clone) and compare them
   report  --plan plan.json RESULT... [--summary FILE] [--only-shard N]
                                       the verdict (on one shard's units with --only-shard); exit 0 only when the
                                       rules hold and everything checked is identical
@@ -29,12 +30,12 @@ added, removed or reordered, change their compiler or their options (only those 
 and give functions to each other, because every unit whose entry changed is built at both commits and every compiled
 copy of a function must match one of main's copies at the same address. What stays: every function's address and
 size, each unit's EH tails and literals, and the totals (apart from the number of units). A function that uses EH code
-stays in its unit: build_and_match.py finds EH tails only through the functions of the unit that lists them. EH code
-resolves names through the whole recipe, so when those names change in any way, every unit with EH tails is built
-again. Two lists in tools/ (main's, never the change's) stand in for what only the game can tell: unwind_names.json,
-the destructors only unwinding code calls (at addresses build/units.json lists), and verified_eh.json, EH code the
-owner has built against the game (the game places EH code by its EH tables, which this check does not follow). Each
-function is listed once per unit, and its fold aliases must compile to exactly its code. Anything else
+(itself or through a fold alias) stays in its unit: build_and_match.py finds EH tails only through the functions of the
+unit that lists them. EH code resolves names through the whole recipe, so when those names change in any way, every
+unit with EH tails is built again. Two lists in tools/ (main's, never the change's) stand in for what only the game can
+tell: unwind_names.json, the destructors only unwinding code calls (at addresses build/units.json lists), and
+verified_eh.json, EH code the owner has built against the game (the game places EH code by its EH tables, which this
+check does not follow). Each function is listed once per unit, and its fold aliases must compile to exactly its code. Anything else
 (build/image_check.json, patches/, a symlink, a source outside src/ and third_party/) needs a maintainer.
 
 A file whose change is only in comments and whitespace inside lines (nothing else moves) cannot change any function,
@@ -240,7 +241,21 @@ def recipe_problems(a, b, head_files):
     return problems, changed
 
 
+def commit_of(root):
+    """The commit a checkout is at. The plan is made only from clean checkouts, so it describes exactly two commits, and
+    only results built from those two count for it."""
+    def run(*args):
+        r = subprocess.run(['git', '-C', str(root)] + list(args), capture_output=True, text=True)
+        return r.stdout.strip() if r.returncode == 0 else None
+    top, sha = run('rev-parse', '--show-toplevel'), run('rev-parse', '--verify', 'HEAD^{commit}')
+    if top is None or sha is None or Path(top).resolve() != Path(root).resolve() or \
+            run('status', '--porcelain', '--untracked-files=all', '--ignored') != '':
+        raise SystemExit('%s: not a clean git checkout (the plan describes one commit on each side)' % root)
+    return sha
+
+
 def plan(base, head, shard_size, max_shards, trusted=False):
+    commits = dict(base=commit_of(base), head=commit_of(head))
     fa, fb = tree_files(base), tree_files(head)
     changed = sorted(k for k in set(fa) | set(fb) if fa.get(k) != fb.get(k))
     problems = []
@@ -251,7 +266,8 @@ def plan(base, head, shard_size, max_shards, trusted=False):
             problems.append('%s: outside what this check can vouch for (src/, include/, build/units.json, *.md)' % f)
     odd = sorted(f for f in fb if fb[f] == 'not a regular file')
     if odd:   # a symlink can make an include read a file the change does not show; nothing else is looked at
-        return dict(changed_files=changed, code_changed=[], comment_only=[], renamed=[], units=[], compilers=[], shards=[],
+        return dict(commits=commits, changed_files=changed, code_changed=[], comment_only=[], renamed=[], units=[],
+                    compilers=[], shards=[],
                     problems=['%s: a symlink or special file (only regular files may be in the tree)' % f for f in odd])
     ra = json.loads(Path(base, RECIPE).read_text())
     try:
@@ -278,8 +294,8 @@ def plan(base, head, shard_size, max_shards, trusted=False):
     if comment_only and line_uses(base, fa) != line_uses(head, fb):
         code_changed += comment_only; comment_only = []   # a new __LINE__ use: line positions may matter
     if problems:   # nothing is built
-        return dict(changed_files=changed, code_changed=code_changed, comment_only=comment_only, problems=problems,
-                    renamed=[], units=[], compilers=[], shards=[])
+        return dict(commits=commits, changed_files=changed, code_changed=code_changed, comment_only=comment_only,
+                    problems=problems, renamed=[], units=[], compilers=[], shards=[])
     ua, ub = ra['units'], rb['units']
     ia = {k: i for i, k in enumerate(unit_keys(ua))}
     ib = {k: i for i, k in enumerate(unit_keys(ub))}
@@ -320,7 +336,7 @@ def plan(base, head, shard_size, max_shards, trusted=False):
     for g in sorted(groups.values(), key=lambda g: (-len(g), g[0])):
         min(shards, key=len).extend(g)
     shards = [sorted(s) for s in shards]
-    return dict(changed_files=changed, code_changed=code_changed, comment_only=comment_only,
+    return dict(commits=commits, changed_files=changed, code_changed=code_changed, comment_only=comment_only,
                 problems=problems, renamed=sorted(k[0] for k in recipe_changed), units=units,
                 compilers=sorted({r[e[s]]['compiler'] for e in units for s, r in (('base', ua), ('head', ub))
                                   if e[s] is not None}), shards=shards)
@@ -446,12 +462,14 @@ def fingerprint(obj, unit, names, unwind=None):
     for fn in unit['functions']:
         out[fn['address']] = body(fn['symbol'], int(fn['address'], 16), fn['size'])
         # a fold alias is the same code under another name (the linker keeps one copy): each must compile to exactly
-        # the function's code, or the copy the game has is not the one compared
+        # the function's code, or the copy the game has is not the one compared. An alias that uses EH code makes the
+        # function count as using it, even when the bytes are the same (moved functions must not use it)
         for n in fn.get('fold_aliases', []):
             alias = body(n, int(fn['address'], 16), fn['size'])
+            out[fn['address']][3] = out[fn['address']][3] or alias[3]
             if alias[0] != out[fn['address']][0]:
                 out[fn['address']] = [digest('fold alias %s differs' % n, alias[0]), alias[1], alias[2] + [n],
-                                      out[fn['address']][3] or alias[3]]
+                                      out[fn['address']][3]]
     if unit.get('eh_tails'):
         out['eh'] = digest([section_digest(i, eh_names) for i in range(1, len(coff.sections))
                             if coff.sections[i]['name'].startswith(('.text$x', '.xdata'))])
@@ -492,9 +510,13 @@ def build_side(repo, sha, indices, jobs, scratch):
 def shard(repo, base_sha, head_sha, plan_data, n, jobs):
     if plan_data['problems']:
         raise SystemExit('the plan has problems: nothing to build')
+    repo = Path(repo).resolve()
+    base_sha, head_sha = (subprocess.run(['git', '-C', str(repo), 'rev-parse', '--verify', x + '^{commit}'], check=True,
+                                         capture_output=True, text=True).stdout.strip() for x in (base_sha, head_sha))
+    if dict(base=base_sha, head=head_sha) != plan_data.get('commits'):
+        raise SystemExit('the plan was made for other commits (%s)' % plan_data.get('commits'))
     ids = plan_data['shards'][n]
     entries = [plan_data['units'][i] for i in ids]
-    repo = Path(repo).resolve()
     scratch = Path(tempfile.mkdtemp(prefix='fnv-compare-'))
     try:
         base, ra = build_side(repo, base_sha, [e['base'] for e in entries if e['base'] is not None], jobs, scratch)
@@ -574,9 +596,13 @@ def plan_id(plan_data):
 
 
 def report(plan_data, results, shard=None):
-    """The verdict on the results (of one shard, with shard=N). Results built for another plan are not counted."""
-    foreign = [res for res in results if res.get('plan') != plan_id(plan_data)]
-    rows = [r for res in results if res.get('plan') == plan_id(plan_data) for r in res['units']]
+    """The verdict on the results (of one shard, with shard=N). Results built for another plan, or from other commits,
+    are not counted."""
+    def own(res):
+        return res.get('plan') == plan_id(plan_data) and \
+            dict(base=res.get('base'), head=res.get('head')) == plan_data['commits']
+    foreign = [res for res in results if not own(res)]
+    rows = [r for res in results if own(res) for r in res['units']]
     expected = range(len(plan_data['units'])) if shard is None else plan_data['shards'][shard]
     by = {}
     for r in rows:
@@ -603,7 +629,7 @@ def report(plan_data, results, shard=None):
     if missing:
         lines += ['', '### Not built', '', '%d affected units have no result (a build job failed).' % len(missing)]
     if foreign:
-        lines += ['', '%d result files were built for another plan and are not counted.' % len(foreign)]
+        lines += ['', '%d result files were built for another plan or other commits and are not counted.' % len(foreign)]
     for status, title in (('differs', 'Functions that compile differently'), ('does-not-compile', 'Does not compile'),
                           ('base-failed', 'main itself failed to build (a problem with the check, not the change)')):
         if by.get(status):
