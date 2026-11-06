@@ -29,7 +29,7 @@
 
 class TESWaterForm;
 
-// TESWaterSystem's water zone (48 bytes; layout W:\FNV64\layout\canonical\WaterSurface.json): the owning water form,
+// TESWaterSystem's water zone (48 bytes; layout table WaterSurface.json): the owning water form,
 // the water and secondary planes and the placed water references sharing them.
 class WaterSurface
 {
